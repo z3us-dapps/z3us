@@ -20,22 +20,28 @@ import * as accountsStyles from './styles.css'
 
 const messages = defineMessages({
 	title: {
+		id: 'FvanT6',
 		defaultMessage: 'Accounts',
 	},
 	subtitle: {
+		id: 'PVFF5y',
 		defaultMessage: `Customize your Radix account's look and feel. Personalize your experience by choosing a unique background image and color scheme that suits your style`,
 	},
 	account_title: {
+		id: 'TwyMau',
 		defaultMessage: 'Account',
 	},
 	account_subtitle: {
+		id: 'aSaSNs',
 		defaultMessage:
 			'Select account from the dropdown menu, and adjust color scheme and background image for the account card',
 	},
 	account_color: {
+		id: 'zXIZtJ',
 		defaultMessage: 'Account color',
 	},
 	account_image: {
+		id: 'yWx/0A',
 		defaultMessage: 'Account image',
 	},
 })
@@ -77,10 +83,7 @@ const Accounts: React.FC = () => {
 
 	return (
 		<SettingsWrapper>
-			<SettingsTitle
-				title={intl.formatMessage(messages.title)}
-				subTitle={intl.formatMessage(messages.subtitle)}
-			/>
+			<SettingsTitle title={intl.formatMessage(messages.title)} subTitle={intl.formatMessage(messages.subtitle)} />
 			<SettingsBlock
 				isBottomBorderVisible={false}
 				leftCol={

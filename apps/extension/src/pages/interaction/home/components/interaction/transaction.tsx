@@ -24,12 +24,15 @@ import { Manifest } from '../transaction/manifest'
 
 const messages = defineMessages({
 	submit: {
+		id: 'wSZR47',
 		defaultMessage: 'Submit',
 	},
 	unauthorized: {
+		id: 'doWYaF',
 		defaultMessage: `Transaction comes from unauthorized dApp and/or includes unauthorized accounts!`,
 	},
 	error: {
+		id: 'LAqFJt',
 		defaultMessage: `Failed to submit transaction{hasMessage, select,
 			true {: {message}}
 			other {, please try again}

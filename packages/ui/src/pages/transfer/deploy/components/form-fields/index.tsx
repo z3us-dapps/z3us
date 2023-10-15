@@ -10,12 +10,15 @@ import { Text } from 'ui/src/components/typography'
 
 const messages = defineMessages({
 	from: {
+		id: 'dM+p3/',
 		defaultMessage: 'From',
 	},
 	badge: {
+		id: 'jsgM+5',
 		defaultMessage: 'Owner badge',
 	},
 	files: {
+		id: 'm4vqJl',
 		defaultMessage: 'Files',
 	},
 })

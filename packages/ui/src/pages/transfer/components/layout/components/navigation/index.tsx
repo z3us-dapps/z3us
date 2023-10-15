@@ -8,12 +8,15 @@ import { NavLink } from 'ui/src/components/router-link'
 
 const messages = defineMessages({
 	home: {
+		id: 'DtYelJ',
 		defaultMessage: 'Transfer',
 	},
 	raw: {
+		id: '3Rx6Qo',
 		defaultMessage: 'Advanced',
 	},
 	deploy: {
+		id: '2UvVKh',
 		defaultMessage: 'Deploy package',
 	},
 })

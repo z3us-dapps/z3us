@@ -16,27 +16,35 @@ import MetadataValue from './metadata-value'
 
 const messages = defineMessages({
 	back: {
+		id: 'cyR7Kh',
 		defaultMessage: 'Back',
 	},
 	metadata: {
+		id: '8Q504V',
 		defaultMessage: 'Metadata',
 	},
 	summary: {
+		id: 'RrCui3',
 		defaultMessage: 'Summary',
 	},
 	details_address: {
+		id: 'e6Ph5+',
 		defaultMessage: 'Address',
 	},
 	details_id_type: {
+		id: 'kP+DW+',
 		defaultMessage: 'ID Type',
 	},
 	details_total_supply: {
+		id: '/kI0V9',
 		defaultMessage: 'Total supply',
 	},
 	details_total_minted: {
+		id: 'ZYosl3',
 		defaultMessage: 'Total minted',
 	},
 	details_total_burned: {
+		id: '/B/zOD',
 		defaultMessage: 'Total burned',
 	},
 })

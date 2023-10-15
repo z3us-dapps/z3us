@@ -1,4 +1,4 @@
-import type { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
+import { type ManifestBuilder, str } from '@radixdlt/radix-engine-toolkit'
 
 interface IAccountMetadata {
 	name: string
@@ -8,5 +8,4 @@ interface IAccountMetadata {
 }
 
 export const updateAccountMetadata = (manifest: ManifestBuilder, address: string) => (details: IAccountMetadata) =>
-	manifest
-// Object.entries(details).map(([key, value]) => manifest.setMetadata(address, new ManifestAstValue.String(key), value))
+	Object.entries(details).map(([key, value]) => manifest.callMetadataMethod(address, 'set', [str(key), value]))

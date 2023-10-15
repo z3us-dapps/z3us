@@ -19,36 +19,47 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	close: {
+		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
 	validation_email: {
+		id: 'LPhKkU',
 		defaultMessage: 'Please select valid email',
 	},
 	validation_emails_required: {
+		id: 'A1yYFc',
 		defaultMessage: 'Please select minimum {number} emails',
 	},
 	validation_emails_exactly: {
+		id: 'cCYHTG',
 		defaultMessage: 'Please select exactly {number} emails',
 	},
 	validation_phone_number: {
+		id: 'aY46qO',
 		defaultMessage: 'Please select valid phone number',
 	},
 	validation_phone_numbers_required: {
+		id: 'tLFk2j',
 		defaultMessage: 'Please select minimum {number} phone numbers',
 	},
 	validation_phone_numbers_exactly: {
+		id: 'Ggnw/D',
 		defaultMessage: 'Please select exactly {number} phone numbers',
 	},
 	validation_nickname: {
+		id: 'R16INh',
 		defaultMessage: 'Please insert valid nickname',
 	},
 	validation_given_names: {
+		id: '1vfXfh',
 		defaultMessage: 'Please insert valid given names',
 	},
 	validation_family_name: {
+		id: 'Q4s2E+',
 		defaultMessage: 'Please insert valid family name',
 	},
 	validation_names_required: {
+		id: '28fmWQ',
 		defaultMessage: 'Name details are required',
 	},
 })

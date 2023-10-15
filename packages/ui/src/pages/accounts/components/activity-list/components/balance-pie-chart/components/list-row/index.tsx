@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedNumber } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -16,6 +16,7 @@ interface IProps {
 }
 
 export const ListRow: React.FC<IProps> = ({ address, name, value }) => {
+	const intl = useIntl()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -45,7 +46,10 @@ export const ListRow: React.FC<IProps> = ({ address, name, value }) => {
 			<Box className={styles.dottedSpacer} />
 			<Box className={styles.addressInfoWrapperRight}>
 				<Text size="xsmall" truncate>
-					<FormattedNumber value={value} style="currency" currency={currency} />
+					{intl.formatNumber(value, {
+						style: 'currency',
+						currency,
+					})}
 				</Text>
 			</Box>
 		</Box>

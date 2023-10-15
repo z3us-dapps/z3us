@@ -12,24 +12,31 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	validator: {
+		id: 'Ykb512',
 		defaultMessage: 'Validator',
 	},
 	address: {
+		id: 'e6Ph5+',
 		defaultMessage: 'Address',
 	},
 	total_stake: {
+		id: '7vSKTY',
 		defaultMessage: 'Total stake',
 	},
 	owner_stake: {
+		id: '3tVTRk',
 		defaultMessage: 'Owner stake',
 	},
 	uptime: {
+		id: 'u81G9+',
 		defaultMessage: 'Uptime',
 	},
 	apy: {
+		id: 'MLTKb6',
 		defaultMessage: 'APY',
 	},
 	fee: {
+		id: '7Zeppl',
 		defaultMessage: 'Fee %',
 	},
 })

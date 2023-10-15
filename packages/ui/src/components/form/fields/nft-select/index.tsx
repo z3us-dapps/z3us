@@ -12,9 +12,11 @@ import SelectField from '../select-field'
 
 const messages = defineMessages({
 	collection: {
+		id: 'IOSCB1',
 		defaultMessage: 'NFT Collection',
 	},
 	item: {
+		id: 'W2OoOl',
 		defaultMessage: 'NFT',
 	},
 })

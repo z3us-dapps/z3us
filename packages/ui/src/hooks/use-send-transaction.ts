@@ -10,6 +10,7 @@ import { useZdtState } from './zdt/use-zdt'
 
 const messages = defineMessages({
 	error: {
+		id: 'LAqFJt',
 		defaultMessage: `Failed to submit transaction{hasMessage, select,
 			true {: {message}}
 			other {, please try again}

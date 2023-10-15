@@ -17,24 +17,31 @@ const positiveNumberValidator = (value: number): boolean => value > 0
 
 const messages = defineMessages({
 	button_submit: {
+		id: '9WRlF4',
 		defaultMessage: 'Send',
 	},
 	validation_token_address: {
+		id: 'gO3ocF',
 		defaultMessage: 'Please select token',
 	},
 	validation_token_amount: {
+		id: 'FrNeCi',
 		defaultMessage: 'Please enter a valid amount',
 	},
 	validation_nft_collection: {
+		id: 'jPKpFd',
 		defaultMessage: 'Please select NFT collection',
 	},
 	validation_nft_item: {
+		id: 'yTLHBR',
 		defaultMessage: 'Please select NFT item',
 	},
 	validation_from: {
+		id: 'w2XWRt',
 		defaultMessage: 'Please select account',
 	},
 	validation_to: {
+		id: 'qdvh1F',
 		defaultMessage: 'Please select recipient',
 	},
 })

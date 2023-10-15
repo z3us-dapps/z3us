@@ -12,12 +12,15 @@ import { resolveManifestAddress } from '@src/radix/manifest'
 
 const messages = defineMessages({
 	lock_fee: {
+		id: 'drHvoB',
 		defaultMessage: `Lock {amount}`,
 	},
 	deposit: {
+		id: 'dIgBOz',
 		defaultMessage: `Deposit`,
 	},
 	withdraw: {
+		id: '4sMcwA',
 		defaultMessage: `Withdraw {amount}`,
 	},
 })

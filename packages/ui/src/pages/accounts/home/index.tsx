@@ -17,6 +17,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	all_assets: {
+		id: 'P3IVGl',
 		defaultMessage: 'All assets',
 	},
 })

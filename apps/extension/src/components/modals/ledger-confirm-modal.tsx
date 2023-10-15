@@ -16,9 +16,11 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	confirm_with_ledger: {
+		id: 'TunNXS',
 		defaultMessage: 'Confirm with Ledger device',
 	},
 	close: {
+		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
 })

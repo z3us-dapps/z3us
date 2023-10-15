@@ -10,6 +10,7 @@ import { getStringNftData } from 'ui/src/services/metadata'
 
 const messages = defineMessages({
 	item: {
+		id: 'q7eony',
 		defaultMessage: `{hasDisplayName, select,
 			true {{displayName}}
 			other {NFT}

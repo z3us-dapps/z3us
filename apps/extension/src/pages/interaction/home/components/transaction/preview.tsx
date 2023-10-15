@@ -17,27 +17,35 @@ import type { ResourceChanges, Summary, TransactionSettings } from '@src/types/t
 
 const messages = defineMessages({
 	resource_changes: {
+		id: 'RntCL3',
 		defaultMessage: 'Resource changes',
 	},
 	fee_summary: {
+		id: 'LXfC4n',
 		defaultMessage: 'Fee summary',
 	},
 	xrd_total_execution_cost: {
+		id: 'sonpUJ',
 		defaultMessage: 'Execution: {cost, number, ::.00#######}',
 	},
 	xrd_total_finalization_cost: {
+		id: 'k0W1QS',
 		defaultMessage: 'Finalization: {cost, number, ::.00#######}',
 	},
 	xrd_total_royalty_cost: {
+		id: 'IbKSny',
 		defaultMessage: 'Royalty: {cost, number, ::.00#######}',
 	},
 	xrd_total_storage_cost: {
+		id: 'xFzb3c',
 		defaultMessage: 'Storage: {cost, number, ::.00#######}',
 	},
 	xrd_total_tipping_cost: {
+		id: 'hLRL4P',
 		defaultMessage: 'Tipping: {cost, number, ::.00#######}',
 	},
 	proof: {
+		id: 'KBj2VM',
 		defaultMessage: 'Presenting proof',
 	},
 })

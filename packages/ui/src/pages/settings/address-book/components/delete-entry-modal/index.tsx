@@ -15,15 +15,19 @@ interface IProps {
 
 const messages = defineMessages({
 	title: {
+		id: '2oCaym',
 		defaultMessage: 'Are you sure?',
 	},
 	description: {
+		id: 'rXL8Sm',
 		defaultMessage: 'Are you sure you want to delete {address} from address book ?',
 	},
 	button_text: {
+		id: 'K3r6DQ',
 		defaultMessage: 'Delete',
 	},
 	success_message: {
+		id: 'qNNICy',
 		defaultMessage: 'Successfully deleted entry',
 	},
 })

@@ -26,45 +26,59 @@ const NFTS = 'nfts'
 
 const messages = defineMessages({
 	button_add_account: {
+		id: 'k9/iMB',
 		defaultMessage: 'Add another recipient',
 	},
 	button_add_token: {
+		id: 'ad0STz',
 		defaultMessage: 'Add another item',
 	},
 	known_address: {
+		id: '1LCRft',
 		defaultMessage: 'Known address',
 	},
 	title: {
+		id: 'DtYelJ',
 		defaultMessage: 'Transfer',
 	},
 	from_title: {
+		id: 'F4xg6X',
 		defaultMessage: 'From account',
 	},
 	from_subtitle: {
+		id: 'V0NiPI',
 		defaultMessage: 'Select account you wish to send items from',
 	},
 	to_title: {
+		id: 'gCOFay',
 		defaultMessage: 'To account',
 	},
 	to_subtitle: {
+		id: 'ZXlamw',
 		defaultMessage: 'Select recipient to send items to',
 	},
 	message_title: {
+		id: 'T7Ry38',
 		defaultMessage: 'Message',
 	},
 	message_subtitle: {
+		id: 'QBcOMr',
 		defaultMessage: 'Send an optional message with the transaction',
 	},
 	message_placeholder: {
+		id: 'd4jAEU',
 		defaultMessage: 'Enter transaction message',
 	},
 	message_encrypt_title: {
+		id: 'luAead',
 		defaultMessage: 'Encrypt message',
 	},
 	tab_tokens: {
+		id: 'P6EE/a',
 		defaultMessage: 'Tokens',
 	},
 	tab_nfts: {
+		id: 'nqRscq',
 		defaultMessage: 'NFTs',
 	},
 })

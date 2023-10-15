@@ -17,9 +17,11 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	loading: {
+		id: 'gjBiyj',
 		defaultMessage: 'Loading...',
 	},
 	unknown: {
+		id: '5jeq8P',
 		defaultMessage: 'Unknown',
 	},
 })

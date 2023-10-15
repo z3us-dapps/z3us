@@ -1,6 +1,7 @@
 {
 	"name": "z3us-extension",
 	"version": "2.0.0",
+	"type": "module",
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
 		"dev": "DEV_TOOLS=true yarn start:radix",
@@ -14,7 +15,7 @@
 		"eslint": "eslint --fix --ignore-path .eslintignore --ext .js,.ts,.tsx .",
 		"lint": "yarn run eslint && yarn run check-types",
 		"test": "jest --maxWorkers=1  --detectOpenHandles --forceExit",
-		"intl:extract": "formatjs extract 'src/**/*.{ts,tsx}' '../../packages/ui/src/**/*.{ts,tsx}' --ignore='**/*.d.ts' --out-file src/locales/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
+		"intl:extract": "formatjs extract 'src/**/*.{ts,tsx}' '../../packages/ui/src/**/*.{ts,tsx}' --ignore='**/*.d.ts' --out-file src/locales/en.json --format simple --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
 		"intl:compile": "formatjs compile-folder --ast src/locales src/locales/compiled"
 	},
 	"dependencies": {
@@ -40,7 +41,7 @@
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-error-boundary": "^4.0.11",
-		"react-intl": "^6.4.6",
+		"react-intl": "^6.4.7",
 		"react-router-dom": "^6.14.2",
 		"react-test-renderer": "^18.2.0",
 		"react-virtuoso": "^4.3.11",
@@ -59,7 +60,7 @@
 		"@babel/core": "^7.21.5",
 		"@babel/preset-env": "^7.21.5",
 		"@commitlint/cli": "^17.6.1",
-		"@crxjs/vite-plugin": "^1.0.14",
+		"@crxjs/vite-plugin": "^2.0.0-beta.18",
 		"@formatjs/cli": "^6.1.5",
 		"@tanstack/react-query-devtools": "^4.29.17",
 		"@testing-library/jest-dom": "^5.16.5",

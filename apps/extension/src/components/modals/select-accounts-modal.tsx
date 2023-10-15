@@ -21,24 +21,31 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	accounts: {
+		id: 'FvanT6',
 		defaultMessage: 'Accounts',
 	},
 	validation_account: {
+		id: 'm8tyA0',
 		defaultMessage: 'Please select valid account',
 	},
 	validation_accounts_required: {
+		id: 'r4g6hl',
 		defaultMessage: 'Please select minimum {number} accounts',
 	},
 	validation_accounts_exactly: {
+		id: 'VBE5Tu',
 		defaultMessage: 'Please select exactly {number} accounts',
 	},
 	form_button_title: {
+		id: 'OKhRC6',
 		defaultMessage: 'Share',
 	},
 	button_add_account: {
+		id: 'cU42T7',
 		defaultMessage: 'Add another account',
 	},
 	close: {
+		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
 })

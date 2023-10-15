@@ -8,6 +8,7 @@ const Modal = lazy(() => import('@src/components/modals/ledger-confirm-modal'))
 
 const messages = defineMessages({
 	rejected: {
+		id: '5qaD7s',
 		defaultMessage: 'Rejected',
 	},
 })

@@ -12,9 +12,11 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	delete: {
+		id: 'K3r6DQ',
 		defaultMessage: 'Delete',
 	},
 	edit: {
+		id: 'wEQDC6',
 		defaultMessage: 'Edit',
 	},
 })

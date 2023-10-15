@@ -15,12 +15,15 @@ import FieldValue from './field-value'
 
 const messages = defineMessages({
 	back: {
+		id: 'cyR7Kh',
 		defaultMessage: 'Back',
 	},
 	burned: {
+		id: '1mSRaL',
 		defaultMessage: '(burned)',
 	},
 	data: {
+		id: 'XHHR08',
 		defaultMessage: 'Data',
 	},
 })

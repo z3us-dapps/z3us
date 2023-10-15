@@ -15,51 +15,67 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 const messages = defineMessages({
 	form_button_title: {
+		id: 'wSZR47',
 		defaultMessage: 'Submit',
 	},
 	email_address: {
+		id: 'hJZwTS',
 		defaultMessage: 'Email address',
 	},
 	button_add_email_address: {
+		id: 'IbfkPE',
 		defaultMessage: 'Add email address',
 	},
 	validation_email: {
+		id: 'LPhKkU',
 		defaultMessage: 'Please select valid email',
 	},
 	phone_number: {
+		id: 'jdJhOL',
 		defaultMessage: 'Phone number',
 	},
 	button_add_phone_number: {
+		id: 'K2K+5t',
 		defaultMessage: 'Add phone number',
 	},
 	validation_phone_number: {
+		id: 'aY46qO',
 		defaultMessage: 'Please select valid phone number',
 	},
 	variant: {
+		id: '5EhO92',
 		defaultMessage: 'Name variant',
 	},
 	western: {
+		id: 'bfLy10',
 		defaultMessage: 'Western',
 	},
 	eastern: {
+		id: 'sYQG1D',
 		defaultMessage: 'Eastern',
 	},
 	nickname: {
+		id: 'SBkvpf',
 		defaultMessage: 'Nickname',
 	},
 	validation_nickname: {
+		id: 'R16INh',
 		defaultMessage: 'Please insert valid nickname',
 	},
 	given_names: {
+		id: 'de/sqY',
 		defaultMessage: 'Given names',
 	},
 	validation_given_names: {
+		id: '1vfXfh',
 		defaultMessage: 'Please insert valid given names',
 	},
 	family_name: {
+		id: 'AeMjAR',
 		defaultMessage: 'Family name',
 	},
 	validation_family_name: {
+		id: 'Q4s2E+',
 		defaultMessage: 'Please insert valid family name',
 	},
 })

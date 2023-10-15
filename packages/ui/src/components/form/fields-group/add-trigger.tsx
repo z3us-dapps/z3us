@@ -5,6 +5,7 @@ import { Button } from 'ui/src/components/button'
 
 const messages = defineMessages({
 	add: {
+		id: '2/2yg+',
 		defaultMessage: 'Add',
 	},
 })

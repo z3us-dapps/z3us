@@ -6,6 +6,7 @@ import { Button } from 'ui/src/components/button'
 
 const messages = defineMessages({
 	back: {
+		id: 'cyR7Kh',
 		defaultMessage: 'Back',
 	},
 })

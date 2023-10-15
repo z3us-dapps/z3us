@@ -12,13 +12,13 @@ import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
 	password_placeholder: {
-		defaultMessage: 'Password',
+		defaultMessage: 'Password', id: '5sg7KC',
 	},
 	unlock_error: {
-		defaultMessage: 'Incorrect password!',
+		defaultMessage: 'Incorrect password!', id: 'uyz8/R',
 	},
 	form_button_title: {
-		defaultMessage: 'Unlock',
+		defaultMessage: 'Unlock', id: 'qXCbgZ',
 	},
 })
 

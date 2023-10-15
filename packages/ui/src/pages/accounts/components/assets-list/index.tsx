@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
-import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
+import { defineMessages, useIntl } from 'react-intl'
 import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -16,15 +16,19 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	tokens: {
+		id: 'P6EE/a',
 		defaultMessage: 'Tokens',
 	},
 	nfts: {
+		id: 'nqRscq',
 		defaultMessage: 'NFTs',
 	},
 	lp_tokens: {
+		id: 'ya5Lxf',
 		defaultMessage: 'Liquidity Pool Tokens',
 	},
 	pool_units: {
+		id: 'h/CJ+m',
 		defaultMessage: 'Pool Units',
 	},
 })
@@ -103,7 +107,10 @@ export const AssetsList: React.FC = () => {
 						<OverlayAssetIcons resourceType={path.slice(0, -1) as any} balances={rows[path].balances} />
 						<Box className={styles.assetsListBalancesTextWrapper}>
 							<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
-								<FormattedNumber value={rows[path].value} style="currency" currency={currency} />
+								{intl.formatNumber(rows[path].value, {
+									style: 'currency',
+									currency,
+								})}
 							</Text>
 							<Text
 								size="small"
@@ -111,7 +118,10 @@ export const AssetsList: React.FC = () => {
 								truncate
 								className={styles.assetsListBalancesText}
 							>
-								<FormattedNumber value={rows[path].change} style="percent" maximumFractionDigits={2} />
+								{intl.formatNumber(rows[path].change, {
+									style: 'percent',
+									maximumFractionDigits: 2,
+								})}
 							</Text>
 						</Box>
 					</Box>

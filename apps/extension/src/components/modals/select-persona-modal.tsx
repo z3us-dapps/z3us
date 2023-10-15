@@ -21,15 +21,19 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	persona: {
+		id: 'JGu6zs',
 		defaultMessage: 'Persona',
 	},
 	validation_persona: {
+		id: 'fkKPLv',
 		defaultMessage: 'Please select persona',
 	},
 	form_button_title: {
+		id: 'AyGauy',
 		defaultMessage: 'Login',
 	},
 	close: {
+		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
 })

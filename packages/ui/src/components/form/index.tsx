@@ -33,6 +33,7 @@ type State<P = {}> = {
 
 const messages = defineMessages({
 	error: {
+		id: 'GtxE3T',
 		defaultMessage: `Internal error{hasMessage, select,
 			true {: {message}}
 			other {, please try again}

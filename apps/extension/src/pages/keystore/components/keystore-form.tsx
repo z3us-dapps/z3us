@@ -14,24 +14,31 @@ import type { Data } from '@src/types/vault'
 
 const messages = defineMessages({
 	name_placeholder: {
+		id: 'HAlOn1',
 		defaultMessage: 'Name',
 	},
 	password_placeholder: {
+		id: '5sg7KC',
 		defaultMessage: 'Password',
 	},
 	confirm_password_placeholder: {
+		id: 'w/ArXE',
 		defaultMessage: 'Confirm your password',
 	},
 	form_button_title: {
+		id: 'VzzYJk',
 		defaultMessage: 'Create',
 	},
 	validation_name: {
+		id: 'XK/xhU',
 		defaultMessage: 'Please insert name',
 	},
 	validation_password: {
+		id: '+N/BAb',
 		defaultMessage: 'Insert password (at least 8 characters)',
 	},
 	validation_confirm_password: {
+		id: 'yy3BXQ',
 		defaultMessage: 'Password does not match',
 	},
 })

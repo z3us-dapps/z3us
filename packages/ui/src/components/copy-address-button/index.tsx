@@ -17,6 +17,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	copied: {
+		id: 'p556q3',
 		defaultMessage: 'Copied',
 	},
 })

@@ -13,24 +13,31 @@ import { SettingsBlock } from 'ui/src/pages/settings/components/settings-block'
 
 const messages = defineMessages({
 	session_never: {
+		id: 'G3UF1P',
 		defaultMessage: 'Keep unlocked',
 	},
 	session_one_minute: {
+		id: 'KmpMrM',
 		defaultMessage: '1 Minute',
 	},
 	session_five_minutes: {
+		id: 'TpOkJW',
 		defaultMessage: '5 Minutes',
 	},
 	session_thirty_minutes: {
+		id: 'JWC9pV',
 		defaultMessage: 'Half an hour',
 	},
 	session_sixty_minutes: {
+		id: 'h9vCBR',
 		defaultMessage: '1 Hour',
 	},
 	session_title: {
+		id: '9zc7GA',
 		defaultMessage: 'Auto-Lock timer',
 	},
 	session_subtitle: {
+		id: 'msf7hM',
 		defaultMessage: `Z3US will automatically lock after {unlockTimer, plural,
 			=0 {never}
 			one {1 minute}
@@ -38,21 +45,27 @@ const messages = defineMessages({
 		}`,
 	},
 	connector_extension_title: {
+		id: 'XAh8Lv',
 		defaultMessage: 'Radix connector',
 	},
 	connector_extension_subtitle: {
+		id: 'RbDCwV',
 		defaultMessage: 'Enable embedded radix connector',
 	},
 	dapp_request_notifications_title: {
+		id: 'nFGyxg',
 		defaultMessage: 'Request Notifications',
 	},
 	dapp_request_notifications_subtitle: {
+		id: 'OTbA2H',
 		defaultMessage: 'Show DApp request Radix notifications',
 	},
 	tx_result_notifications_title: {
+		id: 'HX9Q52',
 		defaultMessage: 'Transaction Result Notifications',
 	},
 	tx_result_notifications_subtitle: {
+		id: 'xu+1Bu',
 		defaultMessage: 'Show transaction result Radix notifications',
 	},
 })

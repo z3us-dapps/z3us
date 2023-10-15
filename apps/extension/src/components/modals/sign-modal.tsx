@@ -18,15 +18,19 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	password_placeholder: {
+		id: '5sg7KC',
 		defaultMessage: 'Password',
 	},
 	unlock_error: {
+		id: 'uyz8/R',
 		defaultMessage: 'Incorrect password!',
 	},
 	form_button_title: {
+		id: 'gDXziV',
 		defaultMessage: 'Sign',
 	},
 	close: {
+		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
 })

@@ -25,36 +25,47 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	na: {
+		id: 'PW+sL4',
 		defaultMessage: 'N/A',
 	},
 	details: {
+		id: 'Lv0zJu',
 		defaultMessage: 'Details',
 	},
 	address: {
+		id: 'e6Ph5+',
 		defaultMessage: 'Address',
 	},
 	total_stake: {
+		id: '7vSKTY',
 		defaultMessage: 'Total stake',
 	},
 	owner_stake: {
+		id: '3tVTRk',
 		defaultMessage: 'Owner stake',
 	},
 	fee: {
+		id: 'uT4OlP',
 		defaultMessage: 'Fee',
 	},
 	apy: {
+		id: 'MLTKb6',
 		defaultMessage: 'APY',
 	},
 	accepts_stake: {
+		id: 'Jex7+U',
 		defaultMessage: 'Accepts stake',
 	},
 	registration_stake: {
+		id: '+7wjzM',
 		defaultMessage: 'Registration stake',
 	},
 	explorer: {
+		id: '0af8xP',
 		defaultMessage: 'Show in explorer',
 	},
 	close: {
+		id: 'rbrahO',
 		defaultMessage: 'Close',
 	},
 })
@@ -192,7 +203,9 @@ export const ValidatorPanel = () => {
 											/>
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.accepts_stake)}
-												rightData={<Box>{data?.transaction.confirmed_at ? <CloseCircleIcon /> : <CheckCircleIcon />}</Box>}
+												rightData={
+													<Box>{data?.transaction.confirmed_at ? <CloseCircleIcon /> : <CheckCircleIcon />}</Box>
+												}
 											/>
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.registration_stake)}

@@ -51,39 +51,51 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	content_script: {
+		id: 'kyohnj',
 		defaultMessage: 'Connected DApp: {DappLink}',
 	},
 	wallet: {
+		id: '3yk8fB',
 		defaultMessage: 'Wallet',
 	},
 	wallet_add: {
+		id: 'VLEYHl',
 		defaultMessage: 'Add wallet...',
 	},
 	wallet_export: {
+		id: 'CyAOW2',
 		defaultMessage: 'Export to Radix Mobile',
 	},
 	settings: {
+		id: 'D3idYv',
 		defaultMessage: 'Settings',
 	},
 	lock: {
+		id: 'Zl4/y9',
 		defaultMessage: 'Lock',
 	},
 	open_in_browser: {
+		id: '4JARpz',
 		defaultMessage: 'Open in browser',
 	},
 	theme: {
+		id: 'Pe0ogR',
 		defaultMessage: 'Theme',
 	},
 	theme_light: {
+		id: '3cc4Ct',
 		defaultMessage: 'Light',
 	},
 	theme_dark: {
+		id: 'tOdNiY',
 		defaultMessage: 'Dark',
 	},
 	theme_system: {
+		id: '+CwN9C',
 		defaultMessage: 'System',
 	},
 	menu: {
+		id: 'tKMlOc',
 		defaultMessage: 'Menu',
 	},
 })

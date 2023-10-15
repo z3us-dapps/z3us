@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
-import { FormattedNumber } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
@@ -16,15 +16,16 @@ interface IProps {
 }
 
 export const AssetNameCell: React.FC<IProps> = props => {
+	const intl = useIntl()
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
+
 	const {
 		value,
 		row: { original },
 	} = props
 	const { symbol, name, amount, change, value: tokenValue } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
-
-	const { currency } = useNoneSharedStore(state => ({
-		currency: state.currency,
-	}))
 
 	return (
 		<Box className={styles.assetNameCellWrapper}>
@@ -43,13 +44,21 @@ export const AssetNameCell: React.FC<IProps> = props => {
 							weight="strong"
 							className={styles.assetNameCellBalanceWrapper}
 						>
-							{amount && <FormattedNumber value={amount} style="decimal" maximumFractionDigits={8} />}
+							{amount &&
+								intl.formatNumber(amount, {
+									style: 'decimal',
+									maximumFractionDigits: 8,
+								})}
 						</Text>
 					</Box>
 					<Box className={styles.assetNameCellPriceWrapper}>
 						<Box className={styles.assetNameCellPriceTextWrapper}>
 							<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">
-								{tokenValue && <FormattedNumber value={tokenValue} style="currency" currency={currency} />}
+								{tokenValue &&
+									intl.formatNumber(tokenValue, {
+										style: 'currency',
+										currency,
+									})}
 							</Text>
 							<RedGreenText
 								change={change}
@@ -60,7 +69,11 @@ export const AssetNameCell: React.FC<IProps> = props => {
 								weight="medium"
 								align="right"
 							>
-								{change && <FormattedNumber value={change} style="percent" maximumFractionDigits={2} />}
+								{change &&
+									intl.formatNumber(change, {
+										style: 'percent',
+										maximumFractionDigits: 2,
+									})}
 							</RedGreenText>
 						</Box>
 					</Box>

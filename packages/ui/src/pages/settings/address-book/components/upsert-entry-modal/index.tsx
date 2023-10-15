@@ -18,30 +18,39 @@ import { getError, validateAddressBookForm } from './validation'
 
 const messages = defineMessages({
 	title: {
+		id: 'CRZQfm',
 		defaultMessage: 'Address book entry',
 	},
 	updated_toast: {
+		id: 'Nm5nic',
 		defaultMessage: 'Successfully updated address book entry',
 	},
 	created_toast: {
+		id: 'e+se8N',
 		defaultMessage: 'Successfully added new address book entry',
 	},
 	name: {
+		id: 'HAlOn1',
 		defaultMessage: 'Name',
 	},
 	name_placeholder: {
+		id: 'NLhDX5',
 		defaultMessage: 'Insert name...',
 	},
 	address: {
+		id: 'e6Ph5+',
 		defaultMessage: 'Address',
 	},
 	address_placeholder: {
+		id: 'kqwapE',
 		defaultMessage: 'Insert address...',
 	},
 	cancel: {
+		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
 	submit: {
+		id: 'jvo0vs',
 		defaultMessage: 'Save',
 	},
 })

@@ -7,6 +7,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 
 const messages = defineMessages({
 	back: {
+		id: 'cyR7Kh',
 		defaultMessage: 'Back',
 	},
 })

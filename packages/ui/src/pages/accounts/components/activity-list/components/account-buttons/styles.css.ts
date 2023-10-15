@@ -8,6 +8,9 @@ export const cardButtonsWrapper = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 		width: 'full',
+		paddingBottom: {
+			tablet: 'medium',
+		},
 	}),
 	{},
 ])

@@ -7,6 +7,7 @@ import { TrashIcon } from 'ui/src/components/icons'
 
 const messages = defineMessages({
 	remove: {
+		id: 'G/yZLu',
 		defaultMessage: 'Remove',
 	},
 })

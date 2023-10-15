@@ -11,6 +11,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	all_assets_total_balance: {
+		id: 'zHpvzF',
 		defaultMessage: 'Total Balance',
 	},
 })

@@ -16,6 +16,7 @@ import type { TransactionSettings } from '@src/types/transaction'
 
 const messages = defineMessages({
 	empty_signatures_error: {
+		id: 'Id1C9e',
 		defaultMessage: 'Failed to resolve authorization requirements, try with different wallet.',
 	},
 })

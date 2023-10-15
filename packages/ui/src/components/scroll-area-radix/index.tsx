@@ -15,6 +15,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	up: {
+		id: 'hJKc5x',
 		defaultMessage: 'Go to top',
 	},
 })

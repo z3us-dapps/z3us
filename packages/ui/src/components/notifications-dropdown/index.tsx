@@ -24,6 +24,7 @@ import * as styles from './notifications-dropdown.css'
 
 const messages = defineMessages({
 	title: {
+		id: 'NAidKb',
 		defaultMessage: 'Notifications',
 	},
 })

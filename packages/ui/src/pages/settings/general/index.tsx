@@ -20,48 +20,63 @@ import { SettingsWrapper } from '../components/settings-wrapper'
 
 const messages = defineMessages({
 	title: {
+		id: '1iEPTM',
 		defaultMessage: 'General',
 	},
 	subtitle: {
+		id: 'kAap1n',
 		defaultMessage: `Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience`,
 	},
 	network_title: {
+		id: 'I3JhPS',
 		defaultMessage: 'Network',
 	},
 	network_subtitle: {
+		id: 'NvAq+V',
 		defaultMessage: `Gateway API URL`,
 	},
 	currency_title: {
+		id: '55hdQy',
 		defaultMessage: 'Currency',
 	},
 	currency_subtitle: {
+		id: 'ega+/o',
 		defaultMessage: `Display balances in your preferred currency`,
 	},
 	language_title: {
+		id: 'y1Z3or',
 		defaultMessage: 'Language',
 	},
 	language_subtitle: {
+		id: 'PqV1fm',
 		defaultMessage: `Select your preferred language`,
 	},
 	notifications_title: {
+		id: 'NAidKb',
 		defaultMessage: 'Notifications',
 	},
 	notifications_subtitle: {
+		id: 'oVvUPZ',
 		defaultMessage: `Enable push notifications to receive real-time updates and important alerts`,
 	},
 	theme_title: {
+		id: 'Pe0ogR',
 		defaultMessage: 'Theme',
 	},
 	theme_subtitle: {
+		id: 'DFdIv/',
 		defaultMessage: `Color Your Z3US Experience, select from light or dark themes, or let your system select for you`,
 	},
 	theme_light: {
+		id: '3cc4Ct',
 		defaultMessage: 'Light',
 	},
 	theme_dark: {
+		id: 'tOdNiY',
 		defaultMessage: 'Dark',
 	},
 	theme_system: {
+		id: '+CwN9C',
 		defaultMessage: 'System',
 	},
 })
@@ -111,10 +126,7 @@ const General: React.FC = () => {
 
 	return (
 		<SettingsWrapper>
-			<SettingsTitle
-				title={intl.formatMessage(messages.title)}
-				subTitle={intl.formatMessage(messages.subtitle)}
-			/>
+			<SettingsTitle title={intl.formatMessage(messages.title)} subTitle={intl.formatMessage(messages.subtitle)} />
 			<SettingsBlock
 				leftCol={
 					<>

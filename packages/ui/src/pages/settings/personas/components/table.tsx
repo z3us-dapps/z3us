@@ -9,6 +9,7 @@ import { PersonaCell } from './persona-cell'
 
 const messages = defineMessages({
 	header: {
+		id: 'HAlOn1',
 		defaultMessage: 'Name',
 	},
 })

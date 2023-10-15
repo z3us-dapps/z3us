@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
-import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
+import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -21,6 +21,7 @@ import { config } from 'ui/src/constants/config'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
+import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
@@ -28,42 +29,55 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	fee: {
+		id: 'uT4OlP',
 		defaultMessage: 'Fee',
 	},
 	details: {
+		id: 'Lv0zJu',
 		defaultMessage: 'Details',
 	},
 	id: {
+		id: 'qlcuNQ',
 		defaultMessage: 'ID',
 	},
 	status: {
+		id: 'tzMNF3',
 		defaultMessage: 'Status',
 	},
 	version: {
+		id: 'TUyQXM',
 		defaultMessage: 'State version',
 	},
 	epoch: {
+		id: '8Tzeri',
 		defaultMessage: 'Epoch',
 	},
 	round: {
+		id: 'V55xlZ',
 		defaultMessage: 'Round',
 	},
 	date: {
+		id: 'P7PLVj',
 		defaultMessage: 'Date',
 	},
 	affected_global_entities: {
+		id: 'anjq2Q',
 		defaultMessage: 'Affected global entities',
 	},
 	message: {
+		id: 'T7Ry38',
 		defaultMessage: 'Message',
 	},
 	manifest: {
+		id: 'c+Uxfa',
 		defaultMessage: 'Transaction manifest',
 	},
 	explorer: {
+		id: 'YnOdQH',
 		defaultMessage: 'Open in explorer',
 	},
 	close: {
+		id: 'rbrahO',
 		defaultMessage: 'Close',
 	},
 })
@@ -76,14 +90,16 @@ export const Transaction = () => {
 	const isMobile = useIsMobileWidth()
 	const { data: knownAddresses } = useKnownAddresses()
 
+	const isActivitiesVisible = useIsActivitiesVisible()
 	const transactionId = searchParams.get('tx')
 	const isTransactionVisible = !!transactionId
+
 	const { data, isLoading } = useTransaction(transactionId)
 
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 
 	const navigateBack = () => {
-		navigate(pathname)
+		navigate(`${pathname}${isActivitiesVisible ? '?acts=true' : ''}`)
 	}
 
 	const handleEscapeKeyDown = () => {
@@ -139,11 +155,10 @@ export const Transaction = () => {
 										</Box>
 										<Box marginTop="xxsmall">
 											<Text size="xxxlarge" color="strong">
-												<FormattedNumber
-													value={parseFloat(data?.transaction.fee_paid) || 0}
-													style="decimal"
-													maximumFractionDigits={8}
-												/>
+												{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, {
+													style: 'decimal',
+													maximumFractionDigits: 8,
+												})}
 											</Text>
 										</Box>
 										<Box>

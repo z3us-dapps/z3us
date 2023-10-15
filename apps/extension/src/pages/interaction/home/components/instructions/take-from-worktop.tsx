@@ -3,6 +3,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 const messages = defineMessages({
 	value: {
+		id: 'iN6asq',
 		defaultMessage: `Withdraw {amount} of {resourceAddress}`,
 	},
 })

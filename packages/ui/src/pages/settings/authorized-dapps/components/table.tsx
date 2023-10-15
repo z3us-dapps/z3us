@@ -9,6 +9,7 @@ import { DappCell } from './dapp-cell'
 
 const messages = defineMessages({
 	header: {
+		id: 'YjOAs/',
 		defaultMessage: 'dApp',
 	},
 })

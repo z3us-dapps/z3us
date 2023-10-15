@@ -11,7 +11,7 @@
 		"start": "next start",
 		"deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll",
 		"postbuild": "next-sitemap",
-		"intl:extract": "formatjs extract 'src/**/*.{ts,tsx}' '../../packages/ui/src/**/*.{ts,tsx}' --ignore='**/*.d.ts' --out-file src/components/layouts/app-page/locales/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
+		"intl:extract": "formatjs extract 'src/**/*.{ts,tsx}' '../../packages/ui/src/**/*.{ts,tsx}' --ignore='**/*.d.ts' --out-file src/components/layouts/app-page/locales/en.json --format simple --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
 		"intl:compile": "formatjs compile-folder --ast src/components/layouts/app-page/locales src/components/layouts/app-page/locales/compiled"
 	},
 	"dependencies": {
@@ -29,7 +29,7 @@
 		"next-themes": "^0.2.1",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"react-intl": "^6.4.6",
+		"react-intl": "^6.4.7",
 		"react-router-dom": "^6.14.2",
 		"ui": "*"
 	},

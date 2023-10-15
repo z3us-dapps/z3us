@@ -5,6 +5,7 @@ import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 
 const messages = defineMessages({
 	invalid_network: {
+		id: 'eQuFfI',
 		defaultMessage: 'Network mismatch, dApp uses {dAppNetworkId} wallet uses {networkId}',
 	},
 })

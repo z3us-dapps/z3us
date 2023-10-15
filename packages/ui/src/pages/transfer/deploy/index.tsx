@@ -16,24 +16,31 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	submit_button: {
+		id: '556JQK',
 		defaultMessage: 'Deploy',
 	},
 	validation_from: {
+		id: 'w2XWRt',
 		defaultMessage: 'Please select account',
 	},
 	validation_badge: {
+		id: 'jPKpFd',
 		defaultMessage: 'Please select NFT collection',
 	},
 	validation_badge_id: {
+		id: 'yTLHBR',
 		defaultMessage: 'Please select NFT item',
 	},
 	validation_files_amount: {
+		id: '1zTy41',
 		defaultMessage: 'Both WASM and RPD files are required',
 	},
 	validation_files_size: {
+		id: 'e64KO/',
 		defaultMessage: 'Each file must be a maximum of 10MB',
 	},
 	validation_files_type: {
+		id: 'oDLqAZ',
 		defaultMessage: 'Invalid files, please upload both WASM and RPD file with correct types',
 	},
 })

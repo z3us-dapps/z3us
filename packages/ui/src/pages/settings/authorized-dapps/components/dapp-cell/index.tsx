@@ -12,12 +12,15 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	persona: {
+		id: 'JGu6zs',
 		defaultMessage: 'Persona',
 	},
 	accounts: {
+		id: 'pQOchI',
 		defaultMessage: 'Selected accounts',
 	},
 	delete: {
+		id: 'KUFMiM',
 		defaultMessage: 'Revoke access',
 	},
 })

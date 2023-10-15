@@ -12,21 +12,21 @@ import type { LOCALE } from 'ui/src/store/types'
 
 async function loadTranslation(locale: LOCALE): Promise<unknown> {
 	switch (locale) {
-		case 'en': return import('./locales/compiled/en.json')
-		case 'zh': return import('./locales/compiled/zh.json')
-		case 'es': return import('./locales/compiled/es.json')
-		case 'hi': return import('./locales/compiled/hi.json')
-		case 'ru': return import('./locales/compiled/ru.json')
-		case 'ar': return import('./locales/compiled/ar.json')
-		case 'pt': return import('./locales/compiled/pt.json')
-		case 'ms': return import('./locales/compiled/ms.json')
-		case 'fr': return import('./locales/compiled/fr.json')
-		case 'de': return import('./locales/compiled/de.json')
-		case 'it': return import('./locales/compiled/it.json')
-		case 'pl': return import('./locales/compiled/pl.json')
-		case 'jp': return import('./locales/compiled/jp.json')
+		case 'en': return import('./locales/en.json')
+		case 'zh': return import('./locales/zh.json')
+		case 'es': return import('./locales/es.json')
+		case 'hi': return import('./locales/hi.json')
+		case 'ru': return import('./locales/ru.json')
+		case 'ar': return import('./locales/ar.json')
+		case 'pt': return import('./locales/pt.json')
+		case 'ms': return import('./locales/ms.json')
+		case 'fr': return import('./locales/fr.json')
+		case 'de': return import('./locales/de.json')
+		case 'it': return import('./locales/it.json')
+		case 'pl': return import('./locales/pl.json')
+		case 'jp': return import('./locales/jp.json')
 		default:
-			return import('./locales/compiled/en.json')
+			return import('./locales/en.json')
 	}
 }
 

@@ -14,6 +14,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	unknown: {
+		id: 'EqfQEG',
 		defaultMessage: `{hasName, select,
 			true {{name}}
 			other {Unknown}

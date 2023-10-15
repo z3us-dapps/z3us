@@ -2,6 +2,7 @@ import { keyframes, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const transactionSlideIn = keyframes({
 	'0%': { transform: 'translateX(100%)' },
@@ -22,14 +23,19 @@ export const transactionHeaderWrapper = style([
 		paddingX: 'medium',
 		paddingY: 'medium',
 		background: 'backgroundSecondary',
-		borderTopLeftRadius: 'large',
-		borderTopRightRadius: 'large',
 		transition: 'fast',
 	}),
 	{},
 	responsiveStyle({
-		mobile: { height: '48px' },
-		tablet: { height: '64px' },
+		mobile: {
+			height: '48px',
+			borderTopLeftRadius: vars.border.radius.large,
+			borderTopRightRadius: vars.border.radius.large,
+		},
+		tablet: {
+			borderTopLeftRadius: '0',
+			borderTopRightRadius: '0',
+		},
 	}),
 ])
 

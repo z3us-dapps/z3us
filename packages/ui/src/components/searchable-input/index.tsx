@@ -19,6 +19,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	clear: {
+		id: '/GCoTA',
 		defaultMessage: 'Clear',
 	},
 })

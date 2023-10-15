@@ -31,12 +31,15 @@ interface IProps {
 
 const messages = defineMessages({
 	favorite: {
+		id: '5Hzwqs',
 		defaultMessage: 'Favorite',
 	},
 	reset: {
+		id: 'jm/spn',
 		defaultMessage: 'Reset',
 	},
 	label: {
+		id: '55hdQy',
 		defaultMessage: 'Currency',
 	},
 })

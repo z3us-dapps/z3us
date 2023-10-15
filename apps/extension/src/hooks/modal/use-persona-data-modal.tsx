@@ -9,6 +9,7 @@ const Modal = lazy(() => import('@src/components/modals/persona-data-modal'))
 
 const messages = defineMessages({
 	rejected: {
+		id: 'vIvaHq',
 		defaultMessage: 'Persona data declined',
 	},
 })

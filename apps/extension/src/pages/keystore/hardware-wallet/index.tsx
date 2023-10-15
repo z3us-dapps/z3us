@@ -17,9 +17,11 @@ import KeystoreForm from '../components/keystore-form'
 
 const messages = defineMessages({
 	connect: {
+		id: 'cotGK8',
 		defaultMessage: 'Connect device',
 	},
 	info: {
+		id: 'AsESAY',
 		defaultMessage: 'Do not close this tab and continue with the device in another one, we will come back here later.',
 	},
 })

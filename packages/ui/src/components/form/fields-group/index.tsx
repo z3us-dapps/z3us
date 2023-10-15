@@ -12,6 +12,7 @@ import { TrashTrigger } from './trash-trigger'
 
 const messages = defineMessages({
 	remove: {
+		id: 'G/yZLu',
 		defaultMessage: 'Remove',
 	},
 })

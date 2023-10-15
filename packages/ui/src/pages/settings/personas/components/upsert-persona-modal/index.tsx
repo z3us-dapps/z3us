@@ -14,15 +14,19 @@ import type { Persona } from 'ui/src/store/types'
 
 const messages = defineMessages({
 	title: {
+		id: 'y50Ejq',
 		defaultMessage: 'Persona details',
 	},
 	updated_toast: {
+		id: 'YcDkRR',
 		defaultMessage: 'Successfully updated persona details',
 	},
 	created_toast: {
+		id: 'PIWhuk',
 		defaultMessage: 'Successfully added new persona',
 	},
 	cancel: {
+		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
 })

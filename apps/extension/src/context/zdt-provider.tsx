@@ -17,9 +17,11 @@ import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
 	unknown_account: {
+		id: 'OHbvwh',
 		defaultMessage: 'Account: {appearanceId}',
 	},
 	unknown_persona: {
+		id: 'WFhJdj',
 		defaultMessage: `{hasLabel, select,
 			true {{label}}
 			other {Persona: {appearanceId}}
