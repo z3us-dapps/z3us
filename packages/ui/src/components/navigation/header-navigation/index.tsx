@@ -22,6 +22,10 @@ import { AccountViewDropdown } from '../account-view-dropdown'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
+	all: {
+		defaultMessage: 'All',
+		id: 'zQvVDJ',
+	},
 	accounts: {
 		id: 'FvanT6',
 		defaultMessage: 'Accounts',
@@ -85,6 +89,7 @@ function removeLastPartOfURL(path: string): [boolean, string] {
 }
 
 const HeaderNavMobile = () => {
+	const intl = useIntl()
 	const accounts = useWalletAccounts()
 	const { accountId } = useParams()
 	const location = useLocation()
@@ -92,7 +97,7 @@ const HeaderNavMobile = () => {
 	const isAllAccounts = useIsAllAccounts()
 
 	const accountMenuItems = [
-		...[{ id: 'home', title: 'All' }],
+		...[{ id: 'home', title: intl.formatMessage(messages.all) }],
 		...Object.values(accounts).map(({ address, name }) => ({
 			id: address,
 			title: name,
