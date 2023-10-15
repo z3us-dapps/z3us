@@ -21,11 +21,9 @@ interface IProps extends Omit<WrapperProps, 'name'> {
 
 const messages = defineMessages({
 	amount_placeholder: {
-		id: 'token_amount_select.amount.placeholder',
 		defaultMessage: 'Amount',
 	},
 	max_amount: {
-		id: 'token_amount_select.max_amount',
 		defaultMessage: 'Balance: {amount, number, ::.00#######}',
 	},
 })

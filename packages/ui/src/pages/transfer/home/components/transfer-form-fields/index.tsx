@@ -26,59 +26,45 @@ const NFTS = 'nfts'
 
 const messages = defineMessages({
 	button_add_account: {
-		id: 'transfer.form.button.add_account',
 		defaultMessage: 'Add another recipient',
 	},
 	button_add_token: {
-		id: 'transfer.form.button.add_token',
 		defaultMessage: 'Add another item',
 	},
 	known_address: {
-		id: 'transfer.known_address',
 		defaultMessage: 'Known address',
 	},
 	title: {
-		id: 'transfer.form.title',
 		defaultMessage: 'Transfer',
 	},
 	from_title: {
-		id: 'transfer.form.field.from.title',
 		defaultMessage: 'From account',
 	},
 	from_subtitle: {
-		id: 'transfer.form.field.from.subtitle',
 		defaultMessage: 'Select account you wish to send items from',
 	},
 	to_title: {
-		id: 'transfer.form.field.to.title',
 		defaultMessage: 'To account',
 	},
 	to_subtitle: {
-		id: 'transfer.form.field.to.subtitle',
 		defaultMessage: 'Select recipient to send items to',
 	},
 	message_title: {
-		id: 'transfer.form.field.message.title',
 		defaultMessage: 'Message',
 	},
 	message_subtitle: {
-		id: 'transfer.form.field.message.subtitle',
 		defaultMessage: 'Send an optional message with the transaction',
 	},
 	message_placeholder: {
-		id: 'transfer.form.field.message.placeholder',
 		defaultMessage: 'Enter transaction message',
 	},
 	message_encrypt_title: {
-		id: 'transfer.form.field.message.encrypt_title',
 		defaultMessage: 'Encrypt message',
 	},
 	tab_tokens: {
-		id: 'transfer.form.tab.tokens',
 		defaultMessage: 'Tokens',
 	},
 	tab_nfts: {
-		id: 'transfer.form.tab.nfts',
 		defaultMessage: 'NFTs',
 	},
 })

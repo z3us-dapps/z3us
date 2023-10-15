@@ -21,31 +21,24 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	assets: {
-		id: 'mobile.menu.assets',
 		defaultMessage: 'Assets',
 	},
 	tokens: {
-		id: 'mobile.menu.tokens',
 		defaultMessage: 'Tokens {symbol}',
 	},
 	nfts: {
-		id: 'mobile.menu.nfts',
 		defaultMessage: 'NFTs',
 	},
 	activity: {
-		id: 'mobile.menu.activity',
 		defaultMessage: 'Activity',
 	},
 	back: {
-		id: 'mobile.menu.back',
 		defaultMessage: 'Back',
 	},
 	clear: {
-		id: 'mobile.menu.clear',
 		defaultMessage: 'Clear',
 	},
 	search: {
-		id: 'mobile.menu.search',
 		defaultMessage: 'Search...',
 	},
 })

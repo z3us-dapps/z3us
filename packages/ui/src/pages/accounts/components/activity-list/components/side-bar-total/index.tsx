@@ -11,7 +11,6 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	all_assets_total_balance: {
-		id: 'accounts.activity_list.all_assets_total_balance',
 		defaultMessage: 'Total Balance',
 	},
 })

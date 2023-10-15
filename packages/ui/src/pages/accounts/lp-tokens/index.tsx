@@ -18,31 +18,24 @@ import { ValidatorCell } from '../components/table/validator-cell'
 
 const messages = defineMessages({
 	address: {
-		id: 'lp_tokens.address',
 		defaultMessage: 'LP Token',
 	},
 	validator: {
-		id: 'lp_tokens.validator',
 		defaultMessage: 'Validator',
 	},
 	amount: {
-		id: 'lp_tokens.amount',
 		defaultMessage: 'Balance',
 	},
 	value: {
-		id: 'lp_tokens.value',
 		defaultMessage: 'Value',
 	},
 	change: {
-		id: 'lp_tokens.change',
 		defaultMessage: 'Change',
 	},
 	empty_title: {
-		id: 'lp_tokens.empty_title',
 		defaultMessage: 'No results',
 	},
 	empty_subtitle: {
-		id: 'lp_tokens.empty_subtitle',
 		defaultMessage: 'Could not find any liquidity pool tokens in this account',
 	},
 })

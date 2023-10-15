@@ -9,7 +9,6 @@ import { AddressTableCell } from '../address-table-cell'
 
 const messages = defineMessages({
 	header: {
-		id: 'settings.address_book.table.header',
 		defaultMessage: 'Name',
 	},
 })

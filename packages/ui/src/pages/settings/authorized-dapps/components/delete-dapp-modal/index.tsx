@@ -17,19 +17,15 @@ interface IProps {
 
 const messages = defineMessages({
 	title: {
-		id: 'authorized_dapps.delete_modal.title',
 		defaultMessage: 'Are you sure?',
 	},
 	description: {
-		id: 'authorized_dapps.delete_modal.description',
 		defaultMessage: 'Are you sure you want to revoke {dappName} access ?',
 	},
 	button_text: {
-		id: 'authorized_dapps.delete_modal.button_text',
 		defaultMessage: 'Revoke',
 	},
 	success_message: {
-		id: 'authorized_dapps.delete_modal.success_message',
 		defaultMessage: 'Successfully revoked access',
 	},
 })

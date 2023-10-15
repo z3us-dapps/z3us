@@ -9,7 +9,6 @@ const Modal = lazy(() => import('@src/components/modals/sign-modal'))
 
 const messages = defineMessages({
 	rejected: {
-		id: 'hooks.modals.sign.reject',
 		defaultMessage: 'Rejected',
 	},
 })

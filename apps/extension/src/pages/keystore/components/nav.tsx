@@ -6,7 +6,6 @@ import { Button } from 'ui/src/components/button'
 
 const messages = defineMessages({
 	back: {
-		id: 'keystore.nav.back',
 		defaultMessage: 'Back',
 	},
 })

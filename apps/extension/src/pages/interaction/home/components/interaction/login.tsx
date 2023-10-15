@@ -26,19 +26,15 @@ import { useSelectPersonaModal } from '@src/hooks/modal/use-select-persona-modal
 
 const messages = defineMessages({
 	continue: {
-		id: 'interaction.home.authorized_request_interaction.continue',
 		defaultMessage: 'Continue',
 	},
 	select_persona: {
-		id: 'interaction.home.authorized_request_interaction.select_persona',
 		defaultMessage: 'Select persona',
 	},
 	select_accounts: {
-		id: 'interaction.home.authorized_request_interaction.select_accounts',
 		defaultMessage: 'Select accounts',
 	},
 	error: {
-		id: 'interaction.home.authorized_request_interaction.error',
 		defaultMessage: `Failed to login {hasMessage, select,
 			true {: {message}}
 			other {, please try again}

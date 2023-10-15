@@ -17,11 +17,9 @@ import KeystoreForm from '../components/keystore-form'
 
 const messages = defineMessages({
 	connect: {
-		id: 'keystore.hardware_wallet.connect',
 		defaultMessage: 'Connect device',
 	},
 	info: {
-		id: 'keystore.hardware_wallet.info',
 		defaultMessage: 'Do not close this tab and continue with the device in another one, we will come back here later.',
 	},
 })

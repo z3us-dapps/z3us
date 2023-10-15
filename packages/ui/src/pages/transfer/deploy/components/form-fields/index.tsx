@@ -10,15 +10,12 @@ import { Text } from 'ui/src/components/typography'
 
 const messages = defineMessages({
 	from: {
-		id: 'transfer.deploy.form_fields.from',
 		defaultMessage: 'From',
 	},
 	badge: {
-		id: 'transfer.deploy.form_fields.badge',
 		defaultMessage: 'Owner badge',
 	},
 	files: {
-		id: 'transfer.deploy.form_fields.files',
 		defaultMessage: 'Files',
 	},
 })

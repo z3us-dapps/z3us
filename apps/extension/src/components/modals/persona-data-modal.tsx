@@ -19,47 +19,36 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	close: {
-		id: 'modals.persona_data.close_button',
 		defaultMessage: 'Cancel',
 	},
 	validation_email: {
-		id: 'modals.persona_data.validation.email',
 		defaultMessage: 'Please select valid email',
 	},
 	validation_emails_required: {
-		id: 'modals.persona_data.validation.emails',
 		defaultMessage: 'Please select minimum {number} emails',
 	},
 	validation_emails_exactly: {
-		id: 'modals.persona_data.validation.validation_emails_exactly',
 		defaultMessage: 'Please select exactly {number} emails',
 	},
 	validation_phone_number: {
-		id: 'modals.persona_data.validation.phone_number',
 		defaultMessage: 'Please select valid phone number',
 	},
 	validation_phone_numbers_required: {
-		id: 'modals.persona_data.validation.phone_numbers',
 		defaultMessage: 'Please select minimum {number} phone numbers',
 	},
 	validation_phone_numbers_exactly: {
-		id: 'modals.persona_data.validation.validation_phone_numbers_exactly',
 		defaultMessage: 'Please select exactly {number} phone numbers',
 	},
 	validation_nickname: {
-		id: 'modals.persona_data.validation.nickname',
 		defaultMessage: 'Please insert valid nickname',
 	},
 	validation_given_names: {
-		id: 'modals.persona_data.validation.given_names',
 		defaultMessage: 'Please insert valid given names',
 	},
 	validation_family_name: {
-		id: 'modals.persona_data.validation.family_name',
 		defaultMessage: 'Please insert valid family name',
 	},
 	validation_names_required: {
-		id: 'modals.persona_data.validation.names',
 		defaultMessage: 'Name details are required',
 	},
 })

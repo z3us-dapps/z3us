@@ -17,39 +17,30 @@ import { SettingsWrapper } from '../components/settings-wrapper'
 
 const messages = defineMessages({
 	title: {
-		id: 'settings.wallet.title',
 		defaultMessage: 'Wallet',
 	},
 	subtitle: {
-		id: 'settings.wallet.subtitle',
 		defaultMessage: `Manage your wallet and private keys`,
 	},
 	name_title: {
-		id: 'settings.wallet.name.title',
 		defaultMessage: 'Name',
 	},
 	name_subtitle: {
-		id: 'settings.wallet.name.subtitle',
 		defaultMessage: `Change your wallet name`,
 	},
 	secret_title: {
-		id: 'settings.wallet.secret.title',
 		defaultMessage: 'Reveal',
 	},
 	secret_subtitle: {
-		id: 'settings.wallet.secret.subtitle',
 		defaultMessage: `Show seed phrase or extended private key`,
 	},
 	remove_title: {
-		id: 'settings.wallet.remove.title',
 		defaultMessage: 'Remove wallet',
 	},
 	remove_subtitle: {
-		id: 'settings.wallet.remove.subtitle',
 		defaultMessage: `Remove your wallet and delete all cache data`,
 	},
 	remove: {
-		id: 'settings.wallet.remove',
 		defaultMessage: 'Delete wallet',
 	},
 })
@@ -82,7 +73,6 @@ const General: React.FC = () => {
 	return (
 		<SettingsWrapper>
 			<SettingsTitle
-				backLink="/settings"
 				title={intl.formatMessage(messages.title)}
 				subTitle={intl.formatMessage(messages.subtitle)}
 			/>

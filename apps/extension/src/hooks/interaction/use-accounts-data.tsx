@@ -15,11 +15,9 @@ import { useLedgerClient } from '../use-ledger-client'
 
 const messages = defineMessages({
 	account_challenge: {
-		id: 'hooks.interaction.accounts_data.account_challenge',
 		defaultMessage: 'To confirm ownership of selected accounts, signature is required',
 	},
 	unknown_account: {
-		id: 'hooks.interaction.accounts_data.unknown_account',
 		defaultMessage: 'Selected account: {appearanceId}',
 	},
 })

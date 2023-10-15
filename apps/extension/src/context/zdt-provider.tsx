@@ -17,11 +17,9 @@ import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
 	unknown_account: {
-		id: 'zdt_provider.unknown_account',
 		defaultMessage: 'Account: {appearanceId}',
 	},
 	unknown_persona: {
-		id: 'zdt_provider.unknown_persona',
 		defaultMessage: `{hasLabel, select,
 			true {{label}}
 			other {Persona: {appearanceId}}

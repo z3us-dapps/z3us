@@ -8,7 +8,6 @@ const Modal = lazy(() => import('@src/components/modals/select-persona-modal'))
 
 const messages = defineMessages({
 	rejected: {
-		id: 'hooks.modals.select_persona.reject',
 		defaultMessage: 'Persona select declined',
 	},
 })

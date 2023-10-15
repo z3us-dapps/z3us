@@ -15,7 +15,7 @@ import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
-import { StyledTransactionManifest, TransactionManifest } from 'ui/src/components/transaction-manifest'
+import { StyledTransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -28,55 +28,42 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	fee: {
-		id: 'transaction.fee',
 		defaultMessage: 'Fee',
 	},
 	details: {
-		id: 'transaction.details',
 		defaultMessage: 'Details',
 	},
 	id: {
-		id: 'transaction.id',
 		defaultMessage: 'ID',
 	},
 	status: {
-		id: 'transaction.status',
 		defaultMessage: 'Status',
 	},
 	version: {
-		id: 'transaction.version',
 		defaultMessage: 'State version',
 	},
 	epoch: {
-		id: 'transaction.epoch',
 		defaultMessage: 'Epoch',
 	},
 	round: {
-		id: 'transaction.round',
 		defaultMessage: 'Round',
 	},
 	date: {
-		id: 'transaction.date',
 		defaultMessage: 'Date',
 	},
 	affected_global_entities: {
-		id: 'transaction.affected_global_entities',
 		defaultMessage: 'Affected global entities',
 	},
 	message: {
-		id: 'transaction.message',
 		defaultMessage: 'Message',
 	},
 	manifest: {
-		id: 'transaction.manifest',
 		defaultMessage: 'Transaction manifest',
 	},
 	explorer: {
-		id: 'transaction.explorer',
 		defaultMessage: 'Open in explorer',
 	},
 	close: {
-		id: 'transaction.close',
 		defaultMessage: 'Close',
 	},
 })

@@ -23,15 +23,12 @@ const defaultProps: ICardButtonsOptionalProps = {
 
 const messages = defineMessages({
 	send: {
-		id: 'card.buttons.send',
 		defaultMessage: 'Send',
 	},
 	receive: {
-		id: 'card.buttons.receive',
 		defaultMessage: 'Receive',
 	},
 	address: {
-		id: 'card.buttons.address',
 		defaultMessage: 'Address',
 	},
 })

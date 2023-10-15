@@ -1,6 +1,5 @@
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -25,18 +24,12 @@ import * as styles from './notifications-dropdown.css'
 
 const messages = defineMessages({
 	title: {
-		id: 'notifications.dropdown.title',
 		defaultMessage: 'Notifications',
 	},
 })
 
-export const NotificationsDropdown: React.FC = props => {
+export const NotificationsDropdown: React.FC = () => {
 	const intl = useIntl()
-	const navigate = useNavigate()
-
-	const handleGoToSettings = () => {
-		navigate('/accounts/settings')
-	}
 
 	return (
 		<Box className={styles.notificationsDropdownProfileWrapper}>

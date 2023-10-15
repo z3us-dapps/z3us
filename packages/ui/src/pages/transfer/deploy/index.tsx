@@ -16,31 +16,24 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	submit_button: {
-		id: 'transfer.deploy.form.submit_button',
 		defaultMessage: 'Deploy',
 	},
 	validation_from: {
-		id: 'transfer.deploy.form.validation.from',
 		defaultMessage: 'Please select account',
 	},
 	validation_badge: {
-		id: 'transfer.deploy.form.validation.badge',
 		defaultMessage: 'Please select NFT collection',
 	},
 	validation_badge_id: {
-		id: 'transfer.deploy.form.validation.badge_id',
 		defaultMessage: 'Please select NFT item',
 	},
 	validation_files_amount: {
-		id: 'transfer.deploy.form.validation.files.amount',
 		defaultMessage: 'Both WASM and RPD files are required',
 	},
 	validation_files_size: {
-		id: 'transfer.deploy.form.validation.files.size',
 		defaultMessage: 'Each file must be a maximum of 10MB',
 	},
 	validation_files_type: {
-		id: 'transfer.deploy.form.validation.files.type',
 		defaultMessage: 'Invalid files, please upload both WASM and RPD file with correct types',
 	},
 })

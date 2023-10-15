@@ -14,19 +14,15 @@ import type { Persona } from 'ui/src/store/types'
 
 const messages = defineMessages({
 	title: {
-		id: 'personas.upsert_modal.title',
 		defaultMessage: 'Persona details',
 	},
 	updated_toast: {
-		id: 'personas.upsert_modal.updated_toast',
 		defaultMessage: 'Successfully updated persona details',
 	},
 	created_toast: {
-		id: 'personas.upsert_modal.created_toast',
 		defaultMessage: 'Successfully added new persona',
 	},
 	cancel: {
-		id: 'personas.upsert_modal.form.cancel',
 		defaultMessage: 'Cancel',
 	},
 })

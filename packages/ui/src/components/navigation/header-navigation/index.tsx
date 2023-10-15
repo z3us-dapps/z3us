@@ -23,19 +23,15 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	accounts: {
-		id: 'navigation.accounts',
 		defaultMessage: 'Accounts',
 	},
 	transfer: {
-		id: 'navigation.transfer',
 		defaultMessage: 'Transfer',
 	},
 	staking: {
-		id: 'navigation.staking',
 		defaultMessage: 'Staking',
 	},
 	settings: {
-		id: 'navigation.settings',
 		defaultMessage: 'Settings',
 	},
 })

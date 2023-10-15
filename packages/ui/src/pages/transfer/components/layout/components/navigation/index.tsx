@@ -8,15 +8,12 @@ import { NavLink } from 'ui/src/components/router-link'
 
 const messages = defineMessages({
 	home: {
-		id: 'transfer.navigation.home',
 		defaultMessage: 'Transfer',
 	},
 	raw: {
-		id: 'transfer.navigation.raw',
 		defaultMessage: 'Advanced',
 	},
 	deploy: {
-		id: 'transfer.navigation.deploy',
 		defaultMessage: 'Deploy package',
 	},
 })

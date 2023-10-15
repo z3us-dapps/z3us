@@ -7,7 +7,6 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 
 const messages = defineMessages({
 	back: {
-		id: 'accounts.layout.back_button.title',
 		defaultMessage: 'Back',
 	},
 })

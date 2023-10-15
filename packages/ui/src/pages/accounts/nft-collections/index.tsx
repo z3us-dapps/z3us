@@ -17,27 +17,21 @@ import * as styles from '../components/table/styles.css'
 
 const messages = defineMessages({
 	address: {
-		id: 'nft_collections.address',
 		defaultMessage: 'NFT',
 	},
 	amount: {
-		id: 'nft_collections.amount',
 		defaultMessage: 'Balance',
 	},
 	value: {
-		id: 'nft_collections.value',
 		defaultMessage: 'Value',
 	},
 	change: {
-		id: 'nft_collections.change',
 		defaultMessage: 'Change',
 	},
 	empty_title: {
-		id: 'nft_collections.empty_title',
 		defaultMessage: 'No results',
 	},
 	empty_subtitle: {
-		id: 'nft_collections.empty_subtitle',
 		defaultMessage: 'Could not find any NFT collections in this account',
 	},
 })

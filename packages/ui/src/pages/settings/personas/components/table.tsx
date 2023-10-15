@@ -9,7 +9,6 @@ import { PersonaCell } from './persona-cell'
 
 const messages = defineMessages({
 	header: {
-		id: 'settings.personas.table.header',
 		defaultMessage: 'Name',
 	},
 })

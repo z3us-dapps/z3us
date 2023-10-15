@@ -17,27 +17,21 @@ import * as styles from '../components/table/styles.css'
 
 const messages = defineMessages({
 	address: {
-		id: 'tokens.address',
 		defaultMessage: 'Token',
 	},
 	amount: {
-		id: 'tokens.amount',
 		defaultMessage: 'Balance',
 	},
 	value: {
-		id: 'tokens.value',
 		defaultMessage: 'Value',
 	},
 	change: {
-		id: 'tokens.change',
 		defaultMessage: 'Change',
 	},
 	empty_title: {
-		id: 'tokens.empty_title',
 		defaultMessage: 'No results',
 	},
 	empty_subtitle: {
-		id: 'tokens.empty_subtitle',
 		defaultMessage: 'Could not find any tokens in this account',
 	},
 })

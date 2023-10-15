@@ -15,21 +15,21 @@ const route = {
 			index: true,
 			element: <Home />,
 			handle: {
-				title: <FormattedMessage id="transfer.router.home" defaultMessage="Transfer" />,
+				title: <FormattedMessage defaultMessage="Transfer" />,
 			},
 		},
 		// {
 		// 	path: 'deploy',
 		// 	element: <Deploy />,
 		// 	handle: {
-		// 		title: <FormattedMessage id="transfer.router.deploy" defaultMessage="Deploy package" />,
+		// 		title: <FormattedMessage defaultMessage="Deploy package" />,
 		// 	},
 		// },
 		{
 			path: 'raw',
 			element: <Raw />,
 			handle: {
-				title: <FormattedMessage id="transfer.router.raw" defaultMessage="Advanced" />,
+				title: <FormattedMessage defaultMessage="Advanced" />,
 			},
 		},
 	],

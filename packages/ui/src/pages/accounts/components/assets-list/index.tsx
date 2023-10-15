@@ -16,19 +16,15 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	tokens: {
-		id: 'accounts.assets_list.tokens',
 		defaultMessage: 'Tokens',
 	},
 	nfts: {
-		id: 'accounts.assets_list.nfts',
 		defaultMessage: 'NFTs',
 	},
 	lp_tokens: {
-		id: 'accounts.assets_list.lp_tokens',
 		defaultMessage: 'Liquidity Pool Tokens',
 	},
 	pool_units: {
-		id: 'accounts.assets_list.pool_units',
 		defaultMessage: 'Pool Units',
 	},
 })

@@ -20,63 +20,48 @@ import { SettingsWrapper } from '../components/settings-wrapper'
 
 const messages = defineMessages({
 	title: {
-		id: 'settings.general.title',
 		defaultMessage: 'General',
 	},
 	subtitle: {
-		id: 'settings.general.subtitle',
 		defaultMessage: `Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience`,
 	},
 	network_title: {
-		id: 'settings.general.network.title',
 		defaultMessage: 'Network',
 	},
 	network_subtitle: {
-		id: 'settings.general.network.subtitle',
 		defaultMessage: `Gateway API URL`,
 	},
 	currency_title: {
-		id: 'settings.general.currency.title',
 		defaultMessage: 'Currency',
 	},
 	currency_subtitle: {
-		id: 'settings.general.currency.subtitle',
 		defaultMessage: `Display balances in your preferred currency`,
 	},
 	language_title: {
-		id: 'settings.general.language.title',
 		defaultMessage: 'Language',
 	},
 	language_subtitle: {
-		id: 'settings.general.language.subtitle',
 		defaultMessage: `Select your preferred language`,
 	},
 	notifications_title: {
-		id: 'settings.general.notifications.title',
 		defaultMessage: 'Notifications',
 	},
 	notifications_subtitle: {
-		id: 'settings.general.notifications.subtitle',
 		defaultMessage: `Enable push notifications to receive real-time updates and important alerts`,
 	},
 	theme_title: {
-		id: 'settings.general.theme.title',
 		defaultMessage: 'Theme',
 	},
 	theme_subtitle: {
-		id: 'settings.general.theme.subtitle',
 		defaultMessage: `Color Your Z3US Experience, select from light or dark themes, or let your system select for you`,
 	},
 	theme_light: {
-		id: 'settings.general.theme.options.light',
 		defaultMessage: 'Light',
 	},
 	theme_dark: {
-		id: 'settings.general.theme.options.dark',
 		defaultMessage: 'Dark',
 	},
 	theme_system: {
-		id: 'settings.general.theme.options.system',
 		defaultMessage: 'System',
 	},
 })
@@ -127,7 +112,6 @@ const General: React.FC = () => {
 	return (
 		<SettingsWrapper>
 			<SettingsTitle
-				backLink="/settings"
 				title={intl.formatMessage(messages.title)}
 				subTitle={intl.formatMessage(messages.subtitle)}
 			/>

@@ -15,23 +15,18 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	button_submit: {
-		id: 'transfer_raw.form.button.submit',
 		defaultMessage: 'Send',
 	},
 	validation_raw: {
-		id: 'transfer_raw.validation.raw',
 		defaultMessage: 'Transaction can not be empty',
 	},
 	raw_title: {
-		id: 'transfer_raw.form.raw.title',
 		defaultMessage: 'Transaction manifest',
 	},
 	raw_subtitle: {
-		id: 'transfer_raw.form.raw.subtitle',
 		defaultMessage: 'Enter raw transaction manifest',
 	},
 	raw_placeholder: {
-		id: 'transfer_raw.form.raw.placeholder',
 		defaultMessage: 'Enter manifest...',
 	},
 })

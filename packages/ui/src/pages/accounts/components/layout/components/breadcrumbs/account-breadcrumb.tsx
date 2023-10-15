@@ -10,7 +10,6 @@ import { getShortAddress } from 'ui/src/utils/string-utils'
 
 const messages = defineMessages({
 	account: {
-		id: 'accounts.breadcrumbs.account',
 		defaultMessage: `{hasName, select,
 			true {{name}}
 			other {{address}}

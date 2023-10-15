@@ -16,35 +16,27 @@ import MetadataValue from './metadata-value'
 
 const messages = defineMessages({
 	back: {
-		id: 'accounts.resource_details.nft_collection.back',
 		defaultMessage: 'Back',
 	},
 	metadata: {
-		id: 'accounts.resource_details.nft_collection.metadata',
 		defaultMessage: 'Metadata',
 	},
 	summary: {
-		id: 'accounts.resource_details.nft_collection.summary',
 		defaultMessage: 'Summary',
 	},
 	details_address: {
-		id: 'accounts.resource_details.nft_collection.details_address',
 		defaultMessage: 'Address',
 	},
 	details_id_type: {
-		id: 'accounts.resource_details.nft_collection.details_id_type',
 		defaultMessage: 'ID Type',
 	},
 	details_total_supply: {
-		id: 'accounts.resource_details.nft_collection.details_total_supply',
 		defaultMessage: 'Total supply',
 	},
 	details_total_minted: {
-		id: 'accounts.resource_details.nft_collection.details_total_minted',
 		defaultMessage: 'Total minted',
 	},
 	details_total_burned: {
-		id: 'accounts.resource_details.nft_collection.details_total_burned',
 		defaultMessage: 'Total burned',
 	},
 })

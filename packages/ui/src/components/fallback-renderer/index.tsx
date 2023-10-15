@@ -11,11 +11,9 @@ import * as styles from './fallback-renderer.css'
 
 const messages = defineMessages({
 	title: {
-		id: 'fallback_renderer.title',
 		defaultMessage: 'Oops, something went wrong...',
 	},
 	reload: {
-		id: 'fallback_renderer.button.reload',
 		defaultMessage: 'Click here to reload the app',
 	},
 })

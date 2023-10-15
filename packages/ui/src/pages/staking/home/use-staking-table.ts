@@ -12,31 +12,24 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	validator: {
-		id: 'staking.table.column.validator',
 		defaultMessage: 'Validator',
 	},
 	address: {
-		id: 'staking.table.column.address',
 		defaultMessage: 'Address',
 	},
 	total_stake: {
-		id: 'staking.table.column.total_stake',
 		defaultMessage: 'Total stake',
 	},
 	owner_stake: {
-		id: 'staking.table.column.owner_stake',
 		defaultMessage: 'Owner stake',
 	},
 	uptime: {
-		id: 'staking.table.column.uptime',
 		defaultMessage: 'Uptime',
 	},
 	apy: {
-		id: 'staking.table.column.apy',
 		defaultMessage: 'APY',
 	},
 	fee: {
-		id: 'staking.table.column.fee',
 		defaultMessage: 'Fee %',
 	},
 })

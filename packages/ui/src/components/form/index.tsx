@@ -33,7 +33,6 @@ type State<P = {}> = {
 
 const messages = defineMessages({
 	error: {
-		id: 'form.on_submit.error',
 		defaultMessage: `Internal error{hasMessage, select,
 			true {: {message}}
 			other {, please try again}

@@ -27,7 +27,6 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	explorer: {
-		id: 'accounts.activity_list.explorer',
 		defaultMessage: 'Explorer',
 	},
 })

@@ -15,67 +15,51 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 const messages = defineMessages({
 	form_button_title: {
-		id: 'forms.persona_data.submit_button.title',
 		defaultMessage: 'Submit',
 	},
 	email_address: {
-		id: 'forms.persona_data.email_address',
 		defaultMessage: 'Email address',
 	},
 	button_add_email_address: {
-		id: 'forms.persona_data.button_add.email_address',
 		defaultMessage: 'Add email address',
 	},
 	validation_email: {
-		id: 'forms.persona_data.validation.email',
 		defaultMessage: 'Please select valid email',
 	},
 	phone_number: {
-		id: 'forms.persona_data.phone_number',
 		defaultMessage: 'Phone number',
 	},
 	button_add_phone_number: {
-		id: 'forms.persona_data.button_add.phone_number',
 		defaultMessage: 'Add phone number',
 	},
 	validation_phone_number: {
-		id: 'forms.persona_data.validation.phone_number',
 		defaultMessage: 'Please select valid phone number',
 	},
 	variant: {
-		id: 'forms.persona_data.variant',
 		defaultMessage: 'Name variant',
 	},
 	western: {
-		id: 'forms.persona_data.western',
 		defaultMessage: 'Western',
 	},
 	eastern: {
-		id: 'forms.persona_data.eastern',
 		defaultMessage: 'Eastern',
 	},
 	nickname: {
-		id: 'forms.persona_data.nickname',
 		defaultMessage: 'Nickname',
 	},
 	validation_nickname: {
-		id: 'forms.persona_data.validation.nickname',
 		defaultMessage: 'Please insert valid nickname',
 	},
 	given_names: {
-		id: 'forms.persona_data.given_names',
 		defaultMessage: 'Given names',
 	},
 	validation_given_names: {
-		id: 'forms.persona_data.validation.given_names',
 		defaultMessage: 'Please insert valid given names',
 	},
 	family_name: {
-		id: 'forms.persona_data.family_name',
 		defaultMessage: 'Family name',
 	},
 	validation_family_name: {
-		id: 'forms.persona_data.validation.family_name',
 		defaultMessage: 'Please insert valid family name',
 	},
 })

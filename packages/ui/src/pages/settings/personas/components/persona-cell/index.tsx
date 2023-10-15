@@ -12,11 +12,9 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	delete: {
-		id: 'settings.personas.entry.delete',
 		defaultMessage: 'Delete',
 	},
 	edit: {
-		id: 'settings.personas.entry.edit',
 		defaultMessage: 'Edit',
 	},
 })

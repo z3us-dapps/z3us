@@ -23,7 +23,6 @@ import { useMessageClient } from '../use-message-client'
 
 const messages = defineMessages({
 	persona_challenge: {
-		id: 'hooks.interaction.login.persona_challenge',
 		defaultMessage: 'To confirm ownership, sign challenge with persona {label}',
 	},
 })

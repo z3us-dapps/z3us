@@ -12,11 +12,9 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	delete: {
-		id: 'settings.address_book.entry.delete',
 		defaultMessage: 'Delete',
 	},
 	edit: {
-		id: 'settings.address_book.entry.edit',
 		defaultMessage: 'Edit',
 	},
 })

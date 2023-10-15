@@ -15,15 +15,12 @@ import FieldValue from './field-value'
 
 const messages = defineMessages({
 	back: {
-		id: 'accounts.resource_details.nft_item.back',
 		defaultMessage: 'Back',
 	},
 	burned: {
-		id: 'accounts.resource_details.nft_item.burned',
 		defaultMessage: '(burned)',
 	},
 	data: {
-		id: 'accounts.resource_details.nft_item.data',
 		defaultMessage: 'Data',
 	},
 })

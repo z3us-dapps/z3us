@@ -15,15 +15,12 @@ import { Preview } from './preview'
 
 const messages = defineMessages({
 	tab_preview: {
-		id: 'interaction.manifest.tab_preview',
 		defaultMessage: 'Preview',
 	},
 	tab_manifest: {
-		id: 'interaction.manifest.tab_manifest',
 		defaultMessage: 'Transaction manifest',
 	},
 	invalid_manifest: {
-		id: 'interaction.manifest.invalid_manifest',
 		defaultMessage: 'Invalid transaction manifest',
 	},
 })

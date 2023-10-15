@@ -9,7 +9,6 @@ import { DappCell } from './dapp-cell'
 
 const messages = defineMessages({
 	header: {
-		id: 'settings.authorized-dapps.table.header',
 		defaultMessage: 'dApp',
 	},
 })

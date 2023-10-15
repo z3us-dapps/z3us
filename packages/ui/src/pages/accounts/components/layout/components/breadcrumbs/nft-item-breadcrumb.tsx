@@ -10,7 +10,6 @@ import { getStringNftData } from 'ui/src/services/metadata'
 
 const messages = defineMessages({
 	item: {
-		id: 'accounts.breadcrumbs.nft_item',
 		defaultMessage: `{hasDisplayName, select,
 			true {{displayName}}
 			other {NFT}

@@ -15,15 +15,12 @@ import { useGetPublicKey } from '@src/hooks/use-get-public-key'
 
 const messages = defineMessages({
 	name: {
-		id: 'forms.add_persona.form.name',
 		defaultMessage: 'Name',
 	},
 	validation_name: {
-		id: 'forms.add_persona.validation.name',
 		defaultMessage: 'Name is required',
 	},
 	form_button_title: {
-		id: 'forms.add_persona.form.submit_button.title',
 		defaultMessage: 'Add',
 	},
 })
