@@ -120,6 +120,21 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 		})
 	}, [intent])
 
+	// useEffect(() => {
+	// 	if (!state.preview) return
+
+	// 	RadixEngineToolkit.Instructions
+	// 		.convert(intent.manifest.instructions, intent.header.networkId, 'String')
+	// 		.then(converted => rawRadixEngineToolkit
+	// 		.then(ret => ret.executionAnalyze({
+	// 				instructions: converted as SerializableInstructions,
+	// 				network_id: `${networkId}`,
+	// 				preview_receipt: state.preview.encoded_receipt,
+	// 			}))
+	// 		.then(console.log),
+	// 	)
+	// }, [state.preview])
+
 	if (!state.preview) return <FallbackLoading />
 
 	return (

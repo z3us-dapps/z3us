@@ -14,7 +14,7 @@ import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { StyledTransactionManifest } from 'ui/src/components/transaction-manifest'
+import { TransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -23,6 +23,7 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
+import Code from '../../typography/code'
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
 import * as styles from './styles.css'
 
@@ -70,6 +71,10 @@ const messages = defineMessages({
 	manifest: {
 		id: 'c+Uxfa',
 		defaultMessage: 'Transaction manifest',
+	},
+	events: {
+		defaultMessage: 'Events',
+		id: 'ZvKSfJ',
 	},
 	explorer: {
 		id: 'YnOdQH',
@@ -157,7 +162,8 @@ export const Transaction = () => {
 												{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, {
 													style: 'decimal',
 													maximumFractionDigits: 8,
-												})} XRD
+												})}{' '}
+												XRD
 											</Text>
 										</Box>
 										<Box>
@@ -277,25 +283,14 @@ export const Transaction = () => {
 												))}
 											</Box>
 
-											<AccountsTransactionInfo
-												leftTitle={intl.formatMessage(messages.manifest)}
-												rightData={
-													<Box display="flex" alignItems="flex-end" gap="xsmall">
-														<Box className={styles.transactionInfoCopyBtnWrapper}>
-															<CopyAddressButton
-																styleVariant="ghost"
-																sizeVariant="xsmall"
-																address="Copy transaction manifest"
-																iconOnly
-																rounded={false}
-																tickColor="colorStrong"
-															/>
-														</Box>
-													</Box>
-												}
-											/>
+											<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.manifest)} rightData={null} />
 											<Box paddingY="xsmall">
-												<StyledTransactionManifest manifestHex={data?.transaction.raw_hex} />
+												<TransactionManifest manifestHex={data?.transaction.raw_hex} />
+											</Box>
+
+											<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.events)} rightData={null} />
+											<Box paddingY="xsmall">
+												<Code content={JSON.stringify(data?.transaction.receipt?.events, null, 2)} />
 											</Box>
 										</Box>
 									</Box>
