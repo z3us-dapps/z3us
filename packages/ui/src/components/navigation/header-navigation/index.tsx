@@ -75,8 +75,11 @@ function removeLastPartOfURL(path: string): [boolean, string] {
 		return [false, path]
 	}
 
-	const segments = path.replace('/-/', '/').split('/')
-	const canGoBack = segments.length > 2
+	const segments = path.split('/').filter(s => s !== '')
+	if (segments.length > 1 && segments[segments.length - 1] === '-') {
+		segments.pop()
+	}
+	const canGoBack = segments.length >= 2 && segments[0] !== 'interaction'
 	segments.pop()
 	return [canGoBack, segments.join('/')]
 }
