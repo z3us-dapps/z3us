@@ -37,7 +37,7 @@ const knownMethods: Map<string, Method> = new Map([
 	['deposit', Method.DEPOSIT],
 	['deposit_batch', Method.DEPOSIT],
 	['withdraw', Method.WITHDRAW],
-	['free', Method.LOCK_FEE],
+	['lock_fee', Method.LOCK_FEE],
 ])
 
 interface IProps {

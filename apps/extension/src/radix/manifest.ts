@@ -64,6 +64,7 @@ export const summaryFromInstructions = (instructions: Instruction[]): Summary =>
 						})
 						break
 					case 'deposit':
+					case 'deposit_batch':
 						const [bucketValue] = destructManifestValueTuple(instruction.args)
 						const bucket = castValue<'Bucket'>(bucketValue, 'Bucket').value
 						delete bucketResources[bucket]
