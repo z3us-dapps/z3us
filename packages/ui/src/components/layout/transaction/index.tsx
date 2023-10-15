@@ -14,7 +14,6 @@ import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { StyledTransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
@@ -145,11 +144,11 @@ export const Transaction = () => {
 							) : (
 								<>
 									<Box display="flex" flexDirection="column" alignItems="center">
-										<TransactionIcon
+										{/* <TransactionIcon
 											transactionIconBorderColor="borderDividerSecondary"
 											transactionIconSize="medium"
 											transactionType="deposit"
-										/>
+										/> */}
 										<Box marginTop="small">
 											<Text size="small">{intl.formatMessage(messages.fee)}</Text>
 										</Box>
@@ -158,7 +157,7 @@ export const Transaction = () => {
 												{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, {
 													style: 'decimal',
 													maximumFractionDigits: 8,
-												})}
+												})} XRD
 											</Text>
 										</Box>
 										<Box>
