@@ -112,7 +112,7 @@ const HeaderNavMobile = () => {
 		<Box className={styles.headerMobileNavWrapper}>
 			{canGoBack ? (
 				<>
-					<BackButton key="nfts" to={backPath} />
+					<BackButton key="nfts" to={backPath} styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} />
 					<Box display="flex" marginLeft="small" justifyContent="center" alignItems="center" gap="xsmall" flexGrow={1}>
 						{!isAllAccounts && (
 							<CopyAddressButton

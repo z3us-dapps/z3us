@@ -67,7 +67,7 @@ export const Chart: React.FC<IProps> = ({ data }) => {
 						data={data}
 						cx="50%"
 						cy="50%"
-						outerRadius={isMobile ? chartWidth * 0.27 : 100}
+						outerRadius={isMobile ? chartWidth * 0.28 : 100}
 						innerRadius={isMobile ? chartWidth * 0.1 : 30}
 						isAnimationActive={false}
 					>
