@@ -33,7 +33,10 @@ export const activityWrapper = style([
 export const activityItem = style([
 	sprinkles({
 		position: 'relative',
-		paddingX: 'large',
+		paddingX: {
+			mobile: 'medium',
+			tablet: 'large',
+		},
 		transition: 'fast',
 	}),
 ])
@@ -69,8 +72,8 @@ export const activityItemInner = style([
 			transition: vars.transition.fast,
 			top: 0,
 			bottom: 0,
-			left: `calc(${vars.spacing.medium} * -1)`,
-			right: `calc(${vars.spacing.medium} * -1)`,
+			left: `calc(${vars.spacing.small} * -1)`,
+			right: `calc(${vars.spacing.small} * -1)`,
 			borderRadius: vars.border.radius.medium,
 			pointerEvents: 'none',
 			background: vars.color.bai_pearl600,
@@ -92,6 +95,8 @@ export const activityItemInner = style([
 		tablet: {
 			'::before': {
 				boxShadow: `${vars.color.shadowActivePanel}`,
+				left: `calc(${vars.spacing.medium} * -1)`,
+				right: `calc(${vars.spacing.medium} * -1)`,
 			},
 		},
 	}),
