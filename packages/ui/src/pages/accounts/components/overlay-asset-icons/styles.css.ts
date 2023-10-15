@@ -1,6 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
 export const overlayAssetIconsWrapper = style([
@@ -30,6 +31,10 @@ export const overlayAssetIconsWrapper = style([
 		color: 'colorNeutral',
 	}),
 	{},
+	responsiveStyle({
+		mobile: { marginTop: '0px' },
+		tablet: { marginTop: '-10px' },
+	}),
 ])
 
 export const overlayAssetIconCircleWrapper = style([

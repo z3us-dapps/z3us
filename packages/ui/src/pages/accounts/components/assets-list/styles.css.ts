@@ -43,10 +43,6 @@ export const assetsListLink = style([
 		textDecoration: 'none',
 		transition: 'fast',
 		width: 'full',
-		background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
-
-		// background: vars.color.bai_pearl600,
-		// background: vars.color.lead400,
 	}),
 	{
 		height: '88px',
@@ -54,6 +50,23 @@ export const assetsListLink = style([
 			[`&:hover`]: {
 				zIndex: 1,
 			},
+			'&:hover::before': {
+				opacity: 1,
+			},
+		},
+		':before': {
+			content: '""',
+			position: 'absolute',
+			left: `calc(${vars.spacing.small} * 1)`,
+			right: `calc(${vars.spacing.small} * 1)`,
+			top: `calc(${vars.spacing.small} * 1)`,
+			bottom: `calc(${vars.spacing.small} * 1)`,
+			backgroundColor: vars.color.btnTertiaryBackgroundHover,
+			transition: vars.transition.fast,
+			borderRadius: vars.border.radius.medium,
+			pointerEvents: 'none',
+			background: vars.color.btnTertiaryBackgroundHover,
+			opacity: 0,
 		},
 		':after': {
 			content: '""',
@@ -71,6 +84,9 @@ export const assetsListLink = style([
 		mobile: {},
 		tablet: {
 			borderRadius: vars.border.radius.large,
+			':before': {
+				display: 'none',
+			},
 			':after': {
 				left: vars.spacing.large,
 				right: vars.spacing.large,
@@ -81,6 +97,7 @@ export const assetsListLink = style([
 
 export const assetsListTitleWrapper = style([
 	sprinkles({
+		position: 'relative',
 		display: 'flex',
 		alignItems: 'center',
 		gap: 'xsmall',
@@ -106,6 +123,7 @@ export const assetsListTitleChevronWrapper = style([
 
 export const assetsListBalancesWrapper = style([
 	sprinkles({
+		position: 'relative',
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'space-between',

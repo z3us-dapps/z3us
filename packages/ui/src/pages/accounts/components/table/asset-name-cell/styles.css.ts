@@ -6,6 +6,7 @@ import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 export const assetNameCellWrapper = style([
 	sprinkles({
 		position: 'relative',
+		zIndex: 1,
 	}),
 	{},
 ])

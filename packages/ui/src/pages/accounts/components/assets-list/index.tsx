@@ -6,7 +6,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ChevronRightIcon } from 'ui/src/components/icons'
-import { Text } from 'ui/src/components/typography'
+import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -89,7 +89,7 @@ export const AssetsList: React.FC = () => {
 	return (
 		<Box className={styles.assetsList}>
 			{Object.keys(rows).map(path => (
-				<Link key={path} to={`/accounts/${accountId}/${path}`} className={clsx(styles.assetsListLink)}>
+				<Link key={path} to={`/accounts/${accountId}/${path}`} className={styles.assetsListLink}>
 					<Box className={styles.assetsListTitleWrapper}>
 						<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
 							{rows[path].title}
@@ -112,17 +112,12 @@ export const AssetsList: React.FC = () => {
 									currency,
 								})}
 							</Text>
-							<Text
-								size="small"
-								color={rows[path].change && rows[path].change > 0 ? 'green' : 'red'}
-								truncate
-								className={styles.assetsListBalancesText}
-							>
+							<RedGreenText size="small" change={rows[path].change} truncate className={styles.assetsListBalancesText}>
 								{intl.formatNumber(rows[path].change, {
 									style: 'percent',
 									maximumFractionDigits: 2,
 								})}
-							</Text>
+							</RedGreenText>
 						</Box>
 					</Box>
 				</Link>
