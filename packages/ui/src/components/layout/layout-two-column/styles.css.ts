@@ -33,6 +33,10 @@ export const layoutTwoColInnerWrapper = style([
 		height: 'full',
 		maxWidth: 'xxlarge',
 		display: 'flex',
+		flexDirection: {
+			mobile: 'column',
+			tablet: 'row',
+		},
 		gap: 'xlarge',
 	}),
 	{},
@@ -42,7 +46,7 @@ export const layoutTwoColLeftWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: {
-			mobile: 'none',
+			mobile: 'flex',
 			tablet: 'flex',
 		},
 		flexDirection: 'column',
