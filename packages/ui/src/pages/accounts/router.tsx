@@ -25,7 +25,7 @@ const route = {
 	handle: {
 		crumb: (_, isLast: boolean) => (
 			<LinkBreadcrumb isFirst isLast={isLast} to="/accounts">
-				<FormattedMessage id="accounts.breadcrumbs.accounts" defaultMessage="All accounts" />
+				<FormattedMessage id="V2XmDf" defaultMessage="All accounts" />
 			</LinkBreadcrumb>
 		),
 		sidebar: <ActivityList />,
@@ -51,7 +51,7 @@ const route = {
 					handle: {
 						crumb: ({ accountId }, isLast: boolean) => (
 							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/tokens`}>
-								<FormattedMessage id="accounts.breadcrumbs.tokens" defaultMessage="Tokens" />
+								<FormattedMessage id="P6EE/a" defaultMessage="Tokens" />
 							</LinkBreadcrumb>
 						),
 					},
@@ -71,7 +71,7 @@ const route = {
 					handle: {
 						crumb: ({ accountId }, isLast: boolean) => (
 							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/lp-tokens`}>
-								<FormattedMessage id="accounts.breadcrumbs.lp_tokens" defaultMessage="Liquidity Pool Tokens" />
+								<FormattedMessage id="ya5Lxf" defaultMessage="Liquidity Pool Tokens" />
 							</LinkBreadcrumb>
 						),
 					},
@@ -91,7 +91,7 @@ const route = {
 					handle: {
 						crumb: ({ accountId }, isLast: boolean) => (
 							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/pool-units`}>
-								<FormattedMessage id="accounts.breadcrumbs.pool_units" defaultMessage="Pool Units" />
+								<FormattedMessage id="h/CJ+m" defaultMessage="Pool Units" />
 							</LinkBreadcrumb>
 						),
 					},
@@ -110,7 +110,7 @@ const route = {
 					handle: {
 						crumb: ({ accountId }, isLast: boolean) => (
 							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/nfts`}>
-								<FormattedMessage id="accounts.breadcrumbs.nfts" defaultMessage="NFTs" />
+								<FormattedMessage id="nqRscq" defaultMessage="NFTs" />
 							</LinkBreadcrumb>
 						),
 					},

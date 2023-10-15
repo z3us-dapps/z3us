@@ -19,7 +19,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	clear: {
-		id: 'searchable_input.clear',
+		id: '/GCoTA',
 		defaultMessage: 'Clear',
 	},
 })

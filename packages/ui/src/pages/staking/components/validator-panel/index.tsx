@@ -25,47 +25,47 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	na: {
-		id: 'staking.validator_panel.na',
+		id: 'PW+sL4',
 		defaultMessage: 'N/A',
 	},
 	details: {
-		id: 'staking.validator_panel.details',
+		id: 'Lv0zJu',
 		defaultMessage: 'Details',
 	},
 	address: {
-		id: 'staking.validator_panel.address',
+		id: 'e6Ph5+',
 		defaultMessage: 'Address',
 	},
 	total_stake: {
-		id: 'staking.validator_panel.total_stake',
+		id: '7vSKTY',
 		defaultMessage: 'Total stake',
 	},
 	owner_stake: {
-		id: 'staking.validator_panel.owner_stake',
+		id: '3tVTRk',
 		defaultMessage: 'Owner stake',
 	},
 	fee: {
-		id: 'staking.validator_panel.fee',
+		id: 'uT4OlP',
 		defaultMessage: 'Fee',
 	},
 	apy: {
-		id: 'staking.validator_panel.apy',
+		id: 'MLTKb6',
 		defaultMessage: 'APY',
 	},
 	accepts_stake: {
-		id: 'staking.validator_panel.accepts_stake',
+		id: 'Jex7+U',
 		defaultMessage: 'Accepts stake',
 	},
 	registration_stake: {
-		id: 'staking.validator_panel.registration_stake',
+		id: '+7wjzM',
 		defaultMessage: 'Registration stake',
 	},
 	explorer: {
-		id: 'staking.validator_panel.explorer',
+		id: '0af8xP',
 		defaultMessage: 'Show in explorer',
 	},
 	close: {
-		id: 'staking.validator_panel.close',
+		id: 'rbrahO',
 		defaultMessage: 'Close',
 	},
 })
@@ -203,7 +203,9 @@ export const ValidatorPanel = () => {
 											/>
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.accepts_stake)}
-												rightData={<Box>{true ? <CloseCircleIcon /> : <CheckCircleIcon />}</Box>}
+												rightData={
+													<Box>{data?.transaction.confirmed_at ? <CloseCircleIcon /> : <CheckCircleIcon />}</Box>
+												}
 											/>
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.registration_stake)}

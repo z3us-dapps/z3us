@@ -3,7 +3,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 const messages = defineMessages({
 	value: {
-		id: 'interaction.manifest.instructions.take_from_worktop',
+		id: 'iN6asq',
 		defaultMessage: `Withdraw {amount} of {resourceAddress}`,
 	},
 })

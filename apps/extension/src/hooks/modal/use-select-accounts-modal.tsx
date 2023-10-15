@@ -8,7 +8,7 @@ const Modal = lazy(() => import('@src/components/modals/select-accounts-modal'))
 
 const messages = defineMessages({
 	rejected: {
-		id: 'hooks.modals.select_accounts.reject',
+		id: '6myWzr',
 		defaultMessage: 'Accounts select declined',
 	},
 })

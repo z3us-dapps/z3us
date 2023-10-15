@@ -5,7 +5,7 @@ import { Button } from 'ui/src/components/button'
 
 const messages = defineMessages({
 	add: {
-		id: 'form_group.add',
+		id: '2/2yg+',
 		defaultMessage: 'Add',
 	},
 })

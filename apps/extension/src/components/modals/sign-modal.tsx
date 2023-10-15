@@ -18,19 +18,19 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	password_placeholder: {
-		id: 'modals.sign.form.password.placeholder',
+		id: '5sg7KC',
 		defaultMessage: 'Password',
 	},
 	unlock_error: {
-		id: 'modals.sign.form.error',
+		id: 'uyz8/R',
 		defaultMessage: 'Incorrect password!',
 	},
 	form_button_title: {
-		id: 'modals.sign.form.submit_button.title',
+		id: 'gDXziV',
 		defaultMessage: 'Sign',
 	},
 	close: {
-		id: 'modals.sign.close_button',
+		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
 })

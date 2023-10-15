@@ -20,6 +20,15 @@ module.exports = {
 		},
 	},
 	rules: {
+		'formatjs/enforce-default-message': ['error', 'literal'],
+		'formatjs/enforce-id': ['error', { idInterpolationPattern: '[sha512:contenthash:base64:6]' }],
+		'formatjs/no-multiple-whitespaces': ['error'],
+		'react/function-component-definition': [
+			2,
+			{
+				namedComponents: 'arrow-function',
+			},
+		],
 		'react/function-component-definition': [
 			2,
 			{

@@ -9,11 +9,11 @@ This [Turborepo](https://turborepo.org/) monorepo is home to the Z3US browser ex
 
 ## Extension quick start
 
-> Make sure you have **Node V15.5.0 ** installed
+> Make sure you have **Node V20.5.0 ** installed
 
 ```
-nvm install 15
-nvm use 15
+nvm install 20.5.0
+nvm use 20.5.0
 ```
 
 Clone repo
@@ -25,7 +25,7 @@ git clone git@github.com:z3us-dapps/z3us.git
 Go to `z3us` directory run
 
 ```
-yarn install --ignore-engines
+yarn install
 ```
 
 Now build the extension using

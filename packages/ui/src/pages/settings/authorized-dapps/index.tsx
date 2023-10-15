@@ -15,11 +15,11 @@ import { Table } from './components/table'
 
 const messages = defineMessages({
 	title: {
-		id: 'settings.authorized_dapps.title',
+		id: 'xhTCHJ',
 		defaultMessage: 'Authorized dApps',
 	},
 	subtitle: {
-		id: 'settings.authorized_dapps.subtitle',
+		id: 'JjhY5a',
 		defaultMessage: `This are the dApps that you have logged into.`,
 	},
 })
@@ -65,11 +65,7 @@ const AuthorizedDapps: React.FC = () => {
 	return (
 		<>
 			<SettingsWrapper>
-				<SettingsTitle
-					backLink="/settings"
-					title={intl.formatMessage(messages.title)}
-					subTitle={intl.formatMessage(messages.subtitle)}
-				/>
+				<SettingsTitle title={intl.formatMessage(messages.title)} subTitle={intl.formatMessage(messages.subtitle)} />
 				<Box display="flex" flexDirection="column" gap="small">
 					<Table data={approvedDapps} onDelete={handleDeleteAddress} />
 				</Box>

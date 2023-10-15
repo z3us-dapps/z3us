@@ -17,12 +17,12 @@ import { chromeLocalStore } from '@src/radix/storage-local'
 
 const messages = defineMessages({
 	help: {
-		id: 'keystore.radix.pairing.help',
+		id: 'nHaknJ',
 		defaultMessage:
 			'Scan the QR code with the Radix Wallet app on your mobile phone to start using it with dApps in this web browser',
 	},
 	link: {
-		id: 'keystore.radix.pairing.link',
+		id: 'SbtqG3',
 		defaultMessage: `Don't have Radix Wallet?`,
 	},
 })

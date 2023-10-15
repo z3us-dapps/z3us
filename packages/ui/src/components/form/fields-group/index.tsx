@@ -12,7 +12,7 @@ import { TrashTrigger } from './trash-trigger'
 
 const messages = defineMessages({
 	remove: {
-		id: 'form.field_group.remove',
+		id: 'G/yZLu',
 		defaultMessage: 'Remove',
 	},
 })

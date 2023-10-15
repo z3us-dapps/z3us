@@ -13,7 +13,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	unknown: {
-		id: 'accounts.table.pool_cell.unknown',
+		id: 'EqfQEG',
 		defaultMessage: `{hasName, select,
 			true {{name}}
 			other {Unknown}

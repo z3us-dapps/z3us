@@ -1,4 +1,4 @@
-import { FormattedNumber } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
@@ -12,6 +12,7 @@ interface IProps {
 }
 
 export const TokenPrice: React.FC<IProps> = ({ amount, address, currency }) => {
+	const intl = useIntl()
 	const { defaultCurrency } = useNoneSharedStore(state => ({
 		defaultCurrency: state.currency,
 	}))
@@ -25,5 +26,12 @@ export const TokenPrice: React.FC<IProps> = ({ amount, address, currency }) => {
 
 	const value = (amount || 0) * (parseFloat(token?.price?.xrd.now) || 0) * (price || 0)
 
-	return <FormattedNumber value={value} style="currency" currency={inCurrency} />
+	return (
+		<>
+			{intl.formatNumber(value, {
+				style: 'currency',
+				currency: inCurrency,
+			})}
+		</>
+	)
 }

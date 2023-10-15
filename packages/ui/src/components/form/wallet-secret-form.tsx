@@ -10,15 +10,15 @@ import { useZdtState } from '../../hooks/zdt/use-zdt'
 
 const messages = defineMessages({
 	password_placeholder: {
-		id: 'forms.wallet_secret.password.placeholder',
+		id: '5sg7KC',
 		defaultMessage: 'Password',
 	},
 	unlock_error: {
-		id: 'forms.wallet_secret.error',
+		id: 'uyz8/R',
 		defaultMessage: 'Incorrect password!',
 	},
 	form_button_title: {
-		id: 'forms.wallet_secret.form.button.title',
+		id: 'K7AkdL',
 		defaultMessage: 'Show',
 	},
 })

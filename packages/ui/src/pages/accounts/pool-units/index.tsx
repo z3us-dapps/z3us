@@ -18,31 +18,31 @@ import * as styles from '../components/table/styles.css'
 
 const messages = defineMessages({
 	address: {
-		id: 'pool_units.address',
+		id: '+ZvWOP',
 		defaultMessage: 'Pool Unit',
 	},
 	pool: {
-		id: 'pool_units.pool',
+		id: '11oARw',
 		defaultMessage: 'Pool',
 	},
 	amount: {
-		id: 'pool_units.amount',
+		id: 'H5+NAX',
 		defaultMessage: 'Balance',
 	},
 	value: {
-		id: 'pool_units.value',
+		id: 'GufXy5',
 		defaultMessage: 'Value',
 	},
 	change: {
-		id: 'pool_units.change',
+		id: 'BY343C',
 		defaultMessage: 'Change',
 	},
 	empty_title: {
-		id: 'pool_units.empty_title',
+		id: 'jHJmjf',
 		defaultMessage: 'No results',
 	},
 	empty_subtitle: {
-		id: 'pool_units.empty_subtitle',
+		id: '7EL6GH',
 		defaultMessage: 'Could not find any pool units in this account',
 	},
 })

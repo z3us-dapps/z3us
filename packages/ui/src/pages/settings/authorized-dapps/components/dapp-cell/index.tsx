@@ -12,15 +12,15 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	persona: {
-		id: 'settings.authorized_dapps.entry.persona',
+		id: 'JGu6zs',
 		defaultMessage: 'Persona',
 	},
 	accounts: {
-		id: 'settings.authorized_dapps.entry.accounts',
+		id: 'pQOchI',
 		defaultMessage: 'Selected accounts',
 	},
 	delete: {
-		id: 'settings.authorized_dapps.entry.delete',
+		id: 'KUFMiM',
 		defaultMessage: 'Revoke access',
 	},
 })

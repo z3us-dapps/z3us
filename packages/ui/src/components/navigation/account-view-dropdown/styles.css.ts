@@ -1,5 +1,4 @@
-import { style } from '@vanilla-extract/css'
-import { globalStyle } from '@vanilla-extract/css'
+import { style , globalStyle } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'

@@ -10,7 +10,7 @@ import { getStringMetadata } from 'ui/src/services/metadata'
 
 const messages = defineMessages({
 	resource: {
-		id: 'accounts.breadcrumbs.resource',
+		id: 'KELqwu',
 		defaultMessage: `{hasDisplayName, select,
 			true {{displayName}}
 			other {Resource}

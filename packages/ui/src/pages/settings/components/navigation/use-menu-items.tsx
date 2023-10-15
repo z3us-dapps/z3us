@@ -7,53 +7,53 @@ import { KeystoreType } from 'ui/src/store/types'
 
 const messages = defineMessages({
 	wallet_title: {
-		id: 'settings.navigation.wallet.title',
+		id: '3yk8fB',
 		defaultMessage: 'Wallet',
 	},
 	wallet_subtitle: {
-		id: 'settings.navigation.wallet.subtitle',
+		id: 'ypG0Mw',
 		defaultMessage: 'Manage your wallet and private keys',
 	},
 	general_title: {
-		id: 'settings.navigation.general.title',
+		id: '1iEPTM',
 		defaultMessage: 'General',
 	},
 	general_subtitle: {
-		id: 'settings.navigation.general.subtitle',
+		id: 'x//yZ1',
 		defaultMessage:
 			'Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience.',
 	},
 	personas_title: {
-		id: 'settings.navigation.personas.title',
+		id: '48INch',
 		defaultMessage: 'Personas',
 	},
 	personas_subtitle: {
-		id: 'settings.navigation.personas.subtitle',
+		id: 'i+vOQd',
 		defaultMessage: `Manage your Radix network identities`,
 	},
 	accounts_title: {
-		id: 'settings.navigation.accounts.title',
+		id: 'FvanT6',
 		defaultMessage: 'Accounts',
 	},
 	accounts_subtitle: {
-		id: 'settings.navigation.accounts.subtitle',
+		id: 'jDtAH6',
 		defaultMessage: `Customize your Radix account's look and feel. Personalize your experience by choosing a unique background image and color scheme that suits your style.`,
 	},
 	address_book_title: {
-		id: 'settings.navigation.address_book.title',
+		id: '5zZZ90',
 		defaultMessage: 'Address book',
 	},
 	address_book_subtitle: {
-		id: 'settings.navigation.address_book.subtitle',
+		id: 'qjqUlS',
 		defaultMessage:
 			'Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control.',
 	},
 	authorized_dapps_title: {
-		id: 'settings.navigation.authorized_dapps.title',
+		id: 'xhTCHJ',
 		defaultMessage: 'Authorized dApps',
 	},
 	authorized_dapps_subtitle: {
-		id: 'settings.navigation.authorized_dapps.subtitle',
+		id: 'JjhY5a',
 		defaultMessage: 'This are the dApps that you have logged into.',
 	},
 })

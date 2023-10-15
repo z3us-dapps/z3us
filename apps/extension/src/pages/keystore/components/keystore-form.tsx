@@ -14,31 +14,31 @@ import type { Data } from '@src/types/vault'
 
 const messages = defineMessages({
 	name_placeholder: {
-		id: 'keystore.form.name.placeholder',
+		id: 'HAlOn1',
 		defaultMessage: 'Name',
 	},
 	password_placeholder: {
-		id: 'keystore.form.password.placeholder',
+		id: '5sg7KC',
 		defaultMessage: 'Password',
 	},
 	confirm_password_placeholder: {
-		id: 'keystore.form.confirm_password.placeholder',
+		id: 'w/ArXE',
 		defaultMessage: 'Confirm your password',
 	},
 	form_button_title: {
-		id: 'keystore.form.button.submit',
+		id: 'VzzYJk',
 		defaultMessage: 'Create',
 	},
 	validation_name: {
-		id: 'keystore.form.validation.new',
+		id: 'XK/xhU',
 		defaultMessage: 'Please insert name',
 	},
 	validation_password: {
-		id: 'keystore.form.validation.password',
+		id: '+N/BAb',
 		defaultMessage: 'Insert password (at least 8 characters)',
 	},
 	validation_confirm_password: {
-		id: 'keystore.form.validation.confirm_password',
+		id: 'yy3BXQ',
 		defaultMessage: 'Password does not match',
 	},
 })

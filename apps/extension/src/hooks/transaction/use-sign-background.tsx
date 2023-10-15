@@ -12,7 +12,7 @@ import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
 	title: {
-		id: 'hooks.transaction.sign_background.title',
+		id: 'S7xWC3',
 		defaultMessage: 'Signature requested',
 	},
 })

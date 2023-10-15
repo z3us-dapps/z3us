@@ -10,7 +10,6 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
-import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
 import { animatePageVariants } from 'ui/src/constants/page'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -103,9 +102,6 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 							onMouseOver={() => setHovered(transaction.intent_hash)}
 							onMouseLeave={() => setHovered(null)}
 						>
-							<Box className={styles.indicatorCircle}>
-								<TransactionIcon transactionType="deposit" />
-							</Box>
 							<Box className={styles.activityItemTextWrapper}>
 								<Text weight="stronger" size="small" color="strong" truncate>
 									{getShortAddress(transaction.intent_hash)}
@@ -115,15 +111,12 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 								</Text>
 							</Box>
 							<Box className={styles.activityItemTextWrapper}>
-								<Text size="xsmall">{transaction.transaction_status}</Text>
+								<Text size="xsmall">
+									<TokenPrice amount={transaction.fee_paid as any} address={knownAddresses?.resourceAddresses.xrd} />
+								</Text>
 							</Box>
 							<Box className={styles.activityItemTextWrapper}>
-								<Text size="xsmall">
-									<TokenPrice
-										amount={(transaction.fee_paid as any)?.value}
-										address={knownAddresses?.resourceAddresses.xrd}
-									/>
-								</Text>
+								<Text size="xsmall">{transaction.transaction_status}</Text>
 							</Box>
 						</Link>
 					</Box>

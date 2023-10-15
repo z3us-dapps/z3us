@@ -14,15 +14,15 @@ export const MenuIcon = React.forwardRef<SVGSVGElement, IconProps>(
 			{...props}
 			ref={forwardedRef}
 		>
-			<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.75 5.75H19.25" />
+			<path stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.75 5.75H19.25" />
 			<path
-				stroke="currentColor"
+				stroke={color}
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				strokeWidth="1.5"
 				d="M4.75 18.25H19.25"
 			/>
-			<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.75 12H19.25" />
+			<path stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.75 12H19.25" />
 		</svg>
 	),
 )

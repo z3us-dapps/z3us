@@ -15,7 +15,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	up: {
-		id: 'scroll_area_up',
+		id: 'hJKc5x',
 		defaultMessage: 'Go to top',
 	},
 })

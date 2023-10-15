@@ -17,11 +17,11 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	loading: {
-		id: 'accounts.activity_list.balance_chart.loading',
+		id: 'gjBiyj',
 		defaultMessage: 'Loading...',
 	},
 	unknown: {
-		id: 'accounts.activity_list.balance_chart.data.unknown',
+		id: '5jeq8P',
 		defaultMessage: 'Unknown',
 	},
 })

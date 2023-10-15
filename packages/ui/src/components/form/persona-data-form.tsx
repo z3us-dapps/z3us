@@ -15,67 +15,67 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 const messages = defineMessages({
 	form_button_title: {
-		id: 'forms.persona_data.submit_button.title',
+		id: 'wSZR47',
 		defaultMessage: 'Submit',
 	},
 	email_address: {
-		id: 'forms.persona_data.email_address',
+		id: 'hJZwTS',
 		defaultMessage: 'Email address',
 	},
 	button_add_email_address: {
-		id: 'forms.persona_data.button_add.email_address',
+		id: 'IbfkPE',
 		defaultMessage: 'Add email address',
 	},
 	validation_email: {
-		id: 'forms.persona_data.validation.email',
+		id: 'LPhKkU',
 		defaultMessage: 'Please select valid email',
 	},
 	phone_number: {
-		id: 'forms.persona_data.phone_number',
+		id: 'jdJhOL',
 		defaultMessage: 'Phone number',
 	},
 	button_add_phone_number: {
-		id: 'forms.persona_data.button_add.phone_number',
+		id: 'K2K+5t',
 		defaultMessage: 'Add phone number',
 	},
 	validation_phone_number: {
-		id: 'forms.persona_data.validation.phone_number',
+		id: 'aY46qO',
 		defaultMessage: 'Please select valid phone number',
 	},
 	variant: {
-		id: 'forms.persona_data.variant',
+		id: '5EhO92',
 		defaultMessage: 'Name variant',
 	},
 	western: {
-		id: 'forms.persona_data.western',
+		id: 'bfLy10',
 		defaultMessage: 'Western',
 	},
 	eastern: {
-		id: 'forms.persona_data.eastern',
+		id: 'sYQG1D',
 		defaultMessage: 'Eastern',
 	},
 	nickname: {
-		id: 'forms.persona_data.nickname',
+		id: 'SBkvpf',
 		defaultMessage: 'Nickname',
 	},
 	validation_nickname: {
-		id: 'forms.persona_data.validation.nickname',
+		id: 'R16INh',
 		defaultMessage: 'Please insert valid nickname',
 	},
 	given_names: {
-		id: 'forms.persona_data.given_names',
+		id: 'de/sqY',
 		defaultMessage: 'Given names',
 	},
 	validation_given_names: {
-		id: 'forms.persona_data.validation.given_names',
+		id: '1vfXfh',
 		defaultMessage: 'Please insert valid given names',
 	},
 	family_name: {
-		id: 'forms.persona_data.family_name',
+		id: 'AeMjAR',
 		defaultMessage: 'Family name',
 	},
 	validation_family_name: {
-		id: 'forms.persona_data.validation.family_name',
+		id: 'Q4s2E+',
 		defaultMessage: 'Please insert valid family name',
 	},
 })

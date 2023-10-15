@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
-import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
+import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -14,7 +14,6 @@ import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { StyledTransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
@@ -29,55 +28,55 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	fee: {
-		id: 'transaction.fee',
+		id: 'uT4OlP',
 		defaultMessage: 'Fee',
 	},
 	details: {
-		id: 'transaction.details',
+		id: 'Lv0zJu',
 		defaultMessage: 'Details',
 	},
 	id: {
-		id: 'transaction.id',
+		id: 'qlcuNQ',
 		defaultMessage: 'ID',
 	},
 	status: {
-		id: 'transaction.status',
+		id: 'tzMNF3',
 		defaultMessage: 'Status',
 	},
 	version: {
-		id: 'transaction.version',
+		id: 'TUyQXM',
 		defaultMessage: 'State version',
 	},
 	epoch: {
-		id: 'transaction.epoch',
+		id: '8Tzeri',
 		defaultMessage: 'Epoch',
 	},
 	round: {
-		id: 'transaction.round',
+		id: 'V55xlZ',
 		defaultMessage: 'Round',
 	},
 	date: {
-		id: 'transaction.date',
+		id: 'P7PLVj',
 		defaultMessage: 'Date',
 	},
 	affected_global_entities: {
-		id: 'transaction.affected_global_entities',
+		id: 'anjq2Q',
 		defaultMessage: 'Affected global entities',
 	},
 	message: {
-		id: 'transaction.message',
+		id: 'T7Ry38',
 		defaultMessage: 'Message',
 	},
 	manifest: {
-		id: 'transaction.manifest',
+		id: 'c+Uxfa',
 		defaultMessage: 'Transaction manifest',
 	},
 	explorer: {
-		id: 'transaction.explorer',
+		id: 'YnOdQH',
 		defaultMessage: 'Open in explorer',
 	},
 	close: {
-		id: 'transaction.close',
+		id: 'rbrahO',
 		defaultMessage: 'Close',
 	},
 })
@@ -145,21 +144,20 @@ export const Transaction = () => {
 							) : (
 								<>
 									<Box display="flex" flexDirection="column" alignItems="center">
-										<TransactionIcon
+										{/* <TransactionIcon
 											transactionIconBorderColor="borderDividerSecondary"
 											transactionIconSize="medium"
 											transactionType="deposit"
-										/>
+										/> */}
 										<Box marginTop="small">
 											<Text size="small">{intl.formatMessage(messages.fee)}</Text>
 										</Box>
 										<Box marginTop="xxsmall">
 											<Text size="xxxlarge" color="strong">
-												<FormattedNumber
-													value={parseFloat(data?.transaction.fee_paid) || 0}
-													style="decimal"
-													maximumFractionDigits={8}
-												/>
+												{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, {
+													style: 'decimal',
+													maximumFractionDigits: 8,
+												})} XRD
 											</Text>
 										</Box>
 										<Box>

@@ -26,35 +26,35 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	back: {
-		id: 'accounts.resource_details.token.back',
+		id: 'cyR7Kh',
 		defaultMessage: 'Back',
 	},
 	metadata: {
-		id: 'accounts.resource_details.token.metadata',
+		id: '8Q504V',
 		defaultMessage: 'Metadata',
 	},
 	summary: {
-		id: 'accounts.resource_details.token.summary',
+		id: 'RrCui3',
 		defaultMessage: 'Summary',
 	},
 	details_address: {
-		id: 'accounts.resource_details.token.details_address',
+		id: 'e6Ph5+',
 		defaultMessage: 'Address',
 	},
 	details_divisibility: {
-		id: 'accounts.resource_details.token.details_divisibility',
+		id: '3ngJR6',
 		defaultMessage: 'Divisibility',
 	},
 	details_total_supply: {
-		id: 'accounts.resource_details.token.details_total_supply',
+		id: '/kI0V9',
 		defaultMessage: 'Total supply',
 	},
 	details_total_minted: {
-		id: 'accounts.resource_details.token.details_total_minted',
+		id: 'ZYosl3',
 		defaultMessage: 'Total minted',
 	},
 	details_total_burned: {
-		id: 'accounts.resource_details.token.details_total_burned',
+		id: '/B/zOD',
 		defaultMessage: 'Total burned',
 	},
 })

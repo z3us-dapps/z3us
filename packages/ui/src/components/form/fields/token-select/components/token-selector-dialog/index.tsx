@@ -38,19 +38,19 @@ export interface ITokenSelectorDialogProps {
 
 const messages = defineMessages({
 	close: {
-		id: 'token_select.close',
+		id: 'rbrahO',
 		defaultMessage: 'Close',
 	},
 	token_placeholder: {
-		id: 'token_select.token.placeholder',
+		id: 'i1L/jc',
 		defaultMessage: 'Search token...',
 	},
 	no_results_title: {
-		id: 'token_select.token.no_results.title',
+		id: 'bsP4f3',
 		defaultMessage: 'No tokens found',
 	},
 	no_results_subtitle: {
-		id: 'token_select.token.no_results.subtitle',
+		id: 'QZa33P',
 		defaultMessage: 'Please refine search',
 	},
 })

@@ -11,23 +11,23 @@ import { generateId } from 'ui/src/utils/generate-id'
 
 const messages = defineMessages({
 	seed_new: {
-		id: 'keystore.home.seed_new',
+		id: 'k6rUG9',
 		defaultMessage: 'I am new user',
 	},
 	seed_restore: {
-		id: 'keystore.home.seed_restore',
+		id: '6I8Iyd',
 		defaultMessage: 'Restore from seed phrase',
 	},
 	key: {
-		id: 'keystore.home.key',
+		id: '4Q4DB2',
 		defaultMessage: 'Restore from extended private key',
 	},
 	radix: {
-		id: 'keystore.home.radix',
+		id: 'YFt45g',
 		defaultMessage: 'Connect Radix Mobile',
 	},
 	hw: {
-		id: 'keystore.home.hw',
+		id: 'qRpTg5',
 		defaultMessage: 'Connect Hardware Wallet',
 	},
 })

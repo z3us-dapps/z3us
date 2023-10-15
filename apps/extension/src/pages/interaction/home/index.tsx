@@ -19,7 +19,7 @@ import { NetworkAlert } from './components/network-alert'
 
 const messages = defineMessages({
 	canceled: {
-		id: 'interaction.home.canceled',
+		id: '3JFSJ0',
 		defaultMessage: 'Request canceled',
 	},
 })

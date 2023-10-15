@@ -18,15 +18,15 @@ import UpsertAddressBookEntryModal from './components/upsert-entry-modal'
 
 const messages = defineMessages({
 	title: {
-		id: 'settings.address_book.title',
+		id: '5zZZ90',
 		defaultMessage: 'Address book',
 	},
 	subtitle: {
-		id: 'settings.address_book.subtitle',
+		id: 'jFy5q1',
 		defaultMessage: `Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control`,
 	},
 	new_address: {
-		id: 'settings.address_book.new_address',
+		id: 'klknry',
 		defaultMessage: 'New address',
 	},
 })
@@ -84,11 +84,7 @@ const AddressBook: React.FC = () => {
 	return (
 		<>
 			<SettingsWrapper>
-				<SettingsTitle
-					backLink="/settings"
-					title={intl.formatMessage(messages.title)}
-					subTitle={intl.formatMessage(messages.subtitle)}
-				/>
+				<SettingsTitle title={intl.formatMessage(messages.title)} subTitle={intl.formatMessage(messages.subtitle)} />
 				<Box display="flex" flexDirection="column" gap="small">
 					<Box paddingBottom="medium">
 						<Button styleVariant="primary" leftIcon={<PlusIcon />} onClick={() => handleAddEditAddress()}>

@@ -19,15 +19,15 @@ import UpsertPersonaModal from './components/upsert-persona-modal'
 
 const messages = defineMessages({
 	title: {
-		id: 'settings.personas.title',
+		id: '48INch',
 		defaultMessage: 'Personas',
 	},
 	subtitle: {
-		id: 'settings.personas.subtitle',
+		id: 'i+vOQd',
 		defaultMessage: `Manage your Radix network identities`,
 	},
 	new_persona: {
-		id: 'settings.personas.new_persona',
+		id: 'JsdfgN',
 		defaultMessage: 'New persona',
 	},
 })
@@ -95,11 +95,7 @@ const Personas: React.FC = () => {
 	return (
 		<>
 			<SettingsWrapper>
-				<SettingsTitle
-					backLink="/settings"
-					title={intl.formatMessage(messages.title)}
-					subTitle={intl.formatMessage(messages.subtitle)}
-				/>
+				<SettingsTitle title={intl.formatMessage(messages.title)} subTitle={intl.formatMessage(messages.subtitle)} />
 				<Box display="flex" flexDirection="column" gap="small">
 					<Box paddingBottom="medium">
 						<Button styleVariant="primary" leftIcon={<PlusIcon />} onClick={() => handleAddEditAddress()}>

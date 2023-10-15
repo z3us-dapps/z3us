@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import type { ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
-import { FormattedNumber } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
@@ -26,6 +26,7 @@ interface IAccountCardProps {
 export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const { address, isAllAccount = false, visible = true, showCopyAddressButton = true, className } = props
 
+	const intl = useIntl()
 	const addressBook = useAddressBook()
 	const { data: balanceData } = useBalances(address)
 	const { totalValue = 0 } = balanceData || {}
@@ -78,7 +79,10 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				<Box paddingBottom="xsmall">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							<FormattedNumber value={totalValue} style="currency" currency={currency} />
+							{intl.formatNumber(totalValue, {
+								style: 'currency',
+								currency,
+							})}
 						</Box>
 					</Text>
 					<Text size="large" weight="strong">

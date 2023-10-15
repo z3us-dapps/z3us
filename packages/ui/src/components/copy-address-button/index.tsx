@@ -17,7 +17,7 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	copied: {
-		id: 'copy_address_btn.success_message',
+		id: 'p556q3',
 		defaultMessage: 'Copied',
 	},
 })
