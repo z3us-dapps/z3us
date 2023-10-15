@@ -1,6 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
@@ -34,7 +34,6 @@ export const activityItem = style([
 	sprinkles({
 		position: 'relative',
 		paddingX: {
-			mobile: 'medium',
 			tablet: 'large',
 		},
 		transition: 'fast',
@@ -44,7 +43,7 @@ export const activityItem = style([
 export const activityItemOuter = style([
 	sprinkles({
 		position: 'relative',
-		paddingY: 'xsmall',
+		paddingY: 'small',
 		borderTop: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
@@ -61,6 +60,11 @@ export const activityItemInner = style([
 		color: 'borderDivider',
 		transition: 'fast',
 		border: 0,
+
+		paddingX: {
+			mobile: 'large',
+			tablet: 'none',
+		},
 	}),
 	{
 		height: '60px',
@@ -72,16 +76,13 @@ export const activityItemInner = style([
 			transition: vars.transition.fast,
 			top: 0,
 			bottom: 0,
-			left: `calc(${vars.spacing.small} * -1)`,
-			right: `calc(${vars.spacing.small} * -1)`,
+			left: `calc(${vars.spacing.small} * 1)`,
+			right: `calc(${vars.spacing.small} * 1)`,
 			borderRadius: vars.border.radius.medium,
 			pointerEvents: 'none',
-			background: vars.color.bai_pearl600,
+			background: vars.color.btnTertiaryBackgroundHover,
 		},
 		selectors: {
-			[`.${darkMode} &::before`]: {
-				background: vars.color.lead400,
-			},
 			'&:focus-visible': {
 				outline: 'none',
 			},
@@ -90,7 +91,6 @@ export const activityItemInner = style([
 			},
 		},
 	},
-
 	responsiveStyle({
 		tablet: {
 			'::before': {

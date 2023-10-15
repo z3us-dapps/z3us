@@ -423,7 +423,8 @@ recipeResponsiveGlobalStyle(
 
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr', {
 	mobile: {
-		height: '72px',
+		height: '76px',
+		position: 'relative',
 	},
 	tablet: {
 		height: '80px',
@@ -432,14 +433,14 @@ recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'p
 
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
 	tablet: {
-		backgroundColor: vars.color.bai_pearl200,
+		backgroundColor: vars.color.btnTertiaryBackgroundHover,
 		boxShadow: vars.color.shadowActivePanel,
 	},
 })
 
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
 	tablet: {
-		backgroundColor: vars.color.bai_pearl200,
+		backgroundColor: vars.color.btnTertiaryBackgroundHover,
 		boxShadow: vars.color.shadowActivePanel,
 	},
 })
@@ -448,12 +449,34 @@ recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr:hover',
 	{
+		tablet: {
+			backgroundColor: vars.color.btnTertiaryBackgroundHover,
+			boxShadow: vars.color.shadowActivePanel,
+		},
+	},
+	true,
+)
+
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr td:before',
+	{
 		mobile: {
-			backgroundColor: vars.color.wax500,
+			content: '""',
+			position: 'absolute',
+			left: `calc(${vars.spacing.small} * 1)`,
+			right: `calc(${vars.spacing.small} * 1)`,
+			top: `calc(${vars.spacing.small} * 1)`,
+			bottom: `calc(${vars.spacing.small} * 1)`,
+			backgroundColor: vars.color.btnTertiaryBackgroundHover,
+			transition: vars.transition.fast,
+			borderRadius: vars.border.radius.medium,
+			pointerEvents: 'none',
+			background: vars.color.btnTertiaryBackgroundHover,
+			opacity: 0,
 		},
 		tablet: {
-			backgroundColor: vars.color.wax500,
-			boxShadow: vars.color.shadowActivePanel,
+			display: 'none',
 		},
 	},
 	true,
@@ -523,6 +546,16 @@ recipeResponsiveGlobalStyle(
 	{
 		tablet: {
 			opacity: '0',
+		},
+	},
+)
+
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr:hover td:before',
+	{
+		mobile: {
+			opacity: '1',
 		},
 	},
 )

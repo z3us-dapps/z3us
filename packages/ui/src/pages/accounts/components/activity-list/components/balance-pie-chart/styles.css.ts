@@ -69,7 +69,7 @@ export const pieChartWrapper = style([
 		margin: '0 auto',
 	},
 	responsiveStyle({
-		mobile: { width: '60%', aspectRatio: '8 / 5' },
+		mobile: { width: '66%', aspectRatio: '8 / 5' },
 		tablet: {
 			display: 'flex',
 			height: '230px',
