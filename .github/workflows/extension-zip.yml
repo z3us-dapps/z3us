@@ -33,7 +33,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 15.5.0
+          node-version: 20.5.0
       - name: Print Node version
         run: node -v
       - name: Print yarn version
@@ -41,7 +41,7 @@ jobs:
       - name: Design system install dependencies
         run: |-
           cd packages/design
-          yarn --ignore-engines
+          yarn
       - name: Design system build
         run: |-
           cd packages/design
@@ -49,7 +49,7 @@ jobs:
       - name: Install dependencies
         run: |-
           cd apps/extension
-          yarn --ignore-engines
+          yarn
       - name: Run build
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
