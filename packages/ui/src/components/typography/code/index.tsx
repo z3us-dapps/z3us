@@ -19,6 +19,9 @@ interface SProps {
 
 const Code: React.FC<SProps> = ({ className, content }) => (
 	<ScrollAreaRoot className={clsx(styles.wrapper, className)}>
+		<ScrollAreaScrollbar orientation="vertical">
+			<ScrollAreaThumb />
+		</ScrollAreaScrollbar>
 		<ScrollAreaViewport>
 			<Text size="xxsmall" className={styles.textWrapper}>
 				<CopyAddressButton
