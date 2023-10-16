@@ -1,10 +1,7 @@
-import { LayoutGroup } from 'framer-motion'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
-import { Box } from 'ui/src/components/box'
-import { PillNavigation } from 'ui/src/components/pill-navigation'
-import { NavLink } from 'ui/src/components/router-link'
+import { PageMenu } from 'ui/src/components/navigation/page-menu'
 
 const messages = defineMessages({
 	home: {
@@ -24,34 +21,25 @@ const messages = defineMessages({
 const Navigation: React.FC = () => {
 	const intl = useIntl()
 
-	return (
-		<nav>
-			<Box component="ul">
-				<LayoutGroup id="transfer-menu">
-					{[
-						{
-							title: intl.formatMessage(messages.home),
-							href: '/transfer',
-						},
-						// {
-						// 	title: intl.formatMessage(messages.deploy),
-						// 	href: '/transfer/deploy',
-						// },
-						{
-							title: intl.formatMessage(messages.raw),
-							href: '/transfer/raw',
-						},
-					].map(({ title, href }) => (
-						<Box key={href} component="li">
-							<NavLink to={href} underline="never" end>
-								{({ isActive }) => <PillNavigation text={title} matchActiveFn={() => isActive} />}
-							</NavLink>
-						</Box>
-					))}
-				</LayoutGroup>
-			</Box>
-		</nav>
+	const menu = useMemo(
+		() => [
+			{
+				title: intl.formatMessage(messages.home),
+				href: '/transfer',
+			},
+			// {
+			//   title: intl.formatMessage(messages.deploy),
+			//   href: '/transfer/deploy',
+			// },
+			{
+				title: intl.formatMessage(messages.raw),
+				href: '/transfer/raw',
+			},
+		],
+		[intl, messages],
 	)
+
+	return <PageMenu menu={menu} />
 }
 
 export default Navigation
