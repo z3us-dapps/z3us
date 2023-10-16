@@ -57,7 +57,7 @@ export const PageMenu: React.FC<IProps> = props => {
 								className={styles.accountViewTriggerButton}
 								rightIcon={<ChevronDown2Icon />}
 							>
-								{activePath.title}
+								{activePath?.title}
 							</Button>
 						</Box>
 					</DropdownMenuTrigger>
