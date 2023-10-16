@@ -19,8 +19,13 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
 
+type TMenuItem = {
+	href: string
+	title: string
+}
+
 interface IProps {
-	menu: any
+	menu: TMenuItem[]
 }
 
 export const PageMenu: React.FC<IProps> = props => {
