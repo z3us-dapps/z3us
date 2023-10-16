@@ -75,6 +75,8 @@ export const useIntent = () => {
 
 		// @TODO: messages
 		// https://docs.google.com/document/d/1cjc7_alyzIb2QQIGGn1PEpJyjrMRZYHq3VwkOXRP8J0/edit?pli=1
+		// https://github.com/radixdlt/typescript-radix-engine-toolkit/blob/a6b420b2719d16ce20d401db240e5518aae25fc9/src/generated/generated.ts#L131
+		// https://github.com/radixdlt/typescript-radix-engine-toolkit/blob/a6b420b2719d16ce20d401db240e5518aae25fc9/src/generated/converter.ts#L995
 		const intent: Intent = { header, manifest }
 
 		return { notary, intent, needSignaturesFrom }
