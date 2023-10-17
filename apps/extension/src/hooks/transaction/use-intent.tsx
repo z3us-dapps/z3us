@@ -1,6 +1,6 @@
 import type { SendTransactionInput } from '@radixdlt/radix-dapp-toolkit'
 import { Convert, InstructionsKind, RadixEngineToolkit, generateRandomNonce } from '@radixdlt/radix-engine-toolkit'
-import type { Intent, TransactionHeader, TransactionManifest } from '@radixdlt/radix-engine-toolkit'
+import type { Intent, Message, TransactionHeader, TransactionManifest } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -20,6 +20,18 @@ const messages = defineMessages({
 		defaultMessage: 'Failed to resolve authorization requirements, try with different wallet.',
 	},
 })
+
+const noMessage: Extract<Message, { kind: 'None' }> = { kind: 'None' }
+
+function plainTextMessage(message: string): Extract<Message, { kind: 'PlainText' }> {
+	return {
+		kind: 'PlainText',
+		value: {
+			mimeType: 'text/plain',
+			message: { kind: 'String', value: message },
+		},
+	}
+}
 
 export const useIntent = () => {
 	const intl = useIntl()
@@ -73,11 +85,7 @@ export const useIntent = () => {
 			blobs: input.blobs?.map(blob => Convert.HexString.toUint8Array(blob)) || [],
 		}
 
-		// @TODO: messages
-		// https://docs.google.com/document/d/1cjc7_alyzIb2QQIGGn1PEpJyjrMRZYHq3VwkOXRP8J0/edit?pli=1
-		// https://github.com/radixdlt/typescript-radix-engine-toolkit/blob/a6b420b2719d16ce20d401db240e5518aae25fc9/src/generated/generated.ts#L131
-		// https://github.com/radixdlt/typescript-radix-engine-toolkit/blob/a6b420b2719d16ce20d401db240e5518aae25fc9/src/generated/converter.ts#L995
-		const intent: Intent = { header, manifest }
+		const intent: Intent = { header, manifest, message: input.message ? plainTextMessage(input.message) : noMessage }
 
 		return { notary, intent, needSignaturesFrom }
 	}
