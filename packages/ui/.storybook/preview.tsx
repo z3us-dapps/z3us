@@ -27,5 +27,4 @@ export const parameters = {
 		current: 'dark',
 	},
 }
-
 export const decorators = [zDecorator]
