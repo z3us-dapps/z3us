@@ -4941,16 +4941,16 @@
   dependencies:
     lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.1.1":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.2.1":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#671c064bf8b50ae7f3ed11392ad71b701092edb0"
+  resolved "https://github.com/radixdlt/connector-extension#8da26d7d3bed5c6608ce80f5e0155538da830b32"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
     "@ledgerhq/hw-transport-webhid" "^6.27.19"
     "@mui/material" "^5.14.0"
     "@radixdlt/babylon-gateway-api-sdk" "^1.0.1"
-    "@radixdlt/radix-connect-webrtc" "^1.0.0"
+    "@radixdlt/radix-connect-webrtc" "^1.0.1"
     "@stitches/react" "^1.2.8"
     "@types/blake2b" "^2.1.0"
     bech32 "^2.0.0"
@@ -4977,21 +4977,6 @@
   integrity sha512-5JHC6DgOnQ9Nv+vRFJ+a3x7GBMs13i+mbpKoIamS4wyxvsoSP676O0iAiky8ClrUkLEXEsQIyOSuYZiZ38z5lg==
   dependencies:
     neverthrow "^6.0.0"
-    zod "^3.22.2"
-
-"@radixdlt/radix-connect-webrtc@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-connect-webrtc/-/radix-connect-webrtc-1.0.0.tgz#166572371ef9f14e9f72e049ef3b7bee356f303a"
-  integrity sha512-TUyvs0HiYNdS4zZJnf0CFx71Akvi3d0gdcqM8YKFug58ADRp+2U7K5ydTTI1VRZVdmS5dbh6eTfRRclvvjoUPw==
-  dependencies:
-    "@koush/wrtc" "^0.5.3"
-    "@radixdlt/radix-connect-schemas" "^0.1.0"
-    blake2b "^2.1.4"
-    buffer "^6.0.3"
-    lodash.chunk "^4.2.0"
-    neverthrow "^6.0.0"
-    rxjs "^7.8.1"
-    tslog "4.8.0"
     zod "^3.22.2"
 
 "@radixdlt/radix-connect-webrtc@^1.0.1":

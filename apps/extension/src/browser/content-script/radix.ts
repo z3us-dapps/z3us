@@ -6,9 +6,11 @@ import {
 } from '@radixdlt/connector-extension/src/chrome/dapp/dapp-client'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
 import type { SendMessage } from '@radixdlt/connector-extension/src/chrome/messages/send-message'
-import { logger } from '@radixdlt/connector-extension/src/utils/logger'
+import { logger as utilsLogger } from '@radixdlt/connector-extension/src/utils/logger'
 import { ResultAsync, errAsync, okAsync } from 'neverthrow'
 import browser from 'webextension-polyfill'
+
+const logger = utilsLogger.getSubLogger({ name: 'content-script' })
 
 export const chromeDAppClient: ChromeDAppClientType = ChromeDAppClient()
 
