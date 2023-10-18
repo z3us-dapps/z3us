@@ -22,3 +22,17 @@ export const tokenSelectBtnWrapper = style([
 		desktop: { maxWidth: '140px' },
 	}),
 ])
+
+export const maxButtonWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		maxWidth: '200px',
+	},
+	// responsiveStyle({
+	// 	mobile: { maxWidth: '140px' },
+	// 	tablet: { maxWidth: '140px' },
+	// 	desktop: { maxWidth: '140px' },
+	// }),
+])

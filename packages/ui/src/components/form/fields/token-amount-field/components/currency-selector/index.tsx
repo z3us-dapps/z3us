@@ -67,7 +67,7 @@ export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 					)}
 				>
 					<SelectValue aria-label={selectedCurrency}>
-						<Text truncate size="small">
+						<Text truncate size="small" color="inherit">
 							<Box display="flex">
 								{selectedToken && (
 									<Box component="span">
@@ -75,7 +75,6 @@ export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 										&nbsp;
 									</Box>
 								)}
-
 								<Box component="span" style={{ textTransform: 'uppercase' }}>
 									{selectedCurrency}
 								</Box>

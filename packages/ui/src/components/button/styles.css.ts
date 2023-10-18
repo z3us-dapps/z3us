@@ -202,7 +202,7 @@ export const button = recipe({
 					height: '48px',
 					fontSize: '16px',
 					lineHeight: '16px',
-					fontWeight: '700',
+					fontWeight: '600',
 				},
 			],
 		},

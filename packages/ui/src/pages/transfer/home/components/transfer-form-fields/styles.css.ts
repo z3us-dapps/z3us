@@ -34,8 +34,8 @@ export const transferFormGridBoxWrapperBorder = style([
 		borderColor: 'borderDivider',
 		marginTop: {
 			mobile: 'large',
-			tablet: 'medium',
-			desktop: 'medium',
+			tablet: 'xlarge',
+			desktop: 'xlarge',
 		},
 		paddingTop: {
 			mobile: 'large',
@@ -134,7 +134,7 @@ export const transferActionToAssetWrapper = style([
 
 export const transferActionTabsWrapper = style([
 	sprinkles({
-		marginTop: 'medium',
+		marginTop: 'large',
 	}),
 	{},
 ])

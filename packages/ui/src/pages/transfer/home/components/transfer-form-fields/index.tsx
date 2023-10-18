@@ -197,14 +197,10 @@ export const TransferFormFields: React.FC = () => {
 									className={styles.transferActionTabsWrapper}
 								>
 									<TabsContent value={TOKENS} className={styles.transferActionTabsContentWrapper}>
-										<Box className={styles.transferActionToAssetWrapper}>
-											<TokenAmountSelect fromAccount={from} />
-										</Box>
+										<TokenAmountSelect fromAccount={from} />
 									</TabsContent>
 									<TabsContent value={NFTS} className={styles.transferActionTabsContentWrapper}>
-										<Box className={styles.transferActionToAssetWrapper}>
-											<NftSelect fromAccount={from} />
-										</Box>
+										<NftSelect fromAccount={from} />
 									</TabsContent>
 								</Tabs>
 							</Box>

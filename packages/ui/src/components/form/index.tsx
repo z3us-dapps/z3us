@@ -119,7 +119,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 	)
 
 	return (
-		<Box display="flex" flexDirection="column" gap="medium" {...rest} component="form" onSubmit={handleSubmit}>
+		<Box {...rest} component="form" onSubmit={handleSubmit}>
 			<ValidationErrorMessage message={state.error} />
 			<FormContext.Provider value={formCtx}>
 				<FieldContext.Provider value={rootFieldCtx}>{children}</FieldContext.Provider>
