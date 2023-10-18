@@ -185,7 +185,7 @@ export const button = recipe({
 			large: [
 				sprinkles({
 					borderRadius: 'large',
-					paddingX: 'large',
+					paddingX: 'medium',
 				}),
 				{
 					height: '44px',
@@ -196,7 +196,7 @@ export const button = recipe({
 			xlarge: [
 				sprinkles({
 					borderRadius: 'large',
-					paddingX: 'large',
+					paddingX: 'medium',
 				}),
 				{
 					height: '48px',
@@ -549,9 +549,9 @@ export const buttonIconLeft = recipe({
 		sizeVariant: {
 			xsmall: [{ marginRight: '4px', marginLeft: '-2px' }],
 			small: [{ marginRight: '4px', marginLeft: '-4px' }],
-			medium: [{ marginRight: '2px', marginLeft: '-6px' }],
-			large: [{ marginRight: '6px', marginLeft: '-6px' }],
-			xlarge: [{ marginRight: '6px', marginLeft: '-6px' }],
+			medium: [{ marginRight: '2px', marginLeft: '-4px' }],
+			large: [{ marginRight: '6px', marginLeft: '-4px' }],
+			xlarge: [{ marginRight: '6px', marginLeft: '-4px' }],
 		},
 		sizeVariantTablet: {
 			xsmall: [
@@ -566,17 +566,17 @@ export const buttonIconLeft = recipe({
 			],
 			medium: [
 				responsiveStyle({
-					tablet: { marginRight: '2px', marginLeft: '-6px' },
+					tablet: { marginRight: '2px', marginLeft: '-4px' },
 				}),
 			],
 			large: [
 				responsiveStyle({
-					tablet: { marginRight: '6px', marginLeft: '-6px' },
+					tablet: { marginRight: '6px', marginLeft: '-4px' },
 				}),
 			],
 			xlarge: [
 				responsiveStyle({
-					tablet: { marginRight: '6px', marginLeft: '-6px' },
+					tablet: { marginRight: '6px', marginLeft: '-4px' },
 				}),
 			],
 		},
@@ -646,16 +646,16 @@ export const buttonIconRight = recipe({
 		sizeVariant: {
 			xsmall: [{ marginLeft: '4px', marginRight: '-6px' }],
 			small: [{ marginLeft: '4px', marginRight: '-4px' }],
-			medium: [{ marginLeft: '4px', marginRight: '-8px' }],
-			large: [{ marginLeft: '6px', marginRight: '-6px' }],
-			xlarge: [{ marginLeft: '6px', marginRight: '-6px' }],
+			medium: [{ marginLeft: '4px', marginRight: '-4px' }],
+			large: [{ marginLeft: '6px', marginRight: '-4px' }],
+			xlarge: [{ marginLeft: '6px', marginRight: '-4px' }],
 		},
 		sizeVariantTablet: {
 			xsmall: [{ marginLeft: '4px', marginRight: '-6px' }],
 			small: [{ marginLeft: '4px', marginRight: '-4px' }],
-			medium: [{ marginLeft: '4px', marginRight: '-8px' }],
-			large: [{ marginLeft: '6px', marginRight: '-6px' }],
-			xlarge: [{ marginLeft: '6px', marginRight: '-6px' }],
+			medium: [{ marginLeft: '4px', marginRight: '-4px' }],
+			large: [{ marginLeft: '6px', marginRight: '-4px' }],
+			xlarge: [{ marginLeft: '6px', marginRight: '-4px' }],
 		},
 		iconOnly: {
 			true: {},
