@@ -34,8 +34,8 @@ export const transferFormGridBoxWrapperBorder = style([
 		borderColor: 'borderDivider',
 		marginTop: {
 			mobile: 'large',
-			tablet: 'xlarge',
-			desktop: 'xlarge',
+			tablet: 'medium',
+			desktop: 'medium',
 		},
 		paddingTop: {
 			mobile: 'large',
@@ -60,13 +60,13 @@ export const transferFormMessageTextArea = style([
 	{},
 	responsiveStyle({
 		mobile: {
-			minHeight: '80px',
+			minHeight: '70px',
 		},
 		tablet: {
-			minHeight: '80px',
+			minHeight: '70px',
 		},
 		desktop: {
-			minHeight: '80px',
+			minHeight: '70px',
 		},
 	}),
 ])

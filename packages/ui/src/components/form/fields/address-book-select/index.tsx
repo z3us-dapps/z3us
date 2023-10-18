@@ -1,3 +1,4 @@
+import addressBook from 'packages/ui/src/pages/settings/address-book'
 import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -31,14 +32,21 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>(
 			alias: entry.name,
 		}))
 
-		const toName = addressBook[value]?.name || getShortAddress(`${value}`)
+		const knownAddress = addressBook[value]?.name
+		const toName = knownAddress || getShortAddress(`${value}`, 8)
 
 		return (
 			<>
 				{isKnownAddressVisible && (
 					<Box className={styles.knownAddressWrapper}>
-						{toName && <Text size="xxsmall">({toName})</Text>}
-						{true && toolTipMessageKnownAddress && (
+						{toName && (
+							<ToolTip message={value} side="top">
+								<span>
+									<Text size="xxsmall">({toName})</Text>
+								</span>
+							</ToolTip>
+						)}
+						{!!knownAddress && toolTipMessageKnownAddress && (
 							<ToolTip message={toolTipMessageKnownAddress} side="top">
 								<CheckCircleIcon />
 							</ToolTip>
