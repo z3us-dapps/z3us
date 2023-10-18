@@ -11,7 +11,6 @@ import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
-import * as styles from './styles.css'
 
 interface IAdapterProps {
 	placeholder?: string
