@@ -66,7 +66,7 @@ export const transferFormMessageTextArea = style([
 			minHeight: '80px',
 		},
 		desktop: {
-			minHeight: '60px',
+			minHeight: '80px',
 		},
 	}),
 ])

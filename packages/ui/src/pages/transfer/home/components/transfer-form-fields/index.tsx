@@ -102,7 +102,7 @@ export const TransferFormFields: React.FC = () => {
 					<Text size="xsmall">{intl.formatMessage(messages.from_subtitle)}</Text>
 				</Box>
 				<Box>
-					<AccountSelect ref={inputRef} name={accountKey} />
+					<AccountSelect placeholder="Select account" ref={inputRef} name={accountKey} />
 				</Box>
 			</Box>
 			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>

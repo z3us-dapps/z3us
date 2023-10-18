@@ -31,8 +31,8 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 		<ScrollPanel>
 			<Box className={styles.transferDesktopWrapper}>
 				<Box width="full">
-					<Box display="flex" alignItems="flex-end" paddingBottom="xxsmall">
-						<Box display="flex" paddingTop="xxsmall" alignItems="center">
+					<Box display="flex" alignItems="flex-end">
+						<Box display="flex" alignItems="center">
 							<Text size="xxlarge" weight="strong" color="strong">
 								{title}
 							</Text>
@@ -65,10 +65,12 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 							</PopoverRoot>
 						)}
 					</Box>
-					<Box>
-						<Text size="small">{description}</Text>
-					</Box>
-					<Box marginTop="large">{children}</Box>
+					{description && (
+						<Box>
+							<Text size="small">{description}</Text>
+						</Box>
+					)}
+					{children}
 				</Box>
 			</Box>
 		</ScrollPanel>
