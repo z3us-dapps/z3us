@@ -87,6 +87,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	}))
 
 	const request = interaction.items as WalletAuthorizedRequestItems //| WalletUnauthorizedRequestItems
+	const canSelectAccounts = request.ongoingAccounts || request.oneTimeAccounts
 
 	const [selectedPersona, setSelectedPersona] = useState<string>(
 		getInitialPersona(interaction.metadata.dAppDefinitionAddress, approvedDapps, personaIndexes, request),
@@ -100,8 +101,10 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	}
 
 	const handleSelectAccounts = async () => {
-		const { numberOfAccounts } = request.ongoingAccounts || request.oneTimeAccounts
-		setSelectedAccounts(await selectAccounts(numberOfAccounts.quantity, numberOfAccounts.quantifier === 'exactly'))
+		const { numberOfAccounts } = request.ongoingAccounts || request.oneTimeAccounts || {}
+		setSelectedAccounts(
+			await selectAccounts(numberOfAccounts?.quantity || 1, numberOfAccounts?.quantifier === 'exactly'),
+		)
 	}
 
 	const handleShare = async () => {
@@ -163,21 +166,23 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 				{intl.formatMessage(messages.select_persona)}
 			</Button>
 			<Text>{`Selected: ${selectedAccounts.length} accounts`}</Text>
-			<Button
-				onClick={handleSelectAccounts}
-				styleVariant="tertiary"
-				sizeVariant="xlarge"
-				fullWidth
-				disabled={!personaIndexes[selectedPersona]}
-			>
-				{intl.formatMessage(messages.select_accounts)}
-			</Button>
+			{canSelectAccounts && (
+				<Button
+					onClick={handleSelectAccounts}
+					styleVariant="tertiary"
+					sizeVariant="xlarge"
+					fullWidth
+					disabled={!personaIndexes[selectedPersona]}
+				>
+					{intl.formatMessage(messages.select_accounts)}
+				</Button>
+			)}
 			<Button
 				onClick={handleShare}
 				styleVariant="tertiary"
 				sizeVariant="xlarge"
 				fullWidth
-				disabled={selectedAccounts.length === 0}
+				disabled={canSelectAccounts && selectedAccounts.length === 0}
 			>
 				{intl.formatMessage(messages.continue)}
 			</Button>
