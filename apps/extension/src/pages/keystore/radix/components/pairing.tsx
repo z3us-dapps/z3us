@@ -1,5 +1,5 @@
 import { getExtensionOptions } from '@radixdlt/connector-extension/src/options'
-import { logger } from '@radixdlt/connector-extension/src/utils/logger'
+import { logger as utilsLogger } from '@radixdlt/connector-extension/src/utils/logger'
 import { ConnectorClient } from '@radixdlt/radix-connect-webrtc'
 import { QRCodeSVG } from 'qrcode.react'
 import React, { useEffect } from 'react'
@@ -14,6 +14,8 @@ import { Theme } from 'ui/src/types'
 
 import { config, radixConnectConfig } from '@src/config'
 import { chromeLocalStore } from '@src/radix/storage-local'
+
+const logger = utilsLogger.getSubLogger({ name: 'pairing' })
 
 const messages = defineMessages({
 	help: {

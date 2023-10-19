@@ -4941,16 +4941,16 @@
   dependencies:
     lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.1.1":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.2.1":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#671c064bf8b50ae7f3ed11392ad71b701092edb0"
+  resolved "https://github.com/radixdlt/connector-extension#8da26d7d3bed5c6608ce80f5e0155538da830b32"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
     "@ledgerhq/hw-transport-webhid" "^6.27.19"
     "@mui/material" "^5.14.0"
     "@radixdlt/babylon-gateway-api-sdk" "^1.0.1"
-    "@radixdlt/radix-connect-webrtc" "^1.0.0"
+    "@radixdlt/radix-connect-webrtc" "^1.0.1"
     "@stitches/react" "^1.2.8"
     "@types/blake2b" "^2.1.0"
     bech32 "^2.0.0"
@@ -4979,21 +4979,6 @@
     neverthrow "^6.0.0"
     zod "^3.22.2"
 
-"@radixdlt/radix-connect-webrtc@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-connect-webrtc/-/radix-connect-webrtc-1.0.0.tgz#166572371ef9f14e9f72e049ef3b7bee356f303a"
-  integrity sha512-TUyvs0HiYNdS4zZJnf0CFx71Akvi3d0gdcqM8YKFug58ADRp+2U7K5ydTTI1VRZVdmS5dbh6eTfRRclvvjoUPw==
-  dependencies:
-    "@koush/wrtc" "^0.5.3"
-    "@radixdlt/radix-connect-schemas" "^0.1.0"
-    blake2b "^2.1.4"
-    buffer "^6.0.3"
-    lodash.chunk "^4.2.0"
-    neverthrow "^6.0.0"
-    rxjs "^7.8.1"
-    tslog "4.8.0"
-    zod "^3.22.2"
-
 "@radixdlt/radix-connect-webrtc@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@radixdlt/radix-connect-webrtc/-/radix-connect-webrtc-1.0.1.tgz#3dc08f117f0b0d9e468ed1a0a3ec73e66fad243c"
@@ -5009,10 +4994,10 @@
     tslog "4.8.0"
     zod "^3.22.4"
 
-"@radixdlt/radix-dapp-toolkit@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-1.1.2.tgz#1bb52df5fe404ee7f0eef13e9612ec55e7e20ad0"
-  integrity sha512-JX3raEg9Ikd8wvhsn4SgXenI8smF5V835lrjTYUw9s5Oj2sRbUMETfGYG//pf2yQWcRkoLCTO9VSQDVCNwNFwA==
+"@radixdlt/radix-dapp-toolkit@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-1.2.0.tgz#eef822f71302d7a7dfbcf14096af8cd467be297c"
+  integrity sha512-YFJW7DzLMSPCBsj+DZ56pULSxyJ97WPAWM+y+seD6KYv/KHNuA0UaovCmyCjtl4QrEE33ECNx7VRQpuWz0SLtw==
   dependencies:
     "@radixdlt/babylon-gateway-api-sdk" "1.1.0"
     "@radixdlt/connect-button" "1.0.0"

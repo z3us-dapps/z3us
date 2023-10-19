@@ -16,22 +16,18 @@ import messageHandlers from './message-handlers'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
-const backgroundLogger = {
-	debug: (...args: string[]) => console.log(JSON.stringify(args, null, 2)),
-} as AppLogger
-
 export type MessageClientType = ReturnType<typeof MessageClient>
 
-export const MessageClient = () => {
+export const MessageClient = (logger: AppLogger) => {
 	console.info(`⚡️Z3US⚡️: background message client initialized.`)
 
 	const radixMessageHandler = RadixMessageClient(
 		BackgroundMessageHandler({
-			logger: backgroundLogger,
+			logger,
 			ledgerTabWatcher,
 		}),
 		'background',
-		{ logger: backgroundLogger },
+		{ logger },
 	)
 
 	const onPort = (port: Runtime.Port) => {
