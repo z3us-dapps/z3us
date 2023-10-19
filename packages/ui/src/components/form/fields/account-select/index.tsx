@@ -18,15 +18,26 @@ interface IAdapterProps {
 	onChange?: (value: string) => void
 	styleVariant?: TStyleVariant
 	sizeVariant?: TSizeVariant
+	hasError?: boolean
 }
 
 export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref) => {
-	const { value, onChange, styleVariant = 'tertiary', sizeVariant = 'xlarge', placeholder, ...rest } = props
+	const {
+		value,
+		onChange,
+		styleVariant = 'tertiary',
+		sizeVariant = 'xlarge',
+		placeholder,
+		hasError = false,
+		...rest
+	} = props
 
 	const accounts = useWalletAccounts()
 	const addressBook = useAddressBook()
 	const addressBookEntry = addressBook[value]
 	const accountReadableName = addressBookEntry?.name || getShortAddress(value)
+
+	console.log('hasError ', hasError)
 
 	return (
 		<DropdownMenuVirtuoso
@@ -60,7 +71,7 @@ export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref)
 			)}
 			trigger={
 				<Button
-					styleVariant={styleVariant}
+					styleVariant={hasError ? 'tertiary-error' : styleVariant}
 					sizeVariant={sizeVariant}
 					fullWidth
 					leftIcon={!!accountReadableName && <AccountCardIcon address={value} />}

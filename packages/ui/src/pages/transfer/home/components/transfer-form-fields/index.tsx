@@ -49,6 +49,11 @@ const messages = defineMessages({
 		id: 'V0NiPI',
 		defaultMessage: 'Select account you wish to send assets from',
 	},
+	from_placeholder: {
+		// TODO: fix this id
+		id: 'xx',
+		defaultMessage: 'Select account',
+	},
 	to_title: {
 		id: 'gCOFay',
 		defaultMessage: 'To account',
@@ -102,7 +107,7 @@ export const TransferFormFields: React.FC = () => {
 					<Text size="xsmall">{intl.formatMessage(messages.from_subtitle)}</Text>
 				</Box>
 				<Box>
-					<AccountSelect placeholder="Select account" ref={inputRef} name={accountKey} />
+					<AccountSelect placeholder={intl.formatMessage(messages.from_placeholder)} ref={inputRef} name={accountKey} />
 				</Box>
 			</Box>
 			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>

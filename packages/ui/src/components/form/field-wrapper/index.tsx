@@ -1,4 +1,5 @@
 import get from 'lodash/get'
+import error from 'next/error'
 import React, { type PropsWithChildren, type ReactNode, useContext, useEffect } from 'react'
 import { useImmer } from 'use-immer'
 
@@ -76,7 +77,12 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 			<Box width="full" position="relative">
 				{React.Children.map(children, child =>
 					React.isValidElement(child)
-						? React.cloneElement(child, { value: state.value, name: fieldName, onChange } as Partial<any>)
+						? React.cloneElement(child, {
+								value: state.value,
+								name: fieldName,
+								onChange,
+								hasError: !!state.error,
+						  } as Partial<any>)
 						: child,
 				)}
 			</Box>
