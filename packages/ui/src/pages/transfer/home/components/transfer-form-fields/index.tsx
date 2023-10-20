@@ -54,6 +54,11 @@ const messages = defineMessages({
 		id: 'xx',
 		defaultMessage: 'Select account',
 	},
+	to_placeholder: {
+		// TODO: fix this id
+		id: 'yy',
+		defaultMessage: 'Select account',
+	},
 	to_title: {
 		id: 'gCOFay',
 		defaultMessage: 'To account',
@@ -117,7 +122,10 @@ export const TransferFormFields: React.FC = () => {
 					</Text>
 					<Text size="xsmall">{intl.formatMessage(messages.message_subtitle)}</Text>
 				</Box>
-				<Box>
+				<Box className={styles.transferFormMessageWrapper}>
+					<Box className={styles.transferFormCountWrapper}>
+						<Text size="xxsmall">2/200</Text>
+					</Box>
 					<TextAreaField
 						name="message"
 						placeholder={intl.formatMessage(messages.message_placeholder)}
@@ -162,7 +170,11 @@ export const TransferFormFields: React.FC = () => {
 						<Text size="xsmall">{intl.formatMessage(messages.to_subtitle)}</Text>
 					</Box>
 					<Box>
-						<AddressBookSelect name="to" toolTipMessageKnownAddress={intl.formatMessage(messages.known_address)} />
+						<AddressBookSelect
+							placeholder={intl.formatMessage(messages.to_placeholder)}
+							name="to"
+							toolTipMessageKnownAddress={intl.formatMessage(messages.known_address)}
+						/>
 						<FieldsGroup
 							name="resources"
 							defaultKeys={1}

@@ -74,7 +74,7 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 					{label}
 				</Box>
 			)}
-			<Box width="full" position="relative">
+			<Box width="full">
 				{React.Children.map(children, child =>
 					React.isValidElement(child)
 						? React.cloneElement(child, {

@@ -51,7 +51,7 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	}
 
 	return (
-		<Box disabled={!fromAccount || isLoading}>
+		<Box disabled={!fromAccount || isLoading} position="relative">
 			<NumberField
 				{...rest}
 				ref={ref}

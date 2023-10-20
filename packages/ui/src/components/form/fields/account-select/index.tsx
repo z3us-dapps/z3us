@@ -37,8 +37,6 @@ export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref)
 	const addressBookEntry = addressBook[value]
 	const accountReadableName = addressBookEntry?.name || getShortAddress(value)
 
-	console.log('hasError ', hasError)
-
 	return (
 		<DropdownMenuVirtuoso
 			{...rest}

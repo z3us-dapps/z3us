@@ -55,17 +55,29 @@ export const transferFormGridBoxWrapperLeft = style([
 	{},
 ])
 
+export const transferFormMessageWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+export const transferFormCountWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		right: 0,
+	}),
+	{
+		marginTop: '-18px',
+	},
+])
+
 export const transferFormMessageTextArea = style([
 	sprinkles({}),
 	{},
 	responsiveStyle({
 		mobile: {
-			minHeight: '70px',
-		},
-		tablet: {
-			minHeight: '70px',
-		},
-		desktop: {
 			minHeight: '70px',
 		},
 	}),

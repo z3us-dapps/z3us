@@ -17,47 +17,55 @@ interface IAdapterProps extends Omit<IInputProps, 'onChange'> {
 	toolTipMessageKnownAddress?: string
 	isKnownAddressVisible?: boolean
 	onChange?: (value: string) => void
+	hasError?: boolean
 }
 
-export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>(
-	({ onChange, value, toolTipMessageKnownAddress, isKnownAddressVisible = true, ...rest }, ref) => {
-		const handleChange = (_value: string) => {
-			onChange(_value)
-		}
+export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props, ref) => {
+	const { onChange, value, toolTipMessageKnownAddress, isKnownAddressVisible = true, hasError = false, ...rest } = props
 
-		const addressBook = useAddressBook()
-		const allEntries = Object.values(addressBook).map(entry => ({
-			id: entry.address,
-			account: entry.address,
-			alias: entry.name,
-		}))
+	const handleChange = (_value: string) => {
+		onChange(_value)
+	}
 
-		const knownAddress = addressBook[value]?.name
-		const toName = knownAddress || getShortAddress(`${value}`, 8)
+	const addressBook = useAddressBook()
+	const allEntries = Object.values(addressBook).map(entry => ({
+		id: entry.address,
+		account: entry.address,
+		alias: entry.name,
+	}))
 
-		return (
-			<>
-				{isKnownAddressVisible && (
-					<Box className={styles.knownAddressWrapper}>
-						{toName && (
-							<ToolTip message={value} side="top">
-								<span>
-									<Text size="xxsmall">({toName})</Text>
-								</span>
-							</ToolTip>
-						)}
-						{!!knownAddress && toolTipMessageKnownAddress && (
-							<ToolTip message={toolTipMessageKnownAddress} side="top">
-								<CheckCircleIcon />
-							</ToolTip>
-						)}
-					</Box>
-				)}
-				<SearchableInput {...rest} value={`${value}`} ref={ref} onValueChange={handleChange} data={allEntries} />
-			</>
-		)
-	},
-)
+	const knownAddress = addressBook[value]?.name
+	const toName = knownAddress || getShortAddress(`${value}`, 8)
+
+	return (
+		<>
+			{isKnownAddressVisible && (
+				<Box className={styles.knownAddressWrapper}>
+					{toName && (
+						<ToolTip message={value} side="top">
+							<span>
+								<Text size="xxsmall">({toName})</Text>
+							</span>
+						</ToolTip>
+					)}
+					{!!knownAddress && toolTipMessageKnownAddress && (
+						<ToolTip message={toolTipMessageKnownAddress} side="top">
+							<CheckCircleIcon />
+						</ToolTip>
+					)}
+				</Box>
+			)}
+			<SearchableInput
+				{...rest}
+				value={`${value}`}
+				ref={ref}
+				onValueChange={handleChange}
+				data={allEntries}
+				styleVariant={hasError ? 'primary-error' : 'primary'}
+			/>
+		</>
+	)
+})
 
 interface IProps extends Omit<IAdapterProps, 'onChange' | 'value' | 'name' | 'label' | 'type'>, WrapperProps {}
 
