@@ -16,13 +16,13 @@ import { TelegramIcon } from 'ui/src/components/icons/telegram-icon'
 import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
 // import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
+import Text, { type TextProps } from 'ui/src/components/typography/text'
 
 import * as styles from './styles.css'
 
 interface IProps {
 	showTopBorder?: boolean
-	textColor?: TextProps.color
+	textColor?: TextProps['color']
 }
 
 export const Footer: React.FC<IProps> = props => {
