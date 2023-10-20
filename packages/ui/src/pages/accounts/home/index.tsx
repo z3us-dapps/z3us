@@ -13,6 +13,7 @@ import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { AssetsList } from '../components/assets-list'
 import { HomeScrollShadow } from '../components/home-scroll-shadow'
 import { HorizontalAccountsScrollList } from '../components/horizontal-accounts-scroll-list'
+import { SearchResource } from '../components/scrolling-buttons'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -22,6 +23,7 @@ const messages = defineMessages({
 	},
 	search: {
 		defaultMessage: 'Lookup resource',
+		id: 'd9nvEg',
 	},
 })
 
@@ -46,16 +48,17 @@ const Home: React.FC = () => {
 				<>
 					<Box className={styles.homeAssetsTitleWrapper}>
 						<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-							{intl.formatMessage(messages.search)}{' '}
+							{intl.formatMessage(messages.search)}
 						</Text>
 					</Box>
+					<SearchResource />
 				</>
 			) : (
 				<>
 					<Box className={styles.homeAssetsTitleWrapper}>
 						{isAllAccounts ? (
 							<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-								{intl.formatMessage(messages.all_assets)}{' '}
+								{intl.formatMessage(messages.all_assets)}
 							</Text>
 						) : (
 							<>
