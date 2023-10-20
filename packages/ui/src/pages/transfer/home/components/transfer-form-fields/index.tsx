@@ -51,12 +51,10 @@ const messages = defineMessages({
 	},
 	from_placeholder: {
 		// TODO: fix this id
-		id: 'xx',
 		defaultMessage: 'Select account',
 	},
 	to_placeholder: {
 		// TODO: fix this id
-		id: 'yy',
 		defaultMessage: 'Select account',
 	},
 	to_title: {
