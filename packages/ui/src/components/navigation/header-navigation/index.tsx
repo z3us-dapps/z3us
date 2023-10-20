@@ -93,6 +93,8 @@ const HeaderNavMobile = () => {
 	const accounts = useWalletAccounts()
 	const { accountId } = useParams()
 	const location = useLocation()
+	const isAccountsPath = location?.pathname?.includes('/accounts')
+
 	const navigate = useNavigate()
 	const isAllAccounts = useIsAllAccounts()
 
@@ -140,14 +142,16 @@ const HeaderNavMobile = () => {
 						<Z3usLogo />
 					</Link>
 					<Box marginLeft="small" display="flex" justifyContent="space-between" flexGrow={1} flexShrink={0}>
-						<SelectSimple
-							value={accountAddress || 'home'}
-							onValueChange={handleSelectAccount}
-							styleVariant="ghost"
-							sizeVariant="small"
-							rounded
-							data={accountMenuItems}
-						/>
+						{isAccountsPath && (
+							<SelectSimple
+								value={accountAddress || 'home'}
+								onValueChange={handleSelectAccount}
+								styleVariant="ghost"
+								sizeVariant="small"
+								rounded
+								data={accountMenuItems}
+							/>
+						)}
 					</Box>
 					{accountAddress && (
 						<Box marginRight="xsmall">

@@ -35,6 +35,11 @@ export const input = recipe({
 		justifyContent: 'center',
 		outline: 'none',
 		fontFamily: vars.fonts.body,
+		selectors: {
+			'&::placeholder': {
+				color: vars.color.colorNeutral,
+			},
+		},
 	},
 	variants: {
 		styleVariant: {
@@ -59,27 +64,29 @@ export const input = recipe({
 				border: 1,
 				borderStyle: 'solid',
 			}),
-			secondary: sprinkles({
-				background: {
-					lightMode: 'inputSecondaryBackground',
-					hover: 'inputSecondaryBackgroundHover',
-					focus: 'inputSecondaryBackgroundFocus',
-					focusVisible: 'inputSecondaryBackgroundFocus',
-				},
-				borderColor: {
-					lightMode: 'inputSecondaryBorderColor',
-					hover: 'inputSecondaryBorderHover',
-					focus: 'inputSecondaryBorderFocus',
-					focusVisible: 'inputSecondaryBorderFocus',
-				},
-				boxShadow: {
-					focus: 'inputSecondaryShadowFocus',
-					focusVisible: 'inputSecondaryShadowFocus',
-				},
-				color: 'colorStrong',
-				border: 1,
-				borderStyle: 'solid',
-			}),
+			secondary: [
+				sprinkles({
+					background: {
+						lightMode: 'inputSecondaryBackground',
+						hover: 'inputSecondaryBackgroundHover',
+						focus: 'inputSecondaryBackgroundFocus',
+						focusVisible: 'inputSecondaryBackgroundFocus',
+					},
+					borderColor: {
+						lightMode: 'inputSecondaryBorderColor',
+						hover: 'inputSecondaryBorderHover',
+						focus: 'inputSecondaryBorderFocus',
+						focusVisible: 'inputSecondaryBorderFocus',
+					},
+					boxShadow: {
+						focus: 'inputSecondaryShadowFocus',
+						focusVisible: 'inputSecondaryShadowFocus',
+					},
+					color: 'colorStrong',
+					border: 1,
+					borderStyle: 'solid',
+				}),
+			],
 			'primary-error': sprinkles({
 				background: {
 					lightMode: 'inputPrimaryBackground',

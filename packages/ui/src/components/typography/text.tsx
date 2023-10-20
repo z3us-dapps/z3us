@@ -1,6 +1,5 @@
 import clsx from 'clsx'
-import type { ElementType, ReactNode } from 'react'
-import type { ForwardedRef } from 'react'
+import type { ElementType, ForwardedRef, ReactNode } from 'react'
 import React, { forwardRef } from 'react'
 
 import { Box } from '../box'

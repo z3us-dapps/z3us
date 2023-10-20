@@ -50,7 +50,7 @@ export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref)
 				cardImage: _account.cardImage,
 			}))}
 			// eslint-disable-next-line react/no-unstable-nested-components
-			itemContentRenderer={(index, { id, title, ...rest }) => (
+			itemContentRenderer={(index, { id, title }) => (
 				<DropdownMenuRadioItem value={id} key={index}>
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box flexShrink={0}>
@@ -76,7 +76,7 @@ export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref)
 					rightIcon={<ChevronDown2Icon />}
 				>
 					<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
-						<Text size="large" color={!!accountReadableName ? 'strong' : 'neutral'}>
+						<Text size="large" color={accountReadableName ? 'strong' : 'neutral'}>
 							{accountReadableName || placeholder}
 						</Text>
 					</Box>
