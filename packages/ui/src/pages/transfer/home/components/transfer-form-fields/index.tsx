@@ -30,7 +30,7 @@ const messages = defineMessages({
 		defaultMessage: 'Add another recipient',
 	},
 	button_add_token: {
-		id: 'ad0STz',
+		id: 'dYGqTI',
 		defaultMessage: 'Add another asset',
 	},
 	known_address: {
@@ -46,23 +46,23 @@ const messages = defineMessages({
 		defaultMessage: 'From account',
 	},
 	from_subtitle: {
-		id: 'V0NiPI',
+		id: 'yeLIPx',
 		defaultMessage: 'Select account you wish to send assets from',
 	},
 	from_placeholder: {
-		// TODO: fix this id
 		defaultMessage: 'Select account',
+		id: '0+6+jP',
 	},
 	to_placeholder: {
-		// TODO: fix this id
 		defaultMessage: 'Select account',
+		id: '0+6+jP',
 	},
 	to_title: {
 		id: 'gCOFay',
 		defaultMessage: 'To account',
 	},
 	to_subtitle: {
-		id: 'ZXlamw',
+		id: 'y0Ofed',
 		defaultMessage: 'Select recipient to send assets to',
 	},
 	message_title: {
