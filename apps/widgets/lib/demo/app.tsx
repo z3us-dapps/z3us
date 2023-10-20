@@ -9,10 +9,12 @@ const Demo = () => {
 
 	const handleClink = () => {
 		if (!window.rdt) {
+			// eslint-disable-next-line no-alert
 			alert('FUCK YOU BLOODY! - THE BASTARD BITCH')
 		} else {
 			const walletData = window.rdt?.walletApi.getWalletData()
 			if (walletData.accounts.length === 0) {
+				// eslint-disable-next-line no-alert
 				alert('FUCK YOU BLOODY! - THE BASTARD BITCH')
 			} else {
 				window.rdt.walletApi.sendTransaction({
