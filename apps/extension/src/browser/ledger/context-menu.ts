@@ -22,7 +22,7 @@ export const addLedger = () => {
 
 	browser.contextMenus.create({
 		id: menuId,
-		title: 'Radix Ledger',
+		title: '[DEV] Radix Ledger',
 		contexts: ['all'],
 	})
 	browser.contextMenus.onClicked.addListener(openRadixLedgerPage)

@@ -14,7 +14,7 @@ const injectContentScript = async ({ menuItemId }) => {
 export const addInjectContentScript = () => {
 	browser.contextMenus.create({
 		id: menuId,
-		title: 'Inject Z3US',
+		title: 'Enable Connect Button',
 		contexts: ['all'],
 	})
 	browser.contextMenus.onClicked.addListener(injectContentScript)

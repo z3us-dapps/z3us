@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill'
 
 const menuId = 'radix-logs'
 
-const openRadixDevToolsPage = async ({ menuItemId }) => {
+const exportLogs = async ({ menuItemId }) => {
 	if (menuItemId !== menuId) return
 
 	browser.runtime.sendMessage(createRadixMessage.downloadLogs())
@@ -12,8 +12,8 @@ const openRadixDevToolsPage = async ({ menuItemId }) => {
 export const addLogs = () => {
 	browser.contextMenus.create({
 		id: menuId,
-		title: 'Export Logs',
+		title: 'Export Radix Connector Logs',
 		contexts: ['all'],
 	})
-	browser.contextMenus.onClicked.addListener(openRadixDevToolsPage)
+	browser.contextMenus.onClicked.addListener(exportLogs)
 }

@@ -22,7 +22,7 @@ export const addDevTools = () => {
 
 	browser.contextMenus.create({
 		id: menuId,
-		title: 'Radix DevTools',
+		title: '[DEV] Radix DevTools',
 		contexts: ['all'],
 	})
 	browser.contextMenus.onClicked.addListener(openRadixDevToolsPage)
