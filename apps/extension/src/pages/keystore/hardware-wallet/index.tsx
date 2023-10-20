@@ -9,6 +9,7 @@ import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { secretToData } from '@src/crypto/secret'
+import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import { useLedgerClient } from '@src/hooks/use-ledger-client'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
@@ -30,6 +31,7 @@ export const New: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const client = useLedgerClient()
+	const { isUnlocked, isLoading: isLoadingUnlocked } = useIsUnlocked()
 
 	const { keystore, changeKeystoreLedgerDevice } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -44,6 +46,10 @@ export const New: React.FC = () => {
 			navigate('/')
 		}
 	}, [keystore])
+
+	useEffect(() => {
+		if (!isLoadingUnlocked && !isUnlocked) navigate('/')
+	}, [isUnlocked, isLoadingUnlocked])
 
 	const handleGetDeviceInfo = async () => {
 		setIsLoading(true)

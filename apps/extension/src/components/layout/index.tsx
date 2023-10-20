@@ -12,8 +12,10 @@ const Layout: React.FC = () => {
 	const location = useLocation()
 	const { isUnlocked, isLoading, reload } = useIsUnlocked()
 
-	if (isLoading) return <FallbackLoading />
-	if (location.pathname !== '/keystore/new' && !isUnlocked) return <Unlock onUnlock={reload} />
+	if (!location.pathname.startsWith('/keystore/new')) {
+		if (isLoading) return <FallbackLoading />
+		if (!location.pathname.startsWith('/keystore/new') && !isUnlocked) return <Unlock onUnlock={reload} />
+	}
 
 	return <SetupChecker />
 }
