@@ -15,7 +15,6 @@ const route = {
 	children: [
 		{
 			index: true,
-			path: 'general',
 			element: <General />,
 		},
 		{
