@@ -5,25 +5,24 @@ import { Z3usLogoLink } from '@/components/z3us-logo-link'
 import clsx from 'clsx'
 // import { useTheme } from 'ui/src/hooks/use-theme'
 // import { type Theme } from 'ui/src/types'
-import { Props } from 'next/script'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
+// import { Button } from 'ui/src/components/button'
 import { GithubIcon } from 'ui/src/components/icons/github-icon'
-import { MoonIcon } from 'ui/src/components/icons/moon-icon'
-import { SunIcon } from 'ui/src/components/icons/sun-icon'
+// import { MoonIcon } from 'ui/src/components/icons/moon-icon'
+// import { SunIcon } from 'ui/src/components/icons/sun-icon'
 import { TelegramIcon } from 'ui/src/components/icons/telegram-icon'
 import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
-import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
+// import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text, type TextProps } from 'ui/src/components/typography'
+import Text, { type TextProps } from 'ui/src/components/typography/text'
 
 import * as styles from './styles.css'
 
 interface IProps {
 	showTopBorder?: boolean
-	textColor?: TextProps.color
+	textColor?: TextProps['color']
 }
 
 export const Footer: React.FC<IProps> = props => {

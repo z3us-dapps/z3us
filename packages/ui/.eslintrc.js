@@ -1,10 +1,7 @@
 module.exports = {
-    ...require('config/eslint-next.js'),
-
-    parserOptions: {
+	...require('config/eslint-next.js'),
+	parserOptions: {
 		tsconfigRootDir: __dirname,
 		project: './tsconfig.json',
 	},
-
-    extends: ["plugin:storybook/recommended"]
 }
