@@ -20,7 +20,7 @@ const openAppPage = async ({ menuItemId }) => {
 export const addDashboard = () => {
 	browser.contextMenus.create({
 		id: menuId,
-		title: 'Open in browser',
+		title: 'Open in Browser',
 		contexts: ['all'],
 	})
 	browser.contextMenus.onClicked.addListener(openAppPage)

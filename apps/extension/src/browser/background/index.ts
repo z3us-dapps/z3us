@@ -35,11 +35,11 @@ browser.notifications.onButtonClicked.addListener(handleNotificationClick)
 browser.omnibox.onInputChanged.addListener(handleOmniboxChange)
 
 browser.contextMenus.removeAll().then(() => {
-	addDevTools()
-	addLogs()
-	addLedger()
 	addDashboard()
 	addInjectContentScript()
+	addLogs()
+	addLedger()
+	addDevTools()
 })
 
 createOffscreen()
