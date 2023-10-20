@@ -21,7 +21,7 @@
 	"dependencies": {
 		"@radix-ui/react-avatar": "^1.0.2",
 		"@radixdlt/babylon-gateway-api-sdk": "^1.1.0",
-		"@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#v1.2.1",
+		"@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#v1.2.2",
 		"@radixdlt/radix-connect-webrtc": "^1.0.1",
 		"@radixdlt/radix-dapp-toolkit": "^1.2.0",
 		"@radixdlt/radix-engine-toolkit": "^1.0.3",

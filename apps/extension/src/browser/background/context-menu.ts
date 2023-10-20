@@ -13,7 +13,7 @@ export const addLogs = () => {
 	browser.contextMenus.create({
 		id: menuId,
 		title: 'Export Radix Connector Logs',
-		contexts: ['all'],
+		contexts: ['action'],
 	})
 	browser.contextMenus.onClicked.addListener(exportLogs)
 }
