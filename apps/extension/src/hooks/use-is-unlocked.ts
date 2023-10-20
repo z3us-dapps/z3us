@@ -26,18 +26,15 @@ export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; relo
 	}, [])
 
 	useMemo(() => {
-		const load = async () => {
-			try {
-				setIsUnlocked(await client.isVaultUnlocked())
-			} catch (err) {
+		client
+			.isVaultUnlocked()
+			.then(isVaultUnlocked => setIsUnlocked(isVaultUnlocked))
+			.catch(err => {
 				// eslint-disable-next-line no-console
 				console.error(err)
 				setIsUnlocked(false)
-			} finally {
-				if (isLoading) setIsLoading(false)
-			}
-		}
-		load()
+			})
+			.finally(() => setIsLoading(false))
 	}, [time, trigger, keystoreId])
 
 	return { isUnlocked, isLoading, reload: () => setTime(Date.now()) }
