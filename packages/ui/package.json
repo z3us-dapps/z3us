@@ -106,7 +106,6 @@
 		"design": "*",
 		"eslint": "8.43.0",
 		"eslint-config-next": "13.4.7",
-		"eslint-plugin-storybook": "^0.6.15",
 		"lodash": "^4.17.21",
 		"prop-types": "^15.8.1",
 		"simple-zustand-devtools": "^1.1.0",

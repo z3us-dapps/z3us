@@ -5,7 +5,7 @@ import { clsx } from 'clsx'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
-import { ConnectButton } from 'ui/src/components/connect-button'
+// import { ConnectButton } from 'ui/src/components/connect-button'
 import { GithubIcon, TelegramIcon, XIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
@@ -77,39 +77,4 @@ export const Header = () => {
 			</ContentContainer>
 		</Box>
 	)
-}
-
-{
-	/* <ContentContainer>
-				<Box className={styles.headerInnerWrapper}>
-					<Box className={styles.headerMobileMenuWrapper}>
-						<MobileMenu />
-					</Box>
-					<Box className={styles.landingHeaderBrandWrapper}>
-						<Link to="/">
-							<Z3usLogoText className={styles.landingLogoWrapper} />
-						</Link>
-					</Box>
-					<Box className={styles.connectedMenuWrapper}>
-						<ShowHideUi
-							showCondition={isConnected}
-							showUi={
-								<Box className={styles.connectedMenuVisibleWrapper}>
-									<Box flexGrow={1}>
-										<AccountDesktopLavaMenu />
-									</Box>
-									<NotificationsDropdown />
-									<Box className={styles.navigationCopyAddressWrapper}>
-										<CopyAddressButton address="TODO" />
-									</Box>
-									<AccountViewDropdown />
-								</Box>
-							}
-						/>
-					</Box>
-					<Box className={styles.connectButtonWrapper}>
-						<ConnectButton />
-					</Box>
-				</Box>
-			</ContentContainer> */
 }
