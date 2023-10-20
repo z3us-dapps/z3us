@@ -20,7 +20,6 @@ import { config } from 'ui/src/constants/config'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
-import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import Code from '../../typography/code'
@@ -89,12 +88,11 @@ const messages = defineMessages({
 export const Transaction = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { pathname } = useLocation()
+	const location = useLocation()
 	const [searchParams] = useSearchParams()
 	const isMobile = useIsMobileWidth()
 	const { data: knownAddresses } = useKnownAddresses()
 
-	const isActivitiesVisible = useIsActivitiesVisible()
 	const transactionId = searchParams.get('tx')
 	const isTransactionVisible = !!transactionId
 
@@ -103,7 +101,10 @@ export const Transaction = () => {
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 
 	const navigateBack = () => {
-		navigate(`${pathname}${isActivitiesVisible ? '?acts=true' : ''}`)
+		const [, params] = location.search.split('?')
+		const query = new URLSearchParams(params)
+		query.delete('tx')
+		navigate(`${location.pathname}?${query}`)
 	}
 
 	const handleEscapeKeyDown = () => {

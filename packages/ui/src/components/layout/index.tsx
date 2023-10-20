@@ -10,6 +10,7 @@ import { Toasts } from 'ui/src/components/toasts'
 import { ImageProvider } from 'ui/src/context/images-provider'
 import { useTextDirection } from 'ui/src/hooks/use-text-direction'
 
+import { QueryResult } from './query-result'
 import * as styles from './styles.css'
 import { Transaction } from './transaction'
 
@@ -37,6 +38,7 @@ const Layout: React.FC = () => {
 				</Box>
 				<MobileFooterNavigation />
 				<Transaction />
+				<QueryResult />
 				<Toasts />
 			</Box>
 		</ImageProvider>

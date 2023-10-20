@@ -117,10 +117,3 @@ export const tokenMetaDataIconWrapper = style([
 		transform: 'translateY(5px)',
 	},
 ])
-
-export const metaDataLinkWrapper = style([
-	sprinkles({
-		width: 'full',
-	}),
-	{},
-])
