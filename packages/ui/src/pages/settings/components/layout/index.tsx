@@ -1,6 +1,7 @@
 import { AnimatePresence } from 'framer-motion'
 import React, { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import { FormattedMessage } from 'react-intl'
 import { useLocation, useOutlet } from 'react-router-dom'
 
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
@@ -16,7 +17,7 @@ const ScrollContent: React.FC = () => {
 
 	return (
 		<LayoutTwoColumn
-			leftCol={<DesktopNavigation />}
+			leftCol={<DesktopNavigation title={<FormattedMessage id="D3idYv" defaultMessage="Settings" />} />}
 			rightCol={
 				<AnimatePresence initial={false}>
 					<Suspense key={location.pathname} fallback={<FallbackLoading />}>

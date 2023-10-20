@@ -3,13 +3,34 @@ import { style } from '@vanilla-extract/css'
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
+export const navigationWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+		borderBottom: {
+			mobile: 1,
+			tablet: 0,
+		},
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+		paddingBottom: {
+			mobile: 'large',
+			tablet: 'none',
+		},
+	}),
+	{},
+])
+
 export const mobileMenuWrapper = style([
 	sprinkles({
 		display: {
 			mobile: 'block',
 			tablet: 'none',
 		},
-		paddingX: 'medium',
+		paddingX: {
+			mobile: 'large',
+			tablet: 'medium',
+		},
 		width: 'full',
 	}),
 	{},
@@ -52,6 +73,13 @@ export const accountViewPaddingWrapper = style([
 		width: 'full',
 		paddingY: 'small',
 		paddingX: 'small',
+	}),
+	{},
+])
+
+export const menuTitleWrapper = style([
+	sprinkles({
+		paddingBottom: 'small',
 	}),
 	{},
 ])

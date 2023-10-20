@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import { FormattedMessage } from 'react-intl'
 import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -25,7 +26,7 @@ const ScrollContent: React.FC = () => {
 
 	return (
 		<LayoutTwoColumn
-			leftCol={<Navigation />}
+			leftCol={<Navigation title={<FormattedMessage id="DtYelJ" defaultMessage="Transfer" />} />}
 			rightCol={
 				<TransferWrapper title={title}>
 					<Box className={styles.pageWrapper}>

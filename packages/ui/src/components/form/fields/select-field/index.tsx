@@ -6,11 +6,14 @@ import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 
 interface IAdapterProps extends Omit<ISelectSimpleProps, 'onValueChange'> {
 	onChange?: (value: any) => void
+	hasError?: boolean
 }
 
-export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>(({ onChange, ...rest }, ref) => (
-	<SelectSimple {...rest} ref={ref} onValueChange={onChange} />
-))
+export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props, ref) => {
+	const { onChange, hasError, ...rest } = props
+
+	return <SelectSimple {...rest} ref={ref} onValueChange={onChange} />
+})
 
 interface IProps extends Omit<ISelectSimpleProps, 'onValueChange' | 'value' | 'name'>, WrapperProps {}
 

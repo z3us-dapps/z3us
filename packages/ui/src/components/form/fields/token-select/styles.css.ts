@@ -8,7 +8,7 @@ export const tokenSelectBtnWrapper = style([
 		position: 'absolute',
 	}),
 	{
-		top: '-44px',
+		top: '4px',
 		right: '5px',
 		borderTopLeftRadius: '30px',
 		borderBottomLeftRadius: '30px',
@@ -18,7 +18,5 @@ export const tokenSelectBtnWrapper = style([
 
 	responsiveStyle({
 		mobile: { maxWidth: '140px' },
-		tablet: { maxWidth: '140px' },
-		desktop: { maxWidth: '140px' },
 	}),
 ])

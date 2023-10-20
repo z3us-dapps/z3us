@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import type { ElementType, ReactNode } from 'react'
-import React from 'react'
+import type { ElementType, ForwardedRef, ReactNode } from 'react'
+import React, { forwardRef } from 'react'
 
 import { Box } from '../box'
 import type { Sprinkles } from '../system/sprinkles.css'
@@ -38,25 +38,6 @@ interface TextStyleProps {
 export interface TextProps extends TextStyleProps {
 	component?: ElementType
 	children: ReactNode
-}
-
-const defaultProps = {
-	component: 'span',
-	size: 'medium',
-	color: 'neutral',
-	weight: 'regular',
-	align: 'left',
-	baseline: false,
-	display: 'block',
-	type: 'body',
-	className: undefined,
-	capitalizeFirstLetter: false,
-	capitalize: false,
-	truncate: false,
-	blur: false,
-	underline: 'never',
-	inheritColor: false,
-	lineClamp: undefined,
 }
 
 export const textStyles = ({
@@ -98,50 +79,53 @@ export const textStyles = ({
 		className,
 	)
 
-const Text = ({
-	component,
-	size,
-	color,
-	weight,
-	align,
-	baseline,
-	type,
-	display,
-	children,
-	className,
-	capitalizeFirstLetter,
-	capitalize,
-	underline,
-	truncate,
-	blur,
-	inheritColor,
-	lineClamp,
-}: TextProps) => (
-	<Box
-		component={component}
-		display={display}
-		className={textStyles({
-			size,
-			color,
-			weight,
-			type,
-			align,
-			baseline,
-			className,
-			capitalizeFirstLetter,
-			capitalize,
-			truncate,
-			blur,
-			underline,
-			inheritColor,
-			lineClamp,
-		})}
-		style={{ ...(lineClamp ? { WebkitLineClamp: lineClamp } : {}) }}
-	>
-		{children}
-	</Box>
-)
+const Text = forwardRef<HTMLElement, TextProps>((props, ref: ForwardedRef<any>) => {
+	const {
+		component = 'span',
+		size = 'medium',
+		color = 'neutral',
+		weight = 'regular',
+		align = 'left',
+		baseline,
+		type = 'body',
+		display,
+		children,
+		className,
+		capitalizeFirstLetter,
+		capitalize,
+		underline = 'never',
+		truncate,
+		blur,
+		inheritColor,
+		lineClamp,
+	} = props
+
+	return (
+		<Box
+			component={component}
+			display={display}
+			className={textStyles({
+				size,
+				color,
+				weight,
+				type,
+				align,
+				baseline,
+				className,
+				capitalizeFirstLetter,
+				capitalize,
+				truncate,
+				blur,
+				underline,
+				inheritColor,
+				lineClamp,
+			})}
+			style={{ ...(lineClamp ? { WebkitLineClamp: lineClamp } : {}) }}
+			ref={ref}
+		>
+			{children}
+		</Box>
+	)
+})
 
 export default Text
-
-Text.defaultProps = defaultProps

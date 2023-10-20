@@ -14,10 +14,11 @@ import * as styles from './styles.css'
 interface IAdapterProps extends Omit<ITokenSelectorDialogProps, 'onTokenUpdate' | 'trigger'> {
 	value?: string
 	onChange?: (value: string) => void
+	hasError?: boolean
 }
 
 export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props, ref) => {
-	const { value, onChange, balances, ...rest } = props
+	const { value, onChange, balances, hasError, ...rest } = props
 
 	const selectedToken = balances.find(b => b.address === value) as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
@@ -30,8 +31,7 @@ export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props
 				<Button
 					ref={ref}
 					className={styles.tokenSelectBtnWrapper}
-					// styleVariant={getTokenInputStyleVariant() as TButtonStyleVariant}
-					styleVariant="secondary"
+					styleVariant={hasError ? 'tertiary-error' : 'tertiary'}
 					sizeVariant="medium"
 					rightIcon={<ChevronDown2Icon />}
 					leftIcon={

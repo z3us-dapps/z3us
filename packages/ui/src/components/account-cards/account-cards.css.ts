@@ -16,13 +16,9 @@ export const cardWrapperAll = style([
 	responsiveStyle({
 		mobile: {
 			width: '100%',
-			// paddingBottom: '56.25%',
-			// height: '0px',
 		},
 		desktop: {
 			width: '100%',
-			// paddingBottom: '56.25%',
-			// height: '0px',
 		},
 	}),
 ])
@@ -145,5 +141,20 @@ export const cardAccountTextSpaced = style([
 export const copyAddressButtonWrapper = style([
 	{
 		marginTop: '-4px',
+	},
+])
+
+export const accountCardIconWrapper = style([
+	sprinkles({
+		position: 'relative',
+		borderRadius: 'medium',
+		border: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+	}),
+	{
+		width: '40px',
+		backgroundSize: 'cover',
+		aspectRatio: '8 / 6',
 	},
 ])

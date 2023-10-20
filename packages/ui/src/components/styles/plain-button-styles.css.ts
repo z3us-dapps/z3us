@@ -7,6 +7,8 @@ export const plainButtonHoverWrapper = style([
 		cursor: 'pointer',
 		transition: 'fast',
 		borderRadius: 'small',
+		flexGrow: 0,
+		flexShrink: 0,
 		color: {
 			lightMode: 'colorNeutral',
 			hover: 'colorStrong',
@@ -31,4 +33,3 @@ export const plainButtonHoverUnderlineWrapper = style({
 	textDecorationThickness: 'from-font',
 	textDecorationLine: 'underline',
 })
-

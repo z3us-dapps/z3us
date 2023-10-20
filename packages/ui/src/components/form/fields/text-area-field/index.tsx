@@ -6,9 +6,11 @@ import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 
 interface IAdapterProps extends Omit<IInputProps, 'onChange'> {
 	onChange?: (value: string) => void
+	hasError?: boolean
 }
 
-export const TextAreaAdapter = forwardRef<HTMLInputElement, IAdapterProps>(({ onChange, ...rest }, ref) => {
+export const TextAreaAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props, ref) => {
+	const { onChange, hasError, ...rest } = props
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const evt = event.nativeEvent as InputEvent
 		if (evt.isComposing) {
