@@ -1,5 +1,4 @@
 import get from 'lodash/get'
-import error from 'next/error'
 import React, { type PropsWithChildren, type ReactNode, useContext, useEffect } from 'react'
 import { useImmer } from 'use-immer'
 
