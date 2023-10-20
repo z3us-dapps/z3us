@@ -61,11 +61,10 @@ export const assetsListLink = style([
 			right: `calc(${vars.spacing.small} * 1)`,
 			top: `calc(${vars.spacing.small} * 1)`,
 			bottom: `calc(${vars.spacing.small} * 1)`,
-			backgroundColor: vars.color.btnTertiaryBackgroundHover,
+			background: vars.color.btnTertiaryBackgroundHover,
 			transition: vars.transition.fast,
 			borderRadius: vars.border.radius.medium,
 			pointerEvents: 'none',
-			background: vars.color.btnTertiaryBackgroundHover,
 			opacity: 0,
 		},
 		':after': {
@@ -170,6 +169,7 @@ globalStyle(
 	responsiveStyle({
 		tablet: {
 			boxShadow: vars.color.shadowActivePanel,
+			backgroundColor: vars.color.btnTertiaryBackgroundHover,
 		},
 	}),
 )
