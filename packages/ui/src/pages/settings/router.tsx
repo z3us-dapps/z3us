@@ -14,12 +14,13 @@ const route = {
 	element: <Layout />,
 	children: [
 		{
-			path: 'wallet',
-			element: <Wallet />,
-		},
-		{
+			index: true,
 			path: 'general',
 			element: <General />,
+		},
+		{
+			path: 'wallet',
+			element: <Wallet />,
 		},
 		{
 			path: 'personas',

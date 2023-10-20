@@ -7,5 +7,5 @@ import { useMenuItems } from './use-menu-items'
 export const DesktopNavigation: React.FC = () => {
 	const menuItems = useMenuItems()
 
-	return <PageMenu menu={menuItems} />
+	return <PageMenu id="settings-menu" menu={menuItems} />
 }

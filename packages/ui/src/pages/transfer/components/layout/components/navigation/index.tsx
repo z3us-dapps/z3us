@@ -39,7 +39,7 @@ const Navigation: React.FC = () => {
 		[intl, messages],
 	)
 
-	return <PageMenu menu={menu} />
+	return <PageMenu id="transfer-menu" menu={menu} />
 }
 
 export default Navigation

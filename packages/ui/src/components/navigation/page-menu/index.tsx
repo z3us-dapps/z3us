@@ -25,11 +25,12 @@ type TMenuItem = {
 }
 
 interface IProps {
+	id: string
 	menu: TMenuItem[]
 }
 
 export const PageMenu: React.FC<IProps> = props => {
-	const { menu } = props
+	const { id, menu } = props
 
 	const navigate = useNavigate()
 	const location = useLocation()
@@ -40,7 +41,7 @@ export const PageMenu: React.FC<IProps> = props => {
 		<Box component="nav" width="full">
 			<Box className={styles.tabletMenuWrapper}>
 				<Box component="ul">
-					<LayoutGroup id="transfer-menu">
+					<LayoutGroup id={id}>
 						{menu.map(({ title, href }) => (
 							<Box key={href} component="li">
 								<NavLink to={href} underline="never" end>
