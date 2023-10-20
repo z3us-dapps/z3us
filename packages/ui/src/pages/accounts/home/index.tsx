@@ -20,6 +20,9 @@ const messages = defineMessages({
 		id: 'P3IVGl',
 		defaultMessage: 'All assets',
 	},
+	search: {
+		defaultMessage: 'Lookup resource',
+	},
 })
 
 const Home: React.FC = () => {
@@ -32,25 +35,40 @@ const Home: React.FC = () => {
 	const mobileMinHeight = Math.max(height - top - 48, 385)
 	const accountName = accounts?.[accountId]?.name
 
+	const showSearch = isAllAccounts && Object.keys(accounts).length === 0
+
 	return (
 		<Box ref={wrapperRef} className={styles.assetsHomeWrapper} style={{ minHeight: `${mobileMinHeight}px` }}>
 			<HomeScrollShadow />
 			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
-			<Box className={styles.homeAssetsTitleWrapper}>
-				{isAllAccounts ? (
-					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-						{intl.formatMessage(messages.all_assets)}{' '}
-					</Text>
-				) : (
-					<>
+
+			{showSearch ? (
+				<>
+					<Box className={styles.homeAssetsTitleWrapper}>
 						<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-							{accountName}
+							{intl.formatMessage(messages.search)}{' '}
 						</Text>
-						<CopyAddressButton address={accountId} />
-					</>
-				)}
-			</Box>
-			<AssetsList />
+					</Box>
+				</>
+			) : (
+				<>
+					<Box className={styles.homeAssetsTitleWrapper}>
+						{isAllAccounts ? (
+							<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+								{intl.formatMessage(messages.all_assets)}{' '}
+							</Text>
+						) : (
+							<>
+								<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+									{accountName}
+								</Text>
+								<CopyAddressButton address={accountId} />
+							</>
+						)}
+					</Box>
+					<AssetsList />
+				</>
+			)}
 		</Box>
 	)
 }
