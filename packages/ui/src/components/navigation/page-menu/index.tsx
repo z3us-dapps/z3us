@@ -27,10 +27,11 @@ type TMenuItem = {
 interface IProps {
 	id: string
 	menu: TMenuItem[]
+	title: string | React.ReactElement
 }
 
 export const PageMenu: React.FC<IProps> = props => {
-	const { id, menu } = props
+	const { id, menu, title } = props
 
 	const navigate = useNavigate()
 	const location = useLocation()
@@ -38,14 +39,14 @@ export const PageMenu: React.FC<IProps> = props => {
 	const activePath = menu.find(({ href }) => href === location.pathname)
 
 	return (
-		<Box component="nav" width="full">
+		<Box component="nav" className={styles.navigationWrapper}>
 			<Box className={styles.tabletMenuWrapper}>
 				<Box component="ul">
 					<LayoutGroup id={id}>
-						{menu.map(({ title, href }) => (
+						{menu.map(({ title: _title, href }) => (
 							<Box key={href} component="li">
 								<NavLink to={href} underline="never" end>
-									{({ isActive }) => <PillNavigation text={title} matchActiveFn={() => isActive} />}
+									{({ isActive }) => <PillNavigation text={_title} matchActiveFn={() => isActive} />}
 								</NavLink>
 							</Box>
 						))}
@@ -53,6 +54,11 @@ export const PageMenu: React.FC<IProps> = props => {
 				</Box>
 			</Box>
 			<Box className={styles.mobileMenuWrapper}>
+				<Box className={styles.menuTitleWrapper}>
+					<Text weight="strong" size="xxlarge" color="strong">
+						{title}
+					</Text>
+				</Box>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild ref={measureRef}>
 						<Box>
@@ -75,7 +81,7 @@ export const PageMenu: React.FC<IProps> = props => {
 							style={{ width: `${triggerWidth}px` }}
 						>
 							<Box className={styles.accountViewPaddingWrapper}>
-								{menu.map(({ title, href }) => (
+								{menu.map(({ title: _title, href }) => (
 									<DropdownMenuItem
 										key={href}
 										onSelect={() => {
@@ -84,7 +90,7 @@ export const PageMenu: React.FC<IProps> = props => {
 									>
 										<Box display="flex">
 											<Text size="xsmall" truncate>
-												{title}
+												{_title}
 											</Text>
 										</Box>
 									</DropdownMenuItem>

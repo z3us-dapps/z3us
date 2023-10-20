@@ -37,7 +37,10 @@ export const layoutTwoColInnerWrapper = style([
 			mobile: 'column',
 			tablet: 'row',
 		},
-		gap: 'xlarge',
+		gap: {
+			mobile: 'xsmall',
+			tablet: 'xlarge',
+		},
 	}),
 	{},
 ])

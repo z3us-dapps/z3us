@@ -19,57 +19,21 @@ export type SetTransaction = (input: TransactionDetails | TransactionDetailsGett
 
 export interface ITransferWrapperProps {
 	title: string | React.ReactElement
-	titleSuffix?: string | React.ReactElement
-	description?: string | React.ReactElement
-	helpTitle?: string | React.ReactElement
-	help?: string | React.ReactElement
 }
 
 export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>> = props => {
-	const { title, titleSuffix, description, helpTitle, help, children } = props
+	const { title, children } = props
 	return (
 		<ScrollPanel>
 			<Box className={styles.transferDesktopWrapper}>
 				<Box width="full">
-					<Box display="flex" alignItems="flex-end">
+					<Box className={styles.transferDesktopTitleWrapper}>
 						<Box display="flex" alignItems="center">
 							<Text size="xxlarge" weight="strong" color="strong">
 								{title}
 							</Text>
-							&nbsp;
-							{titleSuffix && (
-								<Text size="xxlarge" weight="strong">
-									({titleSuffix})
-								</Text>
-							)}
 						</Box>
-						{(helpTitle || help) && (
-							<PopoverRoot>
-								<PopoverTrigger asChild>
-									<Box marginBottom="xxsmall">
-										<Button styleVariant="ghost" sizeVariant="xsmall" iconOnly aria-label="TODO">
-											<InformationIcon />
-										</Button>
-									</Box>
-								</PopoverTrigger>
-								<PopoverPortal>
-									<PopoverContent align="start" sideOffset={2} style={{ maxWidth: '300px' }}>
-										<Box padding="medium" display="flex" flexDirection="column" gap="small">
-											<Text size="xsmall" color="strong" weight="medium">
-												{helpTitle}
-											</Text>
-											<Text size="xsmall">{help}</Text>
-										</Box>
-									</PopoverContent>
-								</PopoverPortal>
-							</PopoverRoot>
-						)}
 					</Box>
-					{description && (
-						<Box>
-							<Text size="small">{description}</Text>
-						</Box>
-					)}
 					{children}
 				</Box>
 			</Box>

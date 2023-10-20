@@ -65,7 +65,10 @@ export const transferFormGridBoxWrapperLeft = style([
 
 export const transferFormMessageWrapper = style([
 	sprinkles({
-		paddingBottom: 'xlarge',
+		paddingBottom: {
+			mobile: 'medium',
+			tablet: 'xlarge',
+		},
 	}),
 	{},
 ])
