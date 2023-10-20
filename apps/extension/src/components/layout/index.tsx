@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 
@@ -8,10 +9,11 @@ import SetupChecker from './setup'
 import Unlock from './unlock'
 
 const Layout: React.FC = () => {
+	const location = useLocation()
 	const { isUnlocked, isLoading, reload } = useIsUnlocked()
 
 	if (isLoading) return <FallbackLoading />
-	if (!isUnlocked) return <Unlock onUnlock={reload} />
+	if (location.pathname !== '/keystore/new' && !isUnlocked) return <Unlock onUnlock={reload} />
 
 	return <SetupChecker />
 }

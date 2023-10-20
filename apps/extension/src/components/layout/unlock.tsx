@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
@@ -12,13 +13,20 @@ import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
 	password_placeholder: {
-		defaultMessage: 'Password', id: '5sg7KC',
+		defaultMessage: 'Password',
+		id: '5sg7KC',
 	},
 	unlock_error: {
-		defaultMessage: 'Incorrect password!', id: 'uyz8/R',
+		defaultMessage: 'Incorrect password!',
+		id: 'uyz8/R',
 	},
 	form_button_title: {
-		defaultMessage: 'Unlock', id: 'qXCbgZ',
+		defaultMessage: 'Unlock',
+		id: 'qXCbgZ',
+	},
+	wallet_add: {
+		defaultMessage: 'Add wallet...',
+		id: 'VLEYHl',
 	},
 })
 
@@ -32,6 +40,7 @@ interface IProps {
 
 export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	const intl = useIntl()
+	const navigate = useNavigate()
 	const inputRef = useRef(null)
 	const client = useMessageClient()
 
@@ -46,6 +55,21 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [])
+
+	const selectItems = useMemo(() => {
+		const items = keystores.map(({ id, name }) => ({ id, title: name }))
+		items.push({ id: '', title: intl.formatMessage(messages.wallet_add) })
+
+		return items
+	}, [keystores])
+
+	const handleSelect = (id: string) => {
+		if (id === '') {
+			navigate('/keystore/new')
+		} else {
+			selectKeystore(id)
+		}
+	}
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		try {
@@ -62,11 +86,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	return (
 		<Box display="flex" alignItems="center" gap="medium" flexDirection="column">
 			<ValidationErrorMessage message={error} />
-			<SelectSimple
-				value={keystore?.id}
-				onValueChange={selectKeystore}
-				data={keystores.map(({ id, name }) => ({ id, title: name }))}
-			/>
+			<SelectSimple value={keystore?.id} onValueChange={handleSelect} data={selectItems} />
 			<Form
 				onSubmit={handleSubmit}
 				initialValues={initialValues}
