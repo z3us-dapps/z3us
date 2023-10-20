@@ -19,8 +19,8 @@ const messages = defineMessages({
 		defaultMessage: 'Send',
 	},
 	validation_raw: {
-		id: 'CN8QXs',
-		defaultMessage: 'Transaction can not be empty',
+		id: 'irmqsz',
+		defaultMessage: 'Transaction manifest can not be empty',
 	},
 	raw_title: {
 		id: 'c+Uxfa',
@@ -31,8 +31,8 @@ const messages = defineMessages({
 		defaultMessage: 'Enter raw transaction manifest',
 	},
 	raw_placeholder: {
-		id: '5DS0XJ',
-		defaultMessage: 'Enter manifest...',
+		id: 'iP8zle',
+		defaultMessage: 'Enter transaction manifest',
 	},
 })
 
@@ -81,14 +81,14 @@ export const Raw: React.FC = () => {
 			className={styles.transferFormWrapper}
 		>
 			<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
-			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
+			<Box className={clsx(styles.transferFormGridBoxWrapper)}>
 				<Box className={styles.transferFormGridBoxWrapperLeft}>
 					<Text color="strong" size="xlarge" weight="strong">
 						{intl.formatMessage(messages.raw_title)}
 					</Text>
 					<Text size="xsmall">{intl.formatMessage(messages.raw_subtitle)}</Text>
 				</Box>
-				<Box>
+				<Box className={styles.transferFormMessageWrapper}>
 					<TextAreaField
 						name="raw"
 						placeholder={intl.formatMessage(messages.raw_placeholder)}
