@@ -40,3 +40,6 @@ export const handleNotificationClick = async id => {
 			return openTabWithURL(browser.runtime.getURL(''))
 	}
 }
+
+browser.notifications.onClicked.addListener(handleNotificationClick)
+browser.notifications.onButtonClicked.addListener(handleNotificationClick)
