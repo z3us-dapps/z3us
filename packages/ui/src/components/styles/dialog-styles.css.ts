@@ -45,7 +45,7 @@ export const dialogContent = style([
 		zIndex: 2,
 		background: 'backgroundSecondary',
 		boxShadow: 'shadowPanel',
-		borderRadius: 'xlarge',
+		borderRadius: 'large',
 		overflow: 'hidden',
 		color: 'colorNeutral',
 	}),
