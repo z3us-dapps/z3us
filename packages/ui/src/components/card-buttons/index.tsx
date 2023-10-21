@@ -3,7 +3,7 @@ import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
+import { QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 
 import { Button } from '../router-button'
@@ -26,13 +26,9 @@ const messages = defineMessages({
 		id: '9WRlF4',
 		defaultMessage: 'Send',
 	},
-	receive: {
-		id: 'ULXFfP',
-		defaultMessage: 'Receive',
-	},
 	address: {
-		id: 'e6Ph5+',
-		defaultMessage: 'Address',
+		id: 'f4sJ8p',
+		defaultMessage: 'Address QR',
 	},
 })
 
@@ -54,13 +50,7 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 				</Button>
 			</ToolTip>
 			<ToolTip message={intl.formatMessage(messages.address)}>
-				<Button
-					iconOnly
-					rounded
-					styleVariant="inverse"
-					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-					to="/accounts/transfer"
-				>
+				<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'medium', tablet: 'large' }}>
 					<QrCode2Icon />
 				</Button>
 			</ToolTip>
