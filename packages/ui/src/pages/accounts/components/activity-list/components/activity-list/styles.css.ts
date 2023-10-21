@@ -30,6 +30,20 @@ export const activityWrapper = style([
 	}),
 ])
 
+export const activityTitleText = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			tablet: 'block',
+		},
+		position: 'relative',
+		paddingTop: 'medium',
+		paddingX: {
+			tablet: 'large',
+		},
+	}),
+])
+
 export const activityItem = style([
 	sprinkles({
 		position: 'relative',

@@ -38,7 +38,6 @@ const messages = defineMessages({
 
 export const CardButtons: React.FC<ICardButtonsProps> = props => {
 	const { className } = props
-
 	const intl = useIntl()
 
 	return (
@@ -49,20 +48,9 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 					rounded
 					styleVariant="inverse"
 					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-					to="/accounts/transfer"
+					to="/transfer"
 				>
 					<UpRight2Icon />
-				</Button>
-			</ToolTip>
-			<ToolTip message={intl.formatMessage(messages.receive)}>
-				<Button
-					iconOnly
-					rounded
-					styleVariant="inverse"
-					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-					to="/accounts/transfer"
-				>
-					<DownLeft2Icon />
 				</Button>
 			</ToolTip>
 			<ToolTip message={intl.formatMessage(messages.address)}>

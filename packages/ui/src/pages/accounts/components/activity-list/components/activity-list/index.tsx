@@ -182,6 +182,11 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>((props, ref: R
 
 	return (
 		<Box ref={ref} className={clsx(styles.activityWrapper, className)} style={{ minHeight: '100px' }}>
+			<Box className={styles.activityTitleText}>
+				<Text color="strong" size="xlarge" weight="strong">
+					Activity
+				</Text>
+			</Box>
 			<Virtuoso
 				customScrollParent={scrollableNode}
 				totalCount={flattenWithLoading.length}
