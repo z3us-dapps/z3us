@@ -18,7 +18,7 @@ export const settingsSectionWrapper = style([
 			desktop: 'xlarge',
 		},
 		paddingX: {
-			mobile: 'small',
+			mobile: 'none',
 			tablet: 'none',
 		},
 	}),
@@ -31,7 +31,10 @@ export const settingsSectionGridBasic = style([
 			desktop: 'grid',
 		},
 		flexDirection: 'column',
-		gap: 'large',
+		gap: {
+			mobile: 'medium',
+			tablet: 'large',
+		},
 	}),
 	{
 		gridTemplateColumns: '260px 1fr',
