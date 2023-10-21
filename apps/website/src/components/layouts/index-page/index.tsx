@@ -542,3 +542,9 @@ export const IndexPage: React.FC = () => (
 		</Box>
 	</Box>
 )
+
+export const IndexPageTest: React.FC = () => (
+	<Box className={styles.landingPageWrapper}>
+		<AppPage />
+	</Box>
+)
