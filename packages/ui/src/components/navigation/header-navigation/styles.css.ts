@@ -42,7 +42,6 @@ export const navigationInnerWrapper = style([
 
 export const navigationMenu = style([
 	sprinkles({
-		flexGrow: 1,
 		display: 'flex',
 		gap: 'medium',
 		paddingLeft: 'xlarge',
@@ -72,6 +71,19 @@ export const headerMobileNavWrapper = style([
 			mobile: 'flex',
 			tablet: 'none',
 		},
+	}),
+	{},
+])
+
+export const headerDesktopDropdownWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'small',
+		flexGrow: 1,
+		flexShrink: 0,
+		paddingRight: 'medium',
+		justifyContent: 'flex-end',
 	}),
 	{},
 ])

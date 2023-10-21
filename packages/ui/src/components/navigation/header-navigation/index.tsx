@@ -68,10 +68,10 @@ const HeaderNavDesktop = () => {
 					))}
 				</LayoutGroup>
 			</Box>
-			<Box display="flex" alignItems="center" gap="small" flexGrow={1} paddingRight="medium" justifyContent="flex-end">
+			<Box className={styles.headerDesktopDropdownWrapper}>
+				<SearchResource />
 				<AccountViewDropdown />
 			</Box>
-			<SearchResource />
 		</Box>
 	)
 }

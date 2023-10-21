@@ -1,24 +1,19 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { Box } from 'ui/src/components/box'
-import { Close2Icon, SearchIcon } from 'ui/src/components/icons'
-import type { FormElement } from 'ui/src/components/input'
-import { Input } from 'ui/src/components/input'
-import { Button } from 'ui/src/components/router-button'
-import { ToolTip } from 'ui/src/components/tool-tip'
+import { SearchButtonInput } from 'ui/src/components/search-button-input'
 
 import * as styles from './styles.css'
 
 const messages = defineMessages({
-	clear: {
-		defaultMessage: 'Clear',
-		id: '/GCoTA',
+	searchToolTip: {
+		defaultMessage: 'Search for a transaction ID, or an address for an account, or a resource',
+		id: 'MYKtWJ',
 	},
 	search: {
-		defaultMessage: 'Search...',
-		id: '0BUTMv',
+		defaultMessage: 'Search for a transaction ID, or an address for an account, or a resource',
+		id: 'MYKtWJ',
 	},
 })
 
@@ -26,15 +21,8 @@ export const SearchResource: React.FC = () => {
 	const intl = useIntl()
 	const location = useLocation()
 	const navigate = useNavigate()
-	const inputRef = useRef(null)
 
-	const [value, setValue] = useState<string>('')
-
-	useEffect(() => {
-		inputRef?.current?.focus()
-	}, [])
-
-	const handleSearch = () => {
+	const handleSearch = (value: string) => {
 		const [, params] = location.search.split('?')
 		const query = new URLSearchParams(params)
 		if (value.startsWith('account_')) {
@@ -50,48 +38,12 @@ export const SearchResource: React.FC = () => {
 		}
 	}
 
-	const handleKeyPress = useCallback(
-		({ key }: React.KeyboardEvent) => {
-			if (key === 'Enter') {
-				handleSearch()
-			}
-		},
-		[value],
-	)
-
-	const handleValueChange = (e: React.ChangeEvent<FormElement>) => {
-		setValue(e.currentTarget.value)
-	}
-
-	const handleClear = () => {
-		setValue('')
-	}
-
 	return (
-		<Box className={styles.searchWrapper} onKeyDown={handleKeyPress}>
-			<Input
-				ref={inputRef}
-				sizeVariant="small"
-				styleVariant="secondary"
-				className={styles.inputSearch}
-				placeholder={intl.formatMessage(messages.search)}
-				rounded
-				value={value}
-				leftIcon={
-					<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleSearch}>
-						<SearchIcon />
-					</Button>
-				}
-				rightIcon={
-					<ToolTip message={intl.formatMessage(messages.clear)}>
-						<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded onClick={handleClear}>
-							<Close2Icon />
-						</Button>
-					</ToolTip>
-				}
-				rightIconClassName={styles.inputSearchClearBtn}
-				onChange={handleValueChange}
-			/>
-		</Box>
+		<SearchButtonInput
+			className={styles.searchWrapper}
+			searchBtnToolTipMsg={intl.formatMessage(messages.searchToolTip)}
+			inputPlaceholder={intl.formatMessage(messages.search)}
+			onCommitSearch={handleSearch}
+		/>
 	)
 }
