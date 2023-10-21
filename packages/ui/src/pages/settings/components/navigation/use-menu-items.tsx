@@ -69,7 +69,7 @@ export const useMenuItems = () => {
 			{
 				title: intl.formatMessage(messages.general_title),
 				subTitle: intl.formatMessage(messages.general_subtitle),
-				href: '/settings/general',
+				href: '/settings',
 				icon: <Settings2Icon />,
 			},
 			{

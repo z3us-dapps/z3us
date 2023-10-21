@@ -1,6 +1,7 @@
 import React, { forwardRef, useContext, useEffect, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNonFungibleIds } from 'ui/src/hooks/dapp/use-entity-nft'
 
@@ -9,6 +10,7 @@ import { type IProps as WrapperProps } from '../../field-wrapper'
 import { FieldContext } from '../../field-wrapper/context'
 import { useFieldValue } from '../../use-field-value'
 import SelectField from '../select-field'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	collection: {
@@ -18,6 +20,14 @@ const messages = defineMessages({
 	item: {
 		id: 'W2OoOl',
 		defaultMessage: 'NFT',
+	},
+	nonFungiblesCollectionToolTip: {
+		defaultMessage: "You don't have any NFT collections",
+		id: 'CV+lHE',
+	},
+	nonFungiblesToolTip: {
+		defaultMessage: "You don't have any NFT's",
+		id: 'aqiLsu',
 	},
 })
 
@@ -39,6 +49,18 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 
 	const { data: idsData, isFetching, hasNextPage, fetchNextPage } = useNonFungibleIds(resource, [fromAccount])
 
+	const nonFungiblesCollection = nonFungibleBalances.map(collection => ({
+		id: collection.address,
+		title: collection.name,
+	}))
+	const hasNonFungiblesCollection = nonFungiblesCollection?.length > 0
+
+	const nonFungibles = useMemo(
+		() => idsData?.pages.reduce((container, page) => [...container, ...page.items], []) || [],
+		[idsData],
+	)
+	const hasNonFungibles = nonFungibles?.length > 0
+
 	useEffect(() => {
 		if (isFetching) return
 		if (hasNextPage) {
@@ -46,21 +68,36 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 		}
 	}, [isFetching, fetchNextPage, hasNextPage])
 
-	const ids = useMemo(
-		() => idsData?.pages.reduce((container, page) => [...container, ...page.items], []) || [],
-		[idsData],
-	)
-
 	return (
-		<Box disabled={!fromAccount || isLoading || isFetching}>
-			<SelectField
-				{...rest}
-				ref={ref}
-				name={resourceKey}
-				placeholder={intl.formatMessage(messages.collection)}
-				data={nonFungibleBalances.map(collection => ({ id: collection.address, title: collection.name }))}
-			/>
-			<SelectField {...rest} name={itemKey} placeholder={intl.formatMessage(messages.item)} data={ids} />
+		<Box disabled={!fromAccount || isLoading || isFetching} className={styles.nftSelectWrapper}>
+			<ToolTip
+				message={intl.formatMessage(messages.nonFungiblesCollectionToolTip)}
+				disabled={hasNonFungiblesCollection}
+			>
+				<span>
+					<SelectField
+						{...rest}
+						ref={ref}
+						name={resourceKey}
+						placeholder={intl.formatMessage(messages.collection)}
+						data={nonFungibleBalances.map(collection => ({ id: collection.address, title: collection.name }))}
+						disabled={!hasNonFungiblesCollection}
+						fullWidth
+					/>
+				</span>
+			</ToolTip>
+			<ToolTip message={intl.formatMessage(messages.nonFungiblesToolTip)} disabled={hasNonFungibles}>
+				<span>
+					<SelectField
+						{...rest}
+						name={itemKey}
+						placeholder={intl.formatMessage(messages.nonFungiblesToolTip)}
+						data={nonFungibles}
+						disabled={!hasNonFungibles}
+						fullWidth
+					/>
+				</span>
+			</ToolTip>
 		</Box>
 	)
 })

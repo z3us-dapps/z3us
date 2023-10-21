@@ -15,6 +15,31 @@ import { getShortAddress } from 'ui/src/utils/string-utils'
 import { CopyAddressButton } from '../copy-address-button'
 import * as styles from './account-cards.css'
 
+interface IAccountCardIconProps {
+	address: string
+	className?: string
+}
+
+export const AccountCardIcon: React.FC<IAccountCardIconProps> = props => {
+	const { address, className } = props
+
+	const addressBook = useAddressBook()
+	const account = addressBook[address]
+
+	return (
+		<Box
+			className={clsx(styles.accountCardIconWrapper, className)}
+			style={{
+				...(account?.cardImage
+					? {
+							backgroundImage: `url(/images/account-images/${account?.cardImage}), ${account?.cardColor}`,
+					  }
+					: {}),
+			}}
+		/>
+	)
+}
+
 interface IAccountCardProps {
 	address: string
 	isAllAccount?: boolean

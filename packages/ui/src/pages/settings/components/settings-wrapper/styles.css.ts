@@ -7,11 +7,11 @@ export const settingsSectionFlexColumnWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 		padding: {
-			mobile: 'small',
+			mobile: 'large',
 			tablet: 'xlarge',
 		},
 		gap: {
-			mobile: 'medium',
+			mobile: 'large',
 			tablet: 'large',
 			desktop: 'xlarge',
 		},

@@ -1,3 +1,4 @@
+import firaMonoFontMetrics from '@capsizecss/metrics/firaMono'
 import interFontMetrics from '@capsizecss/metrics/inter'
 import { precomputeValues } from '@capsizecss/vanilla-extract'
 import { createTheme } from '@vanilla-extract/css'
@@ -19,7 +20,7 @@ const fontMetrics = {
 		...interFontMetrics,
 	},
 	code: {
-		...interFontMetrics,
+		...firaMonoFontMetrics,
 	},
 }
 
@@ -76,7 +77,7 @@ export const sharedThemeValues = {
 		brand: 'var(--font-sans), "Inter", "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		heading: 'var(--font-sans), "Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		body: 'var(--font-sans), "Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif',
-		code: 'var(--font-mono), "SF Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace',
+		code: 'var(--font-mono), "Fira Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace',
 	},
 	grid: px(grid),
 	spacing: {

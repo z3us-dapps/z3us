@@ -18,7 +18,12 @@ const messages = defineMessages({
 	},
 })
 
-const Navigation: React.FC = () => {
+interface IProps {
+	title: string | React.ReactElement
+}
+
+const Navigation: React.FC<IProps> = props => {
+	const { title } = props
 	const intl = useIntl()
 
 	const menu = useMemo(
@@ -39,7 +44,7 @@ const Navigation: React.FC = () => {
 		[intl, messages],
 	)
 
-	return <PageMenu menu={menu} />
+	return <PageMenu id="transfer-menu" menu={menu} title={title} />
 }
 
 export default Navigation

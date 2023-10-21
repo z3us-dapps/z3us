@@ -6,9 +6,12 @@ import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 
 interface IAdapterProps extends Omit<ICheckboxProps, 'onChange'> {
 	onChange?: (value: boolean) => void
+	hasError?: boolean
 }
 
-export const CheckboxAdapter = forwardRef<HTMLInputElement, IAdapterProps>(({ onChange, ...rest }, ref) => {
+export const CheckboxAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props, ref) => {
+	const { onChange, hasError, ...rest } = props
+
 	const handleChange = (_checked: boolean) => {
 		onChange(_checked)
 	}

@@ -140,6 +140,16 @@ export const transferDesktopWrapper = style([
 	{},
 ])
 
+export const transferDesktopTitleWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			tablet: 'block',
+		},
+	}),
+	{},
+])
+
 export const transferDesktopContainerWrapper = style([
 	sprinkles({
 		width: 'full',

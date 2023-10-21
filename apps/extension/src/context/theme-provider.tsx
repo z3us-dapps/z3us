@@ -37,7 +37,7 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	useEffect(() => {
 		const element = window.document.body
 		document.documentElement.style.setProperty('--font-sans', '"Inter"')
-		document.documentElement.style.setProperty('--font-mono', '"Inter"')
+		document.documentElement.style.setProperty('--font-mono', '"Fira Mono"')
 		// TODO: fix auto autoThemeIsDark
 		// const resolvedTheme = autoThemeIsDark ? Theme.DARK : Theme.LIGHT
 

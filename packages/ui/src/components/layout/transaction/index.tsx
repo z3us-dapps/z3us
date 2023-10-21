@@ -150,11 +150,6 @@ export const Transaction = () => {
 							) : (
 								<>
 									<Box display="flex" flexDirection="column" alignItems="center">
-										{/* <TransactionIcon
-											transactionIconBorderColor="borderDividerSecondary"
-											transactionIconSize="medium"
-											transactionType="deposit"
-										/> */}
 										<Box marginTop="small">
 											<Text size="small">{intl.formatMessage(messages.fee)}</Text>
 										</Box>
@@ -285,11 +280,13 @@ export const Transaction = () => {
 											</Box>
 
 											<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.manifest)} rightData={null} />
+
 											<Box paddingY="xsmall">
 												<TransactionManifest manifestHex={data?.transaction.raw_hex} />
 											</Box>
 
 											<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.events)} rightData={null} />
+
 											<Box paddingY="xsmall">
 												<Code content={JSON.stringify(data?.transaction.receipt?.events, null, 2)} />
 											</Box>

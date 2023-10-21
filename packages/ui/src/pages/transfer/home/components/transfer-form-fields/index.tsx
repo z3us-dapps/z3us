@@ -30,8 +30,8 @@ const messages = defineMessages({
 		defaultMessage: 'Add another recipient',
 	},
 	button_add_token: {
-		id: 'ad0STz',
-		defaultMessage: 'Add another item',
+		id: 'dYGqTI',
+		defaultMessage: 'Add another asset',
 	},
 	known_address: {
 		id: '1LCRft',
@@ -46,16 +46,24 @@ const messages = defineMessages({
 		defaultMessage: 'From account',
 	},
 	from_subtitle: {
-		id: 'V0NiPI',
-		defaultMessage: 'Select account you wish to send items from',
+		id: 'yeLIPx',
+		defaultMessage: 'Select account you wish to send assets from',
+	},
+	from_placeholder: {
+		defaultMessage: 'Select account',
+		id: '0+6+jP',
+	},
+	to_placeholder: {
+		defaultMessage: 'Select account',
+		id: '0+6+jP',
 	},
 	to_title: {
 		id: 'gCOFay',
 		defaultMessage: 'To account',
 	},
 	to_subtitle: {
-		id: 'ZXlamw',
-		defaultMessage: 'Select recipient to send items to',
+		id: 'y0Ofed',
+		defaultMessage: 'Select recipient to send assets to',
 	},
 	message_title: {
 		id: 'T7Ry38',
@@ -102,7 +110,7 @@ export const TransferFormFields: React.FC = () => {
 					<Text size="xsmall">{intl.formatMessage(messages.from_subtitle)}</Text>
 				</Box>
 				<Box>
-					<AccountSelect ref={inputRef} name={accountKey} />
+					<AccountSelect placeholder={intl.formatMessage(messages.from_placeholder)} ref={inputRef} name={accountKey} />
 				</Box>
 			</Box>
 			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
@@ -112,7 +120,10 @@ export const TransferFormFields: React.FC = () => {
 					</Text>
 					<Text size="xsmall">{intl.formatMessage(messages.message_subtitle)}</Text>
 				</Box>
-				<Box>
+				<Box className={styles.transferFormMessageWrapper}>
+					<Box className={styles.transferFormCountWrapper}>
+						<Text size="xxsmall">2/200</Text>
+					</Box>
 					<TextAreaField
 						name="message"
 						placeholder={intl.formatMessage(messages.message_placeholder)}
@@ -157,7 +168,11 @@ export const TransferFormFields: React.FC = () => {
 						<Text size="xsmall">{intl.formatMessage(messages.to_subtitle)}</Text>
 					</Box>
 					<Box>
-						<AddressBookSelect name="to" toolTipMessageKnownAddress={intl.formatMessage(messages.known_address)} />
+						<AddressBookSelect
+							placeholder={intl.formatMessage(messages.to_placeholder)}
+							name="to"
+							toolTipMessageKnownAddress={intl.formatMessage(messages.known_address)}
+						/>
 						<FieldsGroup
 							name="resources"
 							defaultKeys={1}
@@ -197,14 +212,10 @@ export const TransferFormFields: React.FC = () => {
 									className={styles.transferActionTabsWrapper}
 								>
 									<TabsContent value={TOKENS} className={styles.transferActionTabsContentWrapper}>
-										<Box className={styles.transferActionToAssetWrapper}>
-											<TokenAmountSelect fromAccount={from} />
-										</Box>
+										<TokenAmountSelect fromAccount={from} />
 									</TabsContent>
 									<TabsContent value={NFTS} className={styles.transferActionTabsContentWrapper}>
-										<Box className={styles.transferActionToAssetWrapper}>
-											<NftSelect fromAccount={from} />
-										</Box>
+										<NftSelect fromAccount={from} />
 									</TabsContent>
 								</Tabs>
 							</Box>

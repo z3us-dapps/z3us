@@ -24,7 +24,7 @@ if (APP_RADIX && config.isExtensionContext) {
 	patchedSettingsRoute = {
 		...settingsRoute,
 		children: settingsRoute.children.map(child =>
-			child.path === 'general'
+			child.index === true
 				? { ...child, handle: { ...((child as any).handle || {}), custom: <RadixSettings key="radix-settings" /> } }
 				: child,
 		),

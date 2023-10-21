@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
 export const wrapper = style([
@@ -12,18 +13,22 @@ export const wrapper = style([
 		borderColor: 'borderDivider',
 		background: 'backgroundSecondary',
 		padding: 'medium',
+		height: 'full',
 	}),
 	{
 		fontFamily: vars.fonts.code,
 		whiteSpace: 'pre',
 		wordWrap: 'break-word',
 	},
+	responsiveStyle({
+		mobile: { height: '300px' },
+		tablet: { height: '400px' },
+	}),
 ])
 
 export const textWrapper = style([
 	sprinkles({}),
 	{
-		maxHeight: '300px',
 		fontFamily: vars.fonts.code,
 		whiteSpace: 'pre',
 		wordWrap: 'break-word',

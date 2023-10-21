@@ -28,8 +28,8 @@ export const accountViewContentWrapper = style([
 		paddingRight: 0,
 	},
 	responsiveStyle({
-		mobile: { width: '180px' },
-		tablet: { width: '220px' },
+		mobile: { width: '220px' },
+		tablet: { width: '280px' },
 	}),
 ])
 

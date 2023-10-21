@@ -1,8 +1,10 @@
+import clsx from 'clsx'
 import React, { forwardRef, useContext } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
+import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
+import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 
 import { FormContext } from '../../context'
@@ -12,6 +14,7 @@ import { useFieldValue } from '../../use-field-value'
 import NumberField from '../number-field'
 import { TokenSelect } from '../token-select'
 import { CurrencySelect } from './components/currency-selector'
+import * as styles from './styles.css'
 
 interface IProps extends Omit<WrapperProps, 'name'> {
 	fromAccount?: string
@@ -48,7 +51,7 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	}
 
 	return (
-		<Box disabled={!fromAccount || isLoading}>
+		<Box disabled={!fromAccount || isLoading} position="relative">
 			<NumberField
 				{...rest}
 				ref={ref}
@@ -57,10 +60,29 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 				sizeVariant="large"
 			/>
 			<TokenSelect name={resourceKey} balances={fungibleBalances} />
-			<Box marginLeft="small" display="flex" justifyContent="space-between" flexGrow={1} flexShrink={0}>
-				<Button styleVariant="ghost" sizeVariant="small" onClick={handleMaxValue}>
-					{intl.formatMessage(messages.max_amount, { amount: selectedToken?.amount || 0 })}
-				</Button>
+			<Box
+				display="flex"
+				justifyContent="space-between"
+				flexGrow={1}
+				flexShrink={0}
+				alignItems="center"
+				paddingTop="xsmall"
+			>
+				<Box
+					component="button"
+					display="inline-flex"
+					alignItems="center"
+					onClick={handleMaxValue}
+					className={clsx(
+						plainButtonStyles.plainButtonHoverWrapper,
+						plainButtonStyles.plainButtonHoverUnderlineWrapper,
+						styles.maxButtonWrapper,
+					)}
+				>
+					<Text color="inherit" size="small" truncate>
+						{intl.formatMessage(messages.max_amount, { amount: selectedToken?.amount || 0 })}
+					</Text>
+				</Box>
 				<CurrencySelect selectedToken={selectedToken} amount={amount} />
 			</Box>
 		</Box>

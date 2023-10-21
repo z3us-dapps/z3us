@@ -5,14 +5,15 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 export const settingsTitleWrapper = style([
 	sprinkles({
 		display: {
-			mobile: 'flex',
+			mobile: 'none',
+			tablet: 'flex',
 		},
 		paddingBottom: {
 			mobile: 'large',
-			desktop: 'xlarge',
+			tablet: 'xlarge',
 		},
 		paddingX: {
-			mobile: 'small',
+			mobile: 'none',
 			tablet: 'none',
 		},
 	}),
@@ -38,6 +39,6 @@ export const settingsTitleBackLinkWrapper = style([
 export const settingsSubTitleWrapper = style([
 	sprinkles({}),
 	{
-		maxWidth: '640px',
+		maxWidth: '540px',
 	},
 ])

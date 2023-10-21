@@ -51,25 +51,12 @@ export const transactionBodyScrollWrapper = style([
 		position: 'relative',
 		paddingBottom: 'large',
 	}),
-	{
-		paddingTop: '64px',
-	},
+	{},
 	responsiveStyle({
 		mobile: { paddingTop: '48px' },
-		tablet: { paddingTop: '64px' },
+		tablet: { paddingTop: '48px' },
 	}),
 ])
-
-// NOTE: might bring back, trialing new slide in styles
-// export const fadeIn = keyframes({
-// 	'0%': { opacity: '0' },
-// 	'100%': { opacity: '1' },
-// })
-
-// export const fadeOut = keyframes({
-// 	'0%': { opacity: '1' },
-// 	'100%': { opacity: '0' },
-// })
 
 export const transactionContent = style([
 	sprinkles({}),
@@ -94,7 +81,6 @@ export const transactionContentSlideOutDialogContent = style([
 		top: 0,
 	}),
 	{
-		maxWidth: '380px',
 		width: '80%',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
@@ -114,6 +100,11 @@ export const transactionContentSlideOutDialogContent = style([
 			},
 		},
 	},
+	responsiveStyle({
+		mobile: { maxWidth: '480px' },
+		tablet: { maxWidth: '380px' },
+		desktop: { maxWidth: '420px' },
+	}),
 ])
 
 export const transactionInfoWrapper = style([
