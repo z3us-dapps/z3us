@@ -37,8 +37,17 @@ export const SearchResource: React.FC = () => {
 	const handleSearch = () => {
 		const [, params] = location.search.split('?')
 		const query = new URLSearchParams(params)
-		query.set('query', `${value}`)
-		navigate(`${location.pathname}?${query}`)
+		if (value.startsWith('account_')) {
+			navigate(`/accounts/${value}`)
+		} else if (value.startsWith('txid_')) {
+			query.delete('query')
+			query.set('tx', `${value}`)
+			navigate(`${location.pathname}?${query}`)
+		} else {
+			query.delete('tx')
+			query.set('query', `${value}`)
+			navigate(`${location.pathname}?${query}`)
+		}
 	}
 
 	const handleKeyPress = useCallback(
