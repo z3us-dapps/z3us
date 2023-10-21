@@ -1,9 +1,11 @@
 import clsx from 'clsx'
-import React, { useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { FormContext } from 'ui/src/components/form/context'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { AddressBookSelect } from 'ui/src/components/form/fields/address-book-select'
@@ -19,8 +21,7 @@ import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './styles.css'
 
-const accountKey = 'from'
-
+const ACCOUNT_KEY = 'from'
 const TOKENS = 'tokens'
 const NFTS = 'nfts'
 
@@ -94,11 +95,20 @@ const messages = defineMessages({
 export const TransferFormFields: React.FC = () => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
-	const from = useFieldValue(accountKey) || ''
+	const from = useFieldValue(ACCOUNT_KEY) || ''
+	const location = useLocation()
+
+	const { onFieldChange } = useContext(FormContext)
+	const searchParams = new URLSearchParams(location.search)
+	const accountIdQuery = searchParams.get('accountId')
 
 	useEffect(() => {
 		inputRef?.current?.focus()
-	}, [])
+
+		if (accountIdQuery) {
+			onFieldChange(ACCOUNT_KEY, accountIdQuery)
+		}
+	}, [accountIdQuery])
 
 	return (
 		<>
@@ -110,7 +120,11 @@ export const TransferFormFields: React.FC = () => {
 					<Text size="xsmall">{intl.formatMessage(messages.from_subtitle)}</Text>
 				</Box>
 				<Box>
-					<AccountSelect placeholder={intl.formatMessage(messages.from_placeholder)} ref={inputRef} name={accountKey} />
+					<AccountSelect
+						placeholder={intl.formatMessage(messages.from_placeholder)}
+						ref={inputRef}
+						name={ACCOUNT_KEY}
+					/>
 				</Box>
 			</Box>
 			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
