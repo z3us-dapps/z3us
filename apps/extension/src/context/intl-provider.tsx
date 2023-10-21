@@ -1,7 +1,7 @@
-import { getDirection } from 'packages/ui/src/constants/intl'
 import React, { type PropsWithChildren, useEffect } from 'react'
 import { IntlProvider } from 'react-intl'
 
+import { getDirection } from 'ui/src/constants/intl'
 import { MessagesProvider } from 'ui/src/context/messages-provider'
 import { TextDirectionProvider } from 'ui/src/context/text-direction-provider'
 import { useLocale } from 'ui/src/hooks/use-locale'
