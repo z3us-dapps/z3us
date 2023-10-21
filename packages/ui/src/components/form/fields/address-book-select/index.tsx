@@ -1,4 +1,3 @@
-import addressBook from 'packages/ui/src/pages/settings/address-book'
 import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'

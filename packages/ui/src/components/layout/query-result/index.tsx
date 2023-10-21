@@ -1,6 +1,4 @@
 import clsx from 'clsx'
-import { useEntityDetails } from 'packages/ui/src/hooks/dapp/use-entity-details'
-import { getStringMetadata } from 'packages/ui/src/services/metadata'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -17,7 +15,9 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
+import { getStringMetadata } from 'ui/src/services/metadata'
 
 import * as styles from '../transaction/styles.css'
 

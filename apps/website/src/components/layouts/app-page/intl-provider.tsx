@@ -1,7 +1,7 @@
-import { getDirection } from 'packages/ui/src/constants/intl'
 import React, { type PropsWithChildren, useEffect } from 'react'
 import { IntlProvider } from 'react-intl'
 
+import { getDirection } from 'ui/src/constants/intl'
 import { MessagesProvider } from 'ui/src/context/messages-provider'
 import { TextDirectionProvider } from 'ui/src/context/text-direction-provider'
 import { useLocale } from 'ui/src/hooks/use-locale'
@@ -12,19 +12,32 @@ import type { LOCALE } from 'ui/src/store/types'
 
 async function loadTranslation(locale: LOCALE): Promise<unknown> {
 	switch (locale) {
-		case 'en': return import('./locales/en.json')
-		case 'zh': return import('./locales/zh.json')
-		case 'es': return import('./locales/es.json')
-		case 'hi': return import('./locales/hi.json')
-		case 'ru': return import('./locales/ru.json')
-		case 'ar': return import('./locales/ar.json')
-		case 'pt': return import('./locales/pt.json')
-		case 'ms': return import('./locales/ms.json')
-		case 'fr': return import('./locales/fr.json')
-		case 'de': return import('./locales/de.json')
-		case 'it': return import('./locales/it.json')
-		case 'pl': return import('./locales/pl.json')
-		case 'jp': return import('./locales/jp.json')
+		case 'en':
+			return import('./locales/en.json')
+		case 'zh':
+			return import('./locales/zh.json')
+		case 'es':
+			return import('./locales/es.json')
+		case 'hi':
+			return import('./locales/hi.json')
+		case 'ru':
+			return import('./locales/ru.json')
+		case 'ar':
+			return import('./locales/ar.json')
+		case 'pt':
+			return import('./locales/pt.json')
+		case 'ms':
+			return import('./locales/ms.json')
+		case 'fr':
+			return import('./locales/fr.json')
+		case 'de':
+			return import('./locales/de.json')
+		case 'it':
+			return import('./locales/it.json')
+		case 'pl':
+			return import('./locales/pl.json')
+		case 'jp':
+			return import('./locales/jp.json')
 		default:
 			return import('./locales/en.json')
 	}
@@ -42,7 +55,7 @@ const LanguageProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	return (
 		<IntlProvider locale={locale} messages={messages} defaultLocale={DEFAULT_LOCALE}>
-			{React.Children.only(children)}
+			<>{React.Children.only(children)}</>
 		</IntlProvider>
 	)
 }
