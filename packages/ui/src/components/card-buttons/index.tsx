@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
@@ -34,6 +35,7 @@ const messages = defineMessages({
 
 export const CardButtons: React.FC<ICardButtonsProps> = props => {
 	const { className } = props
+	const { accountId } = useParams()
 	const intl = useIntl()
 
 	return (
@@ -44,7 +46,7 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 					rounded
 					styleVariant="inverse"
 					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-					to="/transfer"
+					to={`/transfer?accountId=${accountId}`}
 				>
 					<UpRight2Icon />
 				</Button>
