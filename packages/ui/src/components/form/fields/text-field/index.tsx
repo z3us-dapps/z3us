@@ -7,10 +7,11 @@ import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 interface IAdapterProps extends Omit<IInputProps, 'onChange'> {
 	isPassword?: boolean
 	onChange?: (value: string) => void
+	hasError?: boolean
 }
 
 export const TextInputAdapter = forwardRef<HTMLInputElement, IAdapterProps>(
-	({ isPassword, onChange, ...rest }, ref) => {
+	({ isPassword, onChange, hasError, ...rest }, ref) => {
 		const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 			const evt = event.nativeEvent as InputEvent
 			if (evt.isComposing) {

@@ -1,24 +1,18 @@
 import clsx from 'clsx'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
+import { QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
+import { QrPopOver } from 'ui/src/components/qr-popover'
+import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 
-import { Button } from '../router-button'
-import * as styles from './card-buttons.css'
+import * as styles from './styles.css'
 
-interface ICardButtonsRequiredProps {}
-
-interface ICardButtonsOptionalProps {
+interface IProps {
 	className?: string
-}
-
-interface ICardButtonsProps extends ICardButtonsRequiredProps, ICardButtonsOptionalProps {}
-
-const defaultProps: ICardButtonsOptionalProps = {
-	className: undefined,
 }
 
 const messages = defineMessages({
@@ -26,19 +20,15 @@ const messages = defineMessages({
 		id: '9WRlF4',
 		defaultMessage: 'Send',
 	},
-	receive: {
-		id: 'ULXFfP',
-		defaultMessage: 'Receive',
-	},
 	address: {
-		id: 'e6Ph5+',
-		defaultMessage: 'Address',
+		id: 'hc47g1',
+		defaultMessage: 'Address QR code',
 	},
 })
 
-export const CardButtons: React.FC<ICardButtonsProps> = props => {
+export const CardButtons: React.FC<IProps> = props => {
 	const { className } = props
-
+	const { accountId } = useParams()
 	const intl = useIntl()
 
 	return (
@@ -49,35 +39,18 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 					rounded
 					styleVariant="inverse"
 					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-					to="/accounts/transfer"
+					to={`/transfer?accountId=${accountId}`}
 				>
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>
-			<ToolTip message={intl.formatMessage(messages.receive)}>
-				<Button
-					iconOnly
-					rounded
-					styleVariant="inverse"
-					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-					to="/accounts/transfer"
-				>
-					<DownLeft2Icon />
-				</Button>
-			</ToolTip>
-			<ToolTip message={intl.formatMessage(messages.address)}>
-				<Button
-					iconOnly
-					rounded
-					styleVariant="inverse"
-					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-					to="/accounts/transfer"
-				>
-					<QrCode2Icon />
-				</Button>
-			</ToolTip>
+			<QrPopOver address={accountId}>
+				<ToolTip message={intl.formatMessage(messages.address)}>
+					<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'medium', tablet: 'large' }}>
+						<QrCode2Icon />
+					</Button>
+				</ToolTip>
+			</QrPopOver>
 		</Box>
 	)
 }
-
-CardButtons.defaultProps = defaultProps

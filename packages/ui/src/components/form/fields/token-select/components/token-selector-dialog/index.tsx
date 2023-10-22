@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { Virtuoso } from 'react-virtuoso'
 import { useDebounce } from 'use-debounce'
@@ -66,6 +66,58 @@ const searchAndFilterArray = (array: Array<any>, searchString: string) =>
 		  })
 		: array
 
+interface ISelectItemProps {
+	symbol: string
+	name: string
+	address: string
+	selectedAddress?: string
+	onSelect: (address: string) => void
+}
+
+const SelectItem: React.FC<ISelectItemProps> = ({ selectedAddress, symbol, name, address, onSelect }) => {
+	const handleSelect = () => {
+		onSelect(address)
+	}
+
+	return (
+		<Box value={address} className={styles.tokenListItemWrapper}>
+			<Box
+				component="button"
+				className={clsx(
+					styles.tokenListItemWrapperButton,
+					address === selectedAddress && styles.tokenListItemWrapperButtonSelected,
+				)}
+				onClick={handleSelect}
+			>
+				<Box className={styles.tokenListItemWrapperInnerButton}>
+					<ResourceImageIcon address={address} size="large" />
+					<Box className={styles.tokenListItemTextWrapper}>
+						<Text size="medium" color="strong" truncate>
+							{symbol}
+						</Text>
+						<Text size="small" truncate>
+							{name}
+						</Text>
+					</Box>
+					<Box className={styles.tokenListTagWrapper}>
+						<ToolTip message={address}>
+							<Button
+								leftIcon={<ShareIcon />}
+								styleVariant="tertiary"
+								sizeVariant="small"
+								to={`${config.defaultExplorerURL}/resource/${address}`}
+								target="_blank"
+							>
+								{getShortAddress(address)}
+							</Button>
+						</ToolTip>
+					</Box>
+				</Box>
+			</Box>
+		</Box>
+	)
+}
+
 export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props => {
 	const { trigger, balances, tokenAddress, onTokenUpdate } = props
 	const intl = useIntl()
@@ -113,6 +165,20 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 	useEffect(() => {
 		setLocalBalances(searchAndFilterArray(balances, debouncedInputValue))
 	}, [balances, debouncedInputValue])
+
+	const renderItem = useCallback(
+		(_: number, { symbol, name, address }: any) => (
+			<SelectItem
+				key={address}
+				selectedAddress={selected?.address}
+				symbol={symbol}
+				name={name}
+				address={address}
+				onSelect={handleSelectToken}
+			/>
+		),
+		[handleSelectToken, selected],
+	)
 
 	return (
 		<DialogRoot open={isOpen} onOpenChange={handleOnOpenChange}>
@@ -180,50 +246,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 									/>
 								</Box>
 							)}
-							<Virtuoso
-								data={localBalances}
-								// eslint-disable-next-line react/no-unstable-nested-components
-								itemContent={(index, { symbol, name, address }: any) => (
-									<Box value={address} key={index} className={styles.tokenListItemWrapper}>
-										<Box
-											component="button"
-											className={clsx(
-												styles.tokenListItemWrapperButton,
-												address === selected?.address && styles.tokenListItemWrapperButtonSelected,
-											)}
-											onClick={() => {
-												handleSelectToken(address)
-											}}
-										>
-											<Box className={styles.tokenListItemWrapperInnerButton}>
-												<ResourceImageIcon address={address} size="large" />
-												<Box className={styles.tokenListItemTextWrapper}>
-													<Text size="medium" color="strong" truncate>
-														{symbol}
-													</Text>
-													<Text size="small" truncate>
-														{name}
-													</Text>
-												</Box>
-												<Box className={styles.tokenListTagWrapper}>
-													<ToolTip message={address}>
-														<Button
-															leftIcon={<ShareIcon />}
-															styleVariant="tertiary"
-															sizeVariant="small"
-															to={`${config.defaultExplorerURL}/resource/${address}`}
-															target="_blank"
-														>
-															{getShortAddress(address)}
-														</Button>
-													</ToolTip>
-												</Box>
-											</Box>
-										</Box>
-									</Box>
-								)}
-								customScrollParent={customScrollParent}
-							/>
+							<Virtuoso data={localBalances} itemContent={renderItem} customScrollParent={customScrollParent} />
 						</Box>
 					</ScrollArea>
 				</DialogContent>

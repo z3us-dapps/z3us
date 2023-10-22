@@ -13,7 +13,9 @@ export const assetsHeaderWrapper = style([
 ])
 
 export const totalValueWrapper = style([
-	{
+	sprinkles({
+		display: 'inline-flex',
 		cursor: 'pointer',
-	},
+	}),
+	{},
 ])

@@ -1,3 +1,4 @@
+import { useZdtState } from 'packages/ui/src/hooks/zdt/use-zdt'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -60,6 +61,7 @@ const messages = defineMessages({
 
 export const useMenuItems = () => {
 	const intl = useIntl()
+	const { isWallet } = useZdtState()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
@@ -72,19 +74,21 @@ export const useMenuItems = () => {
 				href: '/settings',
 				icon: <Settings2Icon />,
 			},
-			{
+		]
+		if (isWallet) {
+			items.push({
 				title: intl.formatMessage(messages.wallet_title),
 				subTitle: intl.formatMessage(messages.wallet_subtitle),
 				href: '/settings/wallet',
 				icon: <SettingsIcon />,
-			},
-			{
-				title: intl.formatMessage(messages.accounts_title),
-				subTitle: intl.formatMessage(messages.accounts_subtitle),
-				href: '/settings/accounts',
-				icon: <CoinsIcon />,
-			},
-		]
+			})
+		}
+		items.push({
+			title: intl.formatMessage(messages.accounts_title),
+			subTitle: intl.formatMessage(messages.accounts_subtitle),
+			href: '/settings/accounts',
+			icon: <CoinsIcon />,
+		})
 		switch (keystore?.type) {
 			case KeystoreType.LOCAL:
 			case KeystoreType.HARDWARE:

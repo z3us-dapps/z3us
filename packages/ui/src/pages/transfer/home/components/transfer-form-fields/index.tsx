@@ -1,13 +1,13 @@
 import clsx from 'clsx'
-import React, { useEffect, useRef } from 'react'
+import React, { forwardRef, useContext, useEffect, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { FieldContext } from 'ui/src/components/form/field-wrapper/context'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { AddressBookSelect } from 'ui/src/components/form/fields/address-book-select'
-import { CheckboxField } from 'ui/src/components/form/fields/checkbox-field'
 import { NftSelect } from 'ui/src/components/form/fields/nft-select'
 import { TextAreaField } from 'ui/src/components/form/fields/text-area-field'
 import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-field'
@@ -19,12 +19,18 @@ import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './styles.css'
 
-const accountKey = 'from'
-
-const TOKENS = 'tokens'
-const NFTS = 'nfts'
+export const MESSAGE_KEY = 'message'
+export const MAX_MESSAGE_LENGTH = 200
+export const FROM_KEY = 'from'
+export const ACCOUNT_KEY = 'account'
+export const TOKENS = 'tokens'
+export const NFTS = 'nfts'
 
 const messages = defineMessages({
+	button_add_from: {
+		id: 'nlmCx1',
+		defaultMessage: 'Add another source',
+	},
 	button_add_account: {
 		id: 'k9/iMB',
 		defaultMessage: 'Add another recipient',
@@ -91,18 +97,14 @@ const messages = defineMessages({
 	},
 })
 
-export const TransferFormFields: React.FC = () => {
+export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: React.Ref<HTMLInputElement | null>) => {
 	const intl = useIntl()
-	const inputRef = useRef(null)
-	const from = useFieldValue(accountKey) || ''
-
-	useEffect(() => {
-		inputRef?.current?.focus()
-	}, [])
+	const { name: parentName } = useContext(FieldContext)
+	const from = useFieldValue(`${parentName ? `${parentName}.` : ''}${ACCOUNT_KEY}`) || ''
 
 	return (
 		<>
-			<Box className={styles.transferFormGridBoxWrapper}>
+			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
 				<Box className={styles.transferFormGridBoxWrapperLeft}>
 					<Text color="strong" size="xlarge" weight="strong">
 						{intl.formatMessage(messages.from_title)}
@@ -110,30 +112,7 @@ export const TransferFormFields: React.FC = () => {
 					<Text size="xsmall">{intl.formatMessage(messages.from_subtitle)}</Text>
 				</Box>
 				<Box>
-					<AccountSelect placeholder={intl.formatMessage(messages.from_placeholder)} ref={inputRef} name={accountKey} />
-				</Box>
-			</Box>
-			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
-				<Box className={styles.transferFormGridBoxWrapperLeft}>
-					<Text color="strong" size="xlarge" weight="strong">
-						{intl.formatMessage(messages.message_title)}
-					</Text>
-					<Text size="xsmall">{intl.formatMessage(messages.message_subtitle)}</Text>
-				</Box>
-				<Box className={styles.transferFormMessageWrapper}>
-					<Box className={styles.transferFormCountWrapper}>
-						<Text size="xxsmall">2/200</Text>
-					</Box>
-					<TextAreaField
-						name="message"
-						placeholder={intl.formatMessage(messages.message_placeholder)}
-						sizeVariant="medium"
-						className={styles.transferFormMessageTextArea}
-					/>
-					<Box className={styles.transferFormEncryptWrapper}>
-						<Text size="xsmall">{intl.formatMessage(messages.message_encrypt_title)}</Text>
-						<CheckboxField name="messageEncrypted" styleVariant="primary" sizeVariant="small" />
-					</Box>
+					<AccountSelect placeholder={intl.formatMessage(messages.from_placeholder)} ref={ref} name={ACCOUNT_KEY} />
 				</Box>
 			</Box>
 			<FieldsGroup
@@ -222,6 +201,71 @@ export const TransferFormFields: React.FC = () => {
 						</FieldsGroup>
 					</Box>
 				</Box>
+			</FieldsGroup>
+		</>
+	)
+})
+
+export const TransferFormFields: React.FC = () => {
+	const intl = useIntl()
+	const inputRef = useRef(null)
+	const msg = useFieldValue(MESSAGE_KEY) || ''
+
+	useEffect(() => {
+		inputRef?.current?.focus()
+	}, [inputRef?.current])
+
+	return (
+		<>
+			<Box className={styles.transferFormGridBoxWrapper}>
+				<Box className={styles.transferFormGridBoxWrapperLeft}>
+					<Text color="strong" size="xlarge" weight="strong">
+						{intl.formatMessage(messages.message_title)}
+					</Text>
+					<Text size="xsmall">{intl.formatMessage(messages.message_subtitle)}</Text>
+				</Box>
+				<Box className={styles.transferFormMessageWrapper}>
+					<Box className={styles.transferFormCountWrapper}>
+						<Text size="xxsmall">{`${msg?.length || 0}/${MAX_MESSAGE_LENGTH}`}</Text>
+					</Box>
+					<TextAreaField
+						name={MESSAGE_KEY}
+						placeholder={intl.formatMessage(messages.message_placeholder)}
+						sizeVariant="medium"
+						className={styles.transferFormMessageTextArea}
+						maxLength={MAX_MESSAGE_LENGTH}
+					/>
+					{/* <Box className={styles.transferFormEncryptWrapper}>
+						<Text size="xsmall">{intl.formatMessage(messages.message_encrypt_title)}</Text>
+						<CheckboxField name="messageEncrypted" styleVariant="primary" sizeVariant="small" />
+					</Box> */}
+				</Box>
+			</Box>
+			<FieldsGroup
+				name={FROM_KEY}
+				defaultKeys={1}
+				trashTrigger={
+					<Button styleVariant="ghost" sizeVariant="small" iconOnly className={styles.transferActionTrashButtonWrapper}>
+						<TrashIcon />
+					</Button>
+				}
+				addTrigger={
+					<Button
+						styleVariant="secondary"
+						sizeVariant="xlarge"
+						fullWidth
+						leftIcon={
+							<Box marginLeft="small">
+								<UsersPlusIcon />
+							</Box>
+						}
+						className={styles.transferActionAddButtonWrapper}
+					>
+						{intl.formatMessage(messages.button_add_from)}
+					</Button>
+				}
+			>
+				<AccountFormFieldsGroup ref={inputRef} />
 			</FieldsGroup>
 		</>
 	)

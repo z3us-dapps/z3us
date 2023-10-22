@@ -1,4 +1,5 @@
-import { IndexPage } from '@/components/layouts/index-page'
+import { IndexPageTest } from '@/components/layouts/index-page'
+// import { IndexPage, IndexPageTest } from '@/components/layouts/index-page';
 import Head from 'next/head'
 import React from 'react'
 
@@ -16,7 +17,8 @@ const App = () => (
 			<meta property="og:description" content="And a social description for our cool page" />
 			<meta property="og:image" content="https://example.com/images/cool-page.jpg" />
 		</Head>
-		<IndexPage />
+		{/* <IndexPage /> */}
+		<IndexPageTest />
 	</>
 )
 

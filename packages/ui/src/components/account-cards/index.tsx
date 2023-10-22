@@ -101,7 +101,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 						</Box>
 					) : null}
 				</Box>
-				<Box paddingBottom="xsmall">
+				<Box paddingBottom="xsmall" display="flex" flexDirection="column">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{intl.formatNumber(totalValue, {

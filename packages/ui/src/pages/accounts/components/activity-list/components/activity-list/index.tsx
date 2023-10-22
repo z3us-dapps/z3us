@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { defineMessages, useIntl } from 'react-intl'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
@@ -128,6 +129,13 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 	)
 }
 
+const messages = defineMessages({
+	title: {
+		defaultMessage: 'Activity',
+		id: 'ZmlNQ3',
+	},
+})
+
 const skeletons = [null, null, null, null, null]
 
 interface IProps {
@@ -137,6 +145,7 @@ interface IProps {
 export const ActivityList = forwardRef<HTMLButtonElement, IProps>((props, ref: React.Ref<HTMLElement | null>) => {
 	const { className } = props
 	const { scrollableNode } = useScroll()
+	const intl = useIntl()
 
 	const isTransactionVisible = useIsTransactionVisible()
 	const [selected, setSelected] = useState<string | null>(null)
@@ -171,19 +180,28 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>((props, ref: R
 		}
 	}, [isTransactionVisible, selected])
 
-	const renderItem = (index: number, tx?: CommittedTransactionInfo) => (
-		<ItemWrapper
-			index={index}
-			transaction={tx}
-			selected={selected}
-			setSelected={setSelected}
-			hovered={hovered}
-			setHovered={setHovered}
-		/>
+	const renderItem = useCallback(
+		(index: number, tx?: CommittedTransactionInfo) => (
+			<ItemWrapper
+				key={index}
+				index={index}
+				transaction={tx}
+				selected={selected}
+				setSelected={setSelected}
+				hovered={hovered}
+				setHovered={setHovered}
+			/>
+		),
+		[],
 	)
 
 	return (
 		<Box ref={ref} className={clsx(styles.activityWrapper, className)} style={{ minHeight: '100px' }}>
+			<Box className={styles.activityTitleText}>
+				<Text color="strong" size="xlarge" weight="strong">
+					{intl.formatMessage(messages.title)}
+				</Text>
+			</Box>
 			<Virtuoso
 				customScrollParent={scrollableNode}
 				totalCount={flattenWithLoading.length}
