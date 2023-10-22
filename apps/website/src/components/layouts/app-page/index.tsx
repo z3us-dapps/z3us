@@ -1,5 +1,5 @@
 import React from 'react'
-import { RouterProvider, createHashRouter } from 'react-router-dom'
+import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom'
 
 import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
 import Layout from 'ui/src/components/layout'
@@ -15,6 +15,7 @@ import settingsRoute from 'ui/src/pages/settings/router'
 import stakingRoute from 'ui/src/pages/staking/router'
 import transferRoute from 'ui/src/pages/transfer/router'
 
+import WebsiteLayout from './components/layout'
 import IntlProvider from './intl-provider'
 
 // import { LandingPage } from '../landing-page'
@@ -22,22 +23,31 @@ import IntlProvider from './intl-provider'
 export const router = createHashRouter([
 	{
 		path: '/',
-		element: <Layout />,
+		element: <WebsiteLayout />,
 		errorElement: <RouterErrorBoundary />,
 		children: [
-			// {
-			// 	index: true,
-			// 	element: (
-			// 		<Suspense>
-			// 			<LandingPage />
-			// 		</Suspense>
-			// 	),
-			// },
-			accountsRoute,
-			settingsRoute,
-			stakingRoute,
-			transferRoute,
-			noMatchRoute,
+			{
+				index: true,
+				element: <Navigate to={`/${accountsRoute.path}`} />,
+			},
+			{
+				element: <Layout />,
+				children: [
+					// {
+					// 	index: true,
+					// 	element: (
+					// 		<Suspense>
+					// 			<LandingPage />
+					// 		</Suspense>
+					// 	),
+					// },
+					accountsRoute,
+					settingsRoute,
+					stakingRoute,
+					transferRoute,
+					noMatchRoute,
+				],
+			},
 		],
 	},
 ])

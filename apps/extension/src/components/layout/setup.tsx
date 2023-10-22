@@ -17,10 +17,10 @@ const SetupChecker: React.FC = () => {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const client = useMessageClient()
+	const outlet = useOutlet()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
-
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 
 	useEffect(() => {
@@ -47,8 +47,6 @@ const SetupChecker: React.FC = () => {
 		}
 		load()
 	}, [keystore, location.pathname])
-
-	const outlet = useOutlet()
 
 	if (isLoading) return <FallbackLoading />
 
