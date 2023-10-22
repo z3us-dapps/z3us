@@ -13,7 +13,7 @@ export const ToolTipTrigger = TooltipPrimitive.Trigger
 export const ToolTipContent = TooltipPrimitive.Content
 export const ToolTipArrow = TooltipPrimitive.Arrow
 
-interface IToolTipProps {
+interface IToolTipProps extends TooltipPrimitive.TooltipContentProps {
 	children: React.ReactNode
 	message: React.ReactNode
 	disabled?: boolean
@@ -31,6 +31,7 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 	sideOffset = 5,
 	isArrowVisible = false,
 	arrowOffset = 5,
+	...rest
 }) => (
 	<TooltipProvider>
 		<ToolTipRoot>
@@ -42,6 +43,7 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 						side={side}
 						collisionPadding={10}
 						className={clsx(styles.toolTipContent)}
+						{...rest}
 					>
 						{isArrowVisible ? <ToolTipArrow offset={arrowOffset} className={clsx(styles.toolTipArrow)} /> : null}
 						<Text size="xxsmall" color="white">

@@ -25,10 +25,11 @@ interface IProps {
 	inputPlaceholder: string
 	value?: string
 	onCommitSearch: (string) => void
+	closeOnCommit?: boolean
 }
 
 export const SearchButtonInput: React.FC<IProps> = props => {
-	const { className, searchBtnToolTipMsg, inputPlaceholder, value = '', onCommitSearch } = props
+	const { className, searchBtnToolTipMsg, inputPlaceholder, value = '', closeOnCommit = true, onCommitSearch } = props
 
 	const intl = useIntl()
 	const inputRef = useRef(null)
@@ -49,8 +50,15 @@ export const SearchButtonInput: React.FC<IProps> = props => {
 		setInternalValue('')
 	}
 
+	const handleCloseOnCommit = () => {
+		if (closeOnCommit) {
+			handleClickClose()
+		}
+	}
+
 	const handleClickCommitSearch = () => {
 		onCommitSearch(internalValue)
+		handleCloseOnCommit()
 	}
 
 	const handleValueChange = (e: React.ChangeEvent<FormElement>) => {
@@ -60,6 +68,7 @@ export const SearchButtonInput: React.FC<IProps> = props => {
 	const handleOnKeyDown = (event: KeyboardEvent<FormElement>) => {
 		if (event.key === 'Enter') {
 			onCommitSearch(internalValue)
+			handleCloseOnCommit()
 		}
 	}
 
