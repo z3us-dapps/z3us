@@ -24,12 +24,21 @@ interface IProps {
 	searchBtnToolTipMsg: string
 	inputPlaceholder: string
 	value?: string
-	onCommitSearch: (search: string) => void
 	closeOnCommit?: boolean
+	onCommitSearch: (search: string) => void
+	onSearchVisible: (visible: boolean) => void
 }
 
 export const SearchButtonInput: React.FC<IProps> = props => {
-	const { className, searchBtnToolTipMsg, inputPlaceholder, value = '', closeOnCommit = true, onCommitSearch } = props
+	const {
+		className,
+		searchBtnToolTipMsg,
+		inputPlaceholder,
+		value = '',
+		closeOnCommit = true,
+		onCommitSearch,
+		onSearchVisible,
+	} = props
 
 	const intl = useIntl()
 	const inputRef = useRef(null)
@@ -39,11 +48,13 @@ export const SearchButtonInput: React.FC<IProps> = props => {
 
 	const handleClickSearch = () => {
 		setIsSearchVisible(true)
+		onSearchVisible(true)
 	}
 
 	const handleClickClose = () => {
 		setIsSearchVisible(false)
 		setInternalValue('')
+		onSearchVisible(false)
 	}
 
 	const handleClickClear = () => {
@@ -85,7 +96,13 @@ export const SearchButtonInput: React.FC<IProps> = props => {
 					</Button>
 				</ToolTip>
 			</Box>
-			<Box className={clsx(styles.inputSearchInputWrapper, isSearchVisible && styles.inputSearchVisible)}>
+			<Box
+				className={clsx(
+					styles.inputSearchInputWrapper,
+					isSearchVisible && styles.inputSearchVisible,
+					hasInternalValue && styles.inputSearchInputValueWrapper,
+				)}
+			>
 				<Input
 					ref={inputRef}
 					sizeVariant="small"

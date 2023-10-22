@@ -60,18 +60,3 @@ export const accountViewPaddingXWrapper = style([
 	}),
 	{},
 ])
-
-export const accountViewTriggerButton = style([
-	sprinkles({
-		position: 'relative',
-		flexShrink: 0,
-	}),
-])
-
-globalStyle(
-	`${accountViewTriggerButton} svg`,
-	responsiveStyle({
-		mobile: { opacity: '0.7' },
-		tablet: { opacity: '1' },
-	}),
-)
