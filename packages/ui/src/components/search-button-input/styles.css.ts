@@ -60,6 +60,18 @@ globalStyle(`${inputSearchInputWrapper} input[type="text"]`, {
 	textOverflow: 'ellipsis',
 })
 
+export const inputSearchInputValueWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+globalStyle(`${inputSearchInputValueWrapper} input[type="text"]`, {
+	paddingRight: '96px',
+	textOverflow: 'ellipsis',
+})
+
 export const inputSearchAbsoluteCloseWrapper = style([
 	sprinkles({
 		display: 'flex',

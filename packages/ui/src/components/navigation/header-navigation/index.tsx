@@ -1,16 +1,20 @@
 import clsx from 'clsx'
 import { LayoutGroup } from 'framer-motion'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
 import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
+import { MenuIcon } from 'ui/src/components/icons'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { Link, NavLink } from 'ui/src/components/router-link'
+import { SearchButtonInput } from 'ui/src/components/search-button-input'
 import { SelectSimple } from 'ui/src/components/select'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
@@ -19,7 +23,6 @@ import { BackButton } from 'ui/src/pages/accounts/components/layout/components/m
 import { KeystoreType } from 'ui/src/store/types'
 
 import { AccountViewDropdown } from '../account-view-dropdown'
-import { SearchResource } from '../search'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -43,40 +46,44 @@ const messages = defineMessages({
 		id: 'D3idYv',
 		defaultMessage: 'Settings',
 	},
+	searchToolTip: {
+		defaultMessage: 'Search for a transaction ID, or an address for an account, or a resource',
+		id: 'MYKtWJ',
+	},
+	searchPlaceholder: {
+		defaultMessage: 'Search for a transaction ID, or an address for an account, or a resource',
+		id: 'MYKtWJ',
+	},
+
+	menuTooltip: {
+		defaultMessage: 'Menu',
+		id: 'tKMlOc',
+	},
 })
 
-const HeaderNavDesktop = () => {
+const HeaderLavaMenu = () => {
 	const intl = useIntl()
 	return (
-		<Box className={styles.headerDesktopNavWrapper}>
-			<Link to="/">
-				<Z3usLogo />
-			</Link>
-			<Box component="ul" className={styles.navigationMenu}>
-				<LayoutGroup id="accounts-menu">
-					{[
-						{ text: intl.formatMessage(messages.accounts), href: '/accounts' },
-						{ text: intl.formatMessage(messages.transfer), href: '/transfer' },
-						// { text: intl.formatMessage(messages.staking), href: '/staking' },
-						{ text: intl.formatMessage(messages.settings), href: '/settings' },
-					].map(({ text, href }) => (
-						<Box key={href} component="li">
-							<NavLink to={href} underline="never">
-								{({ isActive }) => <PillNavigation text={text} matchActiveFn={() => isActive} />}
-							</NavLink>
-						</Box>
-					))}
-				</LayoutGroup>
-			</Box>
-			<Box className={styles.headerDesktopDropdownWrapper}>
-				<SearchResource />
-				<AccountViewDropdown />
-			</Box>
+		<Box component="ul" className={styles.lavaNavigationMenu}>
+			<LayoutGroup id="accounts-menu">
+				{[
+					{ text: intl.formatMessage(messages.accounts), href: '/accounts' },
+					{ text: intl.formatMessage(messages.transfer), href: '/transfer' },
+					// { text: intl.formatMessage(messages.staking), href: '/staking' },
+					{ text: intl.formatMessage(messages.settings), href: '/settings' },
+				].map(({ text, href }) => (
+					<Box key={href} component="li">
+						<NavLink to={href} underline="never">
+							{({ isActive }) => <PillNavigation text={text} matchActiveFn={() => isActive} />}
+						</NavLink>
+					</Box>
+				))}
+			</LayoutGroup>
 		</Box>
 	)
 }
 
-function removeLastPartOfURL(path: string): [boolean, string] {
+const removeLastPartOfURL = (path: string): [boolean, string] => {
 	if (!path || path === '/') {
 		return [false, path]
 	}
@@ -90,15 +97,17 @@ function removeLastPartOfURL(path: string): [boolean, string] {
 	return [canGoBack, segments.join('/')]
 }
 
-const HeaderNavMobile = () => {
+const HeaderNavInner = () => {
 	const intl = useIntl()
 	const accounts = useWalletAccounts()
 	const { accountId } = useParams()
-	const location = useLocation()
-	const isAccountsPath = location?.pathname?.includes('/accounts')
-
-	const navigate = useNavigate()
 	const isAllAccounts = useIsAllAccounts()
+
+	const location = useLocation()
+	const navigate = useNavigate()
+
+	const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false)
+	const isAccountsPath = location?.pathname?.includes('/accounts')
 
 	const accountMenuItems = [
 		...[{ id: 'home', title: intl.formatMessage(messages.all) }],
@@ -120,22 +129,59 @@ const HeaderNavMobile = () => {
 		}
 	}
 
+	const handleCommitSearch = (value: string) => {
+		setIsSearchVisible(false)
+
+		const [, params] = location.search.split('?')
+		const query = new URLSearchParams(params)
+		if (value.startsWith('account_')) {
+			navigate(`/accounts/${value}`)
+		} else if (value.startsWith('txid_')) {
+			query.delete('query')
+			query.set('tx', `${value}`)
+			navigate(`${location.pathname}?${query}`)
+		} else {
+			query.delete('tx')
+			query.set('query', `${value}`)
+			navigate(`${location.pathname}?${query}`)
+		}
+	}
+
+	const handleClickSearch = (_visible: boolean) => {
+		setIsSearchVisible(_visible)
+	}
+
 	return (
-		<Box className={styles.headerMobileNavWrapper}>
+		<Box className={styles.headerInnerNavWrapper}>
 			{canGoBack ? (
 				<>
-					<BackButton key="nfts" to={backPath} styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} />
-					<Box display="flex" marginLeft="small" justifyContent="center" alignItems="center" gap="xsmall" flexGrow={1}>
-						{!isAllAccounts && (
-							<CopyAddressButton
-								styleVariant="white-transparent"
-								sizeVariant="small"
-								name={accountName}
-								address={accountAddress}
-								rounded
-								tickColor="inherit"
-							/>
-						)}
+					<Box className={styles.headerMobileHiddenWrapper}>
+						<Link to="/">
+							<Z3usLogo />
+						</Link>
+					</Box>
+					<HeaderLavaMenu />
+					<Box className={clsx(styles.headerBackButtonWrapper, styles.tabletHiddenWrapper)}>
+						<BackButton key="nfts" to={backPath} styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} />
+						<Box
+							display="flex"
+							marginLeft="small"
+							justifyContent="center"
+							alignItems="center"
+							gap="xsmall"
+							flexGrow={1}
+						>
+							{!isAllAccounts && (
+								<CopyAddressButton
+									styleVariant="white-transparent"
+									sizeVariant="small"
+									name={accountName}
+									address={accountAddress}
+									rounded
+									tickColor="inherit"
+								/>
+							)}
+						</Box>
 					</Box>
 				</>
 			) : (
@@ -143,8 +189,9 @@ const HeaderNavMobile = () => {
 					<Link to="/">
 						<Z3usLogo />
 					</Link>
-					<Box marginLeft="small" display="flex" justifyContent="space-between" flexGrow={1} flexShrink={0}>
-						{isAccountsPath && (
+					<HeaderLavaMenu />
+					<Box className={styles.tabletHiddenWrapper}>
+						{isAccountsPath && !isSearchVisible && (
 							<SelectSimple
 								value={accountAddress || 'home'}
 								onValueChange={handleSelectAccount}
@@ -154,9 +201,7 @@ const HeaderNavMobile = () => {
 								data={accountMenuItems}
 							/>
 						)}
-					</Box>
-					{accountAddress && (
-						<Box marginRight="xsmall">
+						{accountAddress && (
 							<CopyAddressButton
 								styleVariant="white-transparent"
 								sizeVariant="small"
@@ -164,12 +209,39 @@ const HeaderNavMobile = () => {
 								rounded
 								tickColor="inherit"
 							/>
-						</Box>
-					)}
+						)}
+					</Box>
 				</>
 			)}
-			<SearchResource />
-			<AccountViewDropdown styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} />
+			<Box className={clsx(styles.searchWrapper, accountAddress && styles.headerMobileHiddenWrapper)}>
+				<SearchButtonInput
+					className={clsx(styles.searchComponentWrapper)}
+					searchBtnToolTipMsg={intl.formatMessage(messages.searchToolTip)}
+					inputPlaceholder={intl.formatMessage(messages.searchPlaceholder)}
+					onCommitSearch={handleCommitSearch}
+					onSearchVisible={handleClickSearch}
+				/>
+			</Box>
+			<AccountViewDropdown
+				trigger={
+					<Box>
+						<ToolTip message={intl.formatMessage(messages.menuTooltip)}>
+							<Box>
+								<Box className={styles.tabletHiddenWrapper}>
+									<Button styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} sizeVariant="small" iconOnly>
+										<MenuIcon />
+									</Button>
+								</Box>
+								<Box className={styles.headerMobileHiddenWrapper}>
+									<Button styleVariant="ghost" sizeVariant="small" iconOnly>
+										<MenuIcon />
+									</Button>
+								</Box>
+							</Box>
+						</ToolTip>
+					</Box>
+				}
+			/>
 		</Box>
 	)
 }
@@ -182,8 +254,7 @@ export const HeaderNav: React.FC = () => {
 	return (
 		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
 			<Box className={clsx(styles.navigationInnerWrapper, containerStyles.containerInnerWrapper)}>
-				<HeaderNavMobile />
-				<HeaderNavDesktop />
+				<HeaderNavInner />
 				{keystore?.type === KeystoreType.RADIX_WALLET && <ConnectButton />}
 			</Box>
 		</Box>

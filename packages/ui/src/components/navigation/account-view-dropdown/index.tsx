@@ -4,8 +4,6 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import type { TStyleVariant } from 'ui/src/components/button'
-import { Button } from 'ui/src/components/button'
 import {
 	DropdownMenu,
 	DropdownMenuArrow,
@@ -30,7 +28,6 @@ import {
 	HardwareWalletIcon,
 	HomeIcon,
 	LockIcon,
-	MenuIcon,
 	MoonIcon,
 	PlusIcon,
 	ShareIcon,
@@ -46,7 +43,6 @@ import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { KeystoreType } from 'ui/src/store/types'
 import { Theme } from 'ui/src/types'
 
-import { ToolTip } from '../../tool-tip'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -94,10 +90,6 @@ const messages = defineMessages({
 		id: '+CwN9C',
 		defaultMessage: 'System',
 	},
-	menu: {
-		id: 'tKMlOc',
-		defaultMessage: 'Menu',
-	},
 })
 
 const weights = {
@@ -108,12 +100,12 @@ const weights = {
 
 interface IAccountViewDropdownProps {
 	className?: ClassValue
-	styleVariant?: TStyleVariant
+	trigger: React.ReactElement
 }
 
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, styleVariant = 'ghost' } = props
+		const { className, trigger } = props
 
 		const intl = useIntl()
 		const navigate = useNavigate()
@@ -150,18 +142,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Box>
-							<ToolTip message={intl.formatMessage(messages.menu)}>
-								<Button
-									styleVariant={styleVariant}
-									sizeVariant="small"
-									iconOnly
-									className={styles.accountViewTriggerButton}
-								>
-									<MenuIcon />
-								</Button>
-							</ToolTip>
-						</Box>
+						<Box>{trigger}</Box>
 					</DropdownMenuTrigger>
 					<DropdownMenuPortal>
 						<DropdownMenuContent align="end" sideOffset={2} className={styles.accountViewContentWrapper}>

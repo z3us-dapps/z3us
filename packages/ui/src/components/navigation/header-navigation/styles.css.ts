@@ -40,11 +40,14 @@ export const navigationInnerWrapper = style([
 	}),
 ])
 
-export const navigationMenu = style([
+export const lavaNavigationMenu = style([
 	sprinkles({
-		display: 'flex',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 		gap: 'medium',
-		paddingLeft: 'xlarge',
+		paddingLeft: 'medium',
 	}),
 	{
 		listStyleType: 'none',
@@ -63,27 +66,68 @@ export const headerDesktopNavWrapper = style([
 	{},
 ])
 
-export const headerMobileNavWrapper = style([
+export const searchWrapper = style([
+	sprinkles({
+		flexGrow: 1,
+	}),
+	{},
+])
+
+export const searchComponentWrapper = style([
+	sprinkles({
+		display: 'flex',
+		justifyContent: 'flex-end',
+		flexGrow: 1,
+		paddingLeft: 'small',
+	}),
+	{},
+])
+
+export const headerInnerNavWrapper = style([
 	sprinkles({
 		width: 'full',
 		alignItems: 'center',
-		display: {
-			mobile: 'flex',
-			tablet: 'none',
+		display: 'flex',
+		gap: {
+			mobile: 'xsmall',
+			tablet: 'small',
+		},
+		paddingRight: {
+			mobile: 'xxsmall',
+			tablet: 'medium',
 		},
 	}),
 	{},
 ])
 
-export const headerDesktopDropdownWrapper = style([
+export const headerBackButtonWrapper = style([
 	sprinkles({
-		display: 'flex',
-		alignItems: 'center',
-		gap: 'small',
 		flexGrow: 1,
-		flexShrink: 0,
-		paddingRight: 'medium',
-		justifyContent: 'flex-end',
+		alignItems: 'center',
+		display: 'flex',
+		gap: {
+			mobile: 'xsmall',
+			tablet: 'small',
+		},
+	}),
+	{},
+])
+
+export const headerMobileHiddenWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
+	}),
+	{},
+])
+
+export const tabletHiddenWrapper = style([
+	sprinkles({
+		display: {
+			tablet: 'none',
+		},
 	}),
 	{},
 ])
