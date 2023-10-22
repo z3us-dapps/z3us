@@ -1,7 +1,7 @@
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import clsx, { type ClassValue } from 'clsx'
 import type { ForwardedRef } from 'react'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useCallback, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
 
@@ -84,6 +84,22 @@ export const DropdownMenuLeftSlot = ({ children, ...props }) => (
 	</Box>
 )
 
+interface IItemProps {
+	id: string
+	title: string
+}
+
+const DefaultItemContent: React.FC<IItemProps> = ({ id, title }) => (
+	<DropdownMenuRadioItem value={id}>
+		<Box flexGrow={1}>
+			<Text>{title}</Text>
+		</Box>
+		<DropdownMenuItemIndicator>
+			<Check2Icon />
+		</DropdownMenuItemIndicator>
+	</DropdownMenuRadioItem>
+)
+
 export interface IDropdownMenuVirtuosoProps {
 	trigger: React.ReactNode
 	value: string
@@ -94,25 +110,19 @@ export interface IDropdownMenuVirtuosoProps {
 }
 
 export const DropdownMenuVirtuoso = forwardRef((props: IDropdownMenuVirtuosoProps, ref: ForwardedRef<any>) => {
-	const {
-		trigger,
-		className,
-		data,
-		value,
-		itemContentRenderer = (index, { id, title }) => (
-			<DropdownMenuRadioItem value={id} key={index}>
-				<Box flexGrow={1}>
-					<Text>{title}</Text>
-				</Box>
-				<DropdownMenuItemIndicator>
-					<Check2Icon />
-				</DropdownMenuItemIndicator>
-			</DropdownMenuRadioItem>
-		),
-		onValueChange,
-	} = props
+	const { trigger, className, data, value, itemContentRenderer, onValueChange } = props
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | undefined>(undefined)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
+
+	const itemRenderer = useCallback(
+		(idx: number, itemData: any) =>
+			itemContentRenderer ? (
+				itemContentRenderer(idx, itemData)
+			) : (
+				<DefaultItemContent key={itemData.id} id={itemData.id} title={itemData.title} />
+			),
+		[itemContentRenderer],
+	)
 
 	return (
 		<Box className={clsx(styles.dropdownMenuVirtuosoWrapper, className)} ref={ref}>
@@ -133,7 +143,7 @@ export const DropdownMenuVirtuoso = forwardRef((props: IDropdownMenuVirtuosoProp
 						>
 							<Box className={styles.dropdownMenuVirtuosoScrollAreaWrapper}>
 								<DropdownMenuRadioGroup value={value} onValueChange={onValueChange}>
-									<Virtuoso data={data} itemContent={itemContentRenderer} customScrollParent={customScrollParent} />
+									<Virtuoso data={data} itemContent={itemRenderer} customScrollParent={customScrollParent} />
 								</DropdownMenuRadioGroup>
 							</Box>
 						</SimpleBar>

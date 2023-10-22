@@ -178,15 +178,19 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>((props, ref: R
 		}
 	}, [isTransactionVisible, selected])
 
-	const renderItem = (index: number, tx?: CommittedTransactionInfo) => (
-		<ItemWrapper
-			index={index}
-			transaction={tx}
-			selected={selected}
-			setSelected={setSelected}
-			hovered={hovered}
-			setHovered={setHovered}
-		/>
+	const renderItem = useCallback(
+		(index: number, tx?: CommittedTransactionInfo) => (
+			<ItemWrapper
+				key={index}
+				index={index}
+				transaction={tx}
+				selected={selected}
+				setSelected={setSelected}
+				hovered={hovered}
+				setHovered={setHovered}
+			/>
+		),
+		[],
 	)
 
 	return (

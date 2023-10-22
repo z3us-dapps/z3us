@@ -1,6 +1,6 @@
 import clsx, { type ClassValue } from 'clsx'
 import type { ForwardedRef } from 'react'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
@@ -23,6 +23,42 @@ const messages = defineMessages({
 		defaultMessage: 'Clear',
 	},
 })
+
+interface ISelectItemProps {
+	id: string
+	account: string
+	alias: string
+	value: string
+	onSelect: (id: string) => void
+}
+
+const SelectItem: React.FC<ISelectItemProps> = ({ id, account, alias, value, onSelect }) => {
+	const handleSelect = () => {
+		onSelect(id)
+	}
+
+	return (
+		<Box
+			component="button"
+			className={styles.searchableInputButtonWrapper}
+			value={id}
+			display="flex"
+			onClick={handleSelect}
+		>
+			<Box flexGrow={1} flexShrink={0}>
+				<Text color="strong">{alias}</Text>
+			</Box>
+			<Box flexGrow={1}>
+				<Text truncate>({account})</Text>
+			</Box>
+			{id === value && (
+				<Box flexShrink={0} display="flex" alignItems="center" justifyContent="center">
+					<Check2Icon />
+				</Box>
+			)}
+		</Box>
+	)
+}
 
 type TData = Array<{ id: string; account: string; alias: string }>
 
@@ -108,6 +144,13 @@ export const SearchableInput = forwardRef<HTMLInputElement, ISearchableInputProp
 		closePopover()
 	}
 
+	const renderItem = useCallback(
+		(_: number, { id, account, alias }) => (
+			<SelectItem key={id} id={id} account={account} alias={alias} value={value} onSelect={handleItemSelected} />
+		),
+		[value, handleItemSelected],
+	)
+
 	return (
 		<Box ref={ref} className={clsx(styles.searchableInputWrapper, className)}>
 			<PopoverRoot open={isPopoverOpen}>
@@ -158,35 +201,7 @@ export const SearchableInput = forwardRef<HTMLInputElement, ISearchableInputProp
 							scrollableNodeProps={{ ref: setCustomScrollParent }}
 						>
 							<Box className={styles.searchableInputScrollAreaWrapper}>
-								<Virtuoso
-									data={localData}
-									// eslint-disable-next-line react/no-unstable-nested-components
-									itemContent={(index, { id, account, alias }) => (
-										<Box
-											component="button"
-											className={styles.searchableInputButtonWrapper}
-											value={id}
-											key={index}
-											display="flex"
-											onClick={() => {
-												handleItemSelected(id)
-											}}
-										>
-											<Box flexGrow={1} flexShrink={0}>
-												<Text color="strong">{alias}</Text>
-											</Box>
-											<Box flexGrow={1}>
-												<Text truncate>({account})</Text>
-											</Box>
-											{id === value && (
-												<Box flexShrink={0} display="flex" alignItems="center" justifyContent="center">
-													<Check2Icon />
-												</Box>
-											)}
-										</Box>
-									)}
-									customScrollParent={customScrollParent}
-								/>
+								<Virtuoso data={localData} itemContent={renderItem} customScrollParent={customScrollParent} />
 							</Box>
 						</SimpleBar>
 					</PopoverContent>
