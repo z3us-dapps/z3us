@@ -1,6 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { fadeIn, fadeOut } from '../dropdown-menu/dropdown-menu.css'
+import { fadeIn, fadeOut } from '../dropdown-menu/styles.css'
 import { darkMode, sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
 

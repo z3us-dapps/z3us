@@ -51,8 +51,8 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	content_script: {
-		id: 'kyohnj',
-		defaultMessage: 'Connected DApp: {DappLink}',
+		id: 'eTqNGs',
+		defaultMessage: 'Connected Dapp: {DappLink}',
 	},
 	wallet: {
 		id: '3yk8fB',
@@ -168,18 +168,21 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 						<DropdownMenuContent align="end" sideOffset={2} className={styles.accountViewContentWrapper}>
 							<Box className={styles.accountViewPaddingWrapper}>
 								<DropdownMenuLabel>
-									<Text size="xsmall" weight="strong" color="strong">
+									<Text size="xsmall" weight="medium">
 										{intl.formatMessage(messages.content_script, {
 											DappLink: (
-												<Link href={dappStatus.currentTabHost}>
-													<Text size="xsmall" weight="strong" color="strong">
-														{dappStatus.currentTabHost}
-													</Text>
+												<Link href={dappStatus.currentTabHost} size="xsmall" weight="medium">
+													{dappStatus.currentTabHost}
 												</Link>
 											),
 										})}
 									</Text>
 								</DropdownMenuLabel>
+							</Box>
+
+							<DropdownMenuSeparator className={styles.accountDappLinkSeparator} />
+
+							<Box className={styles.accountViewPaddingWrapper}>
 								<DropdownMenuLabel>
 									<Text size="xsmall" weight="strong" color="strong">
 										{intl.formatMessage(messages.wallet)}

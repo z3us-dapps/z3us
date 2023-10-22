@@ -2,6 +2,7 @@ import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const accountViewDropdownWrapper = style([
 	sprinkles({
@@ -41,6 +42,14 @@ export const accountViewPaddingWrapper = style([
 		paddingX: 'small',
 	}),
 	{},
+])
+
+export const accountDappLinkSeparator = style([
+	sprinkles({}),
+	{
+		marginTop: vars.spacing.xxsmall,
+		marginBottom: vars.spacing.xxsmall,
+	},
 ])
 
 export const accountViewPaddingXWrapper = style([
