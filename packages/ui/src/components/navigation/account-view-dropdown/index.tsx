@@ -182,103 +182,99 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 
 							<DropdownMenuSeparator className={styles.accountDappLinkSeparator} />
 
-							<Box className={styles.accountViewPaddingWrapper}>
-								<DropdownMenuLabel>
-									<Text size="xsmall" weight="strong" color="strong">
-										{intl.formatMessage(messages.wallet)}
-									</Text>
-								</DropdownMenuLabel>
-
-								<DropdownMenuSub>
-									<DropdownMenuSubTrigger>
-										<DropdownMenuLeftSlot>
-											{keystore.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
-											{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-											{keystore.type === KeystoreType.LOCAL && <Z3usIcon />}
-										</DropdownMenuLeftSlot>
-										<Box flexGrow={1} display="flex" marginLeft="small">
-											<Text size="xsmall" truncate>
-												{keystore.name}
+							{isWallet && (
+								<>
+									<Box className={styles.accountViewPaddingWrapper}>
+										<DropdownMenuLabel>
+											<Text size="xsmall" weight="strong" color="strong">
+												{intl.formatMessage(messages.wallet)}
 											</Text>
-										</Box>
-										<DropdownMenuRightSlot>
-											<ChevronRightIcon />
-										</DropdownMenuRightSlot>
-									</DropdownMenuSubTrigger>
-									<DropdownMenuPortal>
-										<DropdownMenuSubContent>
-											<DropdownMenuRadioGroup
-												disabled={isSwitchingKeystore}
-												value={keystore.id}
-												onValueChange={handleSelectKeystore}
-											>
-												{[...keystores]
-													.sort((a, b) => weights[a.type] - weights[b.type])
-													.map(k => (
-														<DropdownMenuRadioItem key={k.id} value={k.id}>
-															<DropdownMenuLeftSlot>
-																{k.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
-																{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-																{k.type === KeystoreType.LOCAL && <Z3usIcon />}
-															</DropdownMenuLeftSlot>
-															<Box flexGrow={1} marginLeft="small">
-																<Text size="xsmall"> {k.name}</Text>
-															</Box>
-															<DropdownMenuItemIndicator>
-																<CheckIcon />
-															</DropdownMenuItemIndicator>
-														</DropdownMenuRadioItem>
-													))}
-											</DropdownMenuRadioGroup>
-										</DropdownMenuSubContent>
-									</DropdownMenuPortal>
-								</DropdownMenuSub>
+										</DropdownMenuLabel>
 
-								{isWallet && (
-									<DropdownMenuItem onSelect={handleAddNewWallet}>
-										<DropdownMenuLeftSlot>
-											<PlusIcon />
-										</DropdownMenuLeftSlot>
-										<Box display="flex" marginLeft="small">
-											<Text size="xsmall" truncate>
-												{intl.formatMessage(messages.wallet_add)}
-											</Text>
-										</Box>
-									</DropdownMenuItem>
-								)}
-							</Box>
+										<DropdownMenuSub>
+											<DropdownMenuSubTrigger>
+												<DropdownMenuLeftSlot>
+													{keystore.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
+													{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+													{keystore.type === KeystoreType.LOCAL && <Z3usIcon />}
+												</DropdownMenuLeftSlot>
+												<Box flexGrow={1} display="flex" marginLeft="small">
+													<Text size="xsmall" truncate>
+														{keystore.name}
+													</Text>
+												</Box>
+												<DropdownMenuRightSlot>
+													<ChevronRightIcon />
+												</DropdownMenuRightSlot>
+											</DropdownMenuSubTrigger>
+											<DropdownMenuPortal>
+												<DropdownMenuSubContent>
+													<DropdownMenuRadioGroup
+														disabled={isSwitchingKeystore}
+														value={keystore.id}
+														onValueChange={handleSelectKeystore}
+													>
+														{[...keystores]
+															.sort((a, b) => weights[a.type] - weights[b.type])
+															.map(k => (
+																<DropdownMenuRadioItem key={k.id} value={k.id}>
+																	<DropdownMenuLeftSlot>
+																		{k.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
+																		{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+																		{k.type === KeystoreType.LOCAL && <Z3usIcon />}
+																	</DropdownMenuLeftSlot>
+																	<Box flexGrow={1} marginLeft="small">
+																		<Text size="xsmall"> {k.name}</Text>
+																	</Box>
+																	<DropdownMenuItemIndicator>
+																		<CheckIcon />
+																	</DropdownMenuItemIndicator>
+																</DropdownMenuRadioItem>
+															))}
+													</DropdownMenuRadioGroup>
+												</DropdownMenuSubContent>
+											</DropdownMenuPortal>
+										</DropdownMenuSub>
 
-							<DropdownMenuSeparator />
+										<DropdownMenuItem onSelect={handleAddNewWallet}>
+											<DropdownMenuLeftSlot>
+												<PlusIcon />
+											</DropdownMenuLeftSlot>
+											<Box display="flex" marginLeft="small">
+												<Text size="xsmall" truncate>
+													{intl.formatMessage(messages.wallet_add)}
+												</Text>
+											</Box>
+										</DropdownMenuItem>
+									</Box>
+									<DropdownMenuSeparator />
+									<Box className={styles.accountViewPaddingWrapper}>
+										<DropdownMenuItem onSelect={handleOpenInBrowser}>
+											<DropdownMenuLeftSlot>
+												<ShareIcon />
+											</DropdownMenuLeftSlot>
+											<Box display="flex" marginLeft="small">
+												<Text size="xsmall" truncate>
+													{intl.formatMessage(messages.open_in_browser)}
+												</Text>
+											</Box>
+										</DropdownMenuItem>
 
-							<Box className={styles.accountViewPaddingWrapper}>
-								{isWallet && (
-									<DropdownMenuItem onSelect={handleOpenInBrowser}>
-										<DropdownMenuLeftSlot>
-											<ShareIcon />
-										</DropdownMenuLeftSlot>
-										<Box display="flex" marginLeft="small">
-											<Text size="xsmall" truncate>
-												{intl.formatMessage(messages.open_in_browser)}
-											</Text>
-										</Box>
-									</DropdownMenuItem>
-								)}
+										<DropdownMenuItem onSelect={lock}>
+											<DropdownMenuLeftSlot>
+												<LockIcon />
+											</DropdownMenuLeftSlot>
+											<Box display="flex" marginLeft="small">
+												<Text size="xsmall" truncate>
+													{intl.formatMessage(messages.lock)}
+												</Text>
+											</Box>
+										</DropdownMenuItem>
+									</Box>
 
-								{isWallet && (
-									<DropdownMenuItem onSelect={lock}>
-										<DropdownMenuLeftSlot>
-											<LockIcon />
-										</DropdownMenuLeftSlot>
-										<Box display="flex" marginLeft="small">
-											<Text size="xsmall" truncate>
-												{intl.formatMessage(messages.lock)}
-											</Text>
-										</Box>
-									</DropdownMenuItem>
-								)}
-							</Box>
-
-							<DropdownMenuSeparator />
+									<DropdownMenuSeparator />
+								</>
+							)}
 
 							<Box className={styles.accountViewPaddingWrapper}>
 								<DropdownMenuSub>
