@@ -9,7 +9,6 @@ import { FormContext } from 'ui/src/components/form/context'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { AddressBookSelect } from 'ui/src/components/form/fields/address-book-select'
-import { CheckboxField } from 'ui/src/components/form/fields/checkbox-field'
 import { NftSelect } from 'ui/src/components/form/fields/nft-select'
 import { TextAreaField } from 'ui/src/components/form/fields/text-area-field'
 import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-field'
@@ -144,10 +143,10 @@ export const TransferFormFields: React.FC = () => {
 						sizeVariant="medium"
 						className={styles.transferFormMessageTextArea}
 					/>
-					<Box className={styles.transferFormEncryptWrapper}>
+					{/* <Box className={styles.transferFormEncryptWrapper}>
 						<Text size="xsmall">{intl.formatMessage(messages.message_encrypt_title)}</Text>
 						<CheckboxField name="messageEncrypted" styleVariant="primary" sizeVariant="small" />
-					</Box>
+					</Box> */}
 				</Box>
 			</Box>
 			<FieldsGroup
