@@ -87,7 +87,7 @@ const SelectItem: React.FC<ISelectItemProps> = ({ selectedAddress, symbol, name,
 					styles.tokenListItemWrapperButton,
 					address === selectedAddress && styles.tokenListItemWrapperButtonSelected,
 				)}
-				onClick={() => handleSelect}
+				onClick={handleSelect}
 			>
 				<Box className={styles.tokenListItemWrapperInnerButton}>
 					<ResourceImageIcon address={address} size="large" />

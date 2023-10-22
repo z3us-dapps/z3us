@@ -49,14 +49,18 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 
 	const { data: idsData, isFetching, hasNextPage, fetchNextPage } = useNonFungibleIds(resource, [fromAccount])
 
-	const nonFungiblesCollection = nonFungibleBalances.map(collection => ({
-		id: collection.address,
-		title: collection.name,
-	}))
+	const nonFungiblesCollection = useMemo(
+		() => nonFungibleBalances.map(collection => ({ id: collection.address, title: collection.name })),
+		[nonFungibleBalances],
+	)
 	const hasNonFungiblesCollection = nonFungiblesCollection?.length > 0
 
 	const nonFungibles = useMemo(
-		() => idsData?.pages.reduce((container, page) => [...container, ...page.items], []) || [],
+		() =>
+			idsData?.pages.reduce(
+				(container, page) => [...container, ...page.items.map(nftId => ({ id: nftId, title: nftId }))],
+				[],
+			) || [],
 		[idsData],
 	)
 	const hasNonFungibles = nonFungibles?.length > 0
@@ -80,7 +84,7 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 						ref={ref}
 						name={resourceKey}
 						placeholder={intl.formatMessage(messages.collection)}
-						data={nonFungibleBalances.map(collection => ({ id: collection.address, title: collection.name }))}
+						data={nonFungiblesCollection}
 						disabled={!hasNonFungiblesCollection}
 						fullWidth
 					/>
@@ -91,7 +95,7 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 					<SelectField
 						{...rest}
 						name={itemKey}
-						placeholder={intl.formatMessage(messages.nonFungiblesToolTip)}
+						placeholder={intl.formatMessage(messages.item)}
 						data={nonFungibles}
 						disabled={!hasNonFungibles}
 						fullWidth

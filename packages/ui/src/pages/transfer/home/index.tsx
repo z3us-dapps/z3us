@@ -1,6 +1,7 @@
 import { ManifestBuilder, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useSearchParams } from 'react-router-dom'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
@@ -10,7 +11,7 @@ import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
 import { sendFungibleTokens, sendNftTokens } from 'ui/src/manifests/transfer'
 
-import TransferFormFields from './components/transfer-form-fields'
+import TransferFormFields, { MAX_MESSAGE_LENGTH } from './components/transfer-form-fields'
 import * as styles from './styles.css'
 
 const positiveNumberValidator = (value: number): boolean => value > 0
@@ -56,23 +57,35 @@ const messages = defineMessages({
 		id: 'w2XWRt',
 		defaultMessage: 'Please select account',
 	},
+	validation_message: {
+		id: '9Xeynx',
+		defaultMessage: 'Message can not be longer than {length}',
+	},
 	validation_to: {
 		id: 'qdvh1F',
 		defaultMessage: 'Please select recipient',
 	},
+	validation_values_length: {
+		id: '8Dy6y8',
+		defaultMessage: 'At least one group is required',
+	},
 })
-
-const initialValues = {
-	from: '',
-	message: '',
-	messageEncrypted: false,
-	actions: [{ to: '', resources: [] }],
-}
 
 export const Home: React.FC = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const sendTransaction = useSendTransaction()
+	const [searchParams] = useSearchParams()
+	const accountIdQuery = searchParams.get('accountId') || '-'
+
+	const initialValues = useMemo(
+		() => ({
+			from: [{ account: accountIdQuery !== '-' ? accountIdQuery : '', actions: [{ to: '', resources: [] }] }],
+			message: '',
+			messageEncrypted: false,
+		}),
+		[accountIdQuery],
+	)
 
 	const [validation, setValidation] = useState<ZodError>()
 
@@ -104,9 +117,18 @@ export const Home: React.FC = () => {
 		})
 
 		return z.object({
-			from: z.string().min(1, intl.formatMessage(messages.validation_from)),
-			actions: z.array(actionsSchema),
-			message: z.string().or(z.undefined()),
+			from: z
+				.array(
+					z.object({
+						account: z.string().min(1, intl.formatMessage(messages.validation_from)),
+						actions: z.array(actionsSchema),
+					}),
+				)
+				.min(1, intl.formatMessage(messages.validation_values_length)),
+			message: z
+				.string()
+				.max(MAX_MESSAGE_LENGTH, intl.formatMessage(messages.validation_message, { length: MAX_MESSAGE_LENGTH }))
+				.or(z.undefined()),
 			messageEncrypted: z.boolean().or(z.undefined()),
 		})
 	}, [])
@@ -119,22 +141,24 @@ export const Home: React.FC = () => {
 		}
 
 		let builder = new ManifestBuilder()
-		values.actions.forEach(action => {
-			if (action.resources?.length > 0) {
-				const nfts = []
-				const tokens = []
-				action.resources.forEach(({ address, id, amount }) => {
-					if (id) {
-						nfts.push({ resource: address, ids: [id] })
-					} else {
-						tokens.push({ resource: address, amount })
-					}
-				})
+		values.from.forEach(({ account, actions }) =>
+			actions.forEach(action => {
+				if (action.resources?.length > 0) {
+					const nfts = []
+					const tokens = []
+					action.resources.forEach(({ address, id, amount }) => {
+						if (id) {
+							nfts.push({ resource: address, ids: [id] })
+						} else {
+							tokens.push({ resource: address, amount })
+						}
+					})
 
-				if (nfts.length > 0) builder = sendNftTokens(builder, [{ from: values.from, to: action.to, nfts }])
-				if (tokens.length > 0) builder = sendFungibleTokens(builder, [{ from: values.from, to: action.to, tokens }])
-			}
-		})
+					if (nfts.length > 0) builder = sendNftTokens(builder, [{ from: account, to: action.to, nfts }])
+					if (tokens.length > 0) builder = sendFungibleTokens(builder, [{ from: account, to: action.to, tokens }])
+				}
+			}),
+		)
 
 		const manifest = builder.build()
 		const convertedInstructions = await RadixEngineToolkit.Instructions.convert(

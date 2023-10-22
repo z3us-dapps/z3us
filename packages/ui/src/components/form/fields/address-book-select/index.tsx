@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useMemo } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { CheckCircleIcon } from 'ui/src/components/icons'
@@ -33,8 +33,9 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 		alias: entry.name,
 	}))
 
-	const knownAddress = addressBook[value]?.name
-	const toName = knownAddress || getShortAddress(`${value}`, 8)
+	const strValue = useMemo(() => (value ? (value as string) : ''), [value])
+	const knownAddress = addressBook[strValue]?.name
+	const toName = knownAddress || getShortAddress(strValue, 8)
 
 	return (
 		<>
@@ -56,7 +57,7 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 			)}
 			<SearchableInput
 				{...rest}
-				value={`${value}`}
+				value={strValue}
 				ref={ref}
 				onValueChange={handleChange}
 				data={allEntries}
