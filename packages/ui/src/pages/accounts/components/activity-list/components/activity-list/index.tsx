@@ -2,6 +2,7 @@ import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { defineMessages, useIntl } from 'react-intl'
 import { Virtuoso } from 'react-virtuoso'
 
@@ -70,6 +71,7 @@ interface IRowProps {
 }
 
 const ItemWrapper: React.FC<IRowProps> = props => {
+	const location = useLocation()
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
 	const { data: knownAddresses } = useKnownAddresses()
@@ -78,10 +80,10 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 	const isHovered = hovered === transaction?.intent_hash
 
 	const addTransactionIdToPath = (txId: string) => {
-		const [path, params] = window.location.hash.substring(1).split('?')
+		const [, params] = location.search.split('?')
 		const query = new URLSearchParams(params)
 		query.set('tx', `${txId}`)
-		return `${path}?${query}`
+		return `${location.pathname}?${query}`
 	}
 
 	return (

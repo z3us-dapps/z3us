@@ -1,5 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
-import type { HTMLProps } from 'react'
+import type { HTMLProps, KeyboardEvent } from 'react'
 import React, { forwardRef } from 'react'
 
 import { Box } from '../box'
@@ -11,7 +11,8 @@ export type TStyleVariant = 'primary' | 'secondary' | 'primary-error' | 'seconda
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
-export interface IInputProps extends Omit<HTMLProps<HTMLInputElement>, 'onChange' | 'onFocus' | 'onBlur'> {
+export interface IInputProps
+	extends Omit<HTMLProps<HTMLInputElement>, 'onChange' | 'onFocus' | 'onBlur' | 'onKeyDown'> {
 	value?: string | number
 	onClick?: () => void
 	disabled?: boolean
@@ -27,6 +28,7 @@ export interface IInputProps extends Omit<HTMLProps<HTMLInputElement>, 'onChange
 	rightIcon?: React.ReactNode
 	rightIconClassName?: ClassValue
 	onChange?: (e: React.ChangeEvent<FormElement>) => void
+	onKeyDown?: (e: KeyboardEvent<FormElement>) => void
 	onFocus?: (e: React.FocusEvent<FormElement>) => void
 	onBlur?: (e: React.FocusEvent<FormElement>) => void
 }
@@ -49,6 +51,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 		rightIcon,
 		rightIconClassName,
 		onChange,
+		onKeyDown,
 		onFocus,
 		onBlur,
 		...rest
@@ -74,6 +77,11 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 		onChange(event)
 	}
 
+	const handleOnKeyDown = (event: KeyboardEvent<FormElement>) => {
+		if (disabled) return
+		onKeyDown(event)
+	}
+
 	return (
 		<Box className={styles.inputWrapper}>
 			{isElementTextArea ? (
@@ -86,6 +94,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 					onClick={onClick}
 					placeholder={placeholder}
 					onChange={handleOnChange}
+					onKeyDown={handleOnKeyDown}
 					onFocus={onFocus}
 					onBlur={onBlur}
 					rows={20}
@@ -101,6 +110,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 					onClick={onClick}
 					placeholder={placeholder}
 					onChange={handleOnChange}
+					onKeyDown={handleOnKeyDown}
 					onFocus={onFocus}
 					onBlur={onBlur}
 					{...rest}

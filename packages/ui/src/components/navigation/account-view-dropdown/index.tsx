@@ -155,7 +155,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 								<Button
 									styleVariant={styleVariant}
 									sizeVariant="small"
-									rounded
 									iconOnly
 									className={styles.accountViewTriggerButton}
 								>

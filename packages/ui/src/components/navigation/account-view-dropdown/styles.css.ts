@@ -64,6 +64,7 @@ export const accountViewPaddingXWrapper = style([
 export const accountViewTriggerButton = style([
 	sprinkles({
 		position: 'relative',
+		flexShrink: 0,
 	}),
 ])
 

@@ -7,12 +7,11 @@ import { CardButtons } from 'ui/src/components/card-buttons'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { LockIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
+import MetadataValue from 'ui/src/components/metadata-value'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { getStringMetadata } from 'ui/src/services/metadata'
-
-import MetadataValue from './metadata-value'
 
 const messages = defineMessages({
 	back: {

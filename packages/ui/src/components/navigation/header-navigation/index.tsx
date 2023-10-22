@@ -19,6 +19,7 @@ import { BackButton } from 'ui/src/pages/accounts/components/layout/components/m
 import { KeystoreType } from 'ui/src/store/types'
 
 import { AccountViewDropdown } from '../account-view-dropdown'
+import { SearchResource } from '../search'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -67,7 +68,8 @@ const HeaderNavDesktop = () => {
 					))}
 				</LayoutGroup>
 			</Box>
-			<Box display="flex" alignItems="center" gap="small" flexGrow={1} paddingRight="medium" justifyContent="flex-end">
+			<Box className={styles.headerDesktopDropdownWrapper}>
+				<SearchResource />
 				<AccountViewDropdown />
 			</Box>
 		</Box>
@@ -166,6 +168,7 @@ const HeaderNavMobile = () => {
 					)}
 				</>
 			)}
+			<SearchResource />
 			<AccountViewDropdown styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} />
 		</Box>
 	)

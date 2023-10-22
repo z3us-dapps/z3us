@@ -10,6 +10,7 @@ import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { LockIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
+import MetadataValue from 'ui/src/components/metadata-value'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { RedGreenText, Text } from 'ui/src/components/typography'
@@ -21,7 +22,6 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { getStringMetadata } from 'ui/src/services/metadata'
 import { TimeFrames } from 'ui/src/types'
 
-import MetadataValue from './metadata-value'
 import * as styles from './styles.css'
 
 const messages = defineMessages({

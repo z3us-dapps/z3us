@@ -36,10 +36,11 @@ const Home: React.FC = () => {
 		<Box ref={wrapperRef} className={styles.assetsHomeWrapper} style={{ minHeight: `${mobileMinHeight}px` }}>
 			<HomeScrollShadow />
 			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
+
 			<Box className={styles.homeAssetsTitleWrapper}>
 				{isAllAccounts ? (
 					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-						{intl.formatMessage(messages.all_assets)}{' '}
+						{intl.formatMessage(messages.all_assets)}
 					</Text>
 				) : (
 					<>
