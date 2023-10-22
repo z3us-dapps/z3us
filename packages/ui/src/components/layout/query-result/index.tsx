@@ -40,7 +40,7 @@ export const QueryResult = () => {
 	const isMobile = useIsMobileWidth()
 
 	const resourceId = searchParams.get('query')
-	const isTransactionVisible = !!resourceId
+	const isVisible = !!resourceId
 
 	const { data, isLoading } = useEntityDetails(resourceId)
 
@@ -79,11 +79,10 @@ export const QueryResult = () => {
 		}
 	}, [resourceId])
 
-	if (!resourceId) return null
-	if (isLoading) return <FallbackLoading />
+	if (!isVisible) return null
 
 	return (
-		<DialogRoot open={isTransactionVisible} modal={isMobile}>
+		<DialogRoot open={isVisible} modal={isMobile}>
 			<DialogPortal>
 				{isMobile ? <DialogOverlay className={dialogStyles.dialogOverlay} /> : null}
 				<DialogContent
@@ -97,45 +96,50 @@ export const QueryResult = () => {
 				>
 					<ScrollArea onScroll={handleScroll}>
 						<Box className={styles.transactionBodyScrollWrapper}>
-							<Box display="flex" flexDirection="column" alignItems="center">
-								<Box paddingBottom="small">
-									<ResourceImageIcon address={resourceId} />
-								</Box>
-								<Text size="xlarge" weight="strong" color="strong" align="center">
-									{name}
-								</Text>
-								<Text size="xxsmall">{description}</Text>
-							</Box>
-							<Box className={styles.transactionDetailsWrapper}>
-								<Box display="flex" flexDirection="column">
-									<Box paddingTop="xlarge">
-										<Text size="large" weight="medium" color="strong">
-											{intl.formatMessage(messages.metadata)}
+							{isLoading ? (
+								<FallbackLoading />
+							) : (
+								<>
+									<Box display="flex" flexDirection="column" alignItems="center">
+										<Box paddingBottom="small">
+											<ResourceImageIcon address={resourceId} />
+										</Box>
+										<Text size="xlarge" weight="strong" color="strong" align="center">
+											{name}
 										</Text>
+										<Text size="xxsmall">{description}</Text>
 									</Box>
-
-									{data?.metadata.items.map(item => (
-										<AccountsTransactionInfo
-											key={item.key}
-											leftTitle={
-												<Box display="flex" alignItems="flex-end" gap="xsmall">
-													<Box>
-														<Box>{item.is_locked === true && <LockIcon />}</Box>
-													</Box>
-													<Text size="xxsmall" color="strong" weight="medium">
-														{(item.key as string).toUpperCase()}
-													</Text>
-												</Box>
-											}
-											rightData={
-												<Box display="flex" alignItems="flex-end">
-													<MetadataValue value={item} />
-												</Box>
-											}
-										/>
-									))}
-								</Box>
-							</Box>
+									<Box className={styles.transactionDetailsWrapper}>
+										<Box display="flex" flexDirection="column">
+											<Box paddingTop="xlarge">
+												<Text size="large" weight="medium" color="strong">
+													{intl.formatMessage(messages.metadata)}
+												</Text>
+											</Box>
+											{data?.metadata.items.map(item => (
+												<AccountsTransactionInfo
+													key={item.key}
+													leftTitle={
+														<Box display="flex" alignItems="flex-end" gap="xsmall">
+															<Box>
+																<Box>{item.is_locked === true && <LockIcon />}</Box>
+															</Box>
+															<Text size="xxsmall" color="strong" weight="medium">
+																{(item.key as string).toUpperCase()}
+															</Text>
+														</Box>
+													}
+													rightData={
+														<Box display="flex" alignItems="flex-end">
+															<MetadataValue value={item} />
+														</Box>
+													}
+												/>
+											))}
+										</Box>
+									</Box>
+								</>
+							)}
 						</Box>
 					</ScrollArea>
 					<Box className={clsx(styles.transactionHeaderWrapper, isScrolled && styles.transactionHeaderWrapperShadow)}>
