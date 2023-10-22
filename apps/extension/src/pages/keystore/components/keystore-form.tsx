@@ -1,4 +1,3 @@
-import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +6,7 @@ import { z } from 'zod'
 
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'

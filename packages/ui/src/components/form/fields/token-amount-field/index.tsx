@@ -6,6 +6,7 @@ import { Box } from 'ui/src/components/box'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 
 import { FormContext } from '../../context'
 import { type IProps as WrapperProps } from '../../field-wrapper'
@@ -31,7 +32,17 @@ const messages = defineMessages({
 		id: 'sg1Uvs',
 		defaultMessage: 'Balance: {amount, number, ::.00#######}',
 	},
+	divisibility: {
+		defaultMessage: 'Max allowed decimals: {divisibility, number}',
+		id: 'uhlXE7',
+	},
 })
+
+function countDecimals(value: number) {
+	if (!value) return 0
+	if (value % 1 === 0) return 0
+	return value.toString().split('.')[1].length
+}
 
 export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, ref) => {
 	const intl = useIntl()
@@ -44,20 +55,37 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	const amount = useFieldValue(`${parentName}${parentName ? '.' : ''}${amountKey}`)
 	const resource = useFieldValue(`${parentName}${parentName ? '.' : ''}${resourceKey}`)
 
+	const { data } = useEntityDetails(resource)
+
 	const selectedToken = fungibleBalances.find(b => b.address === resource)
 
 	const handleMaxValue = () => {
 		onFieldChange(`${parentName}${parentName ? '.' : ''}${amountKey}`, selectedToken?.amount || 0)
 	}
 
+	const validateDivisibility = (v: string) => {
+		if (countDecimals(+v) > data?.details?.divisibility) {
+			return intl.formatMessage(messages.divisibility, { divisibility: data?.details?.divisibility })
+		}
+		return ''
+	}
+
 	return (
 		<Box disabled={!fromAccount || isLoading} position="relative">
 			<NumberField
 				{...rest}
+				step={
+					data?.details?.divisibility > 0
+						? `.${Array(data.details.divisibility - 1)
+								.fill('0')
+								.join('')}1`
+						: '1'
+				}
 				ref={ref}
 				name={amountKey}
 				placeholder={intl.formatMessage(messages.amount_placeholder)}
 				sizeVariant="large"
+				validate={validateDivisibility}
 			/>
 			<TokenSelect name={resourceKey} balances={fungibleBalances} />
 			<Box

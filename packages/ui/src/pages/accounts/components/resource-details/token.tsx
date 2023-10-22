@@ -77,9 +77,10 @@ const TokenDetails: React.FC = () => {
 
 	const { data: token } = useToken(validator && knownAddresses ? knownAddresses.resourceAddresses.xrd : resourceId)
 
-	const value = parseFloat(token?.price?.xrd.now) || 0 * xrdPrice
-	const change = (token ? parseFloat(token?.price?.usd.now) || 0 / parseFloat(token?.price?.usd['24h']) || 0 : 0) / 100
-	const increase = token ? parseFloat(token?.price?.usd.now) || 0 - parseFloat(token?.price?.usd['24h']) || 0 : 0
+	const value = (parseFloat(token?.price?.xrd.now) || 0) * xrdPrice
+	const change =
+		(token ? (parseFloat(token?.price?.usd.now) || 0) / (parseFloat(token?.price?.usd['24h']) || 0) : 0) / 100
+	const increase = token ? (parseFloat(token?.price?.usd.now) || 0) - (parseFloat(token?.price?.usd['24h']) || 0) : 0
 
 	const [timeFrame, setTimeFrame] = useState<TimeFrames>(TimeFrames.THREE_MONTHS)
 	const { data: udfHistory } = useUsfHistory(resourceId, timeFrame)
