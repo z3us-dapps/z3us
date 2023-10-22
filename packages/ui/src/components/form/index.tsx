@@ -64,6 +64,12 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 	})
 
 	useEffect(() => {
+		setState(draft => {
+			draft.values = initialValues
+		})
+	}, [initialValues])
+
+	useEffect(() => {
 		const { values } = state
 		if (onChange) onChange(values)
 	}, [state.values])

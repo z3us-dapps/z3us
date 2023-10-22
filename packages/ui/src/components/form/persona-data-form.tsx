@@ -58,25 +58,13 @@ const messages = defineMessages({
 		id: 'SBkvpf',
 		defaultMessage: 'Nickname',
 	},
-	validation_nickname: {
-		id: 'R16INh',
-		defaultMessage: 'Please insert valid nickname',
-	},
 	given_names: {
 		id: 'de/sqY',
 		defaultMessage: 'Given names',
 	},
-	validation_given_names: {
-		id: '1vfXfh',
-		defaultMessage: 'Please insert valid given names',
-	},
 	family_name: {
 		id: 'AeMjAR',
 		defaultMessage: 'Family name',
-	},
-	validation_family_name: {
-		id: 'Q4s2E+',
-		defaultMessage: 'Please insert valid family name',
 	},
 })
 

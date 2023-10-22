@@ -91,7 +91,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 						variant: z.literal('western').or(z.literal('eastern')),
 						givenNames: z.string().min(1, intl.formatMessage(messages.validation_given_names)),
 						familyName: z.string().min(1, intl.formatMessage(messages.validation_family_name)),
-						nickname: z.string().min(1, intl.formatMessage(messages.validation_nickname)).or(z.undefined()),
+						nickname: z.string().or(z.undefined()),
 					}),
 				)
 				.min(1, intl.formatMessage(messages.validation_names_required))
@@ -160,7 +160,6 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 			response.phoneNumbers = values.phoneNumbers.map(({ number }) => number)
 		}
 
-		const currentDetails = personaIndexes?.[identityAddress]
 		const labelParts: string[] = []
 		if (response.name?.givenNames) {
 			labelParts.push(response.name?.givenNames)
@@ -172,16 +171,19 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 			labelParts.push(response.name?.familyName)
 		}
 
-		updatePersona(networkId, identityAddress, {
+		const currentDetails = personaIndexes?.[identityAddress]
+		const persona = {
 			...currentDetails,
 			label: labelParts.length > 0 ? labelParts.join(' ') : currentDetails.label,
 			nickName: response.name?.nickname,
 			nameVariant: response.name?.variant,
 			givenNames: response.name?.givenNames,
 			familyName: response.name?.familyName,
-			emailAddresses: response.emailAddresses,
-			phoneNumbers: response.phoneNumbers,
-		})
+			emailAddresses: values.emailAddresses.map(({ email }) => email),
+			phoneNumbers: values.phoneNumbers.map(({ number }) => number),
+		}
+
+		updatePersona(networkId, identityAddress, persona)
 		onConfirm(response)
 		setIsOpen(false)
 	}

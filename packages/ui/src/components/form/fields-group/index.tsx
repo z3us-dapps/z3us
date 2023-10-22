@@ -1,11 +1,13 @@
 import type { PropsWithChildren } from 'react'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { generateId } from 'ui/src/utils/generate-id'
 
+import { FormContext } from '../context'
+import { FieldContext } from '../field-wrapper/context'
 import { AddTrigger } from './add-trigger'
 import { GroupField } from './group-field'
 import { TrashTrigger } from './trash-trigger'
@@ -35,7 +37,12 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 		defaultKeys = 0,
 		ignoreTriggers,
 	} = props
-	const [keys, setKeys] = useState<string[]>(Array.from({ length: defaultKeys }, generateId))
+	const { values } = useContext(FormContext)
+	const { name: parentName } = useContext(FieldContext)
+	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
+	const [keys, setKeys] = useState<string[]>(
+		Array.from({ length: defaultKeys || values?.[fieldName].length }, generateId),
+	)
 
 	const handleRemove = (key: string) => {
 		setKeys(keys.filter(k => k !== key))

@@ -64,8 +64,8 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 			nameVariant: values.names?.[0]?.variant,
 			givenNames: values.names?.[0]?.givenNames,
 			familyName: values.names?.[0]?.familyName,
-			emailAddresses: values.emailAddresses,
-			phoneNumbers: values.phoneNumbers,
+			emailAddresses: values.emailAddresses?.map(({ email }) => email) || [],
+			phoneNumbers: values.phoneNumbers?.map(({ number }) => number) || [],
 		}
 
 		if (identityAddress === '') {
@@ -95,7 +95,7 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 					{intl.formatMessage(messages.title)}
 				</Text>
 				<Box display="flex" flexDirection="column" gap="xsmall">
-					<PersonaDataForm onSubmit={handleSubmit} />
+					<PersonaDataForm onSubmit={handleSubmit} identityAddress={identityAddress} />
 				</Box>
 				<Box display="flex" gap="small" justifyContent="flex-end">
 					<Button sizeVariant="small" styleVariant="secondary" fullWidth onClick={onClose}>
