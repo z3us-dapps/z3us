@@ -39,6 +39,6 @@ export const useGetPublicKey = () => {
 					throw new Error(`Can not derive public key type: ${keystore?.type}`)
 			}
 		},
-		[keystore],
+		[keystore, client, ledger],
 	)
 }

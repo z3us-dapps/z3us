@@ -17,14 +17,14 @@ export function hdkeyFromExtendedPrivateKey(xpriv: string): HDKey {
 	return HDKey.fromJSON({ xpriv })
 }
 
-export function secp256k1FromEntropy(seed: string): BaseHdWallet {
+export function secp256k1FromSeed(seed: string): BaseHdWallet {
 	return createRadixWallet({
 		seed,
 		curve: HDWalletCurve.secp256k1,
 	})
 }
 
-export function ed25519FromEntropy(seed: string): BaseHdWallet {
+export function ed25519FromSeed(seed: string): BaseHdWallet {
 	return createRadixWallet({
 		seed,
 		curve: HDWalletCurve.ed25519,
@@ -52,9 +52,9 @@ export function getPrivateKey(data: Data, curve: CURVE, derivationPath: string):
 		case DataType.MNEMONIC:
 			switch (curve) {
 				case CURVE.SECP256K1:
-					return deriveSecp256k1(secp256k1FromEntropy(secret), derivationPath)
+					return deriveSecp256k1(secp256k1FromSeed(secret), derivationPath)
 				case CURVE.CURVE25519:
-					return deriveEd25519(ed25519FromEntropy(secret), derivationPath)
+					return deriveEd25519(ed25519FromSeed(secret), derivationPath)
 				default:
 					return null
 			}

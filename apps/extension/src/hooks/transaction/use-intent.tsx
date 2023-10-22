@@ -9,7 +9,7 @@ import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { buildAccountDerivationPath } from '@src/crypto/derivation_path'
-import { deriveEd25519, ed25519FromEntropy } from '@src/crypto/key_pair'
+import { deriveEd25519, ed25519FromSeed } from '@src/crypto/key_pair'
 import { createMnemonic } from '@src/crypto/secret'
 import { appendLockFeeInstruction } from '@src/radix/transaction'
 import type { TransactionSettings } from '@src/types/transaction'
@@ -62,7 +62,7 @@ export const useIntent = () => {
 			throw new Error(intl.formatMessage(messages.empty_signatures_error))
 		}
 
-		const notary = deriveEd25519(ed25519FromEntropy(createMnemonic()), buildAccountDerivationPath(networkId, 0))
+		const notary = deriveEd25519(ed25519FromSeed(createMnemonic()), buildAccountDerivationPath(networkId, 0))
 		const { ledger_state: ledgerState } = await status.getCurrent()
 		const validFromEpoch: number = ledgerState.epoch
 

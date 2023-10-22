@@ -1,3 +1,4 @@
+import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
@@ -6,9 +7,11 @@ import { z } from 'zod'
 
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
-import { useSharedStore } from 'ui/src/hooks/use-store'
-import type { Keystore, KeystoreType } from 'ui/src/store/types'
+import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import type { Keystore } from 'ui/src/store/types'
+import { KeystoreType } from 'ui/src/store/types'
 
+import { useAddAccount } from '@src/hooks/use-add-account'
 import { useMessageClient } from '@src/hooks/use-message-client'
 import type { Data } from '@src/types/vault'
 
@@ -58,9 +61,14 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit }) => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const client = useMessageClient()
+	const networkId = useNetworkId()
 	const { keystoreId, addKeystore } = useSharedStore(state => ({
 		keystoreId: state.selectedKeystoreId,
 		addKeystore: state.addKeystoreAction,
+	}))
+	const addAccount = useAddAccount()
+	const { accountIndexes } = useNoneSharedStore(state => ({
+		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
@@ -101,8 +109,10 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit }) => {
 		}
 		const data = onSubmit()
 
-		await client.storeInVault(keystore, data, values.password)
 		addKeystore(keystore.id, keystore.name, keystore.type)
+		await client.storeInVault(keystore, data, values.password)
+		await client.unlockVault(values.password)
+		if (keystoreType !== KeystoreType.RADIX_WALLET && Object.keys(accountIndexes).length === 0) addAccount()
 
 		navigate('/')
 	}

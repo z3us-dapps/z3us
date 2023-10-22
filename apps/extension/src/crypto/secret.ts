@@ -26,18 +26,15 @@ export function secretToData(type: DataType, secret: string = '', language: Lang
 		case DataType.MNEMONIC:
 			return {
 				type,
-				secret: Buffer.from(
-					mnemonicToEntropy(
-						secret
-							.split(',') // replace commas with spaces
-							.join(' ')
-							.split(' ') // remove extra spaces
-							.filter(char => char !== '')
-							.join(' '),
-						wordlists[key],
-					),
-					'utf-8',
-				).toString('hex'),
+				secret: mnemonicToEntropy(
+					secret
+						.split(',') // replace commas with spaces
+						.join(' ')
+						.split(' ') // remove extra spaces
+						.filter(char => char !== '')
+						.join(' '),
+					wordlists[key],
+				),
 				language,
 			}
 		case DataType.PRIVATE_KEY:

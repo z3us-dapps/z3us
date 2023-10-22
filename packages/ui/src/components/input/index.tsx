@@ -79,7 +79,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 
 	const handleOnKeyDown = (event: KeyboardEvent<FormElement>) => {
 		if (disabled) return
-		onKeyDown(event)
+		if (onKeyDown) onKeyDown(event)
 	}
 
 	return (

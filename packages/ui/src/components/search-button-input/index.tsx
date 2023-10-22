@@ -24,7 +24,7 @@ interface IProps {
 	searchBtnToolTipMsg: string
 	inputPlaceholder: string
 	value?: string
-	onCommitSearch: (string) => void
+	onCommitSearch: (search: string) => void
 	closeOnCommit?: boolean
 }
 
