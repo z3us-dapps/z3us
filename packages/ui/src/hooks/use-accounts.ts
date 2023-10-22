@@ -17,7 +17,7 @@ export const useSelectedAccounts = (): string[] => {
 	}))
 
 	const accounts = useMemo(
-		() => (keystore.type !== KeystoreType.RADIX_WALLET ? zdtAccounts : rdtAccounts),
+		() => (keystore?.type !== KeystoreType.RADIX_WALLET ? zdtAccounts : rdtAccounts),
 		[keystore, rdtAccounts, zdtAccounts],
 	)
 
@@ -36,7 +36,7 @@ export const useWalletAccounts = (): { [key: string]: AddressBookEntry } => {
 	}))
 
 	const accounts = useMemo(
-		() => (keystore.type !== KeystoreType.RADIX_WALLET ? zdtAccounts : rdtAccounts),
+		() => (keystore?.type !== KeystoreType.RADIX_WALLET ? zdtAccounts : rdtAccounts),
 		[keystore, rdtAccounts, zdtAccounts],
 	)
 

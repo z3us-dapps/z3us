@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom'
 
 import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
-import Layout from 'ui/src/components/layout'
+import AppLayout from 'ui/src/components/layout'
 import { DappStatusContext, defaultState as defaultDappState } from 'ui/src/context/dapp-status'
 import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
@@ -31,7 +31,7 @@ export const router = createHashRouter([
 				element: <Navigate to={`/${accountsRoute.path}`} />,
 			},
 			{
-				element: <Layout />,
+				element: <AppLayout />,
 				children: [
 					// {
 					// 	index: true,

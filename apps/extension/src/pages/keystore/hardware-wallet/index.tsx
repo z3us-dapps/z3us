@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { useSharedStore } from 'ui/src/hooks/use-store'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { secretToData } from '@src/crypto/secret'
+import { useAddAccount } from '@src/hooks/use-add-account'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import { useLedgerClient } from '@src/hooks/use-ledger-client'
 import type { Data } from '@src/types/vault'
@@ -31,11 +33,15 @@ export const New: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const client = useLedgerClient()
+	const networkId = useNetworkId()
+	const addAccount = useAddAccount()
 	const { isUnlocked, isLoading: isLoadingUnlocked } = useIsUnlocked()
-
 	const { keystore, changeKeystoreLedgerDevice } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 		changeKeystoreLedgerDevice: state.changeKeystoreLedgerDeviceAction,
+	}))
+	const { accountIndexes } = useNoneSharedStore(state => ({
+		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -62,6 +68,7 @@ export const New: React.FC = () => {
 
 	const handleSubmit = (): Data => {
 		changeKeystoreLedgerDevice(keystore.id, device)
+		if (Object.keys(accountIndexes).length === 0) addAccount()
 		return secretToData(DataType.STRING, JSON.stringify(device))
 	}
 

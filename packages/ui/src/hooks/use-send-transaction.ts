@@ -28,7 +28,7 @@ export const useSendTransaction: () => WalletApi['sendTransaction'] = () => {
 
 	return useCallback<typeof rdt.walletApi.sendTransaction>(
 		(input: SendTransactionInput) =>
-			keystore.type !== KeystoreType.RADIX_WALLET
+			keystore?.type !== KeystoreType.RADIX_WALLET
 				? ResultAsync.fromPromise(sendTransaction(input), (error: any) => {
 						// eslint-disable-next-line no-console
 						console.error(error)

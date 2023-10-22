@@ -42,7 +42,7 @@ const SetupChecker: React.FC = () => {
 				// eslint-disable-next-line no-console
 				console.error(err)
 			} finally {
-				setIsLoading(!keystore)
+				setIsLoading(false)
 			}
 		}
 		load()
