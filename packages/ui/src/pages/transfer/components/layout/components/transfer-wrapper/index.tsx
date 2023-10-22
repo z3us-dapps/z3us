@@ -3,9 +3,6 @@ import type { PropsWithChildren } from 'react'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
-import { InformationIcon } from 'ui/src/components/icons'
-import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'ui/src/components/popover'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import { Text } from 'ui/src/components/typography'
 
