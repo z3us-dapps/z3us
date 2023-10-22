@@ -23,7 +23,7 @@ export const QrPopOver: React.FC<IProps> = props => {
 				<Box>{children}</Box>
 			</PopoverTrigger>
 			<PopoverPortal>
-				<PopoverContent align="center" sideOffset={10} style={{ maxWidth: '300px' }}>
+				<PopoverContent align="center" sideOffset={10} className={styles.qrPopOverWrapper}>
 					<Box padding="medium" display="flex" flexDirection="column" gap="small">
 						<Box display="flex" alignItems="center" gap="small">
 							<Text size="xsmall" weight="medium">
@@ -40,7 +40,7 @@ export const QrPopOver: React.FC<IProps> = props => {
 							/>
 						</Box>
 						<Box>
-							<QRCodeSVG value={address} size={180} className={styles.cardButtonsQrCode} />
+							<QRCodeSVG value={address} size={180} className={styles.qrPopOverCode} />
 						</Box>
 					</Box>
 				</PopoverContent>
