@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useCallback } from 'react'
 
 import { AccountCardIcon } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
@@ -11,6 +11,29 @@ import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
+
+interface ISelectItemProps {
+	id: string
+	title: string
+}
+
+const SelectItem: React.FC<ISelectItemProps> = ({ id, title }) => (
+	<DropdownMenuRadioItem value={id}>
+		<Box display="flex" alignItems="center" gap="medium">
+			<Box flexShrink={0}>
+				<AccountCardIcon address={id} />
+			</Box>
+			<Box flexGrow={1} minWidth={0}>
+				<Text truncate size="small">
+					{title} - {getShortAddress(id)}
+				</Text>
+			</Box>
+		</Box>
+		<DropdownMenuItemIndicator>
+			<Check2Icon />
+		</DropdownMenuItemIndicator>
+	</DropdownMenuRadioItem>
+)
 
 interface IAdapterProps {
 	placeholder?: string
@@ -37,6 +60,8 @@ export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref)
 	const addressBookEntry = addressBook[value]
 	const accountReadableName = addressBookEntry?.name || getShortAddress(value)
 
+	const renderItem = useCallback((_, { id, title }) => <SelectItem key={id} id={id} title={title} />, [])
+
 	return (
 		<DropdownMenuVirtuoso
 			{...rest}
@@ -49,24 +74,7 @@ export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref)
 				cardColor: _account.cardColor,
 				cardImage: _account.cardImage,
 			}))}
-			// eslint-disable-next-line react/no-unstable-nested-components
-			itemContentRenderer={(index, { id, title }) => (
-				<DropdownMenuRadioItem value={id} key={index}>
-					<Box display="flex" alignItems="center" gap="medium">
-						<Box flexShrink={0}>
-							<AccountCardIcon address={id} />
-						</Box>
-						<Box flexGrow={1} minWidth={0}>
-							<Text truncate size="small">
-								{title} - {getShortAddress(id)}
-							</Text>
-						</Box>
-					</Box>
-					<DropdownMenuItemIndicator>
-						<Check2Icon />
-					</DropdownMenuItemIndicator>
-				</DropdownMenuRadioItem>
-			)}
+			itemContentRenderer={renderItem}
 			trigger={
 				<Button
 					styleVariant={hasError ? 'tertiary-error' : styleVariant}

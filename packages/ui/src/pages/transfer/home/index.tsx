@@ -20,17 +20,33 @@ const messages = defineMessages({
 		id: '9WRlF4',
 		defaultMessage: 'Send',
 	},
+	validation_token_address_required: {
+		id: 'IXFNmv',
+		defaultMessage: 'Resource is required',
+	},
 	validation_token_address: {
 		id: 'gO3ocF',
 		defaultMessage: 'Please select token',
+	},
+	validation_token_amount_required: {
+		id: 'jU3fsF',
+		defaultMessage: 'Amount is required',
 	},
 	validation_token_amount: {
 		id: 'FrNeCi',
 		defaultMessage: 'Please enter a valid amount',
 	},
+	validation_nft_collection_required: {
+		id: 'IwILnS',
+		defaultMessage: 'NFT collection is required',
+	},
 	validation_nft_collection: {
 		id: 'jPKpFd',
 		defaultMessage: 'Please select NFT collection',
+	},
+	validation_nft_item_required: {
+		id: 'BKQjIu',
+		defaultMessage: 'NFT item is required',
 	},
 	validation_nft_item: {
 		id: 'yTLHBR',
@@ -62,15 +78,21 @@ export const Home: React.FC = () => {
 
 	const validationSchema = useMemo(() => {
 		const tokenSchema = z.object({
-			address: z.string().min(1, intl.formatMessage(messages.validation_token_address)),
+			address: z
+				.string({ required_error: intl.formatMessage(messages.validation_token_address_required) })
+				.min(1, intl.formatMessage(messages.validation_token_address)),
 			amount: z
-				.number()
+				.number({ required_error: intl.formatMessage(messages.validation_token_amount_required) })
 				.refine(positiveNumberValidator, { message: intl.formatMessage(messages.validation_token_amount) }),
 		})
 
 		const nftSchema = z.object({
-			address: z.string().min(1, intl.formatMessage(messages.validation_nft_collection)),
-			id: z.string().min(1, intl.formatMessage(messages.validation_nft_item)),
+			address: z
+				.string({ required_error: intl.formatMessage(messages.validation_nft_collection_required) })
+				.min(1, intl.formatMessage(messages.validation_nft_collection)),
+			id: z
+				.string({ required_error: intl.formatMessage(messages.validation_nft_item_required) })
+				.min(1, intl.formatMessage(messages.validation_nft_item)),
 			// ids: z.array(z.string().min(1, intl.formatMessage(messages.validation_nft_items_empty))).min(1, intl.formatMessage(messages.validation_nft_items)),
 		})
 
