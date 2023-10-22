@@ -9,7 +9,7 @@ import { Box } from '../box'
 import { Check2Icon } from '../icons'
 import SimpleBar from '../simple-bar'
 import { Text } from '../typography'
-import * as styles from './dropdown-menu.css'
+import * as styles from './styles.css'
 
 export const DropdownMenu = DropdownMenuPrimitive.Root
 export const DropdownMenuPortal = DropdownMenuPrimitive.Portal
@@ -30,7 +30,11 @@ export const DropdownMenuItem = ({ children, ...props }) => (
 	</DropdownMenuPrimitive.Item>
 )
 
-export const DropdownMenuSeparator = () => <DropdownMenuPrimitive.Separator className={styles.dropdownMenuSeparator} />
+export const DropdownMenuSeparator = forwardRef<HTMLDivElement, DropdownMenuPrimitive.DropdownMenuSeparatorProps>(
+	({ className, ...props }, ref) => (
+		<DropdownMenuPrimitive.Separator ref={ref} className={clsx(styles.dropdownMenuSeparator, className)} {...props} />
+	),
+)
 
 export const DropdownMenuArrow = () => <DropdownMenuPrimitive.Arrow className={styles.dropdownMenuArrow} />
 

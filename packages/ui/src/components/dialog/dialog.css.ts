@@ -6,7 +6,7 @@ import {
 	sharedPopoverBgSelectorStyles,
 	sharedPopoverBgSprinkles,
 	sharedPopoverBgStyles,
-} from '../dropdown-menu/dropdown-menu.css'
+} from '../dropdown-menu/styles.css'
 import type { Sprinkles } from '../system/sprinkles.css'
 import { sprinkles } from '../system/sprinkles.css'
 import { responsiveStyle } from '../system/theme-utils'
