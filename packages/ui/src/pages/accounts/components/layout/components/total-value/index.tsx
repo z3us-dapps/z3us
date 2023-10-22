@@ -1,7 +1,9 @@
+import clsx from 'clsx'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
+import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { RedGreenText } from 'ui/src/components/typography'
 import Text from 'ui/src/components/typography/text'
 import { useTotalBalance } from 'ui/src/hooks/dapp/use-total-balance'
@@ -24,16 +26,16 @@ export const AccountTotalValue: React.FC = () => {
 	return (
 		<Box className={styles.assetsHeaderWrapper}>
 			<Box flexGrow={1} display="flex" flexDirection="column" gap="xxsmall">
-				<Box
-					display="flex"
-					alignItems="flex-end"
-					gap="medium"
-					onClick={handleToggleValue}
-					className={styles.totalValueWrapper}
-				>
-					<Text weight="medium" size="xxxlarge" color="strong" truncate>
-						{value === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
-					</Text>
+				<Box>
+					<Box
+						component="button"
+						onClick={handleToggleValue}
+						className={clsx(styles.totalValueWrapper, plainButtonStyles.plainButtonHoverWrapper)}
+					>
+						<Text weight="medium" size="xxxlarge" color="strong" truncate>
+							{value === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
+						</Text>
+					</Box>
 				</Box>
 				<RedGreenText size="xxsmall" weight="medium" truncate change={change}>
 					{formattedChange}
