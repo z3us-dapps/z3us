@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
@@ -7,11 +7,8 @@ import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/c
 import { Close2Icon, ShareIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
-import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './styles.css'
 
@@ -37,9 +34,6 @@ export const SlideOutDialog: React.FC<IProps> = props => {
 	const { children, open, id, onClose } = props
 
 	const intl = useIntl()
-	const isMobile = useIsMobileWidth()
-
-	// const [isScrolled, setIsScrolled] = useState<boolean>(false)
 
 	const navigateBack = () => {
 		onClose()
@@ -53,22 +47,12 @@ export const SlideOutDialog: React.FC<IProps> = props => {
 		navigateBack()
 	}
 
-	// useEffect(() => {
-	// 	if (!id) {
-	// 		setIsScrolled(false)
-	// 	}
-	// }, [id])
-
 	return (
 		<DialogRoot open={open}>
 			<DialogPortal>
-				{isMobile ? <DialogOverlay className={dialogStyles.dialogOverlay} /> : null}
+				<DialogOverlay className={styles.dialogOverlay} />
 				<DialogContent
-					className={clsx(
-						isMobile && dialogStyles.dialogContent,
-						isMobile && styles.transactionContent,
-						!isMobile && styles.transactionContentSlideOutDialogContent,
-					)}
+					className={styles.transactionContentSlideOutDialogContent}
 					onEscapeKeyDown={handleEscapeKeyDown}
 					onInteractOutside={handleOnInteractOutside}
 				>
@@ -93,23 +77,7 @@ export const SlideOutDialog: React.FC<IProps> = props => {
 							</ToolTip>
 						</Box>
 					</Box>
-					<ScrollArea className={styles.transactionScrollWrapper}>
-						<Box>
-							<Box>{children}</Box>
-							{/* <Box>
-								<Box>
-									{Array.from({ length: 20 }, (_, i) => (
-										<Text size="xlarge" key={i}>
-											Lorum ipsumIn convallis vel neque facilisis est mi in varius gravida eget convallis convallis ut
-											velit lacus, eros faucibus odio. Varius dui porttitor eu ac egestas in tempus nisi suscipit fusce
-											urna. Vitae semper velit facilisis nunc, suspendisse vivamus duis vestibulum ullamcorper dui
-											lectus sapien tempus sit eu dapibus arcu pellentesque.
-										</Text>
-									))}
-								</Box>
-							</Box> */}
-						</Box>
-					</ScrollArea>
+					<ScrollArea className={styles.transactionScrollWrapper}>{children}</ScrollArea>
 				</DialogContent>
 			</DialogPortal>
 		</DialogRoot>

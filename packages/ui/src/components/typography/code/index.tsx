@@ -19,9 +19,9 @@ interface SProps {
 }
 
 const Code: React.FC<SProps> = ({ className, content }) => (
-	<Box position="relative">
-		<Box position="absolute" width="full">
-			<ScrollAreaRoot className={clsx(styles.scrollWrapper, className)}>
+	<Box className={clsx(styles.scrollOuterWrapper, className)}>
+		<Box className={styles.scrollAbsoluteWrapper}>
+			<ScrollAreaRoot className={styles.scrollWrapper}>
 				<ScrollAreaScrollbar orientation="vertical">
 					<ScrollAreaThumb />
 				</ScrollAreaScrollbar>

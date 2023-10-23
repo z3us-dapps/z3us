@@ -4,6 +4,27 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
+export const scrollOuterWrapper = style([
+	sprinkles({
+		width: 'full',
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { height: '300px' },
+		tablet: { height: '400px' },
+	}),
+])
+
+export const scrollAbsoluteWrapper = style([
+	sprinkles({
+		width: 'full',
+		height: 'full',
+		position: 'absolute',
+	}),
+	{},
+])
+
 export const scrollWrapper = style([
 	sprinkles({
 		border: 1,
@@ -13,12 +34,9 @@ export const scrollWrapper = style([
 		background: 'backgroundSecondary',
 		padding: 'medium',
 		width: 'full',
+		height: 'full',
 	}),
 	{},
-	responsiveStyle({
-		mobile: { height: '300px' },
-		tablet: { height: '400px' },
-	}),
 ])
 
 export const textWrapper = style([
