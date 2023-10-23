@@ -184,11 +184,6 @@ export const transactionContentSlideOutDialogContentTablet = style([
 				animationFillMode: 'forwards',
 			},
 		},
-		// '@media': {
-		// 	'screen and (min-width: 768px)': {
-		// 		border: '1px solid red !important',
-		// 	},
-		// },
 	},
 	responsiveStyle({
 		mobile: {
