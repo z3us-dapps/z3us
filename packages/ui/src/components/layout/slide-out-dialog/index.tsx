@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import React from 'react'
-import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { DialogClose, DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
