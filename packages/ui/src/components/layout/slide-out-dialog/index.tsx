@@ -4,19 +4,14 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
-import { Close2Icon, ShareIcon } from 'ui/src/components/icons'
+import { Close2Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { config } from 'ui/src/constants/config'
 
 import * as styles from './styles.css'
 
 const messages = defineMessages({
-	explorer: {
-		id: 'YnOdQH',
-		defaultMessage: 'Open in explorer',
-	},
 	close: {
 		id: 'rbrahO',
 		defaultMessage: 'Close',
@@ -26,12 +21,12 @@ const messages = defineMessages({
 interface IProps {
 	open: boolean
 	children: React.ReactNode
-	id: string
+	headerButtons: React.ReactNode
 	onClose: () => void
 }
 
 export const SlideOutDialog: React.FC<IProps> = props => {
-	const { children, open, id, onClose } = props
+	const { children, open, headerButtons, onClose } = props
 
 	const intl = useIntl()
 
@@ -59,17 +54,7 @@ export const SlideOutDialog: React.FC<IProps> = props => {
 					<Box className={clsx(styles.transactionHeaderWrapper)}>
 						<Box flexGrow={1} />
 						<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
-							<ToolTip message={intl.formatMessage(messages.explorer)}>
-								<Button
-									sizeVariant="small"
-									styleVariant="ghost"
-									iconOnly
-									to={`${config.defaultExplorerURL}/transaction/${id}`}
-									target="_blank"
-								>
-									<ShareIcon />
-								</Button>
-							</ToolTip>
+							{headerButtons}
 							<ToolTip message={intl.formatMessage(messages.close)}>
 								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={navigateBack}>
 									<Close2Icon />

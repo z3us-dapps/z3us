@@ -4,18 +4,21 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
+import { ShareIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { SlideOutDialog } from 'ui/src/components/layout/slide-out-dialog'
+import { Button } from 'ui/src/components/router-button'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
+import Code from 'ui/src/components/typography/code'
+import { config } from 'ui/src/constants/config'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import Code from '../../typography/code'
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
 import * as styles from './styles.css'
 
@@ -68,6 +71,10 @@ const messages = defineMessages({
 		defaultMessage: 'Events',
 		id: 'ZvKSfJ',
 	},
+	explorer: {
+		id: 'YnOdQH',
+		defaultMessage: 'Open in explorer',
+	},
 })
 
 export const Transaction = () => {
@@ -90,7 +97,23 @@ export const Transaction = () => {
 	}
 
 	return (
-		<SlideOutDialog open={isTransactionVisible} id={transactionId} onClose={navigateBack}>
+		<SlideOutDialog
+			open={isTransactionVisible}
+			onClose={navigateBack}
+			headerButtons={
+				<ToolTip message={intl.formatMessage(messages.explorer)}>
+					<Button
+						sizeVariant="small"
+						styleVariant="ghost"
+						iconOnly
+						to={`${config.defaultExplorerURL}/transaction/${transactionId}`}
+						target="_blank"
+					>
+						<ShareIcon />
+					</Button>
+				</ToolTip>
+			}
+		>
 			{isLoading ? (
 				<TransactionLoadingSkeleton />
 			) : (
