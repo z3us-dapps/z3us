@@ -15,6 +15,7 @@ export const CheckboxRoot = CheckboxPrimitive.Root
 export const CheckboxIndicator = CheckboxPrimitive.Indicator
 
 export interface ICheckboxProps {
+	id?: string
 	checked?: boolean
 	className?: ClassValue
 	disabled?: boolean
@@ -26,6 +27,7 @@ export interface ICheckboxProps {
 
 export const Checkbox = forwardRef<HTMLElement, ICheckboxProps>((props, ref: ForwardedRef<any>) => {
 	const {
+		id,
 		checked = false,
 		className,
 		sizeVariant = 'small',
@@ -44,6 +46,7 @@ export const Checkbox = forwardRef<HTMLElement, ICheckboxProps>((props, ref: For
 
 	return (
 		<CheckboxRoot
+			id={id}
 			ref={ref}
 			checked={animate}
 			onCheckedChange={handleCheckChanged}

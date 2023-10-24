@@ -33,6 +33,7 @@ interface TextStyleProps {
 	underline?: 'always' | 'hover' | 'never'
 	inheritColor?: boolean
 	lineClamp?: number
+	htmlFor?: string
 }
 
 export interface TextProps extends TextStyleProps {
@@ -98,6 +99,7 @@ const Text = forwardRef<HTMLElement, TextProps>((props, ref: ForwardedRef<any>) 
 		blur,
 		inheritColor,
 		lineClamp,
+		htmlFor,
 	} = props
 
 	return (
@@ -121,6 +123,7 @@ const Text = forwardRef<HTMLElement, TextProps>((props, ref: ForwardedRef<any>) 
 				lineClamp,
 			})}
 			style={{ ...(lineClamp ? { WebkitLineClamp: lineClamp } : {}) }}
+			htmlFor={htmlFor}
 			ref={ref}
 		>
 			{children}
