@@ -12,7 +12,7 @@ import * as styles from './styles.css'
 interface IProps {
 	open: boolean
 	children: React.ReactNode
-	headerButtons: React.ReactNode
+	headerButtons?: React.ReactNode
 	onClose: () => void
 }
 
@@ -39,6 +39,9 @@ export const SlideOutDialog: React.FC<IProps> = props => {
 					className={styles.transactionContentSlideOutDialogContent}
 					onEscapeKeyDown={handleEscapeKeyDown}
 					onInteractOutside={handleOnInteractOutside}
+					onOpenAutoFocus={e => {
+						e.preventDefault()
+					}}
 				>
 					<Box className={clsx(styles.transactionHeaderWrapper)}>
 						<Box flexGrow={1} />
