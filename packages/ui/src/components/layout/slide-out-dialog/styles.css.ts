@@ -15,7 +15,7 @@ export const transactionSlideOut = keyframes({
 	'100%': { transform: 'translateX(100%)' },
 })
 
-export const transactionHeaderWrapper = style([
+export const slideOutDialogHeaderWrapper = style([
 	sprinkles({
 		position: 'relative',
 		width: 'full',
@@ -40,19 +40,7 @@ export const transactionHeaderWrapper = style([
 	}),
 ])
 
-export const transactionBodyScrollWrapper = style([
-	sprinkles({
-		position: 'relative',
-		paddingBottom: 'large',
-	}),
-	{},
-	responsiveStyle({
-		mobile: { paddingTop: '48px' },
-		tablet: { paddingTop: '48px' },
-	}),
-])
-
-export const transactionScrollWrapper = style([
+export const slideOutDialogScrollWrapper = style([
 	sprinkles({
 		width: 'full',
 	}),
@@ -63,7 +51,7 @@ export const transactionScrollWrapper = style([
 	}),
 ])
 
-export const dialogOverlay = style([
+export const slideOutDialogOverlay = style([
 	sprinkles({
 		position: 'fixed',
 		inset: 0,
@@ -89,7 +77,7 @@ export const dialogOverlay = style([
 	},
 ])
 
-export const transactionContentSlideOutDialogContent = style([
+export const slideOutDialogContent = style([
 	sprinkles({
 		position: 'fixed',
 		zIndex: 2,
@@ -157,112 +145,4 @@ export const transactionContentSlideOutDialogContent = style([
 		},
 		desktop: { maxWidth: '420px' },
 	}),
-])
-
-export const transactionContentSlideOutDialogContentTablet = style([
-	sprinkles({}),
-	{
-		'@media': {
-			[`screen and (min-width: 480px)`]: {
-				border: '1px solid red !important',
-			},
-		},
-		transform: 'translateX(-50%)',
-		left: 'unset',
-		right: '0',
-		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
-		willChange: 'transform, opacity',
-		animationDuration: '300ms',
-		selectors: {
-			'&[data-state="open"]': {
-				animationName: transactionSlideIn,
-				animationFillMode: 'forwards',
-			},
-			'&[data-state="closed"]': {
-				animationName: transactionSlideOut,
-				animationFillMode: 'forwards',
-			},
-		},
-	},
-	responsiveStyle({
-		mobile: {
-			display: 'none',
-		},
-		tablet: {
-			display: 'block',
-		},
-	}),
-])
-
-export const transactionInfoWrapper = style([
-	sprinkles({
-		position: 'relative',
-		display: 'flex',
-		width: 'full',
-		alignItems: 'flex-end',
-		height: {
-			mobile: 'large',
-			tablet: 'xlarge',
-		},
-	}),
-	{},
-])
-
-export const transactionRowDotted = style([
-	sprinkles({
-		position: 'relative',
-		borderStyle: 'dashed',
-		flexGrow: 1,
-		borderBottom: 1,
-		borderColor: 'borderDividerSecondary',
-		marginBottom: 'xsmall',
-		marginX: 'medium',
-	}),
-	{},
-])
-
-export const transactionInfoCopyBtnWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	{
-		transform: 'translateY(4px)',
-	},
-])
-
-export const transactionExtraRowsWrapper = style([
-	sprinkles({
-		position: 'relative',
-		display: 'flex',
-		flexDirection: 'column',
-		gap: 'xsmall',
-	}),
-	{
-		marginTop: '-8px',
-	},
-])
-
-export const transactionDetailsWrapper = style([
-	sprinkles({
-		position: 'relative',
-		borderStyle: 'solid',
-		borderTop: 1,
-		borderColor: 'borderDivider',
-		flexGrow: 1,
-		alignItems: 'flex-start',
-		paddingTop: {
-			mobile: 'large',
-			tablet: 'large',
-		},
-		marginTop: {
-			mobile: 'large',
-			tablet: 'large',
-		},
-		paddingX: {
-			mobile: 'large',
-			tablet: 'large',
-		},
-	}),
-	{},
 ])

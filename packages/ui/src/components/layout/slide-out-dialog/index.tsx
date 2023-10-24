@@ -34,16 +34,16 @@ export const SlideOutDialog: React.FC<IProps> = props => {
 	return (
 		<DialogRoot open={open}>
 			<DialogPortal>
-				<DialogOverlay className={styles.dialogOverlay} />
+				<DialogOverlay className={styles.slideOutDialogOverlay} />
 				<DialogContent
-					className={styles.transactionContentSlideOutDialogContent}
+					className={styles.slideOutDialogContent}
 					onEscapeKeyDown={handleEscapeKeyDown}
 					onInteractOutside={handleOnInteractOutside}
 					onOpenAutoFocus={e => {
 						e.preventDefault()
 					}}
 				>
-					<Box className={clsx(styles.transactionHeaderWrapper)}>
+					<Box className={clsx(styles.slideOutDialogHeaderWrapper)}>
 						<Box flexGrow={1} />
 						<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
 							{headerButtons}
@@ -54,7 +54,7 @@ export const SlideOutDialog: React.FC<IProps> = props => {
 							</DialogClose>
 						</Box>
 					</Box>
-					<ScrollArea className={styles.transactionScrollWrapper}>{children}</ScrollArea>
+					<ScrollArea className={styles.slideOutDialogScrollWrapper}>{children}</ScrollArea>
 				</DialogContent>
 			</DialogPortal>
 		</DialogRoot>
