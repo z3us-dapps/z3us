@@ -14,6 +14,7 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 
 import { ActivityList } from '../activity-list/components/activity-list'
+import { AddAccountDialog } from './components/add-account-dialog'
 import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileBackground } from './components/mobile/background'
 import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
@@ -46,6 +47,7 @@ const ScrollContent: React.FC = () => {
 					<Box className={styles.accountsStickyWrapper}>
 						<Breadcrumbs />
 						<AccountTotalValue />
+						<AddAccountDialog />
 					</Box>
 					<Suspense key={key} fallback={<FallbackLoading />}>
 						<ErrorBoundary fallbackRender={FallbackRenderer}>
