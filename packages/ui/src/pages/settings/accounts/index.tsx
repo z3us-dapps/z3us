@@ -6,8 +6,6 @@ import { AccountDropdown } from 'ui/src/components/account-dropdown'
 import { Avatar } from 'ui/src/components/avatar'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { Checkbox } from 'ui/src/components/checkbox'
-import { PlusIcon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
 import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
@@ -99,17 +97,6 @@ const Accounts: React.FC = () => {
 							{intl.formatMessage(messages.account_title)}
 						</Text>
 						<Text size="small">{intl.formatMessage(messages.account_subtitle)}</Text>
-						<Box paddingTop="medium">
-							<Button styleVariant="secondary" sizeVariant="medium" leftIcon={<PlusIcon />} fullWidth>
-								Add account
-							</Button>
-						</Box>
-						<Box paddingTop="medium" display="flex" alignItems="center" gap="small">
-							<Checkbox checked onCheckedChange={() => {}} sizeVariant="small" id="olympia-account-checkbox" />
-							<Text size="xsmall" color="neutral" component="label" htmlFor="olympia-account-checkbox">
-								Add Olympia account
-							</Text>
-						</Box>
 					</>
 				}
 				rightCol={
@@ -134,7 +121,7 @@ const Accounts: React.FC = () => {
 							</Text>
 							{/* @TODO */}
 							<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-								<Input value="Account label" onChange={() => {}} />
+								<Input onChange={() => {}} />
 							</Box>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
