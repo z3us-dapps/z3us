@@ -160,11 +160,11 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 	return (
 		<ScrollAreaRoot
 			className={clsx(
-				className,
 				!disabled && styles.scrollAreaEnabledStyles,
 				!disabled && showTopScrollShadow && !isScrolledTop && styles.scrollAreaShowTopShadowsWrapper,
 				!disabled && showBottomScrollShadow && !isScrolledBottom && styles.scrollAreaShowBottomShadowsWrapper,
 				disabled && styles.scrollAreaRootDisabledWrapper,
+				className,
 			)}
 			style={{ ...(!disabled && fixHeight && scrollHeight ? { height: `${scrollHeight}px` } : {}) }}
 			{...rest}

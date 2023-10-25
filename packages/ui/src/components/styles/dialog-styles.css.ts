@@ -1,17 +1,7 @@
-import { keyframes, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-
-// TODO can import this from components, alert dialog or dialog
-export const fadeIn = keyframes({
-	'0%': { opacity: '0' },
-	'100%': { opacity: '1' },
-})
-
-export const fadeOut = keyframes({
-	'0%': { opacity: '1' },
-	'100%': { opacity: '0' },
-})
+import { fadeIn, fadeOut } from 'ui/src/components/dropdown-menu/styles.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 export const dialogOverlay = style([
 	sprinkles({
@@ -51,8 +41,8 @@ export const dialogContent = style([
 	}),
 	{
 		transform: 'translateX(-50%)',
-		width: '100%',
 		left: '50%',
+		width: '100%',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 		willChange: 'transform, opacity',

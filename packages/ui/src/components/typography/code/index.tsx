@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 
+import { Box } from 'ui/src/components/box'
 import {
 	ScrollAreaRoot,
 	ScrollAreaScrollbar,
@@ -18,29 +19,33 @@ interface SProps {
 }
 
 const Code: React.FC<SProps> = ({ className, content }) => (
-	<ScrollAreaRoot className={clsx(styles.wrapper, className)}>
-		<ScrollAreaScrollbar orientation="vertical">
-			<ScrollAreaThumb />
-		</ScrollAreaScrollbar>
-		<ScrollAreaViewport>
-			<Text size="xxsmall" className={styles.textWrapper}>
-				<CopyAddressButton
-					className={styles.copyButton}
-					styleVariant="ghost"
-					sizeVariant="xsmall"
-					address={content}
-					iconOnly
-					rounded={false}
-					tickColor="colorStrong"
-					toolTipDisabled
-				/>
-				{content}
-			</Text>
-		</ScrollAreaViewport>
-		<ScrollAreaScrollbar orientation="horizontal">
-			<ScrollAreaThumb />
-		</ScrollAreaScrollbar>
-	</ScrollAreaRoot>
+	<Box className={clsx(styles.scrollOuterWrapper, className)}>
+		<Box className={styles.scrollAbsoluteWrapper}>
+			<ScrollAreaRoot className={styles.scrollWrapper}>
+				<ScrollAreaScrollbar orientation="vertical">
+					<ScrollAreaThumb />
+				</ScrollAreaScrollbar>
+				<ScrollAreaViewport>
+					<Text size="xxsmall" className={styles.textWrapper}>
+						<CopyAddressButton
+							className={styles.copyButton}
+							styleVariant="ghost"
+							sizeVariant="xsmall"
+							address={content}
+							iconOnly
+							rounded={false}
+							tickColor="colorStrong"
+							toolTipDisabled
+						/>
+						{content}
+					</Text>
+				</ScrollAreaViewport>
+				<ScrollAreaScrollbar orientation="horizontal">
+					<ScrollAreaThumb />
+				</ScrollAreaScrollbar>
+			</ScrollAreaRoot>
+		</Box>
+	</Box>
 )
 
 export default Code
