@@ -58,6 +58,14 @@ export const addAccountGridWrapper = style([
 	}),
 	{},
 	responsiveStyle({
+		mobile: {
+			gap: vars.spacing.large,
+			gridTemplateColumns: '1fr',
+		},
+		tablet: {
+			gap: vars.spacing.large,
+			gridTemplateColumns: '1fr 1fr 1fr',
+		},
 		desktop: {
 			gap: vars.spacing.xlarge,
 			gridTemplateColumns: '1fr 1fr 1fr',

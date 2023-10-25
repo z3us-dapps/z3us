@@ -65,10 +65,6 @@ export const dialogContentExpanded = style([
 			...sharedPopoverBgSelectorStyles,
 		},
 	},
-	responsiveStyle({
-		mobile: { width: '220px' },
-		tablet: { width: '560px' },
-	}),
 ])
 
 export const dialogContentWidthMedium = style([
@@ -84,9 +80,9 @@ export const dialogContentWidthLarge = style([
 	sprinkles({}),
 	{},
 	responsiveStyle({
-		mobile: { width: '220px' },
-		tablet: { width: '780px' },
-		desktop: { width: '1060px' },
+		mobile: { width: '90%', maxWidth: '780px' },
+		tablet: { width: '90%', maxWidth: '780px' },
+		desktop: { width: '1060px', maxWidth: '1060px' },
 	}),
 ])
 
@@ -118,7 +114,8 @@ export const dialogContentSimpleBarWrapper = style([
 		height: '100vh',
 	},
 	responsiveStyle({
-		mobile: { maxHeight: '60vh' },
-		tablet: { maxHeight: '80vh' },
+		mobile: { maxHeight: '90vh' },
+		tablet: { maxHeight: '90vh' },
+		desktop: { maxHeight: '80vh' },
 	}),
 ])
