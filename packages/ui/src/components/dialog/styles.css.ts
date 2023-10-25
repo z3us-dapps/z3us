@@ -82,7 +82,7 @@ export const dialogContentWidthLarge = style([
 	responsiveStyle({
 		mobile: { width: '90%', maxWidth: '780px' },
 		tablet: { width: '90%', maxWidth: '780px' },
-		desktop: { width: '1060px', maxWidth: '1060px' },
+		desktop: { width: '90%', maxWidth: '1060px' },
 	}),
 ])
 
