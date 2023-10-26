@@ -110,20 +110,16 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver(entries => {
-			const observedHeight = entries[0].contentRect.height
-			setScrollHeight(observedHeight)
-
-			if (scrollHeight > 0) {
-				handleDetermineScrollPosition()
-			}
+			setScrollHeight(entries[0].contentRect.height)
+			handleDetermineScrollPosition()
 		})
 
-		if (fixHeight && scrollParent?.firstChild instanceof HTMLElement) {
+		if (scrollParent?.firstChild instanceof HTMLElement) {
 			resizeObserver.observe(scrollParent?.firstChild)
 		}
 
 		return () => {
-			if (fixHeight && scrollParent?.firstChild) {
+			if (scrollParent?.firstChild instanceof HTMLElement) {
 				resizeObserver.disconnect()
 			}
 		}
