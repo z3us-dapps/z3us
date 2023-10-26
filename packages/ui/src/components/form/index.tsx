@@ -133,7 +133,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 			<Button
 				fullWidth
 				styleVariant="primary"
-				sizeVariant="xlarge"
+				sizeVariant="large"
 				type="submit"
 				disabled={state.isLoading}
 				rightIcon={

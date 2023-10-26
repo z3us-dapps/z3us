@@ -112,10 +112,33 @@ export const transferActionTrashButtonWrapper = style([
 
 export const transferActionAddButtonWrapper = style([
 	sprinkles({}),
-	{
-		marginTop: '32px',
-		marginBottom: '16px',
-	},
+	{},
+
+	responsiveStyle({
+		mobile: {
+			marginTop: '8px',
+			marginBottom: '12px',
+		},
+		tablet: {
+			marginTop: '20px',
+			marginBottom: '12px',
+		},
+	}),
+])
+
+export const transferActionAddSourceWrapper = style([
+	sprinkles({
+		borderTop: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+		paddingTop: 'large',
+		marginTop: 'medium',
+		marginBottom: {
+			mobile: 'small',
+			tablet: 'medium',
+		},
+	}),
+	{},
 ])
 
 export const transferActionTokensNftsAddButton = style([
