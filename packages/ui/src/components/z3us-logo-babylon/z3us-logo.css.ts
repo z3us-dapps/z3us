@@ -78,3 +78,32 @@ export const z3usBrandTextSvgWrapper = style([
 		},
 	}),
 ])
+
+export const z3usLogoLargeWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		borderRadius: 'full',
+		overflow: 'hidden',
+		fill: 'backgroundPrimary',
+		transition: 'fastall',
+	}),
+	{},
+])
+
+export const z3usLogoLargeMediumWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		width: '232px',
+		height: '232px',
+		boxShadow: '0px 10px 44px 0px #00000059',
+	},
+])
+
+export const z3usLogoFillPurpleWrapper = style([
+	{
+		fill: vars.color.purple500,
+	},
+])

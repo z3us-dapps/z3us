@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React, { Suspense, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useOutlet } from 'react-router-dom'
@@ -12,6 +13,7 @@ import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import Nav from './nav'
+import * as styles from './styles.css'
 
 const ScrollContent: React.FC = () => {
 	const location = useLocation()
@@ -22,8 +24,8 @@ const ScrollContent: React.FC = () => {
 	const key = useMemo(() => location.pathname.split('/')[1], [location.pathname])
 
 	return (
-		<Box className={panelViewStyles.panelViewWrapper}>
-			<Box className={panelViewStyles.panelViewLeftWrapper}>
+		<Box className={styles.keystoreFlexWrapper}>
+			<Box className={styles.keystoreInnerWrapper}>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
 					<Suspense key={key} fallback={<FallbackLoading />}>
 						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
@@ -36,10 +38,12 @@ const ScrollContent: React.FC = () => {
 
 const Layout: React.FC = () => (
 	<MotionBox>
-		<Nav />
-		<MobileScrollArea className={panelViewStyles.panelViewMobileScrollWrapper}>
-			<ScrollContent />
-		</MobileScrollArea>
+		<Box className={styles.keystoreOuterWrapper}>
+			<Nav />
+			<MobileScrollArea className={panelViewStyles.panelViewMobileScrollWrapper}>
+				<ScrollContent />
+			</MobileScrollArea>
+		</Box>
 	</MotionBox>
 )
 

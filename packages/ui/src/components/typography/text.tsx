@@ -88,7 +88,7 @@ const Text = forwardRef<HTMLElement, TextProps>((props, ref: ForwardedRef<any>) 
 		align = 'left',
 		baseline,
 		type = 'body',
-		display,
+		display = 'block',
 		children,
 		className,
 		capitalizeFirstLetter,

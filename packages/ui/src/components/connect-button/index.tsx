@@ -3,7 +3,7 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
-import * as styles from './connect-button.css'
+import * as styles from './styles.css'
 
 declare global {
 	namespace JSX {
