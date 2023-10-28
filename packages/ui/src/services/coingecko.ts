@@ -50,7 +50,7 @@ export class CoinGeckoService {
 
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} recieved`)
+			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
 		const data = await response.json()
@@ -101,7 +101,7 @@ export class CoinGeckoService {
 
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} recieved`)
+			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
 		const data = await response.json()
@@ -136,7 +136,7 @@ export class CoinGeckoService {
 
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} recieved`)
+			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
 		const data = await response.json()
@@ -155,7 +155,7 @@ export class CoinGeckoService {
 
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} recieved`)
+			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
 		const data = await response.json()
@@ -170,12 +170,16 @@ export class CoinGeckoService {
 
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} recieved`)
+			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
 		const data = await response.json()
 		if (data?.id !== coin) {
 			return null
+		}
+		if (!data?.market_data) {
+			date.setUTCDate(date.getUTCDate() - 1)
+			return this.getXRDPriceOnDay(date, currency, coin)
 		}
 		return data?.market_data?.current_price[currency.toLocaleLowerCase()] || null
 	}
