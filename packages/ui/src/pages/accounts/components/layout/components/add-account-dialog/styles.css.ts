@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
-import { vars } from 'packages/ui/src/components/system/theme.css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const addAccountDialog = style([
 	sprinkles({
