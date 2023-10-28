@@ -21,7 +21,15 @@ export const TextInputAdapter = forwardRef<HTMLInputElement, IAdapterProps>(
 			onChange(event.target.value)
 		}
 
-		return <Input {...rest} type={isPassword ? 'password' : 'text'} ref={ref} onChange={handleChange} />
+		return (
+			<Input
+				{...rest}
+				styleVariant={hasError ? 'primary-error' : 'primary'}
+				type={isPassword ? 'password' : 'text'}
+				ref={ref}
+				onChange={handleChange}
+			/>
+		)
 	},
 )
 

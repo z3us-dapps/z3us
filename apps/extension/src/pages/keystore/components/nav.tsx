@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { Link } from 'ui/src/components/router-link'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 
 const messages = defineMessages({
@@ -21,9 +20,7 @@ const Nav: React.FC = () => {
 	return (
 		<Box display="flex" justifyContent="center" paddingY="large">
 			<Box display="flex" position="relative">
-				<Link to="/">
-					<Z3usLogoText />
-				</Link>
+				<Z3usLogoText />
 				{/* TODO: remove temp button */}
 				<Box style={{ position: 'absolute', top: '-5px', left: '-75px', opacity: 0 }}>
 					<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small">

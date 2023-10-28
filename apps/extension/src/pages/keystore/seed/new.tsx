@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { ArrowLeftIcon, HardwareWalletIcon, HomeIcon, Z3usIcon } from 'ui/src/components/icons'
+import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
