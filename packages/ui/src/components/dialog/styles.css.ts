@@ -15,7 +15,7 @@ export const dialogOverlay = style([
 	sprinkles({
 		position: 'fixed',
 		inset: 0,
-		zIndex: 1,
+		zIndex: 2,
 		background: 'backgroundOverlayPrimary',
 	}),
 	{
@@ -40,7 +40,7 @@ export const dialogOverlay = style([
 export const dialogContent = style([
 	sprinkles({
 		position: 'fixed',
-		zIndex: 1,
+		zIndex: 2,
 	}),
 	{
 		background: 'white',
@@ -57,7 +57,7 @@ export const dialogContentExpanded = style([
 	}),
 	{
 		...sharedPopoverBgStyles,
-		zIndex: 1,
+		zIndex: 2,
 		position: 'absolute',
 		top: '50%',
 		transform: 'translate(-50%, -50%)',
@@ -65,9 +65,24 @@ export const dialogContentExpanded = style([
 			...sharedPopoverBgSelectorStyles,
 		},
 	},
+])
+
+export const dialogContentWidthMedium = style([
+	sprinkles({}),
+	{},
 	responsiveStyle({
 		mobile: { width: '220px' },
 		tablet: { width: '560px' },
+	}),
+])
+
+export const dialogContentWidthLarge = style([
+	sprinkles({}),
+	{},
+	responsiveStyle({
+		mobile: { width: '90%', maxWidth: '780px' },
+		tablet: { width: '90%', maxWidth: '780px' },
+		desktop: { width: '90%', maxWidth: '1060px' },
 	}),
 ])
 
@@ -95,9 +110,12 @@ export const dialogContentSimpleBarWrapper = style([
 		borderRadius: 'medium',
 		overflow: 'clip',
 	}),
-	{},
+	{
+		height: '100vh',
+	},
 	responsiveStyle({
-		mobile: { maxHeight: '60vh' },
-		tablet: { maxHeight: '80vh' },
+		mobile: { maxHeight: '90vh' },
+		tablet: { maxHeight: '90vh' },
+		desktop: { maxHeight: '80vh' },
 	}),
 ])

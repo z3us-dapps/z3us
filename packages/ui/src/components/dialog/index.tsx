@@ -2,11 +2,12 @@ import * as DialogPrimitive from '@radix-ui/react-dialog'
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 
-import { Close2Icon } from "../icons"
-import { Box } from '../box'
-import { Button } from '../button'
-import { SimpleBarStyled } from '../simple-bar-styled'
-import * as styles from './dialog.css'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import { Close2Icon } from 'ui/src/components/icons'
+import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
+
+import * as styles from './styles.css'
 
 export const DialogRoot = DialogPrimitive.Root
 export const DialogTrigger = DialogPrimitive.Trigger
@@ -17,24 +18,41 @@ export const DialogTitle = DialogPrimitive.Title
 export const DialogDescription = DialogPrimitive.Description
 export const DialogClose = DialogPrimitive.Close
 
+type TWidthVariant = 'medium' | 'large'
+
 interface IDialogProps {
 	open?: boolean
+	trigger?: React.ReactElement
 	children?: any
 	className?: ClassValue
 	onClose?: () => void
+	width?: TWidthVariant
 	isCloseButtonVisible?: boolean
 }
 
 export const Dialog: React.FC<IDialogProps> = props => {
-	const { open, children, className, isCloseButtonVisible = true, onClose } = props
+	const { open, trigger, children, width = 'medium', className, isCloseButtonVisible = true, onClose } = props
 
 	return (
-		<DialogRoot open={open} >
+		<DialogRoot open={open}>
+			{trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
 			<DialogPortal>
 				<DialogOverlay className={styles.dialogOverlay} />
-				<DialogContent className={clsx(styles.dialogContentExpanded, className)} onEscapeKeyDown={onClose}>
+				<DialogContent
+					onOpenAutoFocus={e => {
+						e.preventDefault()
+					}}
+					className={clsx(
+						styles.dialogContentExpanded,
+						width === 'medium' && styles.dialogContentWidthMedium,
+						width === 'large' && styles.dialogContentWidthLarge,
+						className,
+					)}
+					onEscapeKeyDown={onClose}
+					onInteractOutside={onClose}
+				>
 					<Box className={styles.dialogContentWrapper}>
-						<SimpleBarStyled className={styles.dialogContentSimpleBarWrapper}>{children}</SimpleBarStyled>
+						<ScrollArea className={styles.dialogContentSimpleBarWrapper}>{children}</ScrollArea>
 					</Box>
 					{isCloseButtonVisible ? (
 						<Box className={styles.dialogContentCloseWrapper}>
