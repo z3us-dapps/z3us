@@ -18,8 +18,21 @@ export const keystoreHomeLogoWrapper = style([
 		display: 'flex',
 		width: 'full',
 		justifyContent: 'center',
-		paddingBottom: {
-			mobile: 'xlarge',
+		paddingY: {
+			mobile: 'large',
+		},
+	}),
+	{},
+])
+
+export const keystoreHomeTextWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		width: 'full',
+		flexDirection: 'column',
+		gap: {
+			mobile: 'xsmall',
 		},
 	}),
 	{},
@@ -28,7 +41,7 @@ export const keystoreHomeLogoWrapper = style([
 export const keystoreHomeButtonWrapper = style([
 	sprinkles({
 		display: 'flex',
-		paddingTop: 'large',
+		paddingTop: 'xlarge',
 		flexDirection: 'column',
 		gap: 'medium',
 	}),

@@ -55,7 +55,7 @@ export const z3usBrandTextWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		overflow: 'hidden',
-		cursor: 'pointer',
+		// cursor: 'pointer',
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
 		},
@@ -74,7 +74,7 @@ export const z3usBrandTextSvgWrapper = style([
 		fill: {
 			lightMode: 'wax400',
 			darkMode: 'bleached_silk300',
-			hover: 'blue_magenta400',
+			// hover: 'blue_magenta400',
 		},
 	}),
 ])

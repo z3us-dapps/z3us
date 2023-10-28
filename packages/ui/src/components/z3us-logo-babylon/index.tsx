@@ -41,7 +41,7 @@ interface IZ3usLogoLargeProps {
 }
 
 export const Z3usLogoLarge: React.FC<IZ3usLogoLargeProps> = props => {
-	const { className, size = 'medium', fillPurple = true } = props
+	const { className, size = 'medium', fillPurple = false } = props
 
 	return (
 		<Box

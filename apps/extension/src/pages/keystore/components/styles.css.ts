@@ -39,6 +39,6 @@ export const keystoreInnerWrapper = style([
 	}),
 	{},
 	responsiveStyle({
-		mobile: { maxWidth: '560px', width: '100%' },
+		mobile: { maxWidth: '600px', width: '100%' },
 	}),
 ])

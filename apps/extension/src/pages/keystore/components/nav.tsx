@@ -25,7 +25,7 @@ const Nav: React.FC = () => {
 					<Z3usLogoText />
 				</Link>
 				{/* TODO: remove temp button */}
-				<Box style={{ position: 'absolute', top: '-5px', left: '-75px' }}>
+				<Box style={{ position: 'absolute', top: '-5px', left: '-75px', opacity: 0 }}>
 					<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small">
 						{intl.formatMessage(messages.back)}
 					</Button>
