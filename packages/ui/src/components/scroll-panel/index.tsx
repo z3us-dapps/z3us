@@ -5,7 +5,7 @@ import React from 'react'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
-import * as styles from './scroll-panel.css'
+import * as styles from './styles.css'
 
 interface IScrollPanelProps {
 	className?: ClassValue

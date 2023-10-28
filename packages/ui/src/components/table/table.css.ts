@@ -457,30 +457,25 @@ recipeResponsiveGlobalStyle(
 	true,
 )
 
-recipeResponsiveGlobalStyle(
-	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
-	'tbody tr td:before',
-	{
-		mobile: {
-			content: '""',
-			position: 'absolute',
-			left: `calc(${vars.spacing.small} * 1)`,
-			right: `calc(${vars.spacing.small} * 1)`,
-			top: `calc(${vars.spacing.small} * 1)`,
-			bottom: `calc(${vars.spacing.small} * 1)`,
-			backgroundColor: vars.color.btnTertiaryBackgroundHover,
-			transition: vars.transition.fast,
-			borderRadius: vars.border.radius.medium,
-			pointerEvents: 'none',
-			background: vars.color.btnTertiaryBackgroundHover,
-			opacity: 0,
-		},
-		tablet: {
-			display: 'none',
-		},
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:before', {
+	mobile: {
+		content: '""',
+		position: 'absolute',
+		left: `calc(${vars.spacing.small} * 1)`,
+		right: `calc(${vars.spacing.small} * 1)`,
+		top: `calc(${vars.spacing.small} * 1)`,
+		bottom: `calc(${vars.spacing.small} * 1)`,
+		backgroundColor: vars.color.btnTertiaryBackgroundHover,
+		transition: vars.transition.fast,
+		borderRadius: vars.border.radius.medium,
+		pointerEvents: 'none',
+		background: vars.color.btnTertiaryBackgroundHover,
+		opacity: 0,
 	},
-	true,
-)
+	tablet: {
+		display: 'none',
+	},
+})
 
 recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),

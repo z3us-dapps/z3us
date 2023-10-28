@@ -83,9 +83,8 @@ export const MobileScrollingButtons: React.FC = () => {
 		if (isSticky) {
 			scrollableNode.scrollTo({ top: 0, behavior: 'smooth' })
 		} else {
-			const HEADER_SPACE = 58
-			const bounding = wrapperRef.current.getBoundingClientRect()
-			scrollableNode.scrollTo({ top: bounding.top - HEADER_SPACE, behavior: 'smooth' })
+			const HEADER_SPACE = 278
+			scrollableNode.scrollTo({ top: HEADER_SPACE, behavior: 'smooth' })
 		}
 	}
 
@@ -97,7 +96,9 @@ export const MobileScrollingButtons: React.FC = () => {
 	}
 
 	useEffect(() => {
-		setIsSticky(!entry?.isIntersecting)
+		if (entry?.isIntersecting) {
+			setIsSticky(!entry.isIntersecting)
+		}
 	}, [entry?.isIntersecting])
 
 	return (
