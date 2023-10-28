@@ -7,7 +7,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
+import { Button, type TSizeVariant } from 'ui/src/components/button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
 import { ValidationErrorMessage } from '../validation-error-message'
@@ -20,6 +20,7 @@ type Props<P = {}> = {
 	errors?: FormErrors<P>
 	className?: string
 	submitButtonTitle?: string | React.ReactNode
+	submitButtonTitleSizeVariant?: TSizeVariant
 
 	onSubmit: (values: P) => Promise<void> | void
 	onChange?: (values: P) => Promise<void> | void
@@ -50,6 +51,7 @@ const rootFieldCtx = {
 export const Form: React.FC<PropsWithChildren<Props>> = ({
 	children,
 	submitButtonTitle,
+	submitButtonTitleSizeVariant = 'medium',
 	initialValues,
 	errors = {},
 	onSubmit,
@@ -133,7 +135,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 			<Button
 				fullWidth
 				styleVariant="primary"
-				sizeVariant="large"
+				sizeVariant={submitButtonTitleSizeVariant}
 				type="submit"
 				disabled={state.isLoading}
 				rightIcon={

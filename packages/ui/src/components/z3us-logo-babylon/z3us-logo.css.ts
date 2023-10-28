@@ -74,7 +74,6 @@ export const z3usBrandTextSvgWrapper = style([
 		fill: {
 			lightMode: 'wax400',
 			darkMode: 'bleached_silk300',
-			// hover: 'blue_magenta400',
 		},
 	}),
 ])
@@ -90,6 +89,16 @@ export const z3usLogoLargeWrapper = style([
 	}),
 	{},
 ])
+
+globalStyle(`${z3usLogoLargeWrapper} svg`, {
+	fill: 'inherit',
+	width: '100%',
+	height: '100%',
+})
+
+globalStyle(`${z3usLogoLargeWrapper} svg path`, {
+	fill: 'inherit',
+})
 
 export const z3usLogoLargeMediumWrapper = style([
 	sprinkles({

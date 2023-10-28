@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
+import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
@@ -123,20 +124,23 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit }) => {
 			initialValues={initialValues}
 			errors={validation?.format()}
 			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
+			submitButtonTitleSizeVariant="large"
 		>
-			<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="medium" />
-			<TextField
-				isPassword
-				name="password"
-				placeholder={intl.formatMessage(messages.password_placeholder)}
-				sizeVariant="medium"
-			/>
-			<TextField
-				isPassword
-				name="confirmPassword"
-				placeholder={intl.formatMessage(messages.confirm_password_placeholder)}
-				sizeVariant="medium"
-			/>
+			<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
+				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
+				<TextField
+					isPassword
+					name="password"
+					placeholder={intl.formatMessage(messages.password_placeholder)}
+					sizeVariant="large"
+				/>
+				<TextField
+					isPassword
+					name="confirmPassword"
+					placeholder={intl.formatMessage(messages.confirm_password_placeholder)}
+					sizeVariant="large"
+				/>
+			</Box>
 		</Form>
 	)
 }

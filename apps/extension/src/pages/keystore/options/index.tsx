@@ -15,10 +15,6 @@ import { generateId } from 'ui/src/utils/generate-id'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
-	seed_new: {
-		id: 'k6rUG9',
-		defaultMessage: 'I am new user',
-	},
 	seed_restore: {
 		id: '6I8Iyd',
 		defaultMessage: 'Restore from seed phrase',
@@ -43,12 +39,6 @@ export const Home: React.FC = () => {
 	const { addKeystore } = useSharedStore(state => ({
 		addKeystore: state.addKeystoreAction,
 	}))
-
-	const handleNew = () => {
-		const id = generateId()
-		addKeystore(id, id, KeystoreType.LOCAL)
-		navigate('/keystore/new/seed')
-	}
 
 	const handleRestoreSeed = () => {
 		const id = generateId()
@@ -83,25 +73,8 @@ export const Home: React.FC = () => {
 				I already have wallet
 			</Text>
 			<Text>A friendly crypto wallet build for DeFi & NTFs. </Text>
-
 			<Box className={styles.keystoreOptionsButtonsWrapper}>
 				<List>
-					<ListItem
-						onClick={handleNew}
-						iconLeft={
-							<Avatar
-								styleVariant="circle"
-								sizeVariant="small"
-								src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&w=128&h=128&dpr=2&q=80"
-								alt="img"
-								fallback="df"
-							/>
-						}
-					>
-						<Text color="strong" weight="strong">
-							{intl.formatMessage(messages.seed_new)}
-						</Text>
-					</ListItem>
 					<ListItem onClick={handleConnectRadix} iconLeft={<HomeIcon />}>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.radix)}
@@ -117,7 +90,18 @@ export const Home: React.FC = () => {
 							{intl.formatMessage(messages.seed_restore)}
 						</Text>
 					</ListItem>
-					<ListItem onClick={handleRestoreExtendedPrivateKey} iconLeft={<Z3usIcon />}>
+					<ListItem
+						onClick={handleRestoreExtendedPrivateKey}
+						iconLeft={
+							<Avatar
+								styleVariant="circle"
+								sizeVariant="small"
+								src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&w=128&h=128&dpr=2&q=80"
+								alt="img"
+								fallback="df"
+							/>
+						}
+					>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.key)}
 						</Text>
