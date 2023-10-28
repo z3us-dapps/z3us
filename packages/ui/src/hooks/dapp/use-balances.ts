@@ -177,7 +177,7 @@ export const useBalances = (...addresses: string[]) => {
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
-		queryKey: ['useBalances', networkId, currency, ...addresses, 'test5'],
+		queryKey: ['useBalances', networkId, currency, ...addresses],
 		enabled,
 		queryFn: (): Balances => {
 			let fungible: ResourceBalances = {}
