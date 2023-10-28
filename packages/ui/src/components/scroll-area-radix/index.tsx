@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useDebouncedCallback, useThrottledCallback } from 'use-debounce'
-import { useEventListener } from 'usehooks-ts'
+import { useEventListener, useTimeout } from 'usehooks-ts'
 
 import { Box } from '../box'
 import { Button } from '../button'
@@ -110,19 +110,16 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver(entries => {
-			const observedHeight = entries[0].contentRect.height
-			setScrollHeight(observedHeight)
-			if (scrollHeight > 0) {
-				handleDetermineScrollPosition()
-			}
+			setScrollHeight(entries[0].contentRect.height)
+			handleDetermineScrollPosition()
 		})
 
-		if (fixHeight && scrollParent?.firstChild instanceof HTMLElement) {
+		if (scrollParent?.firstChild instanceof HTMLElement) {
 			resizeObserver.observe(scrollParent?.firstChild)
 		}
 
 		return () => {
-			if (fixHeight && scrollParent?.firstChild) {
+			if (scrollParent?.firstChild instanceof HTMLElement) {
 				resizeObserver.disconnect()
 			}
 		}
@@ -156,6 +153,8 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 			}
 		}
 	}, [scrollParent])
+
+	useTimeout(handleDetermineScrollPosition, 200)
 
 	return (
 		<ScrollAreaRoot

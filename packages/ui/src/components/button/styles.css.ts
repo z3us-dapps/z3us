@@ -191,6 +191,7 @@ export const button = recipe({
 					height: '44px',
 					fontSize: '15px',
 					lineHeight: '15px',
+					fontWeight: '500',
 				},
 			],
 			xlarge: [

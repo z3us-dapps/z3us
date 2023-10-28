@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 export const accountsCardWrapper = style([
 	sprinkles({

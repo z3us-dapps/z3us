@@ -106,7 +106,7 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 		<>
 			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
 				<Box className={styles.transferFormGridBoxWrapperLeft}>
-					<Text color="strong" size="xlarge" weight="strong">
+					<Text color="strong" size="large" weight="strong">
 						{intl.formatMessage(messages.from_title)}
 					</Text>
 					<Text size="xsmall">{intl.formatMessage(messages.from_subtitle)}</Text>
@@ -126,7 +126,7 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 				addTrigger={
 					<Button
 						styleVariant="secondary"
-						sizeVariant="xlarge"
+						sizeVariant="large"
 						fullWidth
 						leftIcon={
 							<Box marginLeft="small">
@@ -141,7 +141,7 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 			>
 				<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
 					<Box className={styles.transferFormGridBoxWrapperLeft}>
-						<Text color="strong" size="xlarge" weight="strong">
+						<Text color="strong" size="large" weight="strong">
 							{intl.formatMessage(messages.to_title)}
 						</Text>
 						<Text size="xsmall">{intl.formatMessage(messages.to_subtitle)}</Text>
@@ -219,7 +219,7 @@ export const TransferFormFields: React.FC = () => {
 		<>
 			<Box className={styles.transferFormGridBoxWrapper}>
 				<Box className={styles.transferFormGridBoxWrapperLeft}>
-					<Text color="strong" size="xlarge" weight="strong">
+					<Text color="strong" size="large" weight="strong">
 						{intl.formatMessage(messages.message_title)}
 					</Text>
 					<Text size="xsmall">{intl.formatMessage(messages.message_subtitle)}</Text>
@@ -250,19 +250,20 @@ export const TransferFormFields: React.FC = () => {
 					</Button>
 				}
 				addTrigger={
-					<Button
-						styleVariant="secondary"
-						sizeVariant="xlarge"
-						fullWidth
-						leftIcon={
-							<Box marginLeft="small">
-								<UsersPlusIcon />
-							</Box>
-						}
-						className={styles.transferActionAddButtonWrapper}
-					>
-						{intl.formatMessage(messages.button_add_from)}
-					</Button>
+					<Box className={styles.transferActionAddSourceWrapper}>
+						<Button
+							styleVariant="secondary"
+							sizeVariant="large"
+							fullWidth
+							leftIcon={
+								<Box marginLeft="small">
+									<UsersPlusIcon />
+								</Box>
+							}
+						>
+							{intl.formatMessage(messages.button_add_from)}
+						</Button>
+					</Box>
 				}
 			>
 				<AccountFormFieldsGroup ref={inputRef} />
