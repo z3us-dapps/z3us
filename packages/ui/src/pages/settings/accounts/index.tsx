@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { AccountCards } from 'ui/src/components/account-cards'
-import { AccountDropdown } from 'ui/src/components/account-dropdown'
 import { Avatar } from 'ui/src/components/avatar'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { SelectAdapter as AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
 import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
@@ -86,6 +86,17 @@ const Accounts: React.FC = () => {
 		setSelectedAccount(entry)
 	}
 
+	const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (!selectedAccount) return
+		const evt = event.nativeEvent as InputEvent
+		if (evt.isComposing) {
+			return
+		}
+		const entry = { ...selectedAccount, name: event.target.value }
+		setAddressBookEntry(networkId, selectedAccount.address, entry)
+		setSelectedAccount(entry)
+	}
+
 	return (
 		<SettingsWrapper>
 			<SettingsTitle title={intl.formatMessage(messages.title)} subTitle={intl.formatMessage(messages.subtitle)} />
@@ -101,13 +112,7 @@ const Accounts: React.FC = () => {
 				}
 				rightCol={
 					<Box display="flex" flexDirection="column" gap="large">
-						<AccountDropdown
-							account={selectedAccount?.address}
-							knownAddresses={accounts}
-							onUpdateAccount={handleSelectAccount}
-							accounts={accountsAsArray.map(account => ({ id: account.address, title: account.name }))}
-							styleVariant="tertiary"
-						/>
+						<AccountSelect value={selectedAccount?.address} onChange={handleSelectAccount} />
 						<Box className={accountsStyles.accountsCardWrapper}>
 							<AccountCards
 								accounts={accountsAsArray}
@@ -119,9 +124,8 @@ const Accounts: React.FC = () => {
 							<Text size="small" weight="medium" color="strong">
 								{intl.formatMessage(messages.account_label)}
 							</Text>
-							{/* @TODO */}
 							<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-								<Input onChange={() => {}} />
+								<Input value={selectedAccount?.name} onChange={handleChangeName} />
 							</Box>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
