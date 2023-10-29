@@ -3,7 +3,7 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 
-import * as styles from '../seed-phrase-display/styles.css'
+import * as styles from './styles.css'
 
 interface IProps {
 	secret: string
