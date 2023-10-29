@@ -2,18 +2,26 @@ import clsx from 'clsx'
 import type { ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
-import { useIntl } from 'react-intl'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import type { AddressBookEntry } from 'ui/src/store/types'
+import { type AddressBookEntry, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
+import { useNetworkId } from '../../hooks/dapp/use-network-id'
 import { CopyAddressButton } from '../copy-address-button'
 import * as styles from './account-cards.css'
+
+const messages = defineMessages({
+	legacy: {
+		defaultMessage: '(Legacy)',
+		id: 'GIGKXJ',
+	},
+})
 
 interface IAccountCardIconProps {
 	address: string
@@ -53,6 +61,10 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 
 	const intl = useIntl()
 	const addressBook = useAddressBook()
+	const networkId = useNetworkId()
+	const { accountIndexes } = useNoneSharedStore(state => ({
+		accountIndexes: state.accountIndexes[networkId] || {},
+	}))
 	const { data: balanceData } = useBalances(address)
 	const { totalValue = 0 } = balanceData || {}
 	const { currency } = useNoneSharedStore(state => ({
@@ -60,6 +72,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	}))
 
 	const account = addressBook[address]
+	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
 
 	return (
 		<motion.li
@@ -112,7 +125,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 					</Text>
 					<Text size="large" weight="strong">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							{account?.name}
+							{`${account?.name} ${isLegacy ? intl.formatMessage(messages.legacy) : ``}`}
 						</Box>
 					</Text>
 				</Box>

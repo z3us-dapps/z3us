@@ -81,7 +81,7 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			scheme: SCHEME.CAP26,
 			derivationPath,
 		}
-	}, [personaIndexes])
+	}, [networkId, personaIndexes])
 
 	const buildNewAccountKeyParts = useCallback(
 		async (legacy: boolean) => {
@@ -93,19 +93,21 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 						.map(account => account.entityIndex),
 				) + 1
 			const derivationPath = buildAccountDerivationPath(networkId, idx)
-			const publicKey = await getPublicKey(legacy ? CURVE.SECP256K1 : CURVE.CURVE25519, derivationPath)
+			const curve = legacy ? CURVE.SECP256K1 : CURVE.CURVE25519
+			const scheme = legacy ? SCHEME.BIP440OLYMPIA : SCHEME.CAP26
+			const publicKey = await getPublicKey(curve, derivationPath)
 			const address = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(publicKey, networkId)
 
 			return {
 				address,
 				entityIndex: +idx,
 				publicKeyHex: publicKey.hexString(),
-				curve: CURVE.CURVE25519,
-				scheme: SCHEME.CAP26,
+				curve,
+				scheme,
 				derivationPath,
 			}
 		},
-		[accountIndexes],
+		[networkId, accountIndexes],
 	)
 
 	const ctx = useMemo(
