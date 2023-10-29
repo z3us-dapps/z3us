@@ -3,15 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import browser from 'webextension-polyfill'
 
-import { Box } from 'ui/src/components/box'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
+import type { Data } from '@src/types/vault'
+import { DataType } from '@src/types/vault'
 
-import KeystoreForm from './components/keystore-form'
+import Done from '../components/done'
+import KeystoreForm from '../components/keystore-form'
 import { PASSWORD_STORAGE_KEY, Pairing, PairingState } from './components/pairing'
-import * as styles from './styles.css'
 
 export const Radix: React.FC = () => {
 	const navigate = useNavigate()
@@ -23,6 +24,7 @@ export const Radix: React.FC = () => {
 
 	const [pairingState, setPairingState] = useState<PairingState>(PairingState.LOADING)
 	const [connectionPassword, setConnectionPassword] = useState<string>('')
+	const [step, setStep] = useState<number>(0)
 
 	useEffect(() => {
 		if (keystore?.type !== KeystoreType.RADIX_WALLET) {
@@ -36,19 +38,32 @@ export const Radix: React.FC = () => {
 		if (!isLoading && !isUnlocked) navigate('/')
 	}, [isUnlocked, isLoading])
 
-	return (
-		<Box padding="xxxlarge" className={styles.pairingWrapper}>
-			<Box>
+	useEffect(() => {
+		if (step === 0 && pairingState === PairingState.PAIRED) setStep(1)
+	}, [pairingState])
+
+	const handleSubmit = (): Data => ({
+		type: DataType.STRING,
+		secret: connectionPassword,
+	})
+
+	const handleDone = () => navigate('/')
+
+	switch (step) {
+		case 2:
+			return <Done onNext={handleDone} />
+		case 1:
+			return <KeystoreForm keystoreType={KeystoreType.RADIX_WALLET} onSubmit={handleSubmit} onNext={() => setStep(2)} />
+		default:
+			return (
 				<Pairing
 					pairingState={pairingState}
 					connectionPassword={connectionPassword}
 					onPairingStateChange={setPairingState}
 					onConnectionPasswordChange={setConnectionPassword}
 				/>
-			</Box>
-			<Box>{pairingState === PairingState.PAIRED && <KeystoreForm connectionPassword={connectionPassword} />}</Box>
-		</Box>
-	)
+			)
+	}
 }
 
 export default Radix

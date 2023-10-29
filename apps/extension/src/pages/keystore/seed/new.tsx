@@ -1,11 +1,7 @@
+import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import React, { useEffect, useState } from 'react'
-import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
-import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
-import { ArrowLeftIcon } from 'ui/src/components/icons'
-import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -14,22 +10,12 @@ import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
+import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
-import * as styles from './styles.css'
-
-const messages = defineMessages({
-	create_new_wallet: {
-		defaultMessage: 'Create a new wallet',
-		id: 'wx278L',
-	},
-	create_new_wallet_sub_title: {
-		defaultMessage: 'The password will be used to unlock your wallet.',
-		id: 'a4CP1S',
-	},
-})
+import NewPhraseDisplay from './new-phrase-display'
+import NewPhraseEnter from './new-phrase-enter'
 
 export const New: React.FC = () => {
-	const intl = useIntl()
 	const navigate = useNavigate()
 	const { isUnlocked, isLoading } = useIsUnlocked()
 	const { keystore } = useSharedStore(state => ({
@@ -37,36 +23,43 @@ export const New: React.FC = () => {
 	}))
 
 	const [mnemonic, setMnemonic] = useState<string>('')
+	const [words, setWords] = useState<string[]>([])
+	const [step, setStep] = useState<number>(0)
 
-	// useEffect(() => {
-	// 	if (keystore?.type !== KeystoreType.LOCAL) navigate('/')
-	// }, [keystore])
+	useEffect(() => {
+		if (keystore?.type !== KeystoreType.LOCAL) navigate('/')
+	}, [keystore])
 
-	// useEffect(() => {
-	// 	if (!isLoading && !isUnlocked) navigate('/')
-	// }, [isUnlocked, isLoading])
+	useEffect(() => {
+		if (!isLoading && !isUnlocked) navigate('/')
+	}, [isUnlocked, isLoading])
 
 	useEffect(() => {
 		if (!mnemonic) setMnemonic(createMnemonic())
 	}, [])
 
-	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, mnemonic)
+	useEffect(() => {
+		setWords(mnemonic.split(' '))
+	}, [mnemonic])
 
-	return (
-		<Box className={styles.keystoreNewWrapper}>
-			<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
-				<ArrowLeftIcon />
-			</Button>
-			<Box className={styles.keystoreNewTextWrapper}>
-				<Text size="xxlarge" weight="strong" color="strong">
-					{intl.formatMessage(messages.create_new_wallet)}
-				</Text>
-				<Text>{intl.formatMessage(messages.create_new_wallet_sub_title)}</Text>
-			</Box>
-			{/* <Text>{mnemonic}</Text> */}
-			{mnemonic && <KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} />}
-		</Box>
-	)
+	const handleCreateKeystore = (): Data => secretToData(DataType.MNEMONIC, mnemonic)
+
+	const handleDone = () => navigate('/')
+
+	if (!mnemonic) return <FallbackLoading />
+
+	switch (step) {
+		case 3:
+			return <Done onNext={handleDone} />
+		case 2:
+			return (
+				<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleCreateKeystore} onNext={() => setStep(3)} />
+			)
+		case 1:
+			return <NewPhraseEnter words={words} onBack={() => setStep(0)} onNext={() => setStep(2)} />
+		default:
+			return <NewPhraseDisplay words={words} onBack={() => navigate(-1)} onNext={() => setStep(1)} />
+	}
 }
 
 export default New

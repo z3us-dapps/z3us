@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
-import { useSharedStore } from 'ui/src/hooks/use-store'
-import { KeystoreType } from 'ui/src/store/types'
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createMnemonic, secretToData } from '@src/crypto/secret'
-import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 
 import * as styles from './styles.css'
+
+function shuffle<T>(array: T[]): T[] {
+	let currentIndex = array.length
+	let randomIndex
+
+	// While there remain elements to shuffle.
+	while (currentIndex > 0) {
+		// Pick a remaining element.
+		randomIndex = Math.floor(Math.random() * currentIndex)
+		currentIndex -= 1
+
+		// And swap it with the current element.
+		;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+	}
+
+	return array
+}
 
 const messages = defineMessages({
 	phrase_enter_title: {
@@ -22,8 +32,9 @@ const messages = defineMessages({
 		id: 'RTnITK',
 	},
 	phrase_enter_sub_title: {
-		defaultMessage: 'Select each recovery phrase word below in their correct order.',
-		id: 'u0lsey',
+		defaultMessage:
+			'Select each word below in their correct order by clicking each pill, to restart click on one of the inputs.',
+		id: 'shWhSA',
 	},
 	phrase_display_continue: {
 		defaultMessage: 'Continue',
@@ -31,31 +42,33 @@ const messages = defineMessages({
 	},
 })
 
-export const NewPhraseEnter: React.FC = () => {
+interface IProps {
+	words: string[]
+	onBack: () => void
+	onNext: () => void
+}
+
+export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 	const intl = useIntl()
-	const navigate = useNavigate()
-	const { isUnlocked, isLoading } = useIsUnlocked()
-	const { keystore } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
 
-	const [mnemonic, setMnemonic] = useState<string>('')
+	const [shuffled, setShuffled] = useState<string[]>([])
+	const [verification, setVerification] = useState<string[]>([])
 
 	useEffect(() => {
-		if (keystore?.type !== KeystoreType.LOCAL) navigate('/')
-	}, [keystore])
+		setShuffled(shuffle([...words]))
+	}, [words])
 
-	useEffect(() => {
-		if (!isLoading && !isUnlocked) navigate('/')
-	}, [isUnlocked, isLoading])
+	const addWord = (word: string) => {
+		setVerification([...verification, word])
+	}
 
-	useEffect(() => {
-		if (!mnemonic) setMnemonic(createMnemonic())
-	}, [])
+	const clear = () => {
+		setVerification([])
+	}
 
 	return (
 		<Box className={styles.keystoreNewWrapper}>
-			<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
+			<Button onClick={onBack} styleVariant="ghost" sizeVariant="small" iconOnly>
 				<ArrowLeftIcon />
 			</Button>
 			<Box className={styles.keystoreNewTextWrapper}>
@@ -65,18 +78,26 @@ export const NewPhraseEnter: React.FC = () => {
 				<Text>{intl.formatMessage(messages.phrase_enter_sub_title)}</Text>
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridButtonWrapper}>
-				{Array.from({ length: 12 }, (_, i) => (
-					<Box key={i}>
-						<Button fullWidth sizeVariant="xsmall" styleVariant="tertiary" rounded>
-							zero
+				{shuffled.map(word => (
+					<Box key={word}>
+						<Button
+							fullWidth
+							sizeVariant="xsmall"
+							styleVariant="tertiary"
+							rounded
+							onClick={() => addWord(word)}
+							disabled={verification.includes(word)}
+						>
+							{word}
 						</Button>
 					</Box>
 				))}
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridWrapper}>
-				{Array.from({ length: 12 }, (_, i) => (
-					<Box key={i}>
+				{words.map((word, i) => (
+					<Box key={word} onClick={clear}>
 						<Input
+							disabled
 							styleVariant="secondary"
 							sizeVariant="large"
 							leftIcon={
@@ -84,12 +105,18 @@ export const NewPhraseEnter: React.FC = () => {
 									<Text>{i + 1}.</Text>
 								</Box>
 							}
+							value={verification[i] || ''}
 						/>
 					</Box>
 				))}
 			</Box>
-
-			<Button onClick={() => {}} sizeVariant="xlarge" styleVariant="primary" fullWidth>
+			<Button
+				onClick={onNext}
+				sizeVariant="xlarge"
+				styleVariant="primary"
+				fullWidth
+				disabled={words.join('') !== verification.join('')}
+			>
 				{intl.formatMessage(messages.phrase_display_continue)}
 			</Button>
 		</Box>

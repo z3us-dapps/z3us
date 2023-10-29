@@ -3,9 +3,6 @@ import { lazy } from 'react'
 const Layout = lazy(() => import('./components/layout'))
 const Home = lazy(() => import('./home'))
 const NewSeed = lazy(() => import('./seed/new'))
-const NewSeedPhraseDisplay = lazy(() => import('./seed/new-phrase-display'))
-const NewSeedPhraseEnter = lazy(() => import('./seed/new-phrase-enter'))
-const NewSeedPhraseDone = lazy(() => import('./seed/new-phrase-done'))
 const RestoreSeed = lazy(() => import('./seed/restore'))
 const Options = lazy(() => import('./options'))
 const NewRadix = lazy(() => import('./radix'))
@@ -30,10 +27,7 @@ const route = {
 				},
 				{
 					path: 'seed',
-					// element: <NewSeed />,
-					element: <NewSeedPhraseDisplay />,
-					// element: <NewSeedPhraseEnter />,
-					// element: <NewSeedPhraseDone />,
+					element: <NewSeed />,
 				},
 				{
 					path: 'radix',
