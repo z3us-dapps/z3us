@@ -1,6 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { vars } from 'ui/src/components/system/theme.css'
 
 export const navigationLogoLink = style([
@@ -84,7 +84,10 @@ export const z3usLogoLargeWrapper = style([
 		display: 'flex',
 		borderRadius: 'full',
 		overflow: 'hidden',
-		fill: 'backgroundPrimary',
+		fill: {
+			lightMode: 'bleached_silk600',
+			darkMode: 'backgroundPrimary',
+		},
 		transition: 'fastall',
 	}),
 	{},
@@ -107,9 +110,13 @@ export const z3usLogoLargeMediumWrapper = style([
 	{
 		width: '232px',
 		height: '232px',
-		boxShadow: '0px 10px 44px 0px #00000059',
+		boxShadow: '0px 5px 29px 0px rgba(0,0,0, 0.2)',
 	},
 ])
+
+globalStyle(`.${darkMode} ${z3usLogoLargeMediumWrapper}`, {
+	boxShadow: '0px 10px 44px 0px #00000059',
+})
 
 export const z3usLogoFillPurpleWrapper = style([
 	{
