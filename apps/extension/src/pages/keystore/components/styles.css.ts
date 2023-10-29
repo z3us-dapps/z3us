@@ -42,3 +42,11 @@ export const keystoreInnerWrapper = style([
 		mobile: { maxWidth: '600px', width: '100%' },
 	}),
 ])
+
+export const keystoreInnerScrollPanelWrapper = style([
+	sprinkles({}),
+	{},
+	responsiveStyle({
+		mobile: { maxHeight: 'calc(100vh - 246px)' },
+	}),
+])

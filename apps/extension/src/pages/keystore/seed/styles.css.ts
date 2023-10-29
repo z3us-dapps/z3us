@@ -41,6 +41,7 @@ export const keystoreNewPhraseGridWrapper = style([
 		gap: 'medium',
 		marginTop: 'small',
 		marginBottom: 'large',
+		userSelect: 'none',
 	}),
 	{
 		gridTemplateColumns: '1fr 1fr 1fr',

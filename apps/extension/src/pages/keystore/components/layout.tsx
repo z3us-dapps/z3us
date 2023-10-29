@@ -26,7 +26,10 @@ const ScrollContent: React.FC = () => {
 	return (
 		<Box className={styles.keystoreFlexWrapper}>
 			<Box className={styles.keystoreInnerWrapper}>
-				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
+				<ScrollPanel
+					scrollParent={isMobile ? scrollableNode : undefined}
+					className={styles.keystoreInnerScrollPanelWrapper}
+				>
 					<Suspense key={key} fallback={<FallbackLoading />}>
 						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
 					</Suspense>
