@@ -4,7 +4,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
-import { Input } from 'ui/src/components/input'
+import SeedPhraseDisplay from 'ui/src/components/seed-phrase-display'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
@@ -45,25 +45,7 @@ export const NewPhraseDisplay: React.FC<IProps> = ({ words, onBack, onNext }) =>
 				</Text>
 				<Text>{intl.formatMessage(messages.phrase_display_sub_title)}</Text>
 			</Box>
-			<Box className={styles.keystoreNewPhraseGridWrapper}>
-				{words.map((word, i) => (
-					<Box key={word} className={styles.keystoreInputBlurWrapper}>
-						<Input
-							styleVariant="secondary"
-							sizeVariant="large"
-							disabled
-							leftIcon={
-								<Box>
-									<Text>{i + 1}.</Text>
-								</Box>
-							}
-						/>
-						<Box className={styles.keystoreInputBlurWordWrapper}>
-							<Text>{word}</Text>
-						</Box>
-					</Box>
-				))}
-			</Box>
+			<SeedPhraseDisplay words={words} />
 			<Button onClick={onNext} sizeVariant="xlarge" styleVariant="primary" fullWidth>
 				{intl.formatMessage(messages.phrase_display_continue)}
 			</Button>
