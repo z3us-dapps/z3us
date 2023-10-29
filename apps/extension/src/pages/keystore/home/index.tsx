@@ -50,7 +50,7 @@ export const Home: React.FC = () => {
 
 	return (
 		<Box className={styles.keystoreHomeStyleWrapper}>
-			<Box className={styles.keystoreHomeLogoWrapper}>
+			<Box display="flex" width="full" justifyContent="center" paddingY="large">
 				<Z3usLogoLarge />
 			</Box>
 			<Box className={styles.keystoreHomeTextWrapper}>

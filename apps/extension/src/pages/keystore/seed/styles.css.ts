@@ -22,3 +22,27 @@ export const keystoreNewTextWrapper = style([
 	}),
 	{},
 ])
+
+export const keystoreNewPhraseGridButtonWrapper = style([
+	sprinkles({
+		display: 'grid',
+		gap: 'medium',
+		marginTop: 'small',
+		marginBottom: 'large',
+	}),
+	{
+		gridTemplateColumns: '1fr 1fr 1fr 1fr',
+	},
+])
+
+export const keystoreNewPhraseGridWrapper = style([
+	sprinkles({
+		display: 'grid',
+		gap: 'medium',
+		marginTop: 'small',
+		marginBottom: 'large',
+	}),
+	{
+		gridTemplateColumns: '1fr 1fr 1fr',
+	},
+])

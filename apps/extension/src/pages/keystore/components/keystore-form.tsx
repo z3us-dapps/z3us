@@ -124,7 +124,7 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit }) => {
 			initialValues={initialValues}
 			errors={validation?.format()}
 			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
-			submitButtonTitleSizeVariant="large"
+			submitButtonTitleSizeVariant="xlarge"
 		>
 			<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
 				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />

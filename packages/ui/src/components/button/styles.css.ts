@@ -285,7 +285,9 @@ export const button = recipe({
 			},
 		},
 		rounded: {
-			true: {},
+			true: {
+				borderRadius: '40px',
+			},
 		},
 		iconOnly: {
 			true: {},
