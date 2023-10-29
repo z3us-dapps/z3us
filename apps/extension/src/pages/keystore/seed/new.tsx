@@ -1,7 +1,10 @@
+import { Box } from 'packages/ui/src/components/box'
 import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import React, { useEffect, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
+import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -14,9 +17,23 @@ import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
 import NewPhraseDisplay from './new-phrase-display'
 import NewPhraseEnter from './new-phrase-enter'
+import * as styles from './styles.css'
+
+const messages = defineMessages({
+	create_new_wallet_title: {
+		defaultMessage: 'Create a new wallet',
+		id: 'wx278L',
+	},
+	create_new_wallet_sub_title: {
+		defaultMessage: 'The password will be used to unlock your wallet.',
+		id: 'a4CP1S',
+	},
+})
 
 export const New: React.FC = () => {
 	const navigate = useNavigate()
+
+	const intl = useIntl()
 	const { isUnlocked, isLoading } = useIsUnlocked()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -53,7 +70,15 @@ export const New: React.FC = () => {
 			return <Done onNext={handleDone} />
 		case 2:
 			return (
-				<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleCreateKeystore} onNext={() => setStep(3)} />
+				<Box className={styles.keystoreNewWrapper}>
+					<Box className={styles.keystoreNewTextWrapper}>
+						<Text size="xxlarge" weight="strong" color="strong">
+							{intl.formatMessage(messages.create_new_wallet_title)}
+						</Text>
+						<Text>{intl.formatMessage(messages.create_new_wallet_sub_title)}</Text>
+					</Box>
+					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleCreateKeystore} onNext={() => setStep(3)} />
+				</Box>
 			)
 		case 1:
 			return <NewPhraseEnter words={words} onBack={() => setStep(0)} onNext={() => setStep(2)} />

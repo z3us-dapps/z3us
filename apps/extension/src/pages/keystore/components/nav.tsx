@@ -6,6 +6,8 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 
+import * as styles from './styles.css'
+
 const messages = defineMessages({
 	back: {
 		id: 'cyR7Kh',
@@ -18,7 +20,7 @@ const Nav: React.FC = () => {
 	const navigate = useNavigate()
 
 	return (
-		<Box display="flex" justifyContent="center" paddingY="large">
+		<Box className={styles.onboardingNavWrapper}>
 			<Box display="flex" position="relative">
 				<Z3usLogoText />
 				{/* TODO: remove temp button */}

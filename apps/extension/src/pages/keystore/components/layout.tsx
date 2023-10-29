@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import React, { Suspense, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useOutlet } from 'react-router-dom'
@@ -43,7 +42,7 @@ const Layout: React.FC = () => (
 	<MotionBox>
 		<Box className={styles.keystoreOuterWrapper}>
 			<Nav />
-			<MobileScrollArea className={panelViewStyles.panelViewMobileScrollWrapper}>
+			<MobileScrollArea showTopScrollShadow className={panelViewStyles.panelViewMobileScrollWrapper}>
 				<ScrollContent />
 			</MobileScrollArea>
 		</Box>

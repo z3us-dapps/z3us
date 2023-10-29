@@ -77,15 +77,24 @@ const ScrollContent: React.FC = () => {
 	)
 }
 
-const Layout: React.FC = () => (
-	<MotionBox>
-		<Box className={panelViewStyles.panelViewOuterWrapper}>
-			<MobileBackground />
-			<MobileScrollArea className={panelViewStyles.panelViewMobileScrollWrapper}>
-				<ScrollContent />
-			</MobileScrollArea>
-		</Box>
-	</MotionBox>
-)
+const Layout: React.FC = () => {
+	const isMobile = useIsMobileWidth()
+	const { resourceId } = useParams()
+
+	return (
+		<MotionBox>
+			<Box className={panelViewStyles.panelViewOuterWrapper}>
+				<MobileBackground />
+				<MobileScrollArea
+					className={panelViewStyles.panelViewMobileScrollWrapper}
+					showTopScrollShadow={isMobile && !!resourceId}
+					disabled={!isMobile}
+				>
+					<ScrollContent />
+				</MobileScrollArea>
+			</Box>
+		</MotionBox>
+	)
+}
 
 export default Layout
