@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const keystoreNewWrapper = style([
 	sprinkles({
@@ -26,11 +27,26 @@ export const keystoreNewTextWrapper = style([
 export const keystoreNewPhraseGridButtonWrapper = style([
 	sprinkles({
 		display: 'grid',
-		gap: 'medium',
+		gap: 'small',
 		marginTop: 'small',
 		marginBottom: 'large',
 	}),
 	{
 		gridTemplateColumns: '1fr 1fr 1fr 1fr',
 	},
+])
+
+export const keystoreNewPhraseGridWrapper = style([
+	sprinkles({
+		display: 'grid',
+		gap: 'medium',
+		marginTop: 'small',
+		marginBottom: 'large',
+		userSelect: 'none',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { gridTemplateColumns: '1fr 1fr' },
+		tablet: { gridTemplateColumns: '1fr 1fr 1fr' },
+	}),
 ])

@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import React, { Suspense, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useOutlet } from 'react-router-dom'
@@ -26,7 +25,10 @@ const ScrollContent: React.FC = () => {
 	return (
 		<Box className={styles.keystoreFlexWrapper}>
 			<Box className={styles.keystoreInnerWrapper}>
-				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
+				<ScrollPanel
+					scrollParent={isMobile ? scrollableNode : undefined}
+					className={styles.keystoreInnerScrollPanelWrapper}
+				>
 					<Suspense key={key} fallback={<FallbackLoading />}>
 						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
 					</Suspense>
@@ -40,7 +42,7 @@ const Layout: React.FC = () => (
 	<MotionBox>
 		<Box className={styles.keystoreOuterWrapper}>
 			<Nav />
-			<MobileScrollArea className={panelViewStyles.panelViewMobileScrollWrapper}>
+			<MobileScrollArea showTopScrollShadow className={panelViewStyles.panelViewMobileScrollWrapper}>
 				<ScrollContent />
 			</MobileScrollArea>
 		</Box>

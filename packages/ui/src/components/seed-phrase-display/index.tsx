@@ -11,24 +11,26 @@ interface IProps {
 }
 
 export const SeedPhraseDisplay: React.FC<IProps> = ({ words }) => (
-	<Box className={styles.phraseGridWrapper}>
-		{words.map((word, i) => (
-			<Box key={word} className={styles.inputBlurWrapper}>
-				<Input
-					styleVariant="secondary"
-					sizeVariant="large"
-					disabled
-					leftIcon={
-						<Box>
-							<Text>{i + 1}.</Text>
-						</Box>
-					}
-				/>
-				<Box className={styles.inputBlurWordWrapper}>
-					<Text>{word}</Text>
+	<Box className={styles.phraseContainerWrapper}>
+		<Box className={styles.phraseGridWrapper}>
+			{words.map((word, i) => (
+				<Box key={word} className={styles.inputBlurWrapper}>
+					<Input
+						styleVariant="secondary"
+						sizeVariant="large"
+						disabled
+						leftIcon={
+							<Box>
+								<Text>{i + 1}.</Text>
+							</Box>
+						}
+					/>
+					<Box className={styles.inputBlurWordWrapper}>
+						<Text>{word}</Text>
+					</Box>
 				</Box>
-			</Box>
-		))}
+			))}
+		</Box>
 	</Box>
 )
 

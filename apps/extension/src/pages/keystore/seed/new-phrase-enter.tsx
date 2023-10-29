@@ -78,20 +78,23 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 				<Text>{intl.formatMessage(messages.phrase_enter_sub_title)}</Text>
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridButtonWrapper}>
-				{shuffled.map(word => (
-					<Box key={word}>
-						<Button
-							fullWidth
-							sizeVariant="xsmall"
-							styleVariant="tertiary"
-							rounded
-							onClick={() => addWord(word)}
-							disabled={verification.includes(word)}
-						>
-							{word}
-						</Button>
-					</Box>
-				))}
+				{shuffled.map(word => {
+					const isDisabled = verification.includes(word)
+					return (
+						<Box key={word} style={{ opacity: isDisabled ? 0.5 : 1 }}>
+							<Button
+								fullWidth
+								sizeVariant="xsmall"
+								styleVariant="tertiary"
+								rounded
+								onClick={() => addWord(word)}
+								disabled={isDisabled}
+							>
+								{word}
+							</Button>
+						</Box>
+					)
+				})}
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridWrapper}>
 				{words.map((word, i) => (
