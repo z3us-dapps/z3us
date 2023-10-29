@@ -65,13 +65,11 @@ export const NewPhraseDisplay: React.FC = () => {
 				<Text>{intl.formatMessage(messages.phrase_display_sub_title)}</Text>
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridWrapper}>
-				{/* <Text>{mnemonic}</Text> */}
-				{Array.from({ length: 12 }, (_, i) => (
-					<Box key={i}>
+				{mnemonic.split(' ').map((word, i) => (
+					<Box key={word} className={styles.keystoreInputBlurWrapper}>
 						<Input
 							styleVariant="secondary"
 							sizeVariant="large"
-							value="castle"
 							disabled
 							leftIcon={
 								<Box>
@@ -79,10 +77,12 @@ export const NewPhraseDisplay: React.FC = () => {
 								</Box>
 							}
 						/>
+						<Box className={styles.keystoreInputBlurWordWrapper}>
+							<Text>{word}</Text>
+						</Box>
 					</Box>
 				))}
 			</Box>
-
 			<Button onClick={() => {}} sizeVariant="xlarge" styleVariant="primary" fullWidth>
 				{intl.formatMessage(messages.phrase_display_continue)}
 			</Button>

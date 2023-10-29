@@ -173,6 +173,11 @@ export const input = recipe({
 				borderRadius: '20px',
 			},
 		},
+		disabled: {
+			true: {
+				pointerEvents: 'none',
+			},
+		},
 		leftIcon: {
 			true: {},
 		},

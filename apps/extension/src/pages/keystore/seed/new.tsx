@@ -38,13 +38,13 @@ export const New: React.FC = () => {
 
 	const [mnemonic, setMnemonic] = useState<string>('')
 
-	useEffect(() => {
-		if (keystore?.type !== KeystoreType.LOCAL) navigate('/')
-	}, [keystore])
+	// useEffect(() => {
+	// 	if (keystore?.type !== KeystoreType.LOCAL) navigate('/')
+	// }, [keystore])
 
-	useEffect(() => {
-		if (!isLoading && !isUnlocked) navigate('/')
-	}, [isUnlocked, isLoading])
+	// useEffect(() => {
+	// 	if (!isLoading && !isUnlocked) navigate('/')
+	// }, [isUnlocked, isLoading])
 
 	useEffect(() => {
 		if (!mnemonic) setMnemonic(createMnemonic())

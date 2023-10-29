@@ -30,8 +30,8 @@ const route = {
 				},
 				{
 					path: 'seed',
-					element: <NewSeed />,
-					// element: <NewSeedPhraseDisplay />,
+					// element: <NewSeed />,
+					element: <NewSeedPhraseDisplay />,
 					// element: <NewSeedPhraseEnter />,
 					// element: <NewSeedPhraseDone />,
 				},

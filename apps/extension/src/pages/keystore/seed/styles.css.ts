@@ -1,6 +1,7 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const keystoreNewWrapper = style([
 	sprinkles({
@@ -46,3 +47,30 @@ export const keystoreNewPhraseGridWrapper = style([
 		gridTemplateColumns: '1fr 1fr 1fr',
 	},
 ])
+
+export const keystoreInputBlurWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'block',
+	}),
+	{},
+])
+
+export const keystoreInputBlurWordWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		display: 'block',
+		transition: 'fastall',
+		top: 0,
+		left: 0,
+	}),
+	{
+		filter: 'blur(4px)',
+		left: '38px',
+		top: '16px',
+	},
+])
+
+globalStyle(`${keystoreInputBlurWrapper}:hover ${keystoreInputBlurWordWrapper}`, {
+	filter: 'blur(0px)',
+})
