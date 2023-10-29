@@ -2,10 +2,9 @@ import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
-import { Avatar } from 'ui/src/components/avatar'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { ArrowLeftIcon, HardwareWalletIcon, HomeIcon, Z3usIcon } from 'ui/src/components/icons'
+import { ArrowLeftIcon, HardwareWalletIcon, HomeIcon, RadixIcon, Z3usIcon } from 'ui/src/components/icons'
 import { List, ListItem } from 'ui/src/components/layout/list'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
@@ -75,7 +74,7 @@ export const Home: React.FC = () => {
 			<Text>A friendly crypto wallet build for DeFi & NTFs. </Text>
 			<Box className={styles.keystoreOptionsButtonsWrapper}>
 				<List>
-					<ListItem onClick={handleConnectRadix} iconLeft={<HomeIcon />}>
+					<ListItem onClick={handleConnectRadix} iconLeft={<RadixIcon />}>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.radix)}
 						</Text>
@@ -90,18 +89,7 @@ export const Home: React.FC = () => {
 							{intl.formatMessage(messages.seed_restore)}
 						</Text>
 					</ListItem>
-					<ListItem
-						onClick={handleRestoreExtendedPrivateKey}
-						iconLeft={
-							<Avatar
-								styleVariant="circle"
-								sizeVariant="small"
-								src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&w=128&h=128&dpr=2&q=80"
-								alt="img"
-								fallback="df"
-							/>
-						}
-					>
+					<ListItem onClick={handleRestoreExtendedPrivateKey} iconLeft={<HomeIcon />}>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.key)}
 						</Text>
