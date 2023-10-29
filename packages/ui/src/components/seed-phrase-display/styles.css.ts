@@ -1,16 +1,37 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { vars } from 'ui/src/components/system/theme.css'
+
+export const phraseContainerWrapper = style([
+	sprinkles({
+		marginTop: 'small',
+		marginBottom: 'large',
+	}),
+	{
+		containerType: 'inline-size',
+	},
+])
 
 export const phraseGridWrapper = style([
 	sprinkles({
 		display: 'grid',
 		gap: 'medium',
-		marginTop: 'small',
-		marginBottom: 'large',
 	}),
 	{
-		gridTemplateColumns: '1fr 1fr 1fr',
+		gap: vars.spacing.medium,
+		gridTemplateColumns: '1fr',
+		containerType: 'inline-size',
+		'@container': {
+			'(min-width: 300px)': {
+				gap: vars.spacing.medium,
+				gridTemplateColumns: '1fr 1fr',
+			},
+			'(min-width: 600px)': {
+				gap: vars.spacing.large,
+				gridTemplateColumns: '1fr 1fr 1fr',
+			},
+		},
 	},
 ])
 
