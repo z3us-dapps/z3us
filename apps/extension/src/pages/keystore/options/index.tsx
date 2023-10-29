@@ -14,6 +14,14 @@ import { generateId } from 'ui/src/utils/generate-id'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
+	wallet_options_title: {
+		defaultMessage: 'I already have wallet',
+		id: 's8CwGQ',
+	},
+	wallet_options_sub_title: {
+		defaultMessage: 'A friendly crypto wallet build for DeFi & NTFs. ',
+		id: 'bSxogo',
+	},
 	seed_restore: {
 		id: '6I8Iyd',
 		defaultMessage: 'Restore from seed phrase',
@@ -68,10 +76,12 @@ export const Home: React.FC = () => {
 			<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
 				<ArrowLeftIcon />
 			</Button>
-			<Text color="strong" size="xxlarge" weight="strong">
-				I already have wallet
-			</Text>
-			<Text>A friendly crypto wallet build for DeFi & NTFs. </Text>
+			<Box className={styles.keystoreOptionsTextWrapper}>
+				<Text color="strong" size="xxlarge" weight="strong">
+					{intl.formatMessage(messages.wallet_options_title)}
+				</Text>
+				<Text>{intl.formatMessage(messages.wallet_options_sub_title)}</Text>
+			</Box>
 			<Box className={styles.keystoreOptionsButtonsWrapper}>
 				<List>
 					<ListItem onClick={handleConnectRadix} iconLeft={<RadixIcon />}>

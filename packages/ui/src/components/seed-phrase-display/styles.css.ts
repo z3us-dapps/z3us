@@ -16,7 +16,6 @@ export const phraseContainerWrapper = style([
 export const phraseGridWrapper = style([
 	sprinkles({
 		display: 'grid',
-		gap: 'medium',
 	}),
 	{
 		gap: vars.spacing.medium,

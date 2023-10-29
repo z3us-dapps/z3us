@@ -12,12 +12,20 @@ export const keystoreOptionsWrapper = style([
 	{},
 ])
 
+export const keystoreOptionsTextWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'xsmall',
+		paddingTop: 'small',
+		paddingBottom: 'large',
+	}),
+	{},
+])
+
 export const keystoreOptionsButtonsWrapper = style([
 	sprinkles({
 		position: 'relative',
-		marginTop: {
-			mobile: 'xlarge',
-		},
 	}),
 	{},
 ])

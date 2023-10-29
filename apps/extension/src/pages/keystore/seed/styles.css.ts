@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const keystoreNewWrapper = style([
 	sprinkles({
@@ -20,6 +21,43 @@ export const keystoreNewTextWrapper = style([
 		gap: 'xsmall',
 		paddingTop: 'small',
 		paddingBottom: 'large',
+	}),
+	{},
+])
+
+export const keystoreRestoreWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingBottom: 'xlarge',
+	}),
+	{
+		containerType: 'inline-size',
+	},
+])
+
+export const keystoreRestoreGridWrapper = style([
+	sprinkles({
+		display: 'grid',
+	}),
+	{
+		gap: vars.spacing.medium,
+		gridTemplateColumns: '1fr',
+		containerType: 'inline-size',
+		'@container': {
+			'(min-width: 300px)': {
+				gridTemplateColumns: '1fr 1fr',
+			},
+			'(min-width: 400px)': {
+				gap: vars.spacing.medium,
+				gridTemplateColumns: '1fr 1fr 1fr',
+			},
+		},
+	},
+])
+
+export const keystoreRestoreInputClassWrapper = style([
+	sprinkles({
+		pointerEvents: 'none',
 	}),
 	{},
 ])
