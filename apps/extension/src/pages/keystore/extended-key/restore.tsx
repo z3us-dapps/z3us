@@ -1,3 +1,4 @@
+import { Button } from 'packages/ui/src/components/button'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,6 +12,7 @@ import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
+import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
 
 export const New: React.FC = () => {
@@ -21,6 +23,7 @@ export const New: React.FC = () => {
 	}))
 
 	const [key, setKey] = useState<string>('')
+	const [step, setStep] = useState<number>(0)
 
 	useEffect(() => {
 		if (keystore?.type !== KeystoreType.LOCAL) {
@@ -43,12 +46,23 @@ export const New: React.FC = () => {
 
 	const handleSubmit = (): Data => secretToData(DataType.PRIVATE_KEY, key)
 
-	return (
-		<Box padding="xxxlarge">
-			<Input value={key} elementType="textarea" type="textarea" onChange={handleChange} />
-			{key && <KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} />}
-		</Box>
-	)
+	const handleDone = () => navigate('/')
+
+	switch (step) {
+		case 2:
+			return <Done onNext={handleDone} />
+		case 1:
+			return <KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(2)} />
+		default:
+			return (
+				<Box padding="xxxlarge">
+					<Input value={key} elementType="textarea" type="textarea" onChange={handleChange} />
+					<Button onClick={() => setStep(1)} sizeVariant="xlarge" styleVariant="primary" fullWidth disabled={!key}>
+						Next
+					</Button>
+				</Box>
+			)
+	}
 }
 
 export default New

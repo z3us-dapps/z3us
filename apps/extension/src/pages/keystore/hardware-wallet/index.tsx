@@ -14,6 +14,7 @@ import { useLedgerClient } from '@src/hooks/use-ledger-client'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
+import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
 
 const messages = defineMessages({
@@ -39,6 +40,7 @@ export const New: React.FC = () => {
 
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [device, setDevice] = useState<LedgerDevice>()
+	const [step, setStep] = useState<number>(0)
 
 	useEffect(() => {
 		if (keystore?.type !== KeystoreType.HARDWARE) {
@@ -49,6 +51,10 @@ export const New: React.FC = () => {
 	useEffect(() => {
 		if (!isLoadingUnlocked && !isUnlocked) navigate('/')
 	}, [isUnlocked, isLoadingUnlocked])
+
+	useEffect(() => {
+		if (step === 0 && device) setStep(1)
+	}, [device])
 
 	const handleGetDeviceInfo = async () => {
 		setIsLoading(true)
@@ -64,22 +70,30 @@ export const New: React.FC = () => {
 		return secretToData(DataType.STRING, JSON.stringify(device))
 	}
 
-	return (
-		<Box padding="xxxlarge">
-			<Button
-				onClick={handleGetDeviceInfo}
-				styleVariant="tertiary"
-				sizeVariant="xlarge"
-				fullWidth
-				disabled={isLoading}
-				loading={isLoading}
-			>
-				{intl.formatMessage(messages.connect)}
-			</Button>
-			{isLoading && intl.formatMessage(messages.info)}
-			{device && <KeystoreForm keystoreType={KeystoreType.HARDWARE} onSubmit={handleSubmit} />}
-		</Box>
-	)
+	const handleDone = () => navigate('/')
+
+	switch (step) {
+		case 2:
+			return <Done onNext={handleDone} />
+		case 1:
+			return <KeystoreForm keystoreType={KeystoreType.HARDWARE} onSubmit={handleSubmit} onNext={() => setStep(2)} />
+		default:
+			return (
+				<Box padding="xxxlarge">
+					<Button
+						onClick={handleGetDeviceInfo}
+						styleVariant="tertiary"
+						sizeVariant="xlarge"
+						fullWidth
+						disabled={isLoading}
+						loading={isLoading}
+					>
+						{intl.formatMessage(messages.connect)}
+					</Button>
+					{isLoading && intl.formatMessage(messages.info)}
+				</Box>
+			)
+	}
 }
 
 export default New

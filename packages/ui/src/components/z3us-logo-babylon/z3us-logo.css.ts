@@ -55,7 +55,7 @@ export const z3usBrandTextWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		overflow: 'hidden',
-		cursor: 'pointer',
+		// cursor: 'pointer',
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
 		},
@@ -74,7 +74,45 @@ export const z3usBrandTextSvgWrapper = style([
 		fill: {
 			lightMode: 'wax400',
 			darkMode: 'bleached_silk300',
-			hover: 'blue_magenta400',
 		},
 	}),
+])
+
+export const z3usLogoLargeWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		borderRadius: 'full',
+		overflow: 'hidden',
+		fill: 'backgroundPrimary',
+		transition: 'fastall',
+	}),
+	{},
+])
+
+globalStyle(`${z3usLogoLargeWrapper} svg`, {
+	fill: 'inherit',
+	width: '100%',
+	height: '100%',
+})
+
+globalStyle(`${z3usLogoLargeWrapper} svg path`, {
+	fill: 'inherit',
+})
+
+export const z3usLogoLargeMediumWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		width: '232px',
+		height: '232px',
+		boxShadow: '0px 10px 44px 0px #00000059',
+	},
+])
+
+export const z3usLogoFillPurpleWrapper = style([
+	{
+		fill: vars.color.purple500,
+	},
 ])

@@ -68,6 +68,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 			rounded,
 			leftIcon: !!leftIcon,
 			rightIcon: !!rightIcon,
+			disabled,
 		}),
 		isElementTextArea && styles.textAreaDefault,
 	)

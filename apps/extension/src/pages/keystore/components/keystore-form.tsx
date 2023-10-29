@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate } from 'react-router-dom'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
+import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
@@ -54,12 +54,12 @@ const initialValues = {
 
 interface IProps {
 	keystoreType: KeystoreType
-	onSubmit(): Data
+	onSubmit: () => Data
+	onNext?: () => void
 }
 
-export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit }) => {
+export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext }) => {
 	const intl = useIntl()
-	const navigate = useNavigate()
 	const client = useMessageClient()
 	const networkId = useNetworkId()
 	const { keystoreId, addKeystore } = useSharedStore(state => ({
@@ -114,7 +114,7 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit }) => {
 		await client.unlockVault(values.password)
 		if (keystoreType !== KeystoreType.RADIX_WALLET && Object.keys(accountIndexes).length === 0) addAccount()
 
-		navigate('/')
+		if (onNext) onNext()
 	}
 
 	return (
@@ -123,20 +123,23 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit }) => {
 			initialValues={initialValues}
 			errors={validation?.format()}
 			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
+			submitButtonTitleSizeVariant="xlarge"
 		>
-			<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="medium" />
-			<TextField
-				isPassword
-				name="password"
-				placeholder={intl.formatMessage(messages.password_placeholder)}
-				sizeVariant="medium"
-			/>
-			<TextField
-				isPassword
-				name="confirmPassword"
-				placeholder={intl.formatMessage(messages.confirm_password_placeholder)}
-				sizeVariant="medium"
-			/>
+			<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
+				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
+				<TextField
+					isPassword
+					name="password"
+					placeholder={intl.formatMessage(messages.password_placeholder)}
+					sizeVariant="large"
+				/>
+				<TextField
+					isPassword
+					name="confirmPassword"
+					placeholder={intl.formatMessage(messages.confirm_password_placeholder)}
+					sizeVariant="large"
+				/>
+			</Box>
 		</Form>
 	)
 }

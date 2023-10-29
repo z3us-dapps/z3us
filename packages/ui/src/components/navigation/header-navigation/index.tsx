@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import { LayoutGroup } from 'framer-motion'
 import React, { useMemo, useState } from 'react'
@@ -17,6 +18,7 @@ import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
+import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { BackButton } from 'ui/src/pages/accounts/components/layout/components/mobile/back-button'
@@ -247,9 +249,19 @@ const HeaderNavInner = () => {
 }
 
 export const HeaderNav: React.FC = () => {
+	const dappStatus = useDappStatus()
+	const isDappStatusConnected = false
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
+
+	// if (keystore?.type === KeystoreType.RADIX_WALLET && !isDappStatusConnected) {
+	// 	return (
+	// 		<Box>
+	// 			<ConnectButton />
+	// 		</Box>
+	// 	)
+	// }
 
 	return (
 		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
