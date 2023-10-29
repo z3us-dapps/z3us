@@ -61,3 +61,34 @@ export const inputBlurWordWrapper = style([
 globalStyle(`${inputBlurWrapper}:hover ${inputBlurWordWrapper}`, {
 	filter: 'blur(0px)',
 })
+
+export const inputBlurSingleWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'block',
+		border: 1,
+		borderStyle: 'solid',
+		borderColor: 'inputPrimaryBorderColor',
+		background: 'inputPrimaryBackground',
+		padding: 'medium',
+		borderRadius: 'medium',
+	}),
+	{},
+])
+
+export const inputBlurSingleWordWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'block',
+		transition: 'fastall',
+	}),
+	{
+		fontFamily: vars.fonts.code,
+		wordWrap: 'break-word',
+		filter: 'blur(4px)',
+	},
+])
+
+globalStyle(`${inputBlurSingleWrapper}:hover ${inputBlurSingleWordWrapper}`, {
+	filter: 'blur(0px)',
+})
