@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import SecretDisplay from 'packages/ui/src/components/secret-display'
+import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import WalletSecretForm from 'ui/src/components/form/wallet-secret-form'
 import { Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
@@ -64,8 +64,6 @@ const General: React.FC = () => {
 		changeKeystoreName: state.changeKeystoreNameAction,
 	}))
 
-	const [secret, setSecret] = useState<string | undefined>()
-
 	const handleWalletNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const evt = event.nativeEvent as InputEvent
 		if (evt.isComposing) {
@@ -107,7 +105,7 @@ const General: React.FC = () => {
 							</Box>
 						</>
 					}
-					rightCol={secret ? <Box>{secret}</Box> : <WalletSecretForm onUnlock={setSecret} />}
+					rightCol={<SecretDisplay />}
 				/>
 			)}
 			{isWallet && (
