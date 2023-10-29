@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { ArrowLeftIcon, HardwareWalletIcon, HomeIcon, RadixIcon, Z3usIcon } from 'ui/src/components/icons'
+import { ArrowLeftIcon, KeyIcon, RadixIcon, UsbIcon, WriteNoteIcon } from 'ui/src/components/icons'
 import { List, ListItem } from 'ui/src/components/layout/list'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
@@ -89,17 +89,17 @@ export const Home: React.FC = () => {
 							{intl.formatMessage(messages.radix)}
 						</Text>
 					</ListItem>
-					<ListItem onClick={handleConnectHardwareWallet} iconLeft={<HardwareWalletIcon />}>
+					<ListItem onClick={handleConnectHardwareWallet} iconLeft={<UsbIcon />}>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.hw)}
 						</Text>
 					</ListItem>
-					<ListItem onClick={handleRestoreSeed} iconLeft={<Z3usIcon />}>
+					<ListItem onClick={handleRestoreSeed} iconLeft={<WriteNoteIcon />}>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.seed_restore)}
 						</Text>
 					</ListItem>
-					<ListItem onClick={handleRestoreExtendedPrivateKey} iconLeft={<HomeIcon />}>
+					<ListItem onClick={handleRestoreExtendedPrivateKey} iconLeft={<KeyIcon />}>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.key)}
 						</Text>

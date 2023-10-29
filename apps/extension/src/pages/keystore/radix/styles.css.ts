@@ -1,28 +1,43 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const pairingWrapper = style([
 	sprinkles({
 		position: 'relative',
-		background: {
-			hover: 'red800',
-			focus: 'red900',
+		padding: {
+			mobile: 'xlarge',
 		},
 	}),
-	{
-		fontSize: '40px',
-		border: '1px solid green',
-		'@media': {
-			[`screen and (min-width: 480px)`]: {
-				flexBasis: '50%',
-			},
-		},
-	},
-	responsiveStyle({
-		mobile: { width: '100%' },
-		tablet: { width: '33%' },
-		desktop: { width: '25%' },
+	{},
+])
+
+export const pairingTextWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'xsmall',
+		paddingTop: 'small',
+		paddingBottom: 'large',
 	}),
+	{},
+])
+
+export const pairingQrWrapper = style([
+	sprinkles({
+		display: 'flex',
+		justifyContent: 'center',
+		paddingTop: 'small',
+		paddingBottom: 'large',
+	}),
+	{},
+])
+
+export const pairingLinkWrapper = style([
+	sprinkles({
+		display: 'flex',
+		justifyContent: 'center',
+		width: 'full',
+	}),
+	{},
 ])
