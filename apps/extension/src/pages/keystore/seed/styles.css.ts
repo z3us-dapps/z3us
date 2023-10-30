@@ -25,6 +25,16 @@ export const keystoreNewTextWrapper = style([
 	{},
 ])
 
+export const keystoreSelectWrapper = style([
+	sprinkles({
+		display: 'flex',
+		gap: 'small',
+		alignItems: 'center',
+		paddingBottom: 'large',
+	}),
+	{},
+])
+
 export const keystoreRestoreWrapper = style([
 	sprinkles({
 		position: 'relative',

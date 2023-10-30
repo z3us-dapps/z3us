@@ -6,6 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
+import { SeedPhraseDisplayInput } from 'ui/src/components/seed-phrase-display'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import type { Keystore } from 'ui/src/store/types'
@@ -26,12 +27,26 @@ const messages = defineMessages({
 		id: '6I8Iyd',
 	},
 	seed_restore_sub_title: {
-		defaultMessage: 'This phrase is the ONLY way to recover your wallet. Keep it secure!',
-		id: '/2tD2/',
+		defaultMessage: 'please enter your recovery to your wallet.',
+		id: '92Ggeb',
+	},
+
+	seed_restore_phrase_select_box: {
+		defaultMessage: 'Enter phrase word length:',
+		id: 'hb1Im9',
 	},
 	seed_restore_continue: {
 		defaultMessage: 'Continue',
 		id: 'acrOoz',
+	},
+
+	create_new_wallet_title: {
+		defaultMessage: 'Create a new wallet',
+		id: 'wx278L',
+	},
+	create_new_wallet_sub_title: {
+		defaultMessage: 'The password will be used to unlock your wallet.',
+		id: 'a4CP1S',
 	},
 })
 
@@ -95,8 +110,21 @@ export const Restore: React.FC = () => {
 	switch (step) {
 		case 2:
 			return <Done onNext={handleDone} />
+		// case 1:
+		// 	return <KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(2)} />
+
 		case 1:
-			return <KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(2)} />
+			return (
+				<Box className={styles.keystoreNewWrapper}>
+					<Box className={styles.keystoreNewTextWrapper}>
+						<Text size="xxlarge" weight="strong" color="strong">
+							{intl.formatMessage(messages.create_new_wallet_title)}
+						</Text>
+						<Text>{intl.formatMessage(messages.create_new_wallet_sub_title)}</Text>
+					</Box>
+					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(2)} />
+				</Box>
+			)
 		default:
 			return (
 				<Box className={styles.keystoreNewWrapper}>
@@ -110,7 +138,10 @@ export const Restore: React.FC = () => {
 						<Text>{intl.formatMessage(messages.seed_restore_sub_title)}</Text>
 					</Box>
 
-					<SelectSimple value={strength} onValueChange={handleSelect} data={strengthOptions} />
+					<Box className={styles.keystoreSelectWrapper}>
+						<Text size="xsmall">{intl.formatMessage(messages.seed_restore_phrase_select_box)}</Text>
+						<SelectSimple sizeVariant="small" value={strength} onValueChange={handleSelect} data={strengthOptions} />
+					</Box>
 
 					<Box className={styles.keystoreRestoreWrapper}>
 						<Box className={styles.keystoreRestoreGridWrapper}>

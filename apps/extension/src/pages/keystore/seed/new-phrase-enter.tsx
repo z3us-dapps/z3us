@@ -5,7 +5,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
-import { Input } from 'ui/src/components/input'
+import { SeedPhraseDisplayInput } from 'ui/src/components/seed-phrase-display'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
@@ -59,11 +59,11 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 		setShuffled(shuffle([...words]))
 	}, [words])
 
-	const addWord = (word: string) => {
+	const handleAddWord = (word: string) => {
 		setVerification([...verification, word])
 	}
 
-	const clear = () => {
+	const handleClear = () => {
 		setVerification([])
 	}
 
@@ -88,7 +88,7 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 								sizeVariant="xsmall"
 								styleVariant="tertiary"
 								rounded
-								onClick={() => addWord(word)}
+								onClick={() => handleAddWord(word)}
 								disabled={isDisabled}
 							>
 								{word}
@@ -99,19 +99,7 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridWrapper}>
 				{words.map((word, i) => (
-					<Box key={`${i}-${word}`} onClick={clear}>
-						<Input
-							disabled
-							styleVariant="secondary"
-							sizeVariant="large"
-							leftIcon={
-								<Box>
-									<Text>{i + 1}.</Text>
-								</Box>
-							}
-							value={verification[i] || ''}
-						/>
-					</Box>
+					<SeedPhraseDisplayInput key={word} word={verification[i] || ''} index={i} onClear={handleClear} />
 				))}
 			</Box>
 			<Button
