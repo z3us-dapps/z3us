@@ -11,6 +11,7 @@ import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
+import { getSecret } from '@src/crypto/secret'
 import { useAddAccount } from '@src/hooks/use-add-account'
 import { useMessageClient } from '@src/hooks/use-message-client'
 import type { Data } from '@src/types/vault'
@@ -54,7 +55,7 @@ const initialValues = {
 
 interface IProps {
 	keystoreType: KeystoreType
-	onSubmit: () => Data
+	onSubmit: () => [Keystore, Data]
 	onNext?: () => void
 }
 
@@ -62,9 +63,9 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext 
 	const intl = useIntl()
 	const client = useMessageClient()
 	const networkId = useNetworkId()
-	const { keystoreId, addKeystore } = useSharedStore(state => ({
-		keystoreId: state.selectedKeystoreId,
+	const { addKeystore, changeKeystoreLedgerDevice } = useSharedStore(state => ({
 		addKeystore: state.addKeystoreAction,
+		changeKeystoreLedgerDevice: state.changeKeystoreLedgerDeviceAction,
 	}))
 	const addAccount = useAddAccount()
 	const { accountIndexes } = useNoneSharedStore(state => ({
@@ -102,16 +103,12 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext 
 
 		setValidation(undefined)
 
-		const keystore: Keystore = {
-			id: keystoreId,
-			name: values.name,
-			type: keystoreType,
-		}
-		const data = onSubmit()
+		const [keystore, data] = onSubmit()
 
-		addKeystore(keystore.id, keystore.name, keystore.type)
+		addKeystore(keystore.id, values.name, keystore.type)
 		await client.storeInVault(keystore, data, values.password)
 		await client.unlockVault(values.password)
+		if (keystoreType === KeystoreType.HARDWARE) changeKeystoreLedgerDevice(keystore.id, JSON.parse(getSecret(data)))
 		if (keystoreType !== KeystoreType.RADIX_WALLET && Object.keys(accountIndexes).length === 0) addAccount()
 
 		if (onNext) onNext()

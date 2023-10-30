@@ -8,8 +8,9 @@ import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
-import { useSharedStore } from 'ui/src/hooks/use-store'
+import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
+import { generateId } from 'ui/src/utils/generate-id'
 
 import { Strength, secretToData } from '@src/crypto/secret'
 import type { Data } from '@src/types/vault'
@@ -53,21 +54,12 @@ const strengthOptions = [
 export const Restore: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { keystore } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
 
 	const [strength, setStrength] = useState<string>(String(Strength.WORD_COUNT_12))
 	const [words, setWords] = useState<string[]>(
 		Array.from<string>({ length: strengthToWordCounts[Strength.WORD_COUNT_12] }),
 	)
 	const [step, setStep] = useState<number>(0)
-
-	useEffect(() => {
-		if (keystore?.type !== KeystoreType.LOCAL) {
-			navigate('/')
-		}
-	}, [keystore])
 
 	useEffect(() => {
 		setWords(Array.from<string>({ length: strengthToWordCounts[strength] }))
@@ -87,7 +79,16 @@ export const Restore: React.FC = () => {
 		setStrength(s)
 	}
 
-	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, words.join(' '))
+	const handleSubmit = (): [Keystore, Data] => {
+		const id = generateId()
+		const keystore: Keystore = {
+			id,
+			name: '',
+			type: KeystoreType.LOCAL,
+		}
+		const data = secretToData(DataType.MNEMONIC, words.join(' '))
+		return [keystore, data]
+	}
 
 	const handleDone = () => navigate('/')
 

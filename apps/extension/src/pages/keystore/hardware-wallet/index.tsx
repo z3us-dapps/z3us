@@ -7,8 +7,9 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
-import { useSharedStore } from 'ui/src/hooks/use-store'
+import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
+import { generateId } from 'ui/src/utils/generate-id'
 
 import { secretToData } from '@src/crypto/secret'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
@@ -44,20 +45,10 @@ export const New: React.FC = () => {
 	const navigate = useNavigate()
 	const client = useLedgerClient()
 	const { isUnlocked, isLoading: isLoadingUnlocked } = useIsUnlocked()
-	const { keystore, changeKeystoreLedgerDevice } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-		changeKeystoreLedgerDevice: state.changeKeystoreLedgerDeviceAction,
-	}))
 
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [device, setDevice] = useState<LedgerDevice>()
 	const [step, setStep] = useState<number>(0)
-
-	useEffect(() => {
-		if (keystore?.type !== KeystoreType.HARDWARE) {
-			navigate('/')
-		}
-	}, [keystore])
 
 	useEffect(() => {
 		if (!isLoadingUnlocked && !isUnlocked) navigate('/')
@@ -76,9 +67,15 @@ export const New: React.FC = () => {
 		}
 	}
 
-	const handleSubmit = (): Data => {
-		changeKeystoreLedgerDevice(keystore.id, device)
-		return secretToData(DataType.STRING, JSON.stringify(device))
+	const handleSubmit = (): [Keystore, Data] => {
+		const id = generateId()
+		const keystore: Keystore = {
+			id,
+			name: '',
+			type: KeystoreType.HARDWARE,
+		}
+		const data = secretToData(DataType.STRING, JSON.stringify(device))
+		return [keystore, data]
 	}
 
 	const handleDone = () => navigate('/')

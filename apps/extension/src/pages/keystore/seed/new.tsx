@@ -1,12 +1,13 @@
-import { Box } from 'packages/ui/src/components/box'
-import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
+import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { Text } from 'ui/src/components/typography'
-import { useSharedStore } from 'ui/src/hooks/use-store'
+import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
+import { generateId } from 'ui/src/utils/generate-id'
 
 import { createMnemonic, secretToData } from '@src/crypto/secret'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
@@ -35,17 +36,10 @@ export const New: React.FC = () => {
 
 	const intl = useIntl()
 	const { isUnlocked, isLoading } = useIsUnlocked()
-	const { keystore } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
 
 	const [mnemonic, setMnemonic] = useState<string>('')
 	const [words, setWords] = useState<string[]>([])
 	const [step, setStep] = useState<number>(0)
-
-	useEffect(() => {
-		if (keystore?.type !== KeystoreType.LOCAL) navigate('/')
-	}, [keystore])
 
 	useEffect(() => {
 		if (!isLoading && !isUnlocked) navigate('/')
@@ -59,7 +53,16 @@ export const New: React.FC = () => {
 		setWords(mnemonic.split(' '))
 	}, [mnemonic])
 
-	const handleCreateKeystore = (): Data => secretToData(DataType.MNEMONIC, mnemonic)
+	const handleSubmit = (): [Keystore, Data] => {
+		const id = generateId()
+		const keystore: Keystore = {
+			id,
+			name: '',
+			type: KeystoreType.LOCAL,
+		}
+		const data = secretToData(DataType.MNEMONIC, mnemonic)
+		return [keystore, data]
+	}
 
 	const handleDone = () => navigate('/')
 
@@ -77,7 +80,7 @@ export const New: React.FC = () => {
 						</Text>
 						<Text>{intl.formatMessage(messages.create_new_wallet_sub_title)}</Text>
 					</Box>
-					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleCreateKeystore} onNext={() => setStep(3)} />
+					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(3)} />
 				</Box>
 			)
 		case 1:

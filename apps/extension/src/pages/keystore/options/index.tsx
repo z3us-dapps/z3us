@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { ArrowLeftIcon, KeyIcon, RadixIcon, SmartPhoneIcon, UsbIcon, WriteNoteIcon } from 'ui/src/components/icons'
+import { ArrowLeftIcon, KeyIcon, SmartPhoneIcon, UsbIcon, WriteNoteIcon } from 'ui/src/components/icons'
 import { List, ListItem } from 'ui/src/components/layout/list'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
