@@ -13,6 +13,8 @@ import { getStringNftData } from 'ui/src/services/metadata'
 
 import FieldValue from './field-value'
 
+const IGNORE_DATA = ['name', 'description', 'key_image_url']
+
 const messages = defineMessages({
 	back: {
 		id: 'cyR7Kh',
@@ -23,8 +25,8 @@ const messages = defineMessages({
 		defaultMessage: '(burned)',
 	},
 	data: {
-		id: 'XHHR08',
-		defaultMessage: 'Data',
+		id: 'Lv0zJu',
+		defaultMessage: 'Details',
 	},
 })
 
@@ -65,21 +67,23 @@ const NftDetails: React.FC = () => {
 							{intl.formatMessage(messages.data)}
 						</Text>
 					</Box>
-					{dataJson?.fields?.map(field => (
-						<AccountsTransactionInfo
-							key={field.field_name}
-							leftTitle={
-								<Text size="large" color="strong">
-									{(field.field_name || ('' as string)).toUpperCase()}
-								</Text>
-							}
-							rightData={
-								<Text size="small">
-									<FieldValue field={field} />
-								</Text>
-							}
-						/>
-					))}
+					{dataJson?.fields?.map(field =>
+						IGNORE_DATA.includes(field.field_name) ? null : (
+							<AccountsTransactionInfo
+								key={field.field_name}
+								leftTitle={
+									<Text size="large" color="strong">
+										{(field.field_name || ('' as string)).toUpperCase()}
+									</Text>
+								}
+								rightData={
+									<Text size="small">
+										<FieldValue field={field} />
+									</Text>
+								}
+							/>
+						),
+					)}
 				</Box>
 			</Box>
 		</Box>

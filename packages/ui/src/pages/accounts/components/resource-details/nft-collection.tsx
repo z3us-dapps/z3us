@@ -1,3 +1,4 @@
+import { ImageIcon } from 'packages/ui/src/components/image-icon'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -8,10 +9,11 @@ import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { LockIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import MetadataValue from 'ui/src/components/metadata-value'
-import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { getStringMetadata } from 'ui/src/services/metadata'
+
+const IGNORE_METADATA = ['name', 'description', 'icon_url']
 
 const messages = defineMessages({
 	back: {
@@ -19,8 +21,8 @@ const messages = defineMessages({
 		defaultMessage: 'Back',
 	},
 	metadata: {
-		id: '8Q504V',
-		defaultMessage: 'Metadata',
+		id: 'aCrVj1',
+		defaultMessage: 'Other details',
 	},
 	summary: {
 		id: 'RrCui3',
@@ -55,6 +57,7 @@ const NftCollectionDetails: React.FC = () => {
 
 	const name = getStringMetadata('name', data?.metadata?.items)
 	const description = getStringMetadata('description', data?.metadata?.items)
+	const image = getStringMetadata('key_image_url', data?.metadata?.items)
 
 	if (!resourceId) return null
 	if (isLoading) return <FallbackLoading />
@@ -64,7 +67,7 @@ const NftCollectionDetails: React.FC = () => {
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
 					<Box paddingBottom="small">
-						<ResourceImageIcon address={resourceId} />
+						<ImageIcon imgSrc={image} imgAlt={name} fallbackText={name} />
 					</Box>
 					<Text size="large" color="strong">
 						{name}
@@ -150,22 +153,24 @@ const NftCollectionDetails: React.FC = () => {
 							{intl.formatMessage(messages.metadata)}
 						</Text>
 					</Box>
-					{data?.metadata.items.map(item => (
-						<AccountsTransactionInfo
-							key={item.key}
-							leftTitle={
-								<Text size="large" color="strong">
-									{item.is_locked === true && <LockIcon />}
-									{(item.key as string).toUpperCase()}
-								</Text>
-							}
-							rightData={
-								<Text size="small">
-									<MetadataValue value={item} />
-								</Text>
-							}
-						/>
-					))}
+					{data?.metadata.items.map(item =>
+						IGNORE_METADATA.includes(item.key) ? null : (
+							<AccountsTransactionInfo
+								key={item.key}
+								leftTitle={
+									<Text size="large" color="strong">
+										{item.is_locked === true && <LockIcon />}
+										{(item.key as string).toUpperCase()}
+									</Text>
+								}
+								rightData={
+									<Text size="small">
+										<MetadataValue value={item} />
+									</Text>
+								}
+							/>
+						),
+					)}
 				</Box>
 			</Box>
 		</Box>
