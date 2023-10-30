@@ -39,7 +39,7 @@ export const Radix: React.FC = () => {
 		const id = generateId()
 		const keystore: Keystore = {
 			id,
-			name: '',
+			name: id,
 			type: KeystoreType.RADIX_WALLET,
 		}
 		const data = {

@@ -71,7 +71,7 @@ export const New: React.FC = () => {
 		const id = generateId()
 		const keystore: Keystore = {
 			id,
-			name: '',
+			name: id,
 			type: KeystoreType.HARDWARE,
 		}
 		const data = secretToData(DataType.STRING, JSON.stringify(device))

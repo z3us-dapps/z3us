@@ -83,7 +83,7 @@ export const Restore: React.FC = () => {
 		const id = generateId()
 		const keystore: Keystore = {
 			id,
-			name: '',
+			name: id,
 			type: KeystoreType.LOCAL,
 		}
 		const data = secretToData(DataType.MNEMONIC, words.join(' '))
