@@ -1,9 +1,12 @@
 import { Button } from 'packages/ui/src/components/button'
+import { ArrowLeftIcon } from 'packages/ui/src/components/icons'
 import React, { useEffect, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Input } from 'ui/src/components/input'
+import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -14,9 +17,30 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
+import * as styles from './styles.css'
+
+const messages = defineMessages({
+	extended_key_title: {
+		id: 'sJD8De',
+		defaultMessage: 'Restore using private key',
+	},
+	extended_key_sub_title: {
+		id: 'k8GEXS',
+		defaultMessage: 'enter private key to continue',
+	},
+	extended_key_input_placeholder: {
+		id: 'IOLlx+',
+		defaultMessage: 'Enter key',
+	},
+	extended_key_continue_button: {
+		id: 'acrOoz',
+		defaultMessage: 'Continue',
+	},
+})
 
 export const New: React.FC = () => {
 	const navigate = useNavigate()
+	const intl = useIntl()
 	const { isUnlocked, isLoading } = useIsUnlocked()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -55,10 +79,28 @@ export const New: React.FC = () => {
 			return <KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(2)} />
 		default:
 			return (
-				<Box padding="xxxlarge">
-					<Input value={key} elementType="textarea" type="textarea" onChange={handleChange} />
+				<Box className={styles.extendedKeyWrapper}>
+					<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
+						<ArrowLeftIcon />
+					</Button>
+					<Box className={styles.extendedKeyWrapperTextWrapper}>
+						<Text color="strong" size="xxlarge" weight="strong">
+							{intl.formatMessage(messages.extended_key_title)}
+						</Text>
+						<Text>{intl.formatMessage(messages.extended_key_sub_title)}</Text>
+					</Box>
+					<Box className={styles.extendedKeyInputWrapper}>
+						<Input
+							placeholder={intl.formatMessage(messages.extended_key_input_placeholder)}
+							value={key}
+							elementType="textarea"
+							type="textarea"
+							onChange={handleChange}
+							className={styles.extendedKeyInput}
+						/>
+					</Box>
 					<Button onClick={() => setStep(1)} sizeVariant="xlarge" styleVariant="primary" fullWidth disabled={!key}>
-						Next
+						{intl.formatMessage(messages.extended_key_continue_button)}
 					</Button>
 				</Box>
 			)

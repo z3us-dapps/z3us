@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
-export const hardwareWalletWrapper = style([
+export const extendedKeyWrapper = style([
 	sprinkles({
 		position: 'relative',
 		padding: {
@@ -12,7 +12,7 @@ export const hardwareWalletWrapper = style([
 	{},
 ])
 
-export const hardwareWalletTextWrapper = style([
+export const extendedKeyWrapperTextWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
@@ -21,4 +21,19 @@ export const hardwareWalletTextWrapper = style([
 		paddingBottom: 'large',
 	}),
 	{},
+])
+
+export const extendedKeyInputWrapper = style([
+	sprinkles({
+		width: 'full',
+		paddingTop: 'small',
+		paddingBottom: 'large',
+	}),
+	{},
+])
+
+export const extendedKeyInput = style([
+	{
+		height: '120px',
+	},
 ])

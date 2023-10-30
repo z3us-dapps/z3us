@@ -90,12 +90,11 @@ export const New: React.FC = () => {
 			return <KeystoreForm keystoreType={KeystoreType.HARDWARE} onSubmit={handleSubmit} onNext={() => setStep(2)} />
 		default:
 			return (
-				<Box className={styles.pairingWrapper}>
+				<Box className={styles.hardwareWalletWrapper}>
 					<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
 						<ArrowLeftIcon />
 					</Button>
-
-					<Box className={styles.pairingTextWrapper}>
+					<Box className={styles.hardwareWalletTextWrapper}>
 						<Text color="strong" size="xxlarge" weight="strong">
 							{intl.formatMessage(messages.hardware_wallet_title)}
 						</Text>
