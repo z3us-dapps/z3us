@@ -19,8 +19,8 @@ const messages = defineMessages({
 		id: 's8CwGQ',
 	},
 	wallet_options_sub_title: {
-		defaultMessage: 'A friendly crypto wallet build for DeFi & NTFs. ',
-		id: 'bSxogo',
+		defaultMessage: 'Select from the options below to connect your existing wallet.',
+		id: 'LJnWVj',
 	},
 	seed_restore: {
 		id: '6I8Iyd',
