@@ -1,4 +1,3 @@
-import { StateKeyValueStoreDataRequestAllOfFromJSONTyped } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
@@ -7,11 +6,12 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
+import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
-import { secretToData } from '@src/crypto/secret'
+import { Strength, secretToData } from '@src/crypto/secret'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
@@ -34,14 +34,33 @@ const messages = defineMessages({
 	},
 })
 
-export const New: React.FC = () => {
+const strengthToWordCounts = {
+	[Strength.WORD_COUNT_12]: 12,
+	[Strength.WORD_COUNT_15]: 15,
+	[Strength.WORD_COUNT_18]: 18,
+	[Strength.WORD_COUNT_21]: 21,
+	[Strength.WORD_COUNT_24]: 24,
+}
+
+const strengthOptions = [
+	{ id: String(Strength.WORD_COUNT_12), title: `${strengthToWordCounts[Strength.WORD_COUNT_12]}` },
+	{ id: String(Strength.WORD_COUNT_15), title: `${strengthToWordCounts[Strength.WORD_COUNT_15]}` },
+	{ id: String(Strength.WORD_COUNT_18), title: `${strengthToWordCounts[Strength.WORD_COUNT_18]}` },
+	{ id: String(Strength.WORD_COUNT_21), title: `${strengthToWordCounts[Strength.WORD_COUNT_21]}` },
+	{ id: String(Strength.WORD_COUNT_24), title: `${strengthToWordCounts[Strength.WORD_COUNT_24]}` },
+]
+
+export const Restore: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
 
-	const [mnemonic, setMnemonic] = useState<string>('')
+	const [strength, setStrength] = useState<string>(String(Strength.WORD_COUNT_12))
+	const [words, setWords] = useState<string[]>(
+		Array.from<string>({ length: strengthToWordCounts[Strength.WORD_COUNT_12] }),
+	)
 	const [step, setStep] = useState<number>(0)
 
 	useEffect(() => {
@@ -50,20 +69,27 @@ export const New: React.FC = () => {
 		}
 	}, [keystore])
 
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	useEffect(() => {
+		setWords(Array.from<string>({ length: strengthToWordCounts[strength] }))
+	}, [strength])
+
+	const handleChange = (idx: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
 		const evt = event.nativeEvent as InputEvent
 		if (evt.isComposing) {
 			return
 		}
-
-		setMnemonic(event.target.value)
+		const newWords = [...words]
+		newWords[idx] = event.target.value
+		setWords(newWords)
 	}
 
-	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, mnemonic)
+	const handleSelect = (s: string) => {
+		setStrength(s)
+	}
+
+	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, words.join(' '))
 
 	const handleDone = () => navigate('/')
-
-	const words = ['', '', '', '', '', '', '', '', '', '', '', '']
 
 	switch (step) {
 		case 2:
@@ -83,10 +109,13 @@ export const New: React.FC = () => {
 						<Text>{intl.formatMessage(messages.seed_restore_sub_title)}</Text>
 					</Box>
 
+					<SelectSimple value={strength} onValueChange={handleSelect} data={strengthOptions} />
+
 					<Box className={styles.keystoreRestoreWrapper}>
 						<Box className={styles.keystoreRestoreGridWrapper}>
-							{words.map((word, i) => (
-								<Box key={word}>
+							{words.map((_, i) => (
+								// eslint-disable-next-line react/no-array-index-key
+								<Box key={i}>
 									<Input
 										styleVariant="secondary"
 										sizeVariant="large"
@@ -96,16 +125,21 @@ export const New: React.FC = () => {
 												<Text>{i + 1}.</Text>
 											</Box>
 										}
+										value={words[i]}
+										onChange={handleChange(i)}
 									/>
 								</Box>
 							))}
 						</Box>
 					</Box>
 
-					{/* TODO: remove */}
-					{/* <Input value={mnemonic} elementType="textarea" type="textarea" onChange={handleChange} /> */}
-
-					<Button onClick={() => setStep(1)} sizeVariant="xlarge" styleVariant="primary" fullWidth disabled={!mnemonic}>
+					<Button
+						onClick={() => setStep(1)}
+						sizeVariant="xlarge"
+						styleVariant="primary"
+						fullWidth
+						disabled={!!words.find(w => w === '')}
+					>
 						{intl.formatMessage(messages.seed_restore_continue)}
 					</Button>
 				</Box>
@@ -113,4 +147,4 @@ export const New: React.FC = () => {
 	}
 }
 
-export default New
+export default Restore
