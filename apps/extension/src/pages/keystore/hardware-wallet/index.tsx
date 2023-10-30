@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { ArrowLeftIcon } from 'ui/src/components/icons'
+import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -16,8 +18,17 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
+	hardware_wallet_title: {
+		id: 'iarOLy',
+		defaultMessage: 'Connect hardware ledger device',
+	},
+	hardware_wallet_sub_title: {
+		id: 'NgajQk',
+		defaultMessage: 'Click connect and follow the prompts to connect device.',
+	},
 	connect: {
 		id: 'cotGK8',
 		defaultMessage: 'Connect device',
@@ -79,10 +90,20 @@ export const New: React.FC = () => {
 			return <KeystoreForm keystoreType={KeystoreType.HARDWARE} onSubmit={handleSubmit} onNext={() => setStep(2)} />
 		default:
 			return (
-				<Box padding="xxxlarge">
+				<Box className={styles.pairingWrapper}>
+					<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
+						<ArrowLeftIcon />
+					</Button>
+
+					<Box className={styles.pairingTextWrapper}>
+						<Text color="strong" size="xxlarge" weight="strong">
+							{intl.formatMessage(messages.hardware_wallet_title)}
+						</Text>
+						<Text>{intl.formatMessage(messages.hardware_wallet_sub_title)}</Text>
+					</Box>
 					<Button
 						onClick={handleGetDeviceInfo}
-						styleVariant="tertiary"
+						styleVariant="primary"
 						sizeVariant="xlarge"
 						fullWidth
 						disabled={isLoading}
