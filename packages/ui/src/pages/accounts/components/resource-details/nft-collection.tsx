@@ -1,5 +1,5 @@
 import { ImageIcon } from 'packages/ui/src/components/image-icon'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
@@ -58,6 +58,8 @@ const NftCollectionDetails: React.FC = () => {
 	const name = getStringMetadata('name', data?.metadata?.items)
 	const description = getStringMetadata('description', data?.metadata?.items)
 	const image = getStringMetadata('key_image_url', data?.metadata?.items)
+
+	const metadata = useMemo(() => data?.metadata.items.filter(item => !IGNORE_METADATA.includes(item.key)) || [], [data])
 
 	if (!resourceId) return null
 	if (isLoading) return <FallbackLoading />
@@ -147,14 +149,14 @@ const NftCollectionDetails: React.FC = () => {
 					/>
 				</Box>
 
-				<Box display="flex" flexDirection="column">
-					<Box marginTop="xsmall" paddingBottom="medium">
-						<Text size="medium" weight="medium" color="strong">
-							{intl.formatMessage(messages.metadata)}
-						</Text>
-					</Box>
-					{data?.metadata.items.map(item =>
-						IGNORE_METADATA.includes(item.key) ? null : (
+				{metadata.length > 0 && (
+					<Box display="flex" flexDirection="column">
+						<Box marginTop="xsmall" paddingBottom="medium">
+							<Text size="medium" weight="medium" color="strong">
+								{intl.formatMessage(messages.metadata)}
+							</Text>
+						</Box>
+						{metadata.map(item => (
 							<AccountsTransactionInfo
 								key={item.key}
 								leftTitle={
@@ -169,9 +171,9 @@ const NftCollectionDetails: React.FC = () => {
 									</Text>
 								}
 							/>
-						),
-					)}
-				</Box>
+						))}
+					</Box>
+				)}
 			</Box>
 		</Box>
 	)

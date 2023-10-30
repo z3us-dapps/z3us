@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
@@ -40,6 +40,11 @@ const NftDetails: React.FC = () => {
 	const name = getStringNftData('name', dataJson?.fields)
 	const description = getStringNftData('description', dataJson?.fields)
 
+	const fields = useMemo(
+		() => (data?.data.programmatic_json as any)?.fields?.filter(field => !IGNORE_DATA.includes(field.field_name)) || [],
+		[data],
+	)
+
 	if (!resourceId) return null
 	if (!nftId) return null
 
@@ -61,14 +66,14 @@ const NftDetails: React.FC = () => {
 					<CardButtons />
 				</Box>
 
-				<Box display="flex" flexDirection="column">
-					<Box marginTop="xsmall" paddingBottom="medium">
-						<Text size="medium" weight="medium" color="strong">
-							{intl.formatMessage(messages.data)}
-						</Text>
-					</Box>
-					{dataJson?.fields?.map(field =>
-						IGNORE_DATA.includes(field.field_name) ? null : (
+				{fields.length > 0 && (
+					<Box display="flex" flexDirection="column">
+						<Box marginTop="xsmall" paddingBottom="medium">
+							<Text size="medium" weight="medium" color="strong">
+								{intl.formatMessage(messages.data)}
+							</Text>
+						</Box>
+						{fields.map(field => (
 							<AccountsTransactionInfo
 								key={field.field_name}
 								leftTitle={
@@ -82,9 +87,9 @@ const NftDetails: React.FC = () => {
 									</Text>
 								}
 							/>
-						),
-					)}
-				</Box>
+						))}
+					</Box>
+				)}
 			</Box>
 		</Box>
 	)

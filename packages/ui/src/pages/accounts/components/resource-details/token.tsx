@@ -45,6 +45,14 @@ const messages = defineMessages({
 		id: 'RrCui3',
 		defaultMessage: 'Summary',
 	},
+	name: {
+		id: 'HAlOn1',
+		defaultMessage: 'Name',
+	},
+	symbol: {
+		id: '3HepmQ',
+		defaultMessage: 'Symbol',
+	},
 	details_address: {
 		id: 'e6Ph5+',
 		defaultMessage: 'Address',
@@ -142,6 +150,8 @@ const TokenDetails: React.FC = () => {
 			}
 		})
 	}, [resourceId, knownAddresses, udfHistory, marketData])
+
+	const metadata = useMemo(() => data?.metadata.items.filter(item => !IGNORE_METADATA.includes(item.key)) || [], [data])
 
 	const renderTooltipContent = ({ active, payload }) => {
 		if (active && payload && payload.length) {
@@ -261,6 +271,24 @@ const TokenDetails: React.FC = () => {
 						<AccountsTransactionInfo
 							leftTitle={
 								<Text size="xsmall" color="strong">
+									{intl.formatMessage(messages.name)}
+								</Text>
+							}
+							rightData={<Text size="xsmall">{name}</Text>}
+						/>
+
+						<AccountsTransactionInfo
+							leftTitle={
+								<Text size="xsmall" color="strong">
+									{intl.formatMessage(messages.symbol)}
+								</Text>
+							}
+							rightData={<Text size="xsmall">{symbol}</Text>}
+						/>
+
+						<AccountsTransactionInfo
+							leftTitle={
+								<Text size="xsmall" color="strong">
 									{intl.formatMessage(messages.details_divisibility)}
 								</Text>
 							}
@@ -347,15 +375,15 @@ const TokenDetails: React.FC = () => {
 						)}
 					</Box>
 
-					<Box display="flex" flexDirection="column">
-						<Box paddingTop="xlarge">
-							<Text size="large" weight="medium" color="strong">
-								{intl.formatMessage(messages.metadata)}
-							</Text>
-						</Box>
+					{metadata.length > 0 && (
+						<Box display="flex" flexDirection="column">
+							<Box paddingTop="xlarge">
+								<Text size="large" weight="medium" color="strong">
+									{intl.formatMessage(messages.metadata)}
+								</Text>
+							</Box>
 
-						{data?.metadata.items.map(item =>
-							IGNORE_METADATA.includes(item.key) ? null : (
+							{metadata.map(item => (
 								<AccountsTransactionInfo
 									key={item.key}
 									leftTitle={
@@ -374,9 +402,9 @@ const TokenDetails: React.FC = () => {
 										</Box>
 									}
 								/>
-							),
-						)}
-					</Box>
+							))}
+						</Box>
+					)}
 				</Box>
 			</Box>
 		</Box>
