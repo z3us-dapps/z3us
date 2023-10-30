@@ -7,9 +7,6 @@ import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon, KeyIcon, SmartPhoneIcon, UsbIcon, WriteNoteIcon } from 'ui/src/components/icons'
 import { List, ListItem } from 'ui/src/components/layout/list'
 import { Text } from 'ui/src/components/typography'
-import { useSharedStore } from 'ui/src/hooks/use-store'
-import { KeystoreType } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
 
 import * as styles from './styles.css'
 
@@ -43,31 +40,20 @@ const messages = defineMessages({
 export const Home: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { addKeystore } = useSharedStore(state => ({
-		addKeystore: state.addKeystoreAction,
-	}))
 
 	const handleRestoreSeed = () => {
-		const id = generateId()
-		addKeystore(id, id, KeystoreType.LOCAL)
 		navigate('/keystore/restore/seed')
 	}
 
 	const handleRestoreExtendedPrivateKey = () => {
-		const id = generateId()
-		addKeystore(id, id, KeystoreType.LOCAL)
 		navigate('/keystore/restore/extended-key')
 	}
 
 	const handleConnectRadix = () => {
-		const id = generateId()
-		addKeystore(id, id, KeystoreType.RADIX_WALLET)
 		navigate('/keystore/new/radix')
 	}
 
 	const handleConnectHardwareWallet = () => {
-		const id = generateId()
-		addKeystore(id, id, KeystoreType.HARDWARE)
 		navigate('/keystore/new/hardware-wallet')
 	}
 
