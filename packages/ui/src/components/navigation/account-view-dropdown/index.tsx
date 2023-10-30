@@ -26,11 +26,11 @@ import {
 	CheckIcon,
 	ChevronRightIcon,
 	HardwareWalletIcon,
-	HomeIcon,
 	LockIcon,
 	MoonIcon,
 	PlusIcon,
 	ShareIcon,
+	SmartPhoneIcon,
 	SunIcon,
 	Z3usIcon,
 } from 'ui/src/components/icons'
@@ -176,7 +176,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 												<DropdownMenuSub>
 													<DropdownMenuSubTrigger>
 														<DropdownMenuLeftSlot>
-															{keystore.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
+															{keystore.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
 															{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
 															{keystore.type === KeystoreType.LOCAL && <Z3usIcon />}
 														</DropdownMenuLeftSlot>
@@ -201,7 +201,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 																	.map(k => (
 																		<DropdownMenuRadioItem key={k.id} value={k.id}>
 																			<DropdownMenuLeftSlot>
-																				{k.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
+																				{k.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
 																				{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
 																				{k.type === KeystoreType.LOCAL && <Z3usIcon />}
 																			</DropdownMenuLeftSlot>
