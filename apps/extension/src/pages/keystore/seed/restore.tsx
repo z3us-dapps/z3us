@@ -39,12 +39,11 @@ const messages = defineMessages({
 		defaultMessage: 'Continue',
 		id: 'acrOoz',
 	},
-
-	create_new_wallet_title: {
+	restore_new_wallet_title: {
 		defaultMessage: 'Create a new wallet',
 		id: 'wx278L',
 	},
-	create_new_wallet_sub_title: {
+	restore_new_wallet_sub_title: {
 		defaultMessage: 'The password will be used to unlock your wallet.',
 		id: 'a4CP1S',
 	},
@@ -110,17 +109,14 @@ export const Restore: React.FC = () => {
 	switch (step) {
 		case 2:
 			return <Done onNext={handleDone} />
-		// case 1:
-		// 	return <KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(2)} />
-
 		case 1:
 			return (
 				<Box className={styles.keystoreNewWrapper}>
 					<Box className={styles.keystoreNewTextWrapper}>
 						<Text size="xxlarge" weight="strong" color="strong">
-							{intl.formatMessage(messages.create_new_wallet_title)}
+							{intl.formatMessage(messages.restore_new_wallet_title)}
 						</Text>
-						<Text>{intl.formatMessage(messages.create_new_wallet_sub_title)}</Text>
+						<Text>{intl.formatMessage(messages.restore_new_wallet_sub_title)}</Text>
 					</Box>
 					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(2)} />
 				</Box>
