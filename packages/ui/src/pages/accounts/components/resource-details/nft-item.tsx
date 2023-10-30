@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
@@ -13,6 +13,8 @@ import { getStringNftData } from 'ui/src/services/metadata'
 
 import FieldValue from './field-value'
 
+const IGNORE_DATA = ['name', 'description', 'key_image_url']
+
 const messages = defineMessages({
 	back: {
 		id: 'cyR7Kh',
@@ -23,8 +25,8 @@ const messages = defineMessages({
 		defaultMessage: '(burned)',
 	},
 	data: {
-		id: 'XHHR08',
-		defaultMessage: 'Data',
+		id: 'Lv0zJu',
+		defaultMessage: 'Details',
 	},
 })
 
@@ -37,6 +39,11 @@ const NftDetails: React.FC = () => {
 	const dataJson = data?.data.programmatic_json as any
 	const name = getStringNftData('name', dataJson?.fields)
 	const description = getStringNftData('description', dataJson?.fields)
+
+	const fields = useMemo(
+		() => (data?.data.programmatic_json as any)?.fields?.filter(field => !IGNORE_DATA.includes(field.field_name)) || [],
+		[data],
+	)
 
 	if (!resourceId) return null
 	if (!nftId) return null
@@ -59,28 +66,30 @@ const NftDetails: React.FC = () => {
 					<CardButtons />
 				</Box>
 
-				<Box display="flex" flexDirection="column">
-					<Box marginTop="xsmall" paddingBottom="medium">
-						<Text size="medium" weight="medium" color="strong">
-							{intl.formatMessage(messages.data)}
-						</Text>
+				{fields.length > 0 && (
+					<Box display="flex" flexDirection="column">
+						<Box marginTop="xsmall" paddingBottom="medium">
+							<Text size="medium" weight="medium" color="strong">
+								{intl.formatMessage(messages.data)}
+							</Text>
+						</Box>
+						{fields.map(field => (
+							<AccountsTransactionInfo
+								key={field.field_name}
+								leftTitle={
+									<Text size="large" color="strong">
+										{(field.field_name || ('' as string)).toUpperCase()}
+									</Text>
+								}
+								rightData={
+									<Text size="small">
+										<FieldValue field={field} />
+									</Text>
+								}
+							/>
+						))}
 					</Box>
-					{dataJson?.fields?.map(field => (
-						<AccountsTransactionInfo
-							key={field.field_name}
-							leftTitle={
-								<Text size="large" color="strong">
-									{(field.field_name || ('' as string)).toUpperCase()}
-								</Text>
-							}
-							rightData={
-								<Text size="small">
-									<FieldValue field={field} />
-								</Text>
-							}
-						/>
-					))}
-				</Box>
+				)}
 			</Box>
 		</Box>
 	)

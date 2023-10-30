@@ -1,3 +1,4 @@
+import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -8,7 +9,7 @@ import { CardButtons } from 'ui/src/components/card-buttons'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { LockIcon } from 'ui/src/components/icons'
+import { Check2Icon, Close2Icon, LockIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import MetadataValue from 'ui/src/components/metadata-value'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
@@ -24,18 +25,33 @@ import { TimeFrames } from 'ui/src/types'
 
 import * as styles from './styles.css'
 
+const DISPLAY_ROLES = ['burner', 'minter', 'freezer', 'recaller', 'depositor', 'withdrawer']
+const IGNORE_METADATA = ['name', 'description', 'symbol', 'icon_url']
+
 const messages = defineMessages({
 	back: {
 		id: 'cyR7Kh',
 		defaultMessage: 'Back',
 	},
 	metadata: {
-		id: '8Q504V',
-		defaultMessage: 'Metadata',
+		id: 'aCrVj1',
+		defaultMessage: 'Other details',
+	},
+	roles: {
+		id: 'kAAlGL',
+		defaultMessage: 'Rules',
 	},
 	summary: {
 		id: 'RrCui3',
 		defaultMessage: 'Summary',
+	},
+	name: {
+		id: 'HAlOn1',
+		defaultMessage: 'Name',
+	},
+	symbol: {
+		id: '3HepmQ',
+		defaultMessage: 'Symbol',
 	},
 	details_address: {
 		id: 'e6Ph5+',
@@ -57,6 +73,30 @@ const messages = defineMessages({
 		id: '/B/zOD',
 		defaultMessage: 'Total burned',
 	},
+	burner: {
+		defaultMessage: 'Burnable',
+		id: 'MjwQp7',
+	},
+	minter: {
+		defaultMessage: 'Mintable',
+		id: '84m3CV',
+	},
+	freezer: {
+		defaultMessage: 'Freezable',
+		id: 'I1qodS',
+	},
+	recaller: {
+		defaultMessage: 'Recallable',
+		id: 'IvrL45',
+	},
+	depositor: {
+		defaultMessage: 'Depositable',
+		id: '3/+Xgy',
+	},
+	withdrawer: {
+		defaultMessage: 'Withdrawable',
+		id: '1wANY0',
+	},
 })
 
 const TokenDetails: React.FC = () => {
@@ -77,10 +117,15 @@ const TokenDetails: React.FC = () => {
 
 	const { data: token } = useToken(validator && knownAddresses ? knownAddresses.resourceAddresses.xrd : resourceId)
 
-	const value = (parseFloat(token?.price?.xrd.now) || 0) * xrdPrice
-	const change =
-		(token ? (parseFloat(token?.price?.usd.now) || 0) / (parseFloat(token?.price?.usd['24h']) || 0) : 0) / 100
-	const increase = token ? (parseFloat(token?.price?.usd.now) || 0) - (parseFloat(token?.price?.usd['24h']) || 0) : 0
+	const value = useMemo(() => (parseFloat(token?.price?.xrd.now) || 0) * xrdPrice, [token, xrdPrice])
+	const change = useMemo(() => {
+		const v = token ? (parseFloat(token?.price?.usd.now) || 0) / (parseFloat(token?.price?.usd['24h']) || 0) / 100 : 0
+		return Number.isFinite(v) ? v : 0
+	}, [token])
+	const increase = useMemo(
+		() => (token ? (parseFloat(token?.price?.usd.now) || 0) - (parseFloat(token?.price?.usd['24h']) || 0) : 0),
+		[token],
+	)
 
 	const [timeFrame, setTimeFrame] = useState<TimeFrames>(TimeFrames.THREE_MONTHS)
 	const { data: udfHistory } = useUsfHistory(resourceId, timeFrame)
@@ -105,6 +150,8 @@ const TokenDetails: React.FC = () => {
 			}
 		})
 	}, [resourceId, knownAddresses, udfHistory, marketData])
+
+	const metadata = useMemo(() => data?.metadata.items.filter(item => !IGNORE_METADATA.includes(item.key)) || [], [data])
 
 	const renderTooltipContent = ({ active, payload }) => {
 		if (active && payload && payload.length) {
@@ -224,6 +271,24 @@ const TokenDetails: React.FC = () => {
 						<AccountsTransactionInfo
 							leftTitle={
 								<Text size="xsmall" color="strong">
+									{intl.formatMessage(messages.name)}
+								</Text>
+							}
+							rightData={<Text size="xsmall">{name}</Text>}
+						/>
+
+						<AccountsTransactionInfo
+							leftTitle={
+								<Text size="xsmall" color="strong">
+									{intl.formatMessage(messages.symbol)}
+								</Text>
+							}
+							rightData={<Text size="xsmall">{symbol}</Text>}
+						/>
+
+						<AccountsTransactionInfo
+							leftTitle={
+								<Text size="xsmall" color="strong">
 									{intl.formatMessage(messages.details_divisibility)}
 								</Text>
 							}
@@ -282,31 +347,64 @@ const TokenDetails: React.FC = () => {
 					<Box display="flex" flexDirection="column">
 						<Box paddingTop="xlarge">
 							<Text size="large" weight="medium" color="strong">
-								{intl.formatMessage(messages.metadata)}
+								{intl.formatMessage(messages.roles)}
 							</Text>
 						</Box>
 
-						{data?.metadata.items.map(item => (
-							<AccountsTransactionInfo
-								key={item.key}
-								leftTitle={
-									<Box display="flex" alignItems="flex-end" gap="xsmall">
-										<Box>
-											<Box className={styles.tokenMetaDataIconWrapper}>{item.is_locked === true && <LockIcon />}</Box>
+						{(data?.details as StateEntityDetailsResponseFungibleResourceDetails)?.role_assignments.entries.map(item =>
+							DISPLAY_ROLES.includes(item.role_key.name) ? (
+								<AccountsTransactionInfo
+									key={item.role_key.name}
+									leftTitle={
+										<Box display="flex" alignItems="flex-end" gap="xsmall">
+											<Box>
+												<Box className={styles.tokenMetaDataIconWrapper}>{!item.updater_roles && <LockIcon />}</Box>
+											</Box>
+											<Text size="xxsmall" color="strong" weight="medium">
+												{intl.formatMessage(messages[item.role_key.name])}
+											</Text>
 										</Box>
-										<Text size="xxsmall" color="strong" weight="medium">
-											{(item.key as string).toUpperCase()}
-										</Text>
-									</Box>
-								}
-								rightData={
-									<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-										<MetadataValue value={item} />
-									</Box>
-								}
-							/>
-						))}
+									}
+									rightData={
+										<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+											{(item.assignment.explicit_rule as any)?.type === 'DenyAll' ? <Close2Icon /> : <Check2Icon />}
+										</Box>
+									}
+								/>
+							) : null,
+						)}
 					</Box>
+
+					{metadata.length > 0 && (
+						<Box display="flex" flexDirection="column">
+							<Box paddingTop="xlarge">
+								<Text size="large" weight="medium" color="strong">
+									{intl.formatMessage(messages.metadata)}
+								</Text>
+							</Box>
+
+							{metadata.map(item => (
+								<AccountsTransactionInfo
+									key={item.key}
+									leftTitle={
+										<Box display="flex" alignItems="flex-end" gap="xsmall">
+											<Box>
+												<Box className={styles.tokenMetaDataIconWrapper}>{item.is_locked === true && <LockIcon />}</Box>
+											</Box>
+											<Text size="xxsmall" color="strong" weight="medium">
+												{(item.key as string).toUpperCase()}
+											</Text>
+										</Box>
+									}
+									rightData={
+										<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+											<MetadataValue value={item} />
+										</Box>
+									}
+								/>
+							))}
+						</Box>
+					)}
 				</Box>
 			</Box>
 		</Box>
