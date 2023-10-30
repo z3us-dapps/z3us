@@ -42,11 +42,11 @@ export const Home: React.FC = () => {
 	const navigate = useNavigate()
 
 	const handleRestoreSeed = () => {
-		navigate('/keystore/restore/seed')
+		navigate('/keystore/new/restore/seed')
 	}
 
 	const handleRestoreExtendedPrivateKey = () => {
-		navigate('/keystore/restore/extended-key')
+		navigate('/keystore/new/restore/extended-key')
 	}
 
 	const handleConnectRadix = () => {

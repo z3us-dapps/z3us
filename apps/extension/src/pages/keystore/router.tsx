@@ -37,18 +37,18 @@ const route = {
 					path: 'hardware-wallet',
 					element: <NewHW />,
 				},
-			],
-		},
-		{
-			path: 'restore',
-			children: [
 				{
-					path: 'seed',
-					element: <RestoreSeed />,
-				},
-				{
-					path: 'extended-key',
-					element: <RestoreExtendedKey />,
+					path: 'restore',
+					children: [
+						{
+							path: 'seed',
+							element: <RestoreSeed />,
+						},
+						{
+							path: 'extended-key',
+							element: <RestoreExtendedKey />,
+						},
+					],
 				},
 			],
 		},
