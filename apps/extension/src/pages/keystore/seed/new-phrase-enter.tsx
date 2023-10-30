@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -78,10 +79,10 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 				<Text>{intl.formatMessage(messages.phrase_enter_sub_title)}</Text>
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridButtonWrapper}>
-				{shuffled.map(word => {
+				{shuffled.map((word, i) => {
 					const isDisabled = verification.includes(word)
 					return (
-						<Box key={word} style={{ opacity: isDisabled ? 0.5 : 1 }}>
+						<Box key={`${i}-${word}`} style={{ opacity: isDisabled ? 0.5 : 1 }}>
 							<Button
 								fullWidth
 								sizeVariant="xsmall"
@@ -98,7 +99,7 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridWrapper}>
 				{words.map((word, i) => (
-					<Box key={word} onClick={clear}>
+					<Box key={`${i}-${word}`} onClick={clear}>
 						<Input
 							disabled
 							styleVariant="secondary"

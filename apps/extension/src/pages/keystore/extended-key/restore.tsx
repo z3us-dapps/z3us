@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,7 +12,6 @@ import { KeystoreType } from 'ui/src/store/types'
 import { generateId } from 'ui/src/utils/generate-id'
 
 import { secretToData } from '@src/crypto/secret'
-import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
@@ -42,14 +41,9 @@ const messages = defineMessages({
 export const New: React.FC = () => {
 	const navigate = useNavigate()
 	const intl = useIntl()
-	const { isUnlocked, isLoading } = useIsUnlocked()
 
 	const [key, setKey] = useState<string>('')
 	const [step, setStep] = useState<number>(0)
-
-	useEffect(() => {
-		if (!isLoading && !isUnlocked) navigate('/')
-	}, [isUnlocked, isLoading])
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const evt = event.nativeEvent as InputEvent

@@ -7,7 +7,6 @@ import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 import { generateId } from 'ui/src/utils/generate-id'
 
-import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
@@ -17,7 +16,6 @@ import { PASSWORD_STORAGE_KEY, Pairing, PairingState } from './components/pairin
 
 export const Radix: React.FC = () => {
 	const navigate = useNavigate()
-	const { isUnlocked, isLoading } = useIsUnlocked()
 
 	const [pairingState, setPairingState] = useState<PairingState>(PairingState.LOADING)
 	const [connectionPassword, setConnectionPassword] = useState<string>('')
@@ -26,10 +24,6 @@ export const Radix: React.FC = () => {
 	useEffect(() => {
 		browser.storage.local.remove(PASSWORD_STORAGE_KEY)
 	}, [])
-
-	useEffect(() => {
-		if (!isLoading && !isUnlocked) navigate('/')
-	}, [isUnlocked, isLoading])
 
 	useEffect(() => {
 		if (step === 0 && pairingState === PairingState.PAIRED) setStep(1)

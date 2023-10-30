@@ -12,7 +12,6 @@ import { KeystoreType } from 'ui/src/store/types'
 import { generateId } from 'ui/src/utils/generate-id'
 
 import { secretToData } from '@src/crypto/secret'
-import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import { useLedgerClient } from '@src/hooks/use-ledger-client'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
@@ -44,15 +43,10 @@ export const New: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const client = useLedgerClient()
-	const { isUnlocked, isLoading: isLoadingUnlocked } = useIsUnlocked()
 
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [device, setDevice] = useState<LedgerDevice>()
 	const [step, setStep] = useState<number>(0)
-
-	useEffect(() => {
-		if (!isLoadingUnlocked && !isUnlocked) navigate('/')
-	}, [isUnlocked, isLoadingUnlocked])
 
 	useEffect(() => {
 		if (step === 0 && device) setStep(1)

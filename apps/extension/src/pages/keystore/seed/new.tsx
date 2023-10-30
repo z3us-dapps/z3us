@@ -10,7 +10,6 @@ import { KeystoreType } from 'ui/src/store/types'
 import { generateId } from 'ui/src/utils/generate-id'
 
 import { createMnemonic, secretToData } from '@src/crypto/secret'
-import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
@@ -35,15 +34,10 @@ export const New: React.FC = () => {
 	const navigate = useNavigate()
 
 	const intl = useIntl()
-	const { isUnlocked, isLoading } = useIsUnlocked()
 
 	const [mnemonic, setMnemonic] = useState<string>('')
 	const [words, setWords] = useState<string[]>([])
 	const [step, setStep] = useState<number>(0)
-
-	useEffect(() => {
-		if (!isLoading && !isUnlocked) navigate('/')
-	}, [isUnlocked, isLoading])
 
 	useEffect(() => {
 		if (!mnemonic) setMnemonic(createMnemonic())
