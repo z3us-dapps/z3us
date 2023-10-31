@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { createVar, globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -64,6 +64,10 @@ export const keystoreRestoreGridWrapper = style([
 		},
 	},
 ])
+
+globalStyle(`${keystoreRestoreGridWrapper} input`, {
+	color: 'red',
+})
 
 export const keystoreRestoreInputClassWrapper = style([
 	sprinkles({
