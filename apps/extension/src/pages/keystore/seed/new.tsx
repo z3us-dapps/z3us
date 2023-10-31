@@ -5,9 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { Text } from 'ui/src/components/typography'
-import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
 
 import { createMnemonic, secretToData } from '@src/crypto/secret'
 import type { Data } from '@src/types/vault'
@@ -47,16 +45,7 @@ export const New: React.FC = () => {
 		setWords(mnemonic.split(' '))
 	}, [mnemonic])
 
-	const handleSubmit = (): [Keystore, Data] => {
-		const id = generateId()
-		const keystore: Keystore = {
-			id,
-			name: id,
-			type: KeystoreType.LOCAL,
-		}
-		const data = secretToData(DataType.MNEMONIC, mnemonic)
-		return [keystore, data]
-	}
+	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, mnemonic)
 
 	const handleDone = () => navigate('/')
 

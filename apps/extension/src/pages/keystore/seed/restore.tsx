@@ -6,12 +6,9 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
-import { SeedPhraseDisplayInput } from 'ui/src/components/seed-phrase-display'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
-import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
 
 import { Strength, secretToData } from '@src/crypto/secret'
 import type { Data } from '@src/types/vault'
@@ -93,16 +90,7 @@ export const Restore: React.FC = () => {
 		setStrength(s)
 	}
 
-	const handleSubmit = (): [Keystore, Data] => {
-		const id = generateId()
-		const keystore: Keystore = {
-			id,
-			name: id,
-			type: KeystoreType.LOCAL,
-		}
-		const data = secretToData(DataType.MNEMONIC, words.join(' '))
-		return [keystore, data]
-	}
+	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, words.join(' '))
 
 	const handleDone = () => navigate('/')
 

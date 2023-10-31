@@ -29,10 +29,9 @@ export type KeystoresState = {
 	selectKeystoreAction: (id: string) => void
 
 	keystores: Keystore[]
-	addKeystoreAction: (id: string, name: string, type: KeystoreType) => void
+	addKeystoreAction: (id: string, name: string, type: KeystoreType, ledgerDevice?: any) => void
 	removeKeystoreAction: (id: string) => void
 	changeKeystoreNameAction: (id: string, name: string) => void
-	changeKeystoreLedgerDeviceAction: (id: string, device: any) => void
 }
 
 export interface IKeystoresStateSetter {

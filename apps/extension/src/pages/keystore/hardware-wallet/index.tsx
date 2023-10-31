@@ -7,9 +7,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
-import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
 
 import { secretToData } from '@src/crypto/secret'
 import { useLedgerClient } from '@src/hooks/use-ledger-client'
@@ -69,16 +67,7 @@ export const New: React.FC = () => {
 		}
 	}
 
-	const handleSubmit = (): [Keystore, Data] => {
-		const id = generateId()
-		const keystore: Keystore = {
-			id,
-			name: id,
-			type: KeystoreType.HARDWARE,
-		}
-		const data = secretToData(DataType.STRING, JSON.stringify(device))
-		return [keystore, data]
-	}
+	const handleSubmit = (): Data => secretToData(DataType.STRING, JSON.stringify(device))
 
 	const handleDone = () => navigate('/')
 

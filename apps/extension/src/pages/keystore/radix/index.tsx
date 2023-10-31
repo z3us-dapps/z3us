@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import browser from 'webextension-polyfill'
 
-import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
 
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
@@ -29,19 +27,10 @@ export const Radix: React.FC = () => {
 		if (step === 0 && pairingState === PairingState.PAIRED) setStep(1)
 	}, [pairingState])
 
-	const handleSubmit = (): [Keystore, Data] => {
-		const id = generateId()
-		const keystore: Keystore = {
-			id,
-			name: id,
-			type: KeystoreType.RADIX_WALLET,
-		}
-		const data = {
-			type: DataType.STRING,
-			secret: connectionPassword,
-		}
-		return [keystore, data]
-	}
+	const handleSubmit = (): Data => ({
+		type: DataType.STRING,
+		secret: connectionPassword,
+	})
 
 	const handleDone = () => navigate('/')
 

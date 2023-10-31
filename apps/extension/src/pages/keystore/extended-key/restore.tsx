@@ -7,9 +7,7 @@ import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
-import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
 
 import { secretToData } from '@src/crypto/secret'
 import type { Data } from '@src/types/vault'
@@ -54,16 +52,7 @@ export const New: React.FC = () => {
 		setKey(event.target.value)
 	}
 
-	const handleSubmit = (): [Keystore, Data] => {
-		const id = generateId()
-		const keystore: Keystore = {
-			id,
-			name: id,
-			type: KeystoreType.LOCAL,
-		}
-		const data = secretToData(DataType.PRIVATE_KEY, key)
-		return [keystore, data]
-	}
+	const handleSubmit = (): Data => secretToData(DataType.PRIVATE_KEY, key)
 
 	const handleDone = () => navigate('/')
 
