@@ -144,6 +144,22 @@ export const copyAddressButtonWrapper = style([
 	},
 ])
 
+export const accountDropdownWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		marginTop: '-4px',
+		marginRight: '-8px',
+	},
+])
+
+export const accountDropdownContentWrapper = style([
+	{
+		minWidth: '170px',
+	},
+])
+
 export const accountCardIconWrapper = style([
 	sprinkles({
 		position: 'relative',

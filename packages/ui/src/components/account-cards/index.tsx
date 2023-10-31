@@ -5,6 +5,17 @@ import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import {
+	DropdownMenu,
+	DropdownMenuArrow,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLeftSlot,
+	DropdownMenuPortal,
+	DropdownMenuTrigger,
+} from 'ui/src/components/dropdown-menu'
+import { DotsHorizontalCircleIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
@@ -20,6 +31,10 @@ const messages = defineMessages({
 	legacy: {
 		defaultMessage: '(Legacy)',
 		id: 'GIGKXJ',
+	},
+	delete_account: {
+		defaultMessage: 'Delete account',
+		id: 'wyxJrL',
 	},
 })
 
@@ -53,11 +68,19 @@ interface IAccountCardProps {
 	isAllAccount?: boolean
 	visible?: boolean
 	showCopyAddressButton?: boolean
+	showAccountOptions?: boolean
 	className?: string
 }
 
 export const AccountCard: React.FC<IAccountCardProps> = props => {
-	const { address, isAllAccount = false, visible = true, showCopyAddressButton = true, className } = props
+	const {
+		address,
+		isAllAccount = false,
+		visible = true,
+		showCopyAddressButton = true,
+		showAccountOptions = true,
+		className,
+	} = props
 
 	const intl = useIntl()
 	const addressBook = useAddressBook()
@@ -113,6 +136,36 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 							/>
 						</Box>
 					) : null}
+					<Box display="flex" flexGrow={1} justifyContent="flex-end" alignItems="flex-start">
+						{showAccountOptions && (
+							<Box className={styles.accountDropdownWrapper}>
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild>
+										<Box>
+											<Button iconOnly sizeVariant="small" styleVariant="white-transparent">
+												<DotsHorizontalCircleIcon />
+											</Button>
+										</Box>
+									</DropdownMenuTrigger>
+									<DropdownMenuPortal>
+										<DropdownMenuContent align="end" sideOffset={2} className={styles.accountDropdownContentWrapper}>
+											<DropdownMenuItem onSelect={() => {}}>
+												<DropdownMenuLeftSlot>
+													<TrashIcon />
+												</DropdownMenuLeftSlot>
+												<Box display="flex" marginLeft="small">
+													<Text size="xsmall" truncate>
+														{intl.formatMessage(messages.delete_account)}
+													</Text>
+												</Box>
+											</DropdownMenuItem>
+											<DropdownMenuArrow />
+										</DropdownMenuContent>
+									</DropdownMenuPortal>
+								</DropdownMenu>
+							</Box>
+						)}
+					</Box>
 				</Box>
 				<Box paddingBottom="xsmall" display="flex" flexDirection="column">
 					<Text size="xlarge" weight="stronger">
