@@ -29,6 +29,14 @@ const messages = defineMessages({
 		id: 'NgajQk',
 		defaultMessage: 'Click connect and follow the prompts to connect device.',
 	},
+	hardware_wallet_complete_title: {
+		defaultMessage: 'You’re all done',
+		id: 'kwYgvL',
+	},
+	hardware_wallet_complete_sub_title: {
+		defaultMessage: 'You can now fully enjoy your wallet.',
+		id: 'kDP2Gx',
+	},
 	connect: {
 		id: 'cotGK8',
 		defaultMessage: 'Connect device',
@@ -77,8 +85,19 @@ export const New: React.FC = () => {
 	switch (step) {
 		case 2:
 			return <Done onNext={handleDone} />
+
 		case 1:
-			return <KeystoreForm keystoreType={KeystoreType.HARDWARE} onSubmit={handleSubmit} onNext={() => setStep(2)} />
+			return (
+				<Box className={styles.hardwareWalletWrapper}>
+					<Box className={styles.hardwareWalletTextWrapper}>
+						<Text size="xxlarge" weight="strong" color="strong">
+							{intl.formatMessage(messages.hardware_wallet_complete_title)}
+						</Text>
+						<Text>{intl.formatMessage(messages.hardware_wallet_complete_sub_title)}</Text>
+					</Box>
+					<KeystoreForm keystoreType={KeystoreType.HARDWARE} onSubmit={handleSubmit} onNext={() => setStep(2)} />
+				</Box>
+			)
 		default:
 			return (
 				<Box className={styles.hardwareWalletWrapper}>
