@@ -137,7 +137,7 @@ export const Restore: React.FC = () => {
 						sizeVariant="xlarge"
 						styleVariant="primary"
 						fullWidth
-						disabled={!!words.find(w => w === '')}
+						disabled={!words.find(w => w === '')}
 					>
 						{intl.formatMessage(messages.seed_restore_continue)}
 					</Button>
