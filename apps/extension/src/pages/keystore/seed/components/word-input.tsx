@@ -26,7 +26,7 @@ export const WordInput: React.FC<IProps> = ({ index, word, onChange }) => {
 	}
 
 	const possibleWords = useMemo(() => (word?.length > 2 ? validWords.filter(w => w.startsWith(word)) : []), [word])
-	const isValid = useMemo(() => validWords.includes(word), [word])
+	const isValid = useMemo(() => possibleWords.includes(word), [word, possibleWords])
 
 	return (
 		<Box>
