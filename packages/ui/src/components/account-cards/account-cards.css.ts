@@ -156,7 +156,7 @@ export const accountDropdownWrapper = style([
 
 export const accountDropdownContentWrapper = style([
 	{
-		minWidth: '170px',
+		minWidth: '160px',
 	},
 ])
 

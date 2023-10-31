@@ -151,7 +151,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 												<DropdownMenuLeftSlot>
 													<TrashIcon />
 												</DropdownMenuLeftSlot>
-												<Box display="flex" marginLeft="small">
+												<Box display="flex" marginLeft="xsmall">
 													<Text size="xsmall" truncate>
 														{intl.formatMessage(messages.delete_account)}
 													</Text>
