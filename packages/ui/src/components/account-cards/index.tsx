@@ -141,11 +141,9 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 							<Box className={styles.accountDropdownWrapper}>
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
-										<Box>
-											<Button iconOnly sizeVariant="small" styleVariant="white-transparent">
-												<DotsHorizontalCircleIcon />
-											</Button>
-										</Box>
+										<Button iconOnly sizeVariant="small" styleVariant="white-transparent">
+											<DotsHorizontalCircleIcon />
+										</Button>
 									</DropdownMenuTrigger>
 									<DropdownMenuPortal>
 										<DropdownMenuContent align="end" sideOffset={2} className={styles.accountDropdownContentWrapper}>

@@ -150,7 +150,7 @@ export const accountDropdownWrapper = style([
 	}),
 	{
 		marginTop: '-4px',
-		marginRight: '-8px',
+		marginRight: '-12px',
 	},
 ])
 
