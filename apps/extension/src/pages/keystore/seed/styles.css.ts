@@ -30,15 +30,26 @@ export const keystoreSelectWrapper = style([
 		display: 'flex',
 		gap: 'small',
 		alignItems: 'center',
-		paddingBottom: 'large',
+		paddingBottom: 'medium',
 	}),
 	{},
+])
+
+export const keystorePossibleWordWrapper = style([
+	sprinkles({
+		display: 'grid',
+		gap: 'medium',
+	}),
+	{
+		gridTemplateColumns: '1fr 1fr 1fr 1fr',
+		minHeight: '40px',
+	},
 ])
 
 export const keystoreRestoreWrapper = style([
 	sprinkles({
 		position: 'relative',
-		paddingBottom: 'xlarge',
+		paddingBottom: 'medium',
 	}),
 	{
 		containerType: 'inline-size',
@@ -65,9 +76,41 @@ export const keystoreRestoreGridWrapper = style([
 	},
 ])
 
-globalStyle(`${keystoreRestoreGridWrapper} input`, {
-	color: 'red',
+export const keystoreRestoreErrorWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingBottom: 'large',
+	}),
+	{},
+])
+
+export const keystoreRestoreInputWordOverlay = style([
+	sprinkles({
+		position: 'absolute',
+		pointerEvents: 'none',
+		opacity: 0,
+	}),
+	{
+		filter: 'blur(4px)',
+		top: '15px',
+		left: '37px',
+	},
+])
+
+globalStyle(`${keystoreRestoreGridWrapper} input:not(:focus):not(:hover)`, {
+	color: 'transparent',
 })
+
+globalStyle(`${keystoreRestoreGridWrapper} input:not(:focus):not(:hover) + div > div > span`, {
+	opacity: 1,
+})
+
+export const keystoreRestoreInputWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
 
 export const keystoreRestoreInputClassWrapper = style([
 	sprinkles({

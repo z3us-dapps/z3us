@@ -7,9 +7,10 @@ import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
+import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { KeystoreType } from 'ui/src/store/types'
 
-import { Strength, secretToData } from '@src/crypto/secret'
+import { Strength, getWordList, secretToData } from '@src/crypto/secret'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
@@ -17,6 +18,8 @@ import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
 import WordInput from './components/word-input'
 import * as styles from './styles.css'
+
+const validWords = getWordList()
 
 const messages = defineMessages({
 	seed_restore_title: {
@@ -71,6 +74,11 @@ export const Restore: React.FC = () => {
 		Array.from<string>({ length: strengthToWordCounts[Strength.WORD_COUNT_12] }),
 	)
 	const [step, setStep] = useState<number>(0)
+	const [possibleWords, setPossibleWords] = useState<string[]>([])
+	const [focusedInput, setFocusedInput] = useState<number | undefined>(undefined)
+	const isFocusedInput = typeof focusedInput !== 'undefined'
+
+	// const possibleWords = useMemo(() => (word?.length > 2 ? validWords.filter(w => w.startsWith(word)) : []), [word])
 
 	useEffect(() => {
 		setWords(Array.from<string>({ length: strengthToWordCounts[strength] }))
@@ -80,10 +88,26 @@ export const Restore: React.FC = () => {
 		const newWords = [...words]
 		newWords[idx] = value
 		setWords(newWords)
+
+		setPossibleWords(value?.length > 2 ? validWords.filter(w => w.startsWith(value)) : [])
+	}
+
+	const handleOnFocus = (idx: number) => {
+		setFocusedInput(idx)
+		setPossibleWords([])
 	}
 
 	const handleSelect = (s: string) => {
 		setStrength(s)
+	}
+
+	const handleAddWord = (word: string) => {
+		const newWords = [...words]
+		newWords[focusedInput] = word
+		setWords(newWords)
+
+		setPossibleWords([])
+		setFocusedInput(undefined)
 	}
 
 	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, words.join(' '))
@@ -123,15 +147,36 @@ export const Restore: React.FC = () => {
 						<SelectSimple sizeVariant="small" value={strength} onValueChange={handleSelect} data={strengthOptions} />
 					</Box>
 
+					<Box className={styles.keystorePossibleWordWrapper}>
+						{isFocusedInput &&
+							possibleWords?.length > 0 &&
+							possibleWords.map((word, i) => (
+								// eslint-disable-next-line react/no-array-index-key
+								<Box key={`${i}-${word}`}>
+									<Button
+										fullWidth
+										sizeVariant="xsmall"
+										styleVariant="tertiary"
+										rounded
+										onClick={() => handleAddWord(word)}
+									>
+										{word}
+									</Button>
+								</Box>
+							))}
+					</Box>
+
 					<Box className={styles.keystoreRestoreWrapper}>
 						<Box className={styles.keystoreRestoreGridWrapper}>
 							{words.map((_, i) => (
 								// eslint-disable-next-line react/no-array-index-key
-								<WordInput key={i} index={i} word={words[i]} onChange={handleChange} />
+								<WordInput key={i} index={i} word={words[i]} onChange={handleChange} onFocus={handleOnFocus} />
 							))}
 						</Box>
 					</Box>
-
+					<Box className={styles.keystoreRestoreErrorWrapper}>
+						<ValidationErrorMessage message="Words 1, 2, 3, are incorrect or misspelled" />
+					</Box>
 					<Button
 						onClick={() => setStep(1)}
 						sizeVariant="xlarge"
