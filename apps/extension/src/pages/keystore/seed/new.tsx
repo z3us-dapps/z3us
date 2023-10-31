@@ -13,8 +13,8 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
-import NewPhraseDisplay from './new-phrase-display'
-import NewPhraseEnter from './new-phrase-enter'
+import NewPhraseDisplay from './components/new-phrase-display'
+import NewPhraseEnter from './components/new-phrase-enter'
 import * as styles from './styles.css'
 
 const messages = defineMessages({

@@ -8,7 +8,7 @@ import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { SeedPhraseDisplayInput } from 'ui/src/components/seed-phrase-display'
 import { Text } from 'ui/src/components/typography'
 
-import * as styles from './styles.css'
+import * as styles from '../styles.css'
 
 function shuffle<T>(array: T[]): T[] {
 	let currentIndex = array.length

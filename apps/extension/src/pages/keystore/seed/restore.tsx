@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
-import { Input } from 'ui/src/components/input'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { KeystoreType } from 'ui/src/store/types'
@@ -16,6 +15,7 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
+import WordInput from './components/restore'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -76,13 +76,9 @@ export const Restore: React.FC = () => {
 		setWords(Array.from<string>({ length: strengthToWordCounts[strength] }))
 	}, [strength])
 
-	const handleChange = (idx: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-		const evt = event.nativeEvent as InputEvent
-		if (evt.isComposing) {
-			return
-		}
+	const handleChange = (idx: number, value: string) => {
 		const newWords = [...words]
-		newWords[idx] = event.target.value
+		newWords[idx] = value
 		setWords(newWords)
 	}
 
@@ -131,20 +127,7 @@ export const Restore: React.FC = () => {
 						<Box className={styles.keystoreRestoreGridWrapper}>
 							{words.map((_, i) => (
 								// eslint-disable-next-line react/no-array-index-key
-								<Box key={i}>
-									<Input
-										styleVariant="secondary"
-										sizeVariant="large"
-										leftIconClassName={styles.keystoreRestoreInputClassWrapper}
-										leftIcon={
-											<Box>
-												<Text>{i + 1}.</Text>
-											</Box>
-										}
-										value={words[i]}
-										onChange={handleChange(i)}
-									/>
-								</Box>
+								<WordInput key={i} index={i} word={words[i]} onChange={handleChange} />
 							))}
 						</Box>
 					</Box>

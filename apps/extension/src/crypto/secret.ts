@@ -15,16 +15,19 @@ export enum Strength {
 	WORD_COUNT_24 = 256,
 }
 
-export function createMnemonic(language: Language = Language.ENGLISH): string {
+export function getWordList(language: Language = Language.ENGLISH): string[] {
 	const key = Language[language].toLowerCase()
-	return generateMnemonic(Strength.WORD_COUNT_24, undefined, wordlists[key])
+	return wordlists[key]
+}
+
+export function createMnemonic(language: Language = Language.ENGLISH): string {
+	return generateMnemonic(Strength.WORD_COUNT_24, undefined, getWordList(language))
 }
 
 export function getSecret(data: Data): string {
-	const key = Language[data?.language ?? Language.ENGLISH].toLowerCase()
 	switch (data?.type) {
 		case DataType.MNEMONIC:
-			return entropyToMnemonic(Buffer.from(data.secret, 'hex'), wordlists[key])
+			return entropyToMnemonic(Buffer.from(data.secret, 'hex'), getWordList(data?.language ?? Language.ENGLISH))
 		case DataType.PRIVATE_KEY:
 		case DataType.STRING:
 			return data.secret
