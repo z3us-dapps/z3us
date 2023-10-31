@@ -15,7 +15,7 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
-import WordInput from './components/restore'
+import WordInput from './components/word-input'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
