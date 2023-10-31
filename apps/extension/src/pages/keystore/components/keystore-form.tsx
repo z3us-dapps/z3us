@@ -12,7 +12,6 @@ import { KeystoreType } from 'ui/src/store/types'
 import { generateId } from 'ui/src/utils/generate-id'
 
 import { getSecret } from '@src/crypto/secret'
-import { useAddAccount } from '@src/hooks/use-add-account'
 import { useMessageClient } from '@src/hooks/use-message-client'
 import type { Data } from '@src/types/vault'
 
@@ -65,7 +64,6 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext 
 	const { addKeystore } = useSharedStore(state => ({
 		addKeystore: state.addKeystoreAction,
 	}))
-	const addAccount = useAddAccount()
 
 	const [validation, setValidation] = useState<ZodError>()
 
@@ -113,7 +111,6 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext 
 
 		await client.storeInVault(keystore, data, values.password)
 		await client.unlockVault(values.password)
-		if (keystoreType !== KeystoreType.RADIX_WALLET) addAccount()
 
 		if (onNext) onNext()
 	}

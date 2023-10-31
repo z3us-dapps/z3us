@@ -1,4 +1,4 @@
-import type { IKeystoresStateSetter, KeystoreType, KeystoresState } from './types'
+import type { IKeystoresStateSetter, Keystore, KeystoreType, KeystoresState } from './types'
 
 export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	keystores: [],
@@ -15,7 +15,7 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	addKeystoreAction: (keystoreId: string, name: string, type: KeystoreType, ledgerDevice?: any) => {
 		set(draft => {
 			const keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
-			const current = draft.keystores.find(({ id }) => id === keystoreId)
+			const current = draft.keystores.find(({ id }) => id === keystoreId) || ({} as Keystore)
 
 			draft.selectedKeystoreId = keystoreId
 			draft.keystores = [
