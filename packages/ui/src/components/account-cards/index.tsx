@@ -113,6 +113,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			false,
 		)
 
+		// TODO?: improve api so easier to read?
 		// await confirm({
 		// 	title: 'Do you want to confirm?',
 		// 	subTitle: 'Are you sure, you can add it again any time',

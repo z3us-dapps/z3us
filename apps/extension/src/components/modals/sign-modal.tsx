@@ -96,6 +96,7 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onC
 				<AlertDialogOverlay className={alertStyles.alertDialogOverlay} />
 				<AlertDialogContent className={alertStyles.alertDialogContent} onEscapeKeyDown={handleEscapeKeyDown}>
 					<Box className={styles.signAlertDialogContentWrapper}>
+						{/* TODO: needs to be title NOT `content` */}
 						{content && (
 							<AlertDialogTitle>
 								<Text size="xlarge" weight="strong" color="strong">
