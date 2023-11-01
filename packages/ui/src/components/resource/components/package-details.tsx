@@ -74,7 +74,7 @@ const PackageDetails: React.FC<IProps> = ({ details }) => {
 				rightData={
 					<Text size="xsmall">
 						{intl.formatList(
-							details.blueprints?.items.map(blueprint => blueprint.name),
+							details.blueprints?.items.map(blueprint => `${blueprint.name} (${blueprint.version})`),
 							{ type: 'conjunction' },
 						)}
 					</Text>

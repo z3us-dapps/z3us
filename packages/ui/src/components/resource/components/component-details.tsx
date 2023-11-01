@@ -3,8 +3,11 @@ import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { Text } from 'ui/src/components/typography'
+
+import * as styles from '../styles.css'
 
 const messages = defineMessages({
 	title: {
@@ -50,7 +53,21 @@ const ComponentDetails: React.FC<IProps> = ({ details }) => {
 						{intl.formatMessage(messages.package_address)}
 					</Text>
 				}
-				rightData={<Text size="xsmall">{details.package_address}</Text>}
+				rightData={
+					<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+						<Text size="xsmall" truncate>
+							{details.package_address}
+						</Text>
+						<CopyAddressButton
+							styleVariant="ghost"
+							sizeVariant="xsmall"
+							address={details.package_address}
+							iconOnly
+							rounded={false}
+							tickColor="colorStrong"
+						/>
+					</Box>
+				}
 			/>
 
 			<AccountsTransactionInfo
