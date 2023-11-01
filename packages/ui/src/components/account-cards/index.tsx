@@ -19,11 +19,12 @@ import { DotsHorizontalCircleIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { type AddressBookEntry, SCHEME } from 'ui/src/store/types'
+import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { useNetworkId } from '../../hooks/dapp/use-network-id'
+import { useZdtState } from '../../hooks/zdt/use-zdt'
 import { CopyAddressButton } from '../copy-address-button'
 import * as styles from './account-cards.css'
 
@@ -85,17 +86,25 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const intl = useIntl()
 	const addressBook = useAddressBook()
 	const networkId = useNetworkId()
-	const { accountIndexes } = useNoneSharedStore(state => ({
+	const { isWallet } = useZdtState()
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
+	const { currency, accountIndexes, removeAccount } = useNoneSharedStore(state => ({
+		currency: state.currency,
 		accountIndexes: state.accountIndexes[networkId] || {},
+		removeAccount: state.removeAccountAction,
 	}))
 	const { data: balanceData } = useBalances(address)
 	const { totalValue = 0 } = balanceData || {}
-	const { currency } = useNoneSharedStore(state => ({
-		currency: state.currency,
-	}))
 
 	const account = addressBook[address]
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
+	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
+
+	const handleRemoveAccount = () => {
+		removeAccount(networkId, address)
+	}
 
 	return (
 		<motion.li
@@ -137,7 +146,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 						</Box>
 					) : null}
 					<Box display="flex" flexGrow={1} justifyContent="flex-end" alignItems="flex-start">
-						{showAccountOptions && (
+						{showAccountOptions && canRemoveAccount && (
 							<Box className={styles.accountDropdownWrapper}>
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
@@ -147,7 +156,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 									</DropdownMenuTrigger>
 									<DropdownMenuPortal>
 										<DropdownMenuContent align="end" sideOffset={2} className={styles.accountDropdownContentWrapper}>
-											<DropdownMenuItem onSelect={() => {}}>
+											<DropdownMenuItem onSelect={handleRemoveAccount}>
 												<DropdownMenuLeftSlot>
 													<TrashIcon />
 												</DropdownMenuLeftSlot>
