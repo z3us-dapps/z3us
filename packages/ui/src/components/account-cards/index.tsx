@@ -37,6 +37,10 @@ const messages = defineMessages({
 		defaultMessage: 'Delete account',
 		id: 'wyxJrL',
 	},
+	confirm: {
+		defaultMessage: 'Are you sure you want to delete account {address} ?',
+		id: 'RFnHfO',
+	},
 })
 
 interface IAccountCardIconProps {
@@ -86,7 +90,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const intl = useIntl()
 	const addressBook = useAddressBook()
 	const networkId = useNetworkId()
-	const { isWallet } = useZdtState()
+	const { isWallet, confirm } = useZdtState()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
@@ -102,7 +106,12 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
 
-	const handleRemoveAccount = () => {
+	const handleRemoveAccount = async () => {
+		await confirm(
+			intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
+			intl.formatMessage(messages.delete_account),
+			false,
+		)
 		removeAccount(networkId, address)
 	}
 

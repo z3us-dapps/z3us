@@ -42,11 +42,12 @@ const initialValues = {
 export interface IProps {
 	content: ReactNode
 	buttonTitle?: string
+	ignorePassword?: boolean
 	onConfirm: (password: string) => void
 	onCancel: () => void
 }
 
-const SignModal: React.FC<IProps> = ({ content, buttonTitle, onConfirm, onCancel }) => {
+const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
@@ -109,15 +110,17 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, onConfirm, onCancel
 								submitButtonTitle={buttonTitle || intl.formatMessage(messages.form_button_title)}
 							>
 								<ValidationErrorMessage message={error} />
-								<Box>
-									<TextField
-										ref={inputRef}
-										isPassword
-										name="password"
-										placeholder={intl.formatMessage(messages.password_placeholder)}
-										sizeVariant="medium"
-									/>
-								</Box>
+								{!ignorePassword && (
+									<Box>
+										<TextField
+											ref={inputRef}
+											isPassword
+											name="password"
+											placeholder={intl.formatMessage(messages.password_placeholder)}
+											sizeVariant="medium"
+										/>
+									</Box>
+								)}
 							</Form>
 						</Box>
 					</ScrollArea>
