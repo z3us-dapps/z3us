@@ -15,9 +15,8 @@ const NftCollections = lazy(() => import('./nft-collections'))
 const Nfts = lazy(() => import('./nfts'))
 
 const ActivityList = lazy(() => import('./components/activity-list'))
-const TokenDetails = lazy(() => import('./components/resource-details/token'))
-const NftCollectionDetails = lazy(() => import('./components/resource-details/nft-collection'))
-const NftDetails = lazy(() => import('./components/resource-details/nft-item'))
+const ResourceDetails = lazy(() => import('ui/src/components/resource/resource'))
+const NftDetails = lazy(() => import('ui/src/components/resource/nft'))
 
 const route = {
 	path: 'accounts',
@@ -60,7 +59,7 @@ const route = {
 							path: ':resourceId',
 							handle: {
 								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="token" />,
-								sidebar: <TokenDetails />,
+								sidebar: <ResourceDetails />,
 							},
 						},
 					],
@@ -80,7 +79,7 @@ const route = {
 							path: ':resourceId',
 							handle: {
 								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="lp-token" />,
-								sidebar: <TokenDetails />,
+								sidebar: <ResourceDetails />,
 							},
 						},
 					],
@@ -100,7 +99,7 @@ const route = {
 							path: ':resourceId',
 							handle: {
 								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="pool-unit" />,
-								sidebar: <TokenDetails />,
+								sidebar: <ResourceDetails />,
 							},
 						},
 					],
@@ -124,7 +123,7 @@ const route = {
 							element: <Nfts />,
 							handle: {
 								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="nft" />,
-								sidebar: <NftCollectionDetails />,
+								sidebar: <ResourceDetails />,
 							},
 							children: [
 								{

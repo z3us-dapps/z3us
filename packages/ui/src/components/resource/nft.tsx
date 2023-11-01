@@ -11,7 +11,7 @@ import { Text } from 'ui/src/components/typography'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { getStringNftData } from 'ui/src/services/metadata'
 
-import FieldValue from './field-value'
+import FieldValue from './components/field-value'
 
 const IGNORE_DATA = ['name', 'description', 'key_image_url']
 
@@ -30,7 +30,7 @@ const messages = defineMessages({
 	},
 })
 
-const NftDetails: React.FC = () => {
+const Nft: React.FC = () => {
 	const intl = useIntl()
 	const { resourceId, nftId: rawNftId } = useParams()
 	const nftId = decodeURIComponent(rawNftId)
@@ -95,4 +95,4 @@ const NftDetails: React.FC = () => {
 	)
 }
 
-export default NftDetails
+export default Nft
