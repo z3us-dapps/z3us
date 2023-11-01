@@ -1,7 +1,5 @@
-import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useParams } from 'react-router-dom'
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { Box } from 'ui/src/components/box'
@@ -98,9 +96,13 @@ const Details = {
 	Package: PackageDetails,
 }
 
-const TokenDetails: React.FC = () => {
+interface IProps {
+	resourceId: string
+	hideButtons?: boolean
+}
+
+const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 	const intl = useIntl()
-	const { resourceId } = useParams()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -194,9 +196,11 @@ const TokenDetails: React.FC = () => {
 					)}
 				</Box>
 
-				<Box display="flex" paddingTop="large" paddingBottom="large" gap="large" position="relative">
-					<CardButtons />
-				</Box>
+				{hideButtons !== true && (
+					<Box display="flex" paddingTop="large" paddingBottom="large" gap="large" position="relative">
+						<CardButtons />
+					</Box>
+				)}
 
 				{chartData.length > 0 && (
 					<>
@@ -296,36 +300,38 @@ const TokenDetails: React.FC = () => {
 
 					{data?.details && DetailsComponent && <DetailsComponent details={data.details} />}
 
-					<Box display="flex" flexDirection="column">
-						<Box paddingTop="xlarge">
-							<Text size="large" weight="medium" color="strong">
-								{intl.formatMessage(messages.roles)}
-							</Text>
-						</Box>
+					{data?.details?.role_assignments?.entries && (
+						<Box display="flex" flexDirection="column">
+							<Box paddingTop="xlarge">
+								<Text size="large" weight="medium" color="strong">
+									{intl.formatMessage(messages.roles)}
+								</Text>
+							</Box>
 
-						{(data?.details as StateEntityDetailsResponseFungibleResourceDetails)?.role_assignments.entries.map(item =>
-							DISPLAY_ROLES.includes(item.role_key.name) ? (
-								<AccountsTransactionInfo
-									key={item.role_key.name}
-									leftTitle={
-										<Box display="flex" alignItems="flex-end" gap="xsmall">
-											<Box>
-												<Box className={styles.tokenMetaDataIconWrapper}>{!item.updater_roles && <LockIcon />}</Box>
+							{data.details.role_assignments.entries.map(item =>
+								DISPLAY_ROLES.includes(item.role_key.name) ? (
+									<AccountsTransactionInfo
+										key={item.role_key.name}
+										leftTitle={
+											<Box display="flex" alignItems="flex-end" gap="xsmall">
+												<Box>
+													<Box className={styles.tokenMetaDataIconWrapper}>{!item.updater_roles && <LockIcon />}</Box>
+												</Box>
+												<Text size="xxsmall" color="strong" weight="medium">
+													{intl.formatMessage(messages[item.role_key.name])}
+												</Text>
 											</Box>
-											<Text size="xxsmall" color="strong" weight="medium">
-												{intl.formatMessage(messages[item.role_key.name])}
-											</Text>
-										</Box>
-									}
-									rightData={
-										<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-											{(item.assignment.explicit_rule as any)?.type === 'DenyAll' ? <Close2Icon /> : <Check2Icon />}
-										</Box>
-									}
-								/>
-							) : null,
-						)}
-					</Box>
+										}
+										rightData={
+											<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+												{(item.assignment.explicit_rule as any)?.type === 'DenyAll' ? <Close2Icon /> : <Check2Icon />}
+											</Box>
+										}
+									/>
+								) : null,
+							)}
+						</Box>
+					)}
 
 					{metadata.length > 0 && (
 						<Box display="flex" flexDirection="column">
@@ -363,4 +369,4 @@ const TokenDetails: React.FC = () => {
 	)
 }
 
-export default TokenDetails
+export default ResourceDetails

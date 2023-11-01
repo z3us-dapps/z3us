@@ -15,7 +15,7 @@ const NftCollections = lazy(() => import('./nft-collections'))
 const Nfts = lazy(() => import('./nfts'))
 
 const ActivityList = lazy(() => import('./components/activity-list'))
-const ResourceDetails = lazy(() => import('ui/src/components/resource/resource'))
+const ResourceDetails = lazy(() => import('./components/resource-details'))
 const NftDetails = lazy(() => import('ui/src/components/resource/nft'))
 
 const route = {
