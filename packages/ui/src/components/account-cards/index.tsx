@@ -112,6 +112,14 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			intl.formatMessage(messages.delete_account),
 			false,
 		)
+
+		// await confirm({
+		// 	title: 'Do you want to confirm?',
+		// 	subTitle: 'Are you sure, you can add it again any time',
+		// 	confirmButtonTitle: 'yes, delete'
+		// 	confirmButtonVariant: 'danger'
+		// })
+
 		removeAccount(networkId, address)
 	}
 

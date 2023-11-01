@@ -1,17 +1,22 @@
-import clsx from 'clsx'
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
+import {
+	AlertDialog,
+	AlertDialogClose,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogOverlay,
+	AlertDialogPortal,
+	AlertDialogTitle,
+} from 'ui/src/components/dialog-alert'
+import * as alertStyles from 'ui/src/components/dialog-alert/dialog-alert.css'
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
-import { Close2Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
-import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import * as styles from './styles.css'
@@ -51,20 +56,12 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onC
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
-	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 	const [error, setError] = useState<string>('')
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [])
-
-	const handleScroll = (event: Event) => {
-		const target = event.target as Element
-		const { scrollTop } = target
-
-		setIsScrolled(scrollTop > 0)
-	}
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		try {
@@ -88,55 +85,57 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onC
 		handleCancel()
 	}
 
-	const handleOnInteractOutside = () => {
-		handleCancel()
-	}
+	// TODO: need title and content ??
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const title = null
 
 	return (
-		<DialogRoot open={isOpen} modal>
-			<DialogPortal>
-				<DialogOverlay className={dialogStyles.dialogOverlay} />
-				<DialogContent
-					onEscapeKeyDown={handleEscapeKeyDown}
-					onInteractOutside={handleOnInteractOutside}
-					className={clsx(dialogStyles.dialogContent, styles.content)}
-				>
-					<ScrollArea onScroll={handleScroll}>
-						<Box className={styles.scrollWrapper}>
-							{content}
-							<Form
-								onSubmit={handleSubmit}
-								initialValues={initialValues}
-								submitButtonTitle={buttonTitle || intl.formatMessage(messages.form_button_title)}
-							>
-								<ValidationErrorMessage message={error} />
-								{!ignorePassword && (
-									<Box>
-										<TextField
-											ref={inputRef}
-											isPassword
-											name="password"
-											placeholder={intl.formatMessage(messages.password_placeholder)}
-											sizeVariant="medium"
-										/>
-									</Box>
-								)}
-							</Form>
-						</Box>
-					</ScrollArea>
-					<Box className={clsx(styles.headerWrapper, isScrolled && styles.headerWrapperShadow)}>
-						<Box flexGrow={1} />
-						<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
-							<ToolTip message={intl.formatMessage(messages.close)}>
-								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleCancel}>
-									<Close2Icon />
-								</Button>
-							</ToolTip>
-						</Box>
+		<AlertDialog open={isOpen}>
+			<AlertDialogPortal>
+				<AlertDialogOverlay className={alertStyles.alertDialogOverlay} />
+				<AlertDialogContent className={alertStyles.alertDialogContent} onEscapeKeyDown={handleEscapeKeyDown}>
+					<Box className={styles.signAlertDialogContentWrapper}>
+						{content && (
+							<AlertDialogTitle>
+								<Text size="xlarge" weight="strong" color="strong">
+									{content}
+								</Text>
+							</AlertDialogTitle>
+						)}
+						{content && (
+							<AlertDialogDescription>
+								<Text>{content}</Text>
+							</AlertDialogDescription>
+						)}
 					</Box>
-				</DialogContent>
-			</DialogPortal>
-		</DialogRoot>
+					<Box className={styles.signAlertDialogFormWrapper}>
+						{/* <AlertDialogClose asChild>
+							<Button sizeVariant="small" styleVariant="secondary" onClick={handleCancel}>
+								{intl.formatMessage(messages.close)}
+							</Button>
+						</AlertDialogClose> */}
+						<Form
+							onSubmit={handleSubmit}
+							initialValues={initialValues}
+							submitButtonTitle={buttonTitle || intl.formatMessage(messages.form_button_title)}
+						>
+							<ValidationErrorMessage message={error} />
+							{!ignorePassword && (
+								<Box>
+									<TextField
+										ref={inputRef}
+										isPassword
+										name="password"
+										placeholder={intl.formatMessage(messages.password_placeholder)}
+										sizeVariant="medium"
+									/>
+								</Box>
+							)}
+						</Form>
+					</Box>
+				</AlertDialogContent>
+			</AlertDialogPortal>
+		</AlertDialog>
 	)
 }
 
