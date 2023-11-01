@@ -18,7 +18,7 @@ export const usePasswordModal = () => {
 	const intl = useIntl()
 	const { addModal, removeModal } = useModals()
 
-	const confirm = (content: ReactNode, buttonTitle?: string) =>
+	const confirm = (content: ReactNode, buttonTitle?: string, requirePassword: boolean = true) =>
 		new Promise<string>((resolve, reject) => {
 			const id = generateId()
 			const handleConfirm = (password: string) => {
@@ -31,7 +31,13 @@ export const usePasswordModal = () => {
 			}
 			addModal(
 				id,
-				<Modal content={content} buttonTitle={buttonTitle} onConfirm={handleConfirm} onCancel={handleCancel} />,
+				<Modal
+					content={content}
+					ignorePassword={!requirePassword}
+					buttonTitle={buttonTitle}
+					onConfirm={handleConfirm}
+					onCancel={handleCancel}
+				/>,
 			)
 		})
 
