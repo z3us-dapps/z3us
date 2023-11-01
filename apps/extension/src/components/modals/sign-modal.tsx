@@ -14,6 +14,7 @@ import {
 } from 'ui/src/components/dialog-alert'
 import * as alertStyles from 'ui/src/components/dialog-alert/dialog-alert.css'
 import { Form } from 'ui/src/components/form'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
@@ -108,31 +109,32 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onC
 							</AlertDialogDescription>
 						)}
 					</Box>
-					<Box className={styles.signAlertDialogFormWrapper}>
-						{/* <AlertDialogClose asChild>
-							<Button sizeVariant="small" styleVariant="secondary" onClick={handleCancel}>
-								{intl.formatMessage(messages.close)}
-							</Button>
-						</AlertDialogClose> */}
-						<Form
-							onSubmit={handleSubmit}
-							initialValues={initialValues}
-							submitButtonTitle={buttonTitle || intl.formatMessage(messages.form_button_title)}
-						>
-							<ValidationErrorMessage message={error} />
-							{!ignorePassword && (
-								<Box>
-									<TextField
-										ref={inputRef}
-										isPassword
-										name="password"
-										placeholder={intl.formatMessage(messages.password_placeholder)}
-										sizeVariant="medium"
-									/>
-								</Box>
-							)}
-						</Form>
-					</Box>
+					<Form onSubmit={handleSubmit} initialValues={initialValues} className={styles.signAlertDialogFormWrapper}>
+						<ValidationErrorMessage message={error} />
+						{!ignorePassword && (
+							<Box>
+								<TextField
+									ref={inputRef}
+									isPassword
+									name="password"
+									placeholder={intl.formatMessage(messages.password_placeholder)}
+									sizeVariant="medium"
+								/>
+							</Box>
+						)}
+						<Box className={styles.signAlertDialogFormFooterWrapper}>
+							<AlertDialogClose asChild>
+								<Button sizeVariant="small" styleVariant="secondary" onClick={handleCancel}>
+									{intl.formatMessage(messages.close)}
+								</Button>
+							</AlertDialogClose>
+							<SubmitButton>
+								<Button sizeVariant="small" styleVariant="destructive">
+									{buttonTitle || intl.formatMessage(messages.form_button_title)}
+								</Button>
+							</SubmitButton>
+						</Box>
+					</Form>
 				</AlertDialogContent>
 			</AlertDialogPortal>
 		</AlertDialog>

@@ -69,6 +69,18 @@ export const signAlertDialogFormWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
+		width: 'full',
+	}),
+	{},
+])
+
+export const signAlertDialogFormFooterWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		justifyContent: 'flex-end',
+		gap: 'small',
+		width: 'full',
 	}),
 	{},
 ])

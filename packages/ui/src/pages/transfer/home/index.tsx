@@ -17,10 +17,6 @@ import * as styles from './styles.css'
 const positiveNumberValidator = (value: number): boolean => value > 0
 
 const messages = defineMessages({
-	button_submit: {
-		id: '9WRlF4',
-		defaultMessage: 'Send',
-	},
 	validation_token_address_required: {
 		id: 'IXFNmv',
 		defaultMessage: 'Resource is required',
@@ -193,7 +189,6 @@ export const Home: React.FC = () => {
 			onSubmit={handleSubmit}
 			initialValues={initialValues}
 			errors={validation?.format()}
-			submitButtonTitle={intl.formatMessage(messages.button_submit)}
 			className={styles.formWrapper}
 		>
 			<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
