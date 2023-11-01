@@ -1,12 +1,13 @@
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
-import React, { type PropsWithChildren, useMemo } from 'react'
+import React, { type PropsWithChildren, useCallback, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import type { State } from 'ui/src/context/zdt'
 import { ZdtContext } from 'ui/src/context/zdt'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 
+import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useSendTransaction } from '@src/hooks/transaction/use-send'
 import { useBuildNewAccountKeyParts } from '@src/hooks/use-add-account'
 import { useBuildNewPersonKeyParts } from '@src/hooks/use-add-persona'
@@ -34,7 +35,12 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const sendTransaction = useSendTransaction()
 	const buildNewPersonKeyParts = useBuildNewPersonKeyParts()
 	const buildNewAccountKeyParts = useBuildNewAccountKeyParts()
+	const confirm = usePasswordModal()
 	const { isUnlocked } = useIsUnlocked()
+	const { selectedKeystoreId, removeKeystore } = useSharedStore(state => ({
+		selectedKeystoreId: state.selectedKeystoreId,
+		removeKeystore: state.removeKeystoreAction,
+	}))
 	const { accountIndexes, personaIndexes, addressBook } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes[networkId] || {},
 		personaIndexes: state.personaIndexes[networkId] || {},
@@ -65,6 +71,15 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		[personaIndexes],
 	)
 
+	const removeSecret = useCallback(
+		async (password: string) => {
+			await client.removeFromVault(password)
+			removeKeystore(selectedKeystoreId)
+			await client.lockVault()
+		},
+		[client, selectedKeystoreId, removeKeystore],
+	)
+
 	const ctx = useMemo(
 		() =>
 			({
@@ -76,10 +91,12 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				unlock: client.unlockVault,
 				lock: client.lockVault,
 				getSecret: client.getSecret,
+				removeSecret,
 				buildNewPersonKeyParts,
 				buildNewAccountKeyParts,
+				confirm,
 			} as State),
-		[isUnlocked, personas, accounts, sendTransaction],
+		[isUnlocked, personas, accounts, client, sendTransaction, confirm, buildNewPersonKeyParts, buildNewAccountKeyParts],
 	)
 
 	return <ZdtContext.Provider value={ctx}>{children}</ZdtContext.Provider>

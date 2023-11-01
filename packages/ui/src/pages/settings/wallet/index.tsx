@@ -52,12 +52,16 @@ const messages = defineMessages({
 		id: 'k76I/W',
 		defaultMessage: 'Delete wallet',
 	},
+	remove_confirm: {
+		id: '1fXPQ6',
+		defaultMessage: 'Are you sure you want to delete wallet?',
+	},
 })
 
 const General: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { isWallet } = useZdtState()
+	const { isWallet, confirm, removeSecret } = useZdtState()
 
 	const { keystore, changeKeystoreName } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -73,8 +77,10 @@ const General: React.FC = () => {
 		changeKeystoreName(keystore.id, event.target.value)
 	}
 
-	const handleRemoveWallet = () => {
-		navigate('/keystore/remove')
+	const handleRemoveWallet = async () => {
+		const password = await confirm(intl.formatMessage(messages.remove_confirm), intl.formatMessage(messages.remove))
+		await removeSecret(password)
+		navigate('/')
 	}
 
 	return (
