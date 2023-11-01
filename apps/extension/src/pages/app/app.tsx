@@ -43,16 +43,10 @@ export const router = createHashRouter([
 			},
 			{
 				element: <AppLayout />,
-				children: [
-					accountsRoute,
-					patchedSettingsRoute,
-					stakingRoute,
-					transferRoute,
-					keystoreRoute,
-					interactionRoute,
-					noMatchRoute,
-				],
+				children: [accountsRoute, patchedSettingsRoute, stakingRoute, transferRoute, interactionRoute],
 			},
+			keystoreRoute,
+			noMatchRoute,
 		],
 	},
 ])
