@@ -76,15 +76,29 @@ export const Home: React.FC = () => {
 	const networkId = useNetworkId()
 	const sendTransaction = useSendTransaction()
 	const [searchParams] = useSearchParams()
-	const accountIdQuery = searchParams.get('accountId') || '-'
+	const accountId = searchParams.get('accountId') || '-'
+	const resourceId = searchParams.get('resourceId')
+	const rawNftId = searchParams.get('nftId')
 
 	const initialValues = useMemo(
 		() => ({
-			from: [{ account: accountIdQuery !== '-' ? accountIdQuery : '', actions: [{ to: '', resources: [] }] }],
+			from: [
+				{
+					account: accountId !== '-' ? accountId : '',
+					actions: [
+						{
+							to: '',
+							resources: resourceId
+								? [{ address: resourceId, id: rawNftId ? decodeURIComponent(rawNftId) : '', amount: 0 }]
+								: [],
+						},
+					],
+				},
+			],
 			message: '',
 			messageEncrypted: false,
 		}),
-		[accountIdQuery],
+		[accountId, resourceId, rawNftId],
 	)
 
 	const [validation, setValidation] = useState<ZodError>()
