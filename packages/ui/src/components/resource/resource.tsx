@@ -154,6 +154,10 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 	}, [resourceId, knownAddresses, udfHistory, marketData])
 
 	const metadata = useMemo(() => data?.metadata.items.filter(item => !IGNORE_METADATA.includes(item.key)) || [], [data])
+	const roles = useMemo(
+		() => data?.details?.role_assignments?.entries.filter(item => DISPLAY_ROLES.includes(item.role_key.name)) || [],
+		[data],
+	)
 
 	const renderTooltipContent = ({ active, payload }) => {
 		if (active && payload && payload.length) {
@@ -300,7 +304,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 
 					{data?.details && DetailsComponent && <DetailsComponent details={data.details} />}
 
-					{data?.details?.role_assignments?.entries && (
+					{roles.length > 0 && (
 						<Box display="flex" flexDirection="column">
 							<Box paddingTop="xlarge">
 								<Text size="large" weight="medium" color="strong">
@@ -308,28 +312,26 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 								</Text>
 							</Box>
 
-							{data.details.role_assignments.entries.map(item =>
-								DISPLAY_ROLES.includes(item.role_key.name) ? (
-									<AccountsTransactionInfo
-										key={item.role_key.name}
-										leftTitle={
-											<Box display="flex" alignItems="flex-end" gap="xsmall">
-												<Box>
-													<Box className={styles.tokenMetaDataIconWrapper}>{!item.updater_roles && <LockIcon />}</Box>
-												</Box>
-												<Text size="xxsmall" color="strong" weight="medium">
-													{intl.formatMessage(messages[item.role_key.name])}
-												</Text>
+							{roles.map(item => (
+								<AccountsTransactionInfo
+									key={item.role_key.name}
+									leftTitle={
+										<Box display="flex" alignItems="flex-end" gap="xsmall">
+											<Box>
+												<Box className={styles.tokenMetaDataIconWrapper}>{!item.updater_roles && <LockIcon />}</Box>
 											</Box>
-										}
-										rightData={
-											<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-												{(item.assignment.explicit_rule as any)?.type === 'DenyAll' ? <Close2Icon /> : <Check2Icon />}
-											</Box>
-										}
-									/>
-								) : null,
-							)}
+											<Text size="xxsmall" color="strong" weight="medium">
+												{intl.formatMessage(messages[item.role_key.name])}
+											</Text>
+										</Box>
+									}
+									rightData={
+										<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+											{(item.assignment.explicit_rule as any)?.type === 'DenyAll' ? <Close2Icon /> : <Check2Icon />}
+										</Box>
+									}
+								/>
+							))}
 						</Box>
 					)}
 
