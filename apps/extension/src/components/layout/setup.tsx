@@ -1,8 +1,8 @@
-/* eslint-disable no-case-declarations */
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'
 
-import { FallbackLoading } from 'ui/src/components/fallback-renderer'
+import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -46,7 +46,11 @@ const SetupChecker: React.FC = () => {
 
 	if (isLoading) return <FallbackLoading />
 
-	return outlet
+	return (
+		<Suspense fallback={<FallbackLoading />}>
+			<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+		</Suspense>
+	)
 }
 
 export default SetupChecker
