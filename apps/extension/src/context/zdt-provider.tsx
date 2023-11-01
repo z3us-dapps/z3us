@@ -1,17 +1,15 @@
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
-import { LTSRadixEngineToolkit, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
-import React, { type PropsWithChildren, useCallback, useMemo } from 'react'
+import React, { type PropsWithChildren, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import type { State } from 'ui/src/context/zdt'
 import { ZdtContext } from 'ui/src/context/zdt'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { CURVE, SCHEME } from 'ui/src/store/types'
 
-import { buildAccountDerivationPath, buildPersonaDerivationPath } from '@src/crypto/derivation_path'
 import { useSendTransaction } from '@src/hooks/transaction/use-send'
-import { useGetPublicKey } from '@src/hooks/use-get-public-key'
+import { useBuildNewAccountKeyParts } from '@src/hooks/use-add-account'
+import { useBuildNewPersonKeyParts } from '@src/hooks/use-add-persona'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import { useMessageClient } from '@src/hooks/use-message-client'
 
@@ -33,8 +31,9 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const client = useMessageClient()
-	const getPublicKey = useGetPublicKey()
 	const sendTransaction = useSendTransaction()
+	const buildNewPersonKeyParts = useBuildNewPersonKeyParts()
+	const buildNewAccountKeyParts = useBuildNewAccountKeyParts()
 	const { isUnlocked } = useIsUnlocked()
 	const { accountIndexes, personaIndexes, addressBook } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes[networkId] || {},
@@ -64,50 +63,6 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				appearanceId,
 			})),
 		[personaIndexes],
-	)
-
-	const buildNewPersonKeyParts = useCallback(async () => {
-		const idx = Math.max(-1, ...Object.values(personaIndexes).map(persona => persona.entityIndex)) + 1
-		const derivationPath = buildPersonaDerivationPath(networkId, idx)
-		const publicKey = await getPublicKey(CURVE.CURVE25519, derivationPath)
-		const address = await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(publicKey, networkId)
-		const identityAddress = address.toString()
-
-		return {
-			entityIndex: +idx,
-			identityAddress,
-			publicKeyHex: publicKey.hexString(),
-			curve: CURVE.CURVE25519,
-			scheme: SCHEME.CAP26,
-			derivationPath,
-		}
-	}, [networkId, personaIndexes])
-
-	const buildNewAccountKeyParts = useCallback(
-		async (legacy: boolean) => {
-			const idx =
-				Math.max(
-					-1,
-					...Object.values(accountIndexes)
-						.filter(account => legacy === (account.scheme === SCHEME.BIP440OLYMPIA))
-						.map(account => account.entityIndex),
-				) + 1
-			const derivationPath = buildAccountDerivationPath(networkId, idx)
-			const curve = legacy ? CURVE.SECP256K1 : CURVE.CURVE25519
-			const scheme = legacy ? SCHEME.BIP440OLYMPIA : SCHEME.CAP26
-			const publicKey = await getPublicKey(curve, derivationPath)
-			const address = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(publicKey, networkId)
-
-			return {
-				address,
-				entityIndex: +idx,
-				publicKeyHex: publicKey.hexString(),
-				curve,
-				scheme,
-				derivationPath,
-			}
-		},
-		[networkId, accountIndexes],
 	)
 
 	const ctx = useMemo(

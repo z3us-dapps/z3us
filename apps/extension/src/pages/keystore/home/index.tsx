@@ -6,9 +6,6 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogoLarge } from 'ui/src/components/z3us-logo-babylon'
-import { useSharedStore } from 'ui/src/hooks/use-store'
-import { KeystoreType } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
 
 import * as styles from './styles.css'
 
@@ -34,13 +31,8 @@ const messages = defineMessages({
 export const Home: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { addKeystore } = useSharedStore(state => ({
-		addKeystore: state.addKeystoreAction,
-	}))
 
 	const handleNew = () => {
-		const id = generateId()
-		addKeystore(id, id, KeystoreType.LOCAL)
 		navigate('/keystore/new/seed')
 	}
 

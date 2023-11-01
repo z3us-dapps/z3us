@@ -110,6 +110,7 @@ const SignModal: React.FC<IProps> = ({ content, onConfirm, onCancel }) => {
 								<ValidationErrorMessage message={error} />
 								<Box>
 									<TextField
+										ref={inputRef}
 										isPassword
 										name="password"
 										placeholder={intl.formatMessage(messages.password_placeholder)}

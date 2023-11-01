@@ -93,6 +93,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 				submitButtonTitle={intl.formatMessage(messages.form_button_title)}
 			>
 				<TextField
+					ref={inputRef}
 					isPassword
 					name="password"
 					placeholder={intl.formatMessage(messages.password_placeholder)}

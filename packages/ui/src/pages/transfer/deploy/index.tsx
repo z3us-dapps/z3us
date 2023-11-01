@@ -1,5 +1,5 @@
 import { Buffer } from 'buffer'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -64,7 +64,6 @@ const loadFile = (file: File) =>
 
 export const Deploy: React.FC = () => {
 	const intl = useIntl()
-	const inputRef = useRef(null)
 	const networkId = useNetworkId()
 	const sendTransaction = useSendTransaction()
 
@@ -92,10 +91,6 @@ export const Deploy: React.FC = () => {
 	)
 
 	const [validation, setValidation] = useState<ZodError>()
-
-	useEffect(() => {
-		inputRef?.current?.focus()
-	}, [])
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		const result = validationSchema.safeParse(values)

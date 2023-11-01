@@ -1,3 +1,5 @@
+import { useSharedStore } from 'packages/ui/src/hooks/use-store'
+import { KeystoreType } from 'packages/ui/src/store/types'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -5,6 +7,8 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogoLarge } from 'ui/src/components/z3us-logo-babylon'
+
+import { useAddAccount } from '@src/hooks/use-add-account'
 
 import * as styles from '../seed/styles.css'
 
@@ -29,6 +33,15 @@ interface IProps {
 
 export const Done: React.FC<IProps> = ({ onNext }) => {
 	const intl = useIntl()
+	const addAccount = useAddAccount()
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
+
+	const handleNext = () => {
+		if (keystore?.type && keystore.type !== KeystoreType.RADIX_WALLET) addAccount()
+		onNext()
+	}
 
 	return (
 		<Box className={styles.keystoreNewWrapper}>
@@ -41,7 +54,7 @@ export const Done: React.FC<IProps> = ({ onNext }) => {
 				</Text>
 				<Text>{intl.formatMessage(messages.phrase_done_sub_title)}</Text>
 			</Box>
-			<Button onClick={onNext} sizeVariant="xlarge" styleVariant="primary" fullWidth>
+			<Button onClick={handleNext} sizeVariant="xlarge" styleVariant="primary" fullWidth>
 				{intl.formatMessage(messages.phrase_done_button)}
 			</Button>
 		</Box>

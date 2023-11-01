@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
-export const pairingWrapper = style([
+export const extendedKeyWrapper = style([
 	sprinkles({
 		position: 'relative',
 		padding: {
@@ -12,7 +12,7 @@ export const pairingWrapper = style([
 	{},
 ])
 
-export const pairingTextWrapper = style([
+export const extendedKeyWrapperTextWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
@@ -23,21 +23,17 @@ export const pairingTextWrapper = style([
 	{},
 ])
 
-export const pairingQrWrapper = style([
+export const extendedKeyInputWrapper = style([
 	sprinkles({
-		display: 'flex',
-		justifyContent: 'center',
+		width: 'full',
 		paddingTop: 'small',
 		paddingBottom: 'large',
 	}),
 	{},
 ])
 
-export const pairingLinkWrapper = style([
-	sprinkles({
-		display: 'flex',
-		justifyContent: 'center',
-		width: 'full',
-	}),
-	{},
+export const extendedKeyInput = style([
+	{
+		height: '120px',
+	},
 ])

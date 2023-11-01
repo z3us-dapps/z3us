@@ -172,7 +172,7 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 						title: intl.formatMessage(messages[variant]),
 					}))}
 				/>
-				<TextField name="nickname" placeholder={intl.formatMessage(messages.nickname)} />
+				<TextField ref={inputRef} name="nickname" placeholder={intl.formatMessage(messages.nickname)} />
 				<TextField name="givenNames" placeholder={intl.formatMessage(messages.given_names)} />
 				<TextField name="familyName" placeholder={intl.formatMessage(messages.family_name)} />
 			</FieldsGroup>

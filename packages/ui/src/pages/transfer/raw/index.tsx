@@ -90,6 +90,7 @@ export const Raw: React.FC = () => {
 				</Box>
 				<Box className={styles.transferFormMessageWrapper}>
 					<TextAreaField
+						ref={inputRef}
 						name="raw"
 						placeholder={intl.formatMessage(messages.raw_placeholder)}
 						sizeVariant="medium"

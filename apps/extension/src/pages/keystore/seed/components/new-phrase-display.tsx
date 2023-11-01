@@ -7,7 +7,7 @@ import { ArrowLeftIcon } from 'ui/src/components/icons'
 import SeedPhraseDisplay from 'ui/src/components/seed-phrase-display'
 import { Text } from 'ui/src/components/typography'
 
-import * as styles from './styles.css'
+import * as styles from '../styles.css'
 
 const messages = defineMessages({
 	phrase_display_title: {

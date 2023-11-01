@@ -16,7 +16,6 @@ export const phraseContainerWrapper = style([
 export const phraseGridWrapper = style([
 	sprinkles({
 		display: 'grid',
-		gap: 'medium',
 	}),
 	{
 		gap: vars.spacing.medium,
@@ -27,8 +26,8 @@ export const phraseGridWrapper = style([
 				gap: vars.spacing.medium,
 				gridTemplateColumns: '1fr 1fr',
 			},
-			'(min-width: 600px)': {
-				gap: vars.spacing.large,
+			'(min-width: 400px)': {
+				gap: vars.spacing.medium,
 				gridTemplateColumns: '1fr 1fr 1fr',
 			},
 		},
