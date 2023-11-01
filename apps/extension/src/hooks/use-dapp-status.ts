@@ -33,34 +33,33 @@ export const useDappStatus = () => {
 	const [state, setState] = useImmer<State>(defaultState)
 
 	useEffect(() => {
-		const load = async () => {
-			if (!isUnlocked) {
-				setState(defaultState)
-				return
-			}
+		if (!config.isExtensionContext) return
+		if (!isUnlocked) {
+			setState(defaultState)
+		} else {
+			browser.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
+				const tabURL = tab?.url ? new URL(tab.url) : new URL(window.location.href)
+				const tabHost = tabURL?.host || ''
 
-			const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
-			const tabURL = tab?.url ? new URL(tab.url) : new URL(window.location.href)
-			const tabHost = tabURL?.host || ''
+				checkContentScript(tab.id).then(hasContentScript => {
+					const isConnected = !!hasContentScript
 
-			const hasContentScript = await checkContentScript(tab.id)
-			const isConnected = !!hasContentScript
+					setState(draft => {
+						draft.isConnected = isConnected
+						draft.currentTabId = tab?.id || 0
+						draft.currentTabHost = isPopupPage(tabURL) ? z3usURL.host : tabHost
+						draft.canConnectToTab =
+							tabURL?.hostname && !isPopupPage(tabURL) && (isSecureHost(tabURL) || isLocalhost(tabURL))
+					})
 
-			setState(draft => {
-				draft.isConnected = isConnected
-				draft.currentTabId = tab?.id || 0
-				draft.currentTabHost = isPopupPage(tabURL) ? z3usURL.host : tabHost
-				draft.canConnectToTab =
-					tabURL?.hostname && !isPopupPage(tabURL) && (isSecureHost(tabURL) || isLocalhost(tabURL))
+					if (isConnected) {
+						showConnected()
+					} else {
+						showDisconnected()
+					}
+				})
 			})
-
-			if (isConnected) {
-				showConnected()
-			} else {
-				showDisconnected()
-			}
 		}
-		if (config.isExtensionContext) load()
 	}, [isUnlocked])
 
 	return state
