@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import type { RefObject } from 'react'
+import React, { createRef, useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
@@ -47,6 +48,16 @@ const messages = defineMessages({
 		defaultMessage: 'The password will be used to unlock your wallet.',
 		id: 'a4CP1S',
 	},
+	incorrect_words: {
+		defaultMessage: `{wordCount, plural,
+			one {Word}
+			other {Words}
+		} {wordList} {wordCount, plural,
+			one {is}
+			other {are}
+		} incorrect or misspelled`,
+		id: 'En3v/Z',
+	},
 })
 
 const strengthToWordCounts = {
@@ -67,21 +78,32 @@ const strengthOptions = [
 
 export const Restore: React.FC = () => {
 	const intl = useIntl()
+	const btnRef = useRef<HTMLButtonElement>()
 	const navigate = useNavigate()
 
 	const [strength, setStrength] = useState<string>(String(Strength.WORD_COUNT_12))
 	const [words, setWords] = useState<string[]>(
 		Array.from<string>({ length: strengthToWordCounts[Strength.WORD_COUNT_12] }),
 	)
+	const [inputRefs, setInputRefs] = useState<RefObject<HTMLInputElement>[]>(
+		Array.from({ length: strengthToWordCounts[Strength.WORD_COUNT_12] }, () => createRef<HTMLInputElement>()),
+	)
 	const [step, setStep] = useState<number>(0)
 	const [possibleWords, setPossibleWords] = useState<string[]>([])
 	const [focusedInput, setFocusedInput] = useState<number | undefined>(undefined)
-	const isFocusedInput = typeof focusedInput !== 'undefined'
+	const isFocusedInput = typeof focusedInput !== undefined
 
-	// const possibleWords = useMemo(() => (word?.length > 2 ? validWords.filter(w => w.startsWith(word)) : []), [word])
+	const incorrectWords = useMemo(
+		() =>
+			Object.keys(words)
+				.filter(idx => words[idx] && !validWords.includes(words[idx]))
+				.map(idx => +idx + 1),
+		[words],
+	)
 
 	useEffect(() => {
 		setWords(Array.from<string>({ length: strengthToWordCounts[strength] }))
+		setInputRefs(Array.from({ length: strengthToWordCounts[strength] }, () => createRef<HTMLInputElement>()))
 	}, [strength])
 
 	const handleChange = (idx: number, value: string) => {
@@ -102,12 +124,21 @@ export const Restore: React.FC = () => {
 	}
 
 	const handleAddWord = (word: string) => {
+		const nextInput = Number.isInteger(focusedInput) ? focusedInput + 1 : 0
 		const newWords = [...words]
 		newWords[focusedInput] = word
-		setWords(newWords)
 
+		setWords(newWords)
 		setPossibleWords([])
-		setFocusedInput(undefined)
+		setFocusedInput(nextInput)
+
+		if (nextInput !== undefined) {
+			if (nextInput >= words.length) {
+				btnRef?.current.focus()
+			} else {
+				inputRefs?.[nextInput].current.focus()
+			}
+		}
 	}
 
 	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, words.join(' '))
@@ -169,20 +200,35 @@ export const Restore: React.FC = () => {
 					<Box className={styles.keystoreRestoreWrapper}>
 						<Box className={styles.keystoreRestoreGridWrapper}>
 							{words.map((_, i) => (
-								// eslint-disable-next-line react/no-array-index-key
-								<WordInput key={i} index={i} word={words[i]} onChange={handleChange} onFocus={handleOnFocus} />
+								<WordInput
+									// eslint-disable-next-line react/no-array-index-key
+									key={i}
+									ref={inputRefs[i]}
+									index={i}
+									word={words[i]}
+									onChange={handleChange}
+									onFocus={handleOnFocus}
+								/>
 							))}
 						</Box>
 					</Box>
-					<Box className={styles.keystoreRestoreErrorWrapper}>
-						<ValidationErrorMessage message="Words 1, 2, 3, are incorrect or misspelled" />
-					</Box>
+					{incorrectWords.length > 0 && (
+						<Box className={styles.keystoreRestoreErrorWrapper}>
+							<ValidationErrorMessage
+								message={intl.formatMessage(messages.incorrect_words, {
+									wordCount: incorrectWords.length,
+									wordList: intl.formatList(incorrectWords, { type: 'conjunction' }).toString(),
+								})}
+							/>
+						</Box>
+					)}
 					<Button
+						ref={btnRef}
 						onClick={() => setStep(1)}
 						sizeVariant="xlarge"
 						styleVariant="primary"
 						fullWidth
-						disabled={!words.find(w => w === '')}
+						disabled={!words.find(w => w === '') || incorrectWords.length > 0}
 					>
 						{intl.formatMessage(messages.seed_restore_continue)}
 					</Button>

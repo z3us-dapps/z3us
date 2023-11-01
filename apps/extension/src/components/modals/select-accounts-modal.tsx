@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -63,7 +63,6 @@ export interface IProps {
 
 const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, onCancel }) => {
 	const intl = useIntl()
-	const inputRef = useRef(null)
 	const networkId = useNetworkId()
 	const { accountIndexes, addressBook } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes[networkId] || {},
@@ -92,10 +91,6 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 		return z.object({
 			accounts: accountsSchema,
 		})
-	}, [])
-
-	useEffect(() => {
-		inputRef?.current?.focus()
 	}, [])
 
 	const handleScroll = (event: Event) => {
