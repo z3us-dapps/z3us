@@ -3,7 +3,9 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
+import { Button } from 'ui/src/components/router-button'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import { useZdtState } from '../../hooks/zdt/use-zdt'
@@ -55,23 +57,22 @@ export const WalletSecretForm: React.FC<IProps> = ({ onUnlock }) => {
 	}
 
 	return (
-		<Form
-			onSubmit={handleSubmit}
-			initialValues={initialValues}
-			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
-		>
+		<Form onSubmit={handleSubmit} initialValues={initialValues}>
 			<ValidationErrorMessage message={error} />
 			<Box>
-				<Box>
-					<TextField
-						ref={inputRef}
-						isPassword
-						name="password"
-						placeholder={intl.formatMessage(messages.password_placeholder)}
-						sizeVariant="medium"
-					/>
-				</Box>
+				<TextField
+					ref={inputRef}
+					isPassword
+					name="password"
+					placeholder={intl.formatMessage(messages.password_placeholder)}
+					sizeVariant="medium"
+				/>
 			</Box>
+			<SubmitButton>
+				<Button sizeVariant="small" styleVariant="destructive">
+					{intl.formatMessage(messages.form_button_title)}
+				</Button>
+			</SubmitButton>
 		</Form>
 	)
 }

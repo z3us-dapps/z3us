@@ -8,6 +8,7 @@ import { Box } from 'ui/src/components/box'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
 import { Form } from 'ui/src/components/form'
 import SelectField from 'ui/src/components/form/fields/select-field'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { Close2Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
@@ -115,12 +116,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 					<ScrollArea onScroll={handleScroll}>
 						<Box className={styles.scrollWrapper}>
 							<Box>
-								<Form
-									onSubmit={handleSubmit}
-									initialValues={initialValues}
-									errors={validation?.format()}
-									submitButtonTitle={intl.formatMessage(messages.form_button_title)}
-								>
+								<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 									<SelectField
 										ref={inputRef}
 										name="persona"
@@ -130,6 +126,11 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 											title: personaIndexes[address].label || address,
 										}))}
 									/>
+									<SubmitButton>
+										<Button sizeVariant="small" styleVariant="destructive">
+											{intl.formatMessage(messages.form_button_title)}
+										</Button>
+									</SubmitButton>
 								</Form>
 							</Box>
 							<Box>

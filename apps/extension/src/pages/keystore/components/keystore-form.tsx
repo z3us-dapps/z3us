@@ -4,7 +4,9 @@ import type { ZodError } from 'zod'
 import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Keystore } from 'ui/src/store/types'
@@ -116,13 +118,7 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext 
 	}
 
 	return (
-		<Form
-			onSubmit={handleSubmit}
-			initialValues={initialValues}
-			errors={validation?.format()}
-			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
-			submitButtonTitleSizeVariant="xlarge"
-		>
+		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 			<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
 				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
 				<TextField
@@ -137,6 +133,11 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext 
 					placeholder={intl.formatMessage(messages.confirm_password_placeholder)}
 					sizeVariant="large"
 				/>
+				<SubmitButton>
+					<Button sizeVariant="small" styleVariant="destructive">
+						{intl.formatMessage(messages.form_button_title)}
+					</Button>
+				</SubmitButton>
 			</Box>
 		</Form>
 	)

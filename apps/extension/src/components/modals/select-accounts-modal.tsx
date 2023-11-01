@@ -10,6 +10,7 @@ import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/c
 import { Form } from 'ui/src/components/form'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import SelectField from 'ui/src/components/form/fields/select-field'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { CirclePlusIcon, Close2Icon, TrashIcon } from 'ui/src/components/icons'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
@@ -136,12 +137,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 				>
 					<ScrollArea onScroll={handleScroll}>
 						<Box className={styles.scrollWrapper}>
-							<Form
-								onSubmit={handleSubmit}
-								initialValues={initialValues}
-								errors={validation?.format()}
-								submitButtonTitle={intl.formatMessage(messages.form_button_title)}
-							>
+							<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 								<FieldsGroup
 									name="accounts"
 									defaultKeys={1}
@@ -174,6 +170,11 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 										}))}
 									/>
 								</FieldsGroup>
+								<SubmitButton>
+									<Button sizeVariant="small" styleVariant="destructive">
+										{intl.formatMessage(messages.form_button_title)}
+									</Button>
+								</SubmitButton>
 							</Form>
 						</Box>
 					</ScrollArea>
