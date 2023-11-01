@@ -176,24 +176,29 @@ const TokenDetails: React.FC = () => {
 					<Text size="xlarge" weight="strong" color="strong" align="center">
 						{name}
 					</Text>
-					<Text size="xxxlarge" weight="medium" color="strong">
-						{intl.formatNumber(value, { style: 'currency', currency })}
-					</Text>
-					<Box display="flex" gap="xsmall">
-						<Text size="large">{`${intl.formatNumber(increase, { style: 'currency', currency })}`}</Text>
-						<RedGreenText size="large" change={change}>
-							{`(${intl.formatNumber(change, {
-								style: 'percent',
-								maximumFractionDigits: 2,
-							})})`}
-						</RedGreenText>
-					</Box>
+					{data?.details === 'FungibleResource' && (
+						<>
+							<Text size="xxxlarge" weight="medium" color="strong">
+								{intl.formatNumber(value, { style: 'currency', currency })}
+							</Text>
+							<Box display="flex" gap="xsmall">
+								<Text size="large">{`${intl.formatNumber(increase, { style: 'currency', currency })}`}</Text>
+								<RedGreenText size="large" change={change}>
+									{`(${intl.formatNumber(change, {
+										style: 'percent',
+										maximumFractionDigits: 2,
+									})})`}
+								</RedGreenText>
+							</Box>
+						</>
+					)}
 				</Box>
-				<Box display="flex" paddingTop="large" gap="large" position="relative">
+
+				<Box display="flex" paddingTop="large" paddingBottom="large" gap="large" position="relative">
 					<CardButtons />
 				</Box>
 
-				{udfHistory && (
+				{chartData.length > 0 && (
 					<>
 						<Box className={styles.chartBgWrapper}>
 							{/* // TODO: fix, this is not responsive but 99% works?? */}
