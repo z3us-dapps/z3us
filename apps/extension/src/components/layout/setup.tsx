@@ -1,8 +1,8 @@
-/* eslint-disable no-case-declarations */
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'
 
-import { FallbackLoading } from 'ui/src/components/fallback-renderer'
+import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -24,33 +24,33 @@ const SetupChecker: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 
 	useEffect(() => {
-		const load = async () => {
-			try {
-				switch (keystore?.type) {
-					case KeystoreType.RADIX_WALLET:
-					case KeystoreType.HARDWARE:
-						const isUnlocked = await client.isVaultUnlocked()
-						const isNotCompleted = await client.isSecretEmpty()
-						if (isUnlocked && isNotCompleted && !location.pathname.startsWith('/keystore')) {
-							navigate(redirectMap[keystore.type])
-						}
-						break
-					default:
-						break
-				}
-			} catch (err) {
-				// eslint-disable-next-line no-console
-				console.error(err)
-			} finally {
+		switch (keystore?.type) {
+			case KeystoreType.RADIX_WALLET:
+			case KeystoreType.HARDWARE:
+				client
+					.isVaultUnlocked()
+					.then(isUnlocked => {
+						client.isSecretEmpty().then(isNotCompleted => {
+							if (isUnlocked && isNotCompleted && !location.pathname.startsWith('/keystore')) {
+								navigate(redirectMap[keystore.type])
+							}
+						})
+					})
+					.finally(() => setIsLoading(false))
+				break
+			default:
 				setIsLoading(false)
-			}
+				break
 		}
-		load()
 	}, [keystore, location.pathname])
 
 	if (isLoading) return <FallbackLoading />
 
-	return outlet
+	return (
+		<Suspense fallback={<FallbackLoading />}>
+			<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+		</Suspense>
+	)
 }
 
 export default SetupChecker

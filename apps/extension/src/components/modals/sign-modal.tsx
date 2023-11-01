@@ -41,11 +41,12 @@ const initialValues = {
 
 export interface IProps {
 	content: ReactNode
+	buttonTitle?: string
 	onConfirm: (password: string) => void
 	onCancel: () => void
 }
 
-const SignModal: React.FC<IProps> = ({ content, onConfirm, onCancel }) => {
+const SignModal: React.FC<IProps> = ({ content, buttonTitle, onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
@@ -105,11 +106,12 @@ const SignModal: React.FC<IProps> = ({ content, onConfirm, onCancel }) => {
 							<Form
 								onSubmit={handleSubmit}
 								initialValues={initialValues}
-								submitButtonTitle={intl.formatMessage(messages.form_button_title)}
+								submitButtonTitle={buttonTitle || intl.formatMessage(messages.form_button_title)}
 							>
 								<ValidationErrorMessage message={error} />
 								<Box>
 									<TextField
+										ref={inputRef}
 										isPassword
 										name="password"
 										placeholder={intl.formatMessage(messages.password_placeholder)}

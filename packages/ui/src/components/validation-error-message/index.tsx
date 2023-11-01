@@ -12,7 +12,7 @@ export const ValidationErrorMessage: React.FC<IValidationErrorMessageProps> = pr
 	const { message, size = 'xsmall', color = 'red', ...rest } = props
 	return (
 		<ShowHidePanel isChildrenVisible={!!message}>
-			<Box paddingTop="xsmall">
+			<Box paddingTop="xsmall" display="flex">
 				<Text size={size} color={color} {...rest}>
 					{message}
 				</Text>

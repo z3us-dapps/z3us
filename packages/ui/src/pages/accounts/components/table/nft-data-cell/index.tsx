@@ -4,11 +4,11 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { NftImageIcon } from 'ui/src/components/nft-image-icon'
+import FieldValue from 'ui/src/components/resource/components/field-value'
 import { Text } from 'ui/src/components/typography'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getStringNftData } from 'ui/src/services/metadata'
 
-import FieldValue from '../../resource-details/field-value'
 import * as styles from './styles.css'
 
 interface IProps {

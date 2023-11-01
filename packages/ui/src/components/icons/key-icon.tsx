@@ -6,22 +6,24 @@ import type { IconProps } from './types'
 export const KeyIcon = React.forwardRef<SVGSVGElement, IconProps>(
 	({ color = 'currentColor', ...props }, forwardedRef) => (
 		<svg
-			width="15"
-			height="15"
-			viewBox="0 0 15 15"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 			ref={forwardedRef}
 		>
 			<path
-				fill={color}
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M10,1.3c2.1,0,3.8,1.7,3.8,3.7S12.1,8.8,10,8.8S6.3,7.1,6.3,5S7.9,1.3,10,1.3z M10,0C7.2,0,5,2.2,5,5s2.2,5,5,5s5-2.2,5-5
-	S12.8,0,10,0z M6.6,10.2l-0.9,1h-2v1.2H2.5v1.2H1.2v-1.4l3.7-3.7C4.7,8.3,4.5,7.9,4.3,7.5L0,11.9V15h3.7v-1.2H5v-1.2h1.2l1.5-1.7
-	C7.4,10.7,7,10.5,6.6,10.2z M11.2,3.1c0.3,0,0.6,0.3,0.6,0.6s-0.3,0.6-0.6,0.6s-0.6-0.3-0.6-0.6S10.9,3.1,11.2,3.1z M11.2,2.5
-	c-0.7,0-1.2,0.6-1.2,1.2S10.6,5,11.2,5c0.7,0,1.2-0.6,1.2-1.2S11.9,2.5,11.2,2.5z"
+				stroke={color}
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth="1.5"
+				d="M15 13.25C17.3472 13.25 19.25 11.3472 19.25 9C19.25 6.65279 17.3472 4.75 15 4.75C12.6528 4.75 10.75 6.65279 10.75 9C10.75 9.31012 10.7832 9.61248 10.8463 9.90372L4.75 16V19.25H8L8.75 18.5V16.75H10.5L11.75 15.5V13.75H13.5L14.0963 13.1537C14.3875 13.2168 14.6899 13.25 15 13.25Z"
+			/>
+			<path
+				stroke={color}
+				d="M16.5 8C16.5 8.27614 16.2761 8.5 16 8.5C15.7239 8.5 15.5 8.27614 15.5 8C15.5 7.72386 15.7239 7.5 16 7.5C16.2761 7.5 16.5 7.72386 16.5 8Z"
 			/>
 		</svg>
 	),

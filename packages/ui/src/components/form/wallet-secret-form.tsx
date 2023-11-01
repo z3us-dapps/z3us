@@ -64,6 +64,7 @@ export const WalletSecretForm: React.FC<IProps> = ({ onUnlock }) => {
 			<Box>
 				<Box>
 					<TextField
+						ref={inputRef}
 						isPassword
 						name="password"
 						placeholder={intl.formatMessage(messages.password_placeholder)}

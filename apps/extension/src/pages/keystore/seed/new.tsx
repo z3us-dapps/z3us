@@ -1,22 +1,20 @@
-import { Box } from 'packages/ui/src/components/box'
-import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
+import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { Text } from 'ui/src/components/typography'
-import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { createMnemonic, secretToData } from '@src/crypto/secret'
-import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
-import NewPhraseDisplay from './new-phrase-display'
-import NewPhraseEnter from './new-phrase-enter'
+import NewPhraseDisplay from './components/new-phrase-display'
+import NewPhraseEnter from './components/new-phrase-enter'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -34,22 +32,10 @@ export const New: React.FC = () => {
 	const navigate = useNavigate()
 
 	const intl = useIntl()
-	const { isUnlocked, isLoading } = useIsUnlocked()
-	const { keystore } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
 
 	const [mnemonic, setMnemonic] = useState<string>('')
 	const [words, setWords] = useState<string[]>([])
 	const [step, setStep] = useState<number>(0)
-
-	useEffect(() => {
-		if (keystore?.type !== KeystoreType.LOCAL) navigate('/')
-	}, [keystore])
-
-	useEffect(() => {
-		if (!isLoading && !isUnlocked) navigate('/')
-	}, [isUnlocked, isLoading])
 
 	useEffect(() => {
 		if (!mnemonic) setMnemonic(createMnemonic())
@@ -59,7 +45,7 @@ export const New: React.FC = () => {
 		setWords(mnemonic.split(' '))
 	}, [mnemonic])
 
-	const handleCreateKeystore = (): Data => secretToData(DataType.MNEMONIC, mnemonic)
+	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, mnemonic)
 
 	const handleDone = () => navigate('/')
 
@@ -77,7 +63,7 @@ export const New: React.FC = () => {
 						</Text>
 						<Text>{intl.formatMessage(messages.create_new_wallet_sub_title)}</Text>
 					</Box>
-					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleCreateKeystore} onNext={() => setStep(3)} />
+					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(3)} />
 				</Box>
 			)
 		case 1:

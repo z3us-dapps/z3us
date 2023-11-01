@@ -22,14 +22,13 @@ export const NoneSharedStoreProvider = (props: INoneSharedStoreProvider) => {
 	const [state, setState] = useState<TStoreContext>(defaultValue)
 
 	useEffect(() => {
-		const load = async (id: string) => {
-			if (!id) {
-				setState({ ...defaultValue })
-			} else {
-				setState({ id, store: await getNoneSharedStore(id) })
-			}
+		if (!keystoreId) {
+			setState({ ...defaultValue })
+		} else {
+			getNoneSharedStore(keystoreId).then(store => {
+				setState({ id: keystoreId, store })
+			})
 		}
-		load(keystoreId)
 	}, [keystoreId])
 
 	return <NoneSharedStoreContext.Provider value={state}>{children}</NoneSharedStoreContext.Provider>

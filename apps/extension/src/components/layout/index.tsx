@@ -24,7 +24,7 @@ const Layout: React.FC = () => {
 
 	if (!location.pathname.startsWith('/keystore/new')) {
 		if (isLoading) return <FallbackLoading />
-		if (!location.pathname.startsWith('/keystore/new') && !isUnlocked) return <Unlock onUnlock={reload} />
+		if (!isUnlocked) return <Unlock onUnlock={reload} />
 	}
 
 	return <SetupChecker />

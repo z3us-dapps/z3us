@@ -1,4 +1,3 @@
-import SecretDisplay from 'packages/ui/src/components/secret-display'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
@@ -6,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Input } from 'ui/src/components/input'
+import SecretDisplay from 'ui/src/components/secret-display'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
@@ -52,12 +52,16 @@ const messages = defineMessages({
 		id: 'k76I/W',
 		defaultMessage: 'Delete wallet',
 	},
+	remove_confirm: {
+		id: '1fXPQ6',
+		defaultMessage: 'Are you sure you want to delete wallet?',
+	},
 })
 
 const General: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { isWallet } = useZdtState()
+	const { isWallet, confirm, removeSecret } = useZdtState()
 
 	const { keystore, changeKeystoreName } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -73,8 +77,10 @@ const General: React.FC = () => {
 		changeKeystoreName(keystore.id, event.target.value)
 	}
 
-	const handleRemoveWallet = () => {
-		navigate('/keystore/remove')
+	const handleRemoveWallet = async () => {
+		const password = await confirm(intl.formatMessage(messages.remove_confirm), intl.formatMessage(messages.remove))
+		await removeSecret(password)
+		navigate('/')
 	}
 
 	return (

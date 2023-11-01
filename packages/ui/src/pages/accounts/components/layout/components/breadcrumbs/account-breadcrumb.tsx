@@ -38,15 +38,7 @@ export const AccountBreadcrumb: React.FC<IProps> = ({ isLast }) => {
 	return (
 		<>
 			<ChevronRightIcon />
-			{isLast ? (
-				<Text>{displayName}</Text>
-			) : (
-				<Link to={`/accounts/${accountId}`}>
-					{accounts[accountId]?.name ||
-						getShortAddress(accounts[accountId]?.address) ||
-						intl.formatMessage(messages.account)}
-				</Link>
-			)}
+			{isLast ? <Text>{displayName}</Text> : <Link to={`/accounts/${accountId}`}>{displayName}</Link>}
 		</>
 	)
 }

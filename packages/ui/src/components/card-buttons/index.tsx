@@ -28,8 +28,15 @@ const messages = defineMessages({
 
 export const CardButtons: React.FC<IProps> = props => {
 	const { className } = props
-	const { accountId } = useParams()
+	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const intl = useIntl()
+
+	const qrValue = resourceId || accountId || '-'
+
+	const query = new URLSearchParams()
+	if (accountId !== '-') query.set('accountId', accountId)
+	if (resourceId) query.set('resourceId', resourceId)
+	if (rawNftId) query.set('nftId', rawNftId)
 
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
@@ -39,18 +46,20 @@ export const CardButtons: React.FC<IProps> = props => {
 					rounded
 					styleVariant="inverse"
 					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-					to={`/transfer?accountId=${accountId}`}
+					to={`/transfer?${query}`}
 				>
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>
-			<QrPopOver address={accountId}>
-				<ToolTip message={intl.formatMessage(messages.address)}>
-					<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'medium', tablet: 'large' }}>
-						<QrCode2Icon />
-					</Button>
-				</ToolTip>
-			</QrPopOver>
+			{qrValue !== '-' && (
+				<QrPopOver address={qrValue}>
+					<ToolTip message={intl.formatMessage(messages.address)}>
+						<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'medium', tablet: 'large' }}>
+							<QrCode2Icon />
+						</Button>
+					</ToolTip>
+				</QrPopOver>
+			)}
 		</Box>
 	)
 }

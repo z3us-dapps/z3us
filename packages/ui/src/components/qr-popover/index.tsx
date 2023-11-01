@@ -4,6 +4,7 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'ui/src/components/popover'
+import { QrStyled } from 'ui/src/components/qr-styled'
 import { Text } from 'ui/src/components/typography'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
@@ -40,7 +41,8 @@ export const QrPopOver: React.FC<IProps> = props => {
 							/>
 						</Box>
 						<Box>
-							<QRCodeSVG value={address} size={180} className={styles.qrPopOverCode} />
+							<QrStyled value={address} />
+							<QRCodeSVG value={address} />
 						</Box>
 					</Box>
 				</PopoverContent>

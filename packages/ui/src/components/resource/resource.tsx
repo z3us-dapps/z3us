@@ -1,7 +1,5 @@
-import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useParams } from 'react-router-dom'
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { Box } from 'ui/src/components/box'
@@ -23,6 +21,12 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { getStringMetadata } from 'ui/src/services/metadata'
 import { TimeFrames } from 'ui/src/types'
 
+import ComponentDetails from './components/component-details'
+import FungibleResourceDetails from './components/fungible-resource-details'
+import FungibleVaultDetails from './components/fungible-vault-details'
+import NonFungibleResourceDetails from './components/non-fungible-resource-details'
+import NonFungibleVaultDetails from './components/non-fungible-vault-details'
+import PackageDetails from './components/package-details'
 import * as styles from './styles.css'
 
 const DISPLAY_ROLES = ['burner', 'minter', 'freezer', 'recaller', 'depositor', 'withdrawer']
@@ -34,8 +38,8 @@ const messages = defineMessages({
 		defaultMessage: 'Back',
 	},
 	metadata: {
-		id: 'aCrVj1',
-		defaultMessage: 'Other details',
+		id: '8Q504V',
+		defaultMessage: 'Metadata',
 	},
 	roles: {
 		id: 'kAAlGL',
@@ -56,22 +60,6 @@ const messages = defineMessages({
 	details_address: {
 		id: 'e6Ph5+',
 		defaultMessage: 'Address',
-	},
-	details_divisibility: {
-		id: '3ngJR6',
-		defaultMessage: 'Divisibility',
-	},
-	details_total_supply: {
-		id: '/kI0V9',
-		defaultMessage: 'Total supply',
-	},
-	details_total_minted: {
-		id: 'ZYosl3',
-		defaultMessage: 'Total minted',
-	},
-	details_total_burned: {
-		id: '/B/zOD',
-		defaultMessage: 'Total burned',
 	},
 	burner: {
 		defaultMessage: 'Burnable',
@@ -99,17 +87,31 @@ const messages = defineMessages({
 	},
 })
 
-const TokenDetails: React.FC = () => {
-	const intl = useIntl()
-	const { resourceId } = useParams()
-	const { data, isLoading } = useEntityDetails(resourceId)
+const Details = {
+	Component: ComponentDetails,
+	FungibleResource: FungibleResourceDetails,
+	FungibleVault: FungibleVaultDetails,
+	NonFungibleResource: NonFungibleResourceDetails,
+	NonFungibleVault: NonFungibleVaultDetails,
+	Package: PackageDetails,
+}
 
+interface IProps {
+	resourceId: string
+	hideButtons?: boolean
+}
+
+const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
+	const intl = useIntl()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
+
+	const { data, isLoading } = useEntityDetails(resourceId)
 	const { data: knownAddresses } = useKnownAddresses()
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 
+	const DetailsComponent = Details[data?.details?.type]
 	const name = getStringMetadata('name', data?.metadata?.items)
 	const symbol = getStringMetadata('symbol', data?.metadata?.items)
 	const description = getStringMetadata('description', data?.metadata?.items)
@@ -152,6 +154,10 @@ const TokenDetails: React.FC = () => {
 	}, [resourceId, knownAddresses, udfHistory, marketData])
 
 	const metadata = useMemo(() => data?.metadata.items.filter(item => !IGNORE_METADATA.includes(item.key)) || [], [data])
+	const roles = useMemo(
+		() => data?.details?.role_assignments?.entries.filter(item => DISPLAY_ROLES.includes(item.role_key.name)) || [],
+		[data],
+	)
 
 	const renderTooltipContent = ({ active, payload }) => {
 		if (active && payload && payload.length) {
@@ -176,24 +182,31 @@ const TokenDetails: React.FC = () => {
 					<Text size="xlarge" weight="strong" color="strong" align="center">
 						{name}
 					</Text>
-					<Text size="xxxlarge" weight="medium" color="strong">
-						{intl.formatNumber(value, { style: 'currency', currency })}
-					</Text>
-					<Box display="flex" gap="xsmall">
-						<Text size="large">{`${intl.formatNumber(increase, { style: 'currency', currency })}`}</Text>
-						<RedGreenText size="large" change={change}>
-							{`(${intl.formatNumber(change, {
-								style: 'percent',
-								maximumFractionDigits: 2,
-							})})`}
-						</RedGreenText>
-					</Box>
-				</Box>
-				<Box display="flex" paddingTop="large" gap="large" position="relative">
-					<CardButtons />
+					{data?.details === 'FungibleResource' && (
+						<>
+							<Text size="xxxlarge" weight="medium" color="strong">
+								{intl.formatNumber(value, { style: 'currency', currency })}
+							</Text>
+							<Box display="flex" gap="xsmall">
+								<Text size="large">{`${intl.formatNumber(increase, { style: 'currency', currency })}`}</Text>
+								<RedGreenText size="large" change={change}>
+									{`(${intl.formatNumber(change, {
+										style: 'percent',
+										maximumFractionDigits: 2,
+									})})`}
+								</RedGreenText>
+							</Box>
+						</>
+					)}
 				</Box>
 
-				{udfHistory && (
+				{hideButtons !== true && (
+					<Box display="flex" paddingTop="large" paddingBottom="large" gap="large" position="relative">
+						<CardButtons />
+					</Box>
+				)}
+
+				{chartData.length > 0 && (
 					<>
 						<Box className={styles.chartBgWrapper}>
 							{/* // TODO: fix, this is not responsive but 99% works?? */}
@@ -277,82 +290,29 @@ const TokenDetails: React.FC = () => {
 							rightData={<Text size="xsmall">{name}</Text>}
 						/>
 
-						<AccountsTransactionInfo
-							leftTitle={
-								<Text size="xsmall" color="strong">
-									{intl.formatMessage(messages.symbol)}
-								</Text>
-							}
-							rightData={<Text size="xsmall">{symbol}</Text>}
-						/>
-
-						<AccountsTransactionInfo
-							leftTitle={
-								<Text size="xsmall" color="strong">
-									{intl.formatMessage(messages.details_divisibility)}
-								</Text>
-							}
-							rightData={<Text size="xsmall">{data?.details?.divisibility}</Text>}
-						/>
-
-						<AccountsTransactionInfo
-							leftTitle={
-								<Text size="xsmall" color="strong">
-									{intl.formatMessage(messages.details_total_supply)}
-								</Text>
-							}
-							rightData={
-								<Text size="xsmall">
-									{intl.formatNumber(parseFloat(data?.details?.total_supply) || 0, {
-										style: 'decimal',
-										maximumFractionDigits: 8,
-									})}
-								</Text>
-							}
-						/>
-
-						<AccountsTransactionInfo
-							leftTitle={
-								<Text size="xsmall" color="strong">
-									{intl.formatMessage(messages.details_total_minted)}
-								</Text>
-							}
-							rightData={
-								<Text size="xsmall">
-									{intl.formatNumber(parseFloat(data?.details?.total_minted) || 0, {
-										style: 'decimal',
-										maximumFractionDigits: 8,
-									})}
-								</Text>
-							}
-						/>
-
-						<AccountsTransactionInfo
-							leftTitle={
-								<Text size="xsmall" color="strong">
-									{intl.formatMessage(messages.details_total_burned)}
-								</Text>
-							}
-							rightData={
-								<Text size="xsmall">
-									{intl.formatNumber(parseFloat(data?.details?.total_burned) || 0, {
-										style: 'decimal',
-										maximumFractionDigits: 8,
-									})}
-								</Text>
-							}
-						/>
+						{symbol && (
+							<AccountsTransactionInfo
+								leftTitle={
+									<Text size="xsmall" color="strong">
+										{intl.formatMessage(messages.symbol)}
+									</Text>
+								}
+								rightData={<Text size="xsmall">{symbol}</Text>}
+							/>
+						)}
 					</Box>
 
-					<Box display="flex" flexDirection="column">
-						<Box paddingTop="xlarge">
-							<Text size="large" weight="medium" color="strong">
-								{intl.formatMessage(messages.roles)}
-							</Text>
-						</Box>
+					{data?.details && DetailsComponent && <DetailsComponent details={data.details} />}
 
-						{(data?.details as StateEntityDetailsResponseFungibleResourceDetails)?.role_assignments.entries.map(item =>
-							DISPLAY_ROLES.includes(item.role_key.name) ? (
+					{roles.length > 0 && (
+						<Box display="flex" flexDirection="column">
+							<Box paddingTop="xlarge">
+								<Text size="large" weight="medium" color="strong">
+									{intl.formatMessage(messages.roles)}
+								</Text>
+							</Box>
+
+							{roles.map(item => (
 								<AccountsTransactionInfo
 									key={item.role_key.name}
 									leftTitle={
@@ -371,9 +331,9 @@ const TokenDetails: React.FC = () => {
 										</Box>
 									}
 								/>
-							) : null,
-						)}
-					</Box>
+							))}
+						</Box>
+					)}
 
 					{metadata.length > 0 && (
 						<Box display="flex" flexDirection="column">
@@ -411,4 +371,4 @@ const TokenDetails: React.FC = () => {
 	)
 }
 
-export default TokenDetails
+export default ResourceDetails

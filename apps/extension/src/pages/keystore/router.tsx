@@ -8,7 +8,6 @@ const Options = lazy(() => import('./options'))
 const NewRadix = lazy(() => import('./radix'))
 const NewHW = lazy(() => import('./hardware-wallet'))
 const RestoreExtendedKey = lazy(() => import('./extended-key/restore'))
-const Remove = lazy(() => import('./remove'))
 
 const route = {
 	path: 'keystore',
@@ -37,24 +36,20 @@ const route = {
 					path: 'hardware-wallet',
 					element: <NewHW />,
 				},
-			],
-		},
-		{
-			path: 'restore',
-			children: [
 				{
-					path: 'seed',
-					element: <RestoreSeed />,
-				},
-				{
-					path: 'extended-key',
-					element: <RestoreExtendedKey />,
+					path: 'restore',
+					children: [
+						{
+							path: 'seed',
+							element: <RestoreSeed />,
+						},
+						{
+							path: 'extended-key',
+							element: <RestoreExtendedKey />,
+						},
+					],
 				},
 			],
-		},
-		{
-			path: 'remove',
-			element: <Remove />,
 		},
 	],
 }

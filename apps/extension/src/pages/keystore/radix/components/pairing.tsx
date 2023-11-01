@@ -1,24 +1,30 @@
 import { getExtensionOptions } from '@radixdlt/connector-extension/src/options'
 import { logger as utilsLogger } from '@radixdlt/connector-extension/src/utils/logger'
 import { ConnectorClient } from '@radixdlt/radix-connect-webrtc'
-import { QRCodeSVG } from 'qrcode.react'
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useNavigate } from 'react-router-dom'
 import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { Text } from 'ui/src/components/typography'
-import { useTheme } from 'ui/src/hooks/use-theme'
-import { Theme } from 'ui/src/types'
+import { ArrowLeftIcon } from 'ui/src/components/icons'
+import { QrStyled } from 'ui/src/components/qr-styled'
+import { Link, Text } from 'ui/src/components/typography'
 
 import { config, radixConnectConfig } from '@src/config'
 import { chromeLocalStore } from '@src/radix/storage-local'
 
+import * as styles from '../styles.css'
+
 const logger = utilsLogger.getSubLogger({ name: 'pairing' })
 
 const messages = defineMessages({
-	help: {
+	help_title: {
+		id: '0StBkT',
+		defaultMessage: 'Connect Radix mobile app',
+	},
+	help_sub_title: {
 		id: 'nHaknJ',
 		defaultMessage:
 			'Scan the QR code with the Radix Wallet app on your mobile phone to start using it with dApps in this web browser',
@@ -51,11 +57,7 @@ export const Pairing: React.FC<IProps> = ({
 	onPairingStateChange,
 }) => {
 	const intl = useIntl()
-	const { resolvedTheme } = useTheme()
-
-	const handleOpenRadix = () => {
-		window.open('https://radixdlt.com', '_blank', 'noreferrer')
-	}
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const connectorClient = ConnectorClient({
@@ -121,20 +123,23 @@ export const Pairing: React.FC<IProps> = ({
 	if (pairingState !== PairingState.NOT_PAIRED) return null
 
 	return (
-		<Box display="flex" flexDirection="column">
-			<Text>{intl.formatMessage(messages.help)}</Text>
-			<Box display="flex" justifyContent="center">
-				<QRCodeSVG
-					value={connectionPassword}
-					size={180}
-					fgColor={resolvedTheme === Theme.DARK ? '#a6a6a6' : '#161718'}
-					bgColor={resolvedTheme === Theme.DARK ? '#161718' : '#ffffff'}
-				/>
+		<Box className={styles.pairingWrapper}>
+			<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
+				<ArrowLeftIcon />
+			</Button>
+			<Box className={styles.pairingTextWrapper}>
+				<Text color="strong" size="xxlarge" weight="strong">
+					{intl.formatMessage(messages.help_title)}
+				</Text>
+				<Text>{intl.formatMessage(messages.help_sub_title)}</Text>
 			</Box>
-			<Box display="flex" width="full">
-				<Button styleVariant="ghost" onClick={handleOpenRadix}>
+			<Box className={styles.pairingQrWrapper}>
+				<QrStyled value={connectionPassword} size={200} />
+			</Box>
+			<Box className={styles.pairingLinkWrapper}>
+				<Link href="https://radixdlt.com" size="small" target="_blank">
 					{intl.formatMessage(messages.link)}
-				</Button>
+				</Link>
 			</Box>
 		</Box>
 	)

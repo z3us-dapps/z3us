@@ -6,12 +6,12 @@ import { z } from 'zod'
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
+import { generateId } from 'ui/src/utils/generate-id'
 
-import { useAddAccount } from '@src/hooks/use-add-account'
+import { getSecret } from '@src/crypto/secret'
 import { useMessageClient } from '@src/hooks/use-message-client'
 import type { Data } from '@src/types/vault'
 
@@ -61,14 +61,8 @@ interface IProps {
 export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext }) => {
 	const intl = useIntl()
 	const client = useMessageClient()
-	const networkId = useNetworkId()
-	const { keystoreId, addKeystore } = useSharedStore(state => ({
-		keystoreId: state.selectedKeystoreId,
+	const { addKeystore } = useSharedStore(state => ({
 		addKeystore: state.addKeystoreAction,
-	}))
-	const addAccount = useAddAccount()
-	const { accountIndexes } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
@@ -102,17 +96,21 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext 
 
 		setValidation(undefined)
 
+		const data = onSubmit()
+
 		const keystore: Keystore = {
-			id: keystoreId,
+			id: generateId(),
 			name: values.name,
 			type: keystoreType,
 		}
-		const data = onSubmit()
+		let ledgerDevice
+		if (keystoreType === KeystoreType.HARDWARE) {
+			ledgerDevice = JSON.parse(getSecret(data))
+		}
+		addKeystore(keystore.id, keystore.name, keystore.type, ledgerDevice)
 
-		addKeystore(keystore.id, keystore.name, keystore.type)
 		await client.storeInVault(keystore, data, values.password)
 		await client.unlockVault(values.password)
-		if (keystoreType !== KeystoreType.RADIX_WALLET && Object.keys(accountIndexes).length === 0) addAccount()
 
 		if (onNext) onNext()
 	}
