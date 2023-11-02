@@ -23,8 +23,10 @@ export type State = {
 	getSecret: (password: string) => Promise<string>
 	removeSecret: (password: string) => Promise<void>
 	confirm: (input: {
+		title: ReactNode
 		content: ReactNode
 		buttonTitle?: string
+		buttonStyleVariant?: string
 		ignorePassword?: boolean
 	}) => Promise<string>
 	buildNewPersonKeyParts: () => Promise<Partial<Persona>>

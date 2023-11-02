@@ -16,7 +16,7 @@ import * as alertStyles from 'ui/src/components/dialog-alert/dialog-alert.css'
 import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
-import { Button } from 'ui/src/components/router-button'
+import { Button, type TStyleVariant } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
@@ -47,13 +47,23 @@ const initialValues = {
 
 export interface IProps {
 	content: ReactNode
+	title: ReactNode
 	buttonTitle?: string
+	buttonStyleVariant?: TStyleVariant
 	ignorePassword?: boolean
 	onConfirm: (password: string) => void
 	onCancel: () => void
 }
 
-const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onConfirm, onCancel }) => {
+const SignModal: React.FC<IProps> = ({
+	title,
+	content,
+	buttonTitle,
+	buttonStyleVariant = 'primary',
+	ignorePassword,
+	onConfirm,
+	onCancel,
+}) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
@@ -86,21 +96,16 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onC
 		handleCancel()
 	}
 
-	// TODO: need title and content ??
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const title = null
-
 	return (
 		<AlertDialog open={isOpen}>
 			<AlertDialogPortal>
 				<AlertDialogOverlay className={alertStyles.alertDialogOverlay} />
 				<AlertDialogContent className={alertStyles.alertDialogContent} onEscapeKeyDown={handleEscapeKeyDown}>
 					<Box className={styles.signAlertDialogContentWrapper}>
-						{/* TODO: needs to be title NOT `content` */}
-						{content && (
+						{title && (
 							<AlertDialogTitle>
 								<Text size="xlarge" weight="strong" color="strong">
-									{content}
+									{title}
 								</Text>
 							</AlertDialogTitle>
 						)}
@@ -130,7 +135,7 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onC
 								</Button>
 							</AlertDialogClose>
 							<SubmitButton>
-								<Button sizeVariant="small" styleVariant="destructive">
+								<Button sizeVariant="small" styleVariant={buttonStyleVariant}>
 									{buttonTitle || intl.formatMessage(messages.form_button_title)}
 								</Button>
 							</SubmitButton>
