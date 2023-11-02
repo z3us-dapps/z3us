@@ -108,18 +108,12 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 
 	const handleRemoveAccount = async () => {
 		await confirm({
+			title: intl.formatMessage(messages.delete_account),
 			content: intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
 			buttonTitle: intl.formatMessage(messages.delete_account),
+			buttonStyleVariant: 'destructive',
 			ignorePassword: true,
 		})
-
-		// TODO?: improve api so easier to read?
-		// await confirm({
-		// 	title: 'Do you want to confirm?',
-		// 	subTitle: 'Are you sure, you can add it again any time',
-		// 	confirmButtonTitle: 'yes, delete'
-		// 	confirmButtonVariant: 'danger'
-		// })
 
 		removeAccount(networkId, address)
 	}

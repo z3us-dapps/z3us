@@ -69,9 +69,7 @@ export const WalletSecretForm: React.FC<IProps> = ({ onUnlock }) => {
 				/>
 			</Box>
 			<SubmitButton>
-				<Button sizeVariant="small" styleVariant="destructive">
-					{intl.formatMessage(messages.form_button_title)}
-				</Button>
+				<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title)}</Button>
 			</SubmitButton>
 		</Form>
 	)

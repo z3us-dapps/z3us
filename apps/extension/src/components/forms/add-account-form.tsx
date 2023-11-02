@@ -58,9 +58,7 @@ const AddAccountForm: React.FC = () => {
 			<TextField name="name" placeholder={intl.formatMessage(messages.name)} />
 
 			<SubmitButton>
-				<Button sizeVariant="small" styleVariant="destructive">
-					{intl.formatMessage(messages.form_button_title)}
-				</Button>
+				<Button sizeVariant="small">{intl.formatMessage(messages.form_button_title)}</Button>
 			</SubmitButton>
 		</Form>
 	)

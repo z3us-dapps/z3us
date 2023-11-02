@@ -137,9 +137,7 @@ export const Deploy: React.FC = () => {
 			<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
 			<DeployFormFields />
 			<SubmitButton>
-				<Button sizeVariant="small" styleVariant="destructive">
-					{intl.formatMessage(messages.submit_button)}
-				</Button>
+				<Button sizeVariant="large">{intl.formatMessage(messages.submit_button)}</Button>
 			</SubmitButton>
 		</Form>
 	)

@@ -134,9 +134,7 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext 
 					sizeVariant="large"
 				/>
 				<SubmitButton>
-					<Button sizeVariant="small" styleVariant="destructive">
-						{intl.formatMessage(messages.form_button_title)}
-					</Button>
+					<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title)}</Button>
 				</SubmitButton>
 			</Box>
 		</Form>

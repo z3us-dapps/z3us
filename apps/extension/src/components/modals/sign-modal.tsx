@@ -1,18 +1,20 @@
+import type { TStyleVariant } from 'packages/ui/src/components/button'
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import {
-	AlertDialog,
-	AlertDialogClose,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogOverlay,
-	AlertDialogPortal,
-	AlertDialogTitle,
-} from 'ui/src/components/dialog-alert'
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogOverlay,
+	DialogPortal,
+	DialogRoot,
+	DialogTitle,
+} from 'ui/src/components/dialog'
 import * as alertStyles from 'ui/src/components/dialog-alert/dialog-alert.css'
+import * as dialogStyles from 'ui/src/components/dialog/styles.css'
 import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
@@ -47,13 +49,23 @@ const initialValues = {
 
 export interface IProps {
 	content: ReactNode
+	title: ReactNode
 	buttonTitle?: string
+	buttonStyleVariant?: TStyleVariant
 	ignorePassword?: boolean
 	onConfirm: (password: string) => void
 	onCancel: () => void
 }
 
-const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onConfirm, onCancel }) => {
+const SignModal: React.FC<IProps> = ({
+	title,
+	content,
+	buttonTitle,
+	buttonStyleVariant = 'primary',
+	ignorePassword,
+	onConfirm,
+	onCancel,
+}) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
@@ -86,28 +98,31 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onC
 		handleCancel()
 	}
 
-	// TODO: need title and content ??
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const title = null
+	const handleOnInteractOutside = () => {
+		handleCancel()
+	}
 
 	return (
-		<AlertDialog open={isOpen}>
-			<AlertDialogPortal>
-				<AlertDialogOverlay className={alertStyles.alertDialogOverlay} />
-				<AlertDialogContent className={alertStyles.alertDialogContent} onEscapeKeyDown={handleEscapeKeyDown}>
+		<DialogRoot open={isOpen}>
+			<DialogPortal>
+				<DialogOverlay className={dialogStyles.dialogOverlay} />
+				<DialogContent
+					className={alertStyles.alertDialogContent}
+					onEscapeKeyDown={handleEscapeKeyDown}
+					onInteractOutside={handleOnInteractOutside}
+				>
 					<Box className={styles.signAlertDialogContentWrapper}>
-						{/* TODO: needs to be title NOT `content` */}
-						{content && (
-							<AlertDialogTitle>
+						{title && (
+							<DialogTitle>
 								<Text size="xlarge" weight="strong" color="strong">
-									{content}
+									{title}
 								</Text>
-							</AlertDialogTitle>
+							</DialogTitle>
 						)}
 						{content && (
-							<AlertDialogDescription>
+							<DialogDescription>
 								<Text>{content}</Text>
-							</AlertDialogDescription>
+							</DialogDescription>
 						)}
 					</Box>
 					<Form onSubmit={handleSubmit} initialValues={initialValues} className={styles.signAlertDialogFormWrapper}>
@@ -124,21 +139,21 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onC
 							</Box>
 						)}
 						<Box className={styles.signAlertDialogFormFooterWrapper}>
-							<AlertDialogClose asChild>
+							<DialogClose asChild>
 								<Button sizeVariant="small" styleVariant="secondary" onClick={handleCancel}>
 									{intl.formatMessage(messages.close)}
 								</Button>
-							</AlertDialogClose>
+							</DialogClose>
 							<SubmitButton>
-								<Button sizeVariant="small" styleVariant="destructive">
+								<Button sizeVariant="small" styleVariant={buttonStyleVariant}>
 									{buttonTitle || intl.formatMessage(messages.form_button_title)}
 								</Button>
 							</SubmitButton>
 						</Box>
 					</Form>
-				</AlertDialogContent>
-			</AlertDialogPortal>
-		</AlertDialog>
+				</DialogContent>
+			</DialogPortal>
+		</DialogRoot>
 	)
 }
 

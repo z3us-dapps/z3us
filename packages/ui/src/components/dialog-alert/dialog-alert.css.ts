@@ -47,7 +47,7 @@ export const alertDialogContent = style([
 	}),
 	{
 		...sharedPopoverBgStyles,
-		zIndex: 1,
+		zIndex: 2,
 		position: 'absolute',
 		top: '50%',
 		transform: 'translate(-50%, -50%)',
