@@ -5,4 +5,4 @@ export enum MessageAction {
 	APP_INTERACTION_CANCEL = 'v1-app-interaction-cancel',
 }
 
-export type WalletInteractionWithTabId = WalletInteraction & { fromTabId: number }
+export type WalletInteractionWithTabId = WalletInteraction & { fromTabId: number; senderURl: string }

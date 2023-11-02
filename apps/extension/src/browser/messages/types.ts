@@ -18,21 +18,23 @@ export type MessageAction =
 
 export type Message = {
 	messageId: string
-	fromTabId?: number
 	action: MessageAction
 	source: MessageSource
 	target: MessageSource
 	payload: any
+	fromTabId?: number
+	senderUrl?: string
 }
 
 export type ResponseMessageData = { payload?: any; error?: string }
 
 export type ResponseMessage = {
 	messageId: string
-	fromTabId?: number
 	action: MessageAction
 	source: MessageSource
 	target: MessageSource
+	fromTabId?: number
+	senderUrl?: string
 } & ResponseMessageData
 
 export type MessageHandler = (message: Message) => Promise<any>

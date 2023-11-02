@@ -4978,9 +4978,9 @@
   dependencies:
     lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.2.2":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.3.0":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#d13afc2f5c55da092476fe3b0e192829faa32df9"
+  resolved "https://github.com/radixdlt/connector-extension#4227000b9daaed10b64458ce441b007e53cf3b05"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"

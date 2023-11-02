@@ -133,6 +133,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 					discriminator: 'success',
 					items: response,
 					interactionId,
+					metadata: { origin: new URL(interaction.senderURl).origin },
 				}),
 			)
 			if (response.auth?.persona?.identityAddress && response.ongoingAccounts?.accounts?.length > 0) {
@@ -148,8 +149,9 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 				interaction.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					discriminator: 'failure',
-					interactionId,
 					error: intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message }),
+					interactionId,
+					metadata: { origin: new URL(interaction.senderURl).origin },
 				}),
 			)
 		} finally {

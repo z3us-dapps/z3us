@@ -100,6 +100,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 						},
 					},
 					interactionId,
+					metadata: { origin: new URL(interaction.senderURl).origin },
 				}),
 			)
 		} catch (error) {
@@ -107,8 +108,9 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 				interaction.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					discriminator: 'failure',
-					interactionId,
 					error: intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message }),
+					interactionId,
+					metadata: { origin: new URL(interaction.senderURl).origin },
 				}),
 			)
 		} finally {

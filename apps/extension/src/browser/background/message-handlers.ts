@@ -174,7 +174,7 @@ async function handleRadixMessage(message: Message) {
 			return createRadixMessage.sendMessageEventToDapp(
 				radixMessageSource.contentScript,
 				radixMsg.messageEvent,
-				radixMsg.interactionId,
+				radixMsg.data,
 			)
 		case messageDiscriminator.walletResponse:
 			return radixMsg.data
@@ -216,6 +216,7 @@ async function handleRadixMessage(message: Message) {
 											...(radixMsg.data?.metadata || {}),
 										},
 										fromTabId: message.fromTabId,
+										senderURl: message.senderUrl,
 									} as WalletInteractionWithTabId).then(() => openAppPopup(`#/interaction/${interactionId}`))
 									break
 							}
@@ -224,7 +225,7 @@ async function handleRadixMessage(message: Message) {
 						return createRadixMessage.sendMessageEventToDapp(
 							radixMessageSource.contentScript,
 							messageLifeCycleEvent.receivedByExtension,
-							interactionId,
+							{ interactionId, metadata: { origin: new URL(message.senderUrl).origin } },
 						)
 					} catch (error) {
 						// eslint-disable-next-line no-console

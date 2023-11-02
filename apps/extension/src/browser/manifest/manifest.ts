@@ -70,6 +70,7 @@ const manifest: ManifestV3Export = {
 			js: ['src/browser/content-script.ts'],
 			matches: contentScriptsMatches,
 			run_at: 'document_idle',
+			all_frames: true,
 		},
 	],
 	content_security_policy: {
