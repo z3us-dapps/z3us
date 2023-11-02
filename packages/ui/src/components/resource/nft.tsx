@@ -67,30 +67,32 @@ const Nft: React.FC = () => {
 					<CardButtons />
 				</Box>
 
-				{fields.length > 0 && (
-					<Box display="flex" flexDirection="column">
-						<Box marginTop="xsmall" paddingBottom="medium">
-							<Text size="medium" weight="medium" color="strong">
-								{intl.formatMessage(messages.data)}
-							</Text>
+				<Box className={styles.tokenSummaryWrapper}>
+					{fields.length > 0 && (
+						<Box display="flex" flexDirection="column">
+							<Box paddingTop="xlarge">
+								<Text size="large" weight="medium" color="strong">
+									{intl.formatMessage(messages.data)}
+								</Text>
+							</Box>
+							{fields.map(field => (
+								<AccountsTransactionInfo
+									key={field.field_name}
+									leftTitle={
+										<Text size="xsmall" color="strong">
+											{(field.field_name || ('' as string)).toUpperCase()}
+										</Text>
+									}
+									rightData={
+										<Text size="xsmall">
+											<FieldValue field={field} />
+										</Text>
+									}
+								/>
+							))}
 						</Box>
-						{fields.map(field => (
-							<AccountsTransactionInfo
-								key={field.field_name}
-								leftTitle={
-									<Text size="large" color="strong">
-										{(field.field_name || ('' as string)).toUpperCase()}
-									</Text>
-								}
-								rightData={
-									<Text size="small">
-										<FieldValue field={field} />
-									</Text>
-								}
-							/>
-						))}
-					</Box>
-				)}
+					)}
+				</Box>
 			</Box>
 		</Box>
 	)
