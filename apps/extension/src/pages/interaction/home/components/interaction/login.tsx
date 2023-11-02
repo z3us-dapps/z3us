@@ -5,8 +5,6 @@ import type {
 	WalletAuthorizedRequestResponseItems,
 	WalletUnauthorizedRequestItems,
 } from '@radixdlt/radix-dapp-toolkit'
-import { useAddressBook } from 'packages/ui/src/hooks/use-address-book'
-import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -15,8 +13,10 @@ import browser from 'webextension-polyfill'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ApprovedDapps, Personas } from 'ui/src/store/types'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useAccountsData } from '@src/hooks/interaction/use-accounts-data'
