@@ -56,7 +56,7 @@ async function importAccount(
 
 async function importKeystore(keystore: Keystore) {
 	try {
-		if (keystore.type !== KeystoreType.LOCAL && keystore.type !== KeystoreType.HARDWARE) return null
+		if (keystore.type !== KeystoreType.LOCAL) return null
 
 		const oldNoneSharedStore = await browser.storage.local.get(`z3us-store-${keystore.id}`)
 		if (!oldNoneSharedStore[`z3us-store-${keystore.id}`]) return null
