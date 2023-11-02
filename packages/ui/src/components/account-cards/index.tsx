@@ -107,11 +107,11 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
 
 	const handleRemoveAccount = async () => {
-		await confirm(
-			intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
-			intl.formatMessage(messages.delete_account),
-			false,
-		)
+		await confirm({
+			content: intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
+			buttonTitle: intl.formatMessage(messages.delete_account),
+			ignorePassword: true,
+		})
 
 		// TODO?: improve api so easier to read?
 		// await confirm({

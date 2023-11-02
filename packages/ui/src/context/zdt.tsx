@@ -22,7 +22,11 @@ export type State = {
 	unlock: (password: string) => Promise<void>
 	getSecret: (password: string) => Promise<string>
 	removeSecret: (password: string) => Promise<void>
-	confirm: (content: ReactNode, buttonTitle?: string, requirePassword?: boolean) => Promise<string>
+	confirm: (input: {
+		content: ReactNode
+		buttonTitle?: string
+		ignorePassword?: boolean
+	}) => Promise<string>
 	buildNewPersonKeyParts: () => Promise<Partial<Persona>>
 	buildNewAccountKeyParts: (legacy: boolean) => Promise<Partial<Account>>
 }

@@ -47,7 +47,7 @@ export const useAccountsData = () => {
 		): Promise<AccountProof[]> => {
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL:
-					const password = await confirm(intl.formatMessage(messages.account_challenge))
+					const password = await confirm({ content: intl.formatMessage(messages.account_challenge) })
 					return Promise.all<AccountProof>(
 						needSignaturesFrom.map(async address => {
 							const signatureWithPublicKey = await client.signToSignatureWithPublicKey(

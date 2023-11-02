@@ -78,7 +78,10 @@ const General: React.FC = () => {
 	}
 
 	const handleRemoveWallet = async () => {
-		const password = await confirm(intl.formatMessage(messages.remove_confirm), intl.formatMessage(messages.remove))
+		const password = await confirm({
+			content: intl.formatMessage(messages.remove_confirm),
+			buttonTitle: intl.formatMessage(messages.remove),
+		})
 		await removeSecret(password)
 		navigate('/')
 	}
