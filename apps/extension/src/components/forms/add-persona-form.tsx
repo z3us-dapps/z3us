@@ -1,9 +1,9 @@
-import { Button } from '@radixdlt/connector-extension/src/components'
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
+import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
@@ -56,11 +56,8 @@ const AddPersonaForm: React.FC = () => {
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 			<TextField name="name" placeholder={intl.formatMessage(messages.name)} />
-
 			<SubmitButton>
-				<Button size="small" styleVariant="destructive">
-					{intl.formatMessage(messages.form_button_title)}
-				</Button>
+				<Button sizeVariant="small">{intl.formatMessage(messages.form_button_title)}</Button>
 			</SubmitButton>
 		</Form>
 	)

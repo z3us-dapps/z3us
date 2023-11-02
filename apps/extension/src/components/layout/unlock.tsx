@@ -98,7 +98,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 					sizeVariant="medium"
 				/>
 				<SubmitButton>
-					<Button sizeVariant="small" styleVariant="destructive">
+					<Button sizeVariant="large" fullWidth>
 						{intl.formatMessage(messages.form_button_title)}
 					</Button>
 				</SubmitButton>

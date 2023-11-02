@@ -223,9 +223,7 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 				<TextField name="number" placeholder={intl.formatMessage(messages.phone_number)} />
 			</FieldsGroup>
 			<SubmitButton>
-				<Button sizeVariant="small" styleVariant="destructive">
-					{intl.formatMessage(messages.form_button_title)}
-				</Button>
+				<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title)}</Button>
 			</SubmitButton>
 		</Form>
 	)
