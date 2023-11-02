@@ -63,7 +63,8 @@ const Nft: React.FC = () => {
 					</Text>
 					<Text size="small">{description}</Text>
 				</Box>
-				<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
+
+				<Box display="flex" paddingTop="large" paddingBottom="large" gap="large" position="relative">
 					<CardButtons />
 				</Box>
 
