@@ -12,6 +12,7 @@ import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { getStringNftData } from 'ui/src/services/metadata'
 
 import FieldValue from './components/field-value'
+import * as styles from './styles.css'
 
 const IGNORE_DATA = ['name', 'description', 'key_image_url']
 
@@ -53,11 +54,11 @@ const Nft: React.FC = () => {
 	return (
 		<Box flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
-				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+				<Box className={styles.assetInfoWrapper}>
 					<Box paddingBottom="small">
-						<NftImageIcon address={resourceId} id={nftId} />
+						<NftImageIcon address={resourceId} id={nftId} size="xlarge" rounded={false} className={styles.nftIcon} />
 					</Box>
-					<Text size="large" color="strong">
+					<Text size="xlarge" weight="strong" color="strong" align="center">
 						{`${name} ${nftId} ${data?.is_burned === true ? intl.formatMessage(messages.burned) : ''}`}
 					</Text>
 					<Text size="small">{description}</Text>

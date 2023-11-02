@@ -25,7 +25,6 @@ export const assetInfoWrapper = style([
 			mobile: 'small',
 			tablet: 'xlarge',
 		},
-		paddingX: 'xlarge',
 	}),
 	{},
 ])
@@ -40,6 +39,14 @@ export const chartBgWrapper = style([
 		mobile: { height: '160px' },
 		tablet: { height: '200px' },
 	}),
+])
+
+export const nftIcon = style([
+	sprinkles({
+		width: 'full',
+		height: 'full',
+	}),
+	{ height: '350px', width: '350px' },
 ])
 
 export const accountCardButtonWrapper = style([
