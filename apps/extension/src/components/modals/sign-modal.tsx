@@ -48,8 +48,8 @@ const initialValues = {
 }
 
 export interface IProps {
+	title?: ReactNode
 	content: ReactNode
-	title: ReactNode
 	buttonTitle?: string
 	buttonStyleVariant?: TStyleVariant
 	ignorePassword?: boolean
