@@ -46,21 +46,21 @@ const NonFungibleResourceDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xsmall" color="strong">
+					<Text size="xxsmall" color="strong" weight="medium" truncate>
 						{intl.formatMessage(messages.non_fungible_id_type)}
 					</Text>
 				}
-				rightData={<Text size="xsmall">{details.non_fungible_id_type}</Text>}
+				rightData={<Text size="xxsmall">{details.non_fungible_id_type}</Text>}
 			/>
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xsmall" color="strong">
+					<Text size="xxsmall" color="strong" weight="medium" truncate>
 						{intl.formatMessage(messages.total_supply)}
 					</Text>
 				}
 				rightData={
-					<Text size="xsmall">
+					<Text size="xxsmall">
 						{intl.formatNumber(parseFloat(details.total_supply) || 0, {
 							style: 'decimal',
 							maximumFractionDigits: 8,
@@ -71,12 +71,12 @@ const NonFungibleResourceDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xsmall" color="strong">
+					<Text size="xxsmall" color="strong" weight="medium" truncate>
 						{intl.formatMessage(messages.total_minted)}
 					</Text>
 				}
 				rightData={
-					<Text size="xsmall">
+					<Text size="xxsmall">
 						{intl.formatNumber(parseFloat(details.total_minted) || 0, {
 							style: 'decimal',
 							maximumFractionDigits: 8,
@@ -87,12 +87,12 @@ const NonFungibleResourceDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xsmall" color="strong">
+					<Text size="xxsmall" color="strong" weight="medium" truncate>
 						{intl.formatMessage(messages.total_burned)}
 					</Text>
 				}
 				rightData={
-					<Text size="xsmall">
+					<Text size="xxsmall">
 						{intl.formatNumber(parseFloat(details.total_burned) || 0, {
 							style: 'decimal',
 							maximumFractionDigits: 8,
