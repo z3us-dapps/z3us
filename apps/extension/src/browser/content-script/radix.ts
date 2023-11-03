@@ -10,9 +10,9 @@ import { logger as utilsLogger } from '@radixdlt/connector-extension/src/utils/l
 import { ResultAsync, errAsync, okAsync } from 'neverthrow'
 import browser from 'webextension-polyfill'
 
-const logger = utilsLogger.getSubLogger({ name: 'content-script' })
+export const logger = utilsLogger.getSubLogger({ name: 'content-script' })
 
-export const chromeDAppClient: ChromeDAppClientType = ChromeDAppClient()
+export const chromeDAppClient: ChromeDAppClientType = ChromeDAppClient(logger)
 
 export const sendRadixMessageToDapp: ContentScriptMessageHandlerOptions['sendMessageToDapp'] = message => {
 	const result = chromeDAppClient.sendMessage(message)
@@ -52,7 +52,7 @@ export const sendRadixMessage: SendMessage = (message, tabId) => {
 	}))
 }
 
-export const radixMessageHandler: any = RadixMessageClient(
+export const radixMessageHandler = RadixMessageClient(
 	ContentScriptMessageHandler({
 		sendMessageToDapp: sendRadixMessageToDapp,
 		sendMessageEventToDapp: sendRadixMessageEventToDapp,

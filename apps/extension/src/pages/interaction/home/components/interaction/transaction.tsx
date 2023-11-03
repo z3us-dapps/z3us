@@ -100,7 +100,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 						},
 					},
 					interactionId,
-					metadata: { origin: new URL(interaction.senderURl).origin },
+					metadata: interaction.metadata,
 				}),
 			)
 		} catch (error) {
@@ -110,7 +110,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					discriminator: 'failure',
 					error: intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message }),
 					interactionId,
-					metadata: { origin: new URL(interaction.senderURl).origin },
+					metadata: interaction.metadata,
 				}),
 			)
 		} finally {
