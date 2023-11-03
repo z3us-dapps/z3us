@@ -40,6 +40,8 @@ export const useEntitiesDetails = (
 						.then(resp => resp.items)
 				: [],
 		enabled: !!state,
+		staleTime: 30 * 1000,
+		refetchInterval: 30 * 1000,
 	})
 }
 
