@@ -258,73 +258,41 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 					</>
 				)}
 				<Box className={styles.tokenSummaryWrapper}>
-					<Text size="large" weight="medium" color="strong">
-						{intl.formatMessage(messages.summary)}
-					</Text>
-					<Box paddingTop="xsmall">
-						<Text size="xxsmall">{description}</Text>
-					</Box>
-
-					{tags.length > 0 && (
-						<Box paddingTop="medium" className={styles.tagsWrapper}>
-							{tags.map(tag => (
-								<Box key={tag} className={styles.tag}>
-									<Button fullWidth sizeVariant="xsmall" styleVariant="tertiary" rounded disabled>
-										{tag}
-									</Button>
-								</Box>
-							))}
+					<Box display="flex" flexDirection="column">
+						<Text size="large" weight="medium" color="strong">
+							{intl.formatMessage(messages.summary)}
+						</Text>
+						<Box paddingTop="xsmall">
+							<Text size="xxsmall">{description}</Text>
 						</Box>
-					)}
 
-					<AccountsTransactionInfo
-						leftTitle={
-							<Text size="xsmall" color="strong">
-								{intl.formatMessage(messages.details_address)}
-							</Text>
-						}
-						rightData={
-							<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-								<Text size="xsmall" truncate>
-									{resourceId}
-								</Text>
-								<CopyAddressButton
-									styleVariant="ghost"
-									sizeVariant="xsmall"
-									address={resourceId}
-									iconOnly
-									rounded={false}
-									tickColor="colorStrong"
-								/>
+						{tags.length > 0 && (
+							<Box paddingTop="medium" className={styles.tagsWrapper}>
+								{tags.map(tag => (
+									<Box key={tag} className={styles.tag}>
+										<Button fullWidth sizeVariant="xsmall" styleVariant="tertiary" rounded disabled>
+											{tag}
+										</Button>
+									</Box>
+								))}
 							</Box>
-						}
-					/>
+						)}
 
-					<AccountsTransactionInfo
-						leftTitle={
-							<Text size="xsmall" color="strong">
-								{intl.formatMessage(messages.name)}
-							</Text>
-						}
-						rightData={<Text size="xsmall">{name}</Text>}
-					/>
-
-					{symbol && (
 						<AccountsTransactionInfo
 							leftTitle={
 								<Text size="xxsmall" color="strong" weight="medium">
-									{intl.formatMessage(messages.symbol)}
+									{intl.formatMessage(messages.details_address)}
 								</Text>
 							}
 							rightData={
 								<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-									<Text size="xsmall" truncate>
-										{symbol}
+									<Text size="xxsmall" truncate>
+										{resourceId}
 									</Text>
 									<CopyAddressButton
 										styleVariant="ghost"
 										sizeVariant="xsmall"
-										address={symbol}
+										address={resourceId}
 										iconOnly
 										rounded={false}
 										tickColor="colorStrong"
@@ -332,57 +300,85 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 								</Box>
 							}
 						/>
-					)}
 
-					{validator && (
 						<AccountsTransactionInfo
 							leftTitle={
 								<Text size="xxsmall" color="strong" weight="medium">
-									{intl.formatMessage(messages.validator)}
+									{intl.formatMessage(messages.name)}
 								</Text>
 							}
 							rightData={
-								<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-									<Text size="xsmall" truncate>
-										{validator}
-									</Text>
-									<CopyAddressButton
-										styleVariant="ghost"
-										sizeVariant="xsmall"
-										address={validator}
-										iconOnly
-										rounded={false}
-										tickColor="colorStrong"
-									/>
-								</Box>
+								<Text size="xxsmall" truncate>
+									{name}
+								</Text>
 							}
 						/>
-					)}
 
-					{pool && (
-						<AccountsTransactionInfo
-							leftTitle={
-								<Text size="xxsmall" color="strong" weight="medium">
-									{intl.formatMessage(messages.pool)}
-								</Text>
-							}
-							rightData={
-								<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-									<Text size="xsmall" truncate>
-										{pool}
+						{symbol && (
+							<AccountsTransactionInfo
+								leftTitle={
+									<Text size="xxsmall" color="strong" weight="medium">
+										{intl.formatMessage(messages.symbol)}
 									</Text>
-									<CopyAddressButton
-										styleVariant="ghost"
-										sizeVariant="xsmall"
-										address={pool}
-										iconOnly
-										rounded={false}
-										tickColor="colorStrong"
-									/>
-								</Box>
-							}
-						/>
-					)}
+								}
+								rightData={
+									<Text size="xxsmall" truncate>
+										{symbol.toUpperCase()}
+									</Text>
+								}
+							/>
+						)}
+
+						{validator && (
+							<AccountsTransactionInfo
+								leftTitle={
+									<Text size="xxsmall" color="strong" weight="medium">
+										{intl.formatMessage(messages.validator)}
+									</Text>
+								}
+								rightData={
+									<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+										<Text size="xxsmall" truncate>
+											{validator}
+										</Text>
+										<CopyAddressButton
+											styleVariant="ghost"
+											sizeVariant="xsmall"
+											address={validator}
+											iconOnly
+											rounded={false}
+											tickColor="colorStrong"
+										/>
+									</Box>
+								}
+							/>
+						)}
+
+						{pool && (
+							<AccountsTransactionInfo
+								leftTitle={
+									<Text size="xxsmall" color="strong" weight="medium">
+										{intl.formatMessage(messages.pool)}
+									</Text>
+								}
+								rightData={
+									<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+										<Text size="xxsmall" truncate>
+											{pool}
+										</Text>
+										<CopyAddressButton
+											styleVariant="ghost"
+											sizeVariant="xsmall"
+											address={pool}
+											iconOnly
+											rounded={false}
+											tickColor="colorStrong"
+										/>
+									</Box>
+								}
+							/>
+						)}
+					</Box>
 
 					{data?.details && DetailsComponent && <DetailsComponent details={data.details} />}
 

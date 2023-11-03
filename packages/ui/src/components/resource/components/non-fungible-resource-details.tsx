@@ -46,21 +46,25 @@ const NonFungibleResourceDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xxsmall" color="strong" weight="medium" truncate>
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.non_fungible_id_type)}
 					</Text>
 				}
-				rightData={<Text size="xxsmall">{details.non_fungible_id_type}</Text>}
+				rightData={
+					<Text size="xxsmall" truncate>
+						{details.non_fungible_id_type}
+					</Text>
+				}
 			/>
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xxsmall" color="strong" weight="medium" truncate>
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.total_supply)}
 					</Text>
 				}
 				rightData={
-					<Text size="xxsmall">
+					<Text size="xxsmall" truncate>
 						{intl.formatNumber(parseFloat(details.total_supply) || 0, {
 							style: 'decimal',
 							maximumFractionDigits: 8,
@@ -71,12 +75,12 @@ const NonFungibleResourceDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xxsmall" color="strong" weight="medium" truncate>
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.total_minted)}
 					</Text>
 				}
 				rightData={
-					<Text size="xxsmall">
+					<Text size="xxsmall" truncate>
 						{intl.formatNumber(parseFloat(details.total_minted) || 0, {
 							style: 'decimal',
 							maximumFractionDigits: 8,
@@ -87,12 +91,12 @@ const NonFungibleResourceDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xxsmall" color="strong" weight="medium" truncate>
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.total_burned)}
 					</Text>
 				}
 				rightData={
-					<Text size="xxsmall">
+					<Text size="xxsmall" truncate>
 						{intl.formatNumber(parseFloat(details.total_burned) || 0, {
 							style: 'decimal',
 							maximumFractionDigits: 8,
