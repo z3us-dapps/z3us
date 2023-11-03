@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
@@ -25,7 +25,7 @@ export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; relo
 		}
 	}, [])
 
-	useMemo(() => {
+	useEffect(() => {
 		client
 			.isVaultUnlocked()
 			.then(isVaultUnlocked => setIsUnlocked(isVaultUnlocked))
