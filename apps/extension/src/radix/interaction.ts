@@ -20,7 +20,7 @@ export const saveInteractions = async (interaction: WalletInteractionWithTabId) 
 
 export const getInteraction = async (interactionId: string): Promise<WalletInteractionWithTabId> => {
 	if (!interactionId) {
-		throw new Error('Invalid keystore!')
+		throw new Error('Invalid interaction!')
 	}
 
 	const itemKey = `${storageKey}-${interactionId}`
@@ -36,7 +36,7 @@ export const getInteraction = async (interactionId: string): Promise<WalletInter
 
 export const removeInteraction = async (interactionId: string) => {
 	if (!interactionId) {
-		throw new Error('Invalid keystore!')
+		throw new Error('Invalid interaction!')
 	}
 
 	const itemKey = `${storageKey}-${interactionId}`

@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
@@ -72,6 +72,7 @@ const TabTitle: React.FC = () => {
 
 export const MobileScrollingButtons: React.FC = () => {
 	const intl = useIntl()
+	const [searchParams, setSearchParams] = useSearchParams()
 	const { scrollableNode } = useScroll()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)
@@ -88,12 +89,12 @@ export const MobileScrollingButtons: React.FC = () => {
 		}
 	}
 
-	const generateAccountLink = (isActivity = false) => {
-		const [path, params] = window.location.hash.substring(1).split('?')
-		const query = new URLSearchParams(params)
-		query.set('acts', `${isActivity}`)
-		return `${path}?${query}`
-	}
+	const handleClick =
+		(isActivity = false) =>
+		() => {
+			searchParams.set('acts', `${isActivity}`)
+			setSearchParams(searchParams)
+		}
 
 	useEffect(() => {
 		if (entry?.isIntersecting) {
@@ -114,7 +115,7 @@ export const MobileScrollingButtons: React.FC = () => {
 				<Box className={styles.tabsWrapper}>
 					<Link
 						underline="never"
-						to={generateAccountLink()}
+						onClick={handleClick()}
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonLeft,
@@ -128,7 +129,7 @@ export const MobileScrollingButtons: React.FC = () => {
 					</Link>
 					<Link
 						underline="never"
-						to={generateAccountLink(true)}
+						onClick={handleClick(true)}
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,

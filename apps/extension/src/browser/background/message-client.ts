@@ -45,7 +45,8 @@ export const MessageClient = (logger: AppLogger) => {
 					throw new Error(`Invalid target: ${target}`)
 				}
 
-				message.fromTabId = message.fromTabId || port.sender?.tab?.id
+				message.fromTabId = message.fromTabId || port.sender.tab?.id
+				message.senderUrl = message.senderUrl || port.sender.url
 
 				switch (source) {
 					case MessageSource.INPAGE:

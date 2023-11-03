@@ -97,6 +97,26 @@ export const assetChartBtnWrapper = style([
 	}),
 ])
 
+export const tag = style([
+	{
+		inlineSize: 'min-content',
+		flexGrow: 1,
+	},
+])
+
+export const tagsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexWrap: 'wrap',
+		gap: 'medium',
+	}),
+	{
+		minHeight: '40px',
+		justifyContent: 'space-around',
+		alignContent: 'space-around',
+	},
+])
+
 export const tokenSummaryWrapper = style([
 	sprinkles({
 		display: 'flex',

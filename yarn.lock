@@ -4978,15 +4978,16 @@
   dependencies:
     lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.2.2":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.3.0-alpha.2":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#d13afc2f5c55da092476fe3b0e192829faa32df9"
+  resolved "https://github.com/radixdlt/connector-extension#ec319e6291a699f3ae377ea145d97f19e7cad679"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
     "@ledgerhq/hw-transport-webhid" "^6.27.19"
     "@mui/material" "^5.14.0"
     "@radixdlt/babylon-gateway-api-sdk" "^1.0.1"
+    "@radixdlt/radix-connect-schemas" "^1.2.0"
     "@radixdlt/radix-connect-webrtc" "^1.0.1"
     "@stitches/react" "^1.2.8"
     "@types/blake2b" "^2.1.0"
@@ -5012,6 +5013,14 @@
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@radixdlt/radix-connect-schemas/-/radix-connect-schemas-0.1.0.tgz#ab5b0055888db6f47567e99008fc8e51d8e0030d"
   integrity sha512-5JHC6DgOnQ9Nv+vRFJ+a3x7GBMs13i+mbpKoIamS4wyxvsoSP676O0iAiky8ClrUkLEXEsQIyOSuYZiZ38z5lg==
+  dependencies:
+    neverthrow "^6.0.0"
+    zod "^3.22.2"
+
+"@radixdlt/radix-connect-schemas@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-connect-schemas/-/radix-connect-schemas-1.2.0.tgz#04c5c2d29c42a72302d9d1cacac5d10a62761ca1"
+  integrity sha512-1hyRO+d2Gd9s7ED9bE4KXPyiaYuApK2ab1jLptFlG+y9SKaNDPOxcmgQI7NaUIZvyPfutILjWLxJ+hJzzuWzqA==
   dependencies:
     neverthrow "^6.0.0"
     zod "^3.22.2"

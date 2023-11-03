@@ -5,7 +5,7 @@ import {
 	messageSource as radixMessageSource,
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import type { WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
+import type { WalletInteractionWithOrigin } from '@radixdlt/radix-connect-schemas'
 import type { PrivateKey } from '@radixdlt/radix-engine-toolkit'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
 import browser from 'webextension-polyfill'
@@ -174,66 +174,48 @@ async function handleRadixMessage(message: Message) {
 			return createRadixMessage.sendMessageEventToDapp(
 				radixMessageSource.contentScript,
 				radixMsg.messageEvent,
-				radixMsg.interactionId,
+				radixMsg.data,
 			)
 		case messageDiscriminator.walletResponse:
 			return radixMsg.data
-		case messageDiscriminator.incomingDappMessage: {
-			switch (radixMsg?.data?.discriminator) {
-				case messageDiscriminator.extensionStatus:
-					return createRadixMessage.extensionStatus(true)
-				case messageDiscriminator.openParingPopup:
-					try {
-						await openAppPopup('#/keystore/new/radix')
-						return null
-					} catch (error) {
-						return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
-							reason: 'unableToOpenParingPopup',
-							jsError: error,
-						})
+		case messageDiscriminator.dAppRequest: {
+			try {
+				const walletInteraction: WalletInteractionWithOrigin = radixMsg.data
+				const { interactionId, metadata, items } = walletInteraction
+				if (items) {
+					switch (items.discriminator) {
+						case 'cancelRequest':
+							browser.runtime.sendMessage(
+								newMessage(
+									AppMessageAction.APP_INTERACTION_CANCEL,
+									MessageSource.BACKGROUND,
+									MessageSource.POPUP,
+									radixMsg.data,
+								),
+							)
+							break
+						default:
+							saveInteractions({
+								...walletInteraction,
+								fromTabId: message.fromTabId,
+								senderURl: message.senderUrl,
+							} as WalletInteractionWithTabId).then(() => openAppPopup(`#/interaction/${interactionId}`))
+							break
 					}
-				default:
-					try {
-						const { interactionId, items } = radixMsg.data as WalletInteraction
+				}
 
-						if (items) {
-							switch (items.discriminator) {
-								case 'cancelRequest':
-									browser.runtime.sendMessage(
-										newMessage(
-											AppMessageAction.APP_INTERACTION_CANCEL,
-											MessageSource.BACKGROUND,
-											MessageSource.POPUP,
-											radixMsg.data,
-										),
-									)
-									break
-								default:
-									saveInteractions({
-										...radixMsg.data,
-										metadata: {
-											...(radixMsg.metadata || {}),
-											...(radixMsg.data?.metadata || {}),
-										},
-										fromTabId: message.fromTabId,
-									} as WalletInteractionWithTabId).then(() => openAppPopup(`#/interaction/${interactionId}`))
-									break
-							}
-						}
-
-						return createRadixMessage.sendMessageEventToDapp(
-							radixMessageSource.contentScript,
-							messageLifeCycleEvent.receivedByExtension,
-							interactionId,
-						)
-					} catch (error) {
-						// eslint-disable-next-line no-console
-						console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
-						return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
-							reason: 'failedToDetectWalletLink',
-							jsError: error,
-						})
-					}
+				return createRadixMessage.sendMessageEventToDapp(
+					radixMessageSource.contentScript,
+					messageLifeCycleEvent.receivedByExtension,
+					{ interactionId, metadata },
+				)
+			} catch (error) {
+				// eslint-disable-next-line no-console
+				console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
+				return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
+					reason: 'failedToDetectWalletLink',
+					jsError: error,
+				})
 			}
 		}
 		default:

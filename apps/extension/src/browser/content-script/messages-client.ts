@@ -1,15 +1,17 @@
 /* eslint-disable no-console */
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
+import type { ExtensionInteraction, WalletInteractionWithOrigin } from '@radixdlt/radix-connect-schemas'
 import browser from 'webextension-polyfill'
 
+import { openAppPopup } from '@src/browser/app/popup'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { PORT_NAME } from '@src/browser/messages/constants'
 import { newMessage } from '@src/browser/messages/message'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
-import { addMetadata } from '@src/browser/metadata/add'
+import { getConnectionPassword } from '@src/browser/vault/storage'
 
-import { chromeDAppClient, radixMessageHandler, sendRadixMessage } from './radix'
+import { chromeDAppClient, logger, radixMessageHandler, sendRadixMessage, sendRadixMessageToDapp } from './radix'
 import { isHandledByRadix } from './radix-connector'
 import { MessageAction } from './types'
 
@@ -77,11 +79,11 @@ export const MessageClient = () => {
 		}
 	}
 
-	chromeDAppClient.messageListener(message => {
-		const radixMsg = addMetadata(createRadixMessage.incomingDappMessage('dApp', message))
+	const handleWalletInteraction = async (walletInteraction: WalletInteractionWithOrigin) => {
+		const radixMsg = createRadixMessage.dAppRequest('contentScript', walletInteraction)
 		isHandledByRadix().then(enabled =>
 			enabled
-				? radixMessageHandler.onMessage(radixMsg)
+				? browser.runtime.sendMessage(radixMsg)
 				: port.postMessage(
 						newMessage(
 							BackgroundMessageAction.BACKGROUND_RADIX,
@@ -91,7 +93,36 @@ export const MessageClient = () => {
 						),
 				  ),
 		)
-	})
+	}
+
+	const handleExtensionInteraction = async (extensionInteraction: ExtensionInteraction) => {
+		switch (extensionInteraction.discriminator) {
+			case 'openPopup':
+				if (await isHandledByRadix()) {
+					await browser.runtime.sendMessage(createRadixMessage.openParingPopup())
+				} else {
+					await openAppPopup('#/keystore/new/radix')
+				}
+				break
+			case 'extensionStatus':
+				if (await isHandledByRadix()) {
+					await getConnectionPassword().then(connectionPassword => {
+						sendRadixMessageToDapp(createRadixMessage.extensionStatus(!!connectionPassword))
+					})
+				} else {
+					sendRadixMessageToDapp(createRadixMessage.extensionStatus(true))
+				}
+				break
+			default:
+				logger.error({
+					reason: 'InvalidExtensionRequest',
+					interaction: extensionInteraction,
+				})
+				break
+		}
+	}
+
+	chromeDAppClient.messageListener(handleWalletInteraction, handleExtensionInteraction)
 
 	return {
 		onRuntimeMessage,

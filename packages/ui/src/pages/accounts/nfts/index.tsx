@@ -1,7 +1,7 @@
 import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useCallback, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
@@ -39,6 +39,7 @@ const messages = defineMessages({
 const NFTs: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const nftId = decodeURIComponent(rawNftId)
@@ -63,7 +64,9 @@ const NFTs: React.FC = () => {
 
 	const handleRowSelected = (row: { original: StateNonFungibleDetailsResponseItem }) => {
 		const { original } = row
-		navigate(`/accounts/${accountId}/nfts/${resourceId}/${encodeURIComponent(original.non_fungible_id)}`)
+		navigate(
+			`/accounts/${accountId}/nfts/${resourceId}/${encodeURIComponent(original.non_fungible_id)}?${searchParams}`,
+		)
 	}
 
 	const loadMore = useCallback(() => {

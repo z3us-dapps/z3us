@@ -31,6 +31,10 @@ export const SlideOutDialog: React.FC<IProps> = props => {
 		navigateBack()
 	}
 
+	const handleOpenAutoFocus = e => {
+		e.preventDefault()
+	}
+
 	return (
 		<DialogRoot open={open}>
 			<DialogPortal>
@@ -38,10 +42,8 @@ export const SlideOutDialog: React.FC<IProps> = props => {
 				<DialogContent
 					className={styles.slideOutDialogContent}
 					onEscapeKeyDown={handleEscapeKeyDown}
-					onInteractOutside={handleOnInteractOutside}
-					onOpenAutoFocus={e => {
-						e.preventDefault()
-					}}
+					onPointerDownOutside={handleOnInteractOutside}
+					onOpenAutoFocus={handleOpenAutoFocus}
 				>
 					<Box className={clsx(styles.slideOutDialogHeaderWrapper)}>
 						<Box flexGrow={1} />

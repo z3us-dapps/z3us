@@ -20,10 +20,11 @@ export const newMessage = (
 export const newReply = (source: MessageSource, data: ResponseMessageData, message: Message): ResponseMessage => ({
 	...data,
 	messageId: message.messageId,
-	fromTabId: message.fromTabId,
 	action: message.action,
 	target: message.source,
 	source,
+	fromTabId: message.fromTabId,
+	senderUrl: message.senderUrl,
 })
 
 export const eventFromMessage = (message: Message | ResponseMessage): Z3USEvent =>

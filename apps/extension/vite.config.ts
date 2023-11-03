@@ -37,7 +37,7 @@ const config = {
 			options: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/options'),
 			queues: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/queues'),
 			utils: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/utils'),
-			'chrome/helpers/add-metadata': resolve(__dirname, 'src/browser/metadata/add'),
+			'chrome/helpers/add-origin-to-wallet-interaction': resolve(__dirname, 'src/radix/add-origin-to-wallet-interaction'),
 			'chrome/helpers/chrome-storage-sync': resolve(__dirname, 'src/radix/storage-sync'),
 			'chrome/helpers/chrome-local-store': resolve(__dirname, 'src/radix/storage-local'),
 		},

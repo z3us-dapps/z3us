@@ -49,13 +49,13 @@ const ComponentDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xxsmall" color="strong" weight="medium" truncate>
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.package_address)}
 					</Text>
 				}
 				rightData={
 					<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-						<Text size="xxsmall" color="strong" weight="medium" truncate>
+						<Text size="xxsmall" truncate>
 							{details.package_address}
 						</Text>
 						<CopyAddressButton
@@ -72,30 +72,38 @@ const ComponentDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xxsmall" color="strong" weight="medium" truncate>
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.blueprint_name)}
 					</Text>
 				}
-				rightData={<Text size="xxsmall">{details.blueprint_name}</Text>}
+				rightData={
+					<Text size="xxsmall" truncate>
+						{details.blueprint_name}
+					</Text>
+				}
 			/>
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xxsmall" color="strong" weight="medium" truncate>
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.blueprint_version)}
 					</Text>
 				}
-				rightData={<Text size="xxsmall">{details.blueprint_version}</Text>}
+				rightData={
+					<Text size="xxsmall" truncate>
+						{details.blueprint_version}
+					</Text>
+				}
 			/>
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xxsmall" color="strong" weight="medium" truncate>
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.royalty_vault_balance)}
 					</Text>
 				}
 				rightData={
-					<Text size="xxsmall" color="strong" weight="medium" truncate>
+					<Text size="xxsmall" truncate>
 						{intl.formatNumber(parseFloat(details.royalty_vault_balance) || 0, {
 							style: 'decimal',
 							maximumFractionDigits: 8,

@@ -91,11 +91,7 @@ const Nft: React.FC = () => {
 											{(field.field_name || ('' as string)).toUpperCase()}
 										</Text>
 									}
-									rightData={
-										<Text size="xsmall">
-											<FieldValue field={field} />
-										</Text>
-									}
+									rightData={<FieldValue field={field} />}
 								/>
 							))}
 						</Box>

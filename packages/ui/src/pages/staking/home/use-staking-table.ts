@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTimeout } from 'usehooks-ts'
 
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
@@ -71,6 +71,7 @@ export const useStakingTable = (): TAssetsTable => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const location = useLocation()
+	const [searchParams] = useSearchParams()
 
 	const columnsAssets = useMemo(
 		() => [
@@ -136,7 +137,8 @@ export const useStakingTable = (): TAssetsTable => {
 
 	const handleRowSelected = (row: any) => {
 		const { id } = row
-		navigate(`/staking?validator=${id}`)
+		searchParams.set('validator', id)
+		navigate(`/staking?${searchParams}`)
 	}
 
 	return {

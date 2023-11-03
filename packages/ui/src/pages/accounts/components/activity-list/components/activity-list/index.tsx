@@ -2,8 +2,8 @@ import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { defineMessages, useIntl } from 'react-intl'
+import { useSearchParams } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
@@ -71,7 +71,7 @@ interface IRowProps {
 }
 
 const ItemWrapper: React.FC<IRowProps> = props => {
-	const location = useLocation()
+	const [searchParams, setSearchParams] = useSearchParams()
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
 	const { data: knownAddresses } = useKnownAddresses()
@@ -79,11 +79,11 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 	const isSelected = selected === transaction?.intent_hash
 	const isHovered = hovered === transaction?.intent_hash
 
-	const addTransactionIdToPath = (txId: string) => {
-		const [, params] = location.search.split('?')
-		const query = new URLSearchParams(params)
-		query.set('tx', `${txId}`)
-		return `${location.pathname}?${query}`
+	const handleClick = () => {
+		setSelected(transaction.intent_hash)
+		setHovered(null)
+		searchParams.set('tx', `${transaction.intent_hash}`)
+		setSearchParams(searchParams)
 	}
 
 	return (
@@ -96,12 +96,8 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 					>
 						<Link
 							underline="never"
-							to={addTransactionIdToPath(transaction.intent_hash)}
 							className={styles.activityItemInnerBtn}
-							onClick={() => {
-								setSelected(transaction.intent_hash)
-								setHovered(null)
-							}}
+							onClick={handleClick}
 							onMouseOver={() => setHovered(transaction.intent_hash)}
 							onMouseLeave={() => setHovered(null)}
 						>

@@ -9,6 +9,7 @@ export const accountsHomeHorizontalCard = style([
 		overflow: 'hidden',
 		boxShadow: 'shadowDropdown',
 		borderRadius: 'xlarge',
+		cursor: 'pointer',
 	}),
 	{
 		width: '316px',
