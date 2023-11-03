@@ -1,9 +1,9 @@
-import type { TStyleVariant } from 'packages/ui/src/components/button'
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import type { TStyleVariant } from 'ui/src/components/button'
 import {
 	DialogClose,
 	DialogContent,

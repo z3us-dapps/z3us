@@ -1,5 +1,3 @@
-import { useSharedStore } from 'packages/ui/src/hooks/use-store'
-import { KeystoreType } from 'packages/ui/src/store/types'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -7,6 +5,8 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogoLarge } from 'ui/src/components/z3us-logo-babylon'
+import { useSharedStore } from 'ui/src/hooks/use-store'
+import { KeystoreType } from 'ui/src/store/types'
 
 import { useAddAccount } from '@src/hooks/use-add-account'
 
