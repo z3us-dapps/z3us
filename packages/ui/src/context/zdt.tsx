@@ -23,7 +23,7 @@ export type State = {
 	getSecret: (password: string) => Promise<string>
 	removeSecret: (password: string) => Promise<void>
 	confirm: (input: {
-		title: ReactNode
+		title?: ReactNode
 		content: ReactNode
 		buttonTitle?: string
 		buttonStyleVariant?: string
