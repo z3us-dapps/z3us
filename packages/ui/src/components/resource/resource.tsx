@@ -187,9 +187,9 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.assetInfoWrapper}>
 					<Box paddingBottom="small">
-						<ResourceImageIcon address={resourceId} />
+						<ResourceImageIcon size={{ mobile: 'xlarge', tablet: 'xxlarge' }} address={resourceId} />
 					</Box>
-					<Text size="xlarge" weight="strong" color="strong" align="center">
+					<Text size="xxlarge" weight="strong" color="strong" align="center">
 						{name}
 					</Text>
 					{data?.details === 'FungibleResource' && (
@@ -211,7 +211,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 				</Box>
 
 				{hideButtons !== true && (
-					<Box display="flex" paddingTop="large" paddingBottom="large" gap="large" position="relative">
+					<Box display="flex" paddingTop="large" gap="large" position="relative">
 						<CardButtons />
 					</Box>
 				)}
@@ -312,18 +312,32 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 					{symbol && (
 						<AccountsTransactionInfo
 							leftTitle={
-								<Text size="xsmall" color="strong">
+								<Text size="xxsmall" color="strong" weight="medium">
 									{intl.formatMessage(messages.symbol)}
 								</Text>
 							}
-							rightData={<Text size="xsmall">{symbol}</Text>}
+							rightData={
+								<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+									<Text size="xsmall" truncate>
+										{symbol}
+									</Text>
+									<CopyAddressButton
+										styleVariant="ghost"
+										sizeVariant="xsmall"
+										address={symbol}
+										iconOnly
+										rounded={false}
+										tickColor="colorStrong"
+									/>
+								</Box>
+							}
 						/>
 					)}
 
 					{validator && (
 						<AccountsTransactionInfo
 							leftTitle={
-								<Text size="xsmall" color="strong">
+								<Text size="xxsmall" color="strong" weight="medium">
 									{intl.formatMessage(messages.validator)}
 								</Text>
 							}
@@ -348,7 +362,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 					{pool && (
 						<AccountsTransactionInfo
 							leftTitle={
-								<Text size="xsmall" color="strong">
+								<Text size="xxsmall" color="strong" weight="medium">
 									{intl.formatMessage(messages.pool)}
 								</Text>
 							}
@@ -385,9 +399,13 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 									key={item.role_key.name}
 									leftTitle={
 										<Box display="flex" alignItems="flex-end" gap="xsmall">
-											<Box>
-												<Box className={styles.tokenMetaDataIconWrapper}>{!item.updater_roles && <LockIcon />}</Box>
-											</Box>
+											{!item.updater_roles && (
+												<Box>
+													<Box className={styles.tokenMetaDataIconWrapper}>
+														<LockIcon />
+													</Box>
+												</Box>
+											)}
 											<Text size="xxsmall" color="strong" weight="medium">
 												{intl.formatMessage(messages[item.role_key.name])}
 											</Text>
@@ -416,9 +434,13 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 									key={item.key}
 									leftTitle={
 										<Box display="flex" alignItems="flex-end" gap="xsmall">
-											<Box>
-												<Box className={styles.tokenMetaDataIconWrapper}>{item.is_locked === true && <LockIcon />}</Box>
-											</Box>
+											{item.is_locked === true && (
+												<Box>
+													<Box className={styles.tokenMetaDataIconWrapper}>
+														<LockIcon />
+													</Box>
+												</Box>
+											)}
 											<Text size="xxsmall" color="strong" weight="medium">
 												{(item.key as string).toUpperCase()}
 											</Text>

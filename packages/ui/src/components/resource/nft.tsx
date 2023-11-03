@@ -54,22 +54,29 @@ const Nft: React.FC = () => {
 	return (
 		<Box flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
-				<Box className={styles.assetInfoWrapper}>
-					<Box paddingBottom="small">
-						<NftImageIcon address={resourceId} id={nftId} size="xlarge" rounded={false} className={styles.nftIcon} />
-					</Box>
+				<Box className={styles.nftIconWrapper}>
+					<NftImageIcon
+						address={resourceId}
+						id={nftId}
+						size="xlarge"
+						rounded={false}
+						className={styles.nftIcon}
+						backgroundColor="transparent"
+					/>
+				</Box>
+				<Box display="flex" flexDirection="column" gap="small">
 					<Text size="xlarge" weight="strong" color="strong" align="center">
 						{`${name} ${nftId} ${data?.is_burned === true ? intl.formatMessage(messages.burned) : ''}`}
 					</Text>
-					<Text size="small">{description}</Text>
+					{description && <Text size="small">{description}</Text>}
 				</Box>
 
-				<Box display="flex" paddingTop="large" paddingBottom="large" gap="large" position="relative">
+				<Box display="flex" paddingTop="large" paddingBottom="xlarge" gap="large" position="relative">
 					<CardButtons />
 				</Box>
 
-				<Box className={styles.tokenSummaryWrapper}>
-					{fields.length > 0 && (
+				{fields.length > 0 && (
+					<Box className={styles.tokenSummaryWrapper}>
 						<Box display="flex" flexDirection="column">
 							<Box paddingTop="xlarge">
 								<Text size="large" weight="medium" color="strong">
@@ -88,8 +95,8 @@ const Nft: React.FC = () => {
 								/>
 							))}
 						</Box>
-					)}
-				</Box>
+					</Box>
+				)}
 			</Box>
 		</Box>
 	)

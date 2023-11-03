@@ -10,7 +10,7 @@ import * as styles from './image-icon.css'
 
 export type TImageColors = 'primary' | 'secondary'
 
-type TImageSizeOption = 'small' | 'medium' | 'large' | 'xlarge'
+type TImageSizeOption = 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge'
 
 type TImageSizes =
 	| TImageSizeOption
