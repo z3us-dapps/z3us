@@ -1,6 +1,6 @@
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -79,9 +79,7 @@ const messages = defineMessages({
 
 export const Transaction = () => {
 	const intl = useIntl()
-	const navigate = useNavigate()
-	const location = useLocation()
-	const [searchParams] = useSearchParams()
+	const [searchParams, setSearchParams] = useSearchParams()
 	const { data: knownAddresses } = useKnownAddresses()
 
 	const transactionId = searchParams.get('tx')
@@ -90,10 +88,8 @@ export const Transaction = () => {
 	const { data, isLoading } = useTransaction(transactionId)
 
 	const navigateBack = () => {
-		const [, params] = location.search.split('?')
-		const query = new URLSearchParams(params)
-		query.delete('tx')
-		navigate(`${location.pathname}?${query}`)
+		searchParams.delete('tx')
+		setSearchParams(searchParams)
 	}
 
 	return (

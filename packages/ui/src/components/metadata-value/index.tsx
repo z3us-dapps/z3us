@@ -40,9 +40,9 @@ export const getMetadataValue = (value?: EntityMetadataItem): string => {
 		case MetadataNonFungibleGlobalIdValueTypeEnum.NonFungibleGlobalId:
 			return typed.non_fungible_id
 		case MetadataPublicKeyValueTypeEnum.PublicKey:
-			return typed.value.key_type
+			return `${typed.value.key_type}(${typed.value.key_hex})`
 		case MetadataPublicKeyHashValueTypeEnum.PublicKeyHash:
-			return typed.value.key_hash_type
+			return `${typed.value.key_hash_type}(${typed.value.hash_hex})`
 		case MetadataInstantArrayValueTypeEnum.InstantArray:
 		case MetadataBoolArrayValueTypeEnum.BoolArray:
 		case MetadataUrlArrayValueTypeEnum.UrlArray:
@@ -58,9 +58,9 @@ export const getMetadataValue = (value?: EntityMetadataItem): string => {
 		case MetadataU32ArrayValueTypeEnum.U32Array:
 			return typed.values.join(', ')
 		case MetadataPublicKeyArrayValueTypeEnum.PublicKeyArray:
-			return typed.values.map(v => v.key_type).join(', ')
+			return typed.values.map(v => `${v.key_type}(${v.key_hex})`).join(', ')
 		case MetadataPublicKeyHashArrayValueTypeEnum.PublicKeyHashArray:
-			return typed.values.map(v => v.key_hash_type).join(', ')
+			return typed.values.map(v => `${v.key_hash_type}(${v.hash_hex})`).join(', ')
 		default:
 			return typed?.value || ''
 	}

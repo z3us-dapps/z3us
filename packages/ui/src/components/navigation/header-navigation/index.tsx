@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { LayoutGroup } from 'framer-motion'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -107,6 +107,7 @@ const HeaderNavInner = () => {
 
 	const location = useLocation()
 	const navigate = useNavigate()
+	const [searchParams, setSearchParams] = useSearchParams()
 
 	const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false)
 	const isAccountsPath = location?.pathname?.includes('/accounts')
@@ -125,28 +126,24 @@ const HeaderNavInner = () => {
 
 	const handleSelectAccount = (account: string) => {
 		if (account === 'home') {
-			navigate('/accounts')
+			navigate(`/accounts?${searchParams}`)
 		} else {
-			navigate(`/accounts/${account}`)
+			navigate(`/accounts/${account}?${searchParams}`)
 		}
 	}
 
 	const handleCommitSearch = (value: string) => {
 		setIsSearchVisible(false)
-
-		const [, params] = location.search.split('?')
-		const query = new URLSearchParams(params)
 		if (value.startsWith('account_')) {
 			navigate(`/accounts/${value}`)
 		} else if (value.startsWith('txid_')) {
-			query.delete('query')
-			query.set('tx', `${value}`)
-			navigate(`${location.pathname}?${query}`)
+			searchParams.delete('query')
+			searchParams.set('tx', `${value}`)
 		} else {
-			query.delete('tx')
-			query.set('query', `${value}`)
-			navigate(`${location.pathname}?${query}`)
+			searchParams.delete('tx')
+			searchParams.set('query', `${value}`)
 		}
+		setSearchParams(searchParams)
 	}
 
 	const handleClickSearch = (_visible: boolean) => {

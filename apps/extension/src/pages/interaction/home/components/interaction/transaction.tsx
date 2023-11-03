@@ -92,14 +92,16 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 			await browser.tabs.sendMessage(
 				interaction.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
-					discriminator: 'success',
-					items: {
-						discriminator: 'transaction',
-						send: {
-							transactionIntentHash: notarizedTransaction.intentHashHex(),
+					walletResponse: {
+						discriminator: 'success',
+						items: {
+							discriminator: 'transaction',
+							send: {
+								transactionIntentHash: notarizedTransaction.intentHashHex(),
+							},
 						},
+						interactionId,
 					},
-					interactionId,
 					metadata: interaction.metadata,
 				}),
 			)
@@ -107,9 +109,11 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 			browser.tabs.sendMessage(
 				interaction.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
-					discriminator: 'failure',
-					error: intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message }),
-					interactionId,
+					walletResponse: {
+						discriminator: 'failure',
+						error: intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message }),
+						interactionId,
+					},
 					metadata: interaction.metadata,
 				}),
 			)
