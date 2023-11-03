@@ -30,6 +30,9 @@ export const accountBreadCrumbWrapper = style([
 			'(min-width: 580px)': {
 				maxWidth: '620px',
 			},
+			'(min-width: 720px)': {
+				maxWidth: '720px',
+			},
 		},
 	},
 ])

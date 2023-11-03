@@ -54,10 +54,17 @@ const Nft: React.FC = () => {
 	return (
 		<Box flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
+				<Box className={styles.nftIconWrapper}>
+					<NftImageIcon
+						address={resourceId}
+						id={nftId}
+						size="xlarge"
+						rounded={false}
+						className={styles.nftIcon}
+						backgroundColor="transparent"
+					/>
+				</Box>
 				<Box className={styles.assetInfoWrapper}>
-					<Box paddingBottom="small">
-						<NftImageIcon address={resourceId} id={nftId} size="xlarge" rounded={false} className={styles.nftIcon} />
-					</Box>
 					<Text size="xlarge" weight="strong" color="strong" align="center">
 						{`${name} ${nftId} ${data?.is_burned === true ? intl.formatMessage(messages.burned) : ''}`}
 					</Text>

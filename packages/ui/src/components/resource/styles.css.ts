@@ -41,12 +41,29 @@ export const chartBgWrapper = style([
 	}),
 ])
 
+export const nftIconWrapper = style([
+	sprinkles({
+		width: 'full',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		paddingBottom: 'large',
+	}),
+	{
+		minHeight: '150px',
+	},
+])
+
 export const nftIcon = style([
 	sprinkles({
 		width: 'full',
 		height: 'full',
 	}),
-	{ height: '350px', width: '350px' },
+	{
+		height: 'auto',
+		width: '100%',
+		boxShadow: 'none',
+	},
 ])
 
 export const accountCardButtonWrapper = style([
