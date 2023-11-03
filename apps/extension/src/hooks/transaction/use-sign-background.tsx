@@ -33,7 +33,7 @@ export const useSignTransactionWithBackground = () => {
 	}))
 
 	const sign = async (intent: Intent, needSignaturesFrom: string[]): Promise<SignatureWithPublicKey[]> => {
-		const password = await confirm(<Content />)
+		const password = await confirm({ content: <Content /> })
 		const intentHash = await RadixEngineToolkit.Intent.intentHash(intent)
 		return Promise.all(
 			needSignaturesFrom.map(signBy =>

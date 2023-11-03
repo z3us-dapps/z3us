@@ -5,7 +5,9 @@ import type { ZodError } from 'zod'
 import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextAreaField from 'ui/src/components/form/fields/text-area-field'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
@@ -77,7 +79,6 @@ export const Raw: React.FC = () => {
 			onSubmit={handleSubmit}
 			initialValues={initialValues}
 			errors={validation?.format()}
-			submitButtonTitle={intl.formatMessage(messages.button_submit)}
 			className={styles.transferFormWrapper}
 		>
 			<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
@@ -98,6 +99,9 @@ export const Raw: React.FC = () => {
 					/>
 				</Box>
 			</Box>
+			<SubmitButton>
+				<Button sizeVariant="large">{intl.formatMessage(messages.button_submit)}</Button>
+			</SubmitButton>
 		</Form>
 	)
 }

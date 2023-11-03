@@ -50,7 +50,9 @@ export const useLogin = () => {
 		): Promise<AuthLoginWithChallengeRequestResponseItem['proof']> => {
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL:
-					const password = await confirm(intl.formatMessage(messages.persona_challenge, { label: persona.label }))
+					const password = await confirm({
+						content: intl.formatMessage(messages.persona_challenge, { label: persona.label }),
+					})
 					const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
 						persona.curve,
 						persona.derivationPath,

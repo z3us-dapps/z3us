@@ -1,9 +1,10 @@
-import type { ReactNode } from 'react'
 import { lazy } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { useModals } from 'ui/src/hooks/use-modals'
 import { generateId } from 'ui/src/utils/generate-id'
+
+import type { IProps } from '@src/components/modals/sign-modal'
 
 const Modal = lazy(() => import('@src/components/modals/sign-modal'))
 
@@ -18,7 +19,7 @@ export const usePasswordModal = () => {
 	const intl = useIntl()
 	const { addModal, removeModal } = useModals()
 
-	const confirm = (content: ReactNode, buttonTitle?: string, requirePassword: boolean = true) =>
+	const confirm = (props: Omit<IProps, 'onConfirm' | 'onCancel'>) =>
 		new Promise<string>((resolve, reject) => {
 			const id = generateId()
 			const handleConfirm = (password: string) => {
@@ -29,16 +30,7 @@ export const usePasswordModal = () => {
 				reject(intl.formatMessage(messages.rejected))
 				removeModal(id)
 			}
-			addModal(
-				id,
-				<Modal
-					content={content}
-					ignorePassword={!requirePassword}
-					buttonTitle={buttonTitle}
-					onConfirm={handleConfirm}
-					onCancel={handleCancel}
-				/>,
-			)
+			addModal(id, <Modal {...props} onConfirm={handleConfirm} onCancel={handleCancel} />)
 		})
 
 	return confirm

@@ -1,17 +1,25 @@
-import clsx from 'clsx'
+import type { TStyleVariant } from 'packages/ui/src/components/button'
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
+import {
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogOverlay,
+	DialogPortal,
+	DialogRoot,
+	DialogTitle,
+} from 'ui/src/components/dialog'
+import * as alertStyles from 'ui/src/components/dialog-alert/dialog-alert.css'
+import * as dialogStyles from 'ui/src/components/dialog/styles.css'
 import { Form } from 'ui/src/components/form'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
-import { Close2Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
-import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import * as styles from './styles.css'
@@ -40,31 +48,33 @@ const initialValues = {
 }
 
 export interface IProps {
+	title?: ReactNode
 	content: ReactNode
 	buttonTitle?: string
+	buttonStyleVariant?: TStyleVariant
 	ignorePassword?: boolean
 	onConfirm: (password: string) => void
 	onCancel: () => void
 }
 
-const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onConfirm, onCancel }) => {
+const SignModal: React.FC<IProps> = ({
+	title,
+	content,
+	buttonTitle,
+	buttonStyleVariant = 'primary',
+	ignorePassword,
+	onConfirm,
+	onCancel,
+}) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
-	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 	const [error, setError] = useState<string>('')
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [])
-
-	const handleScroll = (event: Event) => {
-		const target = event.target as Element
-		const { scrollTop } = target
-
-		setIsScrolled(scrollTop > 0)
-	}
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		try {
@@ -93,47 +103,54 @@ const SignModal: React.FC<IProps> = ({ content, buttonTitle, ignorePassword, onC
 	}
 
 	return (
-		<DialogRoot open={isOpen} modal>
+		<DialogRoot open={isOpen}>
 			<DialogPortal>
 				<DialogOverlay className={dialogStyles.dialogOverlay} />
 				<DialogContent
+					className={alertStyles.alertDialogContent}
 					onEscapeKeyDown={handleEscapeKeyDown}
 					onInteractOutside={handleOnInteractOutside}
-					className={clsx(dialogStyles.dialogContent, styles.content)}
 				>
-					<ScrollArea onScroll={handleScroll}>
-						<Box className={styles.scrollWrapper}>
-							{content}
-							<Form
-								onSubmit={handleSubmit}
-								initialValues={initialValues}
-								submitButtonTitle={buttonTitle || intl.formatMessage(messages.form_button_title)}
-							>
-								<ValidationErrorMessage message={error} />
-								{!ignorePassword && (
-									<Box>
-										<TextField
-											ref={inputRef}
-											isPassword
-											name="password"
-											placeholder={intl.formatMessage(messages.password_placeholder)}
-											sizeVariant="medium"
-										/>
-									</Box>
-								)}
-							</Form>
-						</Box>
-					</ScrollArea>
-					<Box className={clsx(styles.headerWrapper, isScrolled && styles.headerWrapperShadow)}>
-						<Box flexGrow={1} />
-						<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
-							<ToolTip message={intl.formatMessage(messages.close)}>
-								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleCancel}>
-									<Close2Icon />
-								</Button>
-							</ToolTip>
-						</Box>
+					<Box className={styles.signAlertDialogContentWrapper}>
+						{title && (
+							<DialogTitle>
+								<Text size="xlarge" weight="strong" color="strong">
+									{title}
+								</Text>
+							</DialogTitle>
+						)}
+						{content && (
+							<DialogDescription>
+								<Text>{content}</Text>
+							</DialogDescription>
+						)}
 					</Box>
+					<Form onSubmit={handleSubmit} initialValues={initialValues} className={styles.signAlertDialogFormWrapper}>
+						<ValidationErrorMessage message={error} />
+						{!ignorePassword && (
+							<Box>
+								<TextField
+									ref={inputRef}
+									isPassword
+									name="password"
+									placeholder={intl.formatMessage(messages.password_placeholder)}
+									sizeVariant="medium"
+								/>
+							</Box>
+						)}
+						<Box className={styles.signAlertDialogFormFooterWrapper}>
+							<DialogClose asChild>
+								<Button sizeVariant="small" styleVariant="secondary" onClick={handleCancel}>
+									{intl.formatMessage(messages.close)}
+								</Button>
+							</DialogClose>
+							<SubmitButton>
+								<Button sizeVariant="small" styleVariant={buttonStyleVariant}>
+									{buttonTitle || intl.formatMessage(messages.form_button_title)}
+								</Button>
+							</SubmitButton>
+						</Box>
+					</Form>
 				</DialogContent>
 			</DialogPortal>
 		</DialogRoot>

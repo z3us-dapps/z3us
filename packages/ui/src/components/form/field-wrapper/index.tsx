@@ -15,7 +15,6 @@ export interface IProps {
 }
 
 type State = {
-	isLoading: boolean
 	value: any
 	error: string
 }
@@ -26,7 +25,6 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
 
 	const [state, setState] = useImmer<State>({
-		isLoading: false,
 		value: getFieldValue(fieldName),
 		error: '',
 	})

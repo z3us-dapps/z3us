@@ -5,17 +5,18 @@ import type {
 	WalletAuthorizedRequestResponseItems,
 	WalletUnauthorizedRequestItems,
 } from '@radixdlt/radix-dapp-toolkit'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ApprovedDapps, Personas } from 'ui/src/store/types'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useAccountsData } from '@src/hooks/interaction/use-accounts-data'
@@ -30,12 +31,18 @@ const messages = defineMessages({
 		defaultMessage: 'Continue',
 	},
 	select_persona: {
-		id: 'yEEu6R',
-		defaultMessage: 'Select persona',
+		id: 'hlCux0',
+		defaultMessage: `{isSelected, select,
+			false {Select persona}
+			other {{displayName}}
+		}`,
 	},
 	select_accounts: {
-		id: 'Zk+6UC',
-		defaultMessage: 'Select accounts',
+		id: 'kK8Tp3',
+		defaultMessage: `{isSelected, select,
+			false {Select accounts}
+			other {{accountsList}}
+		}`,
 	},
 	error: {
 		id: '2KvtzK',
@@ -76,6 +83,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	const selectPersona = useSelectPersonaModal()
 	const selectAccounts = useSelectAccountsModal()
 	const getPersonaData = usePersonaDataModal()
+	const addressBook = useAddressBook()
 
 	const login = useLogin()
 	const buildAccounts = useAccountsData()
@@ -95,6 +103,8 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	const [selectedAccounts, setSelectedAccounts] = useState<string[]>(
 		getInitialAccounts(interaction.metadata.dAppDefinitionAddress, approvedDapps),
 	)
+
+	const persona = useMemo(() => personaIndexes[selectedPersona], [personaIndexes, selectedPersona])
 
 	const handleSelectPersona = async () => {
 		setSelectedPersona(await selectPersona())
@@ -153,9 +163,6 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 
 	return (
 		<Box>
-			<Text>
-				{`Selected: ${personaIndexes[selectedPersona]?.label} (${personaIndexes[selectedPersona]?.identityAddress})`}
-			</Text>
 			<Button
 				onClick={handleSelectPersona}
 				styleVariant="tertiary"
@@ -163,9 +170,11 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 				fullWidth
 				disabled={interaction.items.auth.discriminator === 'usePersona'}
 			>
-				{intl.formatMessage(messages.select_persona)}
+				{intl.formatMessage(messages.select_persona, {
+					isSelected: !!persona,
+					displayName: persona?.label || getShortAddress(persona?.identityAddress),
+				})}
 			</Button>
-			<Text>{`Selected: ${selectedAccounts.length} accounts`}</Text>
 			{canSelectAccounts && (
 				<Button
 					onClick={handleSelectAccounts}
@@ -174,7 +183,13 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 					fullWidth
 					disabled={!personaIndexes[selectedPersona]}
 				>
-					{intl.formatMessage(messages.select_accounts)}
+					{intl.formatMessage(messages.select_accounts, {
+						isSelected: selectedAccounts.length > 0,
+						accountsList: intl.formatList(
+							selectedAccounts.map(acc => addressBook[acc]?.name || getShortAddress(acc)),
+							{ type: 'conjunction' },
+						),
+					})}
 				</Button>
 			)}
 			<Button
