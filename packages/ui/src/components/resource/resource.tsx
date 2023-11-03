@@ -177,7 +177,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.assetInfoWrapper}>
 					<Box paddingBottom="small">
-						<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={resourceId} />
+						<ResourceImageIcon size={{ mobile: 'large', tablet: 'xxlarge' }} address={resourceId} />
 					</Box>
 					<Text size="xxlarge" weight="strong" color="strong" align="center">
 						{name}
