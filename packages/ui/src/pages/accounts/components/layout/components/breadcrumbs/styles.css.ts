@@ -60,11 +60,3 @@ globalStyle(`${accountBreadCrumbWrapper} a, ${accountBreadCrumbWrapper} span`, {
 	overflow: 'hidden',
 	textOverflow: 'ellipsis',
 })
-
-globalStyle(`${accountBreadCrumbWrapper} ${accountBreadCrumb}:first-child`, {
-	flexShrink: '0',
-})
-
-// globalStyle(`${accountBreadCrumbWrapper} ${accountBreadCrumb}:last-child`, {
-// 	flexShrink: '0',
-// })

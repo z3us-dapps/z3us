@@ -201,7 +201,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 				</Box>
 
 				{hideButtons !== true && (
-					<Box display="flex" paddingTop="large" paddingBottom="medium" gap="large" position="relative">
+					<Box display="flex" paddingTop="large" gap="large" position="relative">
 						<CardButtons />
 					</Box>
 				)}
@@ -350,9 +350,13 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 									key={item.key}
 									leftTitle={
 										<Box display="flex" alignItems="flex-end" gap="xsmall">
-											<Box>
-												<Box className={styles.tokenMetaDataIconWrapper}>{item.is_locked === true && <LockIcon />}</Box>
-											</Box>
+											{item.is_locked === true && (
+												<Box>
+													<Box className={styles.tokenMetaDataIconWrapper}>
+														<LockIcon />
+													</Box>
+												</Box>
+											)}
 											<Text size="xxsmall" color="strong" weight="medium">
 												{(item.key as string).toUpperCase()}
 											</Text>

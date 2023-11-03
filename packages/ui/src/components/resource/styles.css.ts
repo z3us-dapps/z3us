@@ -90,10 +90,6 @@ export const assetChartBtnWrapper = style([
 			mobile: 'medium',
 			desktop: 'small',
 		},
-		paddingBottom: {
-			mobile: 'large',
-			desktop: 'xlarge',
-		},
 		paddingX: {
 			mobile: 'small',
 			desktop: 'small',
@@ -112,6 +108,10 @@ export const tokenSummaryWrapper = style([
 		paddingX: {
 			mobile: 'large',
 			tablet: 'large',
+		},
+		marginTop: {
+			mobile: 'large',
+			tablet: 'xlarge',
 		},
 		paddingTop: {
 			mobile: 'large',
