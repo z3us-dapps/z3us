@@ -60,6 +60,7 @@ export const imageFallbackTextWrapper = recipe({
 			medium: { fontSize: '10px', lineHeight: '10px', fontWeight: '500' },
 			large: { fontSize: '11px', lineHeight: '11px', fontWeight: '500' },
 			xlarge: { fontSize: '12px', lineHeight: '12px', fontWeight: '500' },
+			xxlarge: { fontSize: '13px', lineHeight: '13px', fontWeight: '500' },
 		},
 		sizeTablet: {
 			small: responsiveStyle({
