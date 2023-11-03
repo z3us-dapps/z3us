@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -88,23 +88,22 @@ export const ValidatorPanel = () => {
 	// END DEMO LOADING
 	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
-	const { pathname } = useLocation()
 
 	const transactionId = searchParams.get('validator')
 	const { data } = useTransaction(transactionId)
 	const isValidatorVisible = !!transactionId
 
 	const navigateBack = () => {
-		navigate(pathname)
+		navigate(-1)
 	}
 
 	const handleEscapeKeyDown = () => {
-		navigateBack()
+		navigate(-1)
 	}
 
 	const handleOnInteractOutside = () => {
 		if (isMobile) {
-			navigateBack()
+			navigate(-1)
 		}
 	}
 

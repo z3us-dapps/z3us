@@ -6,7 +6,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ResourceSnippet } from 'ui/src/components/resource-snippet'
-import FieldValue from 'ui/src/pages/accounts/components/resource-details/field-value'
+import FieldValue from 'ui/src/components/resource/components/field-value'
 
 import { resolveManifestAddress } from '@src/radix/manifest'
 

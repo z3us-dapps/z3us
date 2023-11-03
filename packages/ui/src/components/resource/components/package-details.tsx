@@ -42,21 +42,25 @@ const PackageDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xsmall" color="strong">
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.vm_type)}
 					</Text>
 				}
-				rightData={<Text size="xsmall">{details.vm_type}</Text>}
+				rightData={
+					<Text size="xxsmall" truncate>
+						{details.vm_type}
+					</Text>
+				}
 			/>
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xsmall" color="strong">
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.royalty_vault_balance)}
 					</Text>
 				}
 				rightData={
-					<Text size="xsmall">
+					<Text size="xxsmall" truncate>
 						{intl.formatNumber(parseFloat(details.royalty_vault_balance) || 0, {
 							style: 'decimal',
 							maximumFractionDigits: 8,
@@ -67,12 +71,12 @@ const PackageDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xsmall" color="strong">
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.blueprints)}
 					</Text>
 				}
 				rightData={
-					<Text size="xsmall">
+					<Text size="xxsmall" truncate>
 						{intl.formatList(
 							details.blueprints?.items.map(blueprint => `${blueprint.name} (${blueprint.version})`),
 							{ type: 'conjunction' },

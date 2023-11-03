@@ -7,6 +7,7 @@ import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import SelectField from 'ui/src/components/form/fields/select-field'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { CirclePlusIcon, TrashIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
@@ -157,12 +158,7 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 	}
 
 	return (
-		<Form
-			onSubmit={handleSubmit}
-			initialValues={initialValues}
-			errors={validation?.format()}
-			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
-		>
+		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 			<FieldsGroup name="names" defaultKeys={1} ignoreTriggers>
 				<SelectField
 					name="variant"
@@ -226,6 +222,9 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 			>
 				<TextField name="number" placeholder={intl.formatMessage(messages.phone_number)} />
 			</FieldsGroup>
+			<SubmitButton>
+				<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title)}</Button>
+			</SubmitButton>
 		</Form>
 	)
 }

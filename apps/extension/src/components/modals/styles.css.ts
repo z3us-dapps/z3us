@@ -53,3 +53,34 @@ export const content = style([
 		desktop: { maxWidth: '480px', top: '72px', bottom: '72px' },
 	}),
 ])
+
+export const signAlertDialogContentWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'small',
+		paddingBottom: 'large',
+	}),
+	{},
+])
+
+export const signAlertDialogFormWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		width: 'full',
+	}),
+	{},
+])
+
+export const signAlertDialogFormFooterWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		justifyContent: 'flex-end',
+		gap: 'small',
+		width: 'full',
+	}),
+	{},
+])

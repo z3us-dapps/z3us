@@ -42,7 +42,7 @@ export const handleContentScriptInjectAllTabs = async () => {
 				if (tab.id) {
 					if ((await checkContentScript(tab.id)) === true) return
 					await browser.scripting.executeScript({
-						target: { tabId: tab.id },
+						target: { tabId: tab.id, allFrames: true },
 						files: [contentScript],
 					})
 				}
@@ -58,7 +58,7 @@ export const handleContentScriptInject = async (tabId: number) => {
 
 	try {
 		await browser.scripting.executeScript({
-			target: { tabId },
+			target: { tabId, allFrames: true },
 			files: [contentScript],
 		})
 		await showConnected()

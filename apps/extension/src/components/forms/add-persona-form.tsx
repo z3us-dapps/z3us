@@ -3,7 +3,9 @@ import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
+import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
 
 import { useAddPersona } from '@src/hooks/use-add-persona'
@@ -52,13 +54,11 @@ const AddPersonaForm: React.FC = () => {
 	}
 
 	return (
-		<Form
-			onSubmit={handleSubmit}
-			initialValues={initialValues}
-			errors={validation?.format()}
-			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
-		>
+		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 			<TextField name="name" placeholder={intl.formatMessage(messages.name)} />
+			<SubmitButton>
+				<Button sizeVariant="small">{intl.formatMessage(messages.form_button_title)}</Button>
+			</SubmitButton>
 		</Form>
 	)
 }

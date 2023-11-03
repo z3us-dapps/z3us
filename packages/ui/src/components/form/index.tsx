@@ -7,8 +7,6 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
-import { Button, type TSizeVariant } from 'ui/src/components/button'
-import { LoadingBarsIcon } from 'ui/src/components/icons'
 
 import { ValidationErrorMessage } from '../validation-error-message'
 import { FormContext } from './context'
@@ -19,9 +17,6 @@ type Props<P = {}> = {
 	initialValues: P
 	errors?: FormErrors<P>
 	className?: string
-	submitButtonTitle?: string | React.ReactNode
-	submitButtonTitleSizeVariant?: TSizeVariant
-
 	onSubmit: (values: P) => Promise<void> | void
 	onChange?: (values: P) => Promise<void> | void
 }
@@ -50,8 +45,6 @@ const rootFieldCtx = {
 
 export const Form: React.FC<PropsWithChildren<Props>> = ({
 	children,
-	submitButtonTitle,
-	submitButtonTitleSizeVariant = 'medium',
 	initialValues,
 	errors = {},
 	onSubmit,
@@ -132,22 +125,6 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 			<FormContext.Provider value={formCtx}>
 				<FieldContext.Provider value={rootFieldCtx}>{children}</FieldContext.Provider>
 			</FormContext.Provider>
-			<Button
-				fullWidth
-				styleVariant="primary"
-				sizeVariant={submitButtonTitleSizeVariant}
-				type="submit"
-				disabled={state.isLoading}
-				rightIcon={
-					state.isLoading ? (
-						<Box marginLeft="small">
-							<LoadingBarsIcon />
-						</Box>
-					) : null
-				}
-			>
-				{submitButtonTitle}
-			</Button>
 		</Box>
 	)
 }

@@ -12,6 +12,7 @@ import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { getStringNftData } from 'ui/src/services/metadata'
 
 import FieldValue from './components/field-value'
+import * as styles from './styles.css'
 
 const IGNORE_DATA = ['name', 'description', 'key_image_url']
 
@@ -53,41 +54,47 @@ const Nft: React.FC = () => {
 	return (
 		<Box flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
-				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-					<Box paddingBottom="small">
-						<NftImageIcon address={resourceId} id={nftId} />
-					</Box>
-					<Text size="large" color="strong">
+				<Box className={styles.nftIconWrapper}>
+					<NftImageIcon
+						address={resourceId}
+						id={nftId}
+						size="xlarge"
+						rounded={false}
+						className={styles.nftIcon}
+						backgroundColor="transparent"
+					/>
+				</Box>
+				<Box display="flex" flexDirection="column" gap="small">
+					<Text size="xlarge" weight="strong" color="strong" align="center">
 						{`${name} ${nftId} ${data?.is_burned === true ? intl.formatMessage(messages.burned) : ''}`}
 					</Text>
-					<Text size="small">{description}</Text>
+					{description && <Text size="small">{description}</Text>}
 				</Box>
-				<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
+
+				<Box display="flex" paddingTop="large" paddingBottom="xlarge" gap="large" position="relative">
 					<CardButtons />
 				</Box>
 
 				{fields.length > 0 && (
-					<Box display="flex" flexDirection="column">
-						<Box marginTop="xsmall" paddingBottom="medium">
-							<Text size="medium" weight="medium" color="strong">
-								{intl.formatMessage(messages.data)}
-							</Text>
+					<Box className={styles.tokenSummaryWrapper}>
+						<Box display="flex" flexDirection="column">
+							<Box paddingTop="xlarge">
+								<Text size="large" weight="medium" color="strong">
+									{intl.formatMessage(messages.data)}
+								</Text>
+							</Box>
+							{fields.map(field => (
+								<AccountsTransactionInfo
+									key={field.field_name}
+									leftTitle={
+										<Text size="xsmall" color="strong">
+											{(field.field_name || ('' as string)).toUpperCase()}
+										</Text>
+									}
+									rightData={<FieldValue field={field} />}
+								/>
+							))}
 						</Box>
-						{fields.map(field => (
-							<AccountsTransactionInfo
-								key={field.field_name}
-								leftTitle={
-									<Text size="large" color="strong">
-										{(field.field_name || ('' as string)).toUpperCase()}
-									</Text>
-								}
-								rightData={
-									<Text size="small">
-										<FieldValue field={field} />
-									</Text>
-								}
-							/>
-						))}
 					</Box>
 				)}
 			</Box>

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
@@ -52,6 +52,7 @@ const Tokens: React.FC = () => {
 	const navigate = useNavigate()
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId, resourceId } = useParams()
+	const [searchParams] = useSearchParams()
 	const selectedAccounts = useSelectedAccounts()
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
@@ -69,7 +70,7 @@ const Tokens: React.FC = () => {
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.LIQUIDITY_POOL_TOKEN] }) => {
 		const { original } = row
-		navigate(`/accounts/${accountId}/lp-tokens/${original.address}`)
+		navigate(`/accounts/${accountId}/lp-tokens/${original.address}?${searchParams}`)
 	}
 
 	const columns = useMemo(

@@ -3,6 +3,7 @@ import type { ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -15,7 +16,7 @@ import {
 	DropdownMenuPortal,
 	DropdownMenuTrigger,
 } from 'ui/src/components/dropdown-menu'
-import { DotsHorizontalCircleIcon, TrashIcon } from 'ui/src/components/icons'
+import { DotsHorizontalCircleIcon, InformationIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
@@ -32,6 +33,10 @@ const messages = defineMessages({
 	legacy: {
 		defaultMessage: '(Legacy)',
 		id: 'GIGKXJ',
+	},
+	show_details: {
+		defaultMessage: 'Show details',
+		id: 's2XIgr',
 	},
 	delete_account: {
 		defaultMessage: 'Delete account',
@@ -74,6 +79,7 @@ interface IAccountCardProps {
 	visible?: boolean
 	showCopyAddressButton?: boolean
 	showAccountOptions?: boolean
+	enableClick?: boolean
 	className?: string
 }
 
@@ -84,10 +90,13 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		visible = true,
 		showCopyAddressButton = true,
 		showAccountOptions = true,
+		enableClick = false,
 		className,
 	} = props
 
 	const intl = useIntl()
+	const navigate = useNavigate()
+	const [searchParams, setSearchParams] = useSearchParams()
 	const addressBook = useAddressBook()
 	const networkId = useNetworkId()
 	const { isWallet, confirm } = useZdtState()
@@ -107,12 +116,27 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
 
 	const handleRemoveAccount = async () => {
-		await confirm(
-			intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
-			intl.formatMessage(messages.delete_account),
-			false,
-		)
+		await confirm({
+			title: intl.formatMessage(messages.delete_account),
+			content: intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
+			buttonTitle: intl.formatMessage(messages.delete_account),
+			buttonStyleVariant: 'destructive',
+			ignorePassword: true,
+		})
+
 		removeAccount(networkId, address)
+	}
+
+	const handleShowDetails = event => {
+		event.stopPropagation()
+		searchParams.delete('tx')
+		searchParams.set('query', `${address}`)
+		setSearchParams(searchParams)
+	}
+
+	const handleClick = () => {
+		if (!enableClick) return
+		navigate(`/accounts/${address}?${searchParams}`)
 	}
 
 	return (
@@ -136,7 +160,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			}}
 			animate={visible ? 'visible' : 'notVisible'}
 		>
-			<Box className={clsx(styles.cardAccountWrapper)}>
+			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
 				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
@@ -155,7 +179,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 						</Box>
 					) : null}
 					<Box display="flex" flexGrow={1} justifyContent="flex-end" alignItems="flex-start">
-						{showAccountOptions && canRemoveAccount && (
+						{showAccountOptions && (
 							<Box className={styles.accountDropdownWrapper}>
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
@@ -165,16 +189,28 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 									</DropdownMenuTrigger>
 									<DropdownMenuPortal>
 										<DropdownMenuContent align="end" sideOffset={2} className={styles.accountDropdownContentWrapper}>
-											<DropdownMenuItem onSelect={handleRemoveAccount}>
+											<DropdownMenuItem onSelect={handleShowDetails}>
 												<DropdownMenuLeftSlot>
-													<TrashIcon />
+													<InformationIcon />
 												</DropdownMenuLeftSlot>
 												<Box display="flex" marginLeft="xsmall">
 													<Text size="xsmall" truncate>
-														{intl.formatMessage(messages.delete_account)}
+														{intl.formatMessage(messages.show_details)}
 													</Text>
 												</Box>
 											</DropdownMenuItem>
+											{canRemoveAccount && (
+												<DropdownMenuItem onSelect={handleRemoveAccount}>
+													<DropdownMenuLeftSlot>
+														<TrashIcon />
+													</DropdownMenuLeftSlot>
+													<Box display="flex" marginLeft="xsmall">
+														<Text size="xsmall" truncate>
+															{intl.formatMessage(messages.delete_account)}
+														</Text>
+													</Box>
+												</DropdownMenuItem>
+											)}
 											<DropdownMenuArrow />
 										</DropdownMenuContent>
 									</DropdownMenuPortal>
@@ -207,6 +243,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 interface IAccountCardsProps {
 	className?: ClassValue
 	isAllAccount?: boolean
+	enableClick?: boolean
 	showCopyAddressButton?: boolean
 	accounts: AddressBookEntry[]
 	selectedCardIndex: number
@@ -220,6 +257,7 @@ export const AccountCards: React.FC<IAccountCardsProps> = props => {
 		accounts,
 		selectedCardIndex = 0,
 		showCopyAddressButton = false,
+		enableClick = false,
 		isCardShadowVisible = true,
 	} = props
 
@@ -244,6 +282,7 @@ export const AccountCards: React.FC<IAccountCardsProps> = props => {
 						isAllAccount={isAllAccount}
 						visible={selectedCardIndex === cardIndex}
 						showCopyAddressButton={showCopyAddressButton}
+						enableClick={enableClick}
 					/>
 				))}
 			</motion.ul>

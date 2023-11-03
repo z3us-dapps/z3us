@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
@@ -46,6 +46,7 @@ const NftCollections: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const { accountId, resourceId } = useParams()
+	const [searchParams] = useSearchParams()
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const selectedAccounts = useSelectedAccounts()
 
@@ -54,7 +55,7 @@ const NftCollections: React.FC = () => {
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.NON_FUNGIBLE] }) => {
 		const { original } = row
-		navigate(`/accounts/${accountId}/nfts/${original.address}`)
+		navigate(`/accounts/${accountId}/nfts/${original.address}?${searchParams}`)
 	}
 
 	const selectedRowIds = useMemo(() => {

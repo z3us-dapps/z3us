@@ -1,4 +1,3 @@
-import { QRCodeSVG } from 'qrcode.react'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -42,7 +41,6 @@ export const QrPopOver: React.FC<IProps> = props => {
 						</Box>
 						<Box>
 							<QrStyled value={address} />
-							<QRCodeSVG value={address} />
 						</Box>
 					</Box>
 				</PopoverContent>

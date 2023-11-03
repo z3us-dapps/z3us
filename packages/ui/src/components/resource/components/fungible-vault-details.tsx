@@ -41,13 +41,13 @@ const FungibleVaultDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xsmall" color="strong">
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.resource_address)}
 					</Text>
 				}
 				rightData={
 					<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-						<Text size="xsmall" truncate>
+						<Text size="xxsmall" truncate>
 							{details.resource_address}
 						</Text>
 						<CopyAddressButton
@@ -64,12 +64,12 @@ const FungibleVaultDetails: React.FC<IProps> = ({ details }) => {
 
 			<AccountsTransactionInfo
 				leftTitle={
-					<Text size="xsmall" color="strong">
+					<Text size="xxsmall" color="strong" weight="medium">
 						{intl.formatMessage(messages.balance)}
 					</Text>
 				}
 				rightData={
-					<Text size="xsmall">
+					<Text size="xxsmall" truncate>
 						{intl.formatNumber(parseFloat(details.balance.amount) || 0, {
 							style: 'decimal',
 							maximumFractionDigits: 8,

@@ -9,6 +9,7 @@ import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { AddressBookSelect } from 'ui/src/components/form/fields/address-book-select'
 import { NftSelect } from 'ui/src/components/form/fields/nft-select'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { TextAreaField } from 'ui/src/components/form/fields/text-area-field'
 import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-field'
 import { useFieldValue } from 'ui/src/components/form/use-field-value'
@@ -94,6 +95,11 @@ const messages = defineMessages({
 	tab_nfts: {
 		id: 'nqRscq',
 		defaultMessage: 'NFTs',
+	},
+
+	button_submit: {
+		id: '9WRlF4',
+		defaultMessage: 'Send',
 	},
 })
 
@@ -268,6 +274,11 @@ export const TransferFormFields: React.FC = () => {
 			>
 				<AccountFormFieldsGroup ref={inputRef} />
 			</FieldsGroup>
+			<SubmitButton>
+				<Button sizeVariant="large" styleVariant="primary" fullWidth>
+					{intl.formatMessage(messages.button_submit)}
+				</Button>
+			</SubmitButton>
 		</>
 	)
 }

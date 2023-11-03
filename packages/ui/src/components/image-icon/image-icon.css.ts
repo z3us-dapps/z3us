@@ -18,6 +18,7 @@ export const imageWrapper = recipe({
 			medium: { width: '24px', height: '24px' },
 			large: { width: '32px', height: '32px' },
 			xlarge: { width: '40px', height: '40px' },
+			xxlarge: { width: '64px', height: '64px' },
 		},
 		sizeTablet: {
 			small: responsiveStyle({
@@ -31,6 +32,9 @@ export const imageWrapper = recipe({
 			}),
 			xlarge: responsiveStyle({
 				tablet: { width: '40px', height: '40px' },
+			}),
+			xxlarge: responsiveStyle({
+				tablet: { width: '64px', height: '64px' },
 			}),
 		},
 		rounded: {
@@ -56,6 +60,7 @@ export const imageFallbackTextWrapper = recipe({
 			medium: { fontSize: '10px', lineHeight: '10px', fontWeight: '500' },
 			large: { fontSize: '11px', lineHeight: '11px', fontWeight: '500' },
 			xlarge: { fontSize: '12px', lineHeight: '12px', fontWeight: '500' },
+			xxlarge: { fontSize: '13px', lineHeight: '13px', fontWeight: '500' },
 		},
 		sizeTablet: {
 			small: responsiveStyle({
@@ -69,6 +74,9 @@ export const imageFallbackTextWrapper = recipe({
 			}),
 			xlarge: responsiveStyle({
 				tablet: { fontSize: '12px', lineHeight: '12px', fontWeight: '500' },
+			}),
+			xxlarge: responsiveStyle({
+				tablet: { fontSize: '13px', lineHeight: '13px', fontWeight: '500' },
 			}),
 		},
 	},

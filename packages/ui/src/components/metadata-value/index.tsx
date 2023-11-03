@@ -24,6 +24,7 @@ import {
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Link, Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
@@ -40,9 +41,9 @@ export const getMetadataValue = (value?: EntityMetadataItem): string => {
 		case MetadataNonFungibleGlobalIdValueTypeEnum.NonFungibleGlobalId:
 			return typed.non_fungible_id
 		case MetadataPublicKeyValueTypeEnum.PublicKey:
-			return typed.value.key_type
+			return `${typed.value.key_type}(${typed.value.key_hex})`
 		case MetadataPublicKeyHashValueTypeEnum.PublicKeyHash:
-			return typed.value.key_hash_type
+			return `${typed.value.key_hash_type}(${typed.value.hash_hex})`
 		case MetadataInstantArrayValueTypeEnum.InstantArray:
 		case MetadataBoolArrayValueTypeEnum.BoolArray:
 		case MetadataUrlArrayValueTypeEnum.UrlArray:
@@ -58,9 +59,9 @@ export const getMetadataValue = (value?: EntityMetadataItem): string => {
 		case MetadataU32ArrayValueTypeEnum.U32Array:
 			return typed.values.join(', ')
 		case MetadataPublicKeyArrayValueTypeEnum.PublicKeyArray:
-			return typed.values.map(v => v.key_type).join(', ')
+			return typed.values.map(v => `${v.key_type}(${v.key_hex})`).join(', ')
 		case MetadataPublicKeyHashArrayValueTypeEnum.PublicKeyHashArray:
-			return typed.values.map(v => v.key_hash_type).join(', ')
+			return typed.values.map(v => `${v.key_hash_type}(${v.hash_hex})`).join(', ')
 		default:
 			return typed?.value || ''
 	}
@@ -75,19 +76,21 @@ const MetadataValue: React.FC<IProps> = ({ value }) => {
 	const isLinkValue = urlRegex.test(metaValue)
 
 	return (
-		<Box maxWidth="full">
-			{isLinkValue ? (
-				<Link target="_blank" href={metaValue} className={styles.metaDataLinkWrapper}>
+		<ToolTip message={metaValue}>
+			<Box maxWidth="full">
+				{isLinkValue ? (
+					<Link target="_blank" href={metaValue} className={styles.metaDataLinkWrapper}>
+						<Text size="xsmall" truncate>
+							{metaValue}
+						</Text>
+					</Link>
+				) : (
 					<Text size="xsmall" truncate>
 						{metaValue}
 					</Text>
-				</Link>
-			) : (
-				<Text size="xsmall" truncate>
-					{metaValue}
-				</Text>
-			)}
-		</Box>
+				)}
+			</Box>
+		</ToolTip>
 	)
 }
 

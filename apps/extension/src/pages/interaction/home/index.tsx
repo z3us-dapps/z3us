@@ -43,7 +43,7 @@ export const Home: React.FC = () => {
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.requestCancelSuccess,
-						interactionId,
+						{ interactionId, metadata: interaction.metadata },
 					),
 				)
 			} else {
@@ -52,7 +52,7 @@ export const Home: React.FC = () => {
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.requestCancelFail,
-						interactionId,
+						{ interactionId, metadata: interaction.metadata },
 					),
 				)
 			}
@@ -74,7 +74,7 @@ export const Home: React.FC = () => {
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.receivedByWallet,
-						interactionId,
+						{ interactionId, metadata: interaction.metadata },
 					),
 				)
 			})

@@ -76,6 +76,7 @@ export const MessageClient = () => {
 		}
 
 		message.fromTabId = message.fromTabId || sender?.tab?.id
+		message.senderUrl = message.senderUrl || sender?.url
 
 		const handler = messageHandlers[action]
 		if (handler) {

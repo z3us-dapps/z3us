@@ -70,7 +70,7 @@ export const Pairing: React.FC<IProps> = ({
 		const connect = () => {
 			onPairingStateChange(PairingState.LOADING)
 			return chromeLocalStore
-				.getItem('connectionPassword')
+				.getItem(PASSWORD_STORAGE_KEY)
 				.andThen(({ connectionPassword: password }) => {
 					if (password) {
 						connectorClient.setConnectionPassword(Buffer.from(password, 'hex'))

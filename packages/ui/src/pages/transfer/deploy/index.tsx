@@ -4,7 +4,9 @@ import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
+import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
@@ -130,11 +132,13 @@ export const Deploy: React.FC = () => {
 			onSubmit={handleSubmit}
 			initialValues={initialValues}
 			errors={validation?.format()}
-			submitButtonTitle={intl.formatMessage(messages.submit_button)}
 			className={styles.transferFormWrapper}
 		>
 			<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
 			<DeployFormFields />
+			<SubmitButton>
+				<Button sizeVariant="large">{intl.formatMessage(messages.submit_button)}</Button>
+			</SubmitButton>
 		</Form>
 	)
 }
