@@ -10,10 +10,10 @@ This [Turborepo](https://turborepo.org/) monorepo is home to the Z3US browser ex
 ### 📱 Apps
 
 ## 🔌 [Extension](apps/extension/README.md) 
-- `website`: Z3US [Next.js](https://nextjs.org) website - [localhost:4000](http://localhost:4000)
+- `extension`: Z3US wallet browser extension - [Vite](https://vitejs.dev/) and [React](https://reactjs.org/) - [localhost:8003](http://localhost:8003)
 
 ## 🌐 [Website](apps/website/README.md) 
-- `extension`: Z3US wallet browser extension - [Vite](https://vitejs.dev/) and [React](https://reactjs.org/) - [localhost:8003](http://localhost:8003)
+- `website`: Z3US [Next.js](https://nextjs.org) website - [localhost:4000](http://localhost:4000)
 
 ### 📦 Packages
 
