@@ -52,12 +52,17 @@ export const Dialog: React.FC<IDialogProps> = props => {
 					onInteractOutside={onClose}
 				>
 					<Box className={styles.dialogContentWrapper}>
-						<ScrollArea className={styles.dialogContentSimpleBarWrapper}>{children}</ScrollArea>
+						<ScrollArea
+							className={styles.dialogContentScrollAreaWrapper}
+							viewPortClassName={styles.dialogContentScrollAreaViewportWrapper}
+						>
+							{children}
+						</ScrollArea>
 					</Box>
 					{isCloseButtonVisible ? (
 						<Box className={styles.dialogContentCloseWrapper}>
 							<DialogClose asChild>
-								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={onClose}>
+								<Button styleVariant="ghost" sizeVariant="xsmall" iconOnly onClick={onClose}>
 									<Close2Icon />
 								</Button>
 							</DialogClose>

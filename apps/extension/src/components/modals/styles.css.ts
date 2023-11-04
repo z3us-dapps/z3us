@@ -3,6 +3,68 @@ import { style } from '@vanilla-extract/css'
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
+export const modalContentWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+		padding: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
+	}),
+	{},
+	// responsiveStyle({
+	// 	mobile: { height: '48px' },
+	// 	tablet: { height: '64px' },
+	// }),
+])
+
+export const modalContentTitleTextWrapper = style([
+	sprinkles({
+		width: 'full',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'xsmall',
+		paddingBottom: {
+			mobile: 'medium',
+			tablet: 'large',
+		},
+	}),
+	{},
+])
+
+export const modalContentFormButtonWrapper = style([
+	sprinkles({
+		width: 'full',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'small',
+	}),
+	{},
+])
+
+export const modalContentFormBorderWrapper = style([
+	sprinkles({
+		borderTop: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+		marginTop: 'large',
+		paddingTop: 'large',
+	}),
+	{},
+])
+
+export const modalPersonaFormWrapper = style([
+	sprinkles({
+		width: 'full',
+		paddingTop: {
+			mobile: 'medium',
+		},
+	}),
+	{},
+])
+
+// OLD
 export const headerWrapper = style([
 	sprinkles({
 		position: 'relative',

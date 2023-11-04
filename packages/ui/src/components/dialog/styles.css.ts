@@ -71,7 +71,7 @@ export const dialogContentWidthMedium = style([
 	sprinkles({}),
 	{},
 	responsiveStyle({
-		mobile: { width: '220px' },
+		mobile: { width: '90%' },
 		tablet: { width: '560px' },
 	}),
 ])
@@ -86,6 +86,17 @@ export const dialogContentWidthLarge = style([
 	}),
 ])
 
+export const dialogContentCloseWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		marginTop: 'small',
+		marginRight: 'small',
+	}),
+	{},
+])
+
 export const dialogContentWrapper = style([
 	sprinkles({
 		position: 'relative',
@@ -93,26 +104,18 @@ export const dialogContentWrapper = style([
 	{},
 ])
 
-export const dialogContentCloseWrapper = style([
-	sprinkles({
-		position: 'absolute',
-		top: 0,
-		right: 0,
-		marginTop: 'medium',
-		marginRight: 'medium',
-	}),
-	{},
-])
-
-export const dialogContentSimpleBarWrapper = style([
+export const dialogContentScrollAreaWrapper = style([
 	sprinkles({
 		position: 'relative',
 		borderRadius: 'medium',
 		overflow: 'clip',
 	}),
-	{
-		height: '100vh',
-	},
+	{},
+])
+
+export const dialogContentScrollAreaViewportWrapper = style([
+	sprinkles({}),
+	{},
 	responsiveStyle({
 		mobile: { maxHeight: '90vh' },
 		tablet: { maxHeight: '90vh' },

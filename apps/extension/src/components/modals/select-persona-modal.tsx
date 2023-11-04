@@ -5,15 +5,12 @@ import type { ZodError } from 'zod'
 import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
-import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
+import { Dialog } from 'ui/src/components/dialog'
 import { Form } from 'ui/src/components/form'
 import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
-import { Close2Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
-import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
@@ -21,6 +18,14 @@ import AddPersonaForm from '../forms/add-persona-form'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
+	persona_modal_title: {
+		defaultMessage: 'Select persona',
+		id: 'yEEu6R',
+	},
+	persona_modal_sub_title: {
+		defaultMessage: 'You can use the drop down to select a persona, or create a new persona.',
+		id: 'bfUQWv',
+	},
 	persona: {
 		id: 'JGu6zs',
 		defaultMessage: 'Persona',
@@ -28,6 +33,10 @@ const messages = defineMessages({
 	validation_persona: {
 		id: 'fkKPLv',
 		defaultMessage: 'Please select persona',
+	},
+	form_button_add_persona_title: {
+		id: 'UcOfEC',
+		defaultMessage: 'Add persona',
 	},
 	form_button_title: {
 		id: 'AyGauy',
@@ -57,7 +66,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
-	const [isScrolled, setIsScrolled] = useState<boolean>(false)
+	const [isAddPersonaFormVisible, setIsAddPersonaFormVisible] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 
 	const validationSchema = useMemo(
@@ -71,13 +80,6 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [])
-
-	const handleScroll = (event: Event) => {
-		const target = event.target as Element
-		const { scrollTop } = target
-
-		setIsScrolled(scrollTop > 0)
-	}
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		const result = validationSchema.safeParse(values)
@@ -96,59 +98,49 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 		setValidation(undefined)
 	}
 
-	const handleEscapeKeyDown = () => {
-		handleCancel()
-	}
-
-	const handleOnInteractOutside = () => {
-		handleCancel()
+	const handleClickAddPersona = () => {
+		setIsAddPersonaFormVisible(true)
 	}
 
 	return (
-		<DialogRoot open={isOpen} modal>
-			<DialogPortal>
-				<DialogOverlay className={dialogStyles.dialogOverlay} />
-				<DialogContent
-					onEscapeKeyDown={handleEscapeKeyDown}
-					onInteractOutside={handleOnInteractOutside}
-					className={clsx(dialogStyles.dialogContent, styles.content)}
-				>
-					<ScrollArea onScroll={handleScroll}>
-						<Box className={styles.scrollWrapper}>
-							<Box>
-								<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
-									<SelectField
-										ref={inputRef}
-										name="persona"
-										placeholder={intl.formatMessage(messages.persona)}
-										data={Object.keys(personaIndexes).map(address => ({
-											id: address,
-											title: personaIndexes[address].label || address,
-										}))}
-									/>
-									<SubmitButton>
-										<Button sizeVariant="small">{intl.formatMessage(messages.form_button_title)}</Button>
-									</SubmitButton>
-								</Form>
-							</Box>
-							<Box>
-								<AddPersonaForm />
-							</Box>
-						</Box>
-					</ScrollArea>
-					<Box className={clsx(styles.headerWrapper, isScrolled && styles.headerWrapperShadow)}>
-						<Box flexGrow={1} />
-						<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
-							<ToolTip message={intl.formatMessage(messages.close)}>
-								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleCancel}>
-									<Close2Icon />
-								</Button>
-							</ToolTip>
-						</Box>
+		<Dialog open={isOpen} onClose={handleCancel}>
+			<Box className={styles.modalContentWrapper}>
+				<Box className={styles.modalContentTitleTextWrapper}>
+					<Text color="strong" size="large" weight="strong">
+						{intl.formatMessage(messages.persona_modal_title)}
+					</Text>
+					<Text>{intl.formatMessage(messages.persona_modal_sub_title)}</Text>
+				</Box>
+				<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
+					<SelectField
+						ref={inputRef}
+						name="persona"
+						placeholder={intl.formatMessage(messages.persona)}
+						sizeVariant="large"
+						data={Object.keys(personaIndexes).map(address => ({
+							id: address,
+							title: personaIndexes[address].label || address,
+						}))}
+						fullWidth
+					/>
+					<Box className={clsx(styles.modalContentFormButtonWrapper, styles.modalContentFormBorderWrapper)}>
+						<Button fullWidth sizeVariant="large" styleVariant="secondary" onClick={handleClickAddPersona}>
+							{intl.formatMessage(messages.form_button_add_persona_title)}
+						</Button>
+						<SubmitButton>
+							<Button fullWidth sizeVariant="large">
+								{intl.formatMessage(messages.form_button_title)}
+							</Button>
+						</SubmitButton>
 					</Box>
-				</DialogContent>
-			</DialogPortal>
-		</DialogRoot>
+				</Form>
+				{isAddPersonaFormVisible && (
+					<Box className={clsx(styles.modalPersonaFormWrapper, styles.modalContentFormBorderWrapper)}>
+						<AddPersonaForm />
+					</Box>
+				)}
+			</Box>
+		</Dialog>
 	)
 }
 
