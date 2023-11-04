@@ -29,6 +29,7 @@ export const unlockZ3usLogoWrapper = style([
 		justifyContent: 'center',
 		paddingBottom: {
 			mobile: 'none',
+			tablet: 'xlarge',
 		},
 	}),
 	{},
