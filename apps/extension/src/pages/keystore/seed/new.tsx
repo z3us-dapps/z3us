@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { Text } from 'ui/src/components/typography'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { createMnemonic, secretToData } from '@src/crypto/secret'

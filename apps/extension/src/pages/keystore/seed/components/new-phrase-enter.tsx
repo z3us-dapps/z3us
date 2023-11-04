@@ -6,7 +6,6 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { SeedPhraseDisplayInput } from 'ui/src/components/seed-phrase-display'
-import { Text } from 'ui/src/components/typography'
 
 import { Title } from '../../components/title'
 import * as styles from '../styles.css'

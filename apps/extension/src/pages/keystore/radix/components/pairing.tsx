@@ -10,7 +10,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { QrStyled } from 'ui/src/components/qr-styled'
-import { Link, Text } from 'ui/src/components/typography'
+import { Link } from 'ui/src/components/typography'
 
 import { config, radixConnectConfig } from '@src/config'
 import { chromeLocalStore } from '@src/radix/storage-local'

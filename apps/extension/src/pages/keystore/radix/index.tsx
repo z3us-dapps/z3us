@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
-import { Text } from 'ui/src/components/typography'
 import { KeystoreType } from 'ui/src/store/types'
 
 import type { Data } from '@src/types/vault'

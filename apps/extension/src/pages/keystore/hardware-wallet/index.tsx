@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
-import { Text } from 'ui/src/components/typography'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { secretToData } from '@src/crypto/secret'
