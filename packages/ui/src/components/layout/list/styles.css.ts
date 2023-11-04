@@ -25,6 +25,7 @@ export const listItemWrapper = style([
 		borderTop: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
+		color: 'colorNeutral',
 	}),
 	{
 		outline: 'none',

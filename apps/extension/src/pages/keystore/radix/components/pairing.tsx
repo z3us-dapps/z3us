@@ -133,7 +133,7 @@ export const Pairing: React.FC<IProps> = ({
 				<QrStyled value={connectionPassword} size={200} />
 			</Box>
 			<Box className={styles.pairingLinkWrapper}>
-				<Link href="https://radixdlt.com" size="small" target="_blank">
+				<Link href="https://wallet.radixdlt.com/" size="small" target="_blank">
 					{intl.formatMessage(messages.link)}
 				</Link>
 			</Box>
