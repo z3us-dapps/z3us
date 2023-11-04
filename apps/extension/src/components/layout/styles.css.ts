@@ -29,7 +29,6 @@ export const unlockZ3usLogoWrapper = style([
 		justifyContent: 'center',
 		paddingBottom: {
 			mobile: 'none',
-			tablet: 'xlarge',
 		},
 	}),
 	{},
@@ -57,14 +56,12 @@ export const unlockPaddingWrapper = style([
 		width: 'full',
 		paddingTop: {
 			mobile: 'xlarge',
-			tablet: 'xlarge',
 		},
 		paddingBottom: {
 			tablet: 'xlarge',
 		},
 		paddingX: {
 			mobile: 'xlarge',
-			tablet: 'xlarge',
 		},
 	}),
 	{},
@@ -97,7 +94,6 @@ export const unlockFormWalletWrapper = style([
 		gap: 'small',
 		paddingTop: {
 			mobile: 'large',
-			tablet: 'large',
 		},
 	}),
 	{},
