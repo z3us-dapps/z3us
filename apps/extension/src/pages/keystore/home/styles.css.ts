@@ -12,19 +12,6 @@ export const keystoreHomeStyleWrapper = style([
 	{},
 ])
 
-export const keystoreHomeTextWrapper = style([
-	sprinkles({
-		position: 'relative',
-		display: 'flex',
-		width: 'full',
-		flexDirection: 'column',
-		gap: {
-			mobile: 'xsmall',
-		},
-	}),
-	{},
-])
-
 export const keystoreHomeButtonWrapper = style([
 	sprinkles({
 		display: 'flex',

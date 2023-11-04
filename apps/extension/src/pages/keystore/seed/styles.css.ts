@@ -14,17 +14,6 @@ export const keystoreNewWrapper = style([
 	{},
 ])
 
-export const keystoreNewTextWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		gap: 'xsmall',
-		paddingTop: 'small',
-		paddingBottom: 'large',
-	}),
-	{},
-])
-
 export const keystoreSelectWrapper = style([
 	sprinkles({
 		display: 'flex',

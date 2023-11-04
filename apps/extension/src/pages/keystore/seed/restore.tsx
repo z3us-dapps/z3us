@@ -17,6 +17,7 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
+import { Title } from '../components/title'
 import WordInput from './components/word-input'
 import * as styles from './styles.css'
 
@@ -151,12 +152,10 @@ export const Restore: React.FC = () => {
 		case 1:
 			return (
 				<Box className={styles.keystoreNewWrapper}>
-					<Box className={styles.keystoreNewTextWrapper}>
-						<Text size="xxlarge" weight="strong" color="strong">
-							{intl.formatMessage(messages.restore_new_wallet_title)}
-						</Text>
-						<Text>{intl.formatMessage(messages.restore_new_wallet_sub_title)}</Text>
-					</Box>
+					<Title
+						title={intl.formatMessage(messages.restore_new_wallet_title)}
+						subTitle={intl.formatMessage(messages.restore_new_wallet_sub_title)}
+					/>
 					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(2)} />
 				</Box>
 			)
@@ -166,13 +165,10 @@ export const Restore: React.FC = () => {
 					<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
 						<ArrowLeftIcon />
 					</Button>
-					<Box className={styles.keystoreNewTextWrapper}>
-						<Text color="strong" size="xxlarge" weight="strong">
-							{intl.formatMessage(messages.seed_restore_title)}
-						</Text>
-						<Text>{intl.formatMessage(messages.seed_restore_sub_title)}</Text>
-					</Box>
-
+					<Title
+						title={intl.formatMessage(messages.seed_restore_title)}
+						subTitle={intl.formatMessage(messages.seed_restore_sub_title)}
+					/>
 					<Box className={styles.keystoreSelectWrapper}>
 						<Text size="xsmall">{intl.formatMessage(messages.seed_restore_phrase_select_box)}</Text>
 						<SelectSimple sizeVariant="small" value={strength} onValueChange={handleSelect} data={strengthOptions} />

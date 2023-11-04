@@ -3,6 +3,17 @@ import { style } from '@vanilla-extract/css'
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
+export const keystoreNewTextWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'xsmall',
+		paddingTop: 'small',
+		paddingBottom: 'large',
+	}),
+	{},
+])
+
 export const onboardingNavWrapper = style([
 	sprinkles({
 		position: 'relative',

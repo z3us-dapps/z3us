@@ -12,17 +12,6 @@ export const pairingWrapper = style([
 	{},
 ])
 
-export const pairingTextWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		gap: 'xsmall',
-		paddingTop: 'small',
-		paddingBottom: 'large',
-	}),
-	{},
-])
-
 export const pairingQrWrapper = style([
 	sprinkles({
 		display: 'flex',

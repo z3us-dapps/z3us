@@ -5,8 +5,8 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import SeedPhraseDisplay from 'ui/src/components/seed-phrase-display'
-import { Text } from 'ui/src/components/typography'
 
+import { Title } from '../../components/title'
 import * as styles from '../styles.css'
 
 const messages = defineMessages({
@@ -39,12 +39,10 @@ export const NewPhraseDisplay: React.FC<IProps> = ({ words, onBack, onNext }) =>
 			<Button onClick={onBack} styleVariant="ghost" sizeVariant="small" iconOnly>
 				<ArrowLeftIcon />
 			</Button>
-			<Box className={styles.keystoreNewTextWrapper}>
-				<Text size="xxlarge" weight="strong" color="strong">
-					{intl.formatMessage(messages.phrase_display_title)}
-				</Text>
-				<Text>{intl.formatMessage(messages.phrase_display_sub_title)}</Text>
-			</Box>
+			<Title
+				title={intl.formatMessage(messages.phrase_display_title)}
+				subTitle={intl.formatMessage(messages.phrase_display_sub_title)}
+			/>
 			<SeedPhraseDisplay words={words} />
 			<Button onClick={onNext} sizeVariant="xlarge" styleVariant="primary" fullWidth>
 				{intl.formatMessage(messages.phrase_display_continue)}

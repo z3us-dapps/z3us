@@ -13,6 +13,7 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
+import { Title } from '../components/title'
 import { PASSWORD_STORAGE_KEY, Pairing, PairingState } from './components/pairing'
 import * as styles from './styles.css'
 
@@ -57,12 +58,10 @@ export const Radix: React.FC = () => {
 		case 1:
 			return (
 				<Box className={styles.pairingWrapper}>
-					<Box className={styles.pairingTextWrapper}>
-						<Text size="xxlarge" weight="strong" color="strong">
-							{intl.formatMessage(messages.hardware_wallet_complete_title)}
-						</Text>
-						<Text>{intl.formatMessage(messages.hardware_wallet_complete_sub_title)}</Text>
-					</Box>
+					<Title
+						title={intl.formatMessage(messages.hardware_wallet_complete_title)}
+						subTitle={intl.formatMessage(messages.hardware_wallet_complete_sub_title)}
+					/>
 					<KeystoreForm keystoreType={KeystoreType.RADIX_WALLET} onSubmit={handleSubmit} onNext={() => setStep(2)} />
 				</Box>
 			)

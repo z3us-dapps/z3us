@@ -11,14 +11,3 @@ export const hardwareWalletWrapper = style([
 	}),
 	{},
 ])
-
-export const hardwareWalletTextWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		gap: 'xsmall',
-		paddingTop: 'small',
-		paddingBottom: 'large',
-	}),
-	{},
-])

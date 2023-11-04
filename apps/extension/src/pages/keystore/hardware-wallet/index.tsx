@@ -16,6 +16,7 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
+import { Title } from '../components/title'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -78,12 +79,10 @@ export const New: React.FC = () => {
 		case 1:
 			return (
 				<Box className={styles.hardwareWalletWrapper}>
-					<Box className={styles.hardwareWalletTextWrapper}>
-						<Text size="xxlarge" weight="strong" color="strong">
-							{intl.formatMessage(messages.hardware_wallet_complete_title)}
-						</Text>
-						<Text>{intl.formatMessage(messages.hardware_wallet_complete_sub_title)}</Text>
-					</Box>
+					<Title
+						title={intl.formatMessage(messages.hardware_wallet_complete_title)}
+						subTitle={intl.formatMessage(messages.hardware_wallet_complete_sub_title)}
+					/>
 					<KeystoreForm keystoreType={KeystoreType.HARDWARE} onSubmit={handleSubmit} onNext={() => setStep(2)} />
 				</Box>
 			)
@@ -93,12 +92,10 @@ export const New: React.FC = () => {
 					<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
 						<ArrowLeftIcon />
 					</Button>
-					<Box className={styles.hardwareWalletTextWrapper}>
-						<Text color="strong" size="xxlarge" weight="strong">
-							{intl.formatMessage(messages.hardware_wallet_title)}
-						</Text>
-						<Text>{intl.formatMessage(messages.hardware_wallet_sub_title)}</Text>
-					</Box>
+					<Title
+						title={intl.formatMessage(messages.hardware_wallet_title)}
+						subTitle={intl.formatMessage(messages.hardware_wallet_sub_title)}
+					/>
 					<Button
 						onClick={handleGetDeviceInfo}
 						styleVariant="primary"

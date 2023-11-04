@@ -8,6 +8,7 @@ import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { SeedPhraseDisplayInput } from 'ui/src/components/seed-phrase-display'
 import { Text } from 'ui/src/components/typography'
 
+import { Title } from '../../components/title'
 import * as styles from '../styles.css'
 
 function shuffle<T>(array: T[]): T[] {
@@ -72,12 +73,10 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 			<Button onClick={onBack} styleVariant="ghost" sizeVariant="small" iconOnly>
 				<ArrowLeftIcon />
 			</Button>
-			<Box className={styles.keystoreNewTextWrapper}>
-				<Text size="xxlarge" weight="strong" color="strong">
-					{intl.formatMessage(messages.phrase_enter_title)}
-				</Text>
-				<Text>{intl.formatMessage(messages.phrase_enter_sub_title)}</Text>
-			</Box>
+			<Title
+				title={intl.formatMessage(messages.phrase_enter_title)}
+				subTitle={intl.formatMessage(messages.phrase_enter_sub_title)}
+			/>
 			<Box className={styles.keystoreNewPhraseGridButtonWrapper}>
 				{shuffled.map((word, i) => {
 					const isDisabled = verification.includes(word)

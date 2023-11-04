@@ -12,17 +12,6 @@ export const extendedKeyWrapper = style([
 	{},
 ])
 
-export const extendedKeyWrapperTextWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		gap: 'xsmall',
-		paddingTop: 'small',
-		paddingBottom: 'large',
-	}),
-	{},
-])
-
 export const extendedKeyInputWrapper = style([
 	sprinkles({
 		width: 'full',

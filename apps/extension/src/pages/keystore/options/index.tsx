@@ -8,6 +8,7 @@ import { ArrowLeftIcon, KeyIcon, SmartPhoneIcon, UsbIcon, WriteNoteIcon } from '
 import { List, ListItem } from 'ui/src/components/layout/list'
 import { Text } from 'ui/src/components/typography'
 
+import { Title } from '../components/title'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -62,12 +63,10 @@ export const Home: React.FC = () => {
 			<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
 				<ArrowLeftIcon />
 			</Button>
-			<Box className={styles.keystoreOptionsTextWrapper}>
-				<Text color="strong" size="xxlarge" weight="strong">
-					{intl.formatMessage(messages.wallet_options_title)}
-				</Text>
-				<Text>{intl.formatMessage(messages.wallet_options_sub_title)}</Text>
-			</Box>
+			<Title
+				title={intl.formatMessage(messages.wallet_options_title)}
+				subTitle={intl.formatMessage(messages.wallet_options_sub_title)}
+			/>
 			<Box className={styles.keystoreOptionsButtonsWrapper}>
 				<List>
 					<ListItem onClick={handleConnectRadix} iconLeft={<SmartPhoneIcon />}>
