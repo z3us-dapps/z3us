@@ -134,3 +134,14 @@ export const keystoreNewPhraseGridWrapper = style([
 		tablet: { gridTemplateColumns: '1fr 1fr 1fr' },
 	}),
 ])
+
+export const keystoreRestoreContinueBtnWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingTop: {
+			mobile: 'small',
+			tablet: 'medium',
+		},
+	}),
+	{},
+])

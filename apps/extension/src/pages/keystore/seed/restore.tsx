@@ -218,16 +218,18 @@ export const Restore: React.FC = () => {
 							/>
 						</Box>
 					)}
-					<Button
-						ref={btnRef}
-						onClick={() => setStep(1)}
-						sizeVariant="xlarge"
-						styleVariant="primary"
-						fullWidth
-						disabled={!words.find(w => w === '') || incorrectWords.length > 0}
-					>
-						{intl.formatMessage(messages.seed_restore_continue)}
-					</Button>
+					<Box className={styles.keystoreRestoreContinueBtnWrapper}>
+						<Button
+							ref={btnRef}
+							onClick={() => setStep(1)}
+							sizeVariant="xlarge"
+							styleVariant="primary"
+							fullWidth
+							disabled={!words.find(w => w === '') || incorrectWords.length > 0}
+						>
+							{intl.formatMessage(messages.seed_restore_continue)}
+						</Button>
+					</Box>
 				</Box>
 			)
 	}

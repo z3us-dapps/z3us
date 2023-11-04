@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const keystoreNewTextWrapper = style([
 	sprinkles({
@@ -39,6 +40,10 @@ export const keystoreOuterWrapper = style([
 		width: 'full',
 	}),
 	{},
+	responsiveStyle({
+		mobile: { backgroundColor: vars.color.backgroundSecondary },
+		tablet: { backgroundColor: vars.color.backgroundPrimary },
+	}),
 ])
 
 export const keystoreOuterFlexWrapper = style([
@@ -48,21 +53,6 @@ export const keystoreOuterFlexWrapper = style([
 		justifyContent: 'center',
 		flexDirection: 'column',
 		alignItems: 'center',
-		paddingX: {
-			mobile: 'none',
-			tablet: 'large',
-			desktop: 'xxlarge',
-		},
-		paddingTop: {
-			mobile: 'none',
-			tablet: 'large',
-			desktop: 'xlarge',
-		},
-		paddingBottom: {
-			mobile: 'none',
-			tablet: 'large',
-			desktop: 'xlarge',
-		},
 		width: 'full',
 	}),
 	{},
@@ -83,7 +73,6 @@ export const keystoreInnerWrapper = style([
 			mobile: 'none',
 			tablet: 'large',
 		},
-
 		paddingBottom: {
 			mobile: 'none',
 			tablet: 'xxlarge',
@@ -99,6 +88,7 @@ export const keystoreInnerScrollPanelWrapper = style([
 	sprinkles({}),
 	{},
 	responsiveStyle({
-		tablet: { maxHeight: 'calc(100vh - 246px)' },
+		mobile: { minHeight: '600px' },
+		tablet: { minHeight: 'unset', maxHeight: 'calc(100vh - 246px)' },
 	}),
 ])

@@ -16,7 +16,10 @@ export const extendedKeyInputWrapper = style([
 	sprinkles({
 		width: 'full',
 		paddingTop: 'small',
-		paddingBottom: 'large',
+		paddingBottom: {
+			mobile: 'medium',
+			tablet: 'large',
+		},
 	}),
 	{},
 ])
