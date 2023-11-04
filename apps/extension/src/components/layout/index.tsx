@@ -1,10 +1,13 @@
 import React, { Suspense, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useOutlet } from 'react-router-dom'
+import browser from 'webextension-polyfill'
 
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
+import { openTabWithURL } from '@src/browser/tabs'
+import { config } from '@src/config'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 
 import Unlock from './unlock'
@@ -19,11 +22,13 @@ const Layout: React.FC = () => {
 	}))
 
 	useEffect(() => {
-		if (!isLoading && !selectedKeystoreId && !location.pathname.startsWith('/keystore/new')) {
-			window.open(`${window.location.href}/keystore/new`, '_blank', 'noreferrer')
-			window.close()
+		if (isLoading) return
+		if (isUnlocked) return
+		if (location.pathname.startsWith('/keystore/new')) return
+		if (!selectedKeystoreId) {
+			openTabWithURL(`${browser.runtime.getURL('')}${config.popup.pages.app}#/keystore/new`).then(() => window.close())
 		}
-	}, [selectedKeystoreId, isLoading])
+	}, [selectedKeystoreId, isLoading, isUnlocked])
 
 	if (!location.pathname.startsWith('/keystore/new')) {
 		if (isLoading) return <FallbackLoading />
