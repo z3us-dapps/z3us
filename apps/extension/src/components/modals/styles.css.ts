@@ -38,7 +38,7 @@ export const modalContentFormButtonWrapper = style([
 		width: 'full',
 		display: 'flex',
 		flexDirection: 'column',
-		gap: 'small',
+		gap: 'medium',
 	}),
 	{},
 ])

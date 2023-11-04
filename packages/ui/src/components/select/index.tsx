@@ -1,6 +1,7 @@
 import * as SelectPrimitive from '@radix-ui/react-select'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
+import useMeasure from 'react-use-measure'
 
 import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/button'
 
@@ -132,52 +133,57 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 			disabled = false,
 		},
 		ref,
-	) => (
-		<SelectRoot value={value} onValueChange={onValueChange}>
-			{trigger || (
-				<SelectTrigger asChild aria-label={selectAriaLabel}>
-					<Box
-						display="inline-flex"
-						style={{
-							...(fullWidth
-								? {
-										width: '100%',
-										maxWidth: '100%',
-								  }
-								: {
-										maxWidth: `${width}px`,
-										width: 'fit-content',
-								  }),
-						}}
-					>
-						<Button
-							ref={ref}
-							sizeVariant={sizeVariant}
-							styleVariant={styleVariant}
-							rightIcon={<ChevronDown2Icon />}
-							rounded={rounded}
-							fullWidth={fullWidth}
-							disabled={disabled}
-							className={clsx(fullWidth && styles.selectFullWidthButton)}
+	) => {
+		const [measureRef, { width: triggerWidth }] = useMeasure()
+
+		return (
+			<SelectRoot value={value} onValueChange={onValueChange}>
+				{trigger || (
+					<SelectTrigger asChild aria-label={selectAriaLabel}>
+						<Box
+							ref={measureRef}
+							display="inline-flex"
+							style={{
+								...(fullWidth
+									? {
+											width: '100%',
+											maxWidth: '100%',
+									  }
+									: {
+											maxWidth: `${width}px`,
+											width: 'fit-content',
+									  }),
+							}}
 						>
-							<span style={{ overflow: 'hidden' }}>
-								<SelectValue aria-label={value} placeholder={placeholder} />
-							</span>
-						</Button>
-					</Box>
-				</SelectTrigger>
-			)}
-			<SelectContent style={{ maxWidth: `${width}px` }}>
-				<SelectGroup>
-					{data.map(({ id, title }) => (
-						<SelectItem key={id} value={id}>
-							<Text truncate size="small" color="strong" capitalizeFirstLetter={capitalizeFirstLetter}>
-								{title}
-							</Text>
-						</SelectItem>
-					))}
-				</SelectGroup>
-			</SelectContent>
-		</SelectRoot>
-	),
+							<Button
+								ref={ref}
+								sizeVariant={sizeVariant}
+								styleVariant={styleVariant}
+								rightIcon={<ChevronDown2Icon />}
+								rounded={rounded}
+								fullWidth={fullWidth}
+								disabled={disabled}
+								className={clsx(fullWidth && styles.selectFullWidthButton)}
+							>
+								<span style={{ overflow: 'hidden' }}>
+									<SelectValue aria-label={value} placeholder={placeholder} />
+								</span>
+							</Button>
+						</Box>
+					</SelectTrigger>
+				)}
+				<SelectContent style={{ maxWidth: `${triggerWidth}px` }}>
+					<SelectGroup>
+						{data.map(({ id, title }) => (
+							<SelectItem key={id} value={id}>
+								<Text truncate size="small" color="strong" capitalizeFirstLetter={capitalizeFirstLetter}>
+									{title}
+								</Text>
+							</SelectItem>
+						))}
+					</SelectGroup>
+				</SelectContent>
+			</SelectRoot>
+		)
+	},
 )
