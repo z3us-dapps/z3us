@@ -29,11 +29,7 @@ export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; relo
 		client
 			.isVaultUnlocked()
 			.then(isVaultUnlocked => setIsUnlocked(isVaultUnlocked))
-			.catch(err => {
-				// eslint-disable-next-line no-console
-				console.error(err)
-				setIsUnlocked(false)
-			})
+			.catch(() => setIsUnlocked(false))
 			.finally(() => setIsLoading(false))
 	}, [time, trigger, keystoreId])
 
