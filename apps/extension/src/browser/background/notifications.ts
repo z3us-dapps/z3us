@@ -4,17 +4,10 @@ import {
 } from '@radixdlt/connector-extension/src/chrome/background/notification-dispatcher'
 import browser from 'webextension-polyfill'
 
+import { openTabWithURL } from '@src/browser/tabs'
+
 export const notificationDelimiter = '--'
 export const txNotificationIdPrefix = `tx${notificationDelimiter}`
-
-export const openTabWithURL = async (url: string) => {
-	const currentWindow = await browser.windows.getCurrent()
-	if (currentWindow != null) {
-		currentWindow.focused = true
-		return browser.tabs.create({ url, active: true })
-	}
-	return browser.windows.create({ url, focused: true })
-}
 
 export const handleTransactionNotificationClick = async id => {
 	const [, txId] = id.slice(txNotificationIdPrefix.length).split(notificationDelimiter)

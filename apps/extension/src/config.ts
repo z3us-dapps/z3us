@@ -42,7 +42,7 @@ export const config: ConfigType = {
 		pages: {
 			...radixCfg.popup.pages,
 			ledger: 'src/pages/ledger/index.html',
-			pairing: 'src/pages/app/index.html#/keystore/new/radix',
+			pairing: 'src/pages/app/index.html#/keystore/new',
 			app: 'src/pages/app/index.html',
 		},
 	},
