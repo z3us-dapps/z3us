@@ -145,3 +145,12 @@ export const keystoreRestoreContinueBtnWrapper = style([
 	}),
 	{},
 ])
+
+export const keystoreContinueBtnWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'medium',
+	}),
+	{},
+])

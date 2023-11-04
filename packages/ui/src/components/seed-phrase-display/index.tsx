@@ -1,8 +1,6 @@
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
-import { Close2Icon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
 
@@ -11,28 +9,18 @@ import * as styles from './styles.css'
 interface TProps {
 	word: string
 	index: number
-	onClear?: () => void
 }
 
-export const SeedPhraseDisplayInput: React.FC<TProps> = ({ word, index, onClear }) => (
+export const SeedPhraseDisplayInput: React.FC<TProps> = ({ word, index }) => (
 	<Box className={styles.inputBlurWrapper}>
 		<Input
 			styleVariant="secondary"
 			sizeVariant="large"
-			// disabled
+			leftIconClassName={styles.inputLeftIconClass}
 			leftIcon={
 				<Box>
 					<Text>{index + 1}.</Text>
 				</Box>
-			}
-			rightIcon={
-				!!onClear && (
-					<Box style={{ marginRight: '-10px' }}>
-						<Button styleVariant="ghost" sizeVariant="xsmall" iconOnly onClick={onClear}>
-							<Close2Icon />
-						</Button>
-					</Box>
-				)
 			}
 		/>
 		<Box className={styles.inputBlurWordWrapper}>

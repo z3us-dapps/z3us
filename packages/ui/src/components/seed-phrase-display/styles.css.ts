@@ -34,6 +34,13 @@ export const phraseGridWrapper = style([
 	},
 ])
 
+export const inputLeftIconClass = style([
+	sprinkles({
+		pointerEvents: 'none',
+	}),
+	{},
+])
+
 export const inputBlurWrapper = style([
 	sprinkles({
 		position: 'relative',
