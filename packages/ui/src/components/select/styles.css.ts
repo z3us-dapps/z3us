@@ -119,3 +119,5 @@ export const selectIconWrapper = style([
 	}),
 	{},
 ])
+
+export const selectFullWidthButton = style([{ justifyContent: 'space-between' }])

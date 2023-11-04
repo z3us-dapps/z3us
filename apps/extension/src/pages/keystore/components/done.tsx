@@ -3,7 +3,6 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { Text } from 'ui/src/components/typography'
 import { Z3usLogoLarge } from 'ui/src/components/z3us-logo-babylon'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
@@ -11,6 +10,7 @@ import { KeystoreType } from 'ui/src/store/types'
 import { useAddAccount } from '@src/hooks/use-add-account'
 
 import * as styles from '../seed/styles.css'
+import { Title } from './title'
 
 const messages = defineMessages({
 	phrase_done_title: {
@@ -48,12 +48,11 @@ export const Done: React.FC<IProps> = ({ onNext }) => {
 			<Box display="flex" width="full" justifyContent="center" paddingY="large">
 				<Z3usLogoLarge fillPurple />
 			</Box>
-			<Box className={styles.keystoreNewTextWrapper}>
-				<Text size="xxlarge" weight="strong" color="strong">
-					{intl.formatMessage(messages.phrase_done_title)}
-				</Text>
-				<Text>{intl.formatMessage(messages.phrase_done_sub_title)}</Text>
-			</Box>
+
+			<Title
+				title={intl.formatMessage(messages.phrase_done_title)}
+				subTitle={intl.formatMessage(messages.phrase_done_sub_title)}
+			/>
 			<Button onClick={handleNext} sizeVariant="xlarge" styleVariant="primary" fullWidth>
 				{intl.formatMessage(messages.phrase_done_button)}
 			</Button>

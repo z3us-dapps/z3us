@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/router-button'
-import { Text } from 'ui/src/components/typography'
 import { Z3usLogoLarge } from 'ui/src/components/z3us-logo-babylon'
 
+import { Title } from '../components/title'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -42,22 +42,22 @@ export const Home: React.FC = () => {
 
 	return (
 		<Box className={styles.keystoreHomeStyleWrapper}>
-			<Box display="flex" width="full" justifyContent="center" paddingY="large">
-				<Z3usLogoLarge />
-			</Box>
-			<Box className={styles.keystoreHomeTextWrapper}>
-				<Text color="strong" size="xxlarge" weight="strong">
-					{intl.formatMessage(messages.wallet_home_title)}
-				</Text>
-				<Text>{intl.formatMessage(messages.wallet_home_sub_title)}</Text>
-			</Box>
-			<Box className={styles.keystoreHomeButtonWrapper}>
-				<Button onClick={handleNew} sizeVariant="xlarge">
-					{intl.formatMessage(messages.create_wallet_button)}
-				</Button>
-				<Button onClick={handleSelectWalletOptions} sizeVariant="xlarge" styleVariant="secondary">
-					{intl.formatMessage(messages.have_wallet_button)}
-				</Button>
+			<Box width="full">
+				<Box display="flex" width="full" justifyContent="center" paddingY="large">
+					<Z3usLogoLarge />
+				</Box>
+				<Title
+					title={intl.formatMessage(messages.wallet_home_title)}
+					subTitle={intl.formatMessage(messages.wallet_home_sub_title)}
+				/>
+				<Box className={styles.keystoreHomeButtonWrapper}>
+					<Button onClick={handleNew} sizeVariant="xlarge">
+						{intl.formatMessage(messages.create_wallet_button)}
+					</Button>
+					<Button onClick={handleSelectWalletOptions} sizeVariant="xlarge" styleVariant="secondary">
+						{intl.formatMessage(messages.have_wallet_button)}
+					</Button>
+				</Box>
 			</Box>
 		</Box>
 	)

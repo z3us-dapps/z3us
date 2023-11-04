@@ -10,11 +10,12 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { QrStyled } from 'ui/src/components/qr-styled'
-import { Link, Text } from 'ui/src/components/typography'
+import { Link } from 'ui/src/components/typography'
 
 import { config, radixConnectConfig } from '@src/config'
 import { chromeLocalStore } from '@src/radix/storage-local'
 
+import { Title } from '../../components/title'
 import * as styles from '../styles.css'
 
 const logger = utilsLogger.getSubLogger({ name: 'pairing' })
@@ -127,17 +128,12 @@ export const Pairing: React.FC<IProps> = ({
 			<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
 				<ArrowLeftIcon />
 			</Button>
-			<Box className={styles.pairingTextWrapper}>
-				<Text color="strong" size="xxlarge" weight="strong">
-					{intl.formatMessage(messages.help_title)}
-				</Text>
-				<Text>{intl.formatMessage(messages.help_sub_title)}</Text>
-			</Box>
+			<Title title={intl.formatMessage(messages.help_title)} subTitle={intl.formatMessage(messages.help_sub_title)} />
 			<Box className={styles.pairingQrWrapper}>
 				<QrStyled value={connectionPassword} size={200} />
 			</Box>
 			<Box className={styles.pairingLinkWrapper}>
-				<Link href="https://radixdlt.com" size="small" target="_blank">
+				<Link href="https://wallet.radixdlt.com/" size="small" target="_blank">
 					{intl.formatMessage(messages.link)}
 				</Link>
 			</Box>

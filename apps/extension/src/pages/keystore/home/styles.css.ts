@@ -1,34 +1,29 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const keystoreHomeStyleWrapper = style([
 	sprinkles({
 		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		width: 'full',
 		padding: {
 			mobile: 'xlarge',
 		},
 	}),
 	{},
-])
-
-export const keystoreHomeTextWrapper = style([
-	sprinkles({
-		position: 'relative',
-		display: 'flex',
-		width: 'full',
-		flexDirection: 'column',
-		gap: {
-			mobile: 'xsmall',
-		},
+	responsiveStyle({
+		mobile: { minHeight: '600px' },
+		tablet: { minHeight: 'unset' },
 	}),
-	{},
 ])
 
 export const keystoreHomeButtonWrapper = style([
 	sprinkles({
 		display: 'flex',
-		paddingTop: 'xlarge',
+		paddingTop: 'small',
 		flexDirection: 'column',
 		gap: 'medium',
 	}),

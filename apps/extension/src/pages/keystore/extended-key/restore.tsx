@@ -6,7 +6,6 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
-import { Text } from 'ui/src/components/typography'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { secretToData } from '@src/crypto/secret'
@@ -15,6 +14,7 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
+import { Title } from '../components/title'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -72,12 +72,10 @@ export const New: React.FC = () => {
 		case 1:
 			return (
 				<Box className={styles.extendedKeyWrapper}>
-					<Box className={styles.extendedKeyWrapperTextWrapper}>
-						<Text size="xxlarge" weight="strong" color="strong">
-							{intl.formatMessage(messages.extended_key_complete_title)}
-						</Text>
-						<Text>{intl.formatMessage(messages.extended_key_complete_sub_title)}</Text>
-					</Box>
+					<Title
+						title={intl.formatMessage(messages.extended_key_complete_title)}
+						subTitle={intl.formatMessage(messages.extended_key_complete_sub_title)}
+					/>
 					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(2)} />
 				</Box>
 			)
@@ -87,12 +85,10 @@ export const New: React.FC = () => {
 					<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
 						<ArrowLeftIcon />
 					</Button>
-					<Box className={styles.extendedKeyWrapperTextWrapper}>
-						<Text color="strong" size="xxlarge" weight="strong">
-							{intl.formatMessage(messages.extended_key_title)}
-						</Text>
-						<Text>{intl.formatMessage(messages.extended_key_sub_title)}</Text>
-					</Box>
+					<Title
+						title={intl.formatMessage(messages.extended_key_title)}
+						subTitle={intl.formatMessage(messages.extended_key_sub_title)}
+					/>
 					<Box className={styles.extendedKeyInputWrapper}>
 						<Input
 							placeholder={intl.formatMessage(messages.extended_key_input_placeholder)}

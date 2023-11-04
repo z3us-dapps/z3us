@@ -14,17 +14,6 @@ export const keystoreNewWrapper = style([
 	{},
 ])
 
-export const keystoreNewTextWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		gap: 'xsmall',
-		paddingTop: 'small',
-		paddingBottom: 'large',
-	}),
-	{},
-])
-
 export const keystoreSelectWrapper = style([
 	sprinkles({
 		display: 'flex',
@@ -144,4 +133,24 @@ export const keystoreNewPhraseGridWrapper = style([
 		mobile: { gridTemplateColumns: '1fr 1fr' },
 		tablet: { gridTemplateColumns: '1fr 1fr 1fr' },
 	}),
+])
+
+export const keystoreRestoreContinueBtnWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingTop: {
+			mobile: 'small',
+			tablet: 'medium',
+		},
+	}),
+	{},
+])
+
+export const keystoreContinueBtnWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'medium',
+	}),
+	{},
 ])

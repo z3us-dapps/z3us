@@ -6,8 +6,8 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { SeedPhraseDisplayInput } from 'ui/src/components/seed-phrase-display'
-import { Text } from 'ui/src/components/typography'
 
+import { Title } from '../../components/title'
 import * as styles from '../styles.css'
 
 function shuffle<T>(array: T[]): T[] {
@@ -41,6 +41,10 @@ const messages = defineMessages({
 		defaultMessage: 'Continue',
 		id: 'acrOoz',
 	},
+	clear_inputs_button: {
+		defaultMessage: 'Clear',
+		id: '/GCoTA',
+	},
 })
 
 interface IProps {
@@ -72,12 +76,10 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 			<Button onClick={onBack} styleVariant="ghost" sizeVariant="small" iconOnly>
 				<ArrowLeftIcon />
 			</Button>
-			<Box className={styles.keystoreNewTextWrapper}>
-				<Text size="xxlarge" weight="strong" color="strong">
-					{intl.formatMessage(messages.phrase_enter_title)}
-				</Text>
-				<Text>{intl.formatMessage(messages.phrase_enter_sub_title)}</Text>
-			</Box>
+			<Title
+				title={intl.formatMessage(messages.phrase_enter_title)}
+				subTitle={intl.formatMessage(messages.phrase_enter_sub_title)}
+			/>
 			<Box className={styles.keystoreNewPhraseGridButtonWrapper}>
 				{shuffled.map((word, i) => {
 					const isDisabled = verification.includes(word)
@@ -99,18 +101,29 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridWrapper}>
 				{words.map((word, i) => (
-					<SeedPhraseDisplayInput key={word} word={verification[i] || ''} index={i} onClear={handleClear} />
+					<SeedPhraseDisplayInput key={word} word={verification[i] || ''} index={i} />
 				))}
 			</Box>
-			<Button
-				onClick={onNext}
-				sizeVariant="xlarge"
-				styleVariant="primary"
-				fullWidth
-				disabled={words.join('') !== verification.join('')}
-			>
-				{intl.formatMessage(messages.phrase_display_continue)}
-			</Button>
+			<Box className={styles.keystoreContinueBtnWrapper}>
+				<Button
+					onClick={handleClear}
+					sizeVariant="xlarge"
+					styleVariant="secondary"
+					fullWidth
+					disabled={verification?.length === 0}
+				>
+					{intl.formatMessage(messages.clear_inputs_button)}
+				</Button>
+				<Button
+					onClick={onNext}
+					sizeVariant="xlarge"
+					styleVariant="primary"
+					fullWidth
+					disabled={words.join('') !== verification.join('')}
+				>
+					{intl.formatMessage(messages.phrase_display_continue)}
+				</Button>
+			</Box>
 		</Box>
 	)
 }

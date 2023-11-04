@@ -116,7 +116,7 @@ export const panelViewMobileScrollWrapper = style([
 	responsiveStyle({
 		mobile: {
 			width: '100%',
-			height: '100%',
+			height: '100vh',
 		},
 		tablet: {
 			width: '100%',

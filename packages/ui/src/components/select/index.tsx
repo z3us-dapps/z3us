@@ -8,7 +8,7 @@ import { Box } from '../box'
 import { Button } from '../button'
 import { ArrowDownIcon, ArrowUpIcon, Check2Icon, ChevronDown2Icon } from '../icons'
 import { Text } from '../typography'
-import * as styles from './select.css'
+import * as styles from './styles.css'
 
 export const SelectRoot = SelectPrimitive.Root
 export const SelectTrigger = SelectPrimitive.Trigger
@@ -158,6 +158,7 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 							rounded={rounded}
 							fullWidth={fullWidth}
 							disabled={disabled}
+							className={clsx(fullWidth && styles.selectFullWidthButton)}
 						>
 							<span style={{ overflow: 'hidden' }}>
 								<SelectValue aria-label={value} placeholder={placeholder} />

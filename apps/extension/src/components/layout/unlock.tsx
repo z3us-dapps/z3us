@@ -8,12 +8,20 @@ import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { SelectSimple } from 'ui/src/components/select'
+import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { Z3usLogoLarge, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
 
+import * as styles from './styles.css'
+
 const messages = defineMessages({
+	wallet_label: {
+		defaultMessage: 'Wallet',
+		id: '3yk8fB',
+	},
 	password_placeholder: {
 		defaultMessage: 'Password',
 		id: '5sg7KC',
@@ -86,23 +94,45 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	}
 
 	return (
-		<Box display="flex" alignItems="center" gap="medium" flexDirection="column">
-			<ValidationErrorMessage message={error} />
-			<SelectSimple value={keystore?.id} onValueChange={handleSelect} data={selectItems} />
-			<Form onSubmit={handleSubmit} initialValues={initialValues}>
-				<TextField
-					ref={inputRef}
-					isPassword
-					name="password"
-					placeholder={intl.formatMessage(messages.password_placeholder)}
-					sizeVariant="medium"
-				/>
-				<SubmitButton>
-					<Button sizeVariant="large" fullWidth>
-						{intl.formatMessage(messages.form_button_title)}
-					</Button>
-				</SubmitButton>
-			</Form>
+		<Box className={styles.unlockOuterWrapper}>
+			<Box className={styles.unlockZ3usLogoWrapper}>
+				<Z3usLogoText />
+			</Box>
+			<Box className={styles.unlockInnerWrapper}>
+				<Box className={styles.unlockPaddingWrapper}>
+					<Box display="flex" width="full" justifyContent="center">
+						<Z3usLogoLarge />
+					</Box>
+					<Box className={styles.unlockFormWalletWrapper}>
+						<Text color="strong" weight="medium">
+							{intl.formatMessage(messages.wallet_label)}
+						</Text>
+						<SelectSimple
+							fullWidth
+							value={keystore?.id}
+							onValueChange={handleSelect}
+							data={selectItems}
+							sizeVariant="xlarge"
+						/>
+					</Box>
+					<Form onSubmit={handleSubmit} initialValues={initialValues} className={styles.unlockFormWrapper}>
+						<Box className={styles.unlockFormTextWrapper}>
+							<Text color="strong" weight="medium">
+								{intl.formatMessage(messages.password_placeholder)}
+							</Text>
+							<TextField ref={inputRef} isPassword name="password" sizeVariant="large" styleVariant="secondary" />
+						</Box>
+						<Box className={styles.unlockValidationWrapper}>
+							<ValidationErrorMessage message={error} />
+						</Box>
+						<SubmitButton>
+							<Button sizeVariant="xlarge" fullWidth>
+								{intl.formatMessage(messages.form_button_title)}
+							</Button>
+						</SubmitButton>
+					</Form>
+				</Box>
+			</Box>
 		</Box>
 	)
 }

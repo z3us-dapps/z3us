@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { Text } from 'ui/src/components/typography'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { createMnemonic, secretToData } from '@src/crypto/secret'
@@ -13,6 +12,7 @@ import { DataType } from '@src/types/vault'
 
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
+import { Title } from '../components/title'
 import NewPhraseDisplay from './components/new-phrase-display'
 import NewPhraseEnter from './components/new-phrase-enter'
 import * as styles from './styles.css'
@@ -57,12 +57,10 @@ export const New: React.FC = () => {
 		case 2:
 			return (
 				<Box className={styles.keystoreNewWrapper}>
-					<Box className={styles.keystoreNewTextWrapper}>
-						<Text size="xxlarge" weight="strong" color="strong">
-							{intl.formatMessage(messages.create_new_wallet_title)}
-						</Text>
-						<Text>{intl.formatMessage(messages.create_new_wallet_sub_title)}</Text>
-					</Box>
+					<Title
+						title={intl.formatMessage(messages.create_new_wallet_title)}
+						subTitle={intl.formatMessage(messages.create_new_wallet_sub_title)}
+					/>
 					<KeystoreForm keystoreType={KeystoreType.LOCAL} onSubmit={handleSubmit} onNext={() => setStep(3)} />
 				</Box>
 			)
