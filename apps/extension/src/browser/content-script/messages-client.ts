@@ -3,6 +3,8 @@ import { createMessage as createRadixMessage } from '@radixdlt/connector-extensi
 import type { ExtensionInteraction, WalletInteractionWithOrigin } from '@radixdlt/radix-connect-schemas'
 import browser from 'webextension-polyfill'
 
+import { sharedStore } from 'ui/src/store'
+
 import { openAppPopup } from '@src/browser/app/popup'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { PORT_NAME } from '@src/browser/messages/constants'
@@ -101,7 +103,7 @@ export const MessageClient = () => {
 				if (await isHandledByRadix()) {
 					await browser.runtime.sendMessage(createRadixMessage.openParingPopup())
 				} else {
-					await openAppPopup('#/keystore/new/radix')
+					await openAppPopup('#/keystore/new')
 				}
 				break
 			case 'extensionStatus':
@@ -110,7 +112,9 @@ export const MessageClient = () => {
 						sendRadixMessageToDapp(createRadixMessage.extensionStatus(!!connectionPassword))
 					})
 				} else {
-					sendRadixMessageToDapp(createRadixMessage.extensionStatus(true))
+					await sharedStore.persist.rehydrate()
+					const sharedState = sharedStore.getState()
+					sendRadixMessageToDapp(createRadixMessage.extensionStatus(sharedState.keystores.length > 0))
 				}
 				break
 			default:

@@ -19,7 +19,6 @@ export const defaultConnectionConfig: typeof defaultConnectionConfigFromRadix = 
 export type ConfigType = typeof radixCfg & {
 	isDevelopmentMode: boolean
 	isProductionMode: boolean
-	isExtensionContext: boolean
 	popup: typeof radixCfg.popup & {
 		pages: {
 			app: string
@@ -42,12 +41,11 @@ export const config: ConfigType = {
 		pages: {
 			...radixCfg.popup.pages,
 			ledger: 'src/pages/ledger/index.html',
-			pairing: 'src/pages/app/index.html#/keystore/new/radix',
+			pairing: 'src/pages/app/index.html#/keystore/new',
 			app: 'src/pages/app/index.html',
 		},
 	},
 	version,
 	isDevelopmentMode: import.meta.env.MODE !== 'production',
 	isProductionMode: import.meta.env.MODE === 'production',
-	isExtensionContext: Boolean(globalThis.chrome?.runtime?.id || globalThis.browser?.runtime?.id),
 }

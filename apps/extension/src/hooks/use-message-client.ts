@@ -42,8 +42,6 @@ export const useMessageClient = () => {
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_GET, {
 					password,
 				}),
-			isSecretEmpty: (): Promise<boolean> =>
-				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_IS_SECRET_EMPTY),
 
 			lockVault: (): Promise<void> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_LOCK),

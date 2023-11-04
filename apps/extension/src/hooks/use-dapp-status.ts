@@ -6,7 +6,6 @@ import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
 import type { State } from 'ui/src/context/dapp-status'
 
 import { checkContentScript, showConnected, showDisconnected } from '@src/browser/content-script/status'
-import { config } from '@src/config'
 
 import { useIsUnlocked } from './use-is-unlocked'
 
@@ -33,7 +32,6 @@ export const useDappStatus = () => {
 	const [state, setState] = useImmer<State>(defaultState)
 
 	useEffect(() => {
-		if (!config.isExtensionContext) return
 		if (!isUnlocked) {
 			setState(defaultState)
 		} else {

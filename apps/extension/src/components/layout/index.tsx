@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { Suspense, useEffect } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import { useLocation, useOutlet } from 'react-router-dom'
+import browser from 'webextension-polyfill'
 
-import { FallbackLoading } from 'ui/src/components/fallback-renderer'
+import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
+import { openTabWithURL } from '@src/browser/tabs'
+import { config } from '@src/config'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 
-import SetupChecker from './setup'
 import Unlock from './unlock'
 
 const Layout: React.FC = () => {
 	const location = useLocation()
-	const navigate = useNavigate()
+	const outlet = useOutlet()
 	const { isUnlocked, isLoading, reload } = useIsUnlocked()
 
 	const { selectedKeystoreId } = useSharedStore(state => ({
@@ -19,15 +22,24 @@ const Layout: React.FC = () => {
 	}))
 
 	useEffect(() => {
-		if (!isLoading && !selectedKeystoreId) navigate('/keystore/new')
-	}, [selectedKeystoreId, isLoading])
+		if (isLoading) return
+		if (isUnlocked) return
+		if (location.pathname.startsWith('/keystore/new')) return
+		if (!selectedKeystoreId) {
+			openTabWithURL(`${browser.runtime.getURL('')}${config.popup.pages.app}#/keystore/new`).then(() => window.close())
+		}
+	}, [selectedKeystoreId, isLoading, isUnlocked, location.pathname])
 
 	if (!location.pathname.startsWith('/keystore/new')) {
 		if (isLoading) return <FallbackLoading />
 		if (!isUnlocked) return <Unlock onUnlock={reload} />
 	}
 
-	return <SetupChecker />
+	return (
+		<Suspense fallback={<FallbackLoading />}>
+			<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+		</Suspense>
+	)
 }
 
 export default Layout

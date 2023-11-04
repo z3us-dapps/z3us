@@ -10,14 +10,13 @@ import stakingRoute from 'ui/src/pages/staking/router'
 import transferRoute from 'ui/src/pages/transfer/router'
 
 import ExtensionLayout from '@src/components/layout'
-import { config } from '@src/config'
 import interactionRoute from '@src/pages/interaction/router'
 import keystoreRoute from '@src/pages/keystore/router'
 
 import RadixSettings from './components/settings'
 
 let patchedSettingsRoute = settingsRoute
-if (APP_RADIX && config.isExtensionContext) {
+if (APP_RADIX) {
 	// eslint-disable-next-line no-console
 	import('@src/browser/content-script').catch(console.error)
 
@@ -43,12 +42,13 @@ export const router = createHashRouter([
 			},
 			{
 				element: <AppLayout />,
-				children: [accountsRoute, patchedSettingsRoute, stakingRoute, transferRoute, interactionRoute],
+				children: [accountsRoute, patchedSettingsRoute, stakingRoute, transferRoute],
 			},
 			keystoreRoute,
-			noMatchRoute,
+			interactionRoute,
 		],
 	},
+	noMatchRoute,
 ])
 
 if (import.meta.hot) {
