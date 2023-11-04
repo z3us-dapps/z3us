@@ -28,9 +28,9 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	}
 
 	useEffect(() => {
-		if (!selectedKeystoreId || !configuration?.network_id) return () => {}
+		if (!configuration?.network_id) return () => {}
 
-		const storageClient = getLocalStorageClient(selectedKeystoreId)
+		const storageClient = getLocalStorageClient(selectedKeystoreId || 'default')
 
 		const options: RadixDappToolkitOptions = {
 			networkId: configuration.network_id,

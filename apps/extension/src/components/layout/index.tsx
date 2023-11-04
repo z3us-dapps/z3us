@@ -21,18 +21,16 @@ const Layout: React.FC = () => {
 		selectedKeystoreId: state.selectedKeystoreId,
 	}))
 
-	const isOnboarding = location.pathname.startsWith('/keystore/new')
-
 	useEffect(() => {
 		if (isLoading) return
 		if (isUnlocked) return
-		if (isOnboarding) return
+		if (location.pathname.startsWith('/keystore/new')) return
 		if (!selectedKeystoreId) {
 			openTabWithURL(`${browser.runtime.getURL('')}${config.popup.pages.app}#/keystore/new`).then(() => window.close())
 		}
-	}, [selectedKeystoreId, isLoading, isUnlocked])
+	}, [selectedKeystoreId, isLoading, isUnlocked, location.pathname])
 
-	if (!isOnboarding) {
+	if (!location.pathname.startsWith('/keystore/new')) {
 		if (isLoading) return <FallbackLoading />
 		if (!isUnlocked) return <Unlock onUnlock={reload} />
 	}

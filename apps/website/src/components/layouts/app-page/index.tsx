@@ -45,11 +45,11 @@ export const router = createHashRouter([
 					settingsRoute,
 					stakingRoute,
 					transferRoute,
-					noMatchRoute,
 				],
 			},
 		],
 	},
+	noMatchRoute,
 ])
 
 type Props = { dehydratedState?: any }
