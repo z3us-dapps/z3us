@@ -73,7 +73,7 @@ export const AddAccountDialog: React.FC = () => {
 				trigger={
 					<Box>
 						<ToolTip message={intl.formatMessage(messages.addAccount)}>
-							<Button styleVariant="ghost" sizeVariant="medium" iconOnly>
+							<Button styleVariant="ghost" sizeVariant="small" iconOnly>
 								<AppsIcon />
 							</Button>
 						</ToolTip>

@@ -118,8 +118,8 @@ globalStyle(`.${darkMode} ${z3usLogoLargeMediumWrapper}`, {
 	boxShadow: '0px 10px 44px 0px #00000059',
 })
 
-export const z3usLogoFillPurpleWrapper = style([
-	{
-		fill: vars.color.purple500,
-	},
-])
+export const z3usLogoFillPurpleWrapper = style([{ fill: vars.color.purple500 }])
+
+globalStyle(`.${darkMode} ${z3usLogoFillPurpleWrapper}`, {
+	fill: vars.color.purple500,
+})
