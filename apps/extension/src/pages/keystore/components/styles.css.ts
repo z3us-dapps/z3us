@@ -33,8 +33,20 @@ export const keystoreOuterWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		flexDirection: 'column',
 		justifyContent: 'center',
+		alignItems: 'center',
+		height: 'vh100',
+		width: 'full',
+	}),
+	{},
+])
+
+export const keystoreOuterFlexWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		justifyContent: 'center',
+		flexDirection: 'column',
 		alignItems: 'center',
 		paddingX: {
 			mobile: 'none',
@@ -46,7 +58,11 @@ export const keystoreOuterWrapper = style([
 			tablet: 'large',
 			desktop: 'xlarge',
 		},
-		height: 'full',
+		paddingBottom: {
+			mobile: 'none',
+			tablet: 'large',
+			desktop: 'xlarge',
+		},
 		width: 'full',
 	}),
 	{},
@@ -66,6 +82,11 @@ export const keystoreInnerWrapper = style([
 		padding: {
 			mobile: 'none',
 			tablet: 'large',
+		},
+
+		paddingBottom: {
+			mobile: 'none',
+			tablet: 'xxlarge',
 		},
 	}),
 	{},

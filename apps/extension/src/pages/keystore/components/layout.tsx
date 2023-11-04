@@ -39,14 +39,14 @@ const ScrollContent: React.FC = () => {
 }
 
 const Layout: React.FC = () => (
-	<MotionBox>
-		<Box className={styles.keystoreOuterWrapper}>
+	<Box className={styles.keystoreOuterWrapper}>
+		<Box className={styles.keystoreOuterFlexWrapper}>
 			<Nav />
 			<MobileScrollArea showTopScrollShadow className={panelViewStyles.panelViewMobileScrollWrapper}>
 				<ScrollContent />
 			</MobileScrollArea>
 		</Box>
-	</MotionBox>
+	</Box>
 )
 
 export default Layout

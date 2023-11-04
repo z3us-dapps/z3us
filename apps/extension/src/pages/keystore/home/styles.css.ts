@@ -15,7 +15,7 @@ export const keystoreHomeStyleWrapper = style([
 export const keystoreHomeButtonWrapper = style([
 	sprinkles({
 		display: 'flex',
-		paddingTop: 'xlarge',
+		paddingTop: 'small',
 		flexDirection: 'column',
 		gap: 'medium',
 	}),
