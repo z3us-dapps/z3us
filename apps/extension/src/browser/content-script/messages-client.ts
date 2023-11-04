@@ -3,18 +3,16 @@ import { createMessage as createRadixMessage } from '@radixdlt/connector-extensi
 import type { ExtensionInteraction, WalletInteractionWithOrigin } from '@radixdlt/radix-connect-schemas'
 import browser from 'webextension-polyfill'
 
-import { sharedStore } from 'ui/src/store'
-
 import { openAppPopup } from '@src/browser/app/popup'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { PORT_NAME } from '@src/browser/messages/constants'
 import { newMessage } from '@src/browser/messages/message'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
-import { getConnectionPassword } from '@src/browser/vault/storage'
 
-import { chromeDAppClient, logger, radixMessageHandler, sendRadixMessage, sendRadixMessageToDapp } from './radix'
+import { chromeDAppClient, logger, radixMessageHandler, sendRadixMessage } from './radix'
 import { isHandledByRadix } from './radix-connector'
+import { checkConnectButtonStatus } from './storage'
 import { MessageAction } from './types'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
@@ -107,15 +105,7 @@ export const MessageClient = () => {
 				}
 				break
 			case 'extensionStatus':
-				if (await isHandledByRadix()) {
-					await getConnectionPassword().then(connectionPassword => {
-						sendRadixMessageToDapp(createRadixMessage.extensionStatus(!!connectionPassword))
-					})
-				} else {
-					await sharedStore.persist.rehydrate()
-					const sharedState = sharedStore.getState()
-					sendRadixMessageToDapp(createRadixMessage.extensionStatus(sharedState.keystores.length > 0))
-				}
+				await checkConnectButtonStatus()
 				break
 			default:
 				logger.error({

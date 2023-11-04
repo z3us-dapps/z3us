@@ -2,6 +2,7 @@ import { createOffscreen as createRadixOffscreen } from '@radixdlt/connector-ext
 
 export const createOffscreen = () => {
 	if (!APP_RADIX) return
+	if (!globalThis.chrome?.offscreen) return
 
 	createRadixOffscreen()
 }

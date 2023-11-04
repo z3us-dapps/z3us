@@ -43,7 +43,7 @@ export const handleEnter = (text: string) => {
 }
 
 export const handleStart = () => {
-	chrome.omnibox.setDefaultSuggestion({
+	browser.omnibox.setDefaultSuggestion({
 		description: `Open Z3US extension page`,
 	})
 }
