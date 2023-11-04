@@ -12,6 +12,7 @@ import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { UserCheck, WalletIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
@@ -206,6 +207,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 						sizeVariant="xlarge"
 						fullWidth
 						disabled={interaction.items.auth.discriminator === 'usePersona'}
+						leftIcon={<UserCheck />}
 					>
 						{intl.formatMessage(messages.select_persona, {
 							isSelected: !!persona,
@@ -224,6 +226,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 							sizeVariant="xlarge"
 							fullWidth
 							disabled={!personaIndexes[selectedPersona]}
+							leftIcon={<WalletIcon />}
 						>
 							{intl.formatMessage(messages.select_accounts, {
 								isSelected: selectedAccounts.length > 0,
