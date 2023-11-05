@@ -110,7 +110,10 @@ export const dialogContentScrollAreaWrapper = style([
 		borderRadius: 'medium',
 		overflow: 'clip',
 	}),
-	{},
+
+	{
+		// maxWidth: '400px',
+	},
 ])
 
 export const dialogContentScrollAreaViewportWrapper = style([

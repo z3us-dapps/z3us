@@ -53,7 +53,7 @@ export const Dialog: React.FC<IDialogProps> = props => {
 				>
 					<Box className={styles.dialogContentWrapper}>
 						<ScrollArea
-							className={styles.dialogContentScrollAreaWrapper}
+							className={clsx(styles.dialogContentScrollAreaWrapper)}
 							viewPortClassName={styles.dialogContentScrollAreaViewportWrapper}
 						>
 							{children}

@@ -19,9 +19,9 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
-	accounts: {
-		id: 'TwyMau',
-		defaultMessage: 'Account',
+	accounts_placeholder: {
+		id: '0+6+jP',
+		defaultMessage: 'Select account',
 	},
 	validation_account: {
 		id: 'm8tyA0',
@@ -152,7 +152,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 								name="address"
 								fullWidth
 								sizeVariant="large"
-								placeholder={intl.formatMessage(messages.accounts)}
+								placeholder={intl.formatMessage(messages.accounts_placeholder)}
 								data={Object.keys(accountIndexes).map(address => ({
 									id: address,
 									title: addressBook[address]?.name || address,

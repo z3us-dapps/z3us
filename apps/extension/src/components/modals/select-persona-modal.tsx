@@ -26,9 +26,9 @@ const messages = defineMessages({
 		defaultMessage: 'You can use the drop down to select a persona, or create a new persona.',
 		id: 'bfUQWv',
 	},
-	persona: {
-		id: 'JGu6zs',
-		defaultMessage: 'Persona',
+	persona_placeholder: {
+		id: 'yEEu6R',
+		defaultMessage: 'Select persona',
 	},
 	validation_persona: {
 		id: 'fkKPLv',
@@ -124,7 +124,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 					<SelectField
 						ref={inputRef}
 						name="persona"
-						placeholder={intl.formatMessage(messages.persona)}
+						placeholder={intl.formatMessage(messages.persona_placeholder)}
 						sizeVariant="large"
 						data={Object.keys(personaIndexes).map(address => ({
 							id: address,
