@@ -15,37 +15,46 @@ import * as styles from './styles.css'
 
 interface SProps {
 	className?: string
+	onChange?: (e: React.ChangeEvent<HTMLDivElement>) => void
 	content: string
 }
 
-const Code: React.FC<SProps> = ({ className, content }) => (
-	<Box className={clsx(styles.scrollOuterWrapper, className)}>
-		<Box className={styles.scrollAbsoluteWrapper}>
-			<ScrollAreaRoot className={styles.scrollWrapper}>
-				<ScrollAreaScrollbar orientation="vertical">
-					<ScrollAreaThumb />
-				</ScrollAreaScrollbar>
-				<ScrollAreaViewport>
-					<Text size="xxsmall" className={styles.textWrapper}>
-						<CopyAddressButton
-							className={styles.copyButton}
-							styleVariant="ghost"
-							sizeVariant="xsmall"
-							address={content}
-							iconOnly
-							rounded={false}
-							tickColor="colorStrong"
-							toolTipDisabled
-						/>
-						{content}
-					</Text>
-				</ScrollAreaViewport>
-				<ScrollAreaScrollbar orientation="horizontal">
-					<ScrollAreaThumb />
-				</ScrollAreaScrollbar>
-			</ScrollAreaRoot>
+const Code: React.FC<SProps> = ({ className, content, onChange }) => {
+	const isContentEditable = !!onChange
+
+	return (
+		<Box className={clsx(styles.scrollOuterWrapper, className)}>
+			<Box className={styles.scrollAbsoluteWrapper}>
+				<ScrollAreaRoot className={styles.scrollWrapper}>
+					<ScrollAreaScrollbar orientation="vertical">
+						<ScrollAreaThumb />
+					</ScrollAreaScrollbar>
+					<ScrollAreaViewport
+						contentEditable={isContentEditable}
+						onInput={onChange}
+						className={styles.scrollViewPortWrapper}
+					>
+						<Text size="xxsmall" className={styles.textWrapper}>
+							<CopyAddressButton
+								className={styles.copyButton}
+								styleVariant="ghost"
+								sizeVariant="xsmall"
+								address={content}
+								iconOnly
+								rounded={false}
+								tickColor="colorStrong"
+								toolTipDisabled
+							/>
+							{content}
+						</Text>
+					</ScrollAreaViewport>
+					<ScrollAreaScrollbar orientation="horizontal">
+						<ScrollAreaThumb />
+					</ScrollAreaScrollbar>
+				</ScrollAreaRoot>
+			</Box>
 		</Box>
-	</Box>
-)
+	)
+}
 
 export default Code

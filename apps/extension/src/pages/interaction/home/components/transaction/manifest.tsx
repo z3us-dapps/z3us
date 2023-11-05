@@ -5,8 +5,10 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
+import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { Input } from 'ui/src/components/input'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
+import Code from 'ui/src/components/typography/code'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import type { TransactionSettings } from '@src/types/transaction'
@@ -57,21 +59,18 @@ export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestCh
 		)
 	}, [intent])
 
-	const handleManifestChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		const evt = event.nativeEvent as InputEvent
-		if (evt.isComposing) {
-			return
-		}
+	const handleManifestChange = async (event: React.ChangeEvent<HTMLDivElement>) => {
+		const newValue = event.target.textContent || ''
 
 		setState(draft => {
-			draft.manifest = event.target.value
+			draft.manifest = newValue
 		})
 
 		try {
 			await RadixEngineToolkit.Instructions.convert(
 				{
 					kind: InstructionsKind.String,
-					value: event.target.value,
+					value: newValue,
 				},
 				intent.header.networkId,
 				'Parsed',
@@ -79,7 +78,7 @@ export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestCh
 			setState(draft => {
 				draft.error = ''
 			})
-			onManifestChange(event.target.value)
+			onManifestChange(newValue)
 		} catch (error) {
 			setState(draft => {
 				draft.error = intl.formatMessage(messages.invalid_manifest)
@@ -95,13 +94,20 @@ export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestCh
 					{ label: intl.formatMessage(messages.tab_manifest), value: MANIFEST },
 				]}
 				defaultValue={PREVIEW}
+				className={styles.transactionManifestTabsWrapper}
 			>
-				<TabsContent value={PREVIEW}>
+				<TabsContent value={PREVIEW} className={styles.transactionManifestTabsContentWrapper}>
 					<Preview intent={intent} settings={settings} />
 				</TabsContent>
-				<TabsContent value={MANIFEST}>
-					<ValidationErrorMessage message={state.error} />
-					<Input value={state.manifest} elementType="textarea" type="textarea" onChange={handleManifestChange} />
+				<TabsContent value={MANIFEST} className={styles.transactionManifestTabsContentWrapper}>
+					<Code
+						content={state.manifest}
+						className={styles.transactionManifestTextArea}
+						onChange={handleManifestChange}
+					/>
+					<Box className={styles.transactionManifestValidationWrapper}>
+						<ValidationErrorMessage message={state.error} />
+					</Box>
 				</TabsContent>
 			</Tabs>
 		</Box>

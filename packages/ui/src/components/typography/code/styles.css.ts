@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -32,11 +32,27 @@ export const scrollWrapper = style([
 		borderRadius: 'small',
 		borderColor: 'borderDivider',
 		background: 'backgroundSecondary',
-		padding: 'medium',
+
 		width: 'full',
 		height: 'full',
 	}),
 	{},
+])
+
+export const scrollViewPortWrapper = style([
+	sprinkles({
+		padding: 'medium',
+		boxShadow: {
+			focusVisible: 'btnSecondaryShadowFocus',
+		},
+	}),
+	{
+		selectors: {
+			'&:focus-visible': {
+				outline: 'none',
+			},
+		},
+	},
 ])
 
 export const textWrapper = style([
@@ -49,10 +65,19 @@ export const textWrapper = style([
 ])
 
 export const copyButton = style([
-	sprinkles({}),
-	{
+	sprinkles({
 		position: 'absolute',
-		top: '5px',
-		right: '5px',
+		transition: 'fast',
+		opacity: 0,
+		pointerEvents: 'none',
+	}),
+	{
+		top: '8px',
+		right: '12px',
 	},
 ])
+
+globalStyle(`${scrollWrapper}:hover ${copyButton}`, {
+	opacity: 1,
+	pointerEvents: 'all',
+})
