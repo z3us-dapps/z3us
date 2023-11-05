@@ -91,8 +91,8 @@ export const dialogContentCloseWrapper = style([
 		position: 'absolute',
 		top: 0,
 		right: 0,
-		marginTop: 'small',
-		marginRight: 'small',
+		marginTop: 'medium',
+		marginRight: 'medium',
 	}),
 	{},
 ])

@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import React, { useContext, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'

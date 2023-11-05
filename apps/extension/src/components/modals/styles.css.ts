@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -39,6 +39,7 @@ export const modalContentFormButtonWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 		gap: 'medium',
+		paddingTop: 'large',
 	}),
 	{},
 ])
@@ -64,7 +65,45 @@ export const modalPersonaFormWrapper = style([
 	{},
 ])
 
-// OLD
+export const modalFormAddFieldWrapper = style([
+	sprinkles({
+		borderTop: 1,
+		borderColor: 'borderDivider',
+		borderStyle: 'solid',
+		paddingTop: 'large',
+		marginTop: 'small',
+	}),
+	{},
+])
+
+export const modalFormFieldWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+	}),
+	{},
+])
+
+export const modalFormFlexFieldWrapper = style([
+	sprinkles({
+		marginTop: 'medium',
+	}),
+	{},
+])
+
+export const modalFormRemoveFieldWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		left: 0,
+	}),
+	{
+		marginTop: '20px',
+		marginLeft: '-29px',
+	},
+])
+
+// OLD: TODO remove
 export const headerWrapper = style([
 	sprinkles({
 		position: 'relative',

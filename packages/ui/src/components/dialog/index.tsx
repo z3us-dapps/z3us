@@ -62,7 +62,7 @@ export const Dialog: React.FC<IDialogProps> = props => {
 					{isCloseButtonVisible ? (
 						<Box className={styles.dialogContentCloseWrapper}>
 							<DialogClose asChild>
-								<Button styleVariant="ghost" sizeVariant="xsmall" iconOnly onClick={onClose}>
+								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={onClose}>
 									<Close2Icon />
 								</Button>
 							</DialogClose>

@@ -6,15 +6,13 @@ import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
+import { Dialog } from 'ui/src/components/dialog'
 import { Form } from 'ui/src/components/form'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
-import { CirclePlusIcon, Close2Icon, TrashIcon } from 'ui/src/components/icons'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
-import { ToolTip } from 'ui/src/components/tool-tip'
+import { PlusIcon, TrashIcon } from 'ui/src/components/icons'
+import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
@@ -22,8 +20,8 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	accounts: {
-		id: 'FvanT6',
-		defaultMessage: 'Accounts',
+		id: 'TwyMau',
+		defaultMessage: 'Account',
 	},
 	validation_account: {
 		id: 'm8tyA0',
@@ -38,8 +36,8 @@ const messages = defineMessages({
 		defaultMessage: 'Please select exactly {number} accounts',
 	},
 	form_button_title: {
-		id: 'OKhRC6',
-		defaultMessage: 'Share',
+		id: '8cueNe',
+		defaultMessage: 'Share accounts',
 	},
 	button_add_account: {
 		id: 'cU42T7',
@@ -48,6 +46,14 @@ const messages = defineMessages({
 	close: {
 		id: '47FYwb',
 		defaultMessage: 'Cancel',
+	},
+	select_accounts_modal_title: {
+		id: '8cueNe',
+		defaultMessage: 'Share accounts',
+	},
+	select_accounts_modal_sub_title: {
+		id: 'JiQ2D5',
+		defaultMessage: 'Select one or multiple accounts to share',
 	},
 })
 
@@ -71,7 +77,6 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
-	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 
 	const validationSchema = useMemo(() => {
@@ -94,13 +99,6 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 		})
 	}, [])
 
-	const handleScroll = (event: Event) => {
-		const target = event.target as Element
-		const { scrollTop } = target
-
-		setIsScrolled(scrollTop > 0)
-	}
-
 	const handleSubmit = async (values: typeof initialValues) => {
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {
@@ -118,77 +116,60 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 		setValidation(undefined)
 	}
 
-	const handleEscapeKeyDown = () => {
-		handleCancel()
-	}
-
-	const handleOnInteractOutside = () => {
-		handleCancel()
-	}
-
 	return (
-		<DialogRoot open={isOpen} modal>
-			<DialogPortal>
-				<DialogOverlay className={dialogStyles.dialogOverlay} />
-				<DialogContent
-					onEscapeKeyDown={handleEscapeKeyDown}
-					onInteractOutside={handleOnInteractOutside}
-					className={clsx(dialogStyles.dialogContent, styles.content)}
+		<Dialog open={isOpen} onClose={handleCancel}>
+			<Box className={styles.modalContentWrapper}>
+				<Box className={styles.modalContentTitleTextWrapper}>
+					<Text color="strong" size="large" weight="strong">
+						{intl.formatMessage(messages.select_accounts_modal_title)}
+					</Text>
+					<Text>{intl.formatMessage(messages.select_accounts_modal_sub_title)}</Text>
+				</Box>
+				<Form
+					onSubmit={handleSubmit}
+					initialValues={initialValues}
+					errors={validation?.format()}
+					className={styles.modalFormFieldWrapper}
 				>
-					<ScrollArea onScroll={handleScroll}>
-						<Box className={styles.scrollWrapper}>
-							<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
-								<FieldsGroup
-									name="accounts"
-									defaultKeys={1}
-									trashTrigger={
-										<Button styleVariant="ghost" sizeVariant="small" iconOnly>
-											<TrashIcon />
-										</Button>
-									}
-									addTrigger={
-										<Button
-											styleVariant="secondary"
-											sizeVariant="xlarge"
-											fullWidth
-											leftIcon={
-												<Box marginLeft="small">
-													<CirclePlusIcon />
-												</Box>
-											}
-										>
-											{intl.formatMessage(messages.button_add_account)}
-										</Button>
-									}
-								>
-									<SelectField
-										name="address"
-										placeholder={intl.formatMessage(messages.accounts)}
-										data={Object.keys(accountIndexes).map(address => ({
-											id: address,
-											title: addressBook[address]?.name || address,
-										}))}
-									/>
-								</FieldsGroup>
-								<SubmitButton>
-									<Button sizeVariant="small">{intl.formatMessage(messages.form_button_title)}</Button>
-								</SubmitButton>
-							</Form>
-						</Box>
-					</ScrollArea>
-					<Box className={clsx(styles.headerWrapper, isScrolled && styles.headerWrapperShadow)}>
-						<Box flexGrow={1} />
-						<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
-							<ToolTip message={intl.formatMessage(messages.close)}>
-								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleCancel}>
-									<Close2Icon />
+					<FieldsGroup
+						name="accounts"
+						defaultKeys={1}
+						trashTrigger={
+							<Button styleVariant="ghost" sizeVariant="xsmall" iconOnly className={styles.modalFormRemoveFieldWrapper}>
+								<TrashIcon />
+							</Button>
+						}
+						addTrigger={
+							<Box className={clsx(styles.modalPersonaFormWrapper, styles.modalContentFormBorderWrapper)}>
+								<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth leftIcon={<PlusIcon />}>
+									{intl.formatMessage(messages.button_add_account)}
 								</Button>
-							</ToolTip>
+							</Box>
+						}
+					>
+						<Box className={styles.modalFormFlexFieldWrapper}>
+							<SelectField
+								name="address"
+								fullWidth
+								sizeVariant="large"
+								placeholder={intl.formatMessage(messages.accounts)}
+								data={Object.keys(accountIndexes).map(address => ({
+									id: address,
+									title: addressBook[address]?.name || address,
+								}))}
+							/>
 						</Box>
+					</FieldsGroup>
+					<Box paddingTop="medium">
+						<SubmitButton>
+							<Button fullWidth sizeVariant="xlarge">
+								{intl.formatMessage(messages.form_button_title)}
+							</Button>
+						</SubmitButton>
 					</Box>
-				</DialogContent>
-			</DialogPortal>
-		</DialogRoot>
+				</Form>
+			</Box>
+		</Dialog>
 	)
 }
 
