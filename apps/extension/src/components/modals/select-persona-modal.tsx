@@ -46,6 +46,15 @@ const messages = defineMessages({
 		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
+
+	add_persona_modal_title: {
+		defaultMessage: 'Add new persona',
+		id: 'W8nxkL',
+	},
+	add_persona_modal_sub_title: {
+		defaultMessage: "Create a name for your new persona and click 'Add'.",
+		id: 'ItigsP',
+	},
 })
 
 const initialValues = {
@@ -136,6 +145,12 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 				</Form>
 				{isAddPersonaFormVisible && (
 					<Box className={clsx(styles.modalPersonaFormWrapper, styles.modalContentFormBorderWrapper)}>
+						<Box className={styles.modalContentTitleTextWrapper}>
+							<Text color="strong" size="large" weight="strong">
+								{intl.formatMessage(messages.add_persona_modal_title)}
+							</Text>
+							<Text>{intl.formatMessage(messages.add_persona_modal_sub_title)}</Text>
+						</Box>
 						<AddPersonaForm />
 					</Box>
 				)}
