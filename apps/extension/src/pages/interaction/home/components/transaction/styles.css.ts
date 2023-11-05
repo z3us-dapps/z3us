@@ -7,7 +7,7 @@ export const transactionManifestWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
-		paddingTop: 'large',
+		paddingTop: 'medium',
 		flexGrow: 1,
 	}),
 	{},
@@ -70,4 +70,53 @@ export const transactionManifestTextArea = style([
 	{
 		height: '280px',
 	},
+])
+
+export const transactionPreviewWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+export const transactionPreviewFlexWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'self-start',
+		gap: 'medium',
+	}),
+	{},
+])
+
+export const transactionPreviewFlatChange = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
+		gap: 'small',
+	}),
+	{},
+])
+
+export const transactionPreviewProofsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'self-start',
+		gap: 'small',
+		paddingTop: 'medium',
+	}),
+	{},
+])
+
+export const transactionFeeSummaryWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'self-start',
+		gap: 'xsmall',
+		paddingTop: 'small',
+	}),
+	{},
 ])

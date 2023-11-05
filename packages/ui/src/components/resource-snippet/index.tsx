@@ -29,9 +29,9 @@ export const ResourceSnippet: React.FC<IProps> = ({ address }) => {
 	if (isLoading) return <FallbackLoading />
 
 	return (
-		<Box display="flex" flexDirection="row" gap="small">
+		<Box display="flex" flexDirection="row" gap="small" alignItems="center">
 			<ResourceImageIcon address={dappAddress || address} />
-			<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
+			<Text capitalizeFirstLetter size="small" truncate>
 				{displayName}
 			</Text>
 		</Box>

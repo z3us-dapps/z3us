@@ -15,10 +15,16 @@ import { usePreview } from '@src/hooks/transaction/use-preview'
 import { summaryFromInstructions } from '@src/radix/manifest'
 import type { ResourceChanges, Summary, TransactionSettings } from '@src/types/transaction'
 
+import * as styles from './styles.css'
+
 const messages = defineMessages({
 	resource_changes: {
 		id: 'RntCL3',
 		defaultMessage: 'Resource changes',
+	},
+	presenting_proofs_title: {
+		id: 'EqXDVC',
+		defaultMessage: 'Proofs',
 	},
 	fee_summary: {
 		id: 'LXfC4n',
@@ -138,16 +144,16 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 	if (!state.preview) return <FallbackLoading />
 
 	return (
-		<Box display="flex" flexDirection="column" gap="large">
-			<Box display="flex" flexDirection="column">
-				<Text align="center">{intl.formatMessage(messages.resource_changes)}</Text>
+		<Box className={styles.transactionPreviewWrapper}>
+			<Box className={styles.transactionPreviewFlexWrapper}>
+				<Text color="strong" size="large" weight="strong">
+					{intl.formatMessage(messages.resource_changes)}
+				</Text>
 				{state.flatChanges.map((change, index) => (
 					<Box
 						// eslint-disable-next-line react/no-array-index-key
 						key={`${index}${change.account}${change.resource}`}
-						display="flex"
-						gap="small"
-						justifyContent="flex-start"
+						className={styles.transactionPreviewFlatChange}
 						flexDirection={accountIndexes[change.account] ? 'row' : 'row-reverse'}
 					>
 						<ResourceSnippet address={change.account} />
@@ -162,51 +168,58 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 					</Box>
 				))}
 			</Box>
-			<Box display="flex" flexDirection="column">
-				{state.summary?.proofs.map((proof, idx) => (
-					<Box
-						// eslint-disable-next-line react/no-array-index-key
-						key={`${idx}`}
-						display="flex"
-						gap="small"
-					>
-						<Text align="center">{intl.formatMessage(messages.proof)}</Text>
-						<ResourceSnippet address={proof.resourceAddress} />
-					</Box>
-				))}
-			</Box>
-			<Box display="flex" flexDirection="column">
-				<Text align="center">{intl.formatMessage(messages.fee_summary)}</Text>
+			{state.summary?.proofs?.length > 0 && (
+				<Box className={styles.transactionPreviewProofsWrapper}>
+					{state.summary?.proofs.map((proof, idx) => (
+						<Box
+							// eslint-disable-next-line react/no-array-index-key
+							key={`${idx}`}
+							display="flex"
+							alignItems="center"
+							gap="small"
+						>
+							<Text color="strong" size="large" weight="strong">
+								{intl.formatMessage(messages.proof)}
+							</Text>
+							<ResourceSnippet address={proof.resourceAddress} />
+						</Box>
+					))}
+				</Box>
+			)}
+			<Box className={styles.transactionFeeSummaryWrapper}>
+				<Text color="strong" size="large" weight="strong">
+					{intl.formatMessage(messages.fee_summary)}
+				</Text>
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_execution_cost !== '0' && (
-					<Text>
+					<Text size="small">
 						{intl.formatMessage(messages.xrd_total_execution_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_execution_cost,
 						})}
 					</Text>
 				)}
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_finalization_cost !== '0' && (
-					<Text>
+					<Text size="small">
 						{intl.formatMessage(messages.xrd_total_finalization_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_finalization_cost,
 						})}
 					</Text>
 				)}
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_royalty_cost !== '0' && (
-					<Text>
+					<Text size="small">
 						{intl.formatMessage(messages.xrd_total_royalty_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_royalty_cost,
 						})}
 					</Text>
 				)}
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_storage_cost !== '0' && (
-					<Text>
+					<Text size="small">
 						{intl.formatMessage(messages.xrd_total_storage_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_storage_cost,
 						})}
 					</Text>
 				)}
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_tipping_cost !== '0' && (
-					<Text>
+					<Text size="small">
 						{intl.formatMessage(messages.xrd_total_tipping_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_tipping_cost,
 						})}
