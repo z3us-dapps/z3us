@@ -62,7 +62,9 @@ const config = {
 		rollupOptions: {
 			treeshake: true,
 			input: {
-				app: resolve(__dirname, 'src/pages/app/index.html'),
+				dark: resolve(__dirname, 'src/pages/app/dark.html'),
+				light: resolve(__dirname, 'src/pages/app/light.html'),
+				system: resolve(__dirname, 'src/pages/app/system.html'),
 			},
 		},
 	},
