@@ -38,19 +38,31 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		const element = window.document.body
 		document.documentElement.style.setProperty('--font-sans', '"Inter"')
 		document.documentElement.style.setProperty('--font-mono', '"Fira Mono"')
-		// TODO: fix auto autoThemeIsDark
-		// const resolvedTheme = autoThemeIsDark ? Theme.DARK : Theme.LIGHT
 
-		if (theme === 'dark') {
-			element.classList.add(darkThemeClass)
-			element.classList.add('dark')
-			element.classList.remove('light')
-			element.classList.remove(lightThemeClass)
-		} else {
-			element.classList.remove(darkThemeClass)
-			element.classList.remove('dark')
-			element.classList.add('light')
-			element.classList.add(lightThemeClass)
+		let resolvedTheme: Theme
+		switch (theme) {
+			case Theme.DARK:
+			case Theme.LIGHT:
+				resolvedTheme = theme
+				break
+			default:
+				resolvedTheme = autoThemeIsDark ? Theme.DARK : Theme.LIGHT
+				break
+		}
+
+		switch (resolvedTheme) {
+			case Theme.DARK:
+				element.classList.add(darkThemeClass)
+				element.classList.add('dark')
+				element.classList.remove('light')
+				element.classList.remove(lightThemeClass)
+				break
+			default:
+				element.classList.remove(darkThemeClass)
+				element.classList.remove('dark')
+				element.classList.add('light')
+				element.classList.add(lightThemeClass)
+				break
 		}
 	}, [theme, autoThemeIsDark])
 
