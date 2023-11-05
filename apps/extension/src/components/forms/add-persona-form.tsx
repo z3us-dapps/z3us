@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'

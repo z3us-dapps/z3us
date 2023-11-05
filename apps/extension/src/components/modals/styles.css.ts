@@ -1,4 +1,4 @@
-import { globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -13,10 +13,6 @@ export const modalContentWrapper = style([
 		},
 	}),
 	{},
-	// responsiveStyle({
-	// 	mobile: { height: '48px' },
-	// 	tablet: { height: '64px' },
-	// }),
 ])
 
 export const modalContentTitleTextWrapper = style([
@@ -160,7 +156,7 @@ export const signAlertDialogContentWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
-		gap: 'small',
+		gap: 'xsmall',
 		paddingBottom: 'large',
 	}),
 	{},
@@ -170,6 +166,7 @@ export const signAlertDialogFormWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
+		flexDirection: 'column',
 		width: 'full',
 	}),
 	{},
@@ -180,8 +177,9 @@ export const signAlertDialogFormFooterWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		justifyContent: 'flex-end',
-		gap: 'small',
+		gap: 'medium',
 		width: 'full',
+		paddingTop: 'large',
 	}),
 	{},
 ])

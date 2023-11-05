@@ -50,7 +50,7 @@ export const Home: React.FC = () => {
 
 	const handleCancelAndClose = () => {
 		// TODO: need to cancel the request
-		console.log('cancel and close')
+		// console.log('cancel and close')
 		// handleCloseWindow()
 	}
 

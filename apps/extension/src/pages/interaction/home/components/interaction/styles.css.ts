@@ -1,7 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const interactionLoginWrapper = style([
 	sprinkles({
@@ -12,10 +11,6 @@ export const interactionLoginWrapper = style([
 		flexGrow: 1,
 	}),
 	{},
-	// responsiveStyle({
-	// 	mobile: { height: '48px' },
-	// 	tablet: { height: '64px' },
-	// }),
 ])
 
 export const interactionLoginBodyWrapper = style([

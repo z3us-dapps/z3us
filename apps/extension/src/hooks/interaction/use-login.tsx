@@ -22,6 +22,10 @@ import { useLedgerClient } from '../use-ledger-client'
 import { useMessageClient } from '../use-message-client'
 
 const messages = defineMessages({
+	persona_challenge_title: {
+		id: 'BVfFiI',
+		defaultMessage: 'Sign challenge',
+	},
 	persona_challenge: {
 		id: 'HMBkUU',
 		defaultMessage: 'To confirm ownership, sign challenge with persona {label}',
@@ -51,6 +55,7 @@ export const useLogin = () => {
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL:
 					const password = await confirm({
+						title: intl.formatMessage(messages.persona_challenge_title),
 						content: intl.formatMessage(messages.persona_challenge, { label: persona.label }),
 					})
 					const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
