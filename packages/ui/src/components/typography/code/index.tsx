@@ -17,13 +17,14 @@ interface SProps {
 	className?: string
 	onChange?: (e: React.ChangeEvent<HTMLDivElement>) => void
 	content: string
+	style: any
 }
 
-const Code: React.FC<SProps> = ({ className, content, onChange }) => {
+const Code: React.FC<SProps> = ({ className, content, style, onChange }) => {
 	const isContentEditable = !!onChange
 
 	return (
-		<Box className={clsx(styles.scrollOuterWrapper, className)}>
+		<Box className={clsx(styles.scrollOuterWrapper, className)} style={style}>
 			<Box className={styles.scrollAbsoluteWrapper}>
 				<ScrollAreaRoot className={styles.scrollWrapper}>
 					<ScrollAreaScrollbar orientation="vertical">

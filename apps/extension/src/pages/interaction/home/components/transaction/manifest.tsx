@@ -2,11 +2,10 @@ import type { Intent } from '@radixdlt/radix-engine-toolkit'
 import { InstructionsKind, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import useMeasure from 'react-use-measure'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
-import { CopyAddressButton } from 'ui/src/components/copy-address-button'
-import { Input } from 'ui/src/components/input'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
 import Code from 'ui/src/components/typography/code'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
@@ -47,7 +46,7 @@ type State = {
 
 export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestChange = () => {} }) => {
 	const intl = useIntl()
-
+	const [measureRef, { height: tabHeight }] = useMeasure()
 	const [state, setState] = useImmer<State>({ manifest: '' })
 
 	useEffect(() => {
@@ -87,7 +86,7 @@ export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestCh
 	}
 
 	return (
-		<Box className={styles.transactionManifestWrapper}>
+		<Box ref={measureRef} className={styles.transactionManifestWrapper}>
 			<Tabs
 				list={[
 					{ label: intl.formatMessage(messages.tab_preview), value: PREVIEW },
@@ -104,6 +103,7 @@ export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestCh
 						content={state.manifest}
 						className={styles.transactionManifestTextArea}
 						onChange={handleManifestChange}
+						style={{ height: `${tabHeight - 130}px` }}
 					/>
 					<Box className={styles.transactionManifestValidationWrapper}>
 						<ValidationErrorMessage message={state.error} />
