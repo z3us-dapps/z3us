@@ -11,6 +11,12 @@ import { Text } from 'ui/src/components/typography'
 import { Title } from '../components/title'
 import * as styles from './styles.css'
 
+const isHIDSupported = !!window?.navigator?.hid
+const isOffscreenSupported = !!globalThis.chrome?.offscreen
+
+const canConnectLedger = isHIDSupported
+const canConnectRadixMobile = isHIDSupported && isOffscreenSupported
+
 const messages = defineMessages({
 	wallet_options_title: {
 		defaultMessage: 'I already have wallet',
@@ -36,6 +42,10 @@ const messages = defineMessages({
 		id: 'qRpTg5',
 		defaultMessage: 'Connect Hardware Wallet',
 	},
+	not_supported: {
+		id: 'OdLyT+',
+		defaultMessage: 'Your browser does not support this option',
+	},
 })
 
 export const Home: React.FC = () => {
@@ -51,10 +61,12 @@ export const Home: React.FC = () => {
 	}
 
 	const handleConnectRadix = () => {
+		if (!canConnectRadixMobile) return
 		navigate('/keystore/new/radix')
 	}
 
 	const handleConnectHardwareWallet = () => {
+		if (!canConnectLedger) return
 		navigate('/keystore/new/hardware-wallet')
 	}
 
@@ -69,12 +81,22 @@ export const Home: React.FC = () => {
 			/>
 			<Box className={styles.keystoreOptionsButtonsWrapper}>
 				<List>
-					<ListItem onClick={handleConnectRadix} iconLeft={<SmartPhoneIcon />}>
+					<ListItem
+						disabled={!canConnectRadixMobile}
+						onClick={handleConnectRadix}
+						iconLeft={<SmartPhoneIcon />}
+						tooltipContent={!canConnectRadixMobile ? intl.formatMessage(messages.not_supported) : undefined}
+					>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.radix)}
 						</Text>
 					</ListItem>
-					<ListItem onClick={handleConnectHardwareWallet} iconLeft={<UsbIcon />}>
+					<ListItem
+						disabled={!canConnectLedger}
+						onClick={handleConnectHardwareWallet}
+						iconLeft={<UsbIcon />}
+						tooltipContent={!canConnectLedger ? intl.formatMessage(messages.not_supported) : undefined}
+					>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.hw)}
 						</Text>
