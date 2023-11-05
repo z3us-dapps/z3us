@@ -20,9 +20,7 @@ export type ConfigType = typeof radixCfg & {
 	isDevelopmentMode: boolean
 	isProductionMode: boolean
 	popup: typeof radixCfg.popup & {
-		pages: {
-			app: string
-		}
+		dir: string
 	}
 }
 
@@ -41,9 +39,9 @@ export const config: ConfigType = {
 		pages: {
 			...radixCfg.popup.pages,
 			ledger: 'src/pages/ledger/index.html',
-			pairing: 'src/pages/app/index.html#/keystore/new',
-			app: 'src/pages/app/index.html',
+			pairing: 'src/pages/app/system.html#/keystore/new',
 		},
+		dir: 'src/pages/app',
 	},
 	version,
 	isDevelopmentMode: import.meta.env.MODE !== 'production',
