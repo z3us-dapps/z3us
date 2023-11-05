@@ -34,8 +34,8 @@ export const ScrollAreaRoot = ({ children, className, ...rest }: IScrollAreaRoot
 )
 
 export const ScrollAreaViewport = forwardRef<HTMLDivElement, ScrollAreaPrimitive.ScrollAreaViewportProps>(
-	({ children, ...props }, ref) => (
-		<ScrollAreaPrimitive.Viewport ref={ref} className={clsx(styles.scrollAreaViewportWrapper)} {...props}>
+	({ children, className, ...props }, ref) => (
+		<ScrollAreaPrimitive.Viewport ref={ref} className={clsx(styles.scrollAreaViewportWrapper, className)} {...props}>
 			{children}
 		</ScrollAreaPrimitive.Viewport>
 	),
