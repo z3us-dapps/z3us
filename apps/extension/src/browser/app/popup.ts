@@ -3,12 +3,15 @@ import browser from 'webextension-polyfill'
 
 import { getExtensionTabsByUrl } from '@src/browser/tabs'
 import { config } from '@src/config'
+import { getTheme } from '@src/styles/theme'
 
 export const openAppPopup = async (path: string = '') => {
-	const [tab] = await getExtensionTabsByUrl(config.popup.pages.app)
+	const theme = await getTheme()
+	const app = `${config.popup.dir}/${theme}.html`
+	const [tab] = await getExtensionTabsByUrl(app)
 	if (!tab) {
 		const popupWindow = await browser.windows.create({
-			url: browser.runtime.getURL(`${config.popup.pages.app}${path}`),
+			url: browser.runtime.getURL(`${app}${path}`),
 			type: 'popup',
 			width: config.popup.width,
 			height: config.popup.height,
