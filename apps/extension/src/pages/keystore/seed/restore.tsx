@@ -225,7 +225,7 @@ export const Restore: React.FC = () => {
 							sizeVariant="xlarge"
 							styleVariant="primary"
 							fullWidth
-							disabled={!words.find(w => w === '') || incorrectWords.length > 0}
+							disabled={!!words.find(w => w === '') || incorrectWords.length > 0}
 						>
 							{intl.formatMessage(messages.seed_restore_continue)}
 						</Button>
