@@ -55,9 +55,15 @@ export const factory = (set: IExtensionStateSetter): ExtensionState => ({
 	approveDappAction: (networkId: number, dappAddress: string, persona: string, accounts: string[]) => {
 		set(state => {
 			const dapps = state.approvedDapps[networkId] || {}
-			state.approvedDapps[networkId] = {
-				...dapps,
-				[dappAddress]: { persona, accounts },
+
+			if (!persona) {
+				delete dapps[dappAddress]
+				state.approvedDapps[networkId] = dapps
+			} else {
+				state.approvedDapps[networkId] = {
+					...dapps,
+					[dappAddress]: { persona, accounts },
+				}
 			}
 		})
 	},

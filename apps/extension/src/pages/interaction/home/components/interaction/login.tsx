@@ -4,6 +4,7 @@ import type {
 	WalletAuthorizedRequestItems,
 	WalletAuthorizedRequestResponseItems,
 	WalletUnauthorizedRequestItems,
+	WalletUnauthorizedRequestResponseItems,
 } from '@radixdlt/radix-dapp-toolkit'
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -139,8 +140,8 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 
 	const handleShare = async () => {
 		try {
-			const response: WalletAuthorizedRequestResponseItems = {
-				discriminator: 'authorizedRequest',
+			const response: WalletAuthorizedRequestResponseItems | WalletUnauthorizedRequestResponseItems = {
+				discriminator: request.discriminator,
 				auth: await login(selectedPersona, request.auth, interaction.metadata),
 				oneTimePersonaData: await getPersonaData(selectedPersona, request.oneTimePersonaData),
 				ongoingPersonaData: await getPersonaData(selectedPersona, request.ongoingPersonaData),
@@ -159,12 +160,12 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 					metadata: interaction.metadata,
 				}),
 			)
-			if (response.auth?.persona?.identityAddress && response.ongoingAccounts?.accounts?.length > 0) {
+			if (request.discriminator === 'authorizedRequest') {
 				approveDapp(
 					networkId,
 					interaction.metadata.dAppDefinitionAddress,
-					response.auth.persona.identityAddress,
-					response.ongoingAccounts.accounts.map(({ address }) => address),
+					response.auth?.persona?.identityAddress || '',
+					response.ongoingAccounts?.accounts.map(({ address }) => address) || [],
 				)
 			}
 		} catch (error) {
@@ -182,10 +183,6 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 		} finally {
 			window.close()
 		}
-	}
-
-	if (interaction.items.discriminator !== 'authorizedRequest') {
-		return null
 	}
 
 	return (
@@ -206,7 +203,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 						styleVariant="tertiary"
 						sizeVariant="xlarge"
 						fullWidth
-						disabled={interaction.items.auth.discriminator === 'usePersona'}
+						disabled={request.auth?.discriminator === 'usePersona'}
 						leftIcon={<UserCheck />}
 					>
 						{intl.formatMessage(messages.select_persona, {

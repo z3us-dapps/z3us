@@ -49,12 +49,24 @@ export const Home: React.FC = () => {
 	}
 
 	const handleCancelAndClose = () => {
-		// TODO: need to cancel the request
-		// console.log('cancel and close')
-		// handleCloseWindow()
+		browser.tabs
+			.sendMessage(
+				interaction.fromTabId,
+				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
+					walletResponse: {
+						discriminator: 'failure',
+						error: 'Canceled',
+						interactionId,
+					},
+					metadata: interaction.metadata,
+				}),
+			)
+			.finally(() => window.close())
 	}
 
 	useEffect(() => {
+		if (!interaction) return () => {}
+
 		const listener = (event: Z3USEvent) => {
 			const { detail } = event
 			const { data: message } = detail
@@ -89,6 +101,8 @@ export const Home: React.FC = () => {
 
 	useEffect(() => {
 		if (!interactionId) return
+		if (interaction) return
+
 		getInteraction(interactionId)
 			.then(i => {
 				setInteraction(i)

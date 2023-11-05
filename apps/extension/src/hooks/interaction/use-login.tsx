@@ -110,7 +110,7 @@ export const useLogin = () => {
 		| AuthLoginWithoutChallengeRequestResponseItem
 		| undefined
 	> => {
-		switch (auth.discriminator) {
+		switch (auth?.discriminator) {
 			case 'usePersona':
 			case 'loginWithoutChallenge':
 				return {
