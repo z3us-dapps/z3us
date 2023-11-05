@@ -21,6 +21,7 @@ import { useSign } from '@src/hooks/transaction/use-sign'
 import type { TransactionSettings } from '@src/types/transaction'
 
 import { Manifest } from '../transaction/manifest'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	submit: {
@@ -131,14 +132,14 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 	if (interaction.items.discriminator !== 'transaction') return null
 
 	return (
-		<Box>
+		<Box className={styles.interactionLoginBodyWrapper}>
 			<ValidationErrorMessage
 				message={state.isDappApproved === false ? intl.formatMessage(messages.unauthorized) : ''}
 			/>
 			{state?.intent && <Manifest intent={state.intent} onManifestChange={handleManifestChange} />}
 			<Button
 				onClick={handleSubmit}
-				styleVariant="tertiary"
+				styleVariant="primary"
 				sizeVariant="xlarge"
 				fullWidth
 				disabled={!state?.intent || state.isDappApproved === false}

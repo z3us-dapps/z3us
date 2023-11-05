@@ -12,6 +12,7 @@ import { ValidationErrorMessage } from 'ui/src/components/validation-error-messa
 import type { TransactionSettings } from '@src/types/transaction'
 
 import { Preview } from './preview'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	tab_preview: {
@@ -87,7 +88,7 @@ export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestCh
 	}
 
 	return (
-		<Box>
+		<Box className={styles.transactionManifestWrapper}>
 			<Tabs
 				list={[
 					{ label: intl.formatMessage(messages.tab_preview), value: PREVIEW },
