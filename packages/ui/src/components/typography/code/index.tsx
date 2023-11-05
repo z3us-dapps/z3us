@@ -14,10 +14,10 @@ import Text from '../text'
 import * as styles from './styles.css'
 
 interface SProps {
+	content: string
 	className?: string
 	onChange?: (e: React.ChangeEvent<HTMLDivElement>) => void
-	content: string
-	style: any
+	style?: React.CSSProperties
 }
 
 const Code: React.FC<SProps> = ({ className, content, style, onChange }) => {
