@@ -103,7 +103,7 @@ export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestCh
 						content={state.manifest}
 						className={styles.transactionManifestTextArea}
 						onChange={handleManifestChange}
-						style={{ height: `${tabHeight - 130}px` }}
+						style={{ height: `${tabHeight - 105}px` }}
 					/>
 					<Box className={styles.transactionManifestValidationWrapper}>
 						<ValidationErrorMessage message={state.error} />

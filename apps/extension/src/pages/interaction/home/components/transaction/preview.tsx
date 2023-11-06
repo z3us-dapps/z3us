@@ -6,6 +6,8 @@ import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
+import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { ResourceSnippet } from 'ui/src/components/resource-snippet'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
@@ -145,6 +147,103 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 
 	return (
 		<Box className={styles.transactionPreviewWrapper}>
+			{/* --- NEW */}
+			<Box className={styles.transactionPreviewBlockWrapper}>
+				<Text color="strong" size="xsmall" weight="strong">
+					Withdrawing
+				</Text>
+				<Box className={styles.transactionPreviewBlock}>
+					<Box display="flex" alignItems="center" width="full" gap="medium">
+						<Box flexShrink={0}>
+							<ResourceImageIcon address="hello" size="xlarge" />
+						</Box>
+						<Box alignItems="center" display="flex" flexGrow={1} justifyContent="space-between" gap="small">
+							<Box display="flex" flexDirection="column">
+								<Text color="strong" weight="medium" size="small" truncate>
+									rUSD
+								</Text>
+								<Text color="strong" size="small" truncate>
+									20.00
+								</Text>
+							</Box>
+							<Box display="flex" flexDirection="column" gap="xsmall">
+								<Text align="right" color="strong" weight="medium" size="small" truncate>
+									Main account
+								</Text>
+								<Text align="right" color="strong" size="small" truncate>
+									rdx1...lag0
+								</Text>
+							</Box>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
+			<Box className={styles.transactionPreviewBlockWrapper}>
+				<Text color="strong" size="xsmall" weight="strong">
+					Depositing
+				</Text>
+				<Box className={styles.transactionPreviewBlock}>
+					<Box display="flex" alignItems="center" width="full" gap="medium">
+						<Box flexShrink={0}>
+							<ResourceImageIcon address="hello" size="xlarge" />
+						</Box>
+						<Box alignItems="center" display="flex" flexGrow={1} justifyContent="space-between" gap="small">
+							<Box display="flex" flexDirection="column">
+								<Text color="strong" weight="medium" size="small" truncate>
+									hello hello hello hello hello hello hello hello
+								</Text>
+								<Text color="strong" size="small" truncate>
+									hello
+								</Text>
+							</Box>
+							<Box display="flex" flexDirection="column" gap="xsmall">
+								<Text align="right" color="strong" weight="medium" size="small" truncate>
+									hello hello hello hello hello hello hello hello
+								</Text>
+								<Text align="right" color="strong" size="small" truncate>
+									hello
+								</Text>
+							</Box>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
+			<Box className={styles.transactionPreviewBlockWrapper}>
+				<Text color="strong" size="xsmall" weight="strong">
+					Fee summary
+				</Text>
+
+				<Box className={styles.transactionPreviewBlock}>
+					<Box display="flex" flexDirection="column" gap="xsmall">
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">Transaction fee</Text>}
+							rightData={
+								<Text size="small" color="strong">
+									0.1 XRD
+								</Text>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">Using Dapps</Text>}
+							rightData={
+								<Text size="small" color="strong">
+									Radiswap
+								</Text>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">Transaction fee</Text>}
+							rightData={
+								<Text size="small" color="strong">
+									0.1 XRD
+								</Text>
+							}
+						/>
+					</Box>
+				</Box>
+			</Box>
+			{/* --- NEW */}
+
 			<Box className={styles.transactionPreviewFlexWrapper}>
 				<Text color="strong" size="xsmall" weight="strong">
 					{intl.formatMessage(messages.resource_changes)}

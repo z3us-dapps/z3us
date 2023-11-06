@@ -17,9 +17,9 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 	const name = getStringMetadata('name', data)
 
 	return (
-		<Box display="flex" flexDirection="column" gap="small" alignItems="center" justifyContent="center">
-			<ResourceImageIcon size="xxlarge" address={dAppDefinitionAddress} />
-			<Text color="strong" size="xxlarge" weight="strong">
+		<Box display="flex" flexDirection="column" gap="xsmall" alignItems="center" justifyContent="center">
+			<ResourceImageIcon size={{ mobile: 'xlarge', tablet: 'xxlarge' }} address={dAppDefinitionAddress} />
+			<Text color="strong" size="xlarge" weight="strong">
 				{name || origin || getShortAddress(dAppDefinitionAddress)}
 			</Text>
 		</Box>

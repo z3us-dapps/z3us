@@ -58,6 +58,10 @@ export const scrollAreaViewportWrapper = style([
 	},
 ])
 
+globalStyle(`${scrollAreaViewportWrapper} > div`, {
+	display: 'block !important',
+})
+
 export const scrollAreaScrollbarWrapper = style([
 	sprinkles({
 		position: 'relative',

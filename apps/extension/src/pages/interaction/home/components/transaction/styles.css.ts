@@ -29,24 +29,24 @@ export const transactionManifestTabsContentWrapper = style([
 		display: 'none',
 		flexDirection: 'column',
 		flexGrow: 1,
-		border: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
-		paddingX: 'medium',
-		paddingBottom: 'medium',
-		borderBottomLeftRadius: 'large',
-		borderBottomRightRadius: 'large',
-		background: {
-			lightMode: 'bai_pearl200',
-			darkMode: 'wax700',
-		},
-		boxShadow: {
-			focusVisible: 'btnSecondaryShadowFocus',
-		},
+		// border: 1,
+		// borderStyle: 'solid',
+		// borderColor: 'borderDivider',
+		// paddingX: 'medium',
+		// paddingBottom: 'medium',
+		// borderBottomLeftRadius: 'large',
+		// borderBottomRightRadius: 'large',
+		// background: {
+		// 	lightMode: 'bai_pearl200',
+		// 	darkMode: 'wax700',
+		// },
+		// boxShadow: {
+		// 	focusVisible: 'btnSecondaryShadowFocus',
+		// },
 	}),
 	{
-		marginTop: '-20px',
-		paddingTop: '32px',
+		// marginTop: '-20px',
+		// paddingTop: '32px',
 		selectors: {
 			'&:focus-visible': {
 				outline: 'none',
@@ -66,7 +66,9 @@ export const transactionManifestValidationWrapper = style([
 ])
 
 export const transactionManifestTextArea = style([
-	sprinkles({}),
+	sprinkles({
+		marginTop: 'medium',
+	}),
 	{
 		height: '280px',
 	},
@@ -85,6 +87,32 @@ export const transactionPreviewFlexWrapper = style([
 		flexDirection: 'column',
 		alignItems: 'self-start',
 		gap: 'medium',
+	}),
+	{},
+])
+
+export const transactionPreviewBlockWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'small',
+		paddingTop: 'medium',
+	}),
+	{},
+])
+
+export const transactionPreviewBlock = style([
+	sprinkles({
+		display: 'block',
+		padding: 'medium',
+		border: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDividerSecondary',
+		borderRadius: 'medium',
+		background: {
+			lightMode: 'bai_pearl200',
+			darkMode: 'wax700',
+		},
 	}),
 	{},
 ])
