@@ -40,7 +40,9 @@ export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances }) 
 				{balances.slice(0, DEFAULT_ITEMS).map(resource => (
 					<Button
 						key={resource.address}
-						className={styles.overlayAssetIconCircleWrapper}
+						className={
+							resourceType === 'nft' ? styles.overlayAssetIconSquareWrapper : styles.overlayAssetIconCircleWrapper
+						}
 						onClick={handleClick(resource.address)}
 						styleVariant="avatar"
 						sizeVariant={{ mobile: 'small', tablet: 'medium' }}

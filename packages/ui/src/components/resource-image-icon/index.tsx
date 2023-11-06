@@ -2,36 +2,38 @@ import React, { forwardRef } from 'react'
 
 import { type IImageIconProps, ImageIcon } from 'ui/src/components/image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
+import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useImages } from 'ui/src/hooks/use-images'
 import { getStringMetadata } from 'ui/src/services/metadata'
 import { getStrPrefix } from 'ui/src/utils/get-str-prefix'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-interface IProps extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc'> {
+interface IProps extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc' | 'rounded'> {
 	address: string
 	toolTipEnabled?: boolean
 }
 
 export const ResourceImageIcon = forwardRef<HTMLElement, IProps>(
 	({ address, toolTipEnabled = false, ...props }, ref: React.Ref<HTMLElement | null>) => {
-		const { data } = useEntityMetadata(address)
+		const { data } = useEntityDetails(address)
 		const images = useImages()
 		const shortAddress = getShortAddress(address)
 		const localImageUrl = images.get(address)
 
-		const name = getStringMetadata('name', data)
-		const symbol = getStringMetadata('symbol', data) || ''
-		const imageUrl = getStringMetadata('icon_url', data) || ''
+		const name = getStringMetadata('name', data?.metadata?.items)
+		const symbol = getStringMetadata('symbol', data?.metadata?.items) || ''
+		const imageUrl = getStringMetadata('icon_url', data?.metadata?.items) || ''
 		const imageSrc = localImageUrl || imageUrl
+		const tooltip = (symbol || '').toUpperCase() || name
 
 		return (
-			<ToolTip side="top" message={`${(symbol || '').toUpperCase()}`} disabled={!toolTipEnabled}>
+			<ToolTip side="top" message={tooltip} disabled={!toolTipEnabled || !tooltip}>
 				<span>
 					<ImageIcon
 						imgSrc={imageSrc}
 						imgAlt={name || shortAddress}
 						fallbackText={getStrPrefix(symbol || name || shortAddress, 3)}
+						rounded={data?.details?.type !== 'NonFungibleResource'}
 						{...props}
 						ref={ref}
 					/>

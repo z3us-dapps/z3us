@@ -60,6 +60,7 @@ export const nftIcon = style([
 		height: 'full',
 	}),
 	{
+		aspectRatio: '1/1',
 		height: 'auto',
 		width: '100%',
 		boxShadow: 'none',

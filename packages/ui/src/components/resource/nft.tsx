@@ -59,7 +59,6 @@ const Nft: React.FC = () => {
 						address={resourceId}
 						id={nftId}
 						size="xlarge"
-						rounded={false}
 						className={styles.nftIcon}
 						backgroundColor="transparent"
 					/>

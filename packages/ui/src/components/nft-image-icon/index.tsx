@@ -5,7 +5,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { getStringNftData } from 'ui/src/services/metadata'
 
-interface IProps extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc'> {
+interface IProps extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc' | 'rounded'> {
 	address: string
 	id: string
 	toolTipEnabled?: boolean
@@ -22,7 +22,7 @@ export const NftImageIcon = forwardRef<HTMLElement, IProps>(
 		return (
 			<ToolTip side="top" message={name} disabled={!toolTipEnabled}>
 				<span>
-					<ImageIcon imgSrc={imageSrc} imgAlt={name} fallbackText={id} {...props} ref={ref} />
+					<ImageIcon imgSrc={imageSrc} imgAlt={name} fallbackText={id} rounded={false} {...props} ref={ref} />
 				</span>
 			</ToolTip>
 		)

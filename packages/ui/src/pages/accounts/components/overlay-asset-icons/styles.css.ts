@@ -54,6 +54,23 @@ export const overlayAssetIconCircleWrapper = style([
 	},
 ])
 
+export const overlayAssetIconSquareWrapper = style([
+	sprinkles({
+		position: 'relative',
+		pointerEvents: 'auto',
+	}),
+	{
+		borderRadius: 'inherit',
+		boxShadow: `0 0 0 2px ${vars.color.backgroundSecondary}`,
+		marginLeft: '-9px',
+		selectors: {
+			[`&:hover`]: {
+				zIndex: 1,
+			},
+		},
+	},
+])
+
 globalStyle(`${overlayAssetIconsWrapper} button:first-child`, {
 	marginLeft: '0',
 })
