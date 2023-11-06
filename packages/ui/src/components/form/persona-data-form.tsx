@@ -9,10 +9,12 @@ import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
-import { CirclePlusIcon, TrashIcon } from 'ui/src/components/icons'
+import { MailIcon, PhoneIcon, TrashIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	form_button_title: {
@@ -160,20 +162,38 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 			<FieldsGroup name="names" defaultKeys={1} ignoreTriggers>
-				<SelectField
-					name="variant"
-					placeholder={intl.formatMessage(messages.variant)}
-					data={nameVariants.map(variant => ({
-						id: variant,
-						title: intl.formatMessage(messages[variant]),
-					}))}
-				/>
-				<TextField ref={inputRef} name="nickname" placeholder={intl.formatMessage(messages.nickname)} />
-				<TextField name="givenNames" placeholder={intl.formatMessage(messages.given_names)} />
-				<TextField name="familyName" placeholder={intl.formatMessage(messages.family_name)} />
+				<Box className={styles.formInputWrapper}>
+					<SelectField
+						name="variant"
+						sizeVariant="xlarge"
+						fullWidth
+						placeholder={intl.formatMessage(messages.variant)}
+						data={nameVariants.map(variant => ({
+							id: variant,
+							title: intl.formatMessage(messages[variant]),
+						}))}
+					/>
+				</Box>
+				<Box className={styles.formInputWrapper}>
+					<TextField
+						sizeVariant="large"
+						ref={inputRef}
+						name="nickname"
+						placeholder={intl.formatMessage(messages.nickname)}
+					/>
+				</Box>
+
+				<Box className={styles.formInputWrapper}>
+					<TextField sizeVariant="large" name="givenNames" placeholder={intl.formatMessage(messages.given_names)} />
+				</Box>
+
+				<Box className={styles.formInputWrapper}>
+					<TextField sizeVariant="large" name="familyName" placeholder={intl.formatMessage(messages.family_name)} />
+				</Box>
 			</FieldsGroup>
 			<FieldsGroup
 				name="emailAddresses"
+				className={styles.formFieldGroupWrapper}
 				defaultKeys={0}
 				trashTrigger={
 					<Button styleVariant="ghost" sizeVariant="small" iconOnly>
@@ -181,24 +201,18 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 					</Button>
 				}
 				addTrigger={
-					<Button
-						styleVariant="secondary"
-						sizeVariant="xlarge"
-						fullWidth
-						leftIcon={
-							<Box marginLeft="small">
-								<CirclePlusIcon />
-							</Box>
-						}
-					>
-						{intl.formatMessage(messages.button_add_email_address)}
-					</Button>
+					<Box className={styles.formInputWrapper}>
+						<Button styleVariant="secondary" sizeVariant="large" fullWidth leftIcon={<MailIcon />}>
+							{intl.formatMessage(messages.button_add_email_address)}
+						</Button>
+					</Box>
 				}
 			>
-				<TextField name="email" placeholder={intl.formatMessage(messages.email_address)} />
+				<TextField sizeVariant="large" name="email" placeholder={intl.formatMessage(messages.email_address)} />
 			</FieldsGroup>
 			<FieldsGroup
 				name="phoneNumbers"
+				className={styles.formFieldGroupWrapper}
 				defaultKeys={0}
 				trashTrigger={
 					<Button styleVariant="ghost" sizeVariant="small" iconOnly>
@@ -206,25 +220,22 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 					</Button>
 				}
 				addTrigger={
-					<Button
-						styleVariant="secondary"
-						sizeVariant="xlarge"
-						fullWidth
-						leftIcon={
-							<Box marginLeft="small">
-								<CirclePlusIcon />
-							</Box>
-						}
-					>
-						{intl.formatMessage(messages.button_add_phone_number)}
-					</Button>
+					<Box className={styles.formInputWrapper}>
+						<Button styleVariant="secondary" sizeVariant="large" fullWidth leftIcon={<PhoneIcon />}>
+							{intl.formatMessage(messages.button_add_phone_number)}
+						</Button>
+					</Box>
 				}
 			>
-				<TextField name="number" placeholder={intl.formatMessage(messages.phone_number)} />
+				<TextField sizeVariant="large" name="number" placeholder={intl.formatMessage(messages.phone_number)} />
 			</FieldsGroup>
-			<SubmitButton>
-				<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title)}</Button>
-			</SubmitButton>
+			<Box className={styles.formInputSubmitButtonWrapper}>
+				<SubmitButton>
+					<Button sizeVariant="large" fullWidth>
+						{intl.formatMessage(messages.form_button_title)}
+					</Button>
+				</SubmitButton>
+			</Box>
 		</Form>
 	)
 }

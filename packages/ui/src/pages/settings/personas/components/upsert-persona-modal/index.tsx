@@ -90,15 +90,15 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 
 	return (
 		<Dialog open={identityAddress !== undefined} onClose={onClose}>
-			<Box padding="large" display="flex" flexDirection="column" gap="large">
+			<Box padding="large" display="flex" flexDirection="column" gap="medium">
 				<Text size="xlarge" color="strong" weight="strong">
 					{intl.formatMessage(messages.title)}
 				</Text>
 				<Box display="flex" flexDirection="column" gap="xsmall">
 					<PersonaDataForm onSubmit={handleSubmit} identityAddress={identityAddress} />
 				</Box>
-				<Box display="flex" gap="small" justifyContent="flex-end">
-					<Button sizeVariant="small" styleVariant="secondary" fullWidth onClick={onClose}>
+				<Box>
+					<Button fullWidth sizeVariant="large" styleVariant="secondary" onClick={onClose}>
 						{intl.formatMessage(messages.cancel)}
 					</Button>
 				</Box>

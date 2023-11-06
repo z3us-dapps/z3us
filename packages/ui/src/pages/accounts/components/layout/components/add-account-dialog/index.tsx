@@ -67,9 +67,10 @@ export const AddAccountDialog: React.FC = () => {
 	if (!isWallet || keystore?.type === KeystoreType.RADIX_WALLET) return null
 
 	return (
-		<Box className={styles.addAccountDialog}>
+		<Box className={styles.addAccountDialogWrapper}>
 			<Dialog
 				width="large"
+				className={styles.addAccountDialog}
 				trigger={
 					<Box>
 						<ToolTip message={intl.formatMessage(messages.addAccount)}>
