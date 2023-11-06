@@ -146,12 +146,13 @@ export const copyAddressButtonWrapper = style([
 
 export const accountDropdownWrapper = style([
 	sprinkles({
-		position: 'relative',
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		marginTop: 'medium',
+		marginRight: 'medium',
 	}),
-	{
-		marginTop: '-4px',
-		marginRight: '-12px',
-	},
+	{},
 ])
 
 export const accountDropdownContentWrapper = style([

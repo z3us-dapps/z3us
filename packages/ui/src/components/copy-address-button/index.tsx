@@ -97,6 +97,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 
 	const handleAddressClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault()
+		event.stopPropagation()
 		copyTextToClipboard(address)
 		setCopiedAnimate(true)
 	}

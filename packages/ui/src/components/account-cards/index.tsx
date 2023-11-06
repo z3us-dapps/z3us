@@ -115,7 +115,8 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
 
-	const handleRemoveAccount = async () => {
+	const handleRemoveAccount = async event => {
+		event.stopPropagation()
 		await confirm({
 			title: intl.formatMessage(messages.delete_account),
 			content: intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
@@ -178,46 +179,6 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 							/>
 						</Box>
 					) : null}
-					<Box display="flex" flexGrow={1} justifyContent="flex-end" alignItems="flex-start">
-						{showAccountOptions && (
-							<Box className={styles.accountDropdownWrapper}>
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<Button iconOnly sizeVariant="small" styleVariant="white-transparent">
-											<DotsHorizontalCircleIcon />
-										</Button>
-									</DropdownMenuTrigger>
-									<DropdownMenuPortal>
-										<DropdownMenuContent align="end" sideOffset={2} className={styles.accountDropdownContentWrapper}>
-											<DropdownMenuItem onSelect={handleShowDetails}>
-												<DropdownMenuLeftSlot>
-													<InformationIcon />
-												</DropdownMenuLeftSlot>
-												<Box display="flex" marginLeft="xsmall">
-													<Text size="xsmall" truncate>
-														{intl.formatMessage(messages.show_details)}
-													</Text>
-												</Box>
-											</DropdownMenuItem>
-											{canRemoveAccount && (
-												<DropdownMenuItem onSelect={handleRemoveAccount}>
-													<DropdownMenuLeftSlot>
-														<TrashIcon />
-													</DropdownMenuLeftSlot>
-													<Box display="flex" marginLeft="xsmall">
-														<Text size="xsmall" truncate>
-															{intl.formatMessage(messages.delete_account)}
-														</Text>
-													</Box>
-												</DropdownMenuItem>
-											)}
-											<DropdownMenuArrow />
-										</DropdownMenuContent>
-									</DropdownMenuPortal>
-								</DropdownMenu>
-							</Box>
-						)}
-					</Box>
 				</Box>
 				<Box paddingBottom="xsmall" display="flex" flexDirection="column">
 					<Text size="xlarge" weight="stronger">
@@ -235,6 +196,44 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 					</Text>
 				</Box>
 			</Box>
+			{showAccountOptions && (
+				<Box className={styles.accountDropdownWrapper}>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button iconOnly sizeVariant="small" styleVariant="white-transparent">
+								<DotsHorizontalCircleIcon />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuPortal>
+							<DropdownMenuContent align="end" sideOffset={2} className={styles.accountDropdownContentWrapper}>
+								<DropdownMenuItem onSelect={handleShowDetails}>
+									<DropdownMenuLeftSlot>
+										<InformationIcon />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="xsmall">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.show_details)}
+										</Text>
+									</Box>
+								</DropdownMenuItem>
+								{canRemoveAccount && (
+									<DropdownMenuItem onSelect={handleRemoveAccount}>
+										<DropdownMenuLeftSlot>
+											<TrashIcon />
+										</DropdownMenuLeftSlot>
+										<Box display="flex" marginLeft="xsmall">
+											<Text size="xsmall" truncate>
+												{intl.formatMessage(messages.delete_account)}
+											</Text>
+										</Box>
+									</DropdownMenuItem>
+								)}
+								<DropdownMenuArrow />
+							</DropdownMenuContent>
+						</DropdownMenuPortal>
+					</DropdownMenu>
+				</Box>
+			)}
 			<Box className={styles.cardAccountShine} />
 		</motion.li>
 	)
