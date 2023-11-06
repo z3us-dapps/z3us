@@ -94,16 +94,22 @@ export const imageAvatarRootWrapper = style([
 	{},
 ])
 
-export const imageAvatarImageWrapper = style([
-	sprinkles({
+export const imageAvatarImageWrapper = recipe({
+	base: sprinkles({
 		width: 'full',
 		height: 'full',
-		borderRadius: 'full',
 	}),
-	{
-		objectFit: 'cover',
+	variants: {
+		rounded: {
+			true: sprinkles({
+				borderRadius: 'full',
+			}),
+		},
 	},
-])
+	defaultVariants: {
+		rounded: true,
+	},
+})
 
 export const imageAvatarFallbackWrapper = style([
 	sprinkles({

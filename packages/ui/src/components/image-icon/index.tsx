@@ -59,7 +59,7 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 			)}
 		>
 			<AvatarPrimitive.Root className={styles.imageAvatarRootWrapper}>
-				<AvatarPrimitive.Image className={styles.imageAvatarImageWrapper} src={imgSrc} alt={imgAlt} />
+				<AvatarPrimitive.Image className={styles.imageAvatarImageWrapper({ rounded })} src={imgSrc} alt={imgAlt} />
 				<AvatarPrimitive.Fallback delayMs={imgFallbackDelay} className={styles.imageAvatarFallbackWrapper}>
 					<Text
 						className={clsx(
