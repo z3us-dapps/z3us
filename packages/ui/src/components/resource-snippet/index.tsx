@@ -31,7 +31,7 @@ export const ResourceSnippet: React.FC<IProps> = ({ address }) => {
 	return (
 		<Box display="flex" flexDirection="row" gap="small" alignItems="center">
 			<ResourceImageIcon address={dappAddress || address} />
-			<Text capitalizeFirstLetter size="small" truncate>
+			<Text capitalizeFirstLetter size="xsmall" truncate>
 				{displayName}
 			</Text>
 		</Box>

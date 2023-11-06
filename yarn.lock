@@ -4745,7 +4745,7 @@
     "@radix-ui/react-use-callback-ref" "1.0.1"
     "@radix-ui/react-use-layout-effect" "1.0.1"
 
-"@radix-ui/react-select@^1.2.1", "@radix-ui/react-select@^1.2.2":
+"@radix-ui/react-select@^1.2.2":
   version "1.2.2"
   resolved "https://registry.npmjs.org/@radix-ui/react-select/-/react-select-1.2.2.tgz"
   integrity sha512-zI7McXr8fNaSrUY9mZe4x/HC0jTLY9fWNhO1oLWYMQGDXuV4UCivIGTxwioSzO0ZCYX9iSLyWmAh/1TOmX3Cnw==

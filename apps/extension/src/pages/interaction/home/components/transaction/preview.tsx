@@ -146,7 +146,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 	return (
 		<Box className={styles.transactionPreviewWrapper}>
 			<Box className={styles.transactionPreviewFlexWrapper}>
-				<Text color="strong" size="large" weight="strong">
+				<Text color="strong" size="xsmall" weight="strong">
 					{intl.formatMessage(messages.resource_changes)}
 				</Text>
 				{state.flatChanges.map((change, index) => (
@@ -158,7 +158,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 					>
 						<ResourceSnippet address={change.account} />
 						<ResourceSnippet address={change.resource} />
-						<RedGreenText change={change.amount}>
+						<RedGreenText size="xsmall" change={change.amount}>
 							{intl.formatNumber(change.amount, {
 								style: 'decimal',
 								maximumFractionDigits: 8,
@@ -178,7 +178,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 							alignItems="center"
 							gap="small"
 						>
-							<Text color="strong" size="large" weight="strong">
+							<Text color="strong" size="xsmall" weight="strong">
 								{intl.formatMessage(messages.proof)}
 							</Text>
 							<ResourceSnippet address={proof.resourceAddress} />
@@ -187,39 +187,39 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 				</Box>
 			)}
 			<Box className={styles.transactionFeeSummaryWrapper}>
-				<Text color="strong" size="large" weight="strong">
+				<Text color="strong" size="xsmall" weight="strong">
 					{intl.formatMessage(messages.fee_summary)}
 				</Text>
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_execution_cost !== '0' && (
-					<Text size="small">
+					<Text size="xsmall">
 						{intl.formatMessage(messages.xrd_total_execution_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_execution_cost,
 						})}
 					</Text>
 				)}
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_finalization_cost !== '0' && (
-					<Text size="small">
+					<Text size="xsmall">
 						{intl.formatMessage(messages.xrd_total_finalization_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_finalization_cost,
 						})}
 					</Text>
 				)}
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_royalty_cost !== '0' && (
-					<Text size="small">
+					<Text size="xsmall">
 						{intl.formatMessage(messages.xrd_total_royalty_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_royalty_cost,
 						})}
 					</Text>
 				)}
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_storage_cost !== '0' && (
-					<Text size="small">
+					<Text size="xsmall">
 						{intl.formatMessage(messages.xrd_total_storage_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_storage_cost,
 						})}
 					</Text>
 				)}
 				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_tipping_cost !== '0' && (
-					<Text size="small">
+					<Text size="xsmall">
 						{intl.formatMessage(messages.xrd_total_tipping_cost, {
 							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_tipping_cost,
 						})}
