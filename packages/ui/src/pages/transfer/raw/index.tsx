@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { toast } from 'sonner'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
@@ -35,6 +36,10 @@ const messages = defineMessages({
 	raw_placeholder: {
 		id: 'iP8zle',
 		defaultMessage: 'Enter transaction manifest',
+	},
+	success_message: {
+		id: 'Gkt0d0',
+		defaultMessage: 'Successfully submitted transaction to the network',
 	},
 })
 
@@ -72,6 +77,8 @@ export const Raw: React.FC = () => {
 			version: 1,
 			transactionManifest: values.raw,
 		})
+
+		toast(intl.formatMessage(messages.success_message), {})
 	}
 
 	return (

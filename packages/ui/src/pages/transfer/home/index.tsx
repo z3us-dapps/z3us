@@ -2,6 +2,7 @@ import { ManifestBuilder, RadixEngineToolkit } from '@radixdlt/radix-engine-tool
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
@@ -64,6 +65,10 @@ const messages = defineMessages({
 	validation_values_length: {
 		id: '8Dy6y8',
 		defaultMessage: 'At least one group is required',
+	},
+	success_message: {
+		id: 'Gkt0d0',
+		defaultMessage: 'Successfully submitted transaction to the network',
 	},
 })
 
@@ -182,6 +187,8 @@ export const Home: React.FC = () => {
 			transactionManifest: convertedInstructions.value as string,
 			message: values.message,
 		})
+
+		toast(intl.formatMessage(messages.success_message), {})
 	}
 
 	return (
