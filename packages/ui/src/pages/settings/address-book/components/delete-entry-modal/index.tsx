@@ -1,3 +1,4 @@
+import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { toast } from 'sonner'
@@ -53,7 +54,7 @@ const DeleteAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 			title={intl.formatMessage(messages.title)}
 			description={
 				<Box component="span">
-					<Text truncate>{intl.formatMessage(messages.description, { address })}</Text>?
+					<Text truncate>{intl.formatMessage(messages.description, { address: getShortAddress(address) })}</Text>?
 				</Box>
 			}
 			confirmButtonText={intl.formatMessage(messages.button_text)}

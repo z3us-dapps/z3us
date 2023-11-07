@@ -1,3 +1,4 @@
+import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { toast } from 'sonner'
@@ -53,7 +54,10 @@ const DeletePersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 			title={intl.formatMessage(messages.title)}
 			description={
 				<Box component="span">
-					<Text truncate>{intl.formatMessage(messages.description, { identityAddress })}</Text>?
+					<Text truncate>
+						{intl.formatMessage(messages.description, { identityAddress: getShortAddress(identityAddress) })}
+					</Text>
+					?
 				</Box>
 			}
 			confirmButtonText={intl.formatMessage(messages.button_text)}
