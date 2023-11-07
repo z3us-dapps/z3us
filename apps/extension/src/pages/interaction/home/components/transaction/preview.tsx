@@ -215,7 +215,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 				<Text color="strong" size="xsmall" weight="strong">
 					{intl.formatMessage(messages.fee_summary)}
 				</Text>
-				<Box className={styles.transactionPreviewBlock}>
+				<Box className={styles.transactionPreviewBlock} onClick={handleToggleValue}>
 					<Box display="flex" flexDirection="column" gap="xsmall">
 						{feeSummaryDetailKeys.map(key =>
 							!receipt?.fee_summary?.[key] ? null : (
@@ -236,7 +236,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 													  })
 											}
 										>
-											<Box component="button" onClick={handleToggleValue}>
+											<Box>
 												<Text size="small" color="strong">
 													{state.currency === 'currency'
 														? intl.formatNumber(receipt.fee_summary[key] * xrdPrice, {
