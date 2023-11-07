@@ -10,6 +10,7 @@ import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
@@ -20,6 +21,8 @@ import { useIntent } from '@src/hooks/transaction/use-intent'
 import { useSign } from '@src/hooks/transaction/use-sign'
 import type { TransactionSettings } from '@src/types/transaction'
 
+import { DappDetails } from '../dapp-details'
+import { NetworkAlert } from '../network-alert'
 import { Manifest } from '../transaction/manifest'
 import * as styles from './styles.css'
 
@@ -132,20 +135,28 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 	if (interaction.items.discriminator !== 'transaction') return null
 
 	return (
-		<Box className={styles.interactionLoginBodyWrapper}>
-			<ValidationErrorMessage
-				message={state.isDappApproved === false ? intl.formatMessage(messages.unauthorized) : ''}
-			/>
-			{state?.intent && <Manifest intent={state.intent} onManifestChange={handleManifestChange} />}
-			<Button
-				onClick={handleSubmit}
-				styleVariant="primary"
-				sizeVariant="xlarge"
-				fullWidth
-				disabled={!state?.intent || state.isDappApproved === false}
-			>
-				{intl.formatMessage(messages.submit)}
-			</Button>
-		</Box>
+		<>
+			<ScrollArea className={styles.interactionScrollWrapper}>
+				<Box className={styles.interactionLoginBodyWrapper}>
+					<DappDetails {...interaction?.metadata} />
+					<NetworkAlert {...interaction?.metadata} />
+					<ValidationErrorMessage
+						message={state.isDappApproved === false ? intl.formatMessage(messages.unauthorized) : ''}
+					/>
+					{state?.intent && <Manifest intent={state.intent} onManifestChange={handleManifestChange} />}
+				</Box>
+			</ScrollArea>
+			<Box className={styles.interactionLoginFooterWrapper}>
+				<Button
+					onClick={handleSubmit}
+					styleVariant="primary"
+					sizeVariant="xlarge"
+					fullWidth
+					disabled={!state?.intent || state.isDappApproved === false}
+				>
+					{intl.formatMessage(messages.submit)}
+				</Button>
+			</Box>
+		</>
 	)
 }

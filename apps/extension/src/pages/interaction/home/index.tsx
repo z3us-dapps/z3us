@@ -9,7 +9,6 @@ import browser from 'webextension-polyfill'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Close2Icon } from 'ui/src/components/icons'
-import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 
@@ -120,12 +119,12 @@ export const Home: React.FC = () => {
 
 	return (
 		<Box className={styles.interactionWrapper}>
-			<ScrollArea className={styles.interactionScrollWrapper}>
-				<Box className={styles.interactionInnerWrapper}>
-					<DappDetails {...interaction?.metadata} />
-					<NetworkAlert {...interaction?.metadata} />
-					{!isCanceled && <Interaction interaction={interaction} />}
-					{isCanceled && (
+			<Box className={styles.interactionInnerWrapper}>
+				{!isCanceled && <Interaction interaction={interaction} />}
+				{isCanceled && (
+					<Box>
+						<DappDetails {...interaction?.metadata} />
+						<NetworkAlert {...interaction?.metadata} />
 						<Box className={styles.interactionCancelledWrapper}>
 							<Box>
 								<Text size="small">{intl.formatMessage(messages.canceled)}</Text>
@@ -136,9 +135,9 @@ export const Home: React.FC = () => {
 								</Button>
 							</Box>
 						</Box>
-					)}
-				</Box>
-			</ScrollArea>
+					</Box>
+				)}
+			</Box>
 			<Box className={styles.interactionCloseButtonWrapper}>
 				<ToolTip message={intl.formatMessage(messages.close_interaction_popup)}>
 					<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleCancelAndClose}>

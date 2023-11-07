@@ -6,7 +6,9 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
+import { RefreshIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { AccountSnippet } from 'ui/src/components/snippet/account'
 import { ResourceSnippet } from 'ui/src/components/snippet/resource'
@@ -26,6 +28,10 @@ const messages = defineMessages({
 		defaultMessage: 'Proofs',
 	},
 	fee_summary: {
+		id: 'LXfC4n',
+		defaultMessage: 'Fee summary',
+	},
+	change_currency_tooltip: {
 		id: 'LXfC4n',
 		defaultMessage: 'Fee summary',
 	},
@@ -212,10 +218,23 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 				))}
 
 			<Box className={styles.transactionPreviewBlockWrapper}>
-				<Text color="strong" size="xsmall" weight="strong">
-					{intl.formatMessage(messages.fee_summary)}
-				</Text>
-				<Box className={styles.transactionPreviewBlock} onClick={handleToggleValue}>
+				<Box display="flex" position="relative" width="full">
+					<Text color="strong" size="xsmall" weight="strong">
+						{intl.formatMessage(messages.fee_summary)}
+					</Text>
+					<ToolTip message={intl.formatMessage(messages.change_currency_tooltip)}>
+						<Button
+							styleVariant="ghost"
+							sizeVariant="xsmall"
+							iconOnly
+							className={styles.transactionChangeCurrencyBtn}
+							onClick={handleToggleValue}
+						>
+							<RefreshIcon />
+						</Button>
+					</ToolTip>
+				</Box>
+				<Box className={styles.transactionPreviewBlock}>
 					<Box display="flex" flexDirection="column" gap="xsmall">
 						{feeSummaryDetailKeys.map(key =>
 							!receipt?.fee_summary?.[key] ? null : (

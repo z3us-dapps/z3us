@@ -12,24 +12,12 @@ export const interactionWrapper = style([
 	{},
 ])
 
-export const interactionScrollWrapper = style([
-	sprinkles({
-		height: 'full',
-		width: 'full',
-	}),
-	{},
-])
-
 export const interactionInnerWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
 		height: 'full',
-		padding: {
-			mobile: 'large',
-			tablet: 'xlarge',
-		},
 	}),
 	{
 		minHeight: '100vh',

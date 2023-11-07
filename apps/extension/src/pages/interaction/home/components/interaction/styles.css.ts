@@ -1,24 +1,17 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-
-export const interactionLoginWrapper = style([
-	sprinkles({
-		position: 'relative',
-		display: 'flex',
-		flexDirection: 'column',
-		paddingTop: 'large',
-		flexGrow: 1,
-	}),
-	{},
-])
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const interactionLoginBodyWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
-		flexGrow: 1,
+		padding: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
 	}),
 	{},
 ])
@@ -29,6 +22,7 @@ export const interactionLoginBodyTextWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 		gap: 'xsmall',
+		paddingTop: 'medium',
 	}),
 	{},
 ])
@@ -51,6 +45,20 @@ export const interactionLoginFooterWrapper = style([
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
 		paddingTop: 'large',
+		padding: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
 	}),
 	{},
+])
+
+export const interactionScrollWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { height: '100vh' },
+	}),
 ])
