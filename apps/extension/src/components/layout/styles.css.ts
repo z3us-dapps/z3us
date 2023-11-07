@@ -103,7 +103,7 @@ export const unlockFormWalletWrapper = style([
 export const unlockValidationWrapper = style([
 	sprinkles({
 		paddingY: {
-			mobile: 'medium',
+			mobile: 'small',
 		},
 	}),
 	{},
