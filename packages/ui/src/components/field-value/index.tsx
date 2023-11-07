@@ -2,10 +2,14 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
+import { Link, Text } from 'ui/src/components/typography'
+
+import * as styles from './styles.css'
 
 export const getDataValue = (field?: any) =>
 	field?.value !== undefined ? field?.value : field?.fields?.map(getDataValue).join(', ') || ''
+
+const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/
 
 interface IProps {
 	field?: any
@@ -13,12 +17,21 @@ interface IProps {
 
 const FieldValue: React.FC<IProps> = ({ field }) => {
 	const value = getDataValue(field)
+	const isLinkValue = urlRegex.test(value)
 	return (
 		<ToolTip message={value}>
 			<Box maxWidth="full">
-				<Text size="xsmall" truncate>
-					{value}
-				</Text>
+				{isLinkValue ? (
+					<Link target="_blank" href={value} className={styles.metaDataLinkWrapper}>
+						<Text size="xsmall" truncate>
+							{value}
+						</Text>
+					</Link>
+				) : (
+					<Text size="xsmall" truncate>
+						{value}
+					</Text>
+				)}
 			</Box>
 		</ToolTip>
 	)

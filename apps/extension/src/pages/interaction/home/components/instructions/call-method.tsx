@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import FieldValue from 'ui/src/components/resource/components/field-value'
+import FieldValue from 'ui/src/components/field-value'
 import { AccountSnippet } from 'ui/src/components/snippet/account'
 
 import { resolveManifestAddress } from '@src/radix/manifest'

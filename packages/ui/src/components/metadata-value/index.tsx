@@ -29,8 +29,6 @@ import { Link, Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
 
-const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/
-
 export const getMetadataValue = (value?: EntityMetadataItem): string => {
 	const typed = value?.value?.typed
 	switch (typed?.type) {
@@ -66,6 +64,8 @@ export const getMetadataValue = (value?: EntityMetadataItem): string => {
 			return typed?.value || ''
 	}
 }
+
+const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/
 
 interface IProps {
 	value?: EntityMetadataItem
