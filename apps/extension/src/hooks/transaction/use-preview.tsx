@@ -27,9 +27,9 @@ export const usePreview = () => {
 			...extractAddresses.GlobalVirtualEd25519Account,
 			...extractAddresses.GlobalVirtualSecp256k1Account,
 		]
-		const signerPublicKeys = accountAddresses.map(address =>
-			gatewayPublicKeyFromPersonaOrAccount(accountIndexes[address]),
-		)
+		const signerPublicKeys = accountAddresses
+			.filter(address => !!accountIndexes[address])
+			.map(address => gatewayPublicKeyFromPersonaOrAccount(accountIndexes[address]))
 
 		const manifest = await RadixEngineToolkit.Instructions.convert(
 			intent.manifest.instructions,

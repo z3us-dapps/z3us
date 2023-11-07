@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import { ResourceSnippet } from 'ui/src/components/resource-snippet'
 import FieldValue from 'ui/src/components/resource/components/field-value'
+import { AccountSnippet } from 'ui/src/components/snippet/account'
 
 import { resolveManifestAddress } from '@src/radix/manifest'
 
@@ -73,7 +73,7 @@ export const CallMethod: React.FC<IProps> = ({ instruction, knownAddresses }) =>
 			const feeAmount = castValue<'Decimal'>(feeValue, 'Decimal').value
 			return (
 				<Box display="flex" flexDirection="row" gap="small">
-					<ResourceSnippet address={address} />
+					<AccountSnippet address={address} />
 					{intl.formatMessage(messages.lock_fee, {
 						amount: feeAmount.toString(),
 					})}
@@ -86,8 +86,8 @@ export const CallMethod: React.FC<IProps> = ({ instruction, knownAddresses }) =>
 
 			return (
 				<Box display="flex" flexDirection="row" gap="small">
-					<ResourceSnippet address={address} />
-					<ResourceSnippet address={resourceAddress} />
+					<AccountSnippet address={address} />
+					<AccountSnippet address={resourceAddress} />
 					{intl.formatMessage(messages.withdraw, {
 						amount: amount.toString(),
 					})}
@@ -99,14 +99,14 @@ export const CallMethod: React.FC<IProps> = ({ instruction, knownAddresses }) =>
 			const bucket = castValue<'Bucket'>(bucketValue, 'Bucket').value
 			return (
 				<Box display="flex" flexDirection="row" gap="small">
-					<ResourceSnippet address={accountAddress} />
+					<AccountSnippet address={accountAddress} />
 					{intl.formatMessage(messages.deposit, { bucket })}
 				</Box>
 			)
 		default:
 			return (
 				<Box display="flex" flexDirection="row" gap="small">
-					<ResourceSnippet address={address} />
+					<AccountSnippet address={address} />
 					{instruction.methodName}
 					<FieldValue field={instruction.args} />
 				</Box>

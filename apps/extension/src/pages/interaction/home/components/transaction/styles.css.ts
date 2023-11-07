@@ -81,16 +81,6 @@ export const transactionPreviewWrapper = style([
 	{},
 ])
 
-export const transactionPreviewFlexWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'self-start',
-		gap: 'medium',
-	}),
-	{},
-])
-
 export const transactionPreviewBlockWrapper = style([
 	sprinkles({
 		display: 'flex',
@@ -113,38 +103,6 @@ export const transactionPreviewBlock = style([
 			lightMode: 'bai_pearl200',
 			darkMode: 'wax700',
 		},
-	}),
-	{},
-])
-
-export const transactionPreviewFlatChange = style([
-	sprinkles({
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-start',
-		gap: 'small',
-	}),
-	{},
-])
-
-export const transactionPreviewProofsWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'self-start',
-		gap: 'small',
-		paddingTop: 'medium',
-	}),
-	{},
-])
-
-export const transactionFeeSummaryWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'self-start',
-		gap: 'xsmall',
-		paddingTop: 'small',
 	}),
 	{},
 ])

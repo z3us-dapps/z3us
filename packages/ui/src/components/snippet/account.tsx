@@ -11,9 +11,10 @@ import { getShortAddress } from 'ui/src/utils/string-utils'
 
 interface IProps {
 	address: string
+	reversed?: boolean
 }
 
-export const ResourceSnippet: React.FC<IProps> = ({ address }) => {
+export const AccountSnippet: React.FC<IProps> = ({ address, reversed }) => {
 	const { data, isLoading } = useEntityDetails(address)
 	const addressBook = useAddressBook()
 
@@ -24,16 +25,23 @@ export const ResourceSnippet: React.FC<IProps> = ({ address }) => {
 
 	const dappName = getStringMetadata('name', dappData?.metadata?.items)
 
-	const displayName = addressBook[address]?.name || dappName || name || getShortAddress(address)
+	const displayName = addressBook[address]?.name || dappName || name
 
 	if (isLoading) return <FallbackLoading />
 
 	return (
-		<Box display="flex" flexDirection="row" gap="small" alignItems="center">
-			<ResourceImageIcon address={dappAddress || address} />
-			<Text capitalizeFirstLetter size="xsmall" truncate>
-				{displayName}
-			</Text>
+		<Box display="flex" flexDirection={reversed ? 'row-reverse' : 'row'} gap="medium" alignItems="center">
+			<ResourceImageIcon address={dappAddress || address} size="xlarge" />
+			<Box display="flex" flexDirection="column" gap="xsmall">
+				{displayName && (
+					<Text align={reversed ? 'right' : 'left'} color="strong" weight="medium" size="small" truncate>
+						{displayName}
+					</Text>
+				)}
+				<Text align={reversed ? 'right' : 'left'} color="strong" size="small" truncate>
+					{getShortAddress(address)}
+				</Text>
+			</Box>
 		</Box>
 	)
 }
