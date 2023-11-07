@@ -97,9 +97,7 @@ export const MobileScrollingButtons: React.FC = () => {
 		}
 
 	useEffect(() => {
-		if (entry?.isIntersecting) {
-			setIsSticky(!entry.isIntersecting)
-		}
+		setIsSticky(!entry?.isIntersecting)
 	}, [entry?.isIntersecting])
 
 	return (
