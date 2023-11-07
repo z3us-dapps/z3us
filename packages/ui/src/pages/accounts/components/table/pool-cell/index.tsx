@@ -32,7 +32,9 @@ export const PoolCell: React.FC<IProps> = props => {
 	const intl = useIntl()
 	const { data, isLoading } = useEntityDetails(value)
 	const { data: entities, isLoading: isLoadingResources } = useEntitiesDetails(
-		data?.details?.state?.vaults.map(vault => vault.resource_address) || [],
+		data?.details?.type === 'Component'
+			? (data?.details?.state as any)?.vaults.map(vault => vault.resource_address) || []
+			: [],
 	)
 
 	const name = getStringMetadata('name', data?.metadata?.items)
