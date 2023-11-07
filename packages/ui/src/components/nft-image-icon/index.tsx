@@ -23,7 +23,7 @@ export const NftImageIcon = forwardRef<HTMLElement, IProps>(
 			<ToolTip side="top" message={name} disabled={!toolTipEnabled}>
 				<span>
 					<ImageIcon
-						imgSrc={`https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageSrc}`}
+						imgSrc={imageSrc ? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageSrc}` : ''}
 						imgAlt={name}
 						fallbackText={id}
 						rounded={false}
