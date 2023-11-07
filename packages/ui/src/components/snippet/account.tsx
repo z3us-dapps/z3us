@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { AccountCardIcon } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
@@ -24,14 +25,18 @@ export const AccountSnippet: React.FC<IProps> = ({ address, reversed }) => {
 	const { data: dappData } = useEntityDetails(dappAddress)
 
 	const dappName = getStringMetadata('name', dappData?.metadata?.items)
-
+	const imageResourceAddress = dappAddress || address
 	const displayName = addressBook[address]?.name || dappName || name
 
 	if (isLoading) return <FallbackLoading />
 
 	return (
 		<Box display="flex" flexDirection={reversed ? 'row-reverse' : 'row'} gap="medium" alignItems="center">
-			<ResourceImageIcon address={dappAddress || address} size="xlarge" />
+			{addressBook[address] ? (
+				<AccountCardIcon address={imageResourceAddress} />
+			) : (
+				<ResourceImageIcon address={imageResourceAddress} size="xlarge" />
+			)}
 			<Box display="flex" flexDirection="column" gap="xsmall">
 				{displayName && (
 					<Text align={reversed ? 'right' : 'left'} color="strong" weight="medium" size="small" truncate>

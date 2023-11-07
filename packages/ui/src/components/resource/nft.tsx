@@ -7,6 +7,7 @@ import { CardButtons } from 'ui/src/components/card-buttons'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { NftImageIcon } from 'ui/src/components/nft-image-icon'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { getStringNftData } from 'ui/src/services/metadata'
@@ -64,9 +65,13 @@ const Nft: React.FC = () => {
 					/>
 				</Box>
 				<Box display="flex" flexDirection="column" gap="small">
-					<Text size="xlarge" weight="strong" color="strong" align="center">
-						{`${name} ${nftId} ${data?.is_burned === true ? intl.formatMessage(messages.burned) : ''}`}
-					</Text>
+					<ToolTip message={nftId}>
+						<Box>
+							<Text size="xlarge" weight="strong" color="strong" align="center">
+								{`${name} ${data?.is_burned === true ? intl.formatMessage(messages.burned) : ''}`}
+							</Text>
+						</Box>
+					</ToolTip>
 					{description && <Text size="small">{description}</Text>}
 				</Box>
 
