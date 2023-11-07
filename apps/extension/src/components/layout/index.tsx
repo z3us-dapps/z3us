@@ -23,6 +23,10 @@ const Layout: React.FC = () => {
 	}))
 
 	useEffect(() => {
+		const rootElement = document.getElementById('root')
+		if (rootElement) {
+			rootElement.classList.add('z3-extension-mounted')
+		}
 		if (isLoading) return
 		if (isUnlocked) return
 		if (location.pathname.startsWith('/keystore/new')) return

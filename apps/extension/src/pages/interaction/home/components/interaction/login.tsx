@@ -14,6 +14,7 @@ import browser from 'webextension-polyfill'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { UserCheck, WalletIcon } from 'ui/src/components/icons'
+import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
@@ -28,6 +29,8 @@ import { usePersonaDataModal } from '@src/hooks/modal/use-persona-data-modal'
 import { useSelectAccountsModal } from '@src/hooks/modal/use-select-accounts-modal'
 import { useSelectPersonaModal } from '@src/hooks/modal/use-select-persona-modal'
 
+import { DappDetails } from '../dapp-details'
+import { NetworkAlert } from '../network-alert'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -186,62 +189,60 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	}
 
 	return (
-		<Box className={styles.interactionLoginWrapper}>
-			<Box className={styles.interactionLoginBodyWrapper}>
-				<Box className={styles.interactionLoginBodyTextWrapper}>
-					<Text color="strong" size="xlarge" weight="strong">
-						{intl.formatMessage(messages.new_login_request_title)}
-					</Text>
-					<Text>{intl.formatMessage(messages.new_login_request_sub_title)}</Text>
-				</Box>
-				<Box className={styles.interactionLoginBodyButtonWrapper}>
-					<Text color="strong" size="small" weight="strong">
-						{intl.formatMessage(messages.select_persona_title)}
-					</Text>
-					<Button
-						onClick={handleSelectPersona}
-						styleVariant="tertiary"
-						sizeVariant="xlarge"
-						fullWidth
-						disabled={request.auth?.discriminator === 'usePersona'}
-						leftIcon={<UserCheck />}
-					>
-						{intl.formatMessage(messages.select_persona, {
-							isSelected: !!persona,
-							displayName: persona?.label || getShortAddress(persona?.identityAddress),
-						})}
-					</Button>
-				</Box>
-				{canSelectAccounts && (
+		<>
+			<ScrollArea className={styles.interactionScrollWrapper}>
+				<Box className={styles.interactionLoginBodyWrapper}>
+					<DappDetails {...interaction?.metadata} />
+					<NetworkAlert {...interaction?.metadata} />
+					<Box className={styles.interactionLoginBodyTextWrapper}>
+						<Text color="strong" size="large" weight="strong">
+							{intl.formatMessage(messages.new_login_request_title)}
+						</Text>
+						<Text size="small">{intl.formatMessage(messages.new_login_request_sub_title)}</Text>
+					</Box>
 					<Box className={styles.interactionLoginBodyButtonWrapper}>
 						<Text color="strong" size="small" weight="strong">
-							{intl.formatMessage(messages.select_accounts_title)}
+							{intl.formatMessage(messages.select_persona_title)}
 						</Text>
 						<Button
-							onClick={handleSelectAccounts}
+							onClick={handleSelectPersona}
 							styleVariant="tertiary"
 							sizeVariant="xlarge"
 							fullWidth
-							disabled={!personaIndexes[selectedPersona]}
-							leftIcon={<WalletIcon />}
+							disabled={request.auth?.discriminator === 'usePersona'}
+							leftIcon={<UserCheck />}
 						>
-							{intl.formatMessage(messages.select_accounts, {
-								isSelected: selectedAccounts.length > 0,
-								accountsList: intl.formatList(
-									selectedAccounts.map(acc => addressBook[acc]?.name || getShortAddress(acc)),
-									{ type: 'conjunction' },
-								),
+							{intl.formatMessage(messages.select_persona, {
+								isSelected: !!persona,
+								displayName: persona?.label || getShortAddress(persona?.identityAddress),
 							})}
 						</Button>
 					</Box>
-				)}
-
-				{/* {Array.from({ length: 100 }, (_, i) => (
-					<Text size="xlarge" key={i}>
-						right
-					</Text>
-				))} */}
-			</Box>
+					{canSelectAccounts && (
+						<Box className={styles.interactionLoginBodyButtonWrapper}>
+							<Text color="strong" size="small" weight="strong">
+								{intl.formatMessage(messages.select_accounts_title)}
+							</Text>
+							<Button
+								onClick={handleSelectAccounts}
+								styleVariant="tertiary"
+								sizeVariant="xlarge"
+								fullWidth
+								disabled={!personaIndexes[selectedPersona]}
+								leftIcon={<WalletIcon />}
+							>
+								{intl.formatMessage(messages.select_accounts, {
+									isSelected: selectedAccounts.length > 0,
+									accountsList: intl.formatList(
+										selectedAccounts.map(acc => addressBook[acc]?.name || getShortAddress(acc)),
+										{ type: 'conjunction' },
+									),
+								})}
+							</Button>
+						</Box>
+					)}
+				</Box>
+			</ScrollArea>
 			<Box className={styles.interactionLoginFooterWrapper}>
 				<Button
 					onClick={handleShare}
@@ -253,6 +254,6 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 					{intl.formatMessage(messages.continue)}
 				</Button>
 			</Box>
-		</Box>
+		</>
 	)
 }
