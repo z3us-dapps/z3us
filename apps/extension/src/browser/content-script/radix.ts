@@ -23,7 +23,7 @@ export const sendRadixMessageEventToDapp: ContentScriptMessageHandlerOptions['se
 	data,
 	eventType,
 ) => {
-	if (window.location.origin !== data.metadata.origin) return okAsync(undefined)
+	if (window.location.origin !== data.metadata?.origin) return okAsync(undefined)
 	const result = chromeDAppClient.sendMessageEvent(data.interactionId, eventType)
 	return result.isErr() ? errAsync({ reason: 'unableToSendMessageEventToDapp' }) : okAsync(undefined)
 }
