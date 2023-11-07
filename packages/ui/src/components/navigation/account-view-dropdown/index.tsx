@@ -151,7 +151,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 									<Text size="xsmall" weight="medium">
 										{intl.formatMessage(messages.content_script, {
 											DappLink: (
-												<Link href={dappStatus.currentTabHost} size="xsmall" weight="medium">
+												<Link target="_blank" to={`https://${dappStatus.currentTabHost}`} size="xsmall" weight="medium">
 													{dappStatus.currentTabHost}
 												</Link>
 											),
