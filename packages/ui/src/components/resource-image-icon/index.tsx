@@ -14,7 +14,7 @@ interface IProps extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgS
 }
 
 export const ResourceImageIcon = forwardRef<HTMLElement, IProps>(
-	({ address, toolTipEnabled = false, ...props }, ref: React.Ref<HTMLElement | null>) => {
+	({ address, toolTipEnabled = false, size, ...props }, ref: React.Ref<HTMLElement | null>) => {
 		const { data } = useEntityDetails(address)
 		const images = useImages()
 		const shortAddress = getShortAddress(address)
@@ -23,7 +23,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IProps>(
 		const name = getStringMetadata('name', data?.metadata?.items)
 		const symbol = getStringMetadata('symbol', data?.metadata?.items) || ''
 		const imageUrl = getStringMetadata('icon_url', data?.metadata?.items) || ''
-		const imageSrc = localImageUrl || imageUrl
+		const imageSrc = localImageUrl || `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageUrl}`
 		const tooltip = (symbol || '').toUpperCase() || name
 
 		return (
@@ -34,6 +34,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IProps>(
 						imgAlt={name || shortAddress}
 						fallbackText={getStrPrefix(symbol || name || shortAddress, 3)}
 						rounded={data?.details?.type !== 'NonFungibleResource'}
+						size={size}
 						{...props}
 						ref={ref}
 					/>
