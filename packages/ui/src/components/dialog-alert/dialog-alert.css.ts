@@ -15,7 +15,7 @@ export const alertDialogOverlay = style([
 	sprinkles({
 		position: 'fixed',
 		inset: 0,
-		zIndex: 1,
+		zIndex: 2,
 		background: 'backgroundOverlayPrimary',
 	}),
 	{

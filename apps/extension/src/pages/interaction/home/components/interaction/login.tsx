@@ -4,6 +4,7 @@ import type {
 	WalletAuthorizedRequestItems,
 	WalletAuthorizedRequestResponseItems,
 	WalletUnauthorizedRequestItems,
+	WalletUnauthorizedRequestResponseItems,
 } from '@radixdlt/radix-dapp-toolkit'
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -12,6 +13,8 @@ import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { UserCheck, WalletIcon } from 'ui/src/components/icons'
+import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -25,10 +28,20 @@ import { usePersonaDataModal } from '@src/hooks/modal/use-persona-data-modal'
 import { useSelectAccountsModal } from '@src/hooks/modal/use-select-accounts-modal'
 import { useSelectPersonaModal } from '@src/hooks/modal/use-select-persona-modal'
 
+import * as styles from './styles.css'
+
 const messages = defineMessages({
 	continue: {
 		id: 'acrOoz',
 		defaultMessage: 'Continue',
+	},
+	new_login_request_title: {
+		id: '2YVSp1',
+		defaultMessage: 'New login request',
+	},
+	new_login_request_sub_title: {
+		id: '8iQPpT',
+		defaultMessage: 'It is required that you login for the first time with a persona.',
 	},
 	select_persona: {
 		id: 'hlCux0',
@@ -50,6 +63,14 @@ const messages = defineMessages({
 			true {: {message}}
 			other {, please try again}
 		}`,
+	},
+	select_persona_title: {
+		defaultMessage: 'Select persona',
+		id: 'yEEu6R',
+	},
+	select_accounts_title: {
+		defaultMessage: 'Select accounts',
+		id: 'Zk+6UC',
 	},
 })
 
@@ -119,8 +140,8 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 
 	const handleShare = async () => {
 		try {
-			const response: WalletAuthorizedRequestResponseItems = {
-				discriminator: 'authorizedRequest',
+			const response: WalletAuthorizedRequestResponseItems | WalletUnauthorizedRequestResponseItems = {
+				discriminator: request.discriminator,
 				auth: await login(selectedPersona, request.auth, interaction.metadata),
 				oneTimePersonaData: await getPersonaData(selectedPersona, request.oneTimePersonaData),
 				ongoingPersonaData: await getPersonaData(selectedPersona, request.ongoingPersonaData),
@@ -139,12 +160,12 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 					metadata: interaction.metadata,
 				}),
 			)
-			if (response.auth?.persona?.identityAddress && response.ongoingAccounts?.accounts?.length > 0) {
+			if (request.discriminator === 'authorizedRequest') {
 				approveDapp(
 					networkId,
 					interaction.metadata.dAppDefinitionAddress,
-					response.auth.persona.identityAddress,
-					response.ongoingAccounts.accounts.map(({ address }) => address),
+					response.auth?.persona?.identityAddress || '',
+					response.ongoingAccounts?.accounts.map(({ address }) => address) || [],
 				)
 			}
 		} catch (error) {
@@ -164,50 +185,74 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 		}
 	}
 
-	if (interaction.items.discriminator !== 'authorizedRequest') {
-		return null
-	}
-
 	return (
-		<Box>
-			<Button
-				onClick={handleSelectPersona}
-				styleVariant="tertiary"
-				sizeVariant="xlarge"
-				fullWidth
-				disabled={interaction.items.auth.discriminator === 'usePersona'}
-			>
-				{intl.formatMessage(messages.select_persona, {
-					isSelected: !!persona,
-					displayName: persona?.label || getShortAddress(persona?.identityAddress),
-				})}
-			</Button>
-			{canSelectAccounts && (
+		<Box className={styles.interactionLoginWrapper}>
+			<Box className={styles.interactionLoginBodyWrapper}>
+				<Box className={styles.interactionLoginBodyTextWrapper}>
+					<Text color="strong" size="xlarge" weight="strong">
+						{intl.formatMessage(messages.new_login_request_title)}
+					</Text>
+					<Text>{intl.formatMessage(messages.new_login_request_sub_title)}</Text>
+				</Box>
+				<Box className={styles.interactionLoginBodyButtonWrapper}>
+					<Text color="strong" size="small" weight="strong">
+						{intl.formatMessage(messages.select_persona_title)}
+					</Text>
+					<Button
+						onClick={handleSelectPersona}
+						styleVariant="tertiary"
+						sizeVariant="xlarge"
+						fullWidth
+						disabled={request.auth?.discriminator === 'usePersona'}
+						leftIcon={<UserCheck />}
+					>
+						{intl.formatMessage(messages.select_persona, {
+							isSelected: !!persona,
+							displayName: persona?.label || getShortAddress(persona?.identityAddress),
+						})}
+					</Button>
+				</Box>
+				{canSelectAccounts && (
+					<Box className={styles.interactionLoginBodyButtonWrapper}>
+						<Text color="strong" size="small" weight="strong">
+							{intl.formatMessage(messages.select_accounts_title)}
+						</Text>
+						<Button
+							onClick={handleSelectAccounts}
+							styleVariant="tertiary"
+							sizeVariant="xlarge"
+							fullWidth
+							disabled={!personaIndexes[selectedPersona]}
+							leftIcon={<WalletIcon />}
+						>
+							{intl.formatMessage(messages.select_accounts, {
+								isSelected: selectedAccounts.length > 0,
+								accountsList: intl.formatList(
+									selectedAccounts.map(acc => addressBook[acc]?.name || getShortAddress(acc)),
+									{ type: 'conjunction' },
+								),
+							})}
+						</Button>
+					</Box>
+				)}
+
+				{/* {Array.from({ length: 100 }, (_, i) => (
+					<Text size="xlarge" key={i}>
+						right
+					</Text>
+				))} */}
+			</Box>
+			<Box className={styles.interactionLoginFooterWrapper}>
 				<Button
-					onClick={handleSelectAccounts}
-					styleVariant="tertiary"
+					onClick={handleShare}
+					styleVariant="primary"
 					sizeVariant="xlarge"
 					fullWidth
-					disabled={!personaIndexes[selectedPersona]}
+					disabled={canSelectAccounts && selectedAccounts.length === 0}
 				>
-					{intl.formatMessage(messages.select_accounts, {
-						isSelected: selectedAccounts.length > 0,
-						accountsList: intl.formatList(
-							selectedAccounts.map(acc => addressBook[acc]?.name || getShortAddress(acc)),
-							{ type: 'conjunction' },
-						),
-					})}
+					{intl.formatMessage(messages.continue)}
 				</Button>
-			)}
-			<Button
-				onClick={handleShare}
-				styleVariant="tertiary"
-				sizeVariant="xlarge"
-				fullWidth
-				disabled={canSelectAccounts && selectedAccounts.length === 0}
-			>
-				{intl.formatMessage(messages.continue)}
-			</Button>
+			</Box>
 		</Box>
 	)
 }

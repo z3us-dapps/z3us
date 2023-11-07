@@ -22,6 +22,7 @@ const messages = defineMessages({
 interface IProps {
 	name: string
 	defaultKeys?: number
+	className?: string
 	trashTrigger?: React.ReactElement
 	addTrigger?: React.ReactElement
 	ignoreTriggers?: boolean
@@ -32,6 +33,7 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	const {
 		name,
 		children,
+		className,
 		trashTrigger = <TrashTrigger />,
 		addTrigger = <AddTrigger />,
 		defaultKeys = 0,
@@ -55,7 +57,7 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	return (
 		<>
 			{keys.map((key, idx) => (
-				<Box position="relative" key={key}>
+				<Box className={className} position="relative" key={key}>
 					<GroupField idx={idx} name={name}>
 						{children}
 					</GroupField>

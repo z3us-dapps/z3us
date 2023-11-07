@@ -128,24 +128,22 @@ const SignModal: React.FC<IProps> = ({
 					<Form onSubmit={handleSubmit} initialValues={initialValues} className={styles.signAlertDialogFormWrapper}>
 						<ValidationErrorMessage message={error} />
 						{!ignorePassword && (
-							<Box>
-								<TextField
-									ref={inputRef}
-									isPassword
-									name="password"
-									placeholder={intl.formatMessage(messages.password_placeholder)}
-									sizeVariant="medium"
-								/>
-							</Box>
+							<TextField
+								ref={inputRef}
+								isPassword
+								name="password"
+								placeholder={intl.formatMessage(messages.password_placeholder)}
+								sizeVariant="medium"
+							/>
 						)}
 						<Box className={styles.signAlertDialogFormFooterWrapper}>
 							<DialogClose asChild>
-								<Button sizeVariant="small" styleVariant="secondary" onClick={handleCancel}>
+								<Button sizeVariant="medium" styleVariant="secondary" onClick={handleCancel}>
 									{intl.formatMessage(messages.close)}
 								</Button>
 							</DialogClose>
 							<SubmitButton>
-								<Button sizeVariant="small" styleVariant={buttonStyleVariant}>
+								<Button sizeVariant="medium" styleVariant={buttonStyleVariant}>
 									{buttonTitle || intl.formatMessage(messages.form_button_title)}
 								</Button>
 							</SubmitButton>

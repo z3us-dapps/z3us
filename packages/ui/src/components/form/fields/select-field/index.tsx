@@ -10,9 +10,16 @@ interface IAdapterProps extends Omit<ISelectSimpleProps, 'onValueChange'> {
 }
 
 export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props, ref) => {
-	const { onChange, hasError, ...rest } = props
+	const { onChange, value, hasError, ...rest } = props
 
-	return <SelectSimple {...rest} ref={ref} onValueChange={onChange} />
+	return (
+		<SelectSimple
+			{...rest}
+			ref={ref}
+			onValueChange={onChange}
+			value={value !== undefined && value !== '' ? value : undefined}
+		/>
+	)
 })
 
 interface IProps extends Omit<ISelectSimpleProps, 'onValueChange' | 'value' | 'name'>, WrapperProps {}

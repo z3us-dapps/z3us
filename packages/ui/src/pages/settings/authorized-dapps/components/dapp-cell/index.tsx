@@ -4,7 +4,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { TrashIcon } from 'ui/src/components/icons'
-import { ResourceSnippet } from 'ui/src/components/resource-snippet'
+import { AccountSnippet } from 'ui/src/components/snippet/account'
 import { Text } from 'ui/src/components/typography'
 import type { ApprovedDapps } from 'ui/src/store/types'
 
@@ -36,16 +36,16 @@ export const DappCell: React.FC<IProps> = ({ row, onDelete }) => {
 	return (
 		<Box key={row.original.address} className={styles.addressTableCellWrapper}>
 			<Box className={styles.addressTableCellTextWrapper}>
-				<ResourceSnippet address={row.original.address} />
+				<AccountSnippet address={row.original.address} />
 			</Box>
 			<Text size="small" weight="medium" color="strong">
 				{intl.formatMessage(messages.persona)}
-				<ResourceSnippet address={row.original.persona} />
+				<AccountSnippet address={row.original.persona} />
 			</Text>
 			<Text size="small" weight="medium" color="strong">
 				{intl.formatMessage(messages.accounts)}
 				{row.original.accounts.map(account => (
-					<ResourceSnippet key={account} address={account} />
+					<AccountSnippet key={account} address={account} />
 				))}
 			</Text>
 			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<TrashIcon />} onClick={onDelete}>

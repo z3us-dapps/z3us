@@ -4,7 +4,7 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
-export const addAccountDialog = style([
+export const addAccountDialogWrapper = style([
 	sprinkles({
 		position: 'absolute',
 		top: 0,
@@ -13,6 +13,13 @@ export const addAccountDialog = style([
 		marginTop: 'large',
 		marginRight: 'large',
 	}),
+])
+
+export const addAccountDialog = style([
+	sprinkles({}),
+	{
+		minHeight: '85vh',
+	},
 ])
 
 export const addAccountDialogContentWrapper = style([

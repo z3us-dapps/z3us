@@ -48,7 +48,6 @@ export const Done: React.FC<IProps> = ({ onNext }) => {
 			<Box display="flex" width="full" justifyContent="center" paddingY="large">
 				<Z3usLogoLarge fillPurple />
 			</Box>
-
 			<Title
 				title={intl.formatMessage(messages.phrase_done_title)}
 				subTitle={intl.formatMessage(messages.phrase_done_sub_title)}

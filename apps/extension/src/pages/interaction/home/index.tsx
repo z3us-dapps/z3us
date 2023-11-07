@@ -7,6 +7,10 @@ import { useParams } from 'react-router-dom'
 import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import { Close2Icon } from 'ui/src/components/icons'
+import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 
 import { MessageAction, type WalletInteractionWithTabId } from '@src/browser/app/types'
@@ -16,11 +20,20 @@ import { getInteraction, removeInteraction } from '@src/radix/interaction'
 import { DappDetails } from './components/dapp-details'
 import { Interaction } from './components/interaction'
 import { NetworkAlert } from './components/network-alert'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
+	close_interaction_popup: {
+		defaultMessage: 'Cancel and close',
+		id: 'USNAc7',
+	},
 	canceled: {
 		id: '3JFSJ0',
 		defaultMessage: 'Request canceled',
+	},
+	close_window_button: {
+		defaultMessage: 'Close',
+		id: 'rbrahO',
 	},
 })
 
@@ -31,7 +44,29 @@ export const Home: React.FC = () => {
 
 	const [isCanceled, setIsCanceled] = useState<boolean>(false)
 
+	const handleCloseWindow = () => {
+		window.close()
+	}
+
+	const handleCancelAndClose = () => {
+		browser.tabs
+			.sendMessage(
+				interaction.fromTabId,
+				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
+					walletResponse: {
+						discriminator: 'failure',
+						error: 'Canceled',
+						interactionId,
+					},
+					metadata: interaction.metadata,
+				}),
+			)
+			.finally(() => window.close())
+	}
+
 	useEffect(() => {
+		if (!interaction) return () => {}
+
 		const listener = (event: Z3USEvent) => {
 			const { detail } = event
 			const { data: message } = detail
@@ -52,7 +87,7 @@ export const Home: React.FC = () => {
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.requestCancelFail,
-						{ interactionId, metadata: interaction.metadata },
+						{ interactionId, metadata: interaction?.metadata },
 					),
 				)
 			}
@@ -66,6 +101,8 @@ export const Home: React.FC = () => {
 
 	useEffect(() => {
 		if (!interactionId) return
+		if (interaction) return
+
 		getInteraction(interactionId)
 			.then(i => {
 				setInteraction(i)
@@ -74,7 +111,7 @@ export const Home: React.FC = () => {
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.receivedByWallet,
-						{ interactionId, metadata: interaction.metadata },
+						{ interactionId, metadata: interaction?.metadata },
 					),
 				)
 			})
@@ -82,12 +119,33 @@ export const Home: React.FC = () => {
 	}, [interactionId])
 
 	return (
-		<Box display="flex" flexDirection="column" gap="large">
-			<DappDetails {...interaction?.metadata} />
-			<NetworkAlert {...interaction?.metadata} />
-
-			{!isCanceled && <Interaction interaction={interaction} />}
-			{isCanceled && <Text>{intl.formatMessage(messages.canceled)}</Text>}
+		<Box className={styles.interactionWrapper}>
+			<ScrollArea className={styles.interactionScrollWrapper}>
+				<Box className={styles.interactionInnerWrapper}>
+					<DappDetails {...interaction?.metadata} />
+					<NetworkAlert {...interaction?.metadata} />
+					{!isCanceled && <Interaction interaction={interaction} />}
+					{isCanceled && (
+						<Box className={styles.interactionCancelledWrapper}>
+							<Box>
+								<Text size="small">{intl.formatMessage(messages.canceled)}</Text>
+							</Box>
+							<Box className={styles.interactionCancelledButtonWrapper}>
+								<Button fullWidth styleVariant="secondary" sizeVariant="xlarge" onClick={handleCloseWindow}>
+									{intl.formatMessage(messages.close_window_button)}
+								</Button>
+							</Box>
+						</Box>
+					)}
+				</Box>
+			</ScrollArea>
+			<Box className={styles.interactionCloseButtonWrapper}>
+				<ToolTip message={intl.formatMessage(messages.close_interaction_popup)}>
+					<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleCancelAndClose}>
+						<Close2Icon />
+					</Button>
+				</ToolTip>
+			</Box>
 		</Box>
 	)
 }

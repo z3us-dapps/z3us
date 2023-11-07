@@ -51,5 +51,5 @@ export const useEntityDetails = (
 	optIns: StateEntityDetailsOptIns = defaultOptIns,
 ) => {
 	const { data, ...rest } = useEntitiesDetails(address ? [address] : [], aggregation, optIns)
-	return { ...rest, data: data?.[0] || (null as StateEntityDetailsResponseItem) }
+	return { ...rest, data: (data?.[0] || null) as StateEntityDetailsResponseItem }
 }

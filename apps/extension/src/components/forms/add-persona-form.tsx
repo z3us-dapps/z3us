@@ -3,12 +3,15 @@ import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
+import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
 
 import { useAddPersona } from '@src/hooks/use-add-persona'
+
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	name: {
@@ -55,10 +58,14 @@ const AddPersonaForm: React.FC = () => {
 
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
-			<TextField name="name" placeholder={intl.formatMessage(messages.name)} />
-			<SubmitButton>
-				<Button sizeVariant="small">{intl.formatMessage(messages.form_button_title)}</Button>
-			</SubmitButton>
+			<TextField sizeVariant="large" name="name" placeholder={intl.formatMessage(messages.name)} />
+			<Box className={styles.modalContentFormButtonWrapper}>
+				<SubmitButton>
+					<Button fullWidth sizeVariant="xlarge">
+						{intl.formatMessage(messages.form_button_title)}
+					</Button>
+				</SubmitButton>
+			</Box>
 		</Form>
 	)
 }

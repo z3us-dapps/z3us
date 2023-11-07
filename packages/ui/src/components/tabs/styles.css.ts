@@ -117,7 +117,7 @@ export const tabsTriggerRecipe = recipe({
 				padding: vars.spacing.small,
 				borderRadius: vars.spacing.small,
 				fontSize: '14px',
-				fontWeight: '500px',
+				fontWeight: '500',
 			},
 		},
 	],

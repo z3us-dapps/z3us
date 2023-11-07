@@ -116,6 +116,23 @@ export const panelViewMobileScrollWrapper = style([
 	responsiveStyle({
 		mobile: {
 			width: '100%',
+			height: '100%',
+		},
+		tablet: {
+			width: '100%',
+			height: '100%',
+		},
+	}),
+])
+
+export const panelViewMobileScrollOnboardingWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: {
+			width: '100%',
 			height: '100vh',
 		},
 		tablet: {

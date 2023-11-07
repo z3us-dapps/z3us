@@ -14,7 +14,7 @@ export const ImageProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	useEffect(() => {
 		if (knownAddresses) {
-			setImages(new Map([[knownAddresses.resourceAddresses.xrd, '/images/token-images/radix-Icon-400x400.png']]))
+			setImages(new Map([[knownAddresses.resourceAddresses.xrd, '/images/token-images/xrd-token-icon.svg']]))
 		}
 	}, [networkId, knownAddresses])
 

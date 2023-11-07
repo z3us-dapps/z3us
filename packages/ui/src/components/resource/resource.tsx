@@ -1,3 +1,4 @@
+import type { MetadataStringArrayValue, StateEntityDetailsResponseItemDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
@@ -95,7 +96,7 @@ const messages = defineMessages({
 	},
 })
 
-const Details = {
+const Details: { [key in StateEntityDetailsResponseItemDetails['type']]: React.FC<any> } = {
 	Component: ComponentDetails,
 	FungibleResource: FungibleResourceDetails,
 	FungibleVault: FungibleVaultDetails,
@@ -125,7 +126,8 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 	const description = getStringMetadata('description', data?.metadata?.items)
 	const validator = getStringMetadata('validator', data?.metadata?.items)
 	const pool = getStringMetadata('pool', data?.metadata?.items)
-	const tags = data?.metadata?.items?.find(m => m.key === 'tags')?.value?.typed?.values || []
+	const tags =
+		(data?.metadata?.items?.find(m => m.key === 'tags')?.value?.typed as MetadataStringArrayValue)?.values || []
 
 	const { data: token } = useToken(validator && knownAddresses ? knownAddresses.resourceAddresses.xrd : resourceId)
 
@@ -165,7 +167,12 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 
 	const metadata = useMemo(() => data?.metadata.items.filter(item => !IGNORE_METADATA.includes(item.key)) || [], [data])
 	const roles = useMemo(
-		() => data?.details?.role_assignments?.entries.filter(item => DISPLAY_ROLES.includes(item.role_key.name)) || [],
+		() =>
+			data?.details?.type === 'FungibleVault' ||
+			data?.details?.type === 'NonFungibleVault' ||
+			data?.details?.type === 'Package'
+				? []
+				: data?.details?.role_assignments?.entries.filter(item => DISPLAY_ROLES.includes(item.role_key.name)) || [],
 		[data],
 	)
 
@@ -192,7 +199,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 					<Text size="xxlarge" weight="strong" color="strong" align="center">
 						{name}
 					</Text>
-					{data?.details === 'FungibleResource' && (
+					{data?.details?.type === 'FungibleResource' && (
 						<>
 							<Text size="xxxlarge" weight="medium" color="strong">
 								{intl.formatNumber(value, { style: 'currency', currency })}

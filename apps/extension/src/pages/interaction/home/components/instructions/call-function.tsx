@@ -1,8 +1,8 @@
 import { type Instruction as ManifestInstruction } from '@radixdlt/radix-engine-toolkit'
 
 import { Box } from 'ui/src/components/box'
-import { ResourceSnippet } from 'ui/src/components/resource-snippet'
 import FieldValue from 'ui/src/components/resource/components/field-value'
+import { AccountSnippet } from 'ui/src/components/snippet/account'
 
 import { resolveManifestAddress } from '@src/radix/manifest'
 
@@ -17,7 +17,7 @@ export const CallFunction: React.FC<IProps> = ({ instruction }) => {
 
 	return (
 		<Box display="flex" flexDirection="row" gap="small">
-			<ResourceSnippet address={address} />
+			<AccountSnippet address={address} />
 			{`${instruction.blueprintName} ${instruction.functionName}`}
 			<FieldValue field={instruction.args} />
 		</Box>

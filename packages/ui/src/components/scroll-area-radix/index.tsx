@@ -34,8 +34,8 @@ export const ScrollAreaRoot = ({ children, className, ...rest }: IScrollAreaRoot
 )
 
 export const ScrollAreaViewport = forwardRef<HTMLDivElement, ScrollAreaPrimitive.ScrollAreaViewportProps>(
-	({ children, ...props }, ref) => (
-		<ScrollAreaPrimitive.Viewport ref={ref} className={clsx(styles.scrollAreaViewportWrapper)} {...props}>
+	({ children, className, ...props }, ref) => (
+		<ScrollAreaPrimitive.Viewport ref={ref} className={clsx(styles.scrollAreaViewportWrapper, className)} {...props}>
 			{children}
 		</ScrollAreaPrimitive.Viewport>
 	),
@@ -60,6 +60,7 @@ export const ScrollAreaCorner = ({ ...props }) => (
 )
 
 export interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
+	viewPortClassName?: string
 	disabled?: boolean
 	fixHeight?: boolean
 	showTopScrollShadow?: boolean
@@ -69,13 +70,12 @@ export interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 	overrideScrollParent?: HTMLElement | null
 }
 
-export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
-	children,
-	overrideScrollParent,
-	...props
-}) => {
+export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = props => {
 	const {
+		children,
+		overrideScrollParent,
 		className,
+		viewPortClassName,
 		fixHeight,
 		disabled,
 		showTopScrollShadow = true,
@@ -168,7 +168,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 			style={{ ...(!disabled && fixHeight && scrollHeight ? { height: `${scrollHeight}px` } : {}) }}
 			{...rest}
 		>
-			<ScrollAreaViewport ref={setScrollParent}>
+			<ScrollAreaViewport ref={setScrollParent} className={viewPortClassName}>
 				<ScrollContext.Provider value={scrollCtx}>{children}</ScrollContext.Provider>
 			</ScrollAreaViewport>
 			<ScrollAreaScrollbar

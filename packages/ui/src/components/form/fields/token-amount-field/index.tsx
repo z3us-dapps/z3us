@@ -1,3 +1,4 @@
+import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
 import React, { forwardRef, useContext } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -56,6 +57,7 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	const resource = useFieldValue(`${parentName}${parentName ? '.' : ''}${resourceKey}`)
 
 	const { data } = useEntityDetails(resource)
+	const details = data?.details as StateEntityDetailsResponseFungibleResourceDetails
 
 	const selectedToken = fungibleBalances.find(b => b.address === resource)
 
@@ -64,8 +66,8 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	}
 
 	const validateDivisibility = (v: string) => {
-		if (countDecimals(+v) > data?.details?.divisibility) {
-			return intl.formatMessage(messages.divisibility, { divisibility: data?.details?.divisibility })
+		if (countDecimals(+v) > details?.divisibility) {
+			return intl.formatMessage(messages.divisibility, { divisibility: details?.divisibility })
 		}
 		return ''
 	}
@@ -75,8 +77,8 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 			<NumberField
 				{...rest}
 				step={
-					data?.details?.divisibility > 0
-						? `.${Array(data.details.divisibility - 1)
+					details?.divisibility > 0
+						? `.${Array(details.divisibility - 1)
 								.fill('0')
 								.join('')}1`
 						: '1'

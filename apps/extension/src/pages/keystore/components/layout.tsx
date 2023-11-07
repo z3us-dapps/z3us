@@ -41,7 +41,7 @@ const Layout: React.FC = () => (
 	<Box className={styles.keystoreOuterWrapper}>
 		<Box className={styles.keystoreOuterFlexWrapper}>
 			<Nav />
-			<MobileScrollArea showTopScrollShadow className={panelViewStyles.panelViewMobileScrollWrapper}>
+			<MobileScrollArea showTopScrollShadow className={panelViewStyles.panelViewMobileScrollOnboardingWrapper}>
 				<ScrollContent />
 			</MobileScrollArea>
 		</Box>

@@ -1,54 +1,75 @@
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
 import type { Instruction, Intent } from '@radixdlt/radix-engine-toolkit'
+import { useXRDPriceOnDay } from 'packages/ui/src/hooks/queries/market'
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { ResourceSnippet } from 'ui/src/components/resource-snippet'
-import { RedGreenText, Text } from 'ui/src/components/typography'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
+import { AccountSnippet } from 'ui/src/components/snippet/account'
+import { ResourceSnippet } from 'ui/src/components/snippet/resource'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { usePreview } from '@src/hooks/transaction/use-preview'
 import { summaryFromInstructions } from '@src/radix/manifest'
 import type { ResourceChanges, Summary, TransactionSettings } from '@src/types/transaction'
 
+import * as styles from './styles.css'
+
 const messages = defineMessages({
-	resource_changes: {
-		id: 'RntCL3',
-		defaultMessage: 'Resource changes',
+	presenting_proofs_title: {
+		id: 'EqXDVC',
+		defaultMessage: 'Proofs',
 	},
 	fee_summary: {
 		id: 'LXfC4n',
 		defaultMessage: 'Fee summary',
 	},
 	xrd_total_execution_cost: {
-		id: 'sonpUJ',
-		defaultMessage: 'Execution: {cost, number, ::.00#######}',
+		id: '1leDN6',
+		defaultMessage: 'Execution',
 	},
 	xrd_total_finalization_cost: {
-		id: 'k0W1QS',
-		defaultMessage: 'Finalization: {cost, number, ::.00#######}',
+		id: '28f5xS',
+		defaultMessage: 'Finalization',
 	},
 	xrd_total_royalty_cost: {
-		id: 'IbKSny',
-		defaultMessage: 'Royalty: {cost, number, ::.00#######}',
+		id: 'vTUL12',
+		defaultMessage: 'Royalty',
 	},
 	xrd_total_storage_cost: {
-		id: 'xFzb3c',
-		defaultMessage: 'Storage: {cost, number, ::.00#######}',
+		id: 'DUIDEq',
+		defaultMessage: 'Storage',
 	},
 	xrd_total_tipping_cost: {
-		id: 'hLRL4P',
-		defaultMessage: 'Tipping: {cost, number, ::.00#######}',
+		id: 'MKZX2V',
+		defaultMessage: 'Tipping',
 	},
 	proof: {
 		id: 'KBj2VM',
 		defaultMessage: 'Presenting proof',
 	},
+	withdraw: {
+		id: 'bAqUW1',
+		defaultMessage: 'Withdrawing',
+	},
+	deposit: {
+		id: '7BSUnP',
+		defaultMessage: 'Depositing',
+	},
 })
+
+const feeSummaryDetailKeys = [
+	'xrd_total_execution_cost',
+	'xrd_total_finalization_cost',
+	'xrd_total_royalty_cost',
+	'xrd_total_storage_cost',
+	'xrd_total_tipping_cost',
+]
 
 interface IProps {
 	intent: Intent
@@ -59,6 +80,7 @@ type State = {
 	preview?: TransactionPreviewResponse
 	flatChanges?: ResourceChanges
 	summary?: Summary
+	currency: 'currency' | 'xrd'
 }
 
 function aggregateConsecutiveChanges(
@@ -98,14 +120,15 @@ function aggregateConsecutiveChanges(
 
 export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 	const intl = useIntl()
-	const networkId = useNetworkId()
 	const buildPreview = usePreview()
-
-	const { accountIndexes } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
 	}))
+	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 
-	const [state, setState] = useImmer<State>({})
+	const [state, setState] = useImmer<State>({
+		currency: 'xrd',
+	})
 
 	useEffect(() => {
 		Promise.all([
@@ -114,11 +137,17 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 		]).then(([preview, summary]) => {
 			setState(draft => {
 				draft.preview = preview
-				draft.flatChanges = aggregateConsecutiveChanges(preview.resource_changes)
+				draft.flatChanges = aggregateConsecutiveChanges(preview.resource_changes).filter(change => change.amount !== 0)
 				draft.summary = summary
 			})
 		})
 	}, [intent])
+
+	const handleToggleValue = () => {
+		setState(draft => {
+			draft.currency = draft.currency === 'currency' ? 'xrd' : 'currency'
+		})
+	}
 
 	// useEffect(() => {
 	// 	if (!state.preview) return
@@ -137,81 +166,96 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 
 	if (!state.preview) return <FallbackLoading />
 
+	const receipt = state.preview?.receipt as any
+
 	return (
-		<Box display="flex" flexDirection="column" gap="large">
-			<Box display="flex" flexDirection="column">
-				<Text align="center">{intl.formatMessage(messages.resource_changes)}</Text>
-				{state.flatChanges.map((change, index) => (
-					<Box
-						// eslint-disable-next-line react/no-array-index-key
-						key={`${index}${change.account}${change.resource}`}
-						display="flex"
-						gap="small"
-						justifyContent="flex-start"
-						flexDirection={accountIndexes[change.account] ? 'row' : 'row-reverse'}
-					>
-						<ResourceSnippet address={change.account} />
-						<ResourceSnippet address={change.resource} />
-						<RedGreenText change={change.amount}>
-							{intl.formatNumber(change.amount, {
-								style: 'decimal',
-								maximumFractionDigits: 8,
-								signDisplay: 'always',
-							})}
-						</RedGreenText>
+		<Box className={styles.transactionPreviewWrapper}>
+			{state.flatChanges.map((change, index) => (
+				// eslint-disable-next-line react/no-array-index-key
+				<Box key={`${index}${change.account}${change.resource}`} className={styles.transactionPreviewBlockWrapper}>
+					<Text color="strong" size="xsmall" weight="strong">
+						{change.amount < 0 ? intl.formatMessage(messages.withdraw) : intl.formatMessage(messages.deposit)}
+					</Text>
+					<Box className={styles.transactionPreviewBlock}>
+						<Box
+							display="flex"
+							alignItems="center"
+							width="full"
+							gap="medium"
+							flexGrow={1}
+							justifyContent="space-between"
+						>
+							<AccountSnippet address={change.account} />
+							<ResourceSnippet address={change.resource} change={change.amount} reversed />
+						</Box>
+					</Box>
+				</Box>
+			))}
+
+			{state.summary?.proofs?.length > 0 &&
+				state.summary?.proofs.map((proof, idx) => (
+					// eslint-disable-next-line react/no-array-index-key
+					<Box key={`${idx}`} className={styles.transactionPreviewBlockWrapper}>
+						<Text color="strong" size="xsmall" weight="strong">
+							{intl.formatMessage(messages.proof)}
+						</Text>
+						<Box className={styles.transactionPreviewBlock}>
+							<Box display="flex" alignItems="center" width="full" gap="medium">
+								<Box alignItems="center" display="flex" flexGrow={1} justifyContent="space-between" gap="small">
+									<Box display="flex" flexDirection="column" gap="xsmall">
+										<ResourceSnippet address={proof.resourceAddress} />
+									</Box>
+								</Box>
+							</Box>
+						</Box>
 					</Box>
 				))}
-			</Box>
-			<Box display="flex" flexDirection="column">
-				{state.summary?.proofs.map((proof, idx) => (
-					<Box
-						// eslint-disable-next-line react/no-array-index-key
-						key={`${idx}`}
-						display="flex"
-						gap="small"
-					>
-						<Text align="center">{intl.formatMessage(messages.proof)}</Text>
-						<ResourceSnippet address={proof.resourceAddress} />
+
+			<Box className={styles.transactionPreviewBlockWrapper}>
+				<Text color="strong" size="xsmall" weight="strong">
+					{intl.formatMessage(messages.fee_summary)}
+				</Text>
+				<Box className={styles.transactionPreviewBlock} onClick={handleToggleValue}>
+					<Box display="flex" flexDirection="column" gap="xsmall">
+						{feeSummaryDetailKeys.map(key =>
+							!receipt?.fee_summary?.[key] ? null : (
+								<AccountsTransactionInfo
+									key={key}
+									leftTitle={<Text size="small">{intl.formatMessage(messages[key])}</Text>}
+									rightData={
+										<ToolTip
+											message={
+												state.currency === 'currency'
+													? `${intl.formatNumber(receipt.fee_summary[key], {
+															style: 'decimal',
+															maximumFractionDigits: 8,
+													  })} XRD`
+													: intl.formatNumber(receipt.fee_summary[key] * xrdPrice, {
+															style: 'currency',
+															currency,
+													  })
+											}
+										>
+											<Box>
+												<Text size="small" color="strong">
+													{state.currency === 'currency'
+														? intl.formatNumber(receipt.fee_summary[key] * xrdPrice, {
+																style: 'currency',
+																currency,
+														  })
+														: `${intl.formatNumber(receipt.fee_summary[key], {
+																style: 'decimal',
+																maximumFractionDigits: 8,
+														  })} XRD`}
+												</Text>
+											</Box>
+										</ToolTip>
+									}
+								/>
+							),
+						)}
 					</Box>
-				))}
-			</Box>
-			<Box display="flex" flexDirection="column">
-				<Text align="center">{intl.formatMessage(messages.fee_summary)}</Text>
-				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_execution_cost !== '0' && (
-					<Text>
-						{intl.formatMessage(messages.xrd_total_execution_cost, {
-							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_execution_cost,
-						})}
-					</Text>
-				)}
-				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_finalization_cost !== '0' && (
-					<Text>
-						{intl.formatMessage(messages.xrd_total_finalization_cost, {
-							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_finalization_cost,
-						})}
-					</Text>
-				)}
-				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_royalty_cost !== '0' && (
-					<Text>
-						{intl.formatMessage(messages.xrd_total_royalty_cost, {
-							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_royalty_cost,
-						})}
-					</Text>
-				)}
-				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_storage_cost !== '0' && (
-					<Text>
-						{intl.formatMessage(messages.xrd_total_storage_cost, {
-							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_storage_cost,
-						})}
-					</Text>
-				)}
-				{(state.preview?.receipt as any)?.fee_summary?.xrd_total_tipping_cost !== '0' && (
-					<Text>
-						{intl.formatMessage(messages.xrd_total_tipping_cost, {
-							cost: (state.preview?.receipt as any)?.fee_summary?.xrd_total_tipping_cost,
-						})}
-					</Text>
-				)}
+				</Box>
 			</Box>
 		</Box>
 	)

@@ -1,21 +1,12 @@
 import type { PersonaDataRequestItem, PersonaDataRequestResponseItem } from '@radixdlt/radix-dapp-toolkit'
-import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { z } from 'zod'
 
-import { Box } from 'ui/src/components/box'
-import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
+import { Dialog } from 'ui/src/components/dialog'
 import PersonaDataForm from 'ui/src/components/form/persona-data-form'
-import { Close2Icon } from 'ui/src/components/icons'
-import { Button } from 'ui/src/components/router-button'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-
-import * as styles from './styles.css'
 
 const messages = defineMessages({
 	close: {
@@ -79,7 +70,6 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 		updatePersona: state.addPersonaAction,
 	}))
 
-	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 
 	const validationSchema = useMemo(() => {
@@ -141,13 +131,6 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 		return z.object(schema)
 	}, [])
 
-	const handleScroll = (event: Event) => {
-		const target = event.target as Element
-		const { scrollTop } = target
-
-		setIsScrolled(scrollTop > 0)
-	}
-
 	const handleSubmit = async values => {
 		const response: PersonaDataRequestResponseItem = {}
 		if (request.isRequestingName) {
@@ -188,50 +171,14 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 		setIsOpen(false)
 	}
 
-	const handleCancel = () => {
-		onCancel()
-		setIsOpen(false)
-	}
-
-	const handleEscapeKeyDown = () => {
-		handleCancel()
-	}
-
-	const handleOnInteractOutside = () => {
-		handleCancel()
-	}
-
 	return (
-		<DialogRoot open={isOpen} modal>
-			<DialogPortal>
-				<DialogOverlay className={dialogStyles.dialogOverlay} />
-				<DialogContent
-					onEscapeKeyDown={handleEscapeKeyDown}
-					onInteractOutside={handleOnInteractOutside}
-					className={clsx(dialogStyles.dialogContent, styles.content)}
-				>
-					<ScrollArea onScroll={handleScroll}>
-						<Box className={styles.scrollWrapper}>
-							<PersonaDataForm
-								identityAddress={identityAddress}
-								customValidationSchema={validationSchema}
-								onSubmit={handleSubmit}
-							/>
-						</Box>
-					</ScrollArea>
-					<Box className={clsx(styles.headerWrapper, isScrolled && styles.headerWrapperShadow)}>
-						<Box flexGrow={1} />
-						<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
-							<ToolTip message={intl.formatMessage(messages.close)}>
-								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleCancel}>
-									<Close2Icon />
-								</Button>
-							</ToolTip>
-						</Box>
-					</Box>
-				</DialogContent>
-			</DialogPortal>
-		</DialogRoot>
+		<Dialog open={isOpen} onClose={onCancel}>
+			<PersonaDataForm
+				identityAddress={identityAddress}
+				customValidationSchema={validationSchema}
+				onSubmit={handleSubmit}
+			/>
+		</Dialog>
 	)
 }
 
