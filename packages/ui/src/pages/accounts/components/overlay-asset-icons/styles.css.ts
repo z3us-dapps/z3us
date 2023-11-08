@@ -60,7 +60,7 @@ export const overlayAssetIconSquareWrapper = style([
 		pointerEvents: 'auto',
 	}),
 	{
-		borderRadius: 'inherit',
+		borderRadius: vars.border.radius.small,
 		boxShadow: `0 0 0 2px ${vars.color.backgroundSecondary}`,
 		marginLeft: '-9px',
 		selectors: {
