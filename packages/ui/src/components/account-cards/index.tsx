@@ -189,10 +189,14 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 							})}
 						</Box>
 					</Text>
-					<Text size="large" weight="strong">
-						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							{`${account?.name} ${isLegacy ? intl.formatMessage(messages.legacy) : ``}`}
-						</Box>
+					<Text
+						color="white"
+						size="large"
+						weight="strong"
+						truncate
+						className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}
+					>
+						{`${account?.name} ${isLegacy ? intl.formatMessage(messages.legacy) : ``}`}
 					</Text>
 				</Box>
 			</Box>

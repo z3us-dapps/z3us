@@ -6,9 +6,7 @@ export const accountBreadCrumbContainerWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{
-		containerType: 'inline-size',
-	},
+	{},
 ])
 
 export const accountBreadCrumbWrapper = style([
@@ -20,20 +18,7 @@ export const accountBreadCrumbWrapper = style([
 		minHeight: '24px',
 		whiteSpace: 'nowrap',
 		overflow: 'hidden',
-		'@container': {
-			'(min-width: 300px)': {
-				maxWidth: '330px',
-			},
-			'(min-width: 400px)': {
-				maxWidth: '420px',
-			},
-			'(min-width: 580px)': {
-				maxWidth: '620px',
-			},
-			'(min-width: 720px)': {
-				maxWidth: '720px',
-			},
-		},
+		maxWidth: 'calc(100% - 20px)',
 	},
 ])
 
@@ -48,6 +33,7 @@ export const accountBreadCrumb = style([
 		position: 'relative',
 	}),
 	{
+		maxWidth: '45%',
 		overflow: 'hidden',
 		textOverflow: 'ellipsis',
 		whiteSpace: 'nowrap',

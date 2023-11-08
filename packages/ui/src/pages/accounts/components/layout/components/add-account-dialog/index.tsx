@@ -27,8 +27,8 @@ const messages = defineMessages({
 		id: 'FvanT6',
 	},
 	accountsSubTitle: {
-		defaultMessage: 'View and add account',
-		id: 'VD0zNQ',
+		defaultMessage: 'View and add accounts',
+		id: 'F9uaGi',
 	},
 	olympia: {
 		defaultMessage: 'Toggle ON to recover legacy account (Olympia users)',

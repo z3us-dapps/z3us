@@ -40,19 +40,23 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 	return (
 		<>
 			{isKnownAddressVisible && (
-				<Box className={styles.knownAddressWrapper}>
-					{toName && (
-						<ToolTip message={value} side="top">
-							<span>
-								<Text size="xxsmall">({toName})</Text>
-							</span>
-						</ToolTip>
-					)}
-					{!!knownAddress && toolTipMessageKnownAddress && (
-						<ToolTip message={toolTipMessageKnownAddress} side="top">
-							<CheckCircleIcon />
-						</ToolTip>
-					)}
+				<Box className={styles.knownAddressFlexWrapper}>
+					<Box className={styles.knownAddressWrapper}>
+						{toName && (
+							<ToolTip message={value} side="top">
+								<Box>
+									<Text size="xxsmall" truncate>
+										({toName})
+									</Text>
+								</Box>
+							</ToolTip>
+						)}
+						{!!knownAddress && toolTipMessageKnownAddress && (
+							<ToolTip message={toolTipMessageKnownAddress} side="top">
+								<CheckCircleIcon />
+							</ToolTip>
+						)}
+					</Box>
 				</Box>
 			)}
 			<SearchableInput
