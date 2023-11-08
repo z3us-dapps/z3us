@@ -19,26 +19,54 @@ export const toastsWrapper = style([
 				border: '0px solid',
 				background: vars.color.lead400,
 				color: vars.color.bleached_silk500,
-				boxShadow: vars.color.shadowDropdown as any,
+				boxShadow: vars.color.shadowDropdown,
+			},
+			'&[data-styled="true"][data-type=success]': {
+				border: '0px solid',
+				background: vars.color.bleached_silk400,
+				color: vars.color.lead400,
+				boxShadow: vars.color.shadowDropdown,
+			},
+			[`.${darkMode} &[data-styled="true"][data-type=success]`]: {
+				border: '0px solid',
+				background: vars.color.lead400,
+				color: vars.color.bleached_silk500,
+				boxShadow: vars.color.shadowDropdown,
+			},
+			'&[data-styled="true"][data-type=error]': {
+				border: '0px solid',
+				background: vars.color.bleached_silk400,
+				color: vars.color.lead400,
+				boxShadow: vars.color.shadowDropdown,
+			},
+			[`.${darkMode} &[data-styled="true"][data-type=error]`]: {
+				border: '0px solid',
+				background: vars.color.lead400,
+				color: vars.color.bleached_silk500,
+				boxShadow: vars.color.shadowDropdown,
 			},
 		},
 	},
 ])
 
-globalStyle(`${toastsWrapper} [data-description]`, {
-	// TODO: need to fix the type error when not wrapped ``
-	color: `${vars.color.colorNeutral}`,
+globalStyle(`${toastsWrapper}[data-styled="true"][data-type=success] [data-icon] svg`, {
+	color: vars.color.green600,
 })
 
-globalStyle(`${toastsWrapper}.toast-success`, {
-	// TODO: create unique toast shadows
-	border: '1px solid green',
+globalStyle(`${toastsWrapper}[data-styled="true"][data-type=error] [data-icon] svg`, {
+	color: vars.color.red600,
 })
 
-globalStyle(`${toastsWrapper}.toast-error`, {
-	border: '1px solid pink',
+globalStyle(`${toastsWrapper}[data-styled="true"] [data-close-button]`, {
+	background: `${vars.color.bleached_silk400} !important`,
+	color: `${vars.color.lead400} !important`,
+	border: `none !important`,
+	boxShadow: vars.color.shadowDropdown,
 })
 
-globalStyle(`${toastsWrapper}.toast-caution`, {
-	border: '1px solid orange',
+globalStyle(`.${darkMode} ${toastsWrapper}[data-styled="true"] [data-close-button]`, {
+	background: `${vars.color.lead400} !important`,
+	color: `${vars.color.bleached_silk500} !important`,
+	border: `none !important`,
+	boxShadow: vars.color.shadowDropdown,
 })
