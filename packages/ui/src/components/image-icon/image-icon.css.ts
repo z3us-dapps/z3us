@@ -5,13 +5,18 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const imageWrapper = recipe({
-	base: {
-		margin: 'none',
-		padding: 'none',
-		position: 'relative',
-		flexShrink: 0,
-		boxShadow: 'inset 0 0 1px 0px',
-	},
+	base: [
+		sprinkles({
+			borderRadius: 'small',
+			position: 'relative',
+			flexShrink: 0,
+			padding: 'none',
+			margin: 'none',
+		}),
+		{
+			boxShadow: 'inset 0 0 1px 0px',
+		},
+	],
 	variants: {
 		size: {
 			small: { width: '20px', height: '20px' },
@@ -38,7 +43,9 @@ export const imageWrapper = recipe({
 			}),
 		},
 		rounded: {
-			true: { borderRadius: 999 },
+			true: sprinkles({
+				borderRadius: 'full',
+			}),
 		},
 	},
 

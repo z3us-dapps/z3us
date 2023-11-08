@@ -277,7 +277,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 							<Box paddingTop="medium" className={styles.tagsWrapper}>
 								{tags.map(tag => (
 									<Box key={tag} className={styles.tag}>
-										<Button fullWidth sizeVariant="xsmall" styleVariant="tertiary" rounded disabled>
+										<Button sizeVariant="xsmall" styleVariant="tertiary" rounded disabled>
 											{tag}
 										</Button>
 									</Box>
