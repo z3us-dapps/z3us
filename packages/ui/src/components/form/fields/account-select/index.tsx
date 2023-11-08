@@ -84,7 +84,7 @@ export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref)
 					rightIcon={<ChevronDown2Icon />}
 				>
 					<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
-						<Text size="large" color={accountReadableName ? 'strong' : 'neutral'}>
+						<Text size="large" color={accountReadableName ? 'strong' : 'neutral'} truncate>
 							{accountReadableName || placeholder}
 						</Text>
 					</Box>
