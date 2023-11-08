@@ -34,7 +34,12 @@ export const addAccountDialogContentWrapper = style([
 export const addAccountDialogHeader = style([
 	sprinkles({
 		display: 'flex',
+		flexDirection: {
+			mobile: 'column',
+			tablet: 'row',
+		},
 	}),
+	{},
 ])
 
 export const addAccountDialogTitleWrapper = style([
@@ -66,11 +71,11 @@ export const addAccountGridWrapper = style([
 	{},
 	responsiveStyle({
 		mobile: {
-			gap: vars.spacing.large,
+			gap: vars.spacing.medium,
 			gridTemplateColumns: '1fr',
 		},
 		tablet: {
-			gap: vars.spacing.large,
+			gap: vars.spacing.medium,
 			gridTemplateColumns: '1fr 1fr 1fr',
 		},
 		desktop: {

@@ -1,8 +1,6 @@
-/* eslint-disable  @typescript-eslint/no-unused-vars */
-import { keyframes, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 export const chartTooltipWrapper = style([
 	sprinkles({
@@ -15,7 +13,9 @@ export const chartTooltipWrapper = style([
 		},
 		boxShadow: 'shadowTooltip',
 	}),
-	{},
+	{
+		maxWidth: '240px',
+	},
 ])
 
 export const chartTooltipColorCircle = style([
@@ -23,6 +23,7 @@ export const chartTooltipColorCircle = style([
 		position: 'relative',
 		borderRadius: 'full',
 		boxShadow: 'shadowTooltip',
+		flexShrink: 0,
 	}),
 	{
 		background: '#a7674a',

@@ -15,7 +15,7 @@ export const ChartToolTip: React.FC<IChartToolTipProps> = ({ name, value, color 
 	<Box className={styles.chartTooltipWrapper}>
 		<Box display="flex" alignItems="center" gap="small">
 			<Box className={styles.chartTooltipColorCircle} style={{ backgroundColor: color }} />
-			<Text size="xsmall" color="strong">
+			<Text size="xsmall" color="strong" truncate>
 				{name}
 			</Text>
 		</Box>
