@@ -4,6 +4,7 @@ import { AccountCardIcon } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
@@ -43,9 +44,13 @@ export const AccountSnippet: React.FC<IProps> = ({ address, reversed }) => {
 						{displayName}
 					</Text>
 				)}
-				<Text align={reversed ? 'right' : 'left'} color="strong" size="small" truncate>
-					{getShortAddress(address)}
-				</Text>
+				<ToolTip message={address}>
+					<Box>
+						<Text align={reversed ? 'right' : 'left'} color="strong" size="small" truncate>
+							{getShortAddress(address)}
+						</Text>
+					</Box>
+				</ToolTip>
 			</Box>
 		</Box>
 	)
