@@ -39,12 +39,12 @@ const Home: React.FC = () => {
 
 			<Box className={styles.homeAssetsTitleWrapper}>
 				{isAllAccounts ? (
-					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium" truncate>
 						{intl.formatMessage(messages.all_assets)}
 					</Text>
 				) : (
 					<>
-						<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+						<Text capitalizeFirstLetter color="strong" weight="strong" size="medium" truncate>
 							{accountName}
 						</Text>
 						<CopyAddressButton address={accountId} />

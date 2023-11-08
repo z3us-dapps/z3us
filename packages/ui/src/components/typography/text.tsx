@@ -13,6 +13,7 @@ const colorMap = {
 	black: 'white',
 	neutral: 'colorNeutral',
 	strong: 'colorStrong',
+	neutralLink: { lightMode: 'colorNeutral', hover: 'colorStrong' },
 	red: { lightMode: 'red500', darkMode: 'red500' },
 	green: { lightMode: 'green500', darkMode: 'green400' },
 } as const
