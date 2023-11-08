@@ -45,7 +45,6 @@ export const dialogContent = style([
 	{
 		background: 'white',
 		transform: 'translate(-50%, -50%)',
-		width: '560px',
 		top: '50%',
 		left: '50%',
 	},

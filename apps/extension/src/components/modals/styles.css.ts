@@ -179,7 +179,10 @@ export const signAlertDialogFormFooterWrapper = style([
 		justifyContent: 'flex-end',
 		gap: 'medium',
 		width: 'full',
-		paddingTop: 'large',
+		paddingTop: {
+			mobile: 'xsmall',
+			tablet: 'large',
+		},
 	}),
 	{},
 ])

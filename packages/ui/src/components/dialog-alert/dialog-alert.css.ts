@@ -40,8 +40,9 @@ export const alertDialogOverlay = style([
 export const alertDialogContent = style([
 	sprinkles({
 		...(sharedPopoverBgSprinkles as Sprinkles),
+		width: 'full',
 		padding: {
-			mobile: 'small',
+			mobile: 'medium',
 			tablet: 'large',
 		},
 	}),
@@ -56,8 +57,9 @@ export const alertDialogContent = style([
 		},
 	},
 	responsiveStyle({
-		mobile: { width: '220px' },
-		tablet: { width: '560px' },
+		mobile: { maxWidth: '85%' },
+		tablet: { maxWidth: '560px' },
+		desktop: { maxWidth: '560px' },
 	}),
 ])
 

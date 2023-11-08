@@ -138,12 +138,16 @@ const SignModal: React.FC<IProps> = ({
 						)}
 						<Box className={styles.signAlertDialogFormFooterWrapper}>
 							<DialogClose asChild>
-								<Button sizeVariant="medium" styleVariant="secondary" onClick={handleCancel}>
+								<Button
+									sizeVariant={{ mobile: 'small', tablet: 'medium' }}
+									styleVariant="secondary"
+									onClick={handleCancel}
+								>
 									{intl.formatMessage(messages.close)}
 								</Button>
 							</DialogClose>
 							<SubmitButton>
-								<Button sizeVariant="medium" styleVariant={buttonStyleVariant}>
+								<Button sizeVariant={{ mobile: 'small', tablet: 'medium' }} styleVariant={buttonStyleVariant}>
 									{buttonTitle || intl.formatMessage(messages.form_button_title)}
 								</Button>
 							</SubmitButton>
