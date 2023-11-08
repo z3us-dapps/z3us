@@ -1,16 +1,17 @@
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
 import type { Instruction, Intent } from '@radixdlt/radix-engine-toolkit'
+import clsx from 'clsx'
 import { useXRDPriceOnDay } from 'packages/ui/src/hooks/queries/market'
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { AccountSnippet } from 'ui/src/components/snippet/account'
 import { ResourceSnippet } from 'ui/src/components/snippet/resource'
+import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -31,8 +32,8 @@ const messages = defineMessages({
 		defaultMessage: 'Fee summary',
 	},
 	change_currency_tooltip: {
-		id: 'YVyz6y',
-		defaultMessage: 'Toggle currency',
+		id: 'jv7oHw',
+		defaultMessage: 'Change currency',
 	},
 	xrd_total_execution_cost: {
 		id: '1leDN6',
@@ -217,23 +218,24 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 				))}
 
 			<Box className={styles.transactionPreviewBlockWrapper}>
-				<Box display="flex" position="relative" width="full">
+				<Box display="flex" position="relative" width="full" justifyContent="space-between">
 					<Text color="strong" size="xsmall" weight="strong">
 						{intl.formatMessage(messages.fee_summary)}
 					</Text>
-					<ToolTip message={intl.formatMessage(messages.change_currency_tooltip)}>
-						<Button
-							styleVariant="ghost"
-							sizeVariant="xsmall"
-							iconOnly
-							className={styles.transactionChangeCurrencyBtn}
-							onClick={handleToggleValue}
-						>
-							<Text color="strong" size="large" weight="strong">
-								💱
-							</Text>
-						</Button>
-					</ToolTip>
+					<Box
+						component="button"
+						display="inline-flex"
+						alignItems="center"
+						onClick={handleToggleValue}
+						className={clsx(
+							plainButtonStyles.plainButtonHoverWrapper,
+							plainButtonStyles.plainButtonHoverUnderlineWrapper,
+						)}
+					>
+						<Text color="inherit" size="xsmall" truncate>
+							{intl.formatMessage(messages.change_currency_tooltip)}
+						</Text>
+					</Box>
 				</Box>
 
 				<Box className={styles.transactionPreviewBlock}>

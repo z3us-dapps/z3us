@@ -85,16 +85,6 @@ export const transactionPreviewBlockWrapper = style([
 	{},
 ])
 
-export const transactionChangeCurrencyBtn = style([
-	sprinkles({
-		position: 'absolute',
-		right: 0,
-	}),
-	{
-		top: '-6px',
-	},
-])
-
 export const transactionPreviewBlock = style([
 	sprinkles({
 		display: 'block',

@@ -38,7 +38,7 @@ export const AccountSnippet: React.FC<IProps> = ({ address, reversed }) => {
 			) : (
 				<ResourceImageIcon address={imageResourceAddress} size="xlarge" />
 			)}
-			<Box display="flex" flexDirection="column" gap="xsmall">
+			<Box display="flex" flexDirection="column">
 				{displayName && (
 					<Text align={reversed ? 'right' : 'left'} color="strong" weight="medium" size="small" truncate>
 						{displayName}
