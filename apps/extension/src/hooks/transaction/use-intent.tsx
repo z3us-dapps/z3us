@@ -57,7 +57,9 @@ export const useIntent = () => {
 			...extractAddresses.GlobalVirtualEd25519Account,
 			...extractAddresses.GlobalVirtualSecp256k1Account,
 			...(settings.feePayer ? [settings.feePayer] : []),
-		].filter((value, index, array) => array.indexOf(value) === index) // unique
+		]
+			.filter((value, index, array) => array.indexOf(value) === index) // unique
+			.filter(value => !!accountIndexes[value])
 		if (needSignaturesFrom.length === 0) {
 			throw new Error(intl.formatMessage(messages.empty_signatures_error))
 		}

@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -37,9 +38,17 @@ const messages = defineMessages({
 		id: 'iP8zle',
 		defaultMessage: 'Enter transaction manifest',
 	},
-	success_message: {
+	error_toast: {
+		id: 'fjqZcw',
+		defaultMessage: 'Failed submitting transaction to the network',
+	},
+	success_toast: {
 		id: 'Gkt0d0',
 		defaultMessage: 'Successfully submitted transaction to the network',
+	},
+	toast_action_label: {
+		id: 'K7AkdL',
+		defaultMessage: 'Show',
 	},
 })
 
@@ -51,6 +60,7 @@ export const Raw: React.FC = () => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 	const sendTransaction = useSendTransaction()
+	const [searchParams, setSearchParams] = useSearchParams()
 
 	const [validation, setValidation] = useState<ZodError>()
 
@@ -76,9 +86,22 @@ export const Raw: React.FC = () => {
 		await sendTransaction({
 			version: 1,
 			transactionManifest: values.raw,
+		}).then(res => {
+			if (res.isErr()) {
+				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message })
+			} else {
+				toast.success(intl.formatMessage(messages.success_toast), {
+					description: res.value.status,
+					action: {
+						label: intl.formatMessage(messages.toast_action_label),
+						onClick: () => {
+							searchParams.set('tx', `${res.value.transactionIntentHash}`)
+							setSearchParams(searchParams)
+						},
+					},
+				})
+			}
 		})
-
-		toast(intl.formatMessage(messages.success_message), {})
 	}
 
 	return (

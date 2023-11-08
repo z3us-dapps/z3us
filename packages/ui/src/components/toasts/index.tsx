@@ -8,6 +8,7 @@ export const Toasts: React.FC = () => (
 		toastOptions={{
 			className: styles.toastsWrapper,
 		}}
+		richColors
 		position="top-center"
 		closeButton
 		visibleToasts={3}

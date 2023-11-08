@@ -101,7 +101,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 						items: {
 							discriminator: 'transaction',
 							send: {
-								transactionIntentHash: notarizedTransaction.intentHashHex(),
+								transactionIntentHash: notarizedTransaction.transactionId.id,
 							},
 						},
 						interactionId,

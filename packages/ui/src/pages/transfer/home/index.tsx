@@ -66,9 +66,17 @@ const messages = defineMessages({
 		id: '8Dy6y8',
 		defaultMessage: 'At least one group is required',
 	},
-	success_message: {
+	error_toast: {
+		id: 'fjqZcw',
+		defaultMessage: 'Failed submitting transaction to the network',
+	},
+	success_toast: {
 		id: 'Gkt0d0',
 		defaultMessage: 'Successfully submitted transaction to the network',
+	},
+	toast_action_label: {
+		id: 'K7AkdL',
+		defaultMessage: 'Show',
 	},
 })
 
@@ -76,7 +84,7 @@ export const Home: React.FC = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const sendTransaction = useSendTransaction()
-	const [searchParams] = useSearchParams()
+	const [searchParams, setSearchParams] = useSearchParams()
 	const accountId = searchParams.get('accountId') || '-'
 	const resourceId = searchParams.get('resourceId')
 	const rawNftId = searchParams.get('nftId')
@@ -186,9 +194,22 @@ export const Home: React.FC = () => {
 			version: 1,
 			transactionManifest: convertedInstructions.value as string,
 			message: values.message,
+		}).then(res => {
+			if (res.isErr()) {
+				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message })
+			} else {
+				toast.success(intl.formatMessage(messages.success_toast), {
+					description: res.value.status,
+					action: {
+						label: intl.formatMessage(messages.toast_action_label),
+						onClick: () => {
+							searchParams.set('tx', `${res.value.transactionIntentHash}`)
+							setSearchParams(searchParams)
+						},
+					},
+				})
+			}
 		})
-
-		toast(intl.formatMessage(messages.success_message), {})
 	}
 
 	return (

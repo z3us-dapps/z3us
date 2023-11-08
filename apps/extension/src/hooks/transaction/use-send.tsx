@@ -31,7 +31,7 @@ export const useSendTransaction = () => {
 		})
 
 		return {
-			transactionIntentHash: notarizedTransaction.intentHashHex(),
+			transactionIntentHash: notarizedTransaction.transactionId.id,
 			status: TransactionStatus.Pending,
 		}
 	}

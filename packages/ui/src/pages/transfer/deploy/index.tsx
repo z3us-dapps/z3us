@@ -1,6 +1,8 @@
 import { Buffer } from 'buffer'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
@@ -45,6 +47,18 @@ const messages = defineMessages({
 		id: 'oDLqAZ',
 		defaultMessage: 'Invalid files, please upload both WASM and RPD file with correct types',
 	},
+	error_toast: {
+		id: 'fjqZcw',
+		defaultMessage: 'Failed submitting transaction to the network',
+	},
+	success_toast: {
+		id: 'Gkt0d0',
+		defaultMessage: 'Successfully submitted transaction to the network',
+	},
+	toast_action_label: {
+		id: 'K7AkdL',
+		defaultMessage: 'Show',
+	},
 })
 
 const MAX_FILE_SIZE = 5010 * 1024 * 10240000
@@ -68,6 +82,7 @@ export const Deploy: React.FC = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const sendTransaction = useSendTransaction()
+	const [searchParams, setSearchParams] = useSearchParams()
 
 	const validationSchema = useMemo(
 		() =>
@@ -124,6 +139,21 @@ export const Deploy: React.FC = () => {
 			version: 1,
 			transactionManifest,
 			blobs: [input.wasm],
+		}).then(res => {
+			if (res.isErr()) {
+				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message })
+			} else {
+				toast.success(intl.formatMessage(messages.success_toast), {
+					description: res.value.status,
+					action: {
+						label: intl.formatMessage(messages.toast_action_label),
+						onClick: () => {
+							searchParams.set('tx', `${res.value.transactionIntentHash}`)
+							setSearchParams(searchParams)
+						},
+					},
+				})
+			}
 		})
 	}
 
