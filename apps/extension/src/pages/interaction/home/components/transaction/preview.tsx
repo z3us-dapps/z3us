@@ -229,7 +229,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 							className={styles.transactionChangeCurrencyBtn}
 							onClick={handleToggleValue}
 						>
-							<Text color="white" size="large" weight="strong">
+							<Text color="strong" size="large" weight="strong">
 								💱
 							</Text>
 						</Button>

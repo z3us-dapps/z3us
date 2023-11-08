@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const transactionManifestWrapper = style([
 	sprinkles({
@@ -11,6 +12,15 @@ export const transactionManifestWrapper = style([
 		flexGrow: 1,
 	}),
 	{},
+
+	responsiveStyle({
+		mobile: {
+			height: 'calc(100vh - 240px)',
+		},
+		tablet: {
+			height: 'calc(100vh - 290px)',
+		},
+	}),
 ])
 
 export const transactionManifestTabsWrapper = style([
@@ -29,24 +39,8 @@ export const transactionManifestTabsContentWrapper = style([
 		display: 'none',
 		flexDirection: 'column',
 		flexGrow: 1,
-		// border: 1,
-		// borderStyle: 'solid',
-		// borderColor: 'borderDivider',
-		// paddingX: 'medium',
-		// paddingBottom: 'medium',
-		// borderBottomLeftRadius: 'large',
-		// borderBottomRightRadius: 'large',
-		// background: {
-		// 	lightMode: 'bai_pearl200',
-		// 	darkMode: 'wax700',
-		// },
-		// boxShadow: {
-		// 	focusVisible: 'btnSecondaryShadowFocus',
-		// },
 	}),
 	{
-		// marginTop: '-20px',
-		// paddingTop: '32px',
 		selectors: {
 			'&:focus-visible': {
 				outline: 'none',
