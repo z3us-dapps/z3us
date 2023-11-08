@@ -8,7 +8,6 @@ import { useImmer } from 'use-immer'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { RefreshIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { AccountSnippet } from 'ui/src/components/snippet/account'
 import { ResourceSnippet } from 'ui/src/components/snippet/resource'
@@ -32,8 +31,8 @@ const messages = defineMessages({
 		defaultMessage: 'Fee summary',
 	},
 	change_currency_tooltip: {
-		id: 'LXfC4n',
-		defaultMessage: 'Fee summary',
+		id: 'YVyz6y',
+		defaultMessage: 'Toggle currency',
 	},
 	xrd_total_execution_cost: {
 		id: '1leDN6',
@@ -230,10 +229,13 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 							className={styles.transactionChangeCurrencyBtn}
 							onClick={handleToggleValue}
 						>
-							<RefreshIcon />
+							<Text color="strong" size="large" weight="strong">
+								💱
+							</Text>
 						</Button>
 					</ToolTip>
 				</Box>
+
 				<Box className={styles.transactionPreviewBlock}>
 					<Box display="flex" flexDirection="column" gap="xsmall">
 						{feeSummaryDetailKeys.map(key =>
