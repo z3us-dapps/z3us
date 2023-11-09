@@ -177,21 +177,27 @@ async function handleRadixMessage(message: Message) {
 				if (items) {
 					switch (items.discriminator) {
 						case 'cancelRequest':
-							browser.runtime.sendMessage(
-								newMessage(
-									AppMessageAction.APP_INTERACTION_CANCEL,
-									MessageSource.BACKGROUND,
-									MessageSource.POPUP,
-									radixMsg.data,
-								),
-							)
+							browser.runtime
+								.sendMessage(
+									newMessage(
+										AppMessageAction.APP_INTERACTION_CANCEL,
+										MessageSource.BACKGROUND,
+										MessageSource.POPUP,
+										radixMsg.data,
+									),
+								)
+								// eslint-disable-next-line no-console
+								.catch(console.error)
 							break
 						default:
 							saveInteractions({
 								...walletInteraction,
 								fromTabId: message.fromTabId,
 								senderURl: message.senderUrl,
-							} as WalletInteractionWithTabId).then(() => openAppPopup(`#/interaction/${interactionId}`))
+							} as WalletInteractionWithTabId)
+								.then(() => openAppPopup(`#/interaction/${interactionId}`))
+								// eslint-disable-next-line no-console
+								.catch(console.error)
 							break
 					}
 				}
