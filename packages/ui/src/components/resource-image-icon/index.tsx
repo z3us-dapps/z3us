@@ -24,7 +24,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IProps>(
 		const symbol = getStringMetadata('symbol', data?.metadata?.items) || ''
 		const imageUrl = getStringMetadata('icon_url', data?.metadata?.items) || ''
 		const imageSrc =
-			localImageUrl || imageUrl ? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageUrl}` : ''
+			localImageUrl || (imageUrl ? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageUrl}` : '')
 		const tooltip = (symbol || '').toUpperCase() || name
 
 		return (
