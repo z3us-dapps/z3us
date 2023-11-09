@@ -36,7 +36,7 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed })
 	return (
 		<Box display="flex" flexDirection={reversed ? 'row-reverse' : 'row'} gap="medium" alignItems="center">
 			<ResourceImageIcon address={address} size="xlarge" />
-			<Box display="flex" flexDirection="column">
+			<Box display="flex" flexDirection="column" flexShrink={0}>
 				{displayName && (
 					<Text align={reversed ? 'right' : 'left'} color="strong" weight="medium" size="small" truncate>
 						{displayName}

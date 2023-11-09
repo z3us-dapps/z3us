@@ -168,6 +168,7 @@ export const accountCardIconWrapper = style([
 		border: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
+		flexShrink: 0,
 	}),
 	{
 		width: '40px',
