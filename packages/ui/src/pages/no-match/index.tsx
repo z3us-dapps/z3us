@@ -1,28 +1,47 @@
 import React from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
-import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
 
-const NoMatch = () => (
-	<AnimatedPage>
-		<Box padding="large">
-			<Box className={styles.teststyle} paddingTop="large" display="flex" flexDirection="column">
-				<Text size="code">code</Text>
-				<Text size="xsmall">xsmall</Text>
-				<Text size="small">small</Text>
-				<Text size="medium">medium</Text>
-				<Text size="large">large</Text>
-				<Text size="xlarge">xlarge</Text>
-				<Text size="xxlarge">xxlarge</Text>
-				<Text size="xxxlarge" color="strong">
-					Testing new text more bumps on the test
-				</Text>
+const messages = defineMessages({
+	not_found_404_title: {
+		defaultMessage: '404',
+		id: 'DRXWXB',
+	},
+	not_found_404_sub_title: {
+		defaultMessage: 'This page has gone missing, or you have assembled the link incorrectly.',
+		id: 'Jcsbsk',
+	},
+	not_found_404_button: {
+		defaultMessage: ' Navigate to home',
+		id: 'SJBoe2',
+	},
+})
+
+const NoMatch = () => {
+	const intl = useIntl()
+
+	return (
+		<Box className={styles.notFound404Wrapper}>
+			<Box className={styles.notFound404InnerWrapper}>
+				<Box className={styles.notFound404TextWrapper}>
+					<Text align="center" size="xxxlarge" color="strong" weight="stronger">
+						{intl.formatMessage(messages.not_found_404_title)}
+					</Text>
+					<Text size="xlarge">{intl.formatMessage(messages.not_found_404_sub_title)}</Text>
+					<Box className={styles.notFound404ButtonWrapper}>
+						<Button fullWidth sizeVariant="large" styleVariant="primary" to="accounts">
+							{intl.formatMessage(messages.not_found_404_button)}
+						</Button>
+					</Box>
+				</Box>
 			</Box>
 		</Box>
-	</AnimatedPage>
-)
+	)
+}
 
 export default NoMatch
