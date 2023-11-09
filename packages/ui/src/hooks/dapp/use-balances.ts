@@ -33,6 +33,9 @@ const transformFungibleResourceItemResponse =
 			(acc, curr) => acc + +curr.amount,
 			container[item.resource_address]?.amount || 0,
 		)
+		if (amount === 0) {
+			return container
+		}
 
 		const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
 
@@ -91,14 +94,19 @@ const transformNonFungibleResourceItemResponse = (
 	const imageUrl = getStringMetadata('icon_url', metadata)
 	const url = getStringMetadata('info_url', metadata)
 
-	const firstVault = item.vaults.items[0]
-	const totalAmount = firstVault.total_count + (container[item.resource_address]?.amount || 0)
+	const amount = item.vaults.items.reduce(
+		(acc, vault) => acc + +vault.total_count,
+		container[item.resource_address]?.amount || 0,
+	)
+	if (amount === 0) {
+		return container
+	}
 
 	container[item.resource_address] = {
 		type: ResourceBalanceType.NON_FUNGIBLE,
 		address: item.resource_address,
 		vaults: item.vaults.items.map(vault => vault.vault_address),
-		amount: totalAmount,
+		amount,
 		name,
 		description,
 		url,

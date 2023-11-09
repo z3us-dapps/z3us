@@ -5,6 +5,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from '../styles.css'
@@ -69,12 +70,21 @@ const NonFungibleVaultDetails: React.FC<IProps> = ({ details }) => {
 					</Text>
 				}
 				rightData={
-					<Text size="xxsmall" truncate>
-						{intl.formatNumber(details.balance.total_count, {
+					<ToolTip
+						message={intl.formatNumber(details.balance.total_count, {
 							style: 'decimal',
-							maximumFractionDigits: 8,
+							maximumFractionDigits: 18,
 						})}
-					</Text>
+					>
+						<Box>
+							<Text size="xxsmall" truncate>
+								{intl.formatNumber(details.balance.total_count, {
+									style: 'decimal',
+									maximumFractionDigits: 18,
+								})}
+							</Text>
+						</Box>
+					</ToolTip>
 				}
 			/>
 		</Box>

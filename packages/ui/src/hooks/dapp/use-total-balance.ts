@@ -71,7 +71,7 @@ export const useTotalBalance = () => {
 		xrdValue,
 		value,
 		change,
-		formattedXrdValue: intl.formatNumber(xrdValue, { style: 'decimal', maximumFractionDigits: 8 }),
+		formattedXrdValue: intl.formatNumber(xrdValue, { style: 'decimal', maximumFractionDigits: 18 }),
 		formattedValue: intl.formatNumber(value, { style: 'currency', currency }),
 		formattedChange: intl.formatNumber(change, { style: 'percent', maximumFractionDigits: 2 }),
 	}

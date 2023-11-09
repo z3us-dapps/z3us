@@ -251,7 +251,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 												state.currency === 'currency'
 													? `${intl.formatNumber(receipt.fee_summary[key], {
 															style: 'decimal',
-															maximumFractionDigits: 8,
+															maximumFractionDigits: 18,
 													  })} XRD`
 													: intl.formatNumber(receipt.fee_summary[key] * xrdPrice, {
 															style: 'currency',
@@ -268,7 +268,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 														  })
 														: `${intl.formatNumber(receipt.fee_summary[key], {
 																style: 'decimal',
-																maximumFractionDigits: 8,
+																maximumFractionDigits: 18,
 														  })} XRD`}
 												</Text>
 											</Box>

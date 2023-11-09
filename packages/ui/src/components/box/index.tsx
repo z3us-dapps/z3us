@@ -68,6 +68,7 @@ export const Box = forwardRef(
 			minWidth,
 			transition,
 			overflow,
+			type,
 			...restProps
 		}: BoxProps,
 		// TODO: fix type
@@ -129,7 +130,11 @@ export const Box = forwardRef(
 			className,
 		)
 
-		return createElement(component, { className: atomClasses, ref, ...restProps })
+		if (component === 'button' && !type) {
+			type = 'button'
+		}
+
+		return createElement(component, { className: atomClasses, ref, type, ...restProps })
 	},
 )
 
