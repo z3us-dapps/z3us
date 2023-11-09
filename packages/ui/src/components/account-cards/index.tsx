@@ -43,8 +43,8 @@ const messages = defineMessages({
 		id: 'wyxJrL',
 	},
 	confirm: {
-		defaultMessage: 'Are you sure you want to delete account {address} ?',
-		id: 'RFnHfO',
+		defaultMessage: 'Are you sure you want to delete account {address}?',
+		id: 'nusXRL',
 	},
 })
 
