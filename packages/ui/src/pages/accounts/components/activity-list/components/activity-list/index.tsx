@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
@@ -71,7 +71,8 @@ interface IRowProps {
 }
 
 const ItemWrapper: React.FC<IRowProps> = props => {
-	const [searchParams, setSearchParams] = useSearchParams()
+	const location = useLocation()
+	const [searchParams] = useSearchParams()
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
 	const { data: knownAddresses } = useKnownAddresses()
@@ -82,8 +83,16 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 	const handleClick = () => {
 		setSelected(transaction.intent_hash)
 		setHovered(null)
+	}
+
+	const handleMouseOver = () => {
+		setHovered(transaction.intent_hash)
 		searchParams.set('tx', `${transaction.intent_hash}`)
-		setSearchParams(searchParams)
+	}
+
+	const handleMouseLeave = () => {
+		setHovered(null)
+		searchParams.delete('tx')
 	}
 
 	return (
@@ -95,11 +104,12 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 						className={clsx(styles.activityItemInner, (isSelected || isHovered) && styles.activityItemInnerSelected)}
 					>
 						<Link
+							to={`${location.pathname}?${searchParams}`}
 							underline="never"
 							className={styles.activityItemInnerBtn}
 							onClick={handleClick}
-							onMouseOver={() => setHovered(transaction.intent_hash)}
-							onMouseLeave={() => setHovered(null)}
+							onMouseOver={handleMouseOver}
+							onMouseLeave={handleMouseLeave}
 						>
 							<Box className={styles.activityItemTextWrapper}>
 								<Text weight="stronger" size="small" color="strong" truncate>
