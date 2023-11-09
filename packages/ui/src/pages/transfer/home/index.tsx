@@ -155,6 +155,7 @@ export const Home: React.FC = () => {
 	}, [])
 
 	const handleSubmit = async (values: typeof initialValues) => {
+		setValidation(undefined)
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {
 			setValidation(result.error)
@@ -194,7 +195,7 @@ export const Home: React.FC = () => {
 			message: values.message,
 		}).then(res => {
 			if (res.isErr()) {
-				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message })
+				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message || res.error.error })
 			} else {
 				toast.success(intl.formatMessage(messages.success_toast), {
 					description: res.value.status,
