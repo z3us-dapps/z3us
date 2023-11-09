@@ -67,6 +67,10 @@ const messages = defineMessages({
 		id: 'c+Uxfa',
 		defaultMessage: 'Transaction manifest',
 	},
+	message_title: {
+		id: 'V9XAYn',
+		defaultMessage: 'Transaction message',
+	},
 	events: {
 		defaultMessage: 'Events',
 		id: 'ZvKSfJ',
@@ -235,6 +239,12 @@ export const Transaction = () => {
 										</Box>
 									</Box>
 								))}
+							</Box>
+
+							<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.message_title)} rightData={null} />
+
+							<Box paddingY="xsmall">
+								<Code content="message here" className={styles.transactionMessageWrapper} />
 							</Box>
 
 							<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.manifest)} rightData={null} />
