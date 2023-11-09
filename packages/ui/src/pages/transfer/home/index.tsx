@@ -15,8 +15,6 @@ import { sendFungibleTokens, sendNftTokens } from 'ui/src/manifests/transfer'
 import TransferFormFields, { MAX_MESSAGE_LENGTH } from './components/transfer-form-fields'
 import * as styles from './styles.css'
 
-const positiveNumberValidator = (value: number): boolean => value > 0
-
 const messages = defineMessages({
 	validation_token_address_required: {
 		id: 'IXFNmv',
@@ -117,9 +115,9 @@ export const Home: React.FC = () => {
 			address: z
 				.string({ required_error: intl.formatMessage(messages.validation_token_address_required) })
 				.min(1, intl.formatMessage(messages.validation_token_address)),
-			amount: z
+			amount: z.coerce
 				.number({ required_error: intl.formatMessage(messages.validation_token_amount_required) })
-				.refine(positiveNumberValidator, { message: intl.formatMessage(messages.validation_token_amount) }),
+				.gt(0, { message: intl.formatMessage(messages.validation_token_amount) }),
 		})
 
 		const nftSchema = z.object({
@@ -173,7 +171,7 @@ export const Home: React.FC = () => {
 						if (id) {
 							nfts.push({ resource: address, ids: [id] })
 						} else {
-							tokens.push({ resource: address, amount })
+							tokens.push({ resource: address, amount: +amount })
 						}
 					})
 

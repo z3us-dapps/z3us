@@ -39,10 +39,14 @@ const messages = defineMessages({
 	},
 })
 
+function fullWideNumber(x: number) {
+	return x.toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: 18 })
+}
+
 function countDecimals(value: number) {
 	if (!value) return 0
 	if (value % 1 === 0) return 0
-	return value.toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: 18 }).split('.')[1].length
+	return fullWideNumber(value).split('.')[1].length
 }
 
 export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, ref) => {
@@ -62,7 +66,7 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	const selectedToken = fungibleBalances.find(b => b.address === resource)
 
 	const handleMaxValue = () => {
-		onFieldChange(`${parentName}${parentName ? '.' : ''}${amountKey}`, selectedToken?.amount || 0)
+		onFieldChange(`${parentName}${parentName ? '.' : ''}${amountKey}`, fullWideNumber(selectedToken?.amount || 0))
 	}
 
 	const validateDivisibility = (v: string) => {
