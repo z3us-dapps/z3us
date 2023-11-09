@@ -12,6 +12,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { DAPP_ADDRESS } from 'ui/src/constants/dapp'
 import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -61,7 +62,8 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const { transaction } = useGatewayClient()
-	const { approvedDapps } = useNoneSharedStore(state => ({
+	const { accountIndexes, approvedDapps } = useNoneSharedStore(state => ({
+		accountIndexes: state.accountIndexes[networkId] || {},
 		approvedDapps: state.approvedDapps[networkId] || {},
 	}))
 
@@ -74,9 +76,11 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 
 	useEffect(() => {
 		buildIntent(state.input).then(response => {
-			const { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
+			let { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
+			if (interaction.metadata.dAppDefinitionAddress === DAPP_ADDRESS) {
+				accounts = Object.keys(accountIndexes)
+			}
 			const authorizedAccounts = new Set(accounts)
-
 			setState(draft => {
 				draft.intent = response.intent
 				draft.notary = response.notary

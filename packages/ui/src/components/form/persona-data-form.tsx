@@ -143,6 +143,7 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 	}, [])
 
 	const handleSubmit = async (values: typeof initialValues) => {
+		setValidation(undefined)
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {
 			setValidation(result.error)

@@ -91,6 +91,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	}, [])
 
 	const handleSubmit = async (values: typeof initialValues) => {
+		setValidation(undefined)
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {
 			setValidation(result.error)

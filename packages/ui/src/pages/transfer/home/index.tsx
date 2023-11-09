@@ -1,5 +1,5 @@
 import { ManifestBuilder, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -78,6 +78,26 @@ const messages = defineMessages({
 	},
 })
 
+function getInitialValues(accountId: string, resourceId: string, rawNftId?: string) {
+	return {
+		from: [
+			{
+				account: accountId !== '-' ? accountId : '',
+				actions: [
+					{
+						to: '',
+						resources: resourceId
+							? [{ address: resourceId, id: rawNftId ? decodeURIComponent(rawNftId) : '', amount: 0 }]
+							: [],
+					},
+				],
+			},
+		],
+		message: '',
+		messageEncrypted: false,
+	}
+}
+
 export const Home: React.FC = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
@@ -87,27 +107,8 @@ export const Home: React.FC = () => {
 	const resourceId = searchParams.get('resourceId')
 	const rawNftId = searchParams.get('nftId')
 
-	const initialValues = useMemo(
-		() => ({
-			from: [
-				{
-					account: accountId !== '-' ? accountId : '',
-					actions: [
-						{
-							to: '',
-							resources: resourceId
-								? [{ address: resourceId, id: rawNftId ? decodeURIComponent(rawNftId) : '', amount: 0 }]
-								: [],
-						},
-					],
-				},
-			],
-			message: '',
-			messageEncrypted: false,
-		}),
-		[accountId, resourceId, rawNftId],
-	)
-
+	const init = getInitialValues(accountId, resourceId, rawNftId)
+	const [initialValues, restFormValues] = useState<typeof init>(init)
 	const [validation, setValidation] = useState<ZodError>()
 
 	const validationSchema = useMemo(() => {
@@ -154,7 +155,12 @@ export const Home: React.FC = () => {
 		})
 	}, [])
 
-	const handleSubmit = async (values: typeof initialValues) => {
+	useEffect(() => {
+		restFormValues(getInitialValues(accountId, resourceId, rawNftId))
+	}, [accountId, resourceId, rawNftId])
+
+	const handleSubmit = async (values: typeof init) => {
+		setValidation(undefined)
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {
 			setValidation(result.error)
@@ -194,7 +200,7 @@ export const Home: React.FC = () => {
 			message: values.message,
 		}).then(res => {
 			if (res.isErr()) {
-				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message })
+				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message || res.error.error })
 			} else {
 				toast.success(intl.formatMessage(messages.success_toast), {
 					description: res.value.status,
@@ -206,6 +212,7 @@ export const Home: React.FC = () => {
 						},
 					},
 				})
+				restFormValues(getInitialValues('', '', ''))
 			}
 		})
 	}

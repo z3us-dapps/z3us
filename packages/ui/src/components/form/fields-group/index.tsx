@@ -43,7 +43,7 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	const { name: parentName } = useContext(FieldContext)
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
 	const [keys, setKeys] = useState<string[]>(
-		Array.from({ length: defaultKeys || values?.[fieldName].length }, generateId),
+		Array.from({ length: values?.[fieldName]?.length || defaultKeys }, generateId),
 	)
 
 	const handleRemove = (key: string) => {
