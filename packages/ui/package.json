@@ -18,7 +18,7 @@
 	"scripts": {
 		"storybook": "storybook dev --no-open -p 6006",
 		"storybook:build": "storybook build",
-		"test": "jest --clearCache --detectOpenHandles --forceExit --coverage",
+		"test": "jest --clearCache --detectOpenHandles --forceExit --coverage --passWithNoTests",
 		"build": "tsup",
 		"check-types": "tsc --noemit",
 		"eslint": "TIMING=1 eslint src --fix",
