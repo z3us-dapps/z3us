@@ -126,7 +126,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 				{!iconOnly ? (
 					<Box position="relative">
 						<Box transition="slow" opacity={copiedAnimate ? 0 : 1}>
-							<Text color="inherit" align="center" size={textSize}>
+							<Text color="inherit" align="center" size={textSize} truncate>
 								{name ? <>{name} - </> : null}
 								{getShortAddress(address)}
 							</Text>

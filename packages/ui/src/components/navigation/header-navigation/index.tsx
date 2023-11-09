@@ -169,6 +169,7 @@ const HeaderNavInner = () => {
 							alignItems="center"
 							gap="xsmall"
 							flexGrow={1}
+							// style={{ maxWidth: '100px' }}
 						>
 							{!isAllAccounts && (
 								<CopyAddressButton
