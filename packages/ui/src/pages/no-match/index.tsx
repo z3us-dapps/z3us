@@ -2,6 +2,7 @@ import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import { LayoutCenterCard } from 'ui/src/components/layout/layout-center-card'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
 
@@ -26,21 +27,17 @@ const NoMatch = () => {
 	const intl = useIntl()
 
 	return (
-		<Box className={styles.notFound404Wrapper}>
-			<Box className={styles.notFound404InnerWrapper}>
-				<Box className={styles.notFound404TextWrapper}>
-					<Text align="center" size="xxxlarge" color="strong" weight="stronger">
-						{intl.formatMessage(messages.not_found_404_title)}
-					</Text>
-					<Text size="xlarge">{intl.formatMessage(messages.not_found_404_sub_title)}</Text>
-					<Box className={styles.notFound404ButtonWrapper}>
-						<Button fullWidth sizeVariant="large" styleVariant="primary" to="accounts">
-							{intl.formatMessage(messages.not_found_404_button)}
-						</Button>
-					</Box>
-				</Box>
+		<LayoutCenterCard>
+			<Text align="center" size="xxxlarge" color="strong" weight="stronger">
+				{intl.formatMessage(messages.not_found_404_title)}
+			</Text>
+			<Text size="xlarge">{intl.formatMessage(messages.not_found_404_sub_title)}</Text>
+			<Box className={styles.notFound404ButtonWrapper}>
+				<Button fullWidth sizeVariant="large" styleVariant="primary" to="accounts">
+					{intl.formatMessage(messages.not_found_404_button)}
+				</Button>
 			</Box>
-		</Box>
+		</LayoutCenterCard>
 	)
 }
 
