@@ -122,7 +122,7 @@ export const Transaction = () => {
 							<Text size="xxxlarge" color="strong">
 								{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, {
 									style: 'decimal',
-									maximumFractionDigits: 8,
+									maximumFractionDigits: 18,
 								})}{' '}
 								XRD
 							</Text>

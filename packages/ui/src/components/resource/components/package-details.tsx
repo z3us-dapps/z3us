@@ -4,6 +4,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 
 const messages = defineMessages({
@@ -60,12 +61,21 @@ const PackageDetails: React.FC<IProps> = ({ details }) => {
 					</Text>
 				}
 				rightData={
-					<Text size="xxsmall" truncate>
-						{intl.formatNumber(parseFloat(details.royalty_vault_balance) || 0, {
+					<ToolTip
+						message={intl.formatNumber(parseFloat(details.royalty_vault_balance) || 0, {
 							style: 'decimal',
-							maximumFractionDigits: 8,
+							maximumFractionDigits: 18,
 						})}
-					</Text>
+					>
+						<Box>
+							<Text size="xxsmall" truncate>
+								{intl.formatNumber(parseFloat(details.royalty_vault_balance) || 0, {
+									style: 'decimal',
+									maximumFractionDigits: 18,
+								})}
+							</Text>
+						</Box>
+					</ToolTip>
 				}
 			/>
 

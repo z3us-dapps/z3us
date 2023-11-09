@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { getStringMetadata } from 'ui/src/services/metadata'
@@ -22,6 +23,13 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed })
 	const symbol = getStringMetadata('symbol', data?.metadata?.items)
 
 	const displayName = symbol?.toUpperCase() || name
+	const c = change
+		? intl.formatNumber(change, {
+				style: 'decimal',
+				maximumFractionDigits: 18,
+				signDisplay: 'always',
+		  })
+		: ''
 
 	if (isLoading) return <FallbackLoading />
 
@@ -35,13 +43,13 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed })
 					</Text>
 				)}
 				{change && (
-					<RedGreenText align={reversed ? 'right' : 'left'} color="strong" size="small" truncate change={change}>
-						{intl.formatNumber(change, {
-							style: 'decimal',
-							maximumFractionDigits: 8,
-							signDisplay: 'always',
-						})}
-					</RedGreenText>
+					<ToolTip message={c}>
+						<Box>
+							<RedGreenText align={reversed ? 'right' : 'left'} color="strong" size="small" truncate change={change}>
+								{c}
+							</RedGreenText>
+						</Box>
+					</ToolTip>
 				)}
 			</Box>
 		</Box>

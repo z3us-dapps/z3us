@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
@@ -26,6 +27,12 @@ export const AssetNameCell: React.FC<IProps> = props => {
 		row: { original },
 	} = props
 	const { symbol, name, amount, change, value: tokenValue } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
+	const a = amount
+		? intl.formatNumber(amount, {
+				style: 'decimal',
+				maximumFractionDigits: 18,
+		  })
+		: ''
 
 	return (
 		<Box className={styles.assetNameCellWrapper}>
@@ -37,19 +44,21 @@ export const AssetNameCell: React.FC<IProps> = props => {
 							{symbol && `${symbol.toUpperCase()} - `}
 							{name}
 						</Text>
-						<Text
-							capitalizeFirstLetter
-							size="xsmall"
-							truncate
-							weight="strong"
-							className={styles.assetNameCellBalanceWrapper}
-						>
-							{amount &&
-								intl.formatNumber(amount, {
-									style: 'decimal',
-									maximumFractionDigits: 8,
-								})}
-						</Text>
+						{amount && (
+							<ToolTip message={a}>
+								<Box>
+									<Text
+										capitalizeFirstLetter
+										size="xsmall"
+										truncate
+										weight="strong"
+										className={styles.assetNameCellBalanceWrapper}
+									>
+										{a}
+									</Text>
+								</Box>
+							</ToolTip>
+						)}
 					</Box>
 					<Box className={styles.assetNameCellPriceWrapper}>
 						<Box className={styles.assetNameCellPriceTextWrapper}>
