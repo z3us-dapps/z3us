@@ -3,6 +3,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { Z3usLogoLarge } from 'ui/src/components/z3us-logo-babylon'
 
@@ -43,7 +44,11 @@ export const Home: React.FC = () => {
 	return (
 		<Box className={styles.keystoreHomeStyleWrapper}>
 			<Box width="full">
-				<Box display="flex" width="full" justifyContent="center" paddingY="large">
+				{/* TODO: this needs to show only if user has a wallet */}
+				<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
+					<ArrowLeftIcon />
+				</Button>
+				<Box display="flex" width="full" justifyContent="center" paddingY="large" position="relative">
 					<Z3usLogoLarge />
 				</Box>
 				<Title
