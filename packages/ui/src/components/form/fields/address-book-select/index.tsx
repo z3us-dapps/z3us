@@ -52,9 +52,11 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 							</ToolTip>
 						)}
 						{!!knownAddress && toolTipMessageKnownAddress && (
-							<ToolTip message={toolTipMessageKnownAddress} side="top">
-								<CheckCircleIcon />
-							</ToolTip>
+							<Box flexShrink={0}>
+								<ToolTip message={toolTipMessageKnownAddress} side="top">
+									<CheckCircleIcon />
+								</ToolTip>
+							</Box>
 						)}
 					</Box>
 				</Box>

@@ -40,9 +40,11 @@ export const AccountSnippet: React.FC<IProps> = ({ address, reversed }) => {
 			)}
 			<Box display="flex" flexDirection="column">
 				{displayName && (
-					<Text align={reversed ? 'right' : 'left'} color="strong" weight="medium" size="small" truncate>
-						{displayName}
-					</Text>
+					<Box paddingRight="large">
+						<Text align={reversed ? 'right' : 'left'} color="strong" weight="medium" size="small" truncate>
+							{displayName}
+						</Text>
+					</Box>
 				)}
 				<ToolTip message={address}>
 					<Box>
