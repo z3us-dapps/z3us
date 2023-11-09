@@ -51,14 +51,15 @@ export const alertDialogContent = style([
 		zIndex: 2,
 		position: 'absolute',
 		top: '50%',
+		left: '50%',
 		transform: 'translate(-50%, -50%)',
 		selectors: {
 			...sharedPopoverBgSelectorStyles,
 		},
 	},
 	responsiveStyle({
-		mobile: { maxWidth: '85%' },
-		tablet: { maxWidth: '560px' },
+		mobile: { width: '90%', maxWidth: '420px' },
+		tablet: { width: '100%', maxWidth: '560px' },
 		desktop: { maxWidth: '560px' },
 	}),
 ])
