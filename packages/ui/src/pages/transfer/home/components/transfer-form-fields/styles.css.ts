@@ -113,14 +113,13 @@ export const transferActionTrashButtonWrapper = style([
 export const transferActionAddButtonWrapper = style([
 	sprinkles({}),
 	{},
-
 	responsiveStyle({
 		mobile: {
 			marginTop: '8px',
 			marginBottom: '12px',
 		},
 		tablet: {
-			marginTop: '20px',
+			marginTop: '12px',
 			marginBottom: '12px',
 		},
 	}),
@@ -144,7 +143,7 @@ export const transferActionAddSourceWrapper = style([
 			paddingTop: '18px',
 		},
 		tablet: {
-			marginTop: '12px',
+			marginTop: '10px',
 			paddingTop: '22px',
 		},
 	}),
