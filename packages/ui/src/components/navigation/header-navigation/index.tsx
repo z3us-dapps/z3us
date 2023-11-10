@@ -21,6 +21,7 @@ import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useSharedStore } from 'ui/src/hooks/use-store'
+import { AddAccountDialog } from 'ui/src/pages/accounts/components/layout/components/add-account-dialog'
 import { BackButton } from 'ui/src/pages/accounts/components/layout/components/mobile/back-button'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -31,6 +32,10 @@ const messages = defineMessages({
 	all: {
 		defaultMessage: 'All',
 		id: 'zQvVDJ',
+	},
+	add_account: {
+		defaultMessage: 'Add account',
+		id: 'qJcduu',
 	},
 	accounts: {
 		id: 'FvanT6',
@@ -110,6 +115,7 @@ const HeaderNavInner = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 
 	const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false)
+	const [isAddAccountModalOpen, setIsAddAccountModalOpen] = useState<boolean>(false)
 	const isAccountsPath = location?.pathname?.includes('/accounts')
 
 	const accountMenuItems = [
@@ -118,13 +124,22 @@ const HeaderNavInner = () => {
 			id: address,
 			title: name,
 		})),
+		...[{ id: 'add-account', title: intl.formatMessage(messages.add_account) }],
 	]
 
 	const [canGoBack, backPath] = useMemo(() => removeLastPartOfURL(location.pathname), [location.pathname])
 	const accountName = accounts?.[accountId]?.name
 	const accountAddress = accounts?.[accountId]?.address
 
+	const handleCloseAddAccountDialog = () => {
+		setIsAddAccountModalOpen(false)
+	}
+
 	const handleSelectAccount = (account: string) => {
+		if (account === 'add-account') {
+			setIsAddAccountModalOpen(true)
+			return
+		}
 		if (account === 'home') {
 			navigate(`/accounts?${searchParams}`)
 		} else {
@@ -169,7 +184,6 @@ const HeaderNavInner = () => {
 							alignItems="center"
 							gap="xsmall"
 							flexGrow={1}
-							// style={{ maxWidth: '100px' }}
 						>
 							{!isAllAccounts && (
 								<CopyAddressButton
@@ -192,14 +206,17 @@ const HeaderNavInner = () => {
 					<HeaderLavaMenu />
 					<Box className={styles.tabletHiddenWrapper}>
 						{isAccountsPath && !isSearchVisible && (
-							<SelectSimple
-								value={accountAddress || 'home'}
-								onValueChange={handleSelectAccount}
-								styleVariant="ghost"
-								sizeVariant="small"
-								rounded
-								data={accountMenuItems}
-							/>
+							<>
+								<SelectSimple
+									value={accountAddress || 'home'}
+									onValueChange={handleSelectAccount}
+									styleVariant="ghost"
+									sizeVariant="small"
+									rounded
+									data={accountMenuItems}
+								/>
+								<AddAccountDialog open={isAddAccountModalOpen} onClose={handleCloseAddAccountDialog} />
+							</>
 						)}
 						{accountAddress && (
 							<CopyAddressButton

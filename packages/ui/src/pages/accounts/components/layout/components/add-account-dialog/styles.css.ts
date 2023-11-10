@@ -4,17 +4,6 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
-export const addAccountDialogWrapper = style([
-	sprinkles({
-		position: 'absolute',
-		top: 0,
-		right: 0,
-		zIndex: 1,
-		marginTop: 'large',
-		marginRight: 'large',
-	}),
-])
-
 export const addAccountDialog = style([
 	sprinkles({}),
 	{
@@ -38,6 +27,10 @@ export const addAccountDialogHeader = style([
 			mobile: 'column',
 			tablet: 'row',
 		},
+		gap: {
+			mobile: 'small',
+			tablet: 'none',
+		},
 	}),
 	{},
 ])
@@ -56,9 +49,28 @@ export const addAccountCheckBoxWrapper = style([
 		position: 'relative',
 		paddingTop: 'xsmall',
 		display: 'flex',
-		alignItems: 'flex-end',
+		alignItems: {
+			mobile: 'flex-start',
+			tablet: 'flex-end',
+		},
 		flexDirection: 'column',
 		paddingRight: 'large',
+	}),
+])
+
+export const addAccountSwitchWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: {
+			mobile: 'row-reverse',
+			tablet: 'row',
+		},
+		alignItems: 'center',
+		gap: 'small',
+		paddingTop: {
+			mobile: 'medium',
+			tablet: 'small',
+		},
 	}),
 ])
 
