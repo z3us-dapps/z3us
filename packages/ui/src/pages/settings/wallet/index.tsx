@@ -119,6 +119,7 @@ const General: React.FC = () => {
 			)}
 			{isWallet && (
 				<SettingsBlock
+					isBottomBorderVisible={false}
 					leftCol={
 						<>
 							<Text size="large" weight="strong" color="strong">

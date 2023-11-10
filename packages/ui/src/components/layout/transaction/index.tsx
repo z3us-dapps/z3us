@@ -246,7 +246,6 @@ export const Transaction = () => {
 							{message && (
 								<>
 									<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.message_title)} rightData={null} />
-
 									<Box paddingY="xsmall">
 										<Code content={message} className={styles.transactionMessageWrapper} />
 									</Box>
