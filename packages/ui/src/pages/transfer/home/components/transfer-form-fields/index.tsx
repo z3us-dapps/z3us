@@ -237,7 +237,7 @@ export const TransferFormFields: React.FC = () => {
 					<TextAreaField
 						name={MESSAGE_KEY}
 						placeholder={intl.formatMessage(messages.message_placeholder)}
-						sizeVariant="medium"
+						sizeVariant="large"
 						className={styles.transferFormMessageTextArea}
 						maxLength={MAX_MESSAGE_LENGTH}
 					/>
