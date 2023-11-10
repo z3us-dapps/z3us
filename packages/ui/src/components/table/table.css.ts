@@ -351,7 +351,7 @@ export const tableTdRecipe = recipe({
 						tablet: 'medium',
 					},
 					paddingX: {
-						mobile: 'large',
+						mobile: 'medium',
 						tablet: 'medium',
 					},
 				}),

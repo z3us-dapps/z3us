@@ -17,12 +17,12 @@ interface IProps {
 
 const messages = defineMessages({
 	title: {
-		id: '2oCaym',
-		defaultMessage: 'Are you sure?',
+		id: 'KUFMiM',
+		defaultMessage: 'Revoke access',
 	},
 	description: {
-		id: 'MiHksB',
-		defaultMessage: 'Are you sure you want to revoke {dappName} access ?',
+		id: 'NcTNMr',
+		defaultMessage: 'Are you sure you want to revoke {dappName} access?',
 	},
 	button_text: {
 		id: 'tnRDuU',
@@ -55,11 +55,7 @@ const DeleteDappModal: React.FC<IProps> = ({ address, onClose }) => {
 		<DialogAlert
 			open={!!address}
 			title={intl.formatMessage(messages.title)}
-			description={
-				<Box component="span">
-					<Text truncate>{intl.formatMessage(messages.description, { dappName })}</Text>?
-				</Box>
-			}
+			description={<Text truncate>{intl.formatMessage(messages.description, { dappName })}</Text>}
 			confirmButtonText={intl.formatMessage(messages.button_text)}
 			onCancel={onClose}
 			onConfirm={handleConfirm}

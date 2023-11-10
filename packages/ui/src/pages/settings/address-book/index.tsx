@@ -22,8 +22,9 @@ const messages = defineMessages({
 		defaultMessage: 'Address book',
 	},
 	subtitle: {
-		id: 'jFy5q1',
-		defaultMessage: `Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control`,
+		id: 'wo97Qy',
+		defaultMessage:
+			'Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions.',
 	},
 	new_address: {
 		id: 'klknry',

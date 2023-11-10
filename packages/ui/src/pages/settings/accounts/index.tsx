@@ -33,9 +33,8 @@ const messages = defineMessages({
 		defaultMessage: 'Account',
 	},
 	account_subtitle: {
-		id: 'aSaSNs',
-		defaultMessage:
-			'Select account from the dropdown menu, and adjust color scheme and background image for the account card',
+		id: 'n1cwSp',
+		defaultMessage: 'Adjust color and background image for the account card',
 	},
 	account_label: {
 		id: 'lmrABY',
@@ -107,7 +106,9 @@ const Accounts: React.FC = () => {
 						<Text size="large" weight="strong" color="strong">
 							{intl.formatMessage(messages.account_title)}
 						</Text>
-						<Text size="small">{intl.formatMessage(messages.account_subtitle)}</Text>
+						<Box paddingRight="small">
+							<Text size="small">{intl.formatMessage(messages.account_subtitle)}</Text>
+						</Box>
 					</>
 				}
 				rightCol={

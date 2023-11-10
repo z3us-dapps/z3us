@@ -67,7 +67,7 @@ export const alertDialogContent = style([
 export const alertDialogDescriptionWrapper = style([
 	sprinkles({
 		paddingTop: {
-			mobile: 'small',
+			mobile: 'xsmall',
 			tablet: 'small',
 		},
 	}),
@@ -80,7 +80,7 @@ export const alertDialogFooterWrapper = style([
 		justifyContent: 'flex-end',
 		gap: 'medium',
 		paddingTop: {
-			mobile: 'small',
+			mobile: 'medium',
 			tablet: 'large',
 		},
 	}),

@@ -9,19 +9,20 @@ import { Button } from 'ui/src/components/router-button'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import { useZdtState } from '../../hooks/zdt/use-zdt'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	password_placeholder: {
-		id: '5sg7KC',
-		defaultMessage: 'Password',
+		id: '2LbrkB',
+		defaultMessage: 'Enter password',
 	},
 	unlock_error: {
 		id: 'uyz8/R',
 		defaultMessage: 'Incorrect password!',
 	},
 	form_button_title: {
-		id: 'K7AkdL',
-		defaultMessage: 'Show',
+		id: 'fxvXUy',
+		defaultMessage: 'Reveal',
 	},
 })
 
@@ -59,7 +60,7 @@ export const WalletSecretForm: React.FC<IProps> = ({ onUnlock }) => {
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues}>
 			<ValidationErrorMessage message={error} />
-			<Box>
+			<Box className={styles.formInputWrapper}>
 				<TextField
 					ref={inputRef}
 					isPassword
@@ -69,7 +70,9 @@ export const WalletSecretForm: React.FC<IProps> = ({ onUnlock }) => {
 				/>
 			</Box>
 			<SubmitButton>
-				<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title)}</Button>
+				<Button fullWidth sizeVariant="large">
+					{intl.formatMessage(messages.form_button_title)}
+				</Button>
 			</SubmitButton>
 		</Form>
 	)
