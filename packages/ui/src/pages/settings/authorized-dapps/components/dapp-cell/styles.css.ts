@@ -1,12 +1,20 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const addressTableCellWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		alignItems: 'center',
+		flexDirection: {
+			mobile: 'column',
+			tablet: 'row',
+		},
+		alignItems: {
+			mobile: 'self-start',
+			tablet: 'center',
+		},
 		flexShrink: 0,
 		gap: 'medium',
 		maxWidth: 'full',
@@ -21,19 +29,24 @@ export const addressTableCellTextWrapper = style([
 		flexDirection: 'column',
 		justifyContent: 'center',
 		gap: 'small',
+		width: 'full',
 	}),
 	{
-		width: '20%',
 		minWidth: 0,
 	},
+	responsiveStyle({
+		tablet: { width: '20%' },
+	}),
 ])
 
 export const addressTableCellAddressWrapper = style([
-	sprinkles({
-		flexGrow: 1,
-		flexShrink: 1,
+	sprinkles({}),
+	{},
+	responsiveStyle({
+		tablet: {
+			width: 'auto',
+			flexGrow: 1,
+			flexShrink: 1,
+		},
 	}),
-	{
-		width: 'auto',
-	},
 ])

@@ -4,7 +4,6 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { EditIcon, TrashIcon } from 'ui/src/components/icons'
-import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import type { Persona } from 'ui/src/store/types'
 
