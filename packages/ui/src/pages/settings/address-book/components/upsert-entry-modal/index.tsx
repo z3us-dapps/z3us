@@ -34,16 +34,16 @@ const messages = defineMessages({
 		defaultMessage: 'Name',
 	},
 	name_placeholder: {
-		id: 'NLhDX5',
-		defaultMessage: 'Insert name...',
+		id: 'XI8UhQ',
+		defaultMessage: 'Insert name',
 	},
 	address: {
 		id: 'e6Ph5+',
 		defaultMessage: 'Address',
 	},
 	address_placeholder: {
-		id: 'kqwapE',
-		defaultMessage: 'Insert address...',
+		id: 'VrQ5VV',
+		defaultMessage: 'Insert address',
 	},
 	cancel: {
 		id: '47FYwb',

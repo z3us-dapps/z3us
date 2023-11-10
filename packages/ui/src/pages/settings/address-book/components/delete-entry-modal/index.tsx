@@ -16,12 +16,12 @@ interface IProps {
 
 const messages = defineMessages({
 	title: {
-		id: '2oCaym',
-		defaultMessage: 'Are you sure?',
+		id: '74xz0X',
+		defaultMessage: 'Delete address',
 	},
 	description: {
-		id: 'rXL8Sm',
-		defaultMessage: 'Are you sure you want to delete {address} from address book ?',
+		id: '2tBfaP',
+		defaultMessage: 'Are you sure you want to delete {address} from address book?',
 	},
 	button_text: {
 		id: 'K3r6DQ',
@@ -54,7 +54,7 @@ const DeleteAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 			title={intl.formatMessage(messages.title)}
 			description={
 				<Box component="span">
-					<Text truncate>{intl.formatMessage(messages.description, { address: getShortAddress(address) })}</Text>?
+					<Text truncate>{intl.formatMessage(messages.description, { address: getShortAddress(address) })}</Text>
 				</Box>
 			}
 			confirmButtonText={intl.formatMessage(messages.button_text)}

@@ -16,12 +16,12 @@ interface IProps {
 
 const messages = defineMessages({
 	title: {
-		id: '2oCaym',
-		defaultMessage: 'Are you sure?',
+		id: 'IipetU',
+		defaultMessage: 'Delete persona',
 	},
 	description: {
-		id: 'by7orh',
-		defaultMessage: 'Are you sure you want to delete {identityAddress} from wallet ?',
+		id: 'sKyGsm',
+		defaultMessage: 'Are you sure you want to delete {identityAddress} from wallet?',
 	},
 	button_text: {
 		id: 'K3r6DQ',
@@ -57,7 +57,6 @@ const DeletePersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 					<Text truncate>
 						{intl.formatMessage(messages.description, { identityAddress: getShortAddress(identityAddress) })}
 					</Text>
-					?
 				</Box>
 			}
 			confirmButtonText={intl.formatMessage(messages.button_text)}

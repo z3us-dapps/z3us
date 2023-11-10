@@ -4,7 +4,6 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { EditIcon, TrashIcon } from 'ui/src/components/icons'
-import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import type { AddressBookEntry } from 'ui/src/store/types'
 
@@ -32,7 +31,6 @@ export const AddressTableCell: React.FC<IProps> = ({ row, onDelete, onEdit }) =>
 
 	return (
 		<Box key={row.original.address} className={styles.addressTableCellWrapper}>
-			<ResourceImageIcon address={row.original.address} />
 			<Box className={styles.addressTableCellTextWrapper}>
 				<Text size="small" color="strong" weight="medium" truncate>
 					{row.original.name}
