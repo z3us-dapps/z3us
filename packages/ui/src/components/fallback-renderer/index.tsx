@@ -4,6 +4,7 @@ import { useNavigate, useRouteError } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
+import { LayoutCenterCard } from 'ui/src/components/layout/layout-center-card'
 import { Text } from 'ui/src/components/typography'
 
 import { Button } from '../button'
@@ -33,27 +34,27 @@ export const FallbackRenderer: React.FC<IProps> = ({ error }) => {
 	}
 
 	return (
-		<Box className={styles.fallbackRendererWrapper}>
-			<Box display="flex" alignItems="center" gap="small">
-				<Text size="xsmall" color="strong">
-					{intl.formatMessage(messages.title)}
-				</Text>
-				<Text size="xsmall" color="strong">
+		<LayoutCenterCard>
+			<Text size="large" color="strong">
+				{intl.formatMessage(messages.title)}
+			</Text>
+			<Box paddingTop="large">
+				<Text size="xsmall">
 					<pre>{error.message}</pre>
 				</Text>
+			</Box>
+			<Box marginTop="large">
 				<Button fullWidth styleVariant="primary" sizeVariant="xlarge" onClick={handleButtonClick}>
 					{intl.formatMessage(messages.title)}
 				</Button>
 			</Box>
-		</Box>
+		</LayoutCenterCard>
 	)
 }
 
 export const FallbackLoading: React.FC = () => (
 	<Box className={styles.fallbackLoadingWrapper}>
-		<Box display="flex" color="colorNeutral" alignItems="center" justifyContent="center">
-			<LoadingBarsIcon />
-		</Box>
+		<LoadingBarsIcon />
 	</Box>
 )
 
