@@ -131,14 +131,23 @@ export const transferActionAddSourceWrapper = style([
 		borderTop: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
-		paddingTop: 'large',
-		marginTop: 'medium',
+
 		marginBottom: {
 			mobile: 'small',
 			tablet: 'medium',
 		},
 	}),
 	{},
+	responsiveStyle({
+		mobile: {
+			marginTop: '6px',
+			paddingTop: '18px',
+		},
+		tablet: {
+			marginTop: '12px',
+			paddingTop: '22px',
+		},
+	}),
 ])
 
 export const transferActionTokensNftsAddButton = style([
