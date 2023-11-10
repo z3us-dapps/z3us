@@ -6,6 +6,7 @@ export const addressTableCellWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
+		alignItems: 'center',
 		flexShrink: 0,
 		gap: 'medium',
 	}),
