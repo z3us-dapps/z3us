@@ -90,6 +90,8 @@ export const Transaction = () => {
 	const isTransactionVisible = !!transactionId
 
 	const { data, isLoading } = useTransaction(transactionId)
+	// {"type":"Plaintext","content":{"type":"String","value":"test"},"mime_type":"text/plain"}
+	const message = (data?.transaction.message as any)?.content?.value
 
 	const navigateBack = () => {
 		searchParams.delete('tx')
@@ -241,11 +243,15 @@ export const Transaction = () => {
 								))}
 							</Box>
 
-							<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.message_title)} rightData={null} />
+							{message && (
+								<>
+									<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.message_title)} rightData={null} />
 
-							<Box paddingY="xsmall">
-								<Code content="message here" className={styles.transactionMessageWrapper} />
-							</Box>
+									<Box paddingY="xsmall">
+										<Code content={message} className={styles.transactionMessageWrapper} />
+									</Box>
+								</>
+							)}
 
 							<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.manifest)} rightData={null} />
 
