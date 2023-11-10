@@ -200,7 +200,6 @@ const General: React.FC = () => {
 				}
 			/>
 			<SettingsBlock
-				isBottomBorderVisible={false}
 				leftCol={
 					<>
 						<Text size="large" weight="strong" color="strong">

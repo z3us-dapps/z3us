@@ -13,8 +13,8 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	password_placeholder: {
-		id: '5sg7KC',
-		defaultMessage: 'Password',
+		id: '2LbrkB',
+		defaultMessage: 'Enter password',
 	},
 	unlock_error: {
 		id: 'uyz8/R',

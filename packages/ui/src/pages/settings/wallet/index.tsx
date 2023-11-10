@@ -38,7 +38,7 @@ const messages = defineMessages({
 	},
 	secret_subtitle: {
 		id: 'Ya7CkP',
-		defaultMessage: `Show seed phrase or extended private key`,
+		defaultMessage: 'Show seed phrase or extended private key',
 	},
 	remove_title: {
 		id: '2P7Gje',
@@ -52,7 +52,11 @@ const messages = defineMessages({
 		id: 'k76I/W',
 		defaultMessage: 'Delete wallet',
 	},
-	remove_confirm: {
+	remove_confirm_title: {
+		id: 'k76I/W',
+		defaultMessage: 'Delete wallet',
+	},
+	remove_confirm_sub_title: {
 		id: '1fXPQ6',
 		defaultMessage: 'Are you sure you want to delete wallet?',
 	},
@@ -79,7 +83,8 @@ const General: React.FC = () => {
 
 	const handleRemoveWallet = async () => {
 		const password = await confirm({
-			content: intl.formatMessage(messages.remove_confirm),
+			title: intl.formatMessage(messages.remove_confirm_title),
+			content: intl.formatMessage(messages.remove_confirm_sub_title),
 			buttonTitle: intl.formatMessage(messages.remove),
 		})
 		await removeSecret(password)
