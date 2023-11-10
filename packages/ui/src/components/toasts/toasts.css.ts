@@ -11,7 +11,7 @@ export const toastsWrapper = style([
 		selectors: {
 			'&[data-styled="true"]': {
 				border: '0px solid',
-				background: vars.color.bleached_silk400,
+				background: vars.color.bleached_silk100,
 				color: vars.color.lead400,
 				boxShadow: vars.color.shadowDropdown,
 			},
@@ -23,7 +23,7 @@ export const toastsWrapper = style([
 			},
 			'&[data-styled="true"][data-type=success]': {
 				border: '0px solid',
-				background: vars.color.bleached_silk400,
+				background: vars.color.bleached_silk100,
 				color: vars.color.lead400,
 				boxShadow: vars.color.shadowDropdown,
 			},
@@ -35,7 +35,7 @@ export const toastsWrapper = style([
 			},
 			'&[data-styled="true"][data-type=error]': {
 				border: '0px solid',
-				background: vars.color.bleached_silk400,
+				background: vars.color.bleached_silk100,
 				color: vars.color.lead400,
 				boxShadow: vars.color.shadowDropdown,
 			},
@@ -58,7 +58,7 @@ globalStyle(`${toastsWrapper}[data-styled="true"][data-type=error] [data-icon] s
 })
 
 globalStyle(`${toastsWrapper}[data-styled="true"] [data-close-button]`, {
-	background: `${vars.color.bleached_silk400} !important`,
+	background: `${vars.color.bleached_silk100} !important`,
 	color: `${vars.color.lead400} !important`,
 	border: `none !important`,
 	boxShadow: vars.color.shadowDropdown,
@@ -69,4 +69,14 @@ globalStyle(`.${darkMode} ${toastsWrapper}[data-styled="true"] [data-close-butto
 	color: `${vars.color.bleached_silk500} !important`,
 	border: `none !important`,
 	boxShadow: vars.color.shadowDropdown,
+})
+
+globalStyle(`.${darkMode} ${toastsWrapper}[data-styled="true"] [data-button]`, {
+	background: `${vars.color.lead500} !important`,
+	color: `${vars.color.bleached_silk800} !important`,
+})
+
+globalStyle(`${toastsWrapper}[data-styled="true"] [data-button]`, {
+	background: `${vars.color.bleached_silk500} !important`,
+	color: `${vars.color.lead200} !important`,
 })

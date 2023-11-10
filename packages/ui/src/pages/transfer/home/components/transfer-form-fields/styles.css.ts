@@ -113,14 +113,13 @@ export const transferActionTrashButtonWrapper = style([
 export const transferActionAddButtonWrapper = style([
 	sprinkles({}),
 	{},
-
 	responsiveStyle({
 		mobile: {
 			marginTop: '8px',
 			marginBottom: '12px',
 		},
 		tablet: {
-			marginTop: '20px',
+			marginTop: '12px',
 			marginBottom: '12px',
 		},
 	}),
@@ -131,14 +130,23 @@ export const transferActionAddSourceWrapper = style([
 		borderTop: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
-		paddingTop: 'large',
-		marginTop: 'medium',
+
 		marginBottom: {
 			mobile: 'small',
 			tablet: 'medium',
 		},
 	}),
 	{},
+	responsiveStyle({
+		mobile: {
+			marginTop: '6px',
+			paddingTop: '18px',
+		},
+		tablet: {
+			marginTop: '10px',
+			paddingTop: '22px',
+		},
+	}),
 ])
 
 export const transferActionTokensNftsAddButton = style([

@@ -59,10 +59,11 @@ export const textWrapper = style([
 	sprinkles({}),
 	{
 		fontFamily: vars.fonts.code,
-		whiteSpace: 'pre',
 		wordWrap: 'break-word',
 	},
 ])
+
+export const textWrapperWhiteSpacePre = style([{ whiteSpace: 'pre' }])
 
 export const copyButton = style([
 	sprinkles({

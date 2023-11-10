@@ -18,9 +18,10 @@ interface SProps {
 	className?: string
 	onChange?: (e: React.ChangeEvent<HTMLDivElement>) => void
 	style?: React.CSSProperties
+	isHorizontalScrollEnabled?: boolean
 }
 
-const Code: React.FC<SProps> = ({ className, content, style, onChange }) => {
+const Code: React.FC<SProps> = ({ className, content, style, isHorizontalScrollEnabled = true, onChange }) => {
 	const isContentEditable = !!onChange
 
 	return (
@@ -35,7 +36,10 @@ const Code: React.FC<SProps> = ({ className, content, style, onChange }) => {
 						onInput={onChange}
 						className={styles.scrollViewPortWrapper}
 					>
-						<Text size="xxsmall" className={styles.textWrapper}>
+						<Text
+							size="xxsmall"
+							className={clsx(styles.textWrapper, isHorizontalScrollEnabled && styles.textWrapperWhiteSpacePre)}
+						>
 							<CopyAddressButton
 								className={styles.copyButton}
 								styleVariant="ghost"
@@ -49,9 +53,11 @@ const Code: React.FC<SProps> = ({ className, content, style, onChange }) => {
 							{content}
 						</Text>
 					</ScrollAreaViewport>
-					<ScrollAreaScrollbar orientation="horizontal">
-						<ScrollAreaThumb />
-					</ScrollAreaScrollbar>
+					{isHorizontalScrollEnabled && (
+						<ScrollAreaScrollbar orientation="horizontal">
+							<ScrollAreaThumb />
+						</ScrollAreaScrollbar>
+					)}
 				</ScrollAreaRoot>
 			</Box>
 		</Box>

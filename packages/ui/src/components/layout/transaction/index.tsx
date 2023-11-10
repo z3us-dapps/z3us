@@ -247,7 +247,11 @@ export const Transaction = () => {
 								<>
 									<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.message_title)} rightData={null} />
 									<Box paddingY="xsmall">
-										<Code content={message} className={styles.transactionMessageWrapper} />
+										<Code
+											content={message}
+											className={styles.transactionMessageWrapper}
+											isHorizontalScrollEnabled={false}
+										/>
 									</Box>
 								</>
 							)}
