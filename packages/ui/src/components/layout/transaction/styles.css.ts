@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const transactionInfoWrapper = style([
 	sprinkles({
@@ -72,4 +73,16 @@ export const transactionDetailsWrapper = style([
 		},
 	}),
 	{},
+])
+
+export const transactionMessageWrapper = style([
+	sprinkles({
+		width: 'full',
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { height: '60px' },
+		tablet: { height: '100px' },
+	}),
 ])

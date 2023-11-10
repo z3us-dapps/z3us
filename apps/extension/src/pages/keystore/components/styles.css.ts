@@ -75,7 +75,7 @@ export const keystoreInnerWrapper = style([
 		},
 		paddingBottom: {
 			mobile: 'none',
-			tablet: 'xxlarge',
+			tablet: 'xxxlarge',
 		},
 	}),
 	{},
