@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -11,6 +12,10 @@ import type { ApprovedDapps } from 'ui/src/store/types'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
+	table_cell_dapp_title: {
+		id: 'YjOAs/',
+		defaultMessage: 'dApp',
+	},
 	persona: {
 		id: 'JGu6zs',
 		defaultMessage: 'Persona',
@@ -36,18 +41,27 @@ export const DappCell: React.FC<IProps> = ({ row, onDelete }) => {
 	return (
 		<Box key={row.original.address} className={styles.addressTableCellWrapper}>
 			<Box className={styles.addressTableCellTextWrapper}>
+				<Text size="xxsmall" weight="medium" truncate>
+					{intl.formatMessage(messages.table_cell_dapp_title)}
+				</Text>
 				<AccountSnippet address={row.original.address} />
 			</Box>
-			<Text size="small" weight="medium" color="strong">
-				{intl.formatMessage(messages.persona)}
+			<Box className={styles.addressTableCellTextWrapper}>
+				<Text size="xxsmall" weight="medium" truncate>
+					{intl.formatMessage(messages.persona)}
+				</Text>
 				<AccountSnippet address={row.original.persona} />
-			</Text>
-			<Text size="small" weight="medium" color="strong">
-				{intl.formatMessage(messages.accounts)}
-				{row.original.accounts.map(account => (
-					<AccountSnippet key={account} address={account} />
-				))}
-			</Text>
+			</Box>
+			<Box className={clsx(styles.addressTableCellTextWrapper, styles.addressTableCellAddressWrapper)}>
+				<Text size="xxsmall" weight="medium" truncate>
+					{intl.formatMessage(messages.accounts)}
+				</Text>
+				<Text size="xxsmall" weight="medium" truncate>
+					{row.original.accounts.map(account => (
+						<AccountSnippet key={account} address={account} />
+					))}
+				</Text>
+			</Box>
 			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<TrashIcon />} onClick={onDelete}>
 				{intl.formatMessage(messages.delete)}
 			</Button>

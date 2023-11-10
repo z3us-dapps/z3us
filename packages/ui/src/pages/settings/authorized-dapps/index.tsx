@@ -19,8 +19,8 @@ const messages = defineMessages({
 		defaultMessage: 'Authorized dApps',
 	},
 	subtitle: {
-		id: 'JjhY5a',
-		defaultMessage: `This are the dApps that you have logged into.`,
+		id: 'Oo+KOv',
+		defaultMessage: `Authorized dApps that you have logged into.`,
 	},
 })
 
@@ -66,9 +66,7 @@ const AuthorizedDapps: React.FC = () => {
 		<>
 			<SettingsWrapper>
 				<SettingsTitle title={intl.formatMessage(messages.title)} subTitle={intl.formatMessage(messages.subtitle)} />
-				<Box display="flex" flexDirection="column" gap="small">
-					<Table data={approvedDapps} onDelete={handleDeleteAddress} />
-				</Box>
+				<Table data={approvedDapps} onDelete={handleDeleteAddress} />
 			</SettingsWrapper>
 			<DeleteDappModal address={state.deleting} onClose={handleCloseDeleteAddress} />
 		</>
