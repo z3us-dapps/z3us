@@ -1,3 +1,4 @@
+import { useSharedStore } from 'packages/ui/src/hooks/use-store'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
@@ -33,6 +34,10 @@ export const Home: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 
+	const { keystores } = useSharedStore(state => ({
+		keystores: state.keystores,
+	}))
+
 	const handleNew = () => {
 		navigate('/keystore/new/seed')
 	}
@@ -44,10 +49,11 @@ export const Home: React.FC = () => {
 	return (
 		<Box className={styles.keystoreHomeStyleWrapper}>
 			<Box width="full">
-				{/* TODO: this needs to show only if user has a wallet */}
-				<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
-					<ArrowLeftIcon />
-				</Button>
+				{keystores.length > 0 && (
+					<Button onClick={() => navigate(-1)} styleVariant="ghost" sizeVariant="small" iconOnly>
+						<ArrowLeftIcon />
+					</Button>
+				)}
 				<Box display="flex" width="full" justifyContent="center" paddingY="large" position="relative">
 					<Z3usLogoLarge />
 				</Box>
