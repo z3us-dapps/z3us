@@ -18,16 +18,12 @@ async function loadTranslation(locale: LOCALE) {
 			return import('@src/locales/zh.json')
 		case 'es':
 			return import('@src/locales/es.json')
-		case 'hi':
-			return import('@src/locales/hi.json')
 		case 'ru':
 			return import('@src/locales/ru.json')
 		case 'ar':
 			return import('@src/locales/ar.json')
 		case 'pt':
 			return import('@src/locales/pt.json')
-		case 'ms':
-			return import('@src/locales/ms.json')
 		case 'fr':
 			return import('@src/locales/fr.json')
 		case 'de':
