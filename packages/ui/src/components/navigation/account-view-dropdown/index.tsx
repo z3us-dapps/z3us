@@ -40,6 +40,7 @@ import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { useTheme } from 'ui/src/hooks/use-theme'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
+import { AddAccountDialog } from 'ui/src/pages/accounts/components/layout/components/add-account-dialog'
 import { KeystoreType } from 'ui/src/store/types'
 import { Theme } from 'ui/src/types'
 
@@ -55,8 +56,12 @@ const messages = defineMessages({
 		defaultMessage: 'Wallet',
 	},
 	wallet_add: {
-		id: 'VLEYHl',
-		defaultMessage: 'Add wallet...',
+		id: 'l+w/kG',
+		defaultMessage: 'Add wallet',
+	},
+	wallet_add_account: {
+		id: 'qJcduu',
+		defaultMessage: 'Add account',
 	},
 	wallet_export: {
 		id: 'CyAOW2',
@@ -228,6 +233,27 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 														</Text>
 													</Box>
 												</DropdownMenuItem>
+
+												<AddAccountDialog
+													dialogTrigger={
+														<Box>
+															<DropdownMenuItem
+																onSelect={e => {
+																	e.preventDefault()
+																}}
+															>
+																<DropdownMenuLeftSlot>
+																	<PlusIcon />
+																</DropdownMenuLeftSlot>
+																<Box display="flex" marginLeft="small">
+																	<Text size="xsmall" truncate>
+																		{intl.formatMessage(messages.wallet_add_account)}
+																	</Text>
+																</Box>
+															</DropdownMenuItem>
+														</Box>
+													}
+												/>
 											</Box>
 											<DropdownMenuSeparator />
 										</>

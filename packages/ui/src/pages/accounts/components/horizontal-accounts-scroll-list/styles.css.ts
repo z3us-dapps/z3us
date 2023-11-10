@@ -2,6 +2,17 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
+export const accountsAddAccountButton = style([
+	sprinkles({
+		position: 'absolute',
+	}),
+	{
+		top: '-120px',
+		right: '14px',
+		zIndex: 2,
+	},
+])
+
 export const accountsHorizontalWrapper = style([
 	sprinkles({
 		position: 'relative',

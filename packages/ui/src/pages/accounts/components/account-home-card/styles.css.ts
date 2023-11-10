@@ -7,7 +7,6 @@ export const accountsHomeHorizontalCard = style([
 		flexShrink: 0,
 		position: 'relative',
 		overflow: 'hidden',
-		boxShadow: 'shadowDropdown',
 		borderRadius: 'xlarge',
 		cursor: 'pointer',
 	}),
