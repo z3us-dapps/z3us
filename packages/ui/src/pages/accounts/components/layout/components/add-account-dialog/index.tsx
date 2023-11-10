@@ -36,11 +36,13 @@ const messages = defineMessages({
 })
 
 interface IProps {
-	dialogTrigger: React.ReactElement
+	dialogTrigger?: React.ReactElement
+	open?: boolean
+	onClose?: () => void
 }
 
 export const AddAccountDialog: React.FC<IProps> = props => {
-	const { dialogTrigger } = props
+	const { dialogTrigger, open, onClose } = props
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const { isWallet, buildNewAccountKeyParts } = useZdtState()
@@ -71,7 +73,7 @@ export const AddAccountDialog: React.FC<IProps> = props => {
 	if (!isWallet || keystore?.type === KeystoreType.RADIX_WALLET) return null
 
 	return (
-		<Dialog width="large" className={styles.addAccountDialog} trigger={dialogTrigger}>
+		<Dialog width="large" className={styles.addAccountDialog} trigger={dialogTrigger} open={open} onClose={onClose}>
 			<Box className={styles.addAccountDialogContentWrapper}>
 				<Box className={styles.addAccountDialogHeader}>
 					<Box className={styles.addAccountDialogTitleWrapper}>
