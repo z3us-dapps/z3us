@@ -15,6 +15,7 @@ import { Box } from 'ui/src/components/box'
 import { Check2Icon } from 'ui/src/components/icons'
 import { Link, Text } from 'ui/src/components/typography'
 
+import { DownloadButton } from './components/download-button'
 // import AppPage from '../app-page'
 import { HeroTextSvg } from './components/hero-text-svg'
 import * as styles from './styles.css'
@@ -97,31 +98,7 @@ export const IndexPage: React.FC = () => (
 								</Text>
 							</Box>
 							<Box>
-								{/* TODO: make component that detects firefox also */}
-								<NextButton
-									rounded
-									sizeVariant="xlarge"
-									styleVariant="primary"
-									to="https://chrome.google.com/webstore/detail/z3us/icpikagpkkbldbfjlbefnmmmcohbjije"
-									target="_blank"
-									leftIcon={
-										<Box className={styles.landingCalloutButtonIcon}>
-											<Image
-												priority
-												src="/landing-page-2023/google-chrome-logo.png"
-												width={20}
-												height={20}
-												alt="Chrome logo"
-											/>
-										</Box>
-									}
-								>
-									<Box paddingRight="small">
-										<Text color="strong" weight="strong" size="large">
-											Download for chrome
-										</Text>
-									</Box>
-								</NextButton>
+								<DownloadButton />
 							</Box>
 						</Box>
 					</Box>
