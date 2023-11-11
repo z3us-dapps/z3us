@@ -131,7 +131,9 @@ export const Raw: React.FC = () => {
 				</Box>
 			</Box>
 			<SubmitButton>
-				<Button sizeVariant="large">{intl.formatMessage(messages.button_submit)}</Button>
+				<Button fullWidth sizeVariant="large">
+					{intl.formatMessage(messages.button_submit)}
+				</Button>
 			</SubmitButton>
 		</Form>
 	)

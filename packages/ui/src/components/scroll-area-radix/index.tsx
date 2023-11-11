@@ -68,6 +68,7 @@ export interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 	showScrollUpButton?: boolean
 	roundedScrollArea?: boolean
 	overrideScrollParent?: HTMLElement | null
+	scrollTopBehavior?: 'smooth' | 'auto' | 'instant'
 }
 
 export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = props => {
@@ -82,6 +83,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = pr
 		showBottomScrollShadow = true,
 		showScrollUpButton = true,
 		roundedScrollArea = false,
+		scrollTopBehavior = 'smooth',
 		...rest
 	} = props
 
@@ -132,7 +134,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = pr
 	const handleUpButtonClick = useCallback(() => {
 		scrollParent.scrollTo({
 			top: 0,
-			behavior: 'smooth',
+			behavior: scrollTopBehavior as any,
 		})
 	}, [scrollParent])
 

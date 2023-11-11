@@ -5,12 +5,10 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
-import { ChevronDown3Icon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
-import { Input } from 'ui/src/components/input'
+import { ChevronDown3Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
@@ -149,7 +147,8 @@ export const MobileScrollingButtons: React.FC = () => {
 						<ChevronDown3Icon />
 					</Button>
 				</Box>
-				<Box className={styles.searchWrapper}>
+				{/* TODO: search  */}
+				{/* <Box className={styles.searchWrapper}>
 					<Input
 						sizeVariant="small"
 						styleVariant="secondary"
@@ -175,7 +174,7 @@ export const MobileScrollingButtons: React.FC = () => {
 						rightIconClassName={styles.inputSearchClearBtn}
 						onChange={() => {}}
 					/>
-				</Box>
+				</Box> */}
 			</Box>
 		</Box>
 	)

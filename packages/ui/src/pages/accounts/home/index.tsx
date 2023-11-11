@@ -29,7 +29,7 @@ const Home: React.FC = () => {
 	const isAllAccounts = useIsAllAccounts()
 	const [wrapperRef, { width: horizontalScrollWidth, top }] = useMeasure()
 	const { height } = useWindowSize()
-	const mobileMinHeight = Math.max(height - top - 48, 385)
+	const mobileMinHeight = Math.max(height - top - 48, 435)
 	const accountName = accounts?.[accountId]?.name
 
 	return (
