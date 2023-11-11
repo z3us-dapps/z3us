@@ -143,7 +143,8 @@ export const IndexPage: React.FC = () => (
 						</Text>
 						<Text size="large" color="strong">
 							Access your existing Radix wallets seamlessly alongside newly created Z3US wallets, simplifying asset
-							consolidation and management. Say goodbye to platform hopping – Z3US keeps your crypto world unified.
+							consolidation and management. Say goodbye to platform hopping – Z3US keeps your crypto experience unified
+							and seamless.
 						</Text>
 					</Box>
 					<Box className={styles.landingHeroExperienceImageWrapper}>
@@ -185,11 +186,11 @@ export const IndexPage: React.FC = () => (
 								ALl-in-one
 							</Text>
 							<Text size="xxxxlarge" color="strong" weight="stronger">
-								Send. Receive. Stake.
+								Send. Receive. Sign.
 							</Text>
 							<Text size="large" color="strong">
-								Flawless essentials and powerful features. With the added functionality of group transactions, sending
-								assets becomes even more convenient.
+								Flawless essentials and powerful features. With the added functionality of group transactions and
+								detailed asset and transaction insights.
 							</Text>
 						</Box>
 					</Box>
