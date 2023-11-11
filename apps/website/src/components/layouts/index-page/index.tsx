@@ -545,7 +545,10 @@ export const IndexPage: React.FC = () => (
 					{/* END: MULTI-WALLET */}
 
 					{/* START: SWEAT DETAILS GRID */}
-					<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
+					<Box
+						className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}
+						style={{ display: 'none' }}
+					>
 						<Box className={styles.landingDetailsGridWrapper}>
 							<Box className={styles.landingDetailsGridHeader}>
 								<Text

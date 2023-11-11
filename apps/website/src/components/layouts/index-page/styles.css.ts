@@ -645,13 +645,14 @@ export const landingHeroCalloutRoundedLargeImg = style([
 export const landingHeroExperienceImageWrapper = style([
 	sprinkles({
 		display: 'flex',
-		justifyContent: 'space-between',
+		justifyContent: 'center',
+		gap: 'xlarge',
 		alignItems: 'self-start',
 	}),
 	{},
 	responsiveStyle({
 		mobile: { marginTop: '20px' },
-		tablet: { marginTop: '30px' },
+		tablet: { marginTop: '30px', paddingBottom: '40px' },
 		desktop: { marginTop: '40px' },
 	}),
 ])
@@ -667,11 +668,14 @@ export const landingHeroExperienceImageOne = style([
 
 export const landingHeroExperienceImageTwo = style([
 	sprinkles({}),
-	{},
-	responsiveStyle({
-		mobile: { display: 'none' },
-		desktop: { display: 'block' },
-	}),
+	{
+		display: 'none',
+		'@media': {
+			'screen and (min-width: 1200px)': {
+				display: 'block',
+			},
+		},
+	},
 ])
 
 export const landingHeroSendReceiveStakeWrapper = style([
