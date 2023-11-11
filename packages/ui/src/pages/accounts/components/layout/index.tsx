@@ -63,6 +63,7 @@ const ScrollContent: React.FC = () => {
 					showTopScrollShadow={false}
 					scrollParent={isMobile ? scrollableNode : undefined}
 					disabled={isMobile && !resourceId}
+					scrollTopBehavior="instant"
 				>
 					<Box className={panelViewStyles.panelViewRightScrollWrapper}>
 						<Suspense key={location.pathname} fallback={<FallbackLoading />}>
