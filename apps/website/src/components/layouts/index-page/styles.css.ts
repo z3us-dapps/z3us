@@ -441,6 +441,9 @@ export const landingDetailsGridWrapper = style([
 	sprinkles({
 		position: 'relative',
 		width: 'full',
+		paddingBottom: {
+			tablet: 'xxxxlarge',
+		},
 	}),
 	{},
 	responsiveStyle({
