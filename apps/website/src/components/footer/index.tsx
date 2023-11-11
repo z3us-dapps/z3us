@@ -8,6 +8,7 @@ import clsx from 'clsx'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { type IButtonProps } from 'ui/src/components/button'
 // import { Button } from 'ui/src/components/button'
 // import { MoonIcon } from 'ui/src/components/icons/moon-icon'
 // import { SunIcon } from 'ui/src/components/icons/sun-icon'
@@ -20,10 +21,11 @@ import * as styles from './styles.css'
 
 interface IProps {
 	textColor?: TextProps['color']
+	buttonStyleVariant?: IButtonProps['styleVariant']
 }
 
 export const Footer: React.FC<IProps> = props => {
-	const { textColor = 'neutral' } = props
+	const { textColor = 'neutral', buttonStyleVariant = 'primary' } = props
 	// const { setTheme, theme, resolvedTheme } = useTheme()
 
 	// const isDarkTheme = resolvedTheme === 'dark'
@@ -76,7 +78,7 @@ export const Footer: React.FC<IProps> = props => {
 								<NextButton
 									rounded
 									sizeVariant="small"
-									styleVariant="primary"
+									styleVariant={buttonStyleVariant}
 									iconOnly
 									to="https://t.me/z3us_dapps"
 									target="_blank"
@@ -88,7 +90,7 @@ export const Footer: React.FC<IProps> = props => {
 								<NextButton
 									rounded
 									sizeVariant="small"
-									styleVariant="primary"
+									styleVariant={buttonStyleVariant}
 									iconOnly
 									to="https://twitter.com/z3us_dapps"
 									target="_blank"
@@ -100,7 +102,7 @@ export const Footer: React.FC<IProps> = props => {
 								<NextButton
 									rounded
 									sizeVariant="small"
-									styleVariant="primary"
+									styleVariant={buttonStyleVariant}
 									iconOnly
 									to="https://github.com/z3us-dapps/z3us"
 									target="_blank"
