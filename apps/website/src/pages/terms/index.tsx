@@ -31,7 +31,7 @@ export const getStaticProps = () => {
 
 	return {
 		props: {
-			message: 'TERMS This page is rendered on the server!',
+			title: 'Terms page',
 			doc,
 		},
 	}

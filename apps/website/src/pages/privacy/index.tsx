@@ -1,30 +1,38 @@
-/* eslint-disable */
-import NextLink from 'next/link'
+import { TextPage } from '@/components/layouts/text-page'
+import { allDocs } from 'contentlayer/generated'
 import React from 'react'
 
-export default function Settings(props: any) {
-	const { pageSeo } = props
+interface DocPageProps {
+	params: {
+		slug: string[]
+	}
+}
 
-	return (
-		<div>
-			<p>
-				hello, this is the settings
-				<br />
-				<span style={{ color: 'red' }}>{pageSeo.test}</span>
-			</p>
-			<NextLink href="/">Home</NextLink>
-		</div>
-	)
+function getDocFromParams({ params }: DocPageProps) {
+	const slug = params.slug?.join('/') || ''
+	const doc = allDocs.find(_doc => _doc.slugAsParams === slug)
+
+	if (!doc) {
+		return null
+	}
+
+	return doc
+}
+
+// eslint-disable-next-line react/function-component-definition
+export default function TermsPage(props: { doc: any }) {
+	const { doc } = props
+
+	return <TextPage mdxCode={doc.body.code} />
 }
 
 export const getStaticProps = () => {
-	const pageSeo = {
-		test: 'hello from settings',
-	}
+	const doc = getDocFromParams({ params: { slug: ['privacy'] } })
 
 	return {
 		props: {
-			pageSeo,
+			title: 'Terms page',
+			doc,
 		},
 	}
 }
