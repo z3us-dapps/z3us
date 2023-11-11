@@ -78,7 +78,7 @@ export const transferFormMessageTextArea = style([
 	{},
 	responsiveStyle({
 		mobile: {
-			minHeight: '90px',
+			minHeight: '70px',
 		},
 		tablet: {
 			minHeight: '70px',
