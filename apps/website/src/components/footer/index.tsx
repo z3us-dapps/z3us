@@ -9,11 +9,9 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 // import { Button } from 'ui/src/components/button'
-import { GithubIcon } from 'ui/src/components/icons/github-icon'
 // import { MoonIcon } from 'ui/src/components/icons/moon-icon'
 // import { SunIcon } from 'ui/src/components/icons/sun-icon'
-import { TelegramIcon } from 'ui/src/components/icons/telegram-icon'
-import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
+import { GithubIcon, TelegramIcon, XIcon } from 'ui/src/components/icons'
 // import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Text, { type TextProps } from 'ui/src/components/typography/text'
@@ -45,13 +43,19 @@ export const Footer: React.FC<IProps> = props => {
 				Terms
 			</NextLink>
 			<Box>&middot;</Box>
-			<NextLink size="small" href="/terms" underline="hover" color={textColor}>
+			<NextLink
+				size="small"
+				href="https://z3us-dapps.featureos.app"
+				underline="hover"
+				color={textColor}
+				target="_blank"
+			>
 				Support
 			</NextLink>
-			<Box>&middot;</Box>
-			<NextLink size="small" href="/terms" underline="hover" color={textColor}>
+			{/* <Box>&middot;</Box> */}
+			{/* <NextLink size="small" href="/terms" underline="hover" color={textColor}>
 				FAQ
-			</NextLink>
+			</NextLink> */}
 		</>
 	)
 
@@ -69,7 +73,7 @@ export const Footer: React.FC<IProps> = props => {
 					<Box className={styles.footerRightWrapper}>
 						<Box className={styles.tabletLinks}>{pageLinks}</Box>
 						<Box display="flex" gap="xsmall">
-							<ToolTip message="telegram">
+							<ToolTip message="Telegram">
 								<NextButton
 									rounded
 									sizeVariant="small"
@@ -81,7 +85,7 @@ export const Footer: React.FC<IProps> = props => {
 									<TelegramIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="twitter">
+							<ToolTip message="Z3US on X">
 								<NextButton
 									rounded
 									sizeVariant="small"
@@ -90,10 +94,10 @@ export const Footer: React.FC<IProps> = props => {
 									to="https://twitter.com/z3us_dapps"
 									target="_blank"
 								>
-									<TwitterIcon />
+									<XIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="github">
+							<ToolTip message="Github">
 								<NextButton
 									rounded
 									sizeVariant="small"

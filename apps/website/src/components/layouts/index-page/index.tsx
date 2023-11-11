@@ -564,7 +564,7 @@ export const IndexPage: React.FC = () => (
 					{/* END: SWEAT DETAILS GRID */}
 				</ContentContainer>
 			</Box>
-			<Box className={styles.landingPageInvadersWrapper} style={{ display: 'none' }}>
+			<Box className={styles.landingPageInvadersWrapper}>
 				<Box className={styles.landingPageInvadersInnerWrapper}>
 					<Image
 						priority
@@ -576,7 +576,7 @@ export const IndexPage: React.FC = () => (
 				</Box>
 			</Box>
 		</Box>
-		<Box className={clsx(styles.landingPagePurpleWrapper, styles.landingPageFooterWrapper)} style={{ display: 'none' }}>
+		<Box className={clsx(styles.landingPagePurpleWrapper, styles.landingPageFooterWrapper)}>
 			<Footer textColor="strong" />
 		</Box>
 	</Box>
