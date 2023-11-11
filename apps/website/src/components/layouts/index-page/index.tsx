@@ -6,19 +6,20 @@ import { NextButton } from '@/components/next-button'
 // import NextLink from 'next/link'
 // import { NextLink } from '@/components/next-link'
 import clsx from 'clsx'
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
 import Image from 'next/image'
 // import { title } from 'process'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Check2Icon } from 'ui/src/components/icons'
-import { Text } from 'ui/src/components/typography'
+import { Link, Text } from 'ui/src/components/typography'
 
+// import AppPage from '../app-page'
 import { HeroTextSvg } from './components/hero-text-svg'
 import * as styles from './styles.css'
 
-const AppPage = dynamic(() => import('../app-page'), { ssr: false })
+// const AppPage = dynamic(() => import('../app-page'), { ssr: false })
 
 const GRID_DETAILS = {
 	easy_ux: {
@@ -50,48 +51,58 @@ const GRID_DETAILS = {
 export const IndexPage: React.FC = () => (
 	<Box className={styles.landingPageWrapper}>
 		<Box style={{ position: 'fixed', top: '0', left: 0, right: '0', opacity: 0.0, pointerEvents: 'none' }}>
-			<AppPage />
+			{/* <AppPage /> */}
 		</Box>
 		<Header />
 		<Box className={styles.landingPageBodyWrapper}>
 			<Box className={styles.landingPageDarkWrapper}>
 				<ContentContainer>
-					<Box className={styles.landingPageLargeImgFloatBottom}>
-						<Image
-							priority
-							src="/landing-page-2023/zeus-golden-apple.png"
-							width={1440}
-							height={1119}
-							alt="Chrome logo"
-						/>
-					</Box>
-					<Box className={styles.landingPageLargeImgFloatLeft}>
-						<Image priority src="/landing-page-2023/hero-angel-left.png" width={786} height={1222} alt="Chrome logo" />
-					</Box>
-					<Box className={styles.landingPageLargeImgFloatRight}>
-						<Image priority src="/landing-page-2023/hero-angel-right.png" width={710} height={474} alt="Chrome logo" />
-					</Box>
+					<Image
+						priority
+						src="/landing-page-2023/bg-left.png"
+						width={786}
+						height={1222}
+						alt="angel left"
+						className={styles.landingPageLargeImgFloatLeft}
+					/>
+					<Image
+						priority
+						src="/landing-page-2023/bg-right.png"
+						width={710}
+						height={474}
+						alt="angel right"
+						className={styles.landingPageLargeImgFloatRight}
+					/>
 					<Box className={styles.landingHeroTextWrapper}>
 						<HeroTextSvg />
 					</Box>
 					<Box className={styles.landingCalloutFlexWrapper}>
 						<Box className={styles.landingCalloutTextWrapper}>
 							<Box>
-								<Text size="xlarge" color="strong" weight="medium">
-									Z3US is your home on Radix. <br />
+								<Text size="xlarge" color="strong" weight="strong" className={styles.landingCalloutText}>
+									Z3US wallet is your home on Radix. <br />
 								</Text>
-								<Text size="xlarge" color="strong" weight="medium">
-									Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps from
-									Z3US, the best browser wallet.
+								<Text size="xlarge" color="strong" className={styles.landingCalloutText}>
+									Manage accounts, send and receive tokens, manage multiple wallets and connect to DApps from Z3US, the
+									premier browser wallet on{' '}
+									<Link
+										size="xlarge"
+										color="strong"
+										href="https://www.radixdlt.com/"
+										className={styles.landingCalloutText}
+									>
+										Radix DLT
+									</Link>
+									.
 								</Text>
 							</Box>
 							<Box>
+								{/* TODO: make component that detects firefox also */}
 								<NextButton
 									rounded
 									sizeVariant="xlarge"
 									styleVariant="primary"
-									// iconOnly
-									to="https://t.me/z3us_dapps"
+									to="https://chrome.google.com/webstore/detail/z3us/icpikagpkkbldbfjlbefnmmmcohbjije"
 									target="_blank"
 									leftIcon={
 										<Box className={styles.landingCalloutButtonIcon}>
@@ -105,7 +116,11 @@ export const IndexPage: React.FC = () => (
 										</Box>
 									}
 								>
-									Download for chrome
+									<Box paddingRight="small">
+										<Text color="strong" weight="strong" size="large">
+											Download for chrome
+										</Text>
+									</Box>
 								</NextButton>
 							</Box>
 						</Box>
@@ -113,27 +128,27 @@ export const IndexPage: React.FC = () => (
 					<Box>
 						<Image
 							priority
-							src="/landing-page-2023/hero-product.png"
+							src="/landing-page-2023/desktop-product.jpg"
 							width={1160}
-							height={740}
-							alt="Vanilla Extract logo"
-							className={styles.landingHeroCalloutImg}
+							height={784}
+							alt="Z3US product desktop"
+							className={clsx(styles.landingHeroCalloutImg, styles.landingPageHeroImage)}
 						/>
 					</Box>
 				</ContentContainer>
 			</Box>
-			<Box className={styles.landingPageInvadersWrapper}>
+			<Box className={clsx(styles.landingPageInvadersWrapper, styles.landingPageInvadersHeroWrapper)}>
 				<Box className={styles.landingPageInvadersInnerWrapper}>
 					<Image
 						priority
 						src="/landing-page-2023/purple-invaders-horizontal-bg.png"
 						width={1440}
 						height={244}
-						alt="Vanilla Extract logo"
+						alt="purple pattern"
 					/>
 				</Box>
 			</Box>
-			<Box className={styles.landingPagePurpleWrapper}>
+			<Box className={clsx(styles.landingPagePurpleWrapper, styles.landingPageBelowFeatureWrapper)}>
 				<ContentContainer>
 					<Box className={styles.landingLeftHeroTextWrapper}>
 						<Text
@@ -161,7 +176,11 @@ export const IndexPage: React.FC = () => (
 							width={760}
 							height={726}
 							alt="Vanilla Extract logo"
-							className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							className={clsx(
+								styles.landingHeroCalloutImg,
+								styles.landingHeroCalloutRoundedImg,
+								styles.landingHeroExperienceImageOne,
+							)}
 						/>
 						<Image
 							priority
@@ -169,27 +188,33 @@ export const IndexPage: React.FC = () => (
 							width={360}
 							height={926}
 							alt="Vanilla Extract logo"
-							className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							className={clsx(
+								styles.landingHeroCalloutImg,
+								styles.landingHeroCalloutRoundedImg,
+								styles.landingHeroExperienceImageTwo,
+							)}
 						/>
 					</Box>
-					<Box className={styles.landingLeftHeroTextWrapper}>
-						<Text
-							component="h4"
-							capitalize
-							size="large"
-							weight="stronger"
-							color="strong"
-							className={styles.landingTextOpacity50}
-						>
-							ALl-in-one
-						</Text>
-						<Text size="xxxxlarge" color="strong" weight="stronger">
-							Send. Receive. Stake.
-						</Text>
-						<Text size="large" color="strong">
-							Flawless essentials and powerful features. With the added functionality of group transactions, sending
-							assets becomes even more convenient.
-						</Text>
+					<Box className={styles.landingLeftAllInTextWrapper}>
+						<Box className={clsx(styles.landingLeftHeroTextWrapper)}>
+							<Text
+								component="h4"
+								capitalize
+								size="large"
+								weight="stronger"
+								color="strong"
+								className={styles.landingTextOpacity50}
+							>
+								ALl-in-one
+							</Text>
+							<Text size="xxxxlarge" color="strong" weight="stronger">
+								Send. Receive. Stake.
+							</Text>
+							<Text size="large" color="strong">
+								Flawless essentials and powerful features. With the added functionality of group transactions, sending
+								assets becomes even more convenient.
+							</Text>
+						</Box>
 					</Box>
 					<Box className={styles.landingHeroSendReceiveStakeWrapper}>
 						<Image
@@ -198,7 +223,11 @@ export const IndexPage: React.FC = () => (
 							width={360}
 							height={600}
 							alt="Vanilla Extract logo"
-							className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							className={clsx(
+								styles.landingHeroCalloutImg,
+								styles.landingHeroCalloutRoundedLargeImg,
+								styles.landingHeroSendReceiveStakeImg,
+							)}
 						/>
 						<Image
 							priority
@@ -206,7 +235,12 @@ export const IndexPage: React.FC = () => (
 							width={360}
 							height={529}
 							alt="Vanilla Extract logo"
-							className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							className={clsx(
+								styles.landingHeroCalloutImg,
+								styles.landingHeroCalloutRoundedLargeImg,
+								styles.landingHeroSendReceiveStakeImg,
+								styles.landingHeroImgMobileHidden,
+							)}
 						/>
 						<Image
 							priority
@@ -214,7 +248,12 @@ export const IndexPage: React.FC = () => (
 							width={360}
 							height={600}
 							alt="Vanilla Extract logo"
-							className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							className={clsx(
+								styles.landingHeroCalloutImg,
+								styles.landingHeroCalloutRoundedLargeImg,
+								styles.landingHeroSendReceiveStakeImg,
+								styles.landingHeroImgMobileHidden,
+							)}
 						/>
 					</Box>
 				</ContentContainer>
@@ -226,11 +265,11 @@ export const IndexPage: React.FC = () => (
 						src="/landing-page-2023/purple-invaders-horizontal-bg.png"
 						width={1440}
 						height={244}
-						alt="Vanilla Extract logo"
+						alt="purple pattern"
 					/>
 				</Box>
 			</Box>
-			<Box className={styles.landingPageDarkWrapper}>
+			<Box className={styles.landingPageDarkWrapper} style={{ display: 'none' }}>
 				<ContentContainer>
 					{/* START: MAKE IT YOUR OWN */}
 					<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
@@ -525,7 +564,7 @@ export const IndexPage: React.FC = () => (
 					{/* END: SWEAT DETAILS GRID */}
 				</ContentContainer>
 			</Box>
-			<Box className={styles.landingPageInvadersWrapper}>
+			<Box className={styles.landingPageInvadersWrapper} style={{ display: 'none' }}>
 				<Box className={styles.landingPageInvadersInnerWrapper}>
 					<Image
 						priority
@@ -537,7 +576,7 @@ export const IndexPage: React.FC = () => (
 				</Box>
 			</Box>
 		</Box>
-		<Box className={clsx(styles.landingPagePurpleWrapper, styles.landingPageFooterWrapper)}>
+		<Box className={clsx(styles.landingPagePurpleWrapper, styles.landingPageFooterWrapper)} style={{ display: 'none' }}>
 			<Footer textColor="strong" />
 		</Box>
 	</Box>
@@ -545,6 +584,7 @@ export const IndexPage: React.FC = () => (
 
 export const IndexPageTest: React.FC = () => (
 	<Box className={styles.landingPageWrapper}>
-		<AppPage />
+		{/* <AppPage /> */}
+		<IndexPage />
 	</Box>
 )

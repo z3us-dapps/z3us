@@ -15,7 +15,10 @@ export const headerWrapper = style([
 
 export const headerTextLinks = style([
 	sprinkles({
-		display: 'flex',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 		alignItems: 'center',
 		gap: 'large',
 		paddingRight: 'large',
@@ -34,17 +37,6 @@ export const headerSocialLinks = style([
 	},
 ])
 
-// export const landingPageHeaderWrapper = style([
-// 	sprinkles({
-// 		position: 'relative',
-// 		borderBottom: 1,
-// 		borderBottomStyle: 'solid',
-// 		borderColor: 'lead800',
-// 	}),
-// 	{},
-// ])
-
-// TODO: inner shadow border
 export const headerWrapperBorderColor = style([
 	sprinkles({
 		borderColor: {
@@ -148,9 +140,8 @@ export const landingPageHeaderInnerWrapper = style([
 	}),
 	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
+		mobile: { height: '58px' },
 		tablet: { height: '72px' },
-		// desktop: { width: '25%' },
 	}),
 ])
 

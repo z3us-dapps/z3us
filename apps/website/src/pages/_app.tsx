@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@/context/theme-provider'
 import '@/styles/global-style.css'
-// import { displayValue } from '@tanstack/react-query-devtools/build/lib/utils'
 import type { AppProps } from 'next/app'
 import React, { useEffect, useState } from 'react'
 

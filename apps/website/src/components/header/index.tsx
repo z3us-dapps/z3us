@@ -27,15 +27,22 @@ export const Header = () => {
 					</NextLink>
 					<Box className={styles.landingPageHeaderMenuWrapper}>
 						<Box className={styles.headerTextLinks}>
-							<NextLink href="/" underline="hover">
+							<NextLink
+								href="https://z3us-dapps.featureos.app"
+								underline="hover"
+								target="_blank"
+								weight="medium"
+								size="small"
+							>
 								Support
 							</NextLink>
-							<NextLink href="/" underline="hover">
+							{/* TODO: FAQ coming soon */}
+							{/* <NextLink href="/" underline="hover">
 								Faq
-							</NextLink>
+							</NextLink> */}
 						</Box>
 						<Box className={styles.headerSocialLinks}>
-							<ToolTip message="telegram">
+							<ToolTip message="Telegram">
 								<NextButton
 									rounded
 									sizeVariant="small"
@@ -47,7 +54,7 @@ export const Header = () => {
 									<TelegramIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="X">
+							<ToolTip message="Z3US on X">
 								<NextButton
 									rounded
 									sizeVariant="small"
@@ -59,7 +66,7 @@ export const Header = () => {
 									<XIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="github">
+							<ToolTip message="Github">
 								<NextButton
 									rounded
 									sizeVariant="small"
