@@ -15,18 +15,6 @@ export const footerWrapper = style([
 	{},
 ])
 
-export const footerBorderWrapper = style([
-	sprinkles({
-		borderTop: 1,
-		borderStyle: 'solid',
-		borderColor: {
-			lightMode: 'bleached_silk600',
-			darkMode: 'lead500',
-		},
-	}),
-	{},
-])
-
 export const footerInnerWrapper = style([
 	sprinkles({
 		position: 'relative',

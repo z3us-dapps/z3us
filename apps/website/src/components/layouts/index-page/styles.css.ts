@@ -113,10 +113,9 @@ export const landingPageInvadersHeroWrapper = style([
 	sprinkles({}),
 	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { paddingTop: '72px' },
-		tablet: { marginTop: '-180px' },
-		desktop: { marginTop: '-140px' },
+		mobile: { marginTop: '-80px' },
+		tablet: { marginTop: '0px' },
+		// desktop: { marginTop: '-100px' },
 	}),
 ])
 
@@ -235,7 +234,6 @@ export const landingFeaturePointBlockWrapper = style([
 		margin: '0 auto',
 		'@media': {
 			'screen and (min-width: 1200px)': {
-				border: '1px solid red',
 				flexDirection: 'row',
 				gap: vars.spacing.large,
 				marginTop: '120px',

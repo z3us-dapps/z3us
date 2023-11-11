@@ -19,12 +19,11 @@ import Text, { type TextProps } from 'ui/src/components/typography/text'
 import * as styles from './styles.css'
 
 interface IProps {
-	showTopBorder?: boolean
 	textColor?: TextProps['color']
 }
 
 export const Footer: React.FC<IProps> = props => {
-	const { showTopBorder = false, textColor = 'neutral' } = props
+	const { textColor = 'neutral' } = props
 	// const { setTheme, theme, resolvedTheme } = useTheme()
 
 	// const isDarkTheme = resolvedTheme === 'dark'
@@ -61,7 +60,7 @@ export const Footer: React.FC<IProps> = props => {
 
 	return (
 		<ContentContainer>
-			<Box className={clsx(styles.footerWrapper, showTopBorder && styles.footerBorderWrapper)}>
+			<Box className={clsx(styles.footerWrapper)}>
 				<Box className={styles.footerInnerWrapper}>
 					<Box className={styles.footerLeftWrapper}>
 						<Z3usLogoLink />
