@@ -221,35 +221,43 @@ export const landingLeftAllInTextWrapper = style([
 export const landingFeaturePointBlockWrapper = style([
 	sprinkles({
 		position: 'relative',
-		paddingY: 'xxlarge',
+		paddingY: {
+			mobile: 'xxlarge',
+			tablet: 'xxxlarge',
+		},
 		display: 'flex',
-		flexDirection: {
-			mobile: 'column',
-			tablet: 'row',
-		},
-		gap: {
-			mobile: 'xlarge',
-			tablet: 'large',
-		},
+		flexDirection: 'column',
+		gap: 'xlarge',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	}),
 	{
 		margin: '0 auto',
+		'@media': {
+			'screen and (min-width: 1200px)': {
+				border: '1px solid red',
+				flexDirection: 'row',
+				gap: vars.spacing.large,
+				marginTop: '120px',
+				paddingTop: '120px',
+				paddingBottom: '0px',
+				maxWidth: '1040px',
+			},
+		},
 	},
-	responsiveStyle({
-		tablet: { marginTop: '120px', paddingTop: '120px', paddingBottom: '0px', maxWidth: '1040px' },
-	}),
 ])
 
 export const landingFeaturePointMobileReverse = style([
 	sprinkles({
-		flexDirection: {
-			mobile: 'column-reverse',
-			tablet: 'row',
-		},
+		flexDirection: 'column-reverse',
 	}),
-	{},
+	{
+		'@media': {
+			'screen and (min-width: 1200px)': {
+				flexDirection: 'row',
+			},
+		},
+	},
 ])
 
 export const landingFeaturePointBlockBorder = style([
@@ -258,14 +266,7 @@ export const landingFeaturePointBlockBorder = style([
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
 	}),
-	{
-		// border: '1px solid red',
-	},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { paddingTop: '180px', paddingBottom: '180px' },
-		// desktop: { width: '25%' },
-	}),
+	{},
 ])
 
 export const landingFeaturePointBlock = style([
@@ -458,11 +459,6 @@ export const landingDetailsGridHeader = style([
 		width: 'full',
 	}),
 	{},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { marginTop: '118px', marginLeft: '60px' },
-		// desktop: { width: '25%' },
-	}),
 ])
 
 export const landingDetailsGridBoxWrapper = style([
@@ -476,6 +472,10 @@ export const landingDetailsGridBoxWrapper = style([
 			gridTemplateColumns: '1fr',
 		},
 		tablet: {
+			gap: vars.spacing.xlarge,
+			gridTemplateColumns: '1fr 1fr',
+		},
+		desktop: {
 			gap: vars.spacing.xxlarge,
 			gridTemplateColumns: '1fr 1fr 1fr',
 		},
