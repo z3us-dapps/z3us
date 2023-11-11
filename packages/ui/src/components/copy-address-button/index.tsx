@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
-import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Button, type TSizeVariant, type TStyleVariant } from 'ui/src/components/button'
@@ -14,13 +13,6 @@ import { copyTextToClipboard } from 'ui/src/utils/copy-to-clipboard'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './styles.css'
-
-const messages = defineMessages({
-	copied: {
-		id: 'p556q3',
-		defaultMessage: 'Copied',
-	},
-})
 
 const CopyIconAnimation = ({ animate, tickColor }: { animate: boolean; tickColor: TThemeColorKey }) => (
 	<Box className={styles.copiedAnimationWrapper}>
@@ -92,7 +84,6 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 		toolTipDisabled = false,
 	} = props
 
-	const intl = useIntl()
 	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
 
 	const handleAddressClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -125,23 +116,10 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 			>
 				{!iconOnly ? (
 					<Box position="relative">
-						<Box transition="slow" opacity={copiedAnimate ? 0 : 1}>
+						<Box>
 							<Text color="inherit" align="center" size={textSize} truncate>
 								{name ? <>{name} - </> : null}
 								{getShortAddress(address)}
-							</Text>
-						</Box>
-						<Box
-							transition="slow"
-							opacity={copiedAnimate ? 1 : 0}
-							position="absolute"
-							top={0}
-							width="full"
-							textAlign="center"
-							pointerEvents="none"
-						>
-							<Text capitalizeFirstLetter color="inherit" align="center">
-								{intl.formatMessage(messages.copied)}
 							</Text>
 						</Box>
 					</Box>
