@@ -84,7 +84,7 @@ export const IndexPage: React.FC = () => (
 								</Text>
 								<Text size="xlarge" color="strong" className={styles.landingCalloutText}>
 									Manage accounts, send and receive tokens, manage multiple wallets and connect to DApps from Z3US, the
-									premier browser wallet on{' '}
+									premier browser wallet for{' '}
 									<Link
 										size="xlarge"
 										color="strong"
@@ -269,7 +269,7 @@ export const IndexPage: React.FC = () => (
 					/>
 				</Box>
 			</Box>
-			<Box className={styles.landingPageDarkWrapper} style={{ display: 'none' }}>
+			<Box className={styles.landingPageDarkWrapper}>
 				<ContentContainer>
 					{/* START: MAKE IT YOUR OWN */}
 					<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
@@ -300,7 +300,7 @@ export const IndexPage: React.FC = () => (
 							</Box>
 						</Box>
 						<Box className={styles.landingFeaturePointImgBlock}>
-							<Box className={styles.landingMakeItYourOwnAccountsColumn}>
+							<Box className={clsx(styles.landingMakeItYourOwnAccountsColumn, styles.landingHeroImgMobileHidden)}>
 								<Image
 									priority
 									src="/landing-page-2023/make-it-your-own-card-01.png"
@@ -334,8 +334,9 @@ export const IndexPage: React.FC = () => (
 								alt="Vanilla Extract logo"
 								className={clsx(
 									styles.landingHeroCalloutImg,
-									styles.landingHeroCalloutRoundedImg,
 									styles.landingMakeItYourOwnImgLarge,
+									styles.landingFeaturePointImg,
+									styles.landingHeroCalloutRoundedLargeImg,
 								)}
 							/>
 						</Box>
@@ -343,7 +344,13 @@ export const IndexPage: React.FC = () => (
 					{/* END: MAKE IT YOUR OWN */}
 
 					{/* START: ADDRESS BOOK */}
-					<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
+					<Box
+						className={clsx(
+							styles.landingFeaturePointBlockWrapper,
+							styles.landingFeaturePointBlockBorder,
+							styles.landingFeaturePointMobileReverse,
+						)}
+					>
 						<Box className={styles.landingFeaturePointImgBlock}>
 							<Image
 								priority
@@ -353,7 +360,7 @@ export const IndexPage: React.FC = () => (
 								alt="Vanilla Extract logo"
 								className={clsx(
 									styles.landingHeroCalloutImg,
-									styles.landingHeroCalloutRoundedImg,
+									styles.landingHeroCalloutRoundedLargeImg,
 									styles.landingAddressBookImgOneLarge,
 								)}
 							/>
@@ -365,8 +372,9 @@ export const IndexPage: React.FC = () => (
 								alt="Vanilla Extract logo"
 								className={clsx(
 									styles.landingHeroCalloutImg,
-									styles.landingHeroCalloutRoundedImg,
+									styles.landingHeroCalloutRoundedLargeImg,
 									styles.landingAddressBookImgTwoLarge,
+									styles.landingHeroImgMobileHidden,
 								)}
 							/>
 						</Box>
@@ -443,7 +451,7 @@ export const IndexPage: React.FC = () => (
 								alt="Vanilla Extract logo"
 								className={clsx(
 									styles.landingHeroCalloutImg,
-									styles.landingHeroCalloutRoundedImg,
+									styles.landingHeroCalloutRoundedLargeImg,
 									styles.landingNftOneLarge,
 								)}
 							/>
@@ -455,8 +463,9 @@ export const IndexPage: React.FC = () => (
 								alt="Vanilla Extract logo"
 								className={clsx(
 									styles.landingHeroCalloutImg,
-									styles.landingHeroCalloutRoundedImg,
+									styles.landingHeroCalloutRoundedLargeImg,
 									styles.landingNftTwoLarge,
+									styles.landingHeroImgMobileHidden,
 								)}
 							/>
 						</Box>
@@ -464,7 +473,13 @@ export const IndexPage: React.FC = () => (
 					{/* END: UNVEILING NFT */}
 
 					{/* START: MULTI-WALLET */}
-					<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
+					<Box
+						className={clsx(
+							styles.landingFeaturePointBlockWrapper,
+							styles.landingFeaturePointBlockBorder,
+							styles.landingFeaturePointMobileReverse,
+						)}
+					>
 						<Box className={styles.landingFeaturePointImgBlock}>
 							<Image
 								priority
@@ -474,7 +489,7 @@ export const IndexPage: React.FC = () => (
 								alt="Vanilla Extract logo"
 								className={clsx(
 									styles.landingHeroCalloutImg,
-									styles.landingHeroCalloutRoundedImg,
+									styles.landingHeroCalloutRoundedLargeImg,
 									styles.landingMultiWalletImgOneLarge,
 								)}
 							/>
@@ -486,8 +501,9 @@ export const IndexPage: React.FC = () => (
 								alt="Vanilla Extract logo"
 								className={clsx(
 									styles.landingHeroCalloutImg,
-									styles.landingHeroCalloutRoundedImg,
+									styles.landingHeroCalloutRoundedLargeImg,
 									styles.landingMultiWalletImgTwoLarge,
+									styles.landingHeroImgMobileHidden,
 								)}
 							/>
 						</Box>

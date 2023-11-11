@@ -171,7 +171,6 @@ export const landingPageInvadersInnerWrapper = style([
 export const landingPagePurpleWrapper = style([
 	sprinkles({
 		position: 'relative',
-		// background: 'blue_magenta400',
 	}),
 	{
 		backgroundColor: '#7C4DFF',
@@ -224,19 +223,33 @@ export const landingFeaturePointBlockWrapper = style([
 		position: 'relative',
 		paddingY: 'xxlarge',
 		display: 'flex',
+		flexDirection: {
+			mobile: 'column',
+			tablet: 'row',
+		},
+		gap: {
+			mobile: 'xlarge',
+			tablet: 'large',
+		},
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		// background: 'blue_magenta400',
 	}),
 	{
-		// border: '1px solid red',
 		margin: '0 auto',
 	},
 	responsiveStyle({
-		// mobile: { width: '100%' },
 		tablet: { marginTop: '120px', paddingTop: '120px', paddingBottom: '0px', maxWidth: '1040px' },
-		// desktop: { width: '25%' },
 	}),
+])
+
+export const landingFeaturePointMobileReverse = style([
+	sprinkles({
+		flexDirection: {
+			mobile: 'column-reverse',
+			tablet: 'row',
+		},
+	}),
+	{},
 ])
 
 export const landingFeaturePointBlockBorder = style([
@@ -261,11 +274,8 @@ export const landingFeaturePointBlock = style([
 		display: 'flex',
 		flexDirection: 'column',
 		gap: 'medium',
-		// background: 'blue_magenta400',
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 	responsiveStyle({
 		// mobile: { width: '100%' },
 		tablet: { paddingTop: '0px', paddingBottom: '0px', maxWidth: '490px' },
@@ -298,6 +308,16 @@ export const landingFeaturePointImgBlock = style([
 		// mobile: { width: '100%' },
 		tablet: { paddingTop: '0px', paddingBottom: '0px', width: '490px' },
 		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingFeaturePointImg = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { maxWidth: '100%', height: 'auto' },
 	}),
 ])
 
@@ -341,7 +361,7 @@ export const landingAddressBookImgOneLarge = style([
 	}),
 	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
+		mobile: { maxWidth: '100%', height: 'auto' },
 		tablet: { marginLeft: '-70px', marginBottom: '120px' },
 		// desktop: { width: '25%' },
 	}),
@@ -368,7 +388,7 @@ export const landingNftOneLarge = style([
 		// border: '1px solid red',
 	},
 	responsiveStyle({
-		// mobile: { width: '100%' },
+		mobile: { maxWidth: '100%', height: 'auto' },
 		tablet: { marginBottom: '118px' },
 		// desktop: { width: '25%' },
 	}),
@@ -397,7 +417,7 @@ export const landingMultiWalletImgOneLarge = style([
 	}),
 	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
+		mobile: { maxWidth: '100%', height: 'auto' },
 		tablet: { marginLeft: '-70px', marginBottom: '160px' },
 		// desktop: { width: '25%' },
 	}),
@@ -451,9 +471,11 @@ export const landingDetailsGridBoxWrapper = style([
 	}),
 	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { marginTop: '118px', marginLeft: '60px' },
-		desktop: {
+		mobile: {
+			gap: vars.spacing.xlarge,
+			gridTemplateColumns: '1fr',
+		},
+		tablet: {
 			gap: vars.spacing.xxlarge,
 			gridTemplateColumns: '1fr 1fr 1fr',
 		},
@@ -462,10 +484,15 @@ export const landingDetailsGridBoxWrapper = style([
 
 export const landingDetailsGridTextWrapper = style([
 	sprinkles({
-		paddingTop: 'medium',
+		paddingTop: {
+			mobile: 'small',
+			tablet: 'medium',
+		},
 		display: 'flex',
 		flexDirection: 'column',
-		gap: 'xxsmall',
+		gap: {
+			tablet: 'xxsmall',
+		},
 	}),
 	{},
 	responsiveStyle({
@@ -481,7 +508,6 @@ export const landingDetailsGridTextWrapper = style([
 export const landingPageFooterWrapper = style([
 	sprinkles({
 		position: 'relative',
-		// background: 'blue_magenta400',
 	}),
 	{},
 	responsiveStyle({
@@ -691,7 +717,7 @@ export const landingHeroImgMobileHidden = style([
 	{},
 	responsiveStyle({
 		mobile: { display: 'none' },
-		tablet: { display: 'block' },
+		tablet: { display: 'flex' },
 	}),
 ])
 

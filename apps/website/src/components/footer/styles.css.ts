@@ -5,7 +5,9 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 export const footerWrapper = style([
 	sprinkles({
 		position: 'relative',
-		marginTop: 'xlarge',
+		marginTop: {
+			tablet: 'xlarge',
+		},
 		display: 'flex',
 		width: 'full',
 		justifyContent: 'center',
@@ -30,7 +32,11 @@ export const footerInnerWrapper = style([
 		position: 'relative',
 		width: 'full',
 		display: 'flex',
-		paddingY: {
+		paddingTop: {
+			mobile: 'none',
+			desktop: 'xlarge',
+		},
+		paddingBottom: {
 			mobile: 'large',
 			desktop: 'xlarge',
 		},
@@ -46,6 +52,10 @@ export const footerLeftWrapper = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',
+		justifyContent: {
+			mobile: 'center',
+			tablet: 'flex-start',
+		},
 		gap: 'medium',
 		flexGrow: 1,
 	}),
@@ -55,14 +65,16 @@ export const footerLeftWrapper = style([
 export const footerRightWrapper = style([
 	sprinkles({
 		display: 'flex',
-		gap: 'medium',
+		gap: {
+			tablet: 'medium',
+		},
 		alignItems: 'center',
 		paddingTop: {
 			mobile: 'large',
 			tablet: 'none',
 		},
 		justifyContent: {
-			mobile: 'flex-end',
+			mobile: 'center',
 			tablet: 'flex-start',
 		},
 		flexDirection: {
@@ -70,7 +82,6 @@ export const footerRightWrapper = style([
 			tablet: 'row',
 		},
 	}),
-	{},
 ])
 
 export const mobileLinks = style([
