@@ -1,22 +1,15 @@
 import { ContentContainer } from '@/components/content-container'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
-import { NextButton } from '@/components/next-button'
-// import LogoTest from '@/components/logo-test'
-// import NextLink from 'next/link'
-// import { NextLink } from '@/components/next-link'
 import clsx from 'clsx'
-// import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-// import { title } from 'process'
 import { Box } from 'ui/src/components/box'
 import { Check2Icon } from 'ui/src/components/icons'
 import { Link, Text } from 'ui/src/components/typography'
 
 import { DownloadButton } from '../download-button'
-// import AppPage from '../app-page'
 import { HeroTextSvg } from '../hero-text-svg'
 import * as styles from './styles.css'
 

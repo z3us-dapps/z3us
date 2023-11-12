@@ -93,7 +93,6 @@ export const Header = () => {
 								<Button
 									sizeVariant="medium"
 									styleVariant="secondary"
-									target="_blank"
 									leftIcon={<RadixIcon />}
 									onClick={handleClickWebsiteConnect}
 								>
