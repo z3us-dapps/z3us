@@ -55,8 +55,8 @@ const messages = defineMessages({
 		defaultMessage: 'Wallet',
 	},
 	wallet_add: {
-		id: 'VLEYHl',
-		defaultMessage: 'Add wallet...',
+		id: 'l+w/kG',
+		defaultMessage: 'Add wallet',
 	},
 	wallet_export: {
 		id: 'CyAOW2',
@@ -118,6 +118,9 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			selectKeystore: state.selectKeystoreAction,
 		}))
 
+		const keystoresLength = [...keystores]?.length
+		console.log('🚀 ~ file: index.tsx:99 ~ keystoresLength:', keystoresLength)
+
 		const [isSwitchingKeystore, setIsSwitchingKeystore] = useState<boolean>(false)
 
 		const handleSelectKeystore = async (id: string) => {
@@ -173,50 +176,60 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 													</Text>
 												</DropdownMenuLabel>
 
-												<DropdownMenuSub>
-													<DropdownMenuSubTrigger>
-														<DropdownMenuLeftSlot>
-															{keystore.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
-															{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-															{keystore.type === KeystoreType.LOCAL && <KeyIcon />}
-														</DropdownMenuLeftSlot>
-														<Box flexGrow={1} display="flex" marginLeft="small">
-															<Text size="xsmall" truncate>
-																{keystore.name}
-															</Text>
-														</Box>
-														<DropdownMenuRightSlot>
-															<ChevronRightIcon />
-														</DropdownMenuRightSlot>
-													</DropdownMenuSubTrigger>
-													<DropdownMenuPortal>
-														<DropdownMenuSubContent>
-															<DropdownMenuRadioGroup
-																disabled={isSwitchingKeystore}
-																value={keystore.id}
-																onValueChange={handleSelectKeystore}
-															>
-																{[...keystores]
-																	.sort((a, b) => weights[a.type] - weights[b.type])
-																	.map(k => (
-																		<DropdownMenuRadioItem key={k.id} value={k.id}>
-																			<DropdownMenuLeftSlot>
-																				{k.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
-																				{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-																				{k.type === KeystoreType.LOCAL && <KeyIcon />}
-																			</DropdownMenuLeftSlot>
-																			<Box flexGrow={1} marginLeft="small">
-																				<Text size="xsmall"> {k.name}</Text>
-																			</Box>
-																			<DropdownMenuItemIndicator>
-																				<CheckIcon />
-																			</DropdownMenuItemIndicator>
-																		</DropdownMenuRadioItem>
-																	))}
-															</DropdownMenuRadioGroup>
-														</DropdownMenuSubContent>
-													</DropdownMenuPortal>
-												</DropdownMenuSub>
+												{keystoresLength === 1 && (
+													<Box flexGrow={1} display="flex" marginLeft="small" paddingY="small">
+														<Text size="xsmall" truncate>
+															{keystore.name}
+														</Text>
+													</Box>
+												)}
+
+												{keystoresLength > 1 && (
+													<DropdownMenuSub>
+														<DropdownMenuSubTrigger>
+															<DropdownMenuLeftSlot>
+																{keystore.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
+																{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+																{keystore.type === KeystoreType.LOCAL && <KeyIcon />}
+															</DropdownMenuLeftSlot>
+															<Box flexGrow={1} display="flex" marginLeft="small">
+																<Text size="xsmall" truncate>
+																	{keystore.name}
+																</Text>
+															</Box>
+															<DropdownMenuRightSlot>
+																<ChevronRightIcon />
+															</DropdownMenuRightSlot>
+														</DropdownMenuSubTrigger>
+														<DropdownMenuPortal>
+															<DropdownMenuSubContent>
+																<DropdownMenuRadioGroup
+																	disabled={isSwitchingKeystore}
+																	value={keystore.id}
+																	onValueChange={handleSelectKeystore}
+																>
+																	{[...keystores]
+																		.sort((a, b) => weights[a.type] - weights[b.type])
+																		.map(k => (
+																			<DropdownMenuRadioItem key={k.id} value={k.id}>
+																				<DropdownMenuLeftSlot>
+																					{k.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
+																					{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+																					{k.type === KeystoreType.LOCAL && <KeyIcon />}
+																				</DropdownMenuLeftSlot>
+																				<Box flexGrow={1} marginLeft="small">
+																					<Text size="xsmall"> {k.name}</Text>
+																				</Box>
+																				<DropdownMenuItemIndicator>
+																					<CheckIcon />
+																				</DropdownMenuItemIndicator>
+																			</DropdownMenuRadioItem>
+																		))}
+																</DropdownMenuRadioGroup>
+															</DropdownMenuSubContent>
+														</DropdownMenuPortal>
+													</DropdownMenuSub>
+												)}
 
 												<DropdownMenuItem onSelect={handleAddNewWallet}>
 													<DropdownMenuLeftSlot>
