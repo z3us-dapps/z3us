@@ -117,9 +117,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			keystores: state.keystores,
 			selectKeystore: state.selectKeystoreAction,
 		}))
-
 		const keystoresLength = [...keystores]?.length
-		console.log('🚀 ~ file: index.tsx:99 ~ keystoresLength:', keystoresLength)
 
 		const [isSwitchingKeystore, setIsSwitchingKeystore] = useState<boolean>(false)
 
