@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom'
+import { RouterProvider, createHashRouter } from 'react-router-dom'
 
 import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
 import AppLayout from 'ui/src/components/layout'
@@ -24,10 +24,11 @@ export const router = createHashRouter([
 		element: <WebsiteLayout />,
 		errorElement: <RouterErrorBoundary />,
 		children: [
-			{
-				index: true,
-				element: <Navigate to={`/${accountsRoute.path}`} />,
-			},
+			// Note: we don't want the redirect for z3us.com
+			// {
+			// 	index: true,
+			// 	element: <Navigate to={`/${accountsRoute.path}`} />,
+			// },
 			{
 				element: <AppLayout />,
 				children: [accountsRoute, settingsRoute, stakingRoute, transferRoute],
