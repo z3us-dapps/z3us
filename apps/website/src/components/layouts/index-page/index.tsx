@@ -8,11 +8,18 @@ import { WebsiteDappContext, WebsiteDappContextProvider } from './website-dapp-c
 
 export const IndexPage: React.FC = () => {
 	const { isDappVisible, isDappReadyToPreload } = useContext(WebsiteDappContext)
-
 	const [Component, setComponent] = useState<any>(null)
+
+	// const loadComponent = async () => {
+	// 	const component = (await import('../app-page')).default
+	// 	setComponent(component)
+	// }
 
 	useEffect(() => {
 		if (isDappReadyToPreload) {
+			// TODO: loading using `loadComponent` will instantly preload, as opposed to using dynamic, but need to resolve error
+			// loadComponent()
+
 			setComponent(dynamic(() => import('../app-page')))
 		}
 	}, [isDappReadyToPreload])
