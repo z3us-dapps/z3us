@@ -10,13 +10,14 @@ export const IndexPage: React.FC = () => {
 	const { isDappVisible, isDappReadyToPreload } = useContext(WebsiteDappContext)
 	const [Component, setComponent] = useState<any>(null)
 
-	// const loadComponent = async () => {
-	// 	const component = (await import('../app-page')).default
-	// 	setComponent(component)
-	// }
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const loadComponent = async () => {
+		const component = (await import('../app-page')).default
+		setComponent(component)
+	}
 
 	useEffect(() => {
-		if (isDappReadyToPreload) {
+		if (isDappReadyToPreload || isDappVisible) {
 			// TODO: loading using `loadComponent` will instantly preload, as opposed to using dynamic, but need to resolve error
 			// loadComponent()
 
