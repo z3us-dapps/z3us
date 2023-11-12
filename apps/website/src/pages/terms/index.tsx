@@ -1,4 +1,5 @@
 import { TextPage } from '@/components/layouts/text-page'
+import { Meta } from '@/components/meta'
 import { allDocs } from 'contentlayer/generated'
 import React from 'react'
 
@@ -23,7 +24,16 @@ function getDocFromParams({ params }: DocPageProps) {
 export default function TermsPage(props: { doc: any }) {
 	const { doc } = props
 
-	return <TextPage mdxCode={doc.body.code} />
+	return (
+		<>
+			<Meta
+				title="Z3US: terms and conditions"
+				description="A community centered open source browser wallet for the Radix DLT network."
+				slug="terms"
+			/>
+			<TextPage mdxCode={doc.body.code} />
+		</>
+	)
 }
 
 export const getStaticProps = () => {
