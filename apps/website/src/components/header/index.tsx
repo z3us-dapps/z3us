@@ -2,7 +2,7 @@ import { ContentContainer } from '@/components/content-container'
 import { NextButton } from '@/components/next-button'
 import { NextLink } from '@/components/next-link'
 import { useRouter } from 'next/navigation'
-import React, { useContext } from 'react'
+import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -10,17 +10,12 @@ import { GithubIcon, RadixIcon, TelegramIcon, XIcon } from 'ui/src/components/ic
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 
-import { WebsiteDappContext } from '../layouts/index-page/website-dapp-context'
 import * as styles from './styles.css'
 
 export const Header = () => {
 	const router = useRouter()
 
-	const { setDappVisible } = useContext(WebsiteDappContext)
-
 	const handleClickWebsiteConnect = () => {
-		setDappVisible(true)
-
 		router.push('/#/accounts', { scroll: false })
 	}
 
