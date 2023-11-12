@@ -18,8 +18,6 @@ import transferRoute from 'ui/src/pages/transfer/router'
 import WebsiteLayout from './components/layout'
 import IntlProvider from './intl-provider'
 
-// import { LandingPage } from '../landing-page'
-
 export const router = createHashRouter([
 	{
 		path: '/',
@@ -32,20 +30,7 @@ export const router = createHashRouter([
 			},
 			{
 				element: <AppLayout />,
-				children: [
-					// {
-					// 	index: true,
-					// 	element: (
-					// 		<Suspense>
-					// 			<LandingPage />
-					// 		</Suspense>
-					// 	),
-					// },
-					accountsRoute,
-					settingsRoute,
-					stakingRoute,
-					transferRoute,
-				],
+				children: [accountsRoute, settingsRoute, stakingRoute, transferRoute],
 			},
 		],
 	},

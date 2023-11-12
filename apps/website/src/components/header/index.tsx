@@ -6,7 +6,7 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 // import { ConnectButton } from 'ui/src/components/connect-button'
-import { GithubIcon, TelegramIcon, XIcon } from 'ui/src/components/icons'
+import { GithubIcon, RadixIcon, TelegramIcon, XIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 
@@ -27,6 +27,15 @@ export const Header = () => {
 					</NextLink>
 					<Box className={styles.landingPageHeaderMenuWrapper}>
 						<Box className={styles.headerTextLinks}>
+							<NextLink
+								href="https://z3us-dapps.featureos.app"
+								underline="hover"
+								target="_blank"
+								weight="medium"
+								size="small"
+							>
+								Docs
+							</NextLink>
 							<NextLink
 								href="https://z3us-dapps.featureos.app"
 								underline="hover"
@@ -78,6 +87,17 @@ export const Header = () => {
 									<GithubIcon />
 								</NextButton>
 							</ToolTip>
+							<Box className={styles.headerConnectRadixWrapper}>
+								<NextButton
+									sizeVariant="medium"
+									styleVariant="secondary"
+									to="https://github.com/z3us-dapps/z3us"
+									target="_blank"
+									leftIcon={<RadixIcon />}
+								>
+									Connect
+								</NextButton>
+							</Box>
 						</Box>
 					</Box>
 				</Box>

@@ -165,6 +165,20 @@ export const landingPageHeaderMenuWrapper = style([
 	{},
 ])
 
+export const headerConnectRadixWrapper = style([
+	sprinkles({
+		paddingLeft: 'small',
+	}),
+	{},
+])
+
+globalStyle(`${headerConnectRadixWrapper} svg`, {
+	width: '18px',
+	height: 'auto',
+	marginTop: '2px',
+	marginRight: '6px',
+})
+
 globalStyle(`${landingHeaderZ3usLink} > div`, {
 	transition: vars.transition.fastall,
 })

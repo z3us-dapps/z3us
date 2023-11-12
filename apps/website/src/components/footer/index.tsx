@@ -51,6 +51,16 @@ export const Footer: React.FC<IProps> = props => {
 				color={textColor}
 				target="_blank"
 			>
+				Docs
+			</NextLink>
+			<Box>&middot;</Box>
+			<NextLink
+				size="small"
+				href="https://z3us-dapps.featureos.app"
+				underline="hover"
+				color={textColor}
+				target="_blank"
+			>
 				Support
 			</NextLink>
 			{/* <Box>&middot;</Box> */}
