@@ -170,7 +170,7 @@ const HeaderNavInner = () => {
 			{canGoBack ? (
 				<>
 					<Box className={styles.headerMobileHiddenWrapper}>
-						<Link to="/accounts">
+						<Link to="/">
 							<Z3usLogo />
 						</Link>
 					</Box>
@@ -200,7 +200,7 @@ const HeaderNavInner = () => {
 				</>
 			) : (
 				<>
-					<Link to="/accounts">
+					<Link to="/">
 						<Z3usLogo />
 					</Link>
 					<HeaderLavaMenu />
