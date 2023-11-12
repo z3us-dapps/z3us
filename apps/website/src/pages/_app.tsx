@@ -1,9 +1,11 @@
 import { ThemeProvider } from '@/context/theme-provider'
 import '@/styles/global-style.css'
-import type { AppProps } from 'next/app'
 import React, { useEffect, useState } from 'react'
 
-const App = ({ Component, pageProps }: AppProps) => {
+// TODO: fix type
+// import type { AppProps } from 'next/app'
+// const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps }: any) => {
 	const [isServer, setIsServer] = useState<boolean>(true)
 
 	// @NOTE: this is needed for react-router-dom integration
