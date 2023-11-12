@@ -9,12 +9,6 @@ import * as styles from './styles.css'
 
 /* eslint-disable */
 
-/* eslint-disable */
-
-/* eslint-disable */
-
-/* eslint-disable */
-
 const components = {
 	h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
 		<h1 className={clsx(styles.marginWrapper, styles.headingWrapper, className)} {...props} />
