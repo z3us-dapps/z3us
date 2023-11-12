@@ -118,6 +118,9 @@ const HeaderNavInner = () => {
 	const [isAddAccountModalOpen, setIsAddAccountModalOpen] = useState<boolean>(false)
 	const isAccountsPath = location?.pathname?.includes('/accounts')
 
+	// TODO: we want this to navigate to www.z3us.com on the website
+	const z3usLink = '/accounts'
+
 	const accountMenuItems = [
 		...[{ id: 'home', title: intl.formatMessage(messages.all) }],
 		...Object.values(accounts).map(({ address, name }) => ({
@@ -170,7 +173,7 @@ const HeaderNavInner = () => {
 			{canGoBack ? (
 				<>
 					<Box className={styles.headerMobileHiddenWrapper}>
-						<Link to="/">
+						<Link to={z3usLink}>
 							<Z3usLogo />
 						</Link>
 					</Box>
@@ -200,7 +203,7 @@ const HeaderNavInner = () => {
 				</>
 			) : (
 				<>
-					<Link to="/">
+					<Link to={z3usLink}>
 						<Z3usLogo />
 					</Link>
 					<HeaderLavaMenu />
