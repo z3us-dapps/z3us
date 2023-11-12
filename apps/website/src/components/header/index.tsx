@@ -1,24 +1,26 @@
 import { ContentContainer } from '@/components/content-container'
 import { NextButton } from '@/components/next-button'
 import { NextLink } from '@/components/next-link'
-import { clsx } from 'clsx'
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { Box } from 'ui/src/components/box'
-// import { ConnectButton } from 'ui/src/components/connect-button'
+import { Button } from 'ui/src/components/button'
 import { GithubIcon, RadixIcon, TelegramIcon, XIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 
+import { WebsiteDappContext } from '../layouts/index-page/website-dapp-context'
 import * as styles from './styles.css'
 
 export const Header = () => {
-	// const router = useRouter()
-	// const isConnected = useConnected()
-	const isConnected = false
+	const { setDappVisible } = useContext(WebsiteDappContext)
+
+	const handleClickWebsiteConnect = () => {
+		setDappVisible(true)
+	}
 
 	return (
-		<Box className={clsx(styles.headerWrapper, isConnected && styles.headerWrapperBorderColor)}>
+		<Box className={styles.headerWrapper}>
 			<ContentContainer>
 				<Box className={styles.landingPageHeaderInnerWrapper}>
 					<NextLink href="/" className={styles.landingHeaderZ3usLink}>
@@ -88,15 +90,15 @@ export const Header = () => {
 								</NextButton>
 							</ToolTip>
 							<Box className={styles.headerConnectRadixWrapper}>
-								<NextButton
+								<Button
 									sizeVariant="medium"
 									styleVariant="secondary"
-									to="https://github.com/z3us-dapps/z3us"
 									target="_blank"
 									leftIcon={<RadixIcon />}
+									onClick={handleClickWebsiteConnect}
 								>
 									Connect
-								</NextButton>
+								</Button>
 							</Box>
 						</Box>
 					</Box>

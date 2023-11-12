@@ -37,16 +37,6 @@ export const headerSocialLinks = style([
 	},
 ])
 
-export const headerWrapperBorderColor = style([
-	sprinkles({
-		borderColor: {
-			lightMode: 'bleached_silk600',
-			darkMode: 'lead500',
-		},
-	}),
-	{},
-])
-
 export const headerInnerWrapper = style([
 	sprinkles({
 		display: 'flex',
