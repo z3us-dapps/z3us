@@ -15,23 +15,34 @@ import * as styles from './styles.css'
 interface IAdapterProps extends Omit<IInputProps, 'onChange'> {
 	toolTipMessageKnownAddress?: string
 	isKnownAddressVisible?: boolean
+	exclude?: string
 	onChange?: (value: string) => void
 	hasError?: boolean
 }
 
 export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props, ref) => {
-	const { onChange, value, toolTipMessageKnownAddress, isKnownAddressVisible = true, hasError = false, ...rest } = props
+	const {
+		onChange,
+		value,
+		toolTipMessageKnownAddress,
+		isKnownAddressVisible = true,
+		hasError = false,
+		exclude,
+		...rest
+	} = props
 
 	const handleChange = (_value: string) => {
 		onChange(_value)
 	}
 
 	const addressBook = useAddressBook()
-	const allEntries = Object.values(addressBook).map(entry => ({
-		id: entry.address,
-		account: entry.address,
-		alias: entry.name,
-	}))
+	const allEntries = Object.values(addressBook)
+		.filter(entry => entry.address !== exclude)
+		.map(entry => ({
+			id: entry.address,
+			account: entry.address,
+			alias: entry.name,
+		}))
 
 	const strValue = useMemo(() => (value ? (value as string) : ''), [value])
 	const knownAddress = addressBook[strValue]?.name
