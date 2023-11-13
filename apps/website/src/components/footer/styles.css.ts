@@ -40,6 +40,10 @@ export const footerLeftWrapper = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',
+		flexDirection: {
+			mobile: 'column',
+			tablet: 'row',
+		},
 		justifyContent: {
 			mobile: 'center',
 			tablet: 'flex-start',

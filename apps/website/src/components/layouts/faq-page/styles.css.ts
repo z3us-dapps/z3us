@@ -174,11 +174,21 @@ export const faqAccordionTrigger = style([
 		paddingY: 'large',
 	}),
 	{
-		fontSize: '22px',
-		lineHeight: '30px',
 		fontWeight: '500',
 		outline: 'none',
 	},
+
+	responsiveStyle({
+		mobile: {
+			fontSize: '20px',
+			lineHeight: '28px',
+		},
+		tablet: {
+			fontSize: '22px',
+			lineHeight: '30px',
+		},
+		// desktop: { width: '25%' },
+	}),
 ])
 
 export const faqAccordionContentWrapper = style([
@@ -197,6 +207,12 @@ export const faqAccordionContentInnerWrapper = style([
 	}),
 	{},
 ])
+
+globalStyle(`${faqAccordionContentInnerWrapper} ul`, {
+	listStyle: 'square inside',
+	marginTop: '10px',
+	marginBottom: '10px',
+})
 
 export const faqAccordionArrowRight = style([
 	sprinkles({

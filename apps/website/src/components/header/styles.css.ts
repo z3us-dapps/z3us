@@ -158,6 +158,10 @@ export const landingPageHeaderMenuWrapper = style([
 export const headerConnectRadixWrapper = style([
 	sprinkles({
 		paddingLeft: 'small',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 	}),
 	{},
 ])
