@@ -44,7 +44,7 @@ export const Footer: React.FC<IProps> = props => {
 				Terms
 			</NextLink>
 			<Box>&middot;</Box>
-			<NextLink size="small" href="/faq" underline="hover" color={textColor} target="_blank">
+			<NextLink size="small" href="/faq" underline="hover" color={textColor}>
 				FAQ
 			</NextLink>
 			<Box>&middot;</Box>

@@ -29,7 +29,7 @@ export const Header = () => {
 					</NextLink>
 					<Box className={styles.landingPageHeaderMenuWrapper}>
 						<Box className={styles.headerTextLinks}>
-							<NextLink href="/faq" underline="hover" target="_blank" weight="medium" size="small">
+							<NextLink href="/faq" underline="hover" weight="medium" size="small">
 								FAQ
 							</NextLink>
 							<NextLink
@@ -90,7 +90,7 @@ export const Header = () => {
 									leftIcon={<RadixIcon />}
 									onClick={handleClickWebsiteConnect}
 								>
-									Launch dashboard
+									Launch
 								</Button>
 							</Box>
 						</Box>

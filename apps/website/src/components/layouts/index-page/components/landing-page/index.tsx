@@ -14,28 +14,16 @@ import { HeroTextSvg } from '../hero-text-svg'
 import * as styles from './styles.css'
 
 const GRID_DETAILS = {
+	fast: {
+		title: 'self custodial',
+		subTitle: 'your keys, your control',
+	},
 	easy_ux: {
-		title: 'Easy UX',
+		title: 'Open source communiy orientated',
 		subTitle: 'Easy UX',
 	},
 	secure: {
-		title: 'Easy UX',
-		subTitle: 'Easy UX',
-	},
-	fast: {
-		title: 'Easy UX',
-		subTitle: 'Easy UX',
-	},
-	address_book: {
-		title: 'Easy UX',
-		subTitle: 'Easy UX',
-	},
-	community: {
-		title: 'Easy UX',
-		subTitle: 'Easy UX',
-	},
-	light_dark_mode: {
-		title: 'Easy UX',
+		title: 'Secure with hardware ledger support',
 		subTitle: 'Easy UX',
 	},
 }
@@ -485,7 +473,7 @@ export const LandingPage: React.FC = () => (
 								Analytics
 							</Text>
 							<Text size="xxxxlarge" color="strong" weight="stronger">
-								Holistic multi-wallet insights
+								Multi-wallet and asset insights
 							</Text>
 							<Text size="large" color="strong">
 								Don&apos;t compromise clarity while managing multiple wallets. Z3US Analytics offers an intuitive
