@@ -26,7 +26,7 @@ export const useEntitiesDetails = (
 	const { state } = useGatewayClient()!
 
 	return useQuery({
-		queryKey: ['useEntitiesDetails', networkId, ...addresses],
+		queryKey: ['useEntitiesDetails', networkId, addresses],
 		queryFn: () =>
 			addresses.length > 0
 				? state.innerClient

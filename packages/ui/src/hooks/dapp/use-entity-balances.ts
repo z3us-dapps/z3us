@@ -24,7 +24,7 @@ export const useEntityFungibles = (
 	const { state } = useGatewayClient()!
 
 	return useQuery({
-		queryKey: ['useEntityFungibles', networkId, address],
+		queryKey: ['useEntityFungibles', networkId, address, cursor],
 		queryFn: () =>
 			state.innerClient
 				.entityFungiblesPage({
@@ -52,7 +52,7 @@ export const useEntitiesFungibles = (
 	const { state } = useGatewayClient()!
 
 	const queries = addresses.map(address => ({
-		queryKey: ['useEntityFungibles', networkId, address],
+		queryKey: ['useEntityFungibles', networkId, address, cursor],
 		queryFn: () =>
 			state.innerClient
 				.entityFungiblesPage({
@@ -90,7 +90,7 @@ export const useEntityNonFungibles = (
 	const { state } = useGatewayClient()!
 
 	return useQuery({
-		queryKey: ['useEntityNonFungibles', networkId, address],
+		queryKey: ['useEntityNonFungibles', networkId, address, cursor],
 		queryFn: () =>
 			state.innerClient
 				.entityNonFungiblesPage({
@@ -118,7 +118,7 @@ export const useEntitiesNonFungibles = (
 	const { state } = useGatewayClient()!
 
 	const queries = addresses.map(address => ({
-		queryKey: ['useEntityNonFungibles', networkId, address],
+		queryKey: ['useEntityNonFungibles', networkId, address, cursor],
 		queryFn: () =>
 			state.innerClient
 				.entityNonFungiblesPage({

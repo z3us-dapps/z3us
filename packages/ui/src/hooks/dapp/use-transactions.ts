@@ -47,7 +47,7 @@ export const useTransactions = (addresses: string[]) => {
 	const { stream } = useGatewayClient()!
 
 	const data = useInfiniteQuery({
-		queryKey: ['useTransactions', networkId, ...addresses],
+		queryKey: ['useTransactions', networkId, addresses],
 		queryFn: async ({ pageParam }) => {
 			const responses = await Promise.all(
 				addresses.map((address, idx) =>
