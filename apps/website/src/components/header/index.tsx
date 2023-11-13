@@ -29,14 +29,8 @@ export const Header = () => {
 					</NextLink>
 					<Box className={styles.landingPageHeaderMenuWrapper}>
 						<Box className={styles.headerTextLinks}>
-							<NextLink
-								href="https://z3us-dapps.featureos.app"
-								underline="hover"
-								target="_blank"
-								weight="medium"
-								size="small"
-							>
-								Docs
+							<NextLink href="/faq" underline="hover" target="_blank" weight="medium" size="small">
+								FAQ
 							</NextLink>
 							<NextLink
 								href="https://z3us-dapps.featureos.app"
@@ -96,7 +90,7 @@ export const Header = () => {
 									leftIcon={<RadixIcon />}
 									onClick={handleClickWebsiteConnect}
 								>
-									Connect
+									Launch dashboard
 								</Button>
 							</Box>
 						</Box>

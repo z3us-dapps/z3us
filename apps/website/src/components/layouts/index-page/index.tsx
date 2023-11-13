@@ -32,7 +32,7 @@ export const IndexPage: React.FC = () => {
 	return <LandingPage />
 }
 
-export const IndexPageTest: React.FC = () => (
+export const IndexHomePage: React.FC = () => (
 	<WebsiteDappContextProvider>
 		<IndexPage />
 	</WebsiteDappContextProvider>

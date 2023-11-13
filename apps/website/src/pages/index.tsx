@@ -1,4 +1,4 @@
-import { IndexPageTest } from '@/components/layouts/index-page'
+import { IndexHomePage } from '@/components/layouts/index-page'
 import { Meta } from '@/components/meta'
 import React from 'react'
 
@@ -9,7 +9,7 @@ const App = () => (
 			description="A community centered open source browser wallet for the Radix DLT network."
 			slug=""
 		/>
-		<IndexPageTest />
+		<IndexHomePage />
 	</>
 )
 
