@@ -57,10 +57,6 @@ const messages = defineMessages({
 	},
 })
 
-const initialValues = {
-	persona: '',
-}
-
 export interface IProps {
 	onConfirm: (address: string) => void
 	onCancel: () => void
@@ -74,6 +70,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 		personaIndexes: state.personaIndexes[networkId] || {},
 	}))
 
+	const [initialValues, restFormValues] = useState<{ persona: string }>({ persona: '' })
 	const [validation, setValidation] = useState<ZodError>()
 	const [isAddPersonaFormVisible, setIsAddPersonaFormVisible] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
@@ -100,6 +97,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 		onConfirm(values.persona)
 		setIsOpen(false)
 		setValidation(undefined)
+		restFormValues({ persona: '' })
 	}
 
 	const handleCancel = () => {
@@ -110,6 +108,10 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 
 	const handleClickAddPersona = () => {
 		setIsAddPersonaFormVisible(true)
+	}
+
+	const handleNewPersona = (address: string) => {
+		restFormValues({ persona: address })
 	}
 
 	return (
@@ -152,7 +154,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 							</Text>
 							<Text>{intl.formatMessage(messages.add_persona_modal_sub_title)}</Text>
 						</Box>
-						<AddPersonaForm />
+						<AddPersonaForm onSuccess={handleNewPersona} />
 					</Box>
 				)}
 			</Box>
