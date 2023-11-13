@@ -63,6 +63,7 @@ export const useAddAccount = () => {
 			const entry = { ...(addressBook[keyParts.address] || {}), name } as AddressBookEntry
 			setAddressBookEntry(networkId, keyParts.address, entry)
 		}
+		return keyParts.address
 	}
 
 	return useCallback(create, [networkId, addressBook, addAccount, setAddressBookEntry, buildNewAccountKeyParts])

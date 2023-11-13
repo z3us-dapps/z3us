@@ -28,8 +28,8 @@ const messages = defineMessages({
 		defaultMessage: 'Add',
 	},
 	error_toast: {
-		id: 'qIEHp4',
-		defaultMessage: 'Failed to add new person',
+		id: '2dcP1f',
+		defaultMessage: 'Failed to add new persona',
 	},
 	success_toast: {
 		id: 'PIWhuk',

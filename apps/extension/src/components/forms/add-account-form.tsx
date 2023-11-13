@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { toast } from 'sonner'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
@@ -23,16 +24,25 @@ const messages = defineMessages({
 		id: '2/2yg+',
 		defaultMessage: 'Add',
 	},
+	error_toast: {
+		id: '8YK60G',
+		defaultMessage: 'Failed to add new account',
+	},
+	success_toast: {
+		id: '+SuAiT',
+		defaultMessage: 'Successfully added new account',
+	},
 })
 
-const initialValues = {
-	name: '',
+interface IProps {
+	onSuccess?: (address: string) => void
 }
 
-const AddAccountForm: React.FC = () => {
+const AddAccountForm: React.FC<IProps> = ({ onSuccess }) => {
 	const intl = useIntl()
 	const addAccount = useAddAccount()
 
+	const [initialValues, restFormValues] = useState<{ name: string }>({ name: '' })
 	const [validation, setValidation] = useState<ZodError>()
 
 	const validationSchema = useMemo(
@@ -50,8 +60,15 @@ const AddAccountForm: React.FC = () => {
 			setValidation(result.error)
 			return
 		}
-		addAccount(values.name)
-		setValidation(undefined)
+
+		await addAccount(values.name)
+			.then(address => {
+				toast.success(intl.formatMessage(messages.success_toast))
+				restFormValues({ name: '' })
+				if (onSuccess) onSuccess(address)
+			})
+			.catch(error => toast.error(intl.formatMessage(messages.error_toast), { description: error.message }))
+			.finally(() => setValidation(undefined))
 	}
 
 	return (
