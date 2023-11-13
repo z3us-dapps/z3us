@@ -52,7 +52,7 @@ const messages = defineMessages({
 	},
 })
 
-const initialValues = {
+const init = {
 	raw: '',
 }
 
@@ -62,6 +62,7 @@ export const Raw: React.FC = () => {
 	const sendTransaction = useSendTransaction()
 	const [searchParams, setSearchParams] = useSearchParams()
 
+	const [initialValues, restFormValues] = useState<typeof init>(init)
 	const [validation, setValidation] = useState<ZodError>()
 
 	const validationSchema = useMemo(
@@ -101,6 +102,7 @@ export const Raw: React.FC = () => {
 						},
 					},
 				})
+				restFormValues(init)
 			}
 		})
 	}

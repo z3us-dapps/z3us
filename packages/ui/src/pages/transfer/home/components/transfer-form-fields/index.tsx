@@ -157,6 +157,7 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 							placeholder={intl.formatMessage(messages.to_placeholder)}
 							name="to"
 							toolTipMessageKnownAddress={intl.formatMessage(messages.known_address)}
+							exclude={from}
 						/>
 						<FieldsGroup
 							name="resources"

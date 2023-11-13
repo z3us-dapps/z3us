@@ -64,7 +64,7 @@ const messages = defineMessages({
 const MAX_FILE_SIZE = 5010 * 1024 * 10240000
 const ALLOWED_FILE_TYPES = ['application/wasm', 'application/rdp']
 
-const initialValues = {
+const init = {
 	from: '',
 	badge: '',
 	id: '',
@@ -83,6 +83,9 @@ export const Deploy: React.FC = () => {
 	const networkId = useNetworkId()
 	const sendTransaction = useSendTransaction()
 	const [searchParams, setSearchParams] = useSearchParams()
+
+	const [initialValues, restFormValues] = useState<typeof init>(init)
+	const [validation, setValidation] = useState<ZodError>()
 
 	const validationSchema = useMemo(
 		() =>
@@ -106,8 +109,6 @@ export const Deploy: React.FC = () => {
 			}),
 		[],
 	)
-
-	const [validation, setValidation] = useState<ZodError>()
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		setValidation(undefined)
@@ -154,6 +155,7 @@ export const Deploy: React.FC = () => {
 						},
 					},
 				})
+				restFormValues(init)
 			}
 		})
 	}

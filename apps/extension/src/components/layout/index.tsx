@@ -4,6 +4,7 @@ import { useLocation, useOutlet } from 'react-router-dom'
 import browser from 'webextension-polyfill'
 
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
+import { Toasts } from 'ui/src/components/toasts'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { openTabWithURL } from '@src/browser/tabs'
@@ -45,9 +46,12 @@ const Layout: React.FC = () => {
 	}
 
 	return (
-		<Suspense fallback={<FallbackLoading />}>
-			<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-		</Suspense>
+		<>
+			<Suspense fallback={<FallbackLoading />}>
+				<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+			</Suspense>
+			<Toasts />
+		</>
 	)
 }
 

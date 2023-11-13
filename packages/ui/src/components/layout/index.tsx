@@ -6,7 +6,6 @@ import { useLocation, useOutlet } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { HeaderNav, MobileFooterNavigation } from 'ui/src/components/navigation'
-import { Toasts } from 'ui/src/components/toasts'
 import { ImageProvider } from 'ui/src/context/images-provider'
 import { useTextDirection } from 'ui/src/hooks/use-text-direction'
 
@@ -39,7 +38,6 @@ const Layout: React.FC = () => {
 				<MobileFooterNavigation />
 				<Transaction />
 				<QueryResult />
-				<Toasts />
 			</Box>
 		</ImageProvider>
 	)
