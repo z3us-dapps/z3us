@@ -39,9 +39,10 @@ const messages = defineMessages({
 
 interface IProps {
 	onSuccess?: (address: string) => void
+	inputRef?: React.Ref<HTMLInputElement | null>
 }
 
-const AddPersonaForm: React.FC<IProps> = ({ onSuccess }) => {
+const AddPersonaForm: React.FC<IProps> = ({ onSuccess, inputRef }) => {
 	const intl = useIntl()
 	const addPersona = useAddPersona()
 
@@ -76,7 +77,7 @@ const AddPersonaForm: React.FC<IProps> = ({ onSuccess }) => {
 
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
-			<TextField sizeVariant="large" name="name" placeholder={intl.formatMessage(messages.name)} />
+			<TextField ref={inputRef} sizeVariant="large" name="name" placeholder={intl.formatMessage(messages.name)} />
 			<Box className={styles.modalContentFormButtonWrapper}>
 				<SubmitButton>
 					<Button fullWidth sizeVariant="xlarge">

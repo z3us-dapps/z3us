@@ -64,7 +64,8 @@ export interface IProps {
 
 const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	const intl = useIntl()
-	const inputRef = useRef(null)
+	const selectRef = useRef(null)
+	const formRef = useRef(null)
 	const networkId = useNetworkId()
 	const { personaIndexes } = useNoneSharedStore(state => ({
 		personaIndexes: state.personaIndexes[networkId] || {},
@@ -84,8 +85,12 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	)
 
 	useEffect(() => {
-		inputRef?.current?.focus()
+		selectRef?.current?.focus()
 	}, [])
+
+	useEffect(() => {
+		if (isAddPersonaFormVisible) formRef?.current?.focus()
+	}, [isAddPersonaFormVisible])
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		setValidation(undefined)
@@ -97,7 +102,6 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 		onConfirm(values.persona)
 		setIsOpen(false)
 		setValidation(undefined)
-		restFormValues({ persona: '' })
 	}
 
 	const handleCancel = () => {
@@ -108,10 +112,12 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 
 	const handleClickAddPersona = () => {
 		setIsAddPersonaFormVisible(true)
+		formRef?.current?.focus()
 	}
 
 	const handleNewPersona = (address: string) => {
 		restFormValues({ persona: address })
+		setIsAddPersonaFormVisible(false)
 	}
 
 	return (
@@ -125,7 +131,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 				</Box>
 				<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 					<SelectField
-						ref={inputRef}
+						ref={selectRef}
 						name="persona"
 						placeholder={intl.formatMessage(messages.persona_placeholder)}
 						sizeVariant="large"
@@ -154,7 +160,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 							</Text>
 							<Text>{intl.formatMessage(messages.add_persona_modal_sub_title)}</Text>
 						</Box>
-						<AddPersonaForm onSuccess={handleNewPersona} />
+						<AddPersonaForm inputRef={formRef} onSuccess={handleNewPersona} />
 					</Box>
 				)}
 			</Box>
