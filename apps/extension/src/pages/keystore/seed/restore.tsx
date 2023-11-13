@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { ArrowLeftIcon } from 'ui/src/components/icons'
+import { ArrowLeftIcon, Close2Icon, CloseIcon } from 'ui/src/components/icons'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
@@ -29,10 +29,9 @@ const messages = defineMessages({
 		id: '6I8Iyd',
 	},
 	seed_restore_sub_title: {
-		defaultMessage: 'please enter your recovery to your wallet.',
-		id: '92Ggeb',
+		defaultMessage: 'Enter your recovery phrase to continue.',
+		id: '0W6+5f',
 	},
-
 	seed_restore_phrase_select_box: {
 		defaultMessage: 'Enter phrase word length:',
 		id: 'hb1Im9',
@@ -58,6 +57,10 @@ const messages = defineMessages({
 			other {are}
 		} incorrect or misspelled`,
 		id: 'En3v/Z',
+	},
+	phrase_clear_button: {
+		defaultMessage: 'Clear',
+		id: '/GCoTA',
 	},
 })
 
@@ -93,6 +96,7 @@ export const Restore: React.FC = () => {
 	const [possibleWords, setPossibleWords] = useState<string[]>([])
 	const [focusedInput, setFocusedInput] = useState<number | undefined>(undefined)
 	const isFocusedInput = typeof focusedInput !== undefined
+	const filledWords = words.filter(value => value !== undefined)
 
 	const incorrectWords = useMemo(
 		() =>
@@ -102,9 +106,13 @@ export const Restore: React.FC = () => {
 		[words],
 	)
 
-	useEffect(() => {
+	const setWordsByStrength = () => {
 		setWords(Array.from<string>({ length: strengthToWordCounts[strength] }))
 		setInputRefs(Array.from({ length: strengthToWordCounts[strength] }, () => createRef<HTMLInputElement>()))
+	}
+
+	useEffect(() => {
+		setWordsByStrength()
 	}, [strength])
 
 	const handleChange = (idx: number, value: string) => {
@@ -144,6 +152,10 @@ export const Restore: React.FC = () => {
 
 	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, words.join(' '))
 
+	const handleClearPhraseWords = () => {
+		setWordsByStrength()
+	}
+
 	const handleDone = () => navigate('/')
 
 	switch (step) {
@@ -172,6 +184,18 @@ export const Restore: React.FC = () => {
 					<Box className={styles.keystoreSelectWrapper}>
 						<Text size="xsmall">{intl.formatMessage(messages.seed_restore_phrase_select_box)}</Text>
 						<SelectSimple sizeVariant="small" value={strength} onValueChange={handleSelect} data={strengthOptions} />
+						<Box className={styles.keystoreClearButtonWrapper}>
+							{filledWords?.length > 0 && (
+								<Button
+									sizeVariant="small"
+									styleVariant="secondary"
+									onClick={handleClearPhraseWords}
+									leftIcon={<Close2Icon />}
+								>
+									{intl.formatMessage(messages.phrase_clear_button)}
+								</Button>
+							)}
+						</Box>
 					</Box>
 
 					<Box className={styles.keystorePossibleWordWrapper}>

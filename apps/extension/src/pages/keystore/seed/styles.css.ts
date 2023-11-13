@@ -24,6 +24,15 @@ export const keystoreSelectWrapper = style([
 	{},
 ])
 
+export const keystoreClearButtonWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexGrow: 1,
+		justifyContent: 'flex-end',
+	}),
+	{},
+])
+
 export const keystorePossibleWordWrapper = style([
 	sprinkles({
 		display: 'grid',
