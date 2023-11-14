@@ -134,7 +134,7 @@ const Accounts: React.FC = () => {
 								{intl.formatMessage(messages.account_color)}
 							</Text>
 							<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-								{CARD_COLORS.map(a => (
+								{Object.entries(CARD_COLORS).map(([a, color]) => (
 									<Button
 										key={a}
 										active={a === selectedAccount?.cardColor}
@@ -144,7 +144,7 @@ const Accounts: React.FC = () => {
 										iconOnly
 										onClick={() => handleSelectColor(a)}
 									>
-										<Box width="full" height="full" borderRadius="full" style={{ background: a }} />
+										<Box width="full" height="full" borderRadius="full" style={{ background: color }} />
 									</Button>
 								))}
 							</Box>
@@ -168,7 +168,7 @@ const Accounts: React.FC = () => {
 											sizeVariant="medium"
 											src={`/images/account-images/${a}`}
 											alt="img"
-											fallback="df"
+											fallback="card image"
 										/>
 									</Button>
 								))}

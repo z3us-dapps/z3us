@@ -169,6 +169,7 @@ export const accountCardIconWrapper = style([
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
 		flexShrink: 0,
+		overflow: 'hidden',
 	}),
 	{
 		width: '40px',
@@ -176,3 +177,53 @@ export const accountCardIconWrapper = style([
 		aspectRatio: '8 / 6',
 	},
 ])
+
+export const cardAccountImageWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		pointerEvents: 'none',
+		width: 'full',
+		height: 'full',
+		maxWidth: 'full',
+	}),
+	{},
+])
+
+export const cardAccountLarge = style([
+	sprinkles({
+		position: 'absolute',
+	}),
+	{},
+])
+
+globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.z3us-man img`, {
+	position: 'absolute',
+	top: 0,
+	right: 0,
+	maxWidth: '100%',
+	width: '240px',
+	height: 'auto',
+	opacity: '0',
+})
+
+globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(1)`, {
+	mixBlendMode: 'darken',
+	opacity: '1',
+})
+
+globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(2)`, {
+	mixBlendMode: 'soft-light',
+	opacity: '0.1',
+})
+
+globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(3)`, {
+	mixBlendMode: 'color-burn',
+	opacity: '0.2',
+})
+
+globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(4)`, {
+	mixBlendMode: 'difference',
+	opacity: '1.0',
+})
