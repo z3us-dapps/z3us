@@ -14,7 +14,7 @@ import {
 } from 'ui/src/components/accordion'
 import { Box } from 'ui/src/components/box'
 import { ArrowRightIcon } from 'ui/src/components/icons'
-import { Link, Text } from 'ui/src/components/typography'
+import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
 

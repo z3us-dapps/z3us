@@ -52,7 +52,7 @@ export const faqHeaderWrapper = style([
 		width: 'full',
 	}),
 	{
-		maxWidth: '660px',
+		maxWidth: '690px',
 	},
 ])
 
@@ -172,6 +172,8 @@ export const faqAccordionTrigger = style([
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
 		paddingY: 'large',
+		paddingRight: 'large',
+		textAlign: 'left',
 	}),
 	{
 		fontWeight: '500',
