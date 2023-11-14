@@ -4978,15 +4978,16 @@
   dependencies:
     lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.3.0":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.3.1-alpha.2":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#4227000b9daaed10b64458ce441b007e53cf3b05"
+  resolved "https://github.com/radixdlt/connector-extension#de8e1f87824062bc1b69578099cbe92185632e05"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
     "@ledgerhq/hw-transport-webhid" "^6.27.19"
     "@mui/material" "^5.14.0"
     "@radixdlt/babylon-gateway-api-sdk" "^1.0.1"
+    "@radixdlt/radix-connect-schemas" "^1.2.0"
     "@radixdlt/radix-connect-webrtc" "^1.0.1"
     "@stitches/react" "^1.2.8"
     "@types/blake2b" "^2.1.0"
