@@ -7,7 +7,7 @@ export const useKnownAddresses = () => {
 	const networkId = useNetworkId()
 
 	return useQuery({
-		queryKey: ['useKnownAddresses', useNetworkId],
+		queryKey: ['useKnownAddresses', networkId],
 		queryFn: () => RadixEngineToolkit.Utils.knownAddresses(networkId),
 		staleTime: 1000 * 60 * 60 * 24, // 1 day
 	})

@@ -185,7 +185,7 @@ export const useBalances = (...addresses: string[]) => {
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
-		queryKey: ['useBalances', networkId, currency, ...addresses],
+		queryKey: ['useBalances', networkId, currency, addresses],
 		enabled,
 		queryFn: (): Balances => {
 			let fungible: ResourceBalances = {}
@@ -245,7 +245,7 @@ export const useAccountValues = (...addresses: string[]) => {
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
-		queryKey: ['useAccountValues', networkId, currency, ...addresses],
+		queryKey: ['useAccountValues', networkId, currency, addresses],
 		enabled,
 		queryFn: () =>
 			accounts.reduce(
@@ -265,14 +265,14 @@ export const useAccountValues = (...addresses: string[]) => {
 
 type AccountNfts = { resource: string; vault: string; account: string }
 
-export const useAccountNftVaults = (resource: string, ...addresses: string[]) => {
+export const useAccountNftVaults = (resource: string, addresses: string[]) => {
 	const networkId = useNetworkId()
 
 	const { data: accounts = [], isLoading } = useEntitiesDetails(addresses.filter(address => !!address))
 
 	return useQuery({
-		queryKey: ['useAccountNftVaults', networkId, ...addresses],
-		enabled: !!resource && !isLoading && accounts.length > 0,
+		queryKey: ['useAccountNftVaults', networkId, resource, addresses],
+		enabled: !!resource && !isLoading && addresses.length > 0 && accounts.length > 0,
 		queryFn: () =>
 			accounts.reduce((result: Array<AccountNfts>, account) => {
 				const items = account.non_fungible_resources.items as Array<NonFungibleResourcesCollectionItemVaultAggregated>
