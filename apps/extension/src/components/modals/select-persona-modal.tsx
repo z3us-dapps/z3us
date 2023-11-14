@@ -127,7 +127,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 					<Text color="strong" size="large" weight="strong">
 						{intl.formatMessage(messages.persona_modal_title)}
 					</Text>
-					<Text>{intl.formatMessage(messages.persona_modal_sub_title)}</Text>
+					<Text size="small">{intl.formatMessage(messages.persona_modal_sub_title)}</Text>
 				</Box>
 				<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 					<SelectField

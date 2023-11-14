@@ -190,7 +190,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 					<Text color="strong" size="large" weight="strong">
 						{intl.formatMessage(messages.persona_data_modal_title)}
 					</Text>
-					<Text>{intl.formatMessage(messages.persona_data_modal_sub_title)}</Text>
+					<Text size="small">{intl.formatMessage(messages.persona_data_modal_sub_title)}</Text>
 				</Box>
 				<PersonaDataForm
 					identityAddress={identityAddress}

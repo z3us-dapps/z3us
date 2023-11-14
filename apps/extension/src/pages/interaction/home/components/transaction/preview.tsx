@@ -16,6 +16,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
+import { useCustomizeFeeModal } from '@src/hooks/modal/use-customize-fee-modal'
 import { usePreview } from '@src/hooks/transaction/use-preview'
 import { summaryFromInstructions } from '@src/radix/manifest'
 import type { ResourceChanges, Summary, TransactionSettings } from '@src/types/transaction'
@@ -131,6 +132,8 @@ function aggregateConsecutiveChanges(
 export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 	const intl = useIntl()
 	const buildPreview = usePreview()
+
+	const customize = useCustomizeFeeModal()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -159,9 +162,11 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 		})
 	}
 
-	const handleClickCustomize = () => {
+	const handleClickCustomize = async () => {
 		// eslint-disable-next-line no-console
 		console.log('click customize')
+
+		const password = await customize({ content: 'hello' })
 	}
 
 	// useEffect(() => {

@@ -124,7 +124,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 					<Text color="strong" size="large" weight="strong">
 						{intl.formatMessage(messages.select_accounts_modal_title)}
 					</Text>
-					<Text>{intl.formatMessage(messages.select_accounts_modal_sub_title)}</Text>
+					<Text size="small">{intl.formatMessage(messages.select_accounts_modal_sub_title)}</Text>
 				</Box>
 				<Form
 					onSubmit={handleSubmit}
