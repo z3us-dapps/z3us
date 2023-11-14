@@ -201,9 +201,9 @@ export const cardAccountLarge = style([
 globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.z3us-man img`, {
 	position: 'absolute',
 	top: 0,
-	right: 0,
+	right: '-20px',
 	maxWidth: '100%',
-	width: '240px',
+	width: '250px',
 	height: 'auto',
 	opacity: '0',
 })
@@ -218,21 +218,21 @@ globalStyle(`${cardAccountImageWrapper}.z3us-man img`, {
 })
 
 globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(1)`, {
-	mixBlendMode: 'darken',
-	opacity: '1',
+	mixBlendMode: 'hue',
+	opacity: '0.9',
 })
 
 globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(2)`, {
-	mixBlendMode: 'soft-light',
-	opacity: '0.1',
+	mixBlendMode: 'color-burn',
+	opacity: '0.9',
 })
 
 globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(3)`, {
-	mixBlendMode: 'color-burn',
+	mixBlendMode: 'color-dodge',
 	opacity: '0.2',
 })
 
 globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(4)`, {
-	mixBlendMode: 'difference',
-	opacity: '1.0',
+	mixBlendMode: 'exclusion',
+	opacity: '0.4',
 })
