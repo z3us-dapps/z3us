@@ -155,6 +155,19 @@ export const accountDropdownWrapper = style([
 	{},
 ])
 
+export const accountCardZ3USlogoWrapper = style([
+	sprinkles({
+		bottom: 0,
+		right: 0,
+		marginRight: 'large',
+		marginBottom: 'large',
+		pointerEvents: 'none',
+	}),
+	{
+		position: 'absolute',
+	},
+])
+
 export const accountDropdownContentWrapper = style([
 	{
 		minWidth: '160px',

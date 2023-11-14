@@ -18,6 +18,7 @@ import {
 } from 'ui/src/components/dropdown-menu'
 import { DotsHorizontalCircleIcon, InformationIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
+import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { CARD_COLORS } from 'ui/src/constants/account'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
@@ -193,6 +194,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		>
 			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
 				<AccountCardImage account={account} size="large" />
+
 				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
@@ -231,6 +233,8 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 					</Text>
 				</Box>
 			</Box>
+
+			<Z3usLogo className={styles.accountCardZ3USlogoWrapper} isHoverMaskEnabled={false} />
 			{showAccountOptions && (
 				<Box className={styles.accountDropdownWrapper}>
 					<DropdownMenu>
