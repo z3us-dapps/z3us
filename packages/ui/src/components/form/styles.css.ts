@@ -2,6 +2,18 @@ import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
+export const formWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+		padding: {
+			mobile: 'medium',
+			tablet: 'large',
+		},
+	}),
+	{},
+])
+
 export const formInputWrapper = style([
 	sprinkles({
 		position: 'relative',

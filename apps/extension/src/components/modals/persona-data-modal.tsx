@@ -3,10 +3,14 @@ import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { z } from 'zod'
 
+import { Box } from 'ui/src/components/box'
 import { Dialog } from 'ui/src/components/dialog'
 import PersonaDataForm from 'ui/src/components/form/persona-data-form'
+import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	close: {
@@ -52,6 +56,14 @@ const messages = defineMessages({
 	validation_names_required: {
 		id: '28fmWQ',
 		defaultMessage: 'Name details are required',
+	},
+	persona_data_modal_title: {
+		defaultMessage: 'Persona details',
+		id: 'y50Ejq',
+	},
+	persona_data_modal_sub_title: {
+		defaultMessage: 'Please enter the required fields.',
+		id: 'BRDT21',
 	},
 })
 
@@ -173,11 +185,19 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 
 	return (
 		<Dialog open={isOpen} onClose={onCancel}>
-			<PersonaDataForm
-				identityAddress={identityAddress}
-				customValidationSchema={validationSchema}
-				onSubmit={handleSubmit}
-			/>
+			<Box className={styles.modalContentWrapper}>
+				<Box className={styles.modalContentTitleTextWrapper}>
+					<Text color="strong" size="large" weight="strong">
+						{intl.formatMessage(messages.persona_data_modal_title)}
+					</Text>
+					<Text>{intl.formatMessage(messages.persona_data_modal_sub_title)}</Text>
+				</Box>
+				<PersonaDataForm
+					identityAddress={identityAddress}
+					customValidationSchema={validationSchema}
+					onSubmit={handleSubmit}
+				/>
+			</Box>
 		</Dialog>
 	)
 }

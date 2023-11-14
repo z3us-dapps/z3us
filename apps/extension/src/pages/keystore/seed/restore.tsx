@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { ArrowLeftIcon, Close2Icon, CloseIcon } from 'ui/src/components/icons'
+import { ArrowLeftIcon, Close2Icon } from 'ui/src/components/icons'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
