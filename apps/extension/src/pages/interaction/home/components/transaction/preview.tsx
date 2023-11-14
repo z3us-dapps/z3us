@@ -35,6 +35,10 @@ const messages = defineMessages({
 		id: 'jv7oHw',
 		defaultMessage: 'Change currency',
 	},
+	customize_fee_button_title: {
+		id: 'TXpOBi',
+		defaultMessage: 'Customize',
+	},
 	xrd_total_execution_cost: {
 		id: '1leDN6',
 		defaultMessage: 'Execution',
@@ -155,6 +159,11 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 		})
 	}
 
+	const handleClickCustomize = () => {
+		// eslint-disable-next-line no-console
+		console.log('click customize')
+	}
+
 	// useEffect(() => {
 	// 	if (!state.preview) return
 
@@ -218,23 +227,40 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 				))}
 
 			<Box className={styles.transactionPreviewBlockWrapper}>
-				<Box display="flex" position="relative" width="full" justifyContent="space-between">
+				<Box display="flex" position="relative" width="full">
 					<Text color="strong" size="xsmall" weight="strong">
 						{intl.formatMessage(messages.fee_summary)}
 					</Text>
-					<Box
-						component="button"
-						display="inline-flex"
-						alignItems="center"
-						onClick={handleToggleValue}
-						className={clsx(
-							plainButtonStyles.plainButtonHoverWrapper,
-							plainButtonStyles.plainButtonHoverUnderlineWrapper,
-						)}
-					>
-						<Text color="inherit" size="xsmall" truncate>
-							{intl.formatMessage(messages.change_currency_tooltip)}
-						</Text>
+					<Box className={styles.transactionPreviewFeeLinks}>
+						<Box
+							component="button"
+							display="inline-flex"
+							alignItems="center"
+							onClick={handleClickCustomize}
+							className={clsx(
+								plainButtonStyles.plainButtonHoverWrapper,
+								plainButtonStyles.plainButtonHoverUnderlineWrapper,
+							)}
+						>
+							<Text color="inherit" size="xsmall" truncate>
+								{intl.formatMessage(messages.customize_fee_button_title)}
+							</Text>
+						</Box>
+						<Box className={styles.transactionPreviewLinSeparator} />
+						<Box
+							component="button"
+							display="inline-flex"
+							alignItems="center"
+							onClick={handleToggleValue}
+							className={clsx(
+								plainButtonStyles.plainButtonHoverWrapper,
+								plainButtonStyles.plainButtonHoverUnderlineWrapper,
+							)}
+						>
+							<Text color="inherit" size="xsmall" truncate>
+								{intl.formatMessage(messages.change_currency_tooltip)}
+							</Text>
+						</Box>
 					</Box>
 				</Box>
 
