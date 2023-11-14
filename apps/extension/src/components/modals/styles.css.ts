@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -80,26 +80,6 @@ export const modalFormFieldWrapper = style([
 	{},
 ])
 
-export const modalFormFlexFieldWrapper = style([
-	sprinkles({
-		marginTop: 'medium',
-	}),
-	{},
-])
-
-export const modalFormRemoveFieldWrapper = style([
-	sprinkles({
-		position: 'absolute',
-		top: 0,
-		left: 0,
-	}),
-	{
-		marginTop: '20px',
-		marginLeft: '-29px',
-	},
-])
-
-// OLD: TODO remove
 export const headerWrapper = style([
 	sprinkles({
 		position: 'relative',
@@ -192,3 +172,20 @@ export const signAlertDialogFormFooterWrapper = style([
 	}),
 	{},
 ])
+
+export const formFieldModalGroupWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'small',
+		paddingBottom: {
+			mobile: 'medium',
+		},
+	}),
+	{},
+])
+
+globalStyle(`${formFieldModalGroupWrapper} > div`, {
+	flexGrow: '1',
+})
