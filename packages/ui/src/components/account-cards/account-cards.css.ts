@@ -208,6 +208,15 @@ globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.z3us-man img`, {
 	opacity: '0',
 })
 
+globalStyle(`${cardAccountImageWrapper}.z3us-man img`, {
+	position: 'absolute',
+	top: 0,
+	right: 0,
+	maxWidth: '100%',
+	height: 'auto',
+	opacity: '0',
+})
+
 globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(1)`, {
 	mixBlendMode: 'darken',
 	opacity: '1',

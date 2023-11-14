@@ -15,3 +15,10 @@ export const accountsCardWrapper = style([
 		maxHeight: '190px',
 	},
 ])
+
+export const accountsAvatarImgWrapper = style([
+	sprinkles({}),
+	{
+		opacity: '0.5',
+	},
+])

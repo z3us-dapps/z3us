@@ -169,6 +169,7 @@ const Accounts: React.FC = () => {
 											src={`/images/account-images/${a}`}
 											alt="img"
 											fallback="card image"
+											className={accountsStyles.accountsAvatarImgWrapper}
 										/>
 									</Button>
 								))}
