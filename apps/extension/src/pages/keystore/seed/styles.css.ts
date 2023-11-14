@@ -14,6 +14,10 @@ export const keystoreNewWrapper = style([
 	{},
 ])
 
+globalStyle(`${keystoreNewWrapper} *`, {
+	userSelect: 'none',
+})
+
 export const keystoreSelectWrapper = style([
 	sprinkles({
 		display: 'flex',
