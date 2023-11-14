@@ -122,5 +122,5 @@ export const useMenuItems = () => {
 				break
 		}
 		return items
-	}, [keystore])
+	}, [keystore, intl])
 }
