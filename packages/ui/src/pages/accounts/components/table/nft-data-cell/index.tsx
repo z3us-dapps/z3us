@@ -7,7 +7,7 @@ import FieldValue from 'ui/src/components/field-value'
 import { NftImageIcon } from 'ui/src/components/nft-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
-import { getStringNftData } from 'ui/src/services/metadata'
+import { findFieldValue } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
 
@@ -25,7 +25,7 @@ export const NftDataCell: React.FC<IProps> = props => {
 	const isMobile = useIsMobileWidth()
 
 	const dataJson = value?.programmatic_json as any
-	const name = getStringNftData('name', dataJson?.fields)
+	const name = findFieldValue('name', dataJson?.fields)
 
 	return (
 		<Box className={styles.assetNameCellWrapper}>

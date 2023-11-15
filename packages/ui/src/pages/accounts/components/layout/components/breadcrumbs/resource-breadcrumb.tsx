@@ -6,7 +6,7 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import { Text } from 'ui/src/components/typography'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 
 const messages = defineMessages({
 	resource: {
@@ -28,8 +28,8 @@ export const ResourceBreadcrumb: React.FC<IProps> = ({ isLast, resourceType }) =
 	const { accountId, resourceId } = useParams()
 	const { data } = useEntityMetadata(resourceId)
 
-	const name = getStringMetadata('name', data)
-	const symbol = getStringMetadata('symbol', data)
+	const name = findMetadataValue('name', data)
+	const symbol = findMetadataValue('symbol', data)
 
 	const [displayName, setDisplayName] = useState<string>('')
 

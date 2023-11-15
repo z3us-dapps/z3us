@@ -8,7 +8,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 interface IProps {
@@ -20,12 +20,12 @@ export const AccountSnippet: React.FC<IProps> = ({ address, reversed }) => {
 	const { data, isLoading } = useEntityDetails(address)
 	const addressBook = useAddressBook()
 
-	const name = getStringMetadata('name', data?.metadata?.items)
-	const dappAddress = getStringMetadata('dapp_definition', data?.metadata?.items)
+	const name = findMetadataValue('name', data?.metadata?.items)
+	const dappAddress = findMetadataValue('dapp_definition', data?.metadata?.items)
 
 	const { data: dappData } = useEntityDetails(dappAddress)
 
-	const dappName = getStringMetadata('name', dappData?.metadata?.items)
+	const dappName = findMetadataValue('name', dappData?.metadata?.items)
 	const imageResourceAddress = dappAddress || address
 	const displayName = addressBook[address]?.name || dappName || name
 

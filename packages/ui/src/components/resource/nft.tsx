@@ -11,7 +11,7 @@ import { NftImageIcon } from 'ui/src/components/nft-image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
-import { getStringNftData } from 'ui/src/services/metadata'
+import { findFieldValue } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
 
@@ -39,8 +39,8 @@ const Nft: React.FC = () => {
 	const { data, isLoading } = useNonFungibleData(resourceId, nftId)
 
 	const dataJson = data?.data.programmatic_json as any
-	const name = getStringNftData('name', dataJson?.fields)
-	const description = getStringNftData('description', dataJson?.fields)
+	const name = findFieldValue('name', dataJson?.fields)
+	const description = findFieldValue('description', dataJson?.fields)
 
 	const fields = useMemo(
 		() => (data?.data.programmatic_json as any)?.fields?.filter(field => !IGNORE_DATA.includes(field.field_name)) || [],
