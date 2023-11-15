@@ -54,8 +54,9 @@ type State = {
 	settings: TransactionSettings
 	intent?: Intent
 	notary?: PrivateKey
-	needSignaturesFrom?: string[]
+	needSignaturesFrom: string[]
 	isDappApproved?: boolean
+	error?: string
 }
 
 export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
@@ -75,26 +76,42 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 		input: (interaction.items as WalletTransactionItems).send,
 		settings: {
 			tipPercentage: 0,
-			padding: 5,
+			padding: 0,
+			lockAmount: 1,
 		},
+		needSignaturesFrom: [],
 	})
 
 	useEffect(() => {
-		buildIntent(state.input, state.settings).then(response => {
-			let { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
-			if (interaction.metadata.dAppDefinitionAddress === DAPP_ADDRESS) {
-				accounts = Object.keys(accountIndexes)
-			}
-			const authorizedAccounts = new Set(accounts)
-			setState(draft => {
-				draft.intent = response.intent
-				draft.notary = response.notary
-				draft.needSignaturesFrom = response.needSignaturesFrom
-				draft.isDappApproved = response.needSignaturesFrom.every(account => authorizedAccounts.has(account))
-				draft.settings = { ...draft.settings, feePayer: draft.settings.feePayer || response.needSignaturesFrom?.[0] }
+		buildIntent(state.input, state.settings)
+			.then(response => {
+				let { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
+				if (interaction.metadata.dAppDefinitionAddress === DAPP_ADDRESS) {
+					accounts = Object.keys(accountIndexes)
+				}
+				const authorizedAccounts = new Set(accounts)
+				setState(draft => {
+					draft.error = ''
+					draft.intent = response.intent
+					draft.notary = response.notary
+					draft.needSignaturesFrom = response.needSignaturesFrom
+					draft.isDappApproved = response.needSignaturesFrom.every(account => authorizedAccounts.has(account))
+				})
 			})
-		})
+			.catch(err => {
+				setState(draft => {
+					draft.error = err.message
+				})
+			})
 	}, [state.input, state.settings])
+
+	useEffect(() => {
+		if (!state.settings.feePayer && state.needSignaturesFrom.length > 0) {
+			setState(draft => {
+				draft.settings = { ...draft.settings, feePayer: state.needSignaturesFrom[0] }
+			})
+		}
+	}, [state.needSignaturesFrom])
 
 	const handleSubmit = async () => {
 		try {
@@ -159,6 +176,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					<ValidationErrorMessage
 						message={state.isDappApproved === false ? intl.formatMessage(messages.unauthorized) : ''}
 					/>
+					<ValidationErrorMessage message={state.error} />
 					{state?.intent && (
 						<Manifest
 							intent={state.intent}

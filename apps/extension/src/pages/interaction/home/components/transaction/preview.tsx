@@ -82,19 +82,6 @@ const feeSummaryDetailKeys = [
 	'xrd_total_tipping_cost',
 ]
 
-interface IProps {
-	intent: Intent
-	settings: TransactionSettings
-	onSettingsChange: (settings: TransactionSettings) => void
-}
-
-type State = {
-	preview?: TransactionPreviewResponse
-	flatChanges?: ResourceChanges
-	summary?: Summary
-	currency: 'currency' | 'xrd'
-}
-
 function aggregateConsecutiveChanges(
 	resourceChanges: TransactionPreviewResponse['resource_changes'],
 ): State['flatChanges'] {
@@ -130,6 +117,37 @@ function aggregateConsecutiveChanges(
 	return aggregatedData
 }
 
+function getFeePaddingAmount(receipt: any): number {
+	return (
+		0.15 *
+		(Number.parseFloat(receipt?.fee_summary.xrd_total_execution_cost || 0) +
+			Number.parseFloat(receipt?.fee_summary.xrd_total_finalization_cost || 0) +
+			Number.parseFloat(receipt?.fee_summary.xrd_total_storage_cost || 0))
+	)
+}
+
+function getFeeToLockAmount(receipt: any, padding: number): number {
+	return (
+		feeSummaryDetailKeys.reduce(
+			(sum: number, key: string) => sum + Number.parseFloat(receipt?.fee_summary?.[key] || 0),
+			0,
+		) + padding
+	)
+}
+
+interface IProps {
+	intent: Intent
+	settings: TransactionSettings
+	onSettingsChange: (settings: TransactionSettings) => void
+}
+
+type State = {
+	preview?: TransactionPreviewResponse
+	flatChanges?: ResourceChanges
+	summary?: Summary
+	currency: 'currency' | 'xrd'
+}
+
 export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }) => {
 	const intl = useIntl()
 	const buildPreview = usePreview()
@@ -143,6 +161,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }
 	const [state, setState] = useImmer<State>({
 		currency: 'xrd',
 	})
+	const receipt = state.preview?.receipt as any
 
 	useEffect(() => {
 		Promise.all([
@@ -154,6 +173,14 @@ export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }
 				draft.flatChanges = aggregateConsecutiveChanges(preview.resource_changes).filter(change => change.amount !== 0)
 				draft.summary = summary
 			})
+			if (settings.padding === 0) {
+				const padding = getFeePaddingAmount(preview?.receipt)
+				onSettingsChange({
+					...settings,
+					padding,
+					lockAmount: getFeeToLockAmount(preview?.receipt, padding),
+				})
+			}
 		})
 	}, [intent, settings])
 
@@ -164,7 +191,9 @@ export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }
 	}
 
 	const handleClickCustomize = () => {
-		customize(settings).then(newSettings => onSettingsChange(newSettings))
+		customize(settings).then(newSettings =>
+			onSettingsChange({ ...newSettings, lockAmount: getFeeToLockAmount(receipt, newSettings.padding) }),
+		)
 	}
 
 	// useEffect(() => {
@@ -183,8 +212,6 @@ export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }
 	// }, [state.preview])
 
 	if (!state.preview) return <FallbackLoading />
-
-	const receipt = state.preview?.receipt as any
 
 	return (
 		<Box className={styles.transactionPreviewWrapper}>
