@@ -154,7 +154,7 @@ const Accounts: React.FC = () => {
 								{intl.formatMessage(messages.account_image)}
 							</Text>
 							<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-								{CARD_IMAGES.map(a => (
+								{Object.entries(CARD_IMAGES).map(([a, image]) => (
 									<Button
 										key={a}
 										active={a === selectedAccount?.cardImage}
@@ -166,7 +166,7 @@ const Accounts: React.FC = () => {
 										<Avatar
 											styleVariant="square"
 											sizeVariant="medium"
-											src={`/images/account-images/${a}`}
+											src={`/images/account-images/${image}`}
 											alt="img"
 											fallback="card image"
 											className={accountsStyles.accountsAvatarImgWrapper}

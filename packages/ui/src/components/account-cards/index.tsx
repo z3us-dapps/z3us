@@ -19,7 +19,7 @@ import {
 import { DotsHorizontalCircleIcon, InformationIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
-import { CARD_COLORS } from 'ui/src/constants/account'
+import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
@@ -58,7 +58,8 @@ interface IAccountCardImageProps {
 
 export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 	const { account, className, size = 'small' } = props
-	const cardClassName = account?.cardImage?.split('.')?.[0]
+	const cardClassName = account?.cardImage
+	const cardImage = CARD_IMAGES?.[account?.cardImage]
 	const isSizeLarge = size === 'large'
 
 	return (
@@ -71,14 +72,10 @@ export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 				className,
 			)}
 		>
-			{/* eslint-disable-next-line @next/next/no-img-element */}
-			<img src={`/images/account-images/${account?.cardImage}`} alt={`1-${account?.cardColor}`} />
-			{/* eslint-disable-next-line @next/next/no-img-element */}
-			<img src={`/images/account-images/${account?.cardImage}`} alt={`2-${account?.cardColor}`} />
-			{/* eslint-disable-next-line @next/next/no-img-element */}
-			<img src={`/images/account-images/${account?.cardImage}`} alt={`3-${account?.cardColor}`} />
-			{/* eslint-disable-next-line @next/next/no-img-element */}
-			<img src={`/images/account-images/${account?.cardImage}`} alt={`3-${account?.cardColor}`} />
+			{Array.from({ length: 4 }, (_, index) => (
+				// eslint-disable-next-line @next/next/no-img-element
+				<img key={index + 1} src={`/images/account-images/${cardImage}`} alt={`${index + 1}-${account?.cardColor}`} />
+			))}
 		</Box>
 	)
 }
@@ -194,8 +191,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		>
 			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
 				<AccountCardImage account={account} size="large" />
-
-				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small">
+				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small" position="relative">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{getShortAddress(address)}
@@ -213,7 +209,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 						</Box>
 					) : null}
 				</Box>
-				<Box paddingBottom="xsmall" display="flex" flexDirection="column">
+				<Box paddingBottom="xsmall" display="flex" flexDirection="column" position="relative">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{intl.formatNumber(totalValue, {

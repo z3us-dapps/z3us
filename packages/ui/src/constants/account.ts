@@ -1,15 +1,13 @@
-export const CARD_COLORS_OLD = [
-	'radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
-	'radial-gradient(77.21% 96.45% at 50% 100%, #C0D7EF 0%, #C0D7EF 17.71%, #C0D7EF 50.52%, #C0D7EF 100%)',
-	'radial-gradient(77.21% 96.45% at 50% 100%, #BF9E76 0%, #BF9E76 17.71%, #BF9E76 50.52%, #BF9E76 100%)',
-	'linear-gradient(180deg, #1449EF 0%, #14C8EF 100%)',
-]
-
 export const CARD_COLORS = {
-	purple: 'radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
-	green: 'radial-gradient(77.21% 96.45% at 50% 100%, #C0D7EF 0%, #C0D7EF 17.71%, #C0D7EF 50.52%, #C0D7EF 100%)',
-	red: 'radial-gradient(77.21% 96.45% at 50% 100%, #BF9E76 0%, #BF9E76 17.71%, #BF9E76 50.52%, #BF9E76 100%)',
+	orange: 'linear-gradient(180deg, #F6613A 0%, #FFA51E 100%)',
+	lipstick: 'linear-gradient(180deg, #B30050 0%, #FF4444 100%)',
+	'electric-violet': 'linear-gradient(180deg, #7D16FF 0%, #720CF4 0.01%, #FF85C7 100%)',
 	blue: 'linear-gradient(180deg, #1449EF 0%, #14C8EF 100%)',
 }
 
-export const CARD_IMAGES = ['z3us-apple-hermes.png', 'z3us-athens.png', 'z3us-apple-hermes-v2.png', 'z3us-man.png']
+export const CARD_IMAGES = {
+	angel: 'angel.png',
+	'apple-hermes': 'z3us-apple-hermes.png',
+	athens: 'z3us-athens.png',
+	man: 'z3us-man.png',
+}
