@@ -84,7 +84,8 @@ const feeSummaryDetailKeys = [
 
 interface IProps {
 	intent: Intent
-	settings?: TransactionSettings
+	settings: TransactionSettings
+	onSettingsChange: (settings: TransactionSettings) => void
 }
 
 type State = {
@@ -129,7 +130,7 @@ function aggregateConsecutiveChanges(
 	return aggregatedData
 }
 
-export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
+export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }) => {
 	const intl = useIntl()
 	const buildPreview = usePreview()
 
@@ -154,7 +155,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 				draft.summary = summary
 			})
 		})
-	}, [intent])
+	}, [intent, settings])
 
 	const handleToggleValue = () => {
 		setState(draft => {
@@ -162,11 +163,8 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 		})
 	}
 
-	const handleClickCustomize = async () => {
-		// eslint-disable-next-line no-console
-		console.log('click customize')
-
-		const password = await customize({ content: 'hello' })
+	const handleClickCustomize = () => {
+		customize(settings).then(newSettings => onSettingsChange(newSettings))
 	}
 
 	// useEffect(() => {

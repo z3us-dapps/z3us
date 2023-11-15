@@ -23,6 +23,7 @@ type TWidthVariant = 'medium' | 'large'
 interface IDialogProps {
 	open?: boolean
 	trigger?: React.ReactElement
+	container?: HTMLElement | null
 	children?: any
 	className?: ClassValue
 	onClose?: () => void
@@ -31,12 +32,21 @@ interface IDialogProps {
 }
 
 export const Dialog: React.FC<IDialogProps> = props => {
-	const { open, trigger, children, width = 'medium', className, isCloseButtonVisible = true, onClose } = props
+	const {
+		open,
+		trigger,
+		container,
+		children,
+		width = 'medium',
+		className,
+		isCloseButtonVisible = true,
+		onClose,
+	} = props
 
 	return (
 		<DialogRoot open={open}>
 			{trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-			<DialogPortal>
+			<DialogPortal container={container}>
 				<DialogOverlay className={styles.dialogOverlay} />
 				<DialogContent
 					onOpenAutoFocus={e => {

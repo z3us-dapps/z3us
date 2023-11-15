@@ -59,13 +59,13 @@ const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
 		<ReactQueryProvider dehydratedState={dehydratedState}>
 			<NoneSharedStoreProvider>
 				<IntlProvider>
-					<ModalsProvider>
-						<RdtProvider>
-							<ZdtContext.Provider value={defaultZdtState}>
+					<RdtProvider>
+						<ZdtContext.Provider value={defaultZdtState}>
+							<ModalsProvider>
 								<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
-							</ZdtContext.Provider>
-						</RdtProvider>
-					</ModalsProvider>
+							</ModalsProvider>
+						</ZdtContext.Provider>
+					</RdtProvider>
 				</IntlProvider>
 			</NoneSharedStoreProvider>
 		</ReactQueryProvider>

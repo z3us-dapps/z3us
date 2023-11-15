@@ -42,7 +42,10 @@ export const useIntent = () => {
 		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
-	const buildIntent = async (input: SendTransactionInput, settings: TransactionSettings = {}) => {
+	const buildIntent = async (
+		input: SendTransactionInput,
+		settings: TransactionSettings = { tipPercentage: 0, padding: 5 },
+	) => {
 		const instructions = await RadixEngineToolkit.Instructions.convert(
 			{
 				kind: InstructionsKind.String,
@@ -80,9 +83,9 @@ export const useIntent = () => {
 
 		const manifest: TransactionManifest = {
 			instructions: appendLockFeeInstruction(
-				input.transactionManifest,
 				instructions,
 				settings.feePayer || needSignaturesFrom[0],
+				settings.padding,
 			),
 			blobs: input.blobs?.map(blob => Convert.HexString.toUint8Array(blob)) || [],
 		}

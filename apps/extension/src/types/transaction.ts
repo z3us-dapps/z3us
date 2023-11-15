@@ -1,6 +1,7 @@
 export type TransactionSettings = {
 	feePayer?: string
-	tipPercentage?: number
+	tipPercentage: number
+	padding: number
 }
 
 export type ResourceChanges = Array<{ account: string; resource: string; amount: number }>

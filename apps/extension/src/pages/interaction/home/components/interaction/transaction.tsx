@@ -51,11 +51,12 @@ interface IProps {
 
 type State = {
 	input: WalletTransactionItems['send']
+	settings: TransactionSettings
 	intent?: Intent
 	notary?: PrivateKey
 	needSignaturesFrom?: string[]
 	isDappApproved?: boolean
-} & TransactionSettings
+}
 
 export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 	const { interactionId } = useParams()
@@ -72,10 +73,14 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 
 	const [state, setState] = useImmer<State>({
 		input: (interaction.items as WalletTransactionItems).send,
+		settings: {
+			tipPercentage: 0,
+			padding: 5,
+		},
 	})
 
 	useEffect(() => {
-		buildIntent(state.input).then(response => {
+		buildIntent(state.input, state.settings).then(response => {
 			let { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
 			if (interaction.metadata.dAppDefinitionAddress === DAPP_ADDRESS) {
 				accounts = Object.keys(accountIndexes)
@@ -86,9 +91,10 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 				draft.notary = response.notary
 				draft.needSignaturesFrom = response.needSignaturesFrom
 				draft.isDappApproved = response.needSignaturesFrom.every(account => authorizedAccounts.has(account))
+				draft.settings = { ...draft.settings, feePayer: draft.settings.feePayer || response.needSignaturesFrom?.[0] }
 			})
 		})
-	}, [state.input])
+	}, [state.input, state.settings])
 
 	const handleSubmit = async () => {
 		try {
@@ -136,6 +142,12 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 		})
 	}
 
+	const handleSettingsChange = (settings: TransactionSettings) => {
+		setState(draft => {
+			draft.settings = settings
+		})
+	}
+
 	if (interaction.items.discriminator !== 'transaction') return null
 
 	return (
@@ -147,7 +159,14 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					<ValidationErrorMessage
 						message={state.isDappApproved === false ? intl.formatMessage(messages.unauthorized) : ''}
 					/>
-					{state?.intent && <Manifest intent={state.intent} onManifestChange={handleManifestChange} />}
+					{state?.intent && (
+						<Manifest
+							intent={state.intent}
+							settings={state.settings}
+							onManifestChange={handleManifestChange}
+							onSettingsChange={handleSettingsChange}
+						/>
+					)}
 				</Box>
 			</ScrollArea>
 			<Box className={styles.interactionLoginFooterWrapper}>
