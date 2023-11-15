@@ -265,7 +265,7 @@ globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.man img`, {
 // COLORS orange
 globalStyle(`${cardAccountImageWrapper}.orange img:nth-child(1)`, {
 	mixBlendMode: 'darken',
-	opacity: '1',
+	opacity: '0.8',
 })
 
 globalStyle(`${cardAccountImageWrapper}.orange img:nth-child(2)`, {
@@ -285,8 +285,8 @@ globalStyle(`${cardAccountImageWrapper}.orange img:nth-child(4)`, {
 
 // COLORS lipstick
 globalStyle(`${cardAccountImageWrapper}.lipstick img:nth-child(1)`, {
-	mixBlendMode: 'hue',
-	opacity: '0.9',
+	mixBlendMode: 'darken',
+	opacity: '0.1',
 })
 
 globalStyle(`${cardAccountImageWrapper}.lipstick img:nth-child(2)`, {
@@ -306,8 +306,8 @@ globalStyle(`${cardAccountImageWrapper}.lipstick img:nth-child(4)`, {
 
 // COLORS electric-violet
 globalStyle(`${cardAccountImageWrapper}.electric-violet img:nth-child(1)`, {
-	mixBlendMode: 'hue',
-	opacity: '0.9',
+	mixBlendMode: 'color-dodge',
+	opacity: '0.4',
 })
 
 globalStyle(`${cardAccountImageWrapper}.electric-violet img:nth-child(2)`, {
@@ -327,8 +327,8 @@ globalStyle(`${cardAccountImageWrapper}.electric-violet img:nth-child(4)`, {
 
 // COLORS blue
 globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(1)`, {
-	mixBlendMode: 'hue',
-	opacity: '0.9',
+	mixBlendMode: 'multiply',
+	opacity: '0.1',
 })
 
 globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(2)`, {
