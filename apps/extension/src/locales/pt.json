@@ -377,5 +377,6 @@
     "l+w/kG": "Adicionar carteira",
     "n1cwSp": "Ajustar a cor e a imagem de fundo do cartão da conta",
     "sKyGsm": "Tem certeza de que deseja excluir {identityAddress} da carteira?",
-    "wo97Qy": "Gerencie facilmente seu livro de endereços Radix, editando nomes de contas e endereços em uma visão de tabela conveniente para transações perfeitas."
+    "wo97Qy": "Gerencie facilmente seu livro de endereços Radix, editando nomes de contas e endereços em uma visão de tabela conveniente para transações perfeitas.",
+    "HrF57B": "Tenha cuidado extra, a origem ({origin}) do dApp com a qual você está interagindo não está incluída nos sites reivindicados."
 }
