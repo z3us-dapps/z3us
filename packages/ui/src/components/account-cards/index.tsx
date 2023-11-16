@@ -18,6 +18,8 @@ import {
 } from 'ui/src/components/dropdown-menu'
 import { DotsHorizontalCircleIcon, InformationIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
+import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
+import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
@@ -48,6 +50,36 @@ const messages = defineMessages({
 	},
 })
 
+interface IAccountCardImageProps {
+	account: AddressBookEntry
+	className?: string
+	size?: 'small' | 'large'
+}
+
+export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
+	const { account, className, size = 'small' } = props
+	const cardClassName = account?.cardImage
+	const cardImage = CARD_IMAGES?.[account?.cardImage]
+	const isSizeLarge = size === 'large'
+
+	return (
+		<Box
+			className={clsx(
+				styles.cardAccountImageWrapper,
+				account?.cardColor,
+				cardClassName,
+				isSizeLarge && styles.cardAccountLarge,
+				className,
+			)}
+		>
+			{Array.from({ length: 4 }, () => (
+				// eslint-disable-next-line @next/next/no-img-element
+				<img key={cardImage} src={`/images/account-images/${cardImage}`} alt={`${cardImage}-${account?.cardColor}`} />
+			))}
+		</Box>
+	)
+}
+
 interface IAccountCardIconProps {
 	address: string
 	className?: string
@@ -63,13 +95,11 @@ export const AccountCardIcon: React.FC<IAccountCardIconProps> = props => {
 		<Box
 			className={clsx(styles.accountCardIconWrapper, className)}
 			style={{
-				...(account?.cardImage
-					? {
-							backgroundImage: `url(/images/account-images/${account?.cardImage}), ${account?.cardColor}`,
-					  }
-					: {}),
+				...(account?.cardColor ? { backgroundImage: `${CARD_COLORS[account?.cardColor]}` } : {}),
 			}}
-		/>
+		>
+			<AccountCardImage account={account} />
+		</Box>
 	)
 }
 
@@ -145,9 +175,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			key={address}
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
-				...(account?.cardImage
-					? { backgroundImage: `url(/images/account-images/${account?.cardImage}), ${account?.cardColor}` }
-					: {}),
+				...(account?.cardColor ? { backgroundImage: `${CARD_COLORS[account?.cardColor]}` } : {}),
 			}}
 			variants={{
 				visible: {
@@ -162,7 +190,8 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			animate={visible ? 'visible' : 'notVisible'}
 		>
 			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
-				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small">
+				<AccountCardImage account={account} size="large" />
+				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small" position="relative">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{getShortAddress(address)}
@@ -180,7 +209,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 						</Box>
 					) : null}
 				</Box>
-				<Box paddingBottom="xsmall" display="flex" flexDirection="column">
+				<Box paddingBottom="xsmall" display="flex" flexDirection="column" position="relative">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{intl.formatNumber(totalValue, {
@@ -200,6 +229,8 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 					</Text>
 				</Box>
 			</Box>
+
+			<Z3usLogo className={styles.accountCardZ3USlogoWrapper} isHoverMaskEnabled={false} />
 			{showAccountOptions && (
 				<Box className={styles.accountDropdownWrapper}>
 					<DropdownMenu>
