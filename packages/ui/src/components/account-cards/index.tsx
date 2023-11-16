@@ -21,12 +21,12 @@ import { Text } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { useNetworkId } from '../../hooks/dapp/use-network-id'
+import { useWalletAccounts } from '../../hooks/use-accounts'
 import { useZdtState } from '../../hooks/zdt/use-zdt'
 import { CopyAddressButton } from '../copy-address-button'
 import * as styles from './account-cards.css'
@@ -58,23 +58,27 @@ interface IAccountCardImageProps {
 
 export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 	const { account, className, size = 'small' } = props
-	const cardClassName = account?.cardImage
-	const cardImage = CARD_IMAGES?.[account?.cardImage]
+
+	const imgClassName = account.cardImage
+	const colorClassName = account.cardColor
+
+	const cardImage = CARD_IMAGES[imgClassName]
+	const cardColor = CARD_COLORS[colorClassName]
 	const isSizeLarge = size === 'large'
 
 	return (
 		<Box
 			className={clsx(
 				styles.cardAccountImageWrapper,
-				account?.cardColor,
-				cardClassName,
+				colorClassName,
+				imgClassName,
 				isSizeLarge && styles.cardAccountLarge,
 				className,
 			)}
 		>
-			{Array.from({ length: 4 }, () => (
+			{Array.from({ length: 4 }, (_, idx) => (
 				// eslint-disable-next-line @next/next/no-img-element
-				<img key={cardImage} src={`/images/account-images/${cardImage}`} alt={`${cardImage}-${account?.cardColor}`} />
+				<img key={idx} src={`/images/account-images/${cardImage}`} alt={`${cardImage}-${cardColor}`} />
 			))}
 		</Box>
 	)
@@ -88,14 +92,14 @@ interface IAccountCardIconProps {
 export const AccountCardIcon: React.FC<IAccountCardIconProps> = props => {
 	const { address, className } = props
 
-	const addressBook = useAddressBook()
-	const account = addressBook[address]
+	const accounts = useWalletAccounts()
+	const account = accounts[address]
 
 	return (
 		<Box
 			className={clsx(styles.accountCardIconWrapper, className)}
 			style={{
-				...(account?.cardColor ? { backgroundImage: `${CARD_COLORS[account?.cardColor]}` } : {}),
+				...(account.cardColor ? { backgroundImage: `${CARD_COLORS[account.cardColor]}` } : {}),
 			}}
 		>
 			<AccountCardImage account={account} />
@@ -127,9 +131,9 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const [searchParams, setSearchParams] = useSearchParams()
-	const addressBook = useAddressBook()
 	const networkId = useNetworkId()
 	const { isWallet, confirm } = useZdtState()
+	const accounts = useWalletAccounts()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
@@ -141,7 +145,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const { data: balanceData } = useBalances(address)
 	const { totalValue = 0 } = balanceData || {}
 
-	const account = addressBook[address]
+	const account = accounts[address]
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
 

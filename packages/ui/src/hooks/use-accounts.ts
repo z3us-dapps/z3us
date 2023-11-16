@@ -48,8 +48,8 @@ export const useWalletAccounts = (): { [key: string]: AddressBookEntry } => {
 		(ac, account, idx) => ({
 			...ac,
 			[account.address]: {
-				cardImage: CARD_IMAGES[idx % Object.keys(CARD_IMAGES).length],
-				cardColor: CARD_COLORS[idx % Object.keys(CARD_COLORS).length],
+				cardImage: Object.keys(CARD_IMAGES)[idx % Object.keys(CARD_IMAGES).length],
+				cardColor: Object.keys(CARD_COLORS)[idx % Object.keys(CARD_COLORS).length],
 				dateAdded: Date.now(),
 				dateUpdated: Date.now(),
 				...addressBook[account.address],
