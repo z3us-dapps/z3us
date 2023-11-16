@@ -16,6 +16,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
+import { useCustomizeFeeModal } from '@src/hooks/modal/use-customize-fee-modal'
 import { usePreview } from '@src/hooks/transaction/use-preview'
 import { summaryFromInstructions } from '@src/radix/manifest'
 import type { ResourceChanges, Summary, TransactionSettings } from '@src/types/transaction'
@@ -34,6 +35,10 @@ const messages = defineMessages({
 	change_currency_tooltip: {
 		id: 'jv7oHw',
 		defaultMessage: 'Change currency',
+	},
+	customize_fee_button_title: {
+		id: 'TXpOBi',
+		defaultMessage: 'Customize',
 	},
 	xrd_total_execution_cost: {
 		id: '1leDN6',
@@ -77,18 +82,6 @@ const feeSummaryDetailKeys = [
 	'xrd_total_tipping_cost',
 ]
 
-interface IProps {
-	intent: Intent
-	settings?: TransactionSettings
-}
-
-type State = {
-	preview?: TransactionPreviewResponse
-	flatChanges?: ResourceChanges
-	summary?: Summary
-	currency: 'currency' | 'xrd'
-}
-
 function aggregateConsecutiveChanges(
 	resourceChanges: TransactionPreviewResponse['resource_changes'],
 ): State['flatChanges'] {
@@ -124,9 +117,42 @@ function aggregateConsecutiveChanges(
 	return aggregatedData
 }
 
-export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
+function getFeePaddingAmount(receipt: any): number {
+	return (
+		0.15 *
+		(Number.parseFloat(receipt?.fee_summary.xrd_total_execution_cost || 0) +
+			Number.parseFloat(receipt?.fee_summary.xrd_total_finalization_cost || 0) +
+			Number.parseFloat(receipt?.fee_summary.xrd_total_storage_cost || 0))
+	)
+}
+
+function getFeeToLockAmount(receipt: any, padding: number): number {
+	return (
+		feeSummaryDetailKeys.reduce(
+			(sum: number, key: string) => sum + Number.parseFloat(receipt?.fee_summary?.[key] || 0),
+			0,
+		) + padding
+	)
+}
+
+interface IProps {
+	intent: Intent
+	settings: TransactionSettings
+	onSettingsChange: (settings: TransactionSettings) => void
+}
+
+type State = {
+	preview?: TransactionPreviewResponse
+	flatChanges?: ResourceChanges
+	summary?: Summary
+	currency: 'currency' | 'xrd'
+}
+
+export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }) => {
 	const intl = useIntl()
 	const buildPreview = usePreview()
+
+	const customize = useCustomizeFeeModal()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -135,6 +161,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 	const [state, setState] = useImmer<State>({
 		currency: 'xrd',
 	})
+	const receipt = state.preview?.receipt as any
 
 	useEffect(() => {
 		Promise.all([
@@ -146,13 +173,27 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 				draft.flatChanges = aggregateConsecutiveChanges(preview.resource_changes).filter(change => change.amount !== 0)
 				draft.summary = summary
 			})
+			if (settings.padding === 0) {
+				const padding = getFeePaddingAmount(preview?.receipt)
+				onSettingsChange({
+					...settings,
+					padding,
+					lockAmount: getFeeToLockAmount(preview?.receipt, padding),
+				})
+			}
 		})
-	}, [intent])
+	}, [intent, settings])
 
 	const handleToggleValue = () => {
 		setState(draft => {
 			draft.currency = draft.currency === 'currency' ? 'xrd' : 'currency'
 		})
+	}
+
+	const handleClickCustomize = () => {
+		customize(settings).then(newSettings =>
+			onSettingsChange({ ...newSettings, lockAmount: getFeeToLockAmount(receipt, newSettings.padding) }),
+		)
 	}
 
 	// useEffect(() => {
@@ -171,8 +212,6 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 	// }, [state.preview])
 
 	if (!state.preview) return <FallbackLoading />
-
-	const receipt = state.preview?.receipt as any
 
 	return (
 		<Box className={styles.transactionPreviewWrapper}>
@@ -218,23 +257,40 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 				))}
 
 			<Box className={styles.transactionPreviewBlockWrapper}>
-				<Box display="flex" position="relative" width="full" justifyContent="space-between">
+				<Box display="flex" position="relative" width="full">
 					<Text color="strong" size="xsmall" weight="strong">
 						{intl.formatMessage(messages.fee_summary)}
 					</Text>
-					<Box
-						component="button"
-						display="inline-flex"
-						alignItems="center"
-						onClick={handleToggleValue}
-						className={clsx(
-							plainButtonStyles.plainButtonHoverWrapper,
-							plainButtonStyles.plainButtonHoverUnderlineWrapper,
-						)}
-					>
-						<Text color="inherit" size="xsmall" truncate>
-							{intl.formatMessage(messages.change_currency_tooltip)}
-						</Text>
+					<Box className={styles.transactionPreviewFeeLinks}>
+						<Box
+							component="button"
+							display="inline-flex"
+							alignItems="center"
+							onClick={handleClickCustomize}
+							className={clsx(
+								plainButtonStyles.plainButtonHoverWrapper,
+								plainButtonStyles.plainButtonHoverUnderlineWrapper,
+							)}
+						>
+							<Text color="inherit" size="xsmall" truncate>
+								{intl.formatMessage(messages.customize_fee_button_title)}
+							</Text>
+						</Box>
+						<Box className={styles.transactionPreviewLinSeparator} />
+						<Box
+							component="button"
+							display="inline-flex"
+							alignItems="center"
+							onClick={handleToggleValue}
+							className={clsx(
+								plainButtonStyles.plainButtonHoverWrapper,
+								plainButtonStyles.plainButtonHoverUnderlineWrapper,
+							)}
+						>
+							<Text color="inherit" size="xsmall" truncate>
+								{intl.formatMessage(messages.change_currency_tooltip)}
+							</Text>
+						</Box>
 					</Box>
 				</Box>
 

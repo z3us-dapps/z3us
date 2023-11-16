@@ -28,17 +28,17 @@ ReactDOM.createRoot(container).render(
 				<ReactQueryProvider>
 					<NoneSharedStoreProvider>
 						<IntlProvider>
-							<ModalsProvider>
-								<MessageClientProvider>
-									<LedgerClientProvider>
-										<RdtProvider>
-											<ZdtProvider>
+							<MessageClientProvider>
+								<LedgerClientProvider>
+									<RdtProvider>
+										<ZdtProvider>
+											<ModalsProvider>
 												<App />
-											</ZdtProvider>
-										</RdtProvider>
-									</LedgerClientProvider>
-								</MessageClientProvider>
-							</ModalsProvider>
+											</ModalsProvider>
+										</ZdtProvider>
+									</RdtProvider>
+								</LedgerClientProvider>
+							</MessageClientProvider>
 						</IntlProvider>
 					</NoneSharedStoreProvider>
 				</ReactQueryProvider>

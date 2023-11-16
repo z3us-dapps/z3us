@@ -13,6 +13,23 @@ export const formInputWrapper = style([
 	{},
 ])
 
+export const formInputLineSeparator = style([
+	sprinkles({
+		display: 'flex',
+		width: 'full',
+		background: 'borderDivider',
+		marginTop: {
+			mobile: 'small',
+		},
+		marginBottom: {
+			mobile: 'large',
+		},
+	}),
+	{
+		height: '1px',
+	},
+])
+
 export const formInputSubmitButtonWrapper = style([
 	sprinkles({
 		position: 'relative',

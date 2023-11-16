@@ -35,8 +35,9 @@ const MANIFEST = 'manifest'
 
 interface IProps {
 	intent: Intent
-	settings?: TransactionSettings
+	settings: TransactionSettings
 	onManifestChange?: (manifest: string) => void
+	onSettingsChange: (settings: TransactionSettings) => void
 }
 
 type State = {
@@ -44,7 +45,7 @@ type State = {
 	error?: string
 }
 
-export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestChange = () => {} }) => {
+export const Manifest: React.FC<IProps> = ({ intent, settings, onManifestChange, onSettingsChange }) => {
 	const intl = useIntl()
 	const [measureRef, { height: tabHeight }] = useMeasure()
 	const [state, setState] = useImmer<State>({ manifest: '' })
@@ -96,7 +97,7 @@ export const Manifest: React.FC<IProps> = ({ intent, settings = {}, onManifestCh
 				className={styles.transactionManifestTabsWrapper}
 			>
 				<TabsContent value={PREVIEW} className={styles.transactionManifestTabsContentWrapper}>
-					<Preview intent={intent} settings={settings} />
+					<Preview intent={intent} onSettingsChange={onSettingsChange} settings={settings} />
 				</TabsContent>
 				<TabsContent value={MANIFEST} className={styles.transactionManifestTabsContentWrapper}>
 					<Code

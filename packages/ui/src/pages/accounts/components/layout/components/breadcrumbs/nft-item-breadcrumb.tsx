@@ -6,7 +6,7 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import { Text } from 'ui/src/components/typography'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
-import { getStringNftData } from 'ui/src/services/metadata'
+import { findFieldValue } from 'ui/src/services/metadata'
 
 const messages = defineMessages({
 	item: {
@@ -29,7 +29,7 @@ export const NftItemBreadcrumb: React.FC<IProps> = ({ isLast }) => {
 	const { data } = useNonFungibleData(resourceId, nftId)
 
 	const dataJson = data?.data.programmatic_json as any
-	const name = getStringNftData('name', dataJson?.fields)
+	const name = findFieldValue('name', dataJson?.fields)
 
 	const [displayName, setDisplayName] = useState<string>('')
 

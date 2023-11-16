@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 
 import './styles.css'
 
@@ -55,7 +55,7 @@ const Demo = () => {
 		window.rdt?.gatewayApi.state
 			.getEntityMetadata('resource_rdx1nfyg2f68jw7hfdlg5hzvd8ylsa7e0kjl68t5t62v3ttamtejc9wlxa')
 			.then(({ items }) => {
-				setName(getStringMetadata('name', items))
+				setName(findMetadataValue('name', items))
 			})
 	}, [])
 

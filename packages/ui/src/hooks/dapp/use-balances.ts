@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useTokens } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 import type { Token } from 'ui/src/services/oci'
 import { ResourceBalanceType } from 'ui/src/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/src/types'
@@ -21,13 +21,13 @@ const transformFungibleResourceItemResponse =
 	(knownAddresses: KnownAddresses, xrdPrice: number, tokens: { [key: string]: Token }) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
 		const metadata = item.explicit_metadata?.items
-		const name = getStringMetadata('name', metadata)
-		const symbol = getStringMetadata('symbol', metadata)
-		const description = getStringMetadata('description', metadata)
-		const imageUrl = getStringMetadata('icon_url', metadata)
-		const url = getStringMetadata('info_url', metadata)
-		const validator = getStringMetadata('validator', metadata)
-		const pool = getStringMetadata('pool', metadata)
+		const name = findMetadataValue('name', metadata)
+		const symbol = findMetadataValue('symbol', metadata)
+		const description = findMetadataValue('description', metadata)
+		const imageUrl = findMetadataValue('icon_url', metadata)
+		const url = findMetadataValue('info_url', metadata)
+		const validator = findMetadataValue('validator', metadata)
+		const pool = findMetadataValue('pool', metadata)
 
 		const amount = item.vaults.items.reduce(
 			(acc, curr) => acc + +curr.amount,
@@ -89,10 +89,10 @@ const transformNonFungibleResourceItemResponse = (
 	item: NonFungibleResourcesCollectionItemVaultAggregated,
 ): ResourceBalances => {
 	const metadata = item.explicit_metadata?.items
-	const name = getStringMetadata('name', metadata)
-	const description = getStringMetadata('description', metadata)
-	const imageUrl = getStringMetadata('icon_url', metadata)
-	const url = getStringMetadata('info_url', metadata)
+	const name = findMetadataValue('name', metadata)
+	const description = findMetadataValue('description', metadata)
+	const imageUrl = findMetadataValue('icon_url', metadata)
+	const url = findMetadataValue('info_url', metadata)
 
 	const amount = item.vaults.items.reduce(
 		(acc, vault) => acc + +vault.total_count,

@@ -13,7 +13,7 @@ import { Text } from 'ui/src/components/typography'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
 
@@ -55,8 +55,8 @@ const TabTitle: React.FC = () => {
 
 	const { data } = useEntityMetadata(resourceId)
 
-	const name = getStringMetadata('name', data)
-	const symbol = getStringMetadata('symbol', data) || name
+	const name = findMetadataValue('name', data)
+	const symbol = findMetadataValue('symbol', data) || name
 
 	switch (resourceType) {
 		case 'tokens':

@@ -15,7 +15,7 @@ export const usePreview = () => {
 		allAccountIndexes: state.accountIndexes,
 	}))
 
-	const buildPreview = async (intent: Intent, settings: TransactionSettings = {}) => {
+	const buildPreview = async (intent: Intent, settings: TransactionSettings) => {
 		const accountIndexes = allAccountIndexes[intent.header.networkId] || {}
 		const { ledger_state: ledgerState } = await status.getCurrent()
 		const validFromEpoch: number = ledgerState.epoch
