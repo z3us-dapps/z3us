@@ -40,7 +40,7 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 		.filter(entry => entry.address !== exclude)
 		.map(entry => ({
 			id: entry.address,
-			account: entry.address,
+			account: getShortAddress(entry.address, 8),
 			alias: entry.name,
 		}))
 
