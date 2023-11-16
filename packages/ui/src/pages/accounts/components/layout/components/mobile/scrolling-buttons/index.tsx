@@ -81,10 +81,10 @@ export const MobileScrollingButtons: React.FC = () => {
 
 	const onClickChevron = () => {
 		if (isSticky) {
-			scrollableNode.scrollTo({ top: 0, behavior: scrollTopBehavior })
+			scrollableNode.scrollTo({ top: 0, behavior: scrollTopBehavior as any })
 		} else {
 			const HEADER_SPACE = 278
-			scrollableNode.scrollTo({ top: HEADER_SPACE, behavior: scrollTopBehavior })
+			scrollableNode.scrollTo({ top: HEADER_SPACE, behavior: scrollTopBehavior as any })
 		}
 	}
 

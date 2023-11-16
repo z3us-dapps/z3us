@@ -132,7 +132,7 @@ export const slideOutDialogContent = style([
 			bottom: '24px',
 			width: '100%',
 			height: 'unset',
-			borderRadius: vars.border.radius.large,
+			borderRadius: vars.border.radius.medium,
 		},
 		tablet: {
 			maxWidth: '380px',

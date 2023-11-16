@@ -75,6 +75,31 @@ export const transactionDetailsWrapper = style([
 	{},
 ])
 
+export const transactionDetailsNoGapWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		width: 'full',
+		gap: {
+			mobile: 'none',
+			tablet: 'medium',
+		},
+	}),
+	{},
+])
+export const transactionDetailsGapWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		width: 'full',
+		gap: {
+			mobile: 'medium',
+			tablet: 'medium',
+		},
+	}),
+	{},
+])
+
 export const transactionMessageWrapper = style([
 	sprinkles({
 		width: 'full',
