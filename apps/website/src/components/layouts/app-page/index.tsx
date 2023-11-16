@@ -3,6 +3,7 @@ import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom'
 
 import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
 import AppLayout from 'ui/src/components/layout'
+import { ConfirmContext, defaultState as defaultConfirmState } from 'ui/src/context/confirm'
 import { DappStatusContext, defaultState as defaultDappState } from 'ui/src/context/dapp-status'
 import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
@@ -62,7 +63,9 @@ const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
 					<RdtProvider>
 						<ZdtContext.Provider value={defaultZdtState}>
 							<ModalsProvider>
-								<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+								<ConfirmContext.Provider value={defaultConfirmState}>
+									<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+								</ConfirmContext.Provider>
 							</ModalsProvider>
 						</ZdtContext.Provider>
 					</RdtProvider>

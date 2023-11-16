@@ -8,6 +8,7 @@ import { Input } from 'ui/src/components/input'
 import SecretDisplay from 'ui/src/components/secret-display'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
+import { useConfirm } from 'ui/src/hooks/zdt/use-confirm'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -65,7 +66,8 @@ const messages = defineMessages({
 const General: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { isWallet, confirm, removeSecret } = useZdtState()
+	const { isWallet, removeSecret } = useZdtState()
+	const confirm = useConfirm()
 
 	const { keystore, changeKeystoreName } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),

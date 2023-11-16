@@ -215,12 +215,6 @@ export const cardAccountLarge = style([
 
 globalStyle(`${cardAccountImageWrapper} img`, {
 	position: 'absolute',
-	top: 0,
-	right: 0,
-	maxWidth: '120%',
-	width: '120%',
-	height: 'auto',
-	opacity: '0',
 })
 
 // CARDS
@@ -231,7 +225,7 @@ globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.angel img`, {
 	maxWidth: '100%',
 	width: '266px',
 	height: 'auto',
-	opacity: '0',
+	opacity: '0.5',
 })
 
 globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.apple-hermes img`, {
@@ -239,9 +233,9 @@ globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.apple-hermes img`, {
 	bottom: 0,
 	right: '-20px',
 	maxWidth: '100%',
-	width: '266px',
-	height: 'auto',
-	opacity: '0',
+	width: 'auto',
+	height: '100%',
+	opacity: '0.7',
 })
 
 globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.athens img`, {
@@ -251,99 +245,15 @@ globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.athens img`, {
 	maxWidth: '110%',
 	width: '110%',
 	height: 'auto',
-	opacity: '0',
 })
 
 globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.man img`, {
 	position: 'absolute',
-	top: 0,
+	bottom: 0,
+	top: 'unset',
 	right: '-20px',
 	maxWidth: '100%',
-	width: '250px',
+	width: '100%',
 	height: 'auto',
-	opacity: '0',
-})
-
-// COLORS orange
-globalStyle(`${cardAccountImageWrapper}.orange img:nth-child(1)`, {
-	mixBlendMode: 'darken',
-	opacity: '0.8',
-})
-
-globalStyle(`${cardAccountImageWrapper}.orange img:nth-child(2)`, {
-	mixBlendMode: 'luminosity',
-	opacity: '0.3',
-})
-
-globalStyle(`${cardAccountImageWrapper}.orange img:nth-child(3)`, {
-	mixBlendMode: 'difference',
-	opacity: '0.1',
-})
-
-globalStyle(`${cardAccountImageWrapper}.orange img:nth-child(4)`, {
-	mixBlendMode: 'color-burn',
-	opacity: '0.1',
-})
-
-// COLORS lipstick
-globalStyle(`${cardAccountImageWrapper}.lipstick img:nth-child(1)`, {
-	mixBlendMode: 'darken',
-	opacity: '0.1',
-})
-
-globalStyle(`${cardAccountImageWrapper}.lipstick img:nth-child(2)`, {
-	mixBlendMode: 'color-burn',
-	opacity: '0.9',
-})
-
-globalStyle(`${cardAccountImageWrapper}.lipstick img:nth-child(3)`, {
-	mixBlendMode: 'color-dodge',
-	opacity: '0.2',
-})
-
-globalStyle(`${cardAccountImageWrapper}.lipstick img:nth-child(4)`, {
-	mixBlendMode: 'exclusion',
-	opacity: '0.4',
-})
-
-// COLORS electric-violet
-globalStyle(`${cardAccountImageWrapper}.electric-violet img:nth-child(1)`, {
-	mixBlendMode: 'color-dodge',
-	opacity: '0.4',
-})
-
-globalStyle(`${cardAccountImageWrapper}.electric-violet img:nth-child(2)`, {
-	mixBlendMode: 'color-burn',
-	opacity: '0.9',
-})
-
-globalStyle(`${cardAccountImageWrapper}.electric-violet img:nth-child(3)`, {
-	mixBlendMode: 'color-dodge',
-	opacity: '0.2',
-})
-
-globalStyle(`${cardAccountImageWrapper}.electric-violet img:nth-child(4)`, {
-	mixBlendMode: 'exclusion',
-	opacity: '0.4',
-})
-
-// COLORS blue
-globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(1)`, {
-	mixBlendMode: 'multiply',
-	opacity: '0.1',
-})
-
-globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(2)`, {
-	mixBlendMode: 'color-burn',
-	opacity: '0.9',
-})
-
-globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(3)`, {
-	mixBlendMode: 'color-dodge',
-	opacity: '0.2',
-})
-
-globalStyle(`${cardAccountImageWrapper}.blue img:nth-child(4)`, {
-	mixBlendMode: 'exclusion',
-	opacity: '0.4',
+	opacity: '0.7',
 })

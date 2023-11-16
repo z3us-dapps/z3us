@@ -1,5 +1,6 @@
-import { Theme } from 'packages/ui/src/types'
 import browser from 'webextension-polyfill'
+
+import { Theme } from 'ui/src/types'
 
 const STORAGE_KEY = 'z3us:theme'
 
