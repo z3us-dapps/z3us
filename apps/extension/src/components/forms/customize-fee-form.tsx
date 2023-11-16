@@ -1,4 +1,3 @@
-import { AccountSelect } from 'packages/ui/src/components/form/fields/account-select'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
@@ -6,6 +5,7 @@ import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
+import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import NumberField from 'ui/src/components/form/fields/number-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import * as styles from 'ui/src/components/form/styles.css'

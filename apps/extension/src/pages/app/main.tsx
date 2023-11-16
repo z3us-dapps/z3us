@@ -7,6 +7,7 @@ import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 
+import { ConfirmProvider } from '@src/context/confirm-provider'
 import { DappStatusProvider } from '@src/context/dapp-status-provider'
 import IntlProvider from '@src/context/intl-provider'
 import { ClientProvider as LedgerClientProvider } from '@src/context/ledger-client-provider'
@@ -33,7 +34,9 @@ ReactDOM.createRoot(container).render(
 									<RdtProvider>
 										<ZdtProvider>
 											<ModalsProvider>
-												<App />
+												<ConfirmProvider>
+													<App />
+												</ConfirmProvider>
 											</ModalsProvider>
 										</ZdtProvider>
 									</RdtProvider>

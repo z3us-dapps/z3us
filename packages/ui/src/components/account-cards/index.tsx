@@ -21,14 +21,15 @@ import { Text } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { CARD_COLORS } from 'ui/src/constants/account'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useConfirm } from 'ui/src/hooks/zdt/use-confirm'
+import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import { useNetworkId } from '../../hooks/dapp/use-network-id'
-import { useAccountCardSettings } from '../../hooks/use-account-card-settings'
-import { useWalletAccounts } from '../../hooks/use-accounts'
-import { useZdtState } from '../../hooks/zdt/use-zdt'
 import { CopyAddressButton } from '../copy-address-button'
 import * as styles from './account-cards.css'
 
@@ -122,7 +123,8 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const navigate = useNavigate()
 	const [searchParams, setSearchParams] = useSearchParams()
 	const networkId = useNetworkId()
-	const { isWallet, confirm } = useZdtState()
+	const { isWallet } = useZdtState()
+	const confirm = useConfirm()
 	const accounts = useWalletAccounts()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -139,17 +141,15 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
 
-	const handleRemoveAccount = async event => {
+	const handleRemoveAccount = event => {
 		event.stopPropagation()
-		await confirm({
+		confirm({
 			title: intl.formatMessage(messages.delete_account),
 			content: intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
 			buttonTitle: intl.formatMessage(messages.delete_account),
 			buttonStyleVariant: 'destructive',
 			ignorePassword: true,
-		})
-
-		removeAccount(networkId, address)
+		}).then(() => removeAccount(networkId, address))
 	}
 
 	const handleShowDetails = event => {

@@ -1,4 +1,3 @@
-import { useSharedStore } from 'packages/ui/src/hooks/use-store'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { Z3usLogoLarge } from 'ui/src/components/z3us-logo-babylon'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { Title } from '../components/title'
 import * as styles from './styles.css'
