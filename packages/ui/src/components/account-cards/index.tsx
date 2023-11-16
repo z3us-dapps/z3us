@@ -227,7 +227,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 						size="large"
 						weight="strong"
 						truncate
-						className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}
+						className={clsx(styles.cardAccountText, styles.cardAccountName, isAllAccount && styles.cardAccountTextAll)}
 					>
 						{`${account?.name} ${isLegacy ? intl.formatMessage(messages.legacy) : ``}`}
 					</Text>
