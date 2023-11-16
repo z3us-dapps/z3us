@@ -74,14 +74,8 @@ export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 				className,
 			)}
 		>
-			{Array.from({ length: 4 }, (_, index) => (
-				// eslint-disable-next-line @next/next/no-img-element
-				<img
-					key={`${index}-${cardImage}`}
-					src={`/images/account-images/${cardImage}`}
-					alt={`${cardImage}-${cardColor}`}
-				/>
-			))}
+			{/* eslint-disable-next-line @next/next/no-img-element */}
+			<img src={`/images/account-images/${cardImage}`} alt={`${cardImage}-${cardColor}`} />
 		</Box>
 	)
 }
