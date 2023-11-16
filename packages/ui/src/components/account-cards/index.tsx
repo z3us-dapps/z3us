@@ -231,6 +231,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			</Box>
 
 			<Z3usLogo className={styles.accountCardZ3USlogoWrapper} isHoverMaskEnabled={false} />
+
 			{showAccountOptions && (
 				<Box className={styles.accountDropdownWrapper}>
 					<DropdownMenu>
