@@ -120,6 +120,8 @@ export const cardAccountText = style([
 	}),
 ])
 
+export const cardAccountName = style([{ maxWidth: '92%' }])
+
 export const cardAccountTextAll = style([
 	sprinkles({
 		color: {

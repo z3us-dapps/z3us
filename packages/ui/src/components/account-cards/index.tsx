@@ -19,13 +19,14 @@ import {
 import { DotsHorizontalCircleIcon, InformationIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
-import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
+import { CARD_COLORS } from 'ui/src/constants/account'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { useNetworkId } from '../../hooks/dapp/use-network-id'
+import { useAccountCardSettings } from '../../hooks/use-account-card-settings'
 import { useWalletAccounts } from '../../hooks/use-accounts'
 import { useZdtState } from '../../hooks/zdt/use-zdt'
 import { CopyAddressButton } from '../copy-address-button'
@@ -51,19 +52,16 @@ const messages = defineMessages({
 })
 
 interface IAccountCardImageProps {
-	account: AddressBookEntry
+	address: string
 	className?: string
 	size?: 'small' | 'large'
 }
 
 export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
-	const { account, className, size = 'small' } = props
+	const { address, className, size = 'small' } = props
 
-	const imgClassName = account.cardImage
-	const colorClassName = account.cardColor
+	const { cardImage, imgClassName, cardColor, colorClassName } = useAccountCardSettings(address)
 
-	const cardImage = CARD_IMAGES[imgClassName]
-	const cardColor = CARD_COLORS[colorClassName]
 	const isSizeLarge = size === 'large'
 
 	return (
@@ -76,9 +74,13 @@ export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 				className,
 			)}
 		>
-			{Array.from({ length: 4 }, (_, idx) => (
+			{Array.from({ length: 4 }, (_, index) => (
 				// eslint-disable-next-line @next/next/no-img-element
-				<img key={idx} src={`/images/account-images/${cardImage}`} alt={`${cardImage}-${cardColor}`} />
+				<img
+					key={`${index}-${cardImage}`}
+					src={`/images/account-images/${cardImage}`}
+					alt={`${cardImage}-${cardColor}`}
+				/>
 			))}
 		</Box>
 	)
@@ -92,17 +94,11 @@ interface IAccountCardIconProps {
 export const AccountCardIcon: React.FC<IAccountCardIconProps> = props => {
 	const { address, className } = props
 
-	const accounts = useWalletAccounts()
-	const account = accounts[address]
+	const { cardColor } = useAccountCardSettings(address)
 
 	return (
-		<Box
-			className={clsx(styles.accountCardIconWrapper, className)}
-			style={{
-				...(account.cardColor ? { backgroundImage: `${CARD_COLORS[account.cardColor]}` } : {}),
-			}}
-		>
-			<AccountCardImage account={account} />
+		<Box className={clsx(styles.accountCardIconWrapper, className)} style={{ backgroundImage: `${cardColor}` }}>
+			<AccountCardImage address={address} />
 		</Box>
 	)
 }
@@ -194,7 +190,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			animate={visible ? 'visible' : 'notVisible'}
 		>
 			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
-				<AccountCardImage account={account} size="large" />
+				<AccountCardImage address={account.address} size="large" />
 				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small" position="relative">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
@@ -227,7 +223,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 						size="large"
 						weight="strong"
 						truncate
-						className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}
+						className={clsx(styles.cardAccountText, styles.cardAccountName, isAllAccount && styles.cardAccountTextAll)}
 					>
 						{`${account?.name} ${isLegacy ? intl.formatMessage(messages.legacy) : ``}`}
 					</Text>
