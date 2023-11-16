@@ -215,11 +215,6 @@ export const cardAccountLarge = style([
 
 globalStyle(`${cardAccountImageWrapper} img`, {
 	position: 'absolute',
-	top: 0,
-	right: 0,
-	maxWidth: '120%',
-	width: '120%',
-	height: 'auto',
 })
 
 // CARDS
@@ -238,9 +233,9 @@ globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.apple-hermes img`, {
 	bottom: 0,
 	right: '-20px',
 	maxWidth: '100%',
-	width: '266px',
-	height: 'auto',
-	opacity: '0.8',
+	width: 'auto',
+	height: '100%',
+	opacity: '0.7',
 })
 
 globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.athens img`, {
@@ -254,10 +249,11 @@ globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.athens img`, {
 
 globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.man img`, {
 	position: 'absolute',
-	top: 0,
+	bottom: 0,
+	top: 'unset',
 	right: '-20px',
 	maxWidth: '100%',
-	width: '250px',
+	width: '100%',
 	height: 'auto',
 	opacity: '0.7',
 })
