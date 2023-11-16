@@ -7,8 +7,8 @@ export const accountsAddAccountButton = style([
 		position: 'absolute',
 	}),
 	{
-		top: '-120px',
-		right: '14px',
+		top: '-124px',
+		right: '18px',
 		zIndex: 2,
 	},
 ])
