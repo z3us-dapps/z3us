@@ -69,7 +69,7 @@ const TabTitle: React.FC = () => {
 	}
 }
 
-export const MobileScrollingButtons: React.FC<IProps> = () => {
+export const MobileScrollingButtons: React.FC = () => {
 	const intl = useIntl()
 	const location = useLocation()
 	const [searchParams] = useSearchParams()
