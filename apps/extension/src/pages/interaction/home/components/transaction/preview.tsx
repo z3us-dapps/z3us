@@ -126,12 +126,13 @@ function aggregateConsecutiveChanges(
 	return aggregatedData
 }
 
-function getFeePaddingAmount(receipt: TransactionReceipt): number {
+function getFeePaddingAmount(receipt: TransactionReceipt, walletCost: number): number {
 	return (
 		0.15 *
 		(Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) +
 			Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) +
-			Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost))
+			Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost) +
+			walletCost)
 	)
 }
 
@@ -205,7 +206,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 				draft.summary = summary
 			})
 			if (settings.padding === 0) {
-				const padding = getFeePaddingAmount(preview.receipt as TransactionReceipt)
+				const padding = getFeePaddingAmount(preview.receipt as TransactionReceipt, state.walletExecutionCost)
 				const lockAmount = getFeeToLockAmount(preview.receipt as TransactionReceipt, padding, state.walletExecutionCost)
 				onSettingsChange({
 					...settings,
