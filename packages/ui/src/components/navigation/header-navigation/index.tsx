@@ -111,7 +111,7 @@ const HeaderNavInner = () => {
 
 	const location = useLocation()
 	const navigate = useNavigate()
-	const [searchParams, setSearchParams] = useSearchParams()
+	const [searchParams] = useSearchParams()
 
 	const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false)
 	const [isAddAccountModalOpen, setIsAddAccountModalOpen] = useState<boolean>(false)
@@ -159,7 +159,7 @@ const HeaderNavInner = () => {
 			searchParams.delete('tx')
 			searchParams.set('query', `${value}`)
 		}
-		setSearchParams(searchParams)
+		navigate(`${location.pathname}?${searchParams}`)
 	}
 
 	const handleClickSearch = (_visible: boolean) => {

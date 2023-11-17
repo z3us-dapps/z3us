@@ -3,7 +3,7 @@ import type { ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -120,8 +120,9 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	} = props
 
 	const intl = useIntl()
+	const location = useLocation()
 	const navigate = useNavigate()
-	const [searchParams, setSearchParams] = useSearchParams()
+	const [searchParams] = useSearchParams()
 	const networkId = useNetworkId()
 	const { isWallet } = useZdtState()
 	const confirm = useConfirm()
@@ -156,7 +157,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		event.stopPropagation()
 		searchParams.delete('tx')
 		searchParams.set('query', `${address}`)
-		setSearchParams(searchParams)
+		navigate(`${location.pathname}?${searchParams}`)
 	}
 
 	const handleClick = () => {

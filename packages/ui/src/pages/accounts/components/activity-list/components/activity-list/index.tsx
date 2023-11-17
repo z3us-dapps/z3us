@@ -101,13 +101,13 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 				{!transaction && <SkeletonRow index={index} />}
 				{transaction && (
 					<Box
+						onClick={handleClick}
 						className={clsx(styles.activityItemInner, (isSelected || isHovered) && styles.activityItemInnerSelected)}
 					>
 						<Link
 							to={`${location.pathname}?${searchParams}`}
 							underline="never"
 							className={styles.activityItemInnerBtn}
-							onClick={handleClick}
 							onMouseOver={handleMouseOver}
 							onMouseLeave={handleMouseLeave}
 						>

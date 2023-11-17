@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -60,7 +60,9 @@ export const Raw: React.FC = () => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 	const sendTransaction = useSendTransaction()
-	const [searchParams, setSearchParams] = useSearchParams()
+	const location = useLocation()
+	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
 
 	const [initialValues, restFormValues] = useState<typeof init>(init)
 	const [validation, setValidation] = useState<ZodError>()
@@ -98,7 +100,7 @@ export const Raw: React.FC = () => {
 						label: intl.formatMessage(messages.toast_action_label),
 						onClick: () => {
 							searchParams.set('tx', `${res.value.transactionIntentHash}`)
-							setSearchParams(searchParams)
+							navigate(`${location.pathname}?${searchParams}`)
 						},
 					},
 				})

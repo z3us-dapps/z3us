@@ -6,8 +6,7 @@ import { type LProps, LinkComponent } from 'ui/src/components/typography/link'
 import type { TextProps } from '../typography/text'
 
 interface ILinkProps extends LProps {
-	to?: string
-	onClick?: () => void
+	to: string
 	onMouseOver?: () => void
 	onMouseLeave?: () => void
 }

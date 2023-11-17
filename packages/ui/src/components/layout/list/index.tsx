@@ -67,7 +67,7 @@ export const ListItem: React.FC<IListItemProps> = props => {
 
 	if (hasLink)
 		return (
-			<Link href={href} className={clsx(styles.listItemWrapper, styles.listItemLink, className)} underline="never">
+			<Link to={href} className={clsx(styles.listItemWrapper, styles.listItemLink, className)} underline="never">
 				{wrappedChildren}
 			</Link>
 		)

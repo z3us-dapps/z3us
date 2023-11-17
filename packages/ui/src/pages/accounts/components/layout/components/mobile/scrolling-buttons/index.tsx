@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
@@ -70,7 +70,8 @@ const TabTitle: React.FC = () => {
 
 export const MobileScrollingButtons: React.FC = () => {
 	const intl = useIntl()
-	const [searchParams, setSearchParams] = useSearchParams()
+	const location = useLocation()
+	const [searchParams] = useSearchParams()
 	const { scrollableNode } = useScroll()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)
@@ -78,6 +79,11 @@ export const MobileScrollingButtons: React.FC = () => {
 	const isActivitiesVisible = useIsActivitiesVisible()
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 	const scrollTopBehavior = isActivitiesVisible ? 'instant' : 'smooth'
+
+	const queryWithActs = new URLSearchParams(searchParams)
+	queryWithActs.set('acts', `true`)
+	const queryWithoutActs = new URLSearchParams(searchParams)
+	queryWithoutActs.delete('acts')
 
 	const onClickChevron = () => {
 		if (isSticky) {
@@ -87,13 +93,6 @@ export const MobileScrollingButtons: React.FC = () => {
 			scrollableNode.scrollTo({ top: HEADER_SPACE, behavior: scrollTopBehavior as any })
 		}
 	}
-
-	const handleClick =
-		(isActivity = false) =>
-		() => {
-			searchParams.set('acts', `${isActivity}`)
-			setSearchParams(searchParams)
-		}
 
 	useEffect(() => {
 		setIsSticky(!entry?.isIntersecting)
@@ -112,7 +111,7 @@ export const MobileScrollingButtons: React.FC = () => {
 				<Box className={styles.tabsWrapper}>
 					<Link
 						underline="never"
-						onClick={handleClick()}
+						to={`${location.pathname}?${queryWithoutActs}`}
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonLeft,
@@ -126,7 +125,7 @@ export const MobileScrollingButtons: React.FC = () => {
 					</Link>
 					<Link
 						underline="never"
-						onClick={handleClick(true)}
+						to={`${location.pathname}?${queryWithActs}`}
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,
