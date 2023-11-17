@@ -2,6 +2,8 @@ import clsx from 'clsx'
 import React, { Suspense, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
+import useMeasure from 'react-use-measure'
+import { useWindowSize } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
@@ -37,10 +39,16 @@ const ScrollContent: React.FC = () => {
 	const [sidebar] = sidebars.reverse()
 	const key = useMemo(() => location.pathname.split('/')[2] || '-', [location.pathname])
 
+	const [wrapperRef, { top }] = useMeasure()
+	const { height } = useWindowSize()
+	const mobileMinHeight = Math.max(height - top - 48, 435)
+
 	return (
 		<Box className={panelViewStyles.panelViewWrapper}>
 			<Box
+				ref={wrapperRef}
 				className={clsx(panelViewStyles.panelViewLeftWrapper, !!resourceId && panelViewStyles.panelViewResourceWrapper)}
+				style={{ minHeight: `${mobileMinHeight}px` }}
 			>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
 					<Box className={styles.accountsStickyWrapper}>

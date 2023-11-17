@@ -2,6 +2,7 @@ import { globalKeyframes, globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const panelViewOuterWrapper = style([
 	sprinkles({
@@ -46,11 +47,14 @@ export const panelViewLeftWrapper = style([
 	{},
 	responsiveStyle({
 		mobile: {
+			background: vars.color.backgroundSecondary,
 			width: '100%',
 			flexBasis: '100%',
 			zIndex: 1,
 		},
 		tablet: {
+			minHeight: 'unset !important',
+			background: 'none',
 			width: '392px',
 			flexBasis: '392px',
 			display: 'flex',
