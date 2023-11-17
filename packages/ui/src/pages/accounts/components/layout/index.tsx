@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { Suspense, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
+import { useLocation, useMatch, useMatches, useOutlet, useParams } from 'react-router-dom'
 import useMeasure from 'react-use-measure'
 import { useWindowSize } from 'usehooks-ts'
 
@@ -26,6 +26,7 @@ const ScrollContent: React.FC = () => {
 	const location = useLocation()
 	const outlet = useOutlet()
 	const matches = useMatches()
+	const isNftCollection = useMatch('/accounts/:accountId/nfts')
 	const isMobile = useIsMobileWidth()
 	const isActivitiesVisible = useIsActivitiesVisible()
 
@@ -70,7 +71,7 @@ const ScrollContent: React.FC = () => {
 				<ScrollPanel
 					showTopScrollShadow={false}
 					scrollParent={isMobile ? scrollableNode : undefined}
-					disabled={isMobile && !resourceId}
+					disabled={isMobile && !resourceId && !isNftCollection}
 					scrollTopBehavior="instant"
 				>
 					<Box className={panelViewStyles.panelViewRightScrollWrapper}>
