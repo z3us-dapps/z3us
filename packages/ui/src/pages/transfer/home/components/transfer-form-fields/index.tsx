@@ -162,6 +162,7 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 						<FieldsGroup
 							name="resources"
 							defaultKeys={1}
+							className={styles.transferActionFieldWrapper}
 							addTrigger={
 								<Button
 									styleVariant="secondary"

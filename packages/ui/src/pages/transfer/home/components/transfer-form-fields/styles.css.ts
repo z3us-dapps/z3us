@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -157,17 +157,39 @@ export const transferActionTokensNftsAddButton = style([
 	},
 ])
 
+export const transferActionFieldWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: {
+			tablet: 'flex',
+		},
+	}),
+	{},
+])
+
+globalStyle(`${transferActionFieldWrapper} > div:first-child`, {
+	flexGrow: 1,
+})
+
 export const transferActionTrashTokensNftsButton = style([
 	sprinkles({
-		position: 'absolute',
-		top: 0,
-		left: 0,
+		position: 'relative',
 	}),
-	{
-		marginLeft: '-52px',
-		marginTop: '8px',
-		zIndex: 1,
-	},
+	{},
+	responsiveStyle({
+		tablet: {
+			marginTop: '24px',
+			marginLeft: '8px',
+		},
+		desktop: {
+			position: 'absolute',
+			marginLeft: '-52px',
+			marginTop: '24px',
+			zIndex: 1,
+			top: 0,
+			left: 0,
+		},
+	}),
 ])
 
 export const transferActionToAssetWrapper = style([
