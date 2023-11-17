@@ -178,16 +178,15 @@ const HeaderNavInner = () => {
 					<HeaderLavaMenu />
 					<Box className={clsx(styles.headerBackButtonWrapper, styles.tabletHiddenWrapper)}>
 						<BackButton key="nfts" to={backPath} styleVariant={buttonVariant} />
-						{/* <BackButton key="nfts" to={backPath} styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} /> */}
-						<Box
-							display="flex"
-							marginLeft="small"
-							justifyContent="center"
-							alignItems="center"
-							gap="xsmall"
-							flexGrow={1}
-						>
-							{!isAllAccounts && (
+						{!isAllAccounts && (
+							<Box
+								display="flex"
+								marginLeft="small"
+								justifyContent="center"
+								alignItems="center"
+								gap="xsmall"
+								flexGrow={1}
+							>
 								<CopyAddressButton
 									styleVariant={buttonVariant}
 									sizeVariant="small"
@@ -196,8 +195,8 @@ const HeaderNavInner = () => {
 									rounded
 									tickColor="inherit"
 								/>
-							)}
-						</Box>
+							</Box>
+						)}
 					</Box>
 				</>
 			) : (
@@ -232,6 +231,7 @@ const HeaderNavInner = () => {
 					</Box>
 				</>
 			)}
+			{console.log(999, accountAddress)}
 			<Box className={clsx(styles.searchWrapper, accountAddress && styles.headerMobileHiddenWrapper)}>
 				<SearchButtonInput
 					className={clsx(styles.searchComponentWrapper)}
