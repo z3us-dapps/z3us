@@ -13,16 +13,16 @@ import messageHandlers from './message-handlers'
 export type MessageClientType = ReturnType<typeof MessageClient>
 
 export const MessageClient = () => {
+	const responseHandlers: {
+		[key: string]: any
+	} = {}
+
 	let port = browser.runtime.connect({ name: PORT_NAME })
 	port.onDisconnect.addListener(() => {
 		// eslint-disable-next-line no-console
 		if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
 		port = browser.runtime.connect({ name: PORT_NAME })
 	})
-
-	const responseHandlers: {
-		[key: string]: any
-	} = {}
 
 	port.onMessage.addListener((message: ResponseMessage) => {
 		if (!message?.messageId) {

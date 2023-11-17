@@ -23,7 +23,7 @@ export const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	useEffect(() => {
 		browser.runtime.onMessage.addListener(client.onMessage)
 		return () => browser.runtime.onMessage.removeListener(client.onMessage)
-	}, [client])
+	}, [])
 
 	useEffect(() => {
 		if (current && current.id !== keystore?.id) {
