@@ -1,16 +1,17 @@
-import { ToolTip } from 'packages/ui/src/components/tool-tip'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import * as styles from './styles.css'
+import * as styles from '../asset-text-cell/styles.css'
 
 interface IProps {
 	value?: string
 }
 
-export const AssetTextCell: React.FC<IProps> = props => {
+export const AssetIdCell: React.FC<IProps> = props => {
 	const { value } = props
 
 	return (
@@ -18,7 +19,7 @@ export const AssetTextCell: React.FC<IProps> = props => {
 			<ToolTip message={value}>
 				<Box>
 					<Text capitalizeFirstLetter size="small" truncate weight="medium">
-						{value}
+						{getShortAddress(value)}
 					</Text>
 				</Box>
 			</ToolTip>

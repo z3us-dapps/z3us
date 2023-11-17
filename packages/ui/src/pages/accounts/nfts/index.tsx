@@ -9,8 +9,8 @@ import { TableWithEmptyState } from 'ui/src/components/table'
 import { useNonFungibleIds, useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
-import { AssetTextCell } from 'ui/src/pages/accounts/components/table/asset-text-cell'
 
+import { AssetIdCell } from '../components/table/asset-id-cell'
 import { NftDataCell } from '../components/table/nft-data-cell'
 import * as styles from '../components/table/styles.css'
 
@@ -89,7 +89,7 @@ const NFTs: React.FC = () => {
 				Header: intl.formatMessage(messages.non_fungible_id),
 				accessor: 'non_fungible_id',
 				width: 'auto',
-				Cell: AssetTextCell,
+				Cell: AssetIdCell,
 			},
 			{
 				Header: intl.formatMessage(messages.nft),
