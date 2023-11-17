@@ -58,7 +58,6 @@ const transformFungibleResourceItemResponse =
 
 		let resourceType
 		let resourceSubtype
-
 		if (validator) {
 			resourceType = ResourceBalanceType.LIQUIDITY_POOL_TOKEN
 			resourceSubtype = validator
@@ -93,6 +92,8 @@ const transformNonFungibleResourceItemResponse = (
 	const description = findMetadataValue('description', metadata)
 	const imageUrl = findMetadataValue('icon_url', metadata)
 	const url = findMetadataValue('info_url', metadata)
+	const validator = findMetadataValue('validator', metadata)
+	const pool = findMetadataValue('pool', metadata)
 
 	const amount = item.vaults.items.reduce(
 		(acc, vault) => acc + +vault.total_count,
@@ -102,8 +103,19 @@ const transformNonFungibleResourceItemResponse = (
 		return container
 	}
 
+	let resourceType
+	let resourceSubtype
+	if (validator) {
+		resourceType = ResourceBalanceType.LIQUIDITY_POOL_TOKEN
+		resourceSubtype = validator
+	} else if (pool) {
+		resourceType = ResourceBalanceType.POOL_UNIT
+		resourceSubtype = pool
+	} else {
+		resourceType = ResourceBalanceType.NON_FUNGIBLE
+	}
+
 	container[item.resource_address] = {
-		type: ResourceBalanceType.NON_FUNGIBLE,
 		address: item.resource_address,
 		vaults: item.vaults.items.map(vault => vault.vault_address),
 		amount,
@@ -114,7 +126,14 @@ const transformNonFungibleResourceItemResponse = (
 		value: 0,
 		change: 0,
 		xrdValue: 0,
-	} satisfies ResourceBalance[ResourceBalanceType.NON_FUNGIBLE]
+		type: resourceType,
+		// eslint-disable-next-line no-nested-ternary
+		[resourceType === ResourceBalanceType.FUNGIBLE
+			? 'symbol'
+			: resourceType === ResourceBalanceType.LIQUIDITY_POOL_TOKEN
+			? 'validator'
+			: 'pool']: resourceSubtype,
+	}
 
 	return container
 }
@@ -135,8 +154,8 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 	}
 }
 
-const transformBalancesByType = (balances: ResourceBalances, type: string) =>
-	Object.values(balances).filter(balance => balance.type === type)
+const transformBalancesByType = (balances: ResourceBalanceKind[], type: string) =>
+	balances.filter(balance => balance.type === type)
 
 type Balances = {
 	balances: ResourceBalanceKind[]
@@ -158,6 +177,11 @@ type Balances = {
 	tokensValue: number
 	tokensChange: number
 	tokensXrdChange: number
+
+	nftsBalances: ResourceBalanceKind[]
+	nftsValue: number
+	nftsChange: number
+	nftsXrdValue: number
 
 	liquidityPoolTokensBalances: ResourceBalanceKind[]
 	liquidityPoolTokensValue: number
@@ -200,11 +224,13 @@ export const useBalances = (...addresses: string[]) => {
 
 			const fungibleTokens = Object.values(fungible)
 			const nonFungibleTokens = Object.values(nonFungible)
-			const otherTokens = transformBalancesByType(fungible, ResourceBalanceType.FUNGIBLE)
-			const lpTokens = transformBalancesByType(fungible, ResourceBalanceType.LIQUIDITY_POOL_TOKEN)
-			const poolUnits = transformBalancesByType(fungible, ResourceBalanceType.POOL_UNIT)
-
 			const balances = [...fungibleTokens, ...nonFungibleTokens]
+
+			const otherTokens = transformBalancesByType(balances, ResourceBalanceType.FUNGIBLE)
+			const otherNFTs = transformBalancesByType(balances, ResourceBalanceType.NON_FUNGIBLE)
+			const lpTokens = transformBalancesByType(balances, ResourceBalanceType.LIQUIDITY_POOL_TOKEN)
+			const poolUnits = transformBalancesByType(balances, ResourceBalanceType.POOL_UNIT)
+
 			const fungibleBalances = transformBalances(fungibleTokens, 'fungible')
 			const nonFungibleBalances = transformBalances(nonFungibleTokens, 'nonFungible')
 
@@ -223,6 +249,7 @@ export const useBalances = (...addresses: string[]) => {
 				...fungibleBalances,
 				...nonFungibleBalances,
 				...transformBalances(otherTokens, 'tokens'),
+				...transformBalances(otherNFTs, 'nfts'),
 				...transformBalances(lpTokens, 'liquidityPoolTokens'),
 				...transformBalances(poolUnits, 'poolUnits'),
 			} as Balances

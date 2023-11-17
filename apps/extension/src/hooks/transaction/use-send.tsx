@@ -23,8 +23,8 @@ export const useSendTransaction = () => {
 		transactionIntentHash: string
 		status: TransactionStatus
 	}> => {
-		const { notary, intent, needSignaturesFrom } = await buildIntent(input, settings)
-		const notarizedTransaction = await sign(notary, intent, needSignaturesFrom)
+		const { notary, intent, meta } = await buildIntent(input, settings)
+		const notarizedTransaction = await sign(notary, intent, meta.needSignaturesFrom)
 
 		await transaction.innerClient.transactionSubmit({
 			transactionSubmitRequest: { notarized_transaction_hex: notarizedTransaction.toHex() },

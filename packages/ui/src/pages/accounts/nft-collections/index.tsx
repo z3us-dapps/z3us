@@ -51,7 +51,7 @@ const NftCollections: React.FC = () => {
 	const selectedAccounts = useSelectedAccounts()
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
-	const { nonFungibleBalances = [] } = balanceData || {}
+	const { nftsBalances = [] } = balanceData || {}
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.NON_FUNGIBLE] }) => {
 		const { original } = row
@@ -59,14 +59,14 @@ const NftCollections: React.FC = () => {
 	}
 
 	const selectedRowIds = useMemo(() => {
-		const idx = nonFungibleBalances.findIndex(b => b.address === resourceId)
+		const idx = nftsBalances.findIndex(b => b.address === resourceId)
 		if (idx >= 0) {
 			return {
 				[idx]: true,
 			}
 		}
 		return {}
-	}, [resourceId, nonFungibleBalances])
+	}, [resourceId, nftsBalances])
 
 	const columns = useMemo(
 		() => [
@@ -109,7 +109,7 @@ const NftCollections: React.FC = () => {
 				styleVariant="primary"
 				sizeVariant="large"
 				scrollableNode={scrollableNode ?? undefined}
-				data={nonFungibleBalances}
+				data={nftsBalances}
 				columns={columns}
 				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}

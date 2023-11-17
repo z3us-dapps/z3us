@@ -42,9 +42,9 @@ export const AssetsList: React.FC = () => {
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
-		nonFungibleBalances = [],
-		nonFungibleChange = 0,
-		nonFungibleValue = 0,
+		nftsBalances = [],
+		nftsChange = 0,
+		nftsValue = 0,
 		tokensBalances = [],
 		tokensValue = 0,
 		tokensChange = 0,
@@ -64,9 +64,9 @@ export const AssetsList: React.FC = () => {
 			title: intl.formatMessage(messages.tokens),
 		},
 		nfts: {
-			balances: nonFungibleBalances,
-			value: nonFungibleValue,
-			change: nonFungibleChange,
+			balances: nftsBalances,
+			value: nftsValue,
+			change: nftsChange,
 			title: intl.formatMessage(messages.nfts),
 		},
 		'lp-tokens': {
