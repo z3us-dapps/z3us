@@ -44,6 +44,22 @@ export const accountRoutesScrollingWrapper = style([
 	{},
 ])
 
+export const accountRoutesScrollingStickyBtnCollectionWrapper = style([
+	sprinkles({
+		position: 'sticky',
+		zIndex: 1,
+		width: 'full',
+		display: {
+			mobile: 'block',
+			tablet: 'none',
+		},
+	}),
+	{
+		bottom: '0px',
+		// top: '-1px',
+	},
+])
+
 export const accountRoutesScrollingStickyBtnWrapper = style([
 	sprinkles({
 		position: 'sticky',

@@ -25,8 +25,10 @@ import * as styles from './styles.css'
 interface IProps {
 	isMobile: boolean
 	isNftCollectionOrList: boolean
+	isNftCollection: boolean
 }
-const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList }) => {
+
+const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList, isNftCollection }) => {
 	const location = useLocation()
 	const outlet = useOutlet()
 	const matches = useMatches()
@@ -70,14 +72,14 @@ const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList }) =>
 					</Suspense>
 				</ScrollPanel>
 			</Box>
-			{isNftCollectionOrList && <MobileScrollingButtons />}
-			<Box className={panelViewStyles.panelViewRightWrapper}>
-				<ScrollPanel
-					showTopScrollShadow={false}
-					scrollParent={isMobile ? scrollableNode : undefined}
-					disabled={isMobile && isNftCollectionOrList}
-					scrollTopBehavior="instant"
-				>
+			{isNftCollectionOrList && <MobileScrollingButtons isStickyBottom={isNftCollection} />}
+			<Box
+				className={clsx(
+					panelViewStyles.panelViewRightWrapper,
+					isNftCollection && panelViewStyles.panelViewRightRelativeWrapper,
+				)}
+			>
+				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
 					<Box className={panelViewStyles.panelViewRightScrollWrapper}>
 						<Suspense key={location.pathname} fallback={<FallbackLoading />}>
 							<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
@@ -104,7 +106,11 @@ const Layout: React.FC = () => {
 					showTopScrollShadow={isMobile}
 					disabled={!isMobile}
 				>
-					<ScrollContent isMobile={isMobile} isNftCollectionOrList={isNftCollectionOrList} />
+					<ScrollContent
+						isMobile={isMobile}
+						isNftCollectionOrList={isNftCollectionOrList}
+						isNftCollection={!!isNftCollection}
+					/>
 				</MobileScrollArea>
 			</Box>
 		</MotionBox>

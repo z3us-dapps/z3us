@@ -68,7 +68,11 @@ const TabTitle: React.FC = () => {
 	}
 }
 
-export const MobileScrollingButtons: React.FC = () => {
+interface IProps {
+	isStickyBottom: boolean
+}
+
+export const MobileScrollingButtons: React.FC<IProps> = ({ isStickyBottom }) => {
 	const intl = useIntl()
 	const location = useLocation()
 	const [searchParams] = useSearchParams()
@@ -104,6 +108,7 @@ export const MobileScrollingButtons: React.FC = () => {
 			className={clsx(
 				styles.accountRoutesScrollingStickyBtnWrapper,
 				isSticky && styles.accountRoutesScrollingStickyShadow,
+				isStickyBottom && styles.accountRoutesScrollingStickyBtnCollectionWrapper,
 			)}
 		>
 			<Box ref={stickyRef} className={styles.accountRoutesScrollingStickyElem} />
