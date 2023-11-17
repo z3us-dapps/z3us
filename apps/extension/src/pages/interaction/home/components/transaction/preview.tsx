@@ -1,6 +1,7 @@
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
 import type { Instruction, Intent } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
+import { ValidationErrorMessage } from 'packages/ui/src/components/validation-error-message'
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
@@ -19,7 +20,19 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useCustomizeFeeModal } from '@src/hooks/modal/use-customize-fee-modal'
 import { usePreview } from '@src/hooks/transaction/use-preview'
 import { summaryFromInstructions } from '@src/radix/manifest'
-import type { ResourceChanges, Summary, TransactionSettings } from '@src/types/transaction'
+import {
+	type ResourceChanges,
+	type Summary,
+	type TransactionMeta,
+	type TransactionReceipt,
+	type TransactionSettings,
+	fungibleGuaranteeInstructionCost,
+	lockFeeInstructionCost,
+	nonFungibleGuaranteeInstructionCost,
+	notarizingCost,
+	notarizingCostWhenNotaryIsSignatory,
+	signatureCost,
+} from '@src/types/transaction'
 
 import * as styles from './styles.css'
 
@@ -60,6 +73,10 @@ const messages = defineMessages({
 		id: 'MKZX2V',
 		defaultMessage: 'Tipping',
 	},
+	xrd_total_wallet_cost: {
+		id: 'hT8jY5',
+		defaultMessage: 'Notarizing and guarantees',
+	},
 	proof: {
 		id: 'KBj2VM',
 		defaultMessage: 'Presenting proof',
@@ -73,14 +90,6 @@ const messages = defineMessages({
 		defaultMessage: 'Depositing',
 	},
 })
-
-const feeSummaryDetailKeys = [
-	'xrd_total_execution_cost',
-	'xrd_total_finalization_cost',
-	'xrd_total_royalty_cost',
-	'xrd_total_storage_cost',
-	'xrd_total_tipping_cost',
-]
 
 function aggregateConsecutiveChanges(
 	resourceChanges: TransactionPreviewResponse['resource_changes'],
@@ -117,27 +126,41 @@ function aggregateConsecutiveChanges(
 	return aggregatedData
 }
 
-function getFeePaddingAmount(receipt: any): number {
+function getFeePaddingAmount(receipt: TransactionReceipt): number {
 	return (
 		0.15 *
-		(Number.parseFloat(receipt?.fee_summary.xrd_total_execution_cost || 0) +
-			Number.parseFloat(receipt?.fee_summary.xrd_total_finalization_cost || 0) +
-			Number.parseFloat(receipt?.fee_summary.xrd_total_storage_cost || 0))
+		(Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) +
+			Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) +
+			Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost))
 	)
 }
 
-function getFeeToLockAmount(receipt: any, padding: number): number {
+function walletExecutionCost(meta: TransactionMeta): number {
 	return (
-		feeSummaryDetailKeys.reduce(
-			(sum: number, key: string) => sum + Number.parseFloat(receipt?.fee_summary?.[key] || 0),
-			0,
-		) + padding
+		meta.tokenGuaranteesCount * fungibleGuaranteeInstructionCost +
+		meta.nftGuaranteesCount * nonFungibleGuaranteeInstructionCost +
+		meta.needSignaturesFrom.length * signatureCost +
+		lockFeeInstructionCost +
+		(meta.isNotarySignatory ? notarizingCostWhenNotaryIsSignatory : notarizingCost)
+	)
+}
+
+function getFeeToLockAmount(receipt: TransactionReceipt, padding: number, walletCost: number): number {
+	return (
+		Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) +
+		Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) +
+		Number.parseFloat(receipt.fee_summary.xrd_total_royalty_cost) +
+		Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost) +
+		Number.parseFloat(receipt.fee_summary.xrd_total_tipping_cost) +
+		walletCost +
+		padding
 	)
 }
 
 interface IProps {
 	intent: Intent
 	settings: TransactionSettings
+	meta: TransactionMeta
 	onSettingsChange: (settings: TransactionSettings) => void
 }
 
@@ -146,9 +169,10 @@ type State = {
 	flatChanges?: ResourceChanges
 	summary?: Summary
 	currency: 'currency' | 'xrd'
+	walletExecutionCost: number
 }
 
-export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }) => {
+export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsChange }) => {
 	const intl = useIntl()
 	const buildPreview = usePreview()
 
@@ -160,8 +184,15 @@ export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }
 
 	const [state, setState] = useImmer<State>({
 		currency: 'xrd',
+		walletExecutionCost: 0,
 	})
-	const receipt = state.preview?.receipt as any
+	const receipt = state.preview?.receipt as TransactionReceipt
+
+	useEffect(() => {
+		setState(draft => {
+			draft.walletExecutionCost = walletExecutionCost(meta)
+		})
+	}, [meta])
 
 	useEffect(() => {
 		Promise.all([
@@ -174,11 +205,12 @@ export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }
 				draft.summary = summary
 			})
 			if (settings.padding === 0) {
-				const padding = getFeePaddingAmount(preview?.receipt)
+				const padding = getFeePaddingAmount(preview.receipt as TransactionReceipt)
+				const lockAmount = getFeeToLockAmount(preview.receipt as TransactionReceipt, padding, state.walletExecutionCost)
 				onSettingsChange({
 					...settings,
 					padding,
-					lockAmount: getFeeToLockAmount(preview?.receipt, padding),
+					lockAmount,
 				})
 			}
 		})
@@ -191,9 +223,14 @@ export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }
 	}
 
 	const handleClickCustomize = () => {
-		customize(settings).then(newSettings =>
-			onSettingsChange({ ...newSettings, lockAmount: getFeeToLockAmount(receipt, newSettings.padding) }),
-		)
+		customize(settings).then(newSettings => {
+			const lockAmount = getFeeToLockAmount(
+				receipt as TransactionReceipt,
+				newSettings.padding,
+				state.walletExecutionCost,
+			)
+			onSettingsChange({ ...newSettings, lockAmount })
+		})
 	}
 
 	// useEffect(() => {
@@ -296,45 +333,217 @@ export const Preview: React.FC<IProps> = ({ intent, settings, onSettingsChange }
 
 				<Box className={styles.transactionPreviewBlock}>
 					<Box display="flex" flexDirection="column" gap="xsmall">
-						{feeSummaryDetailKeys.map(key =>
-							!receipt?.fee_summary?.[key] ? null : (
-								<AccountsTransactionInfo
-									key={key}
-									leftTitle={<Text size="small">{intl.formatMessage(messages[key])}</Text>}
-									rightData={
-										<ToolTip
-											message={
-												state.currency === 'currency'
-													? `${intl.formatNumber(receipt.fee_summary[key], {
-															style: 'decimal',
-															maximumFractionDigits: 18,
-													  })} XRD`
-													: intl.formatNumber(receipt.fee_summary[key] * xrdPrice, {
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_execution_cost)}</Text>}
+							rightData={
+								<ToolTip
+									message={
+										state.currency === 'currency'
+											? `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost), {
+													style: 'decimal',
+													maximumFractionDigits: 18,
+											  })} XRD`
+											: intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) * xrdPrice, {
+													style: 'currency',
+													currency,
+											  })
+									}
+								>
+									<Box>
+										<Text size="small" color="strong">
+											{state.currency === 'currency'
+												? intl.formatNumber(
+														Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) * xrdPrice,
+														{
 															style: 'currency',
 															currency,
-													  })
-											}
-										>
-											<Box>
-												<Text size="small" color="strong">
-													{state.currency === 'currency'
-														? intl.formatNumber(receipt.fee_summary[key] * xrdPrice, {
-																style: 'currency',
-																currency,
-														  })
-														: `${intl.formatNumber(receipt.fee_summary[key], {
-																style: 'decimal',
-																maximumFractionDigits: 18,
-														  })} XRD`}
-												</Text>
-											</Box>
-										</ToolTip>
+														},
+												  )
+												: `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost), {
+														style: 'decimal',
+														maximumFractionDigits: 18,
+												  })} XRD`}
+										</Text>
+									</Box>
+								</ToolTip>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_finalization_cost)}</Text>}
+							rightData={
+								<ToolTip
+									message={
+										state.currency === 'currency'
+											? `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost), {
+													style: 'decimal',
+													maximumFractionDigits: 18,
+											  })} XRD`
+											: intl.formatNumber(
+													Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) * xrdPrice,
+													{
+														style: 'currency',
+														currency,
+													},
+											  )
 									}
-								/>
-							),
-						)}
+								>
+									<Box>
+										<Text size="small" color="strong">
+											{state.currency === 'currency'
+												? intl.formatNumber(
+														Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) * xrdPrice,
+														{
+															style: 'currency',
+															currency,
+														},
+												  )
+												: `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost), {
+														style: 'decimal',
+														maximumFractionDigits: 18,
+												  })} XRD`}
+										</Text>
+									</Box>
+								</ToolTip>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_royalty_cost)}</Text>}
+							rightData={
+								<ToolTip
+									message={
+										state.currency === 'currency'
+											? `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_royalty_cost), {
+													style: 'decimal',
+													maximumFractionDigits: 18,
+											  })} XRD`
+											: intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_royalty_cost) * xrdPrice, {
+													style: 'currency',
+													currency,
+											  })
+									}
+								>
+									<Box>
+										<Text size="small" color="strong">
+											{state.currency === 'currency'
+												? intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_royalty_cost) * xrdPrice, {
+														style: 'currency',
+														currency,
+												  })
+												: `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_royalty_cost), {
+														style: 'decimal',
+														maximumFractionDigits: 18,
+												  })} XRD`}
+										</Text>
+									</Box>
+								</ToolTip>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_storage_cost)}</Text>}
+							rightData={
+								<ToolTip
+									message={
+										state.currency === 'currency'
+											? `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost), {
+													style: 'decimal',
+													maximumFractionDigits: 18,
+											  })} XRD`
+											: intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost) * xrdPrice, {
+													style: 'currency',
+													currency,
+											  })
+									}
+								>
+									<Box>
+										<Text size="small" color="strong">
+											{state.currency === 'currency'
+												? intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost) * xrdPrice, {
+														style: 'currency',
+														currency,
+												  })
+												: `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost), {
+														style: 'decimal',
+														maximumFractionDigits: 18,
+												  })} XRD`}
+										</Text>
+									</Box>
+								</ToolTip>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_tipping_cost)}</Text>}
+							rightData={
+								<ToolTip
+									message={
+										state.currency === 'currency'
+											? `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_tipping_cost), {
+													style: 'decimal',
+													maximumFractionDigits: 18,
+											  })} XRD`
+											: intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_tipping_cost) * xrdPrice, {
+													style: 'currency',
+													currency,
+											  })
+									}
+								>
+									<Box>
+										<Text size="small" color="strong">
+											{state.currency === 'currency'
+												? intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_tipping_cost) * xrdPrice, {
+														style: 'currency',
+														currency,
+												  })
+												: `${intl.formatNumber(Number.parseFloat(receipt.fee_summary.xrd_total_tipping_cost), {
+														style: 'decimal',
+														maximumFractionDigits: 18,
+												  })} XRD`}
+										</Text>
+									</Box>
+								</ToolTip>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_wallet_cost)}</Text>}
+							rightData={
+								<ToolTip
+									message={
+										state.currency === 'currency'
+											? `${intl.formatNumber(state.walletExecutionCost, {
+													style: 'decimal',
+													maximumFractionDigits: 18,
+											  })} XRD`
+											: intl.formatNumber(state.walletExecutionCost * xrdPrice, {
+													style: 'currency',
+													currency,
+											  })
+									}
+								>
+									<Box>
+										<Text size="small" color="strong">
+											{state.currency === 'currency'
+												? intl.formatNumber(state.walletExecutionCost * xrdPrice, {
+														style: 'currency',
+														currency,
+												  })
+												: `${intl.formatNumber(state.walletExecutionCost, {
+														style: 'decimal',
+														maximumFractionDigits: 18,
+												  })} XRD`}
+										</Text>
+									</Box>
+								</ToolTip>
+							}
+						/>
 					</Box>
 				</Box>
+
+				{receipt?.error_message && (
+					<Box className={styles.transactionPreviewBlockWrapper}>
+						<Box className={styles.transactionPreviewBlock}>
+							<ValidationErrorMessage align="center" message={receipt?.error_message} />
+						</Box>
+					</Box>
+				)}
 			</Box>
 		</Box>
 	)

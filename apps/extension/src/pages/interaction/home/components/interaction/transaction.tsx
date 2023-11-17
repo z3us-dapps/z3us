@@ -20,7 +20,7 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useIntent } from '@src/hooks/transaction/use-intent'
 import { useSign } from '@src/hooks/transaction/use-sign'
-import type { TransactionSettings } from '@src/types/transaction'
+import type { TransactionMeta, TransactionSettings } from '@src/types/transaction'
 
 import { DappDetails } from '../dapp-details'
 import { NetworkAlert } from '../network-alert'
@@ -52,9 +52,9 @@ interface IProps {
 type State = {
 	input: WalletTransactionItems['send']
 	settings: TransactionSettings
+	meta: TransactionMeta
 	intent?: Intent
 	notary?: PrivateKey
-	needSignaturesFrom: string[]
 	isDappApproved?: boolean
 	error?: string
 }
@@ -79,7 +79,12 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 			padding: 0,
 			lockAmount: 1,
 		},
-		needSignaturesFrom: [],
+		meta: {
+			needSignaturesFrom: [],
+			isNotarySignatory: false,
+			tokenGuaranteesCount: 0,
+			nftGuaranteesCount: 0,
+		},
 	})
 
 	useEffect(() => {
@@ -94,8 +99,8 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					draft.error = ''
 					draft.intent = response.intent
 					draft.notary = response.notary
-					draft.needSignaturesFrom = response.needSignaturesFrom
-					draft.isDappApproved = response.needSignaturesFrom.every(account => authorizedAccounts.has(account))
+					draft.meta = response.meta
+					draft.isDappApproved = response.meta.needSignaturesFrom.every(account => authorizedAccounts.has(account))
 				})
 			})
 			.catch(err => {
@@ -106,16 +111,16 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 	}, [state.input, state.settings])
 
 	useEffect(() => {
-		if (!state.settings.feePayer && state.needSignaturesFrom.length > 0) {
+		if (!state.settings.feePayer && state.meta.needSignaturesFrom.length > 0) {
 			setState(draft => {
-				draft.settings = { ...draft.settings, feePayer: state.needSignaturesFrom[0] }
+				draft.settings = { ...draft.settings, feePayer: state.meta.needSignaturesFrom[0] }
 			})
 		}
-	}, [state.needSignaturesFrom])
+	}, [state.meta.needSignaturesFrom])
 
 	const handleSubmit = async () => {
 		try {
-			const notarizedTransaction = await sign(state.notary, state.intent, state.needSignaturesFrom)
+			const notarizedTransaction = await sign(state.notary, state.intent, state.meta.needSignaturesFrom)
 			await transaction.innerClient.transactionSubmit({
 				transactionSubmitRequest: { notarized_transaction_hex: notarizedTransaction.toHex() },
 			})
@@ -181,6 +186,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 						<Manifest
 							intent={state.intent}
 							settings={state.settings}
+							meta={state.meta}
 							onManifestChange={handleManifestChange}
 							onSettingsChange={handleSettingsChange}
 						/>

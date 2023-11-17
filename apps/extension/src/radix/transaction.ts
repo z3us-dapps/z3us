@@ -26,3 +26,18 @@ export const appendLockFeeInstruction = (
 
 	return instructions
 }
+
+export const countNftGuarantees = (instructions: Instructions): number =>
+	(instructions.value as Instruction[]).reduce(
+		(count, instruction) => (instruction.kind === 'AssertWorktopContainsNonFungibles' ? count + 1 : count),
+		0,
+	)
+
+export const countTokenGuarantees = (instructions: Instructions): number =>
+	(instructions.value as Instruction[]).reduce(
+		(count, instruction) =>
+			instruction.kind === 'AssertWorktopContains' || instruction.kind === 'AssertWorktopContainsAny'
+				? count + 1
+				: count,
+		0,
+	)

@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
+import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -54,10 +55,10 @@ export const BalancePieChart: React.FC = () => {
 	const data = useMemo(
 		() =>
 			isAllAccounts
-				? Object.keys(accountValues).map((address, index) => ({
+				? Object.keys(accounts).map((address, index) => ({
 						address,
 						index,
-						name: accounts[address]?.name || address,
+						name: accounts[address].name || getShortAddress(address),
 						value: accountValues[address],
 				  }))
 				: balances.map((resource, index) => ({

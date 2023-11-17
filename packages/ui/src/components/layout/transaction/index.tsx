@@ -19,6 +19,7 @@ import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
+import { ValidationErrorMessage } from '../../validation-error-message'
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
 import * as styles from './styles.css'
 
@@ -140,6 +141,10 @@ export const Transaction = () => {
 									address={knownAddresses?.resourceAddresses.xrd}
 								/>
 							</Text>
+						</Box>
+
+						<Box width="full">
+							<ValidationErrorMessage align="center" message={data?.transaction?.error_message} />
 						</Box>
 					</Box>
 					<Box className={styles.transactionDetailsWrapper}>

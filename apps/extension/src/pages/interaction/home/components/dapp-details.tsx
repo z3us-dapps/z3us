@@ -36,7 +36,7 @@ const popupURL = new URL(browser.runtime.getURL(''))
 export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin }) => {
 	const intl = useIntl()
 
-	const { data = [] } = useEntityMetadata(dAppDefinitionAddress)
+	const { data = [], isLoading } = useEntityMetadata(dAppDefinitionAddress)
 	const name = findMetadataValue('name', data)
 	const claimedWebsites = findMetadataValue('claimed_websites', data)
 	const infoUrl = findMetadataValue('info_url', data)
@@ -44,9 +44,17 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 
 	const isVerified = useMemo(
 		() =>
-			origin === popupURL.origin ||
-			!!matches.find(match => match.replace('*://*.', '').replace('/*', '').endsWith(new URL(origin).hostname)),
+			!isLoading &&
+			(origin === popupURL.origin ||
+				!!matches.find(match => match.replace('*://*.', '').replace('/*', '').endsWith(new URL(origin).hostname))),
 		[origin],
+	)
+
+	const isMalicious = useMemo(
+		() =>
+			!isLoading &&
+			(origin === popupURL.origin || origin === claimedWebsites || claimedWebsites.includes(`${origin}, `)),
+		[origin, claimedWebsites],
 	)
 
 	return (
@@ -56,7 +64,7 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 					<ResourceImageIcon size="xxlarge" address={dAppDefinitionAddress} />
 					<Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
 						{name || getShortAddress(dAppDefinitionAddress)}
-						{isVerified && (
+						{isVerified === true && (
 							<ToolTip message={intl.formatMessage(messages.verified_dapp)} side="top">
 								<CheckCircleIcon color="green" />
 							</ToolTip>
@@ -73,11 +81,7 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 
 			<ValidationErrorMessage
 				align="center"
-				message={
-					origin === popupURL.origin || origin === claimedWebsites || claimedWebsites.includes(`${origin}, `)
-						? ''
-						: intl.formatMessage(messages.origin_warning, { origin })
-				}
+				message={isMalicious === true ? '' : intl.formatMessage(messages.origin_warning, { origin })}
 			/>
 		</Box>
 	)

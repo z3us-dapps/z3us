@@ -10,7 +10,7 @@ import { Tabs, TabsContent } from 'ui/src/components/tabs'
 import Code from 'ui/src/components/typography/code'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
-import type { TransactionSettings } from '@src/types/transaction'
+import type { TransactionMeta, TransactionSettings } from '@src/types/transaction'
 
 import { Preview } from './preview'
 import * as styles from './styles.css'
@@ -36,6 +36,7 @@ const MANIFEST = 'manifest'
 interface IProps {
 	intent: Intent
 	settings: TransactionSettings
+	meta: TransactionMeta
 	onManifestChange?: (manifest: string) => void
 	onSettingsChange: (settings: TransactionSettings) => void
 }
@@ -45,7 +46,7 @@ type State = {
 	error?: string
 }
 
-export const Manifest: React.FC<IProps> = ({ intent, settings, onManifestChange, onSettingsChange }) => {
+export const Manifest: React.FC<IProps> = ({ intent, settings, meta, onManifestChange, onSettingsChange }) => {
 	const intl = useIntl()
 	const [measureRef, { height: tabHeight }] = useMeasure()
 	const [state, setState] = useImmer<State>({ manifest: '' })
@@ -97,7 +98,7 @@ export const Manifest: React.FC<IProps> = ({ intent, settings, onManifestChange,
 				className={styles.transactionManifestTabsWrapper}
 			>
 				<TabsContent value={PREVIEW} className={styles.transactionManifestTabsContentWrapper}>
-					<Preview intent={intent} onSettingsChange={onSettingsChange} settings={settings} />
+					<Preview intent={intent} settings={settings} meta={meta} onSettingsChange={onSettingsChange} />
 				</TabsContent>
 				<TabsContent value={MANIFEST} className={styles.transactionManifestTabsContentWrapper}>
 					<Code
