@@ -23,7 +23,6 @@ const messages = defineMessages({
 
 interface IProps {
 	value?: string
-	// row?: { original: ResourceBalance[ResourceBalanceType.POOL_UNIT] }
 }
 
 export const PoolCell: React.FC<IProps> = props => {

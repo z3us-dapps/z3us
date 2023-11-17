@@ -44,7 +44,8 @@ const transformFungibleResourceItemResponse =
 		const change = tokenPriceNow !== 0 ? tokenPriceNow / tokenPrice24h / 100 : 0
 		const xrdValue = amount * (parseFloat(token?.price?.xrd.now) || 0)
 
-		const details = {
+		container[item.resource_address] = {
+			type: ResourceBalanceType.FUNGIBLE,
 			address: item.resource_address,
 			amount,
 			value: xrdValue * xrdPrice,
@@ -54,30 +55,9 @@ const transformFungibleResourceItemResponse =
 			url,
 			imageUrl,
 			change: Number.isFinite(change) ? change : 0,
-		}
-
-		let resourceType
-		let resourceSubtype
-		if (validator) {
-			resourceType = ResourceBalanceType.LIQUIDITY_POOL_TOKEN
-			resourceSubtype = validator
-		} else if (pool) {
-			resourceType = ResourceBalanceType.POOL_UNIT
-			resourceSubtype = pool
-		} else {
-			resourceType = ResourceBalanceType.FUNGIBLE
-			resourceSubtype = symbol
-		}
-
-		container[item.resource_address] = {
-			...details,
-			type: resourceType,
-			// eslint-disable-next-line no-nested-ternary
-			[resourceType === ResourceBalanceType.FUNGIBLE
-				? 'symbol'
-				: resourceType === ResourceBalanceType.LIQUIDITY_POOL_TOKEN
-				? 'validator'
-				: 'pool']: resourceSubtype,
+			symbol,
+			validator,
+			pool,
 		}
 
 		return container
@@ -103,19 +83,8 @@ const transformNonFungibleResourceItemResponse = (
 		return container
 	}
 
-	let resourceType
-	let resourceSubtype
-	if (validator) {
-		resourceType = ResourceBalanceType.LIQUIDITY_POOL_TOKEN
-		resourceSubtype = validator
-	} else if (pool) {
-		resourceType = ResourceBalanceType.POOL_UNIT
-		resourceSubtype = pool
-	} else {
-		resourceType = ResourceBalanceType.NON_FUNGIBLE
-	}
-
 	container[item.resource_address] = {
+		type: ResourceBalanceType.NON_FUNGIBLE,
 		address: item.resource_address,
 		vaults: item.vaults.items.map(vault => vault.vault_address),
 		amount,
@@ -126,13 +95,8 @@ const transformNonFungibleResourceItemResponse = (
 		value: 0,
 		change: 0,
 		xrdValue: 0,
-		type: resourceType,
-		// eslint-disable-next-line no-nested-ternary
-		[resourceType === ResourceBalanceType.FUNGIBLE
-			? 'symbol'
-			: resourceType === ResourceBalanceType.LIQUIDITY_POOL_TOKEN
-			? 'validator'
-			: 'pool']: resourceSubtype,
+		validator,
+		pool,
 	}
 
 	return container
@@ -153,9 +117,6 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 		[`${valueType}Change`]: Number.isFinite(totalChange) ? totalChange : 0,
 	}
 }
-
-const transformBalancesByType = (balances: ResourceBalanceKind[], type: string) =>
-	balances.filter(balance => balance.type === type)
 
 type Balances = {
 	balances: ResourceBalanceKind[]
@@ -226,10 +187,10 @@ export const useBalances = (...addresses: string[]) => {
 			const nonFungibleTokens = Object.values(nonFungible)
 			const balances = [...fungibleTokens, ...nonFungibleTokens]
 
-			const otherTokens = transformBalancesByType(balances, ResourceBalanceType.FUNGIBLE)
-			const otherNFTs = transformBalancesByType(balances, ResourceBalanceType.NON_FUNGIBLE)
-			const lpTokens = transformBalancesByType(balances, ResourceBalanceType.LIQUIDITY_POOL_TOKEN)
-			const poolUnits = transformBalancesByType(balances, ResourceBalanceType.POOL_UNIT)
+			const otherTokens = fungibleTokens.filter(balance => !balance.validator && !balance.pool)
+			const otherNFTs = nonFungibleTokens.filter(balance => !balance.validator && !balance.pool)
+			const lpTokens = balances.filter(balance => !!balance.validator)
+			const poolUnits = balances.filter(balance => !!balance.pool)
 
 			const fungibleBalances = transformBalances(fungibleTokens, 'fungible')
 			const nonFungibleBalances = transformBalances(nonFungibleTokens, 'nonFungible')

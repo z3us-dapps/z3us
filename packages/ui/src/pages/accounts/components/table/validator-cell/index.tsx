@@ -24,7 +24,7 @@ const messages = defineMessages({
 
 interface IProps {
 	value?: string
-	row?: { original: ResourceBalance[ResourceBalanceType.LIQUIDITY_POOL_TOKEN] }
+	row?: { original: ResourceBalance[ResourceBalanceType.FUNGIBLE] }
 }
 
 export const ValidatorCell: React.FC<IProps> = props => {

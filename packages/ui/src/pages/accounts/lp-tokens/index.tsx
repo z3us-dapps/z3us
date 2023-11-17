@@ -11,7 +11,7 @@ import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-am
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
+import type { ResourceBalanceKind } from 'ui/src/types'
 
 import * as styles from '../components/table/styles.css'
 import { ValidatorCell } from '../components/table/validator-cell'
@@ -68,7 +68,7 @@ const Tokens: React.FC = () => {
 		return {}
 	}, [resourceId, liquidityPoolTokensBalances])
 
-	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.LIQUIDITY_POOL_TOKEN] }) => {
+	const handleRowSelected = (row: { original: ResourceBalanceKind }) => {
 		const { original } = row
 		navigate(`/accounts/${accountId}/lp-tokens/${original.address}?${searchParams}`)
 	}
