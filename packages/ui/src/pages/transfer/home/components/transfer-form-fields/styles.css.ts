@@ -99,15 +99,23 @@ export const transferFormEncryptWrapper = style([
 
 export const transferActionTrashButtonWrapper = style([
 	sprinkles({
-		position: 'absolute',
-		top: 0,
-		right: 0,
+		position: 'relative',
 	}),
-	{
-		marginRight: '-36px',
-		marginTop: '40px',
-		zIndex: 3,
-	},
+	{},
+	responsiveStyle({
+		mobile: {
+			position: 'absolute',
+			top: 0,
+			right: 0,
+			marginRight: '0px',
+			marginTop: '32px',
+			zIndex: 3,
+		},
+		desktop: {
+			marginRight: '-36px',
+			marginTop: '42px',
+		},
+	}),
 ])
 
 export const transferActionAddButtonWrapper = style([
@@ -157,12 +165,24 @@ export const transferActionTokensNftsAddButton = style([
 	},
 ])
 
-export const transferActionFieldWrapper = style([
+export const transferActionFieldParentWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: {
 			tablet: 'flex',
 		},
+	}),
+	{},
+])
+
+globalStyle(`${transferActionFieldParentWrapper} > div:first-child`, {
+	flexGrow: 1,
+})
+
+export const transferActionFieldWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
 	}),
 	{},
 ])
@@ -177,7 +197,7 @@ export const transferActionTrashTokensNftsButton = style([
 	}),
 	{},
 	responsiveStyle({
-		tablet: {
+		mobile: {
 			marginTop: '24px',
 			marginLeft: '8px',
 		},

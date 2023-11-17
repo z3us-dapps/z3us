@@ -124,6 +124,7 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 			<FieldsGroup
 				name="actions"
 				defaultKeys={1}
+				className={styles.transferActionFieldParentWrapper}
 				trashTrigger={
 					<Button styleVariant="ghost" sizeVariant="small" iconOnly className={styles.transferActionTrashButtonWrapper}>
 						<TrashIcon />
