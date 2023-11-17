@@ -142,8 +142,7 @@ export const Transaction = () => {
 								/>
 							</Text>
 						</Box>
-
-						<Box width="full">
+						<Box width="full" className={styles.transactionErrorMessage}>
 							<ValidationErrorMessage align="center" message={data?.transaction?.error_message} />
 						</Box>
 					</Box>

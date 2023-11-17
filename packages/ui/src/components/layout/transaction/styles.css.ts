@@ -75,6 +75,17 @@ export const transactionDetailsWrapper = style([
 	{},
 ])
 
+export const transactionErrorMessage = style([
+	sprinkles({
+		position: 'relative',
+		paddingX: 'xlarge',
+		marginTop: 'medium',
+	}),
+	{
+		wordWrap: 'break-word',
+	},
+])
+
 export const transactionDetailsNoGapWrapper = style([
 	sprinkles({
 		display: 'flex',
