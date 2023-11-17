@@ -5,6 +5,7 @@ import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback
 import AppLayout from 'ui/src/components/layout'
 import { ConfirmContext, defaultState as defaultConfirmState } from 'ui/src/context/confirm'
 import { DappStatusContext, defaultState as defaultDappState } from 'ui/src/context/dapp-status'
+import { ImageProvider } from 'ui/src/context/images-provider'
 import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
@@ -64,7 +65,9 @@ const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
 						<ZdtContext.Provider value={defaultZdtState}>
 							<ModalsProvider>
 								<ConfirmContext.Provider value={defaultConfirmState}>
-									<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+									<ImageProvider>
+										<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+									</ImageProvider>
 								</ConfirmContext.Provider>
 							</ModalsProvider>
 						</ZdtContext.Provider>

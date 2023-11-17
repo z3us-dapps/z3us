@@ -38,7 +38,6 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 
 	const { data = [], isLoading } = useEntityMetadata(dAppDefinitionAddress)
 	const name = findMetadataValue('name', data)
-	const claimedWebsites = findMetadataValue('claimed_websites', data)
 	const infoUrl = findMetadataValue('info_url', data)
 	const description = findMetadataValue('description', data)
 
@@ -49,13 +48,12 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 		[origin],
 	)
 
-	const isMalicious = useMemo(
-		() =>
-			isLoading
-				? undefined
-				: origin !== popupURL.origin && origin !== claimedWebsites && !claimedWebsites.includes(`${origin}, `),
-		[isLoading, origin, claimedWebsites],
-	)
+	const isMalicious = useMemo(() => {
+		const claimedWebsites = findMetadataValue('claimed_websites', data)
+		return (
+			!isLoading && origin !== popupURL.origin && origin !== claimedWebsites && !claimedWebsites.includes(`${origin}, `)
+		)
+	}, [data, isLoading, origin])
 
 	return (
 		<Box display="flex" flexDirection="column" gap="xsmall" alignItems="center" justifyContent="center">
