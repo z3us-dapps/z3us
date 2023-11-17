@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { Suspense, useMemo } from 'react'
+import React, { Suspense, useEffect, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useMatch, useMatches, useOutlet, useParams } from 'react-router-dom'
 import useMeasure from 'react-use-measure'
@@ -33,7 +33,6 @@ const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList, isNf
 	const outlet = useOutlet()
 	const matches = useMatches()
 	const isActivitiesVisible = useIsActivitiesVisible()
-
 	const { scrollableNode } = useScroll()
 
 	const sidebars = matches
@@ -46,6 +45,12 @@ const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList, isNf
 	const [wrapperRef, { top }] = useMeasure()
 	const { height } = useWindowSize()
 	const mobileMinHeight = Math.max(height - top - 48, 435)
+
+	useEffect(() => {
+		if (isMobile) {
+			scrollableNode.scrollTo({ top: 0 })
+		}
+	}, [location.pathname, isMobile])
 
 	return (
 		<Box className={panelViewStyles.panelViewWrapper}>
@@ -94,6 +99,7 @@ const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList, isNf
 const Layout: React.FC = () => {
 	const isMobile = useIsMobileWidth()
 	const { resourceId } = useParams()
+
 	const isNftCollection = useMatch('/accounts/:accountId/nfts/:resourceId')
 	const isNftCollectionOrList = !resourceId || !!isNftCollection
 
