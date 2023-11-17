@@ -231,7 +231,6 @@ const HeaderNavInner = () => {
 					</Box>
 				</>
 			)}
-			{console.log(999, accountAddress)}
 			<Box className={clsx(styles.searchWrapper, accountAddress && styles.headerMobileHiddenWrapper)}>
 				<SearchButtonInput
 					className={clsx(styles.searchComponentWrapper)}

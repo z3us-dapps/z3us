@@ -2,7 +2,6 @@ import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 import useMeasure from 'react-use-measure'
-import { useWindowSize } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -27,13 +26,11 @@ const Home: React.FC = () => {
 	const { accountId = '-' } = useParams()
 	const accounts = useWalletAccounts()
 	const isAllAccounts = useIsAllAccounts()
-	const [wrapperRef, { width: horizontalScrollWidth, top }] = useMeasure()
-	const { height } = useWindowSize()
-	const mobileMinHeight = Math.max(height - top - 48, 435)
+	const [wrapperRef, { width: horizontalScrollWidth }] = useMeasure()
 	const accountName = accounts?.[accountId]?.name
 
 	return (
-		<Box ref={wrapperRef} className={styles.assetsHomeWrapper} style={{ minHeight: `${mobileMinHeight}px` }}>
+		<Box ref={wrapperRef} className={styles.assetsHomeWrapper}>
 			<HomeScrollShadow />
 			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
 			<Box className={styles.homeAssetsTitleWrapper}>
