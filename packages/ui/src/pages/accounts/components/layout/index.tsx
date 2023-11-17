@@ -101,7 +101,7 @@ const Layout: React.FC = () => {
 				<MobileBackground />
 				<MobileScrollArea
 					className={panelViewStyles.panelViewMobileScrollWrapper}
-					showTopScrollShadow={isMobile && isNftCollectionOrList}
+					showTopScrollShadow={isMobile}
 					disabled={!isMobile}
 				>
 					<ScrollContent isMobile={isMobile} isNftCollectionOrList={isNftCollectionOrList} />
