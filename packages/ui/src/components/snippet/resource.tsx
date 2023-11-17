@@ -38,14 +38,14 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed })
 			<ResourceImageIcon address={address} size="xlarge" />
 			<Box display="flex" flexDirection="column" flexShrink={0}>
 				{displayName && (
-					<Text align={reversed ? 'right' : 'left'} color="strong" weight="medium" size="small" truncate>
+					<Text align={reversed ? 'right' : 'left'} color="strong" weight="medium" size="xsmall" truncate>
 						{displayName}
 					</Text>
 				)}
 				{change && (
 					<ToolTip message={c}>
 						<Box>
-							<RedGreenText align={reversed ? 'right' : 'left'} color="strong" size="small" truncate change={change}>
+							<RedGreenText align={reversed ? 'right' : 'left'} color="strong" size="xsmall" truncate change={change}>
 								{c}
 							</RedGreenText>
 						</Box>

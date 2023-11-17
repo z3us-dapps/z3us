@@ -48,7 +48,7 @@ export const AccountSnippet: React.FC<IProps> = ({ address, reversed }) => {
 				)}
 				<ToolTip message={address}>
 					<Box>
-						<Text align={reversed ? 'right' : 'left'} color="strong" size="small" truncate>
+						<Text align={reversed ? 'right' : 'left'} color="strong" size="xsmall" truncate>
 							{getShortAddress(address)}
 						</Text>
 					</Box>
