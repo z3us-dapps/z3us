@@ -472,7 +472,11 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 							}
 						/>
 						<AccountsTransactionInfo
-							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_tipping_cost)}</Text>}
+							leftTitle={
+								<Text truncate size="small">
+									{intl.formatMessage(messages.xrd_total_tipping_cost)}
+								</Text>
+							}
 							rightData={
 								<ToolTip
 									message={
@@ -504,7 +508,11 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 							}
 						/>
 						<AccountsTransactionInfo
-							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_wallet_cost)}</Text>}
+							leftTitle={
+								<Text truncate size="small">
+									{intl.formatMessage(messages.xrd_total_wallet_cost)}
+								</Text>
+							}
 							rightData={
 								<ToolTip
 									message={
@@ -520,7 +528,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 									}
 								>
 									<Box>
-										<Text size="small" color="strong">
+										<Text size="small" color="strong" truncate>
 											{state.currency === 'currency'
 												? intl.formatNumber(state.walletExecutionCost * xrdPrice, {
 														style: 'currency',
