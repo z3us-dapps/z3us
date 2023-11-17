@@ -44,17 +44,17 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 
 	const isVerified = useMemo(
 		() =>
-			!isLoading &&
-			(origin === popupURL.origin ||
-				!!matches.find(match => match.replace('*://*.', '').replace('/*', '').endsWith(new URL(origin).hostname))),
+			origin === popupURL.origin ||
+			!!matches.find(match => match.replace('*://*.', '').replace('/*', '').endsWith(new URL(origin).hostname)),
 		[origin],
 	)
 
 	const isMalicious = useMemo(
 		() =>
-			!isLoading &&
-			(origin === popupURL.origin || origin === claimedWebsites || claimedWebsites.includes(`${origin}, `)),
-		[origin, claimedWebsites],
+			isLoading
+				? undefined
+				: origin !== popupURL.origin && origin !== claimedWebsites && !claimedWebsites.includes(`${origin}, `),
+		[isLoading, origin, claimedWebsites],
 	)
 
 	return (
@@ -81,7 +81,7 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 
 			<ValidationErrorMessage
 				align="center"
-				message={isMalicious === true ? '' : intl.formatMessage(messages.origin_warning, { origin })}
+				message={isMalicious === false ? '' : intl.formatMessage(messages.origin_warning, { origin })}
 			/>
 		</Box>
 	)
