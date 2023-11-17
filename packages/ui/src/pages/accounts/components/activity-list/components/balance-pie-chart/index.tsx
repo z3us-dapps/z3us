@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -12,6 +11,7 @@ import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-account
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { Chart } from './components/chart'
 import * as styles from './styles.css'

@@ -1,7 +1,7 @@
-import { ToolTip } from 'packages/ui/src/components/tool-tip'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'

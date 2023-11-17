@@ -15,7 +15,6 @@ import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activ
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import { findMetadataValue } from 'ui/src/services/metadata'
 
-import type { IProps } from '../back-button'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
