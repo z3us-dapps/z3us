@@ -538,6 +538,16 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 					</Box>
 				</Box>
 
+				<Box className={styles.transactionPreviewBlockWrapper}>
+					<Box className={styles.transactionPreviewBlock}>
+						<ValidationErrorMessage
+							align="center"
+							message={
+								'SystemModuleError(CostingError(FeeReserveError(InsufficientBalance { required: 0.12941360251, remaining: 0.105734232673 })))'
+							}
+						/>
+					</Box>
+				</Box>
 				{receipt?.error_message && (
 					<Box className={styles.transactionPreviewBlockWrapper}>
 						<Box className={styles.transactionPreviewBlock}>
