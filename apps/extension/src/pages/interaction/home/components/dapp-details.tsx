@@ -71,11 +71,20 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 				</Box>
 			</Link>
 
-			<Link href={origin} size="small" target="_blank">
-				{origin}
-			</Link>
-
-			<Text align="center">{description}</Text>
+			<Box paddingX="large" display="flex" flexDirection="column" gap="xsmall" maxWidth="full">
+				<ToolTip message={origin} side="top">
+					<Box>
+						<Text align="center" truncate>
+							<Link href={origin} size="small" target="_blank">
+								{origin}
+							</Link>
+						</Text>
+					</Box>
+				</ToolTip>
+				<Text align="center" size="small">
+					{description}
+				</Text>
+			</Box>
 
 			<ValidationErrorMessage
 				align="center"
