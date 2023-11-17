@@ -15,6 +15,7 @@ import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activ
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import { findMetadataValue } from 'ui/src/services/metadata'
 
+import type { IProps } from '../back-button'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -68,11 +69,7 @@ const TabTitle: React.FC = () => {
 	}
 }
 
-interface IProps {
-	isStickyBottom: boolean
-}
-
-export const MobileScrollingButtons: React.FC<IProps> = ({ isStickyBottom }) => {
+export const MobileScrollingButtons: React.FC<IProps> = () => {
 	const intl = useIntl()
 	const location = useLocation()
 	const [searchParams] = useSearchParams()
@@ -108,7 +105,7 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ isStickyBottom }) => 
 			className={clsx(
 				styles.accountRoutesScrollingStickyBtnWrapper,
 				isSticky && styles.accountRoutesScrollingStickyShadow,
-				isStickyBottom && styles.accountRoutesScrollingStickyBtnCollectionWrapper,
+				styles.accountRoutesScrollingStickyBtnCollectionWrapper,
 			)}
 		>
 			<Box ref={stickyRef} className={styles.accountRoutesScrollingStickyElem} />
