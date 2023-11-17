@@ -102,6 +102,7 @@ export const headerInnerNavWrapper = style([
 
 export const headerBackButtonWrapper = style([
 	sprinkles({
+		flexGrow: 1,
 		alignItems: 'center',
 		display: 'flex',
 		gap: {
