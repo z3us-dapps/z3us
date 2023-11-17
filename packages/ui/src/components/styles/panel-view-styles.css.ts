@@ -76,11 +76,12 @@ export const panelViewResourceWrapper = style([
 ])
 
 export const panelViewRightWrapper = style([
-	sprinkles({}),
+	sprinkles({
+		position: 'sticky',
+	}),
 	{},
 	responsiveStyle({
 		mobile: {
-			position: 'sticky',
 			top: '0',
 			width: '100%',
 			flexBasis: '100%',
@@ -95,6 +96,19 @@ export const panelViewRightWrapper = style([
 		desktop: {
 			width: '392px',
 			flexBasis: '392px',
+		},
+	}),
+])
+
+export const panelViewRightRelativeWrapper = style([
+	sprinkles({}),
+	{},
+	responsiveStyle({
+		mobile: {
+			position: 'relative',
+		},
+		tablet: {
+			display: 'flex',
 		},
 	}),
 ])
