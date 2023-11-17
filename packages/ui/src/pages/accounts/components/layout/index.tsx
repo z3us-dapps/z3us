@@ -22,15 +22,16 @@ import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
 import { AccountTotalValue } from './components/total-value'
 import * as styles from './styles.css'
 
-const ScrollContent: React.FC = () => {
+interface IProps {
+	isMobile: boolean
+	isNftCollectionOrList: boolean
+}
+const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList }) => {
 	const location = useLocation()
 	const outlet = useOutlet()
 	const matches = useMatches()
-	const isNftCollection = useMatch('/accounts/:accountId/nfts')
-	const isMobile = useIsMobileWidth()
 	const isActivitiesVisible = useIsActivitiesVisible()
 
-	const { resourceId } = useParams()
 	const { scrollableNode } = useScroll()
 
 	const sidebars = matches
@@ -48,7 +49,10 @@ const ScrollContent: React.FC = () => {
 		<Box className={panelViewStyles.panelViewWrapper}>
 			<Box
 				ref={wrapperRef}
-				className={clsx(panelViewStyles.panelViewLeftWrapper, !!resourceId && panelViewStyles.panelViewResourceWrapper)}
+				className={clsx(
+					panelViewStyles.panelViewLeftWrapper,
+					!isNftCollectionOrList && panelViewStyles.panelViewResourceWrapper,
+				)}
 				style={{ minHeight: `${mobileMinHeight}px` }}
 			>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
@@ -66,12 +70,12 @@ const ScrollContent: React.FC = () => {
 					</Suspense>
 				</ScrollPanel>
 			</Box>
-			{!resourceId && <MobileScrollingButtons />}
+			{isNftCollectionOrList && <MobileScrollingButtons />}
 			<Box className={panelViewStyles.panelViewRightWrapper}>
 				<ScrollPanel
 					showTopScrollShadow={false}
 					scrollParent={isMobile ? scrollableNode : undefined}
-					disabled={isMobile && !resourceId && !isNftCollection}
+					disabled={isMobile && isNftCollectionOrList}
 					scrollTopBehavior="instant"
 				>
 					<Box className={panelViewStyles.panelViewRightScrollWrapper}>
@@ -88,6 +92,8 @@ const ScrollContent: React.FC = () => {
 const Layout: React.FC = () => {
 	const isMobile = useIsMobileWidth()
 	const { resourceId } = useParams()
+	const isNftCollection = useMatch('/accounts/:accountId/nfts/:resourceId')
+	const isNftCollectionOrList = !resourceId || !!isNftCollection
 
 	return (
 		<MotionBox>
@@ -95,10 +101,10 @@ const Layout: React.FC = () => {
 				<MobileBackground />
 				<MobileScrollArea
 					className={panelViewStyles.panelViewMobileScrollWrapper}
-					showTopScrollShadow={isMobile && !!resourceId}
+					showTopScrollShadow={isMobile && isNftCollectionOrList}
 					disabled={!isMobile}
 				>
-					<ScrollContent />
+					<ScrollContent isMobile={isMobile} isNftCollectionOrList={isNftCollectionOrList} />
 				</MobileScrollArea>
 			</Box>
 		</MotionBox>
