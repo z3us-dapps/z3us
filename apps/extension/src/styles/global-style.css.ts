@@ -16,8 +16,8 @@ globalStyle('*, *::before, *::after', {
 })
 
 globalStyle('::selection', {
-	background: vars.color.purple500,
-	color: vars.color.white,
+	background: '#8457ff',
+	color: '#ffffff',
 })
 
 globalStyle('body', {

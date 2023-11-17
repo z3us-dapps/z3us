@@ -96,7 +96,7 @@ interface IItemProps {
 const DefaultItemContent: React.FC<IItemProps> = ({ id, title }) => (
 	<DropdownMenuRadioItem value={id}>
 		<Box flexGrow={1}>
-			<Text>{title}</Text>
+			<Text size="small">{title}</Text>
 		</Box>
 		<DropdownMenuItemIndicator>
 			<Check2Icon />

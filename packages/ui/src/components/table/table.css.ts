@@ -481,9 +481,6 @@ recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr.tr-selected',
 	{
-		mobile: {
-			backgroundColor: vars.color.wax500,
-		},
 		tablet: {
 			backgroundColor: vars.color.wax500,
 			boxShadow: vars.color.shadowActivePanel,

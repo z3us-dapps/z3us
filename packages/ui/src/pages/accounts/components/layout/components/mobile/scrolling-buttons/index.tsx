@@ -77,13 +77,14 @@ export const MobileScrollingButtons: React.FC = () => {
 	const [isSticky, setIsSticky] = useState<boolean>(false)
 	const isActivitiesVisible = useIsActivitiesVisible()
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
+	const scrollTopBehavior = isActivitiesVisible ? 'instant' : 'smooth'
 
 	const onClickChevron = () => {
 		if (isSticky) {
-			scrollableNode.scrollTo({ top: 0, behavior: 'smooth' })
+			scrollableNode.scrollTo({ top: 0, behavior: scrollTopBehavior as any })
 		} else {
 			const HEADER_SPACE = 278
-			scrollableNode.scrollTo({ top: HEADER_SPACE, behavior: 'smooth' })
+			scrollableNode.scrollTo({ top: HEADER_SPACE, behavior: scrollTopBehavior as any })
 		}
 	}
 

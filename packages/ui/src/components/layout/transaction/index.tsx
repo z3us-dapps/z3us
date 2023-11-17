@@ -148,12 +148,12 @@ export const Transaction = () => {
 						</Box>
 					</Box>
 					<Box className={styles.transactionDetailsWrapper}>
-						<Box marginTop="xsmall" paddingBottom="medium">
+						<Box marginTop="xsmall">
 							<Text size="medium" weight="medium" color="strong">
 								{intl.formatMessage(messages.details)}
 							</Text>
 						</Box>
-						<Box display="flex" flexDirection="column" gap="medium" width="full">
+						<Box className={styles.transactionDetailsNoGapWrapper}>
 							<AccountsTransactionInfo
 								leftTitle={intl.formatMessage(messages.id)}
 								rightData={
@@ -184,6 +184,7 @@ export const Transaction = () => {
 								leftTitle={intl.formatMessage(messages.version)}
 								rightData={<Text size="xsmall">{data?.transaction.state_version}</Text>}
 							/>
+
 							<AccountsTransactionInfo
 								leftTitle={intl.formatMessage(messages.epoch)}
 								rightData={<Text size="xsmall">{data?.transaction.epoch}</Text>}
@@ -200,6 +201,8 @@ export const Transaction = () => {
 									</Text>
 								}
 							/>
+						</Box>
+						<Box className={styles.transactionDetailsGapWrapper}>
 							<AccountsTransactionInfo
 								leftTitle={intl.formatMessage(messages.affected_global_entities)}
 								rightData={
