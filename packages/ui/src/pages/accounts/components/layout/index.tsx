@@ -77,7 +77,7 @@ const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList, isNf
 					</Suspense>
 				</ScrollPanel>
 			</Box>
-			{isNftCollectionOrList && <MobileScrollingButtons isStickyBottom />}
+			{isNftCollectionOrList && <MobileScrollingButtons />}
 			<Box
 				className={clsx(
 					panelViewStyles.panelViewRightWrapper,
