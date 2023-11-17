@@ -23,8 +23,8 @@ const messages = defineMessages({
 		defaultMessage: 'NFTs',
 	},
 	lp_tokens: {
-		id: 'ya5Lxf',
-		defaultMessage: 'Liquidity Pool Tokens',
+		id: 'zspeCR',
+		defaultMessage: 'LSUs',
 	},
 	pool_units: {
 		id: 'h/CJ+m',

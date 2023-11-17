@@ -341,7 +341,6 @@
     "yEEu6R": "Selecciona una persona",
     "yTLHBR": "Selecciona un elemento NFT",
     "yWx/0A": "Imagen de la cuenta",
-    "ya5Lxf": "Tokens de liquidez",
     "yeLIPx": "Selecciona la cuenta desde la que deseas enviar activos",
     "ypG0Mw": "Gestiona tu billetera y tus claves privadas",
     "yy3BXQ": "Las contraseñas no coinciden",
@@ -380,5 +379,6 @@
     "wo97Qy": "Gestiona fácilmente tu libreta de direcciones Radix, editando los nombres de las cuentas y las direcciones en una cómoda vista de tabla para realizar transacciones sin problemas.",
     "HrF57B": "Tenga especial cuidado, el origen ({origin}) de la dApp con la que está interactuando no está incluido en los sitios web reclamados.",
     "q92DfT": "dApp verificada",
-    "hT8jY5": "Notarización y garantías"
+    "hT8jY5": "Notarización y garantías",
+    "zspeCR": "LSU"
 }

@@ -70,7 +70,7 @@ const route = {
 					handle: {
 						crumb: ({ accountId }, isLast: boolean) => (
 							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/lp-tokens`}>
-								<FormattedMessage id="ya5Lxf" defaultMessage="Liquidity Pool Tokens" />
+								<FormattedMessage id="zspeCR" defaultMessage="LSUs" />
 							</LinkBreadcrumb>
 						),
 					},
