@@ -184,7 +184,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			animate={visible ? 'visible' : 'notVisible'}
 		>
 			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
-				<AccountCardImage address={account.address} size="large" />
+				<AccountCardImage address={address} size="large" />
 				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small" position="relative">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
