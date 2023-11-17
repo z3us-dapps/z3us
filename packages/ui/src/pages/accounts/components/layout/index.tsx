@@ -47,10 +47,10 @@ const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList, isNf
 	const mobileMinHeight = Math.max(height - top - 48, 435)
 
 	useEffect(() => {
-		if (isMobile) {
+		if (isMobile && scrollableNode) {
 			scrollableNode.scrollTo({ top: 0 })
 		}
-	}, [location.pathname, isMobile])
+	}, [location?.pathname, isMobile])
 
 	return (
 		<Box className={panelViewStyles.panelViewWrapper}>
