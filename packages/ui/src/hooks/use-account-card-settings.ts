@@ -15,7 +15,8 @@ export const useAccountCardSettings = (address: string): CardSettings => {
 			accountsArray.findIndex(account => account.address === address),
 		)
 
-		const imgClassName = accountsArray[idx].cardImage || Object.keys(CARD_IMAGES)[idx % Object.keys(CARD_IMAGES).length]
+		const imgClassName =
+			accountsArray[idx]?.cardImage || Object.keys(CARD_IMAGES)[idx % Object.keys(CARD_IMAGES).length]
 		const colorClassName =
 			accountsArray[idx]?.cardColor || Object.keys(CARD_COLORS)[idx % Object.keys(CARD_COLORS).length]
 
