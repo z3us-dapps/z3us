@@ -121,3 +121,12 @@ export const transactionPreviewBlock = style([
 	}),
 	{},
 ])
+
+export const transactionPreviewBlockError = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		wordWrap: 'break-word',
+	},
+])
