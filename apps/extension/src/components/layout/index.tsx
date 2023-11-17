@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { useLocation, useOutlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import browser from 'webextension-polyfill'
 
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
@@ -14,13 +14,14 @@ import { getTheme } from '@src/styles/theme'
 
 import Unlock from './unlock'
 
+const popupUrl = browser.runtime.getURL('')
+
 const Layout: React.FC = () => {
 	const location = useLocation()
-	const outlet = useOutlet()
 	const { isUnlocked, isLoading, reload } = useIsUnlocked()
 
-	const { selectedKeystoreId } = useSharedStore(state => ({
-		selectedKeystoreId: state.selectedKeystoreId,
+	const { keystoreId } = useSharedStore(state => ({
+		keystoreId: state.selectedKeystoreId,
 	}))
 
 	useEffect(() => {
@@ -31,24 +32,27 @@ const Layout: React.FC = () => {
 		if (isLoading) return
 		if (isUnlocked) return
 		if (location.pathname.startsWith('/keystore/new')) return
-		if (!selectedKeystoreId) {
+		if (!keystoreId) {
 			getTheme().then(theme => {
-				openTabWithURL(`${browser.runtime.getURL('')}${config.popup.dir}/${theme}.html#/keystore/new`).then(() =>
-					window.close(),
-				)
+				const newKeystoreUrl = `${popupUrl}${config.popup.dir}/${theme}.html#/keystore/new`
+				openTabWithURL(newKeystoreUrl).then(() => window.close())
 			})
 		}
-	}, [selectedKeystoreId, isLoading, isUnlocked, location.pathname])
+	}, [keystoreId, isLoading, isUnlocked, location.pathname])
+
+	if (isLoading) return <FallbackLoading />
 
 	if (!location.pathname.startsWith('/keystore/new')) {
-		if (isLoading || !selectedKeystoreId) return <FallbackLoading />
+		if (!keystoreId) return <FallbackLoading />
 		if (!isUnlocked) return <Unlock onUnlock={reload} />
 	}
 
 	return (
 		<>
 			<Suspense fallback={<FallbackLoading />}>
-				<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+				<ErrorBoundary fallbackRender={FallbackRenderer}>
+					<Outlet />
+				</ErrorBoundary>
 			</Suspense>
 			<Toasts />
 		</>
