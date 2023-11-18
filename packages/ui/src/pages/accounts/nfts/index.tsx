@@ -8,11 +8,9 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useNonFungibleIds, useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { AssetIdCell } from 'ui/src/pages/accounts/components/table/asset-id-cell'
 import { NftNameCell } from 'ui/src/pages/accounts/components/table/nft-name-cell'
-
-import { AssetIdCell } from '../components/table/asset-id-cell'
-import { NftDataCell } from '../components/table/nft-data-cell'
-import * as styles from '../components/table/styles.css'
+import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 
 const messages = defineMessages({
 	collection: {

@@ -8,12 +8,9 @@ import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
-import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
-import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
+import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
-
-import * as styles from '../components/table/styles.css'
 
 const messages = defineMessages({
 	address: {
@@ -23,14 +20,6 @@ const messages = defineMessages({
 	amount: {
 		id: 'H5+NAX',
 		defaultMessage: 'Balance',
-	},
-	value: {
-		id: 'GufXy5',
-		defaultMessage: 'Value',
-	},
-	change: {
-		id: 'BY343C',
-		defaultMessage: 'Change',
 	},
 	empty_title: {
 		id: 'jHJmjf',
@@ -81,20 +70,6 @@ const NftCollections: React.FC = () => {
 				accessor: 'amount',
 				width: 'auto',
 				Cell: AssetAmountCell,
-				className: styles.mobileHideTableCellWrapper,
-			},
-			{
-				Header: intl.formatMessage(messages.value),
-				accessor: 'value',
-				width: 'auto',
-				Cell: AssetValueCell,
-				className: styles.mobileHideTableCellWrapper,
-			},
-			{
-				Header: intl.formatMessage(messages.change),
-				accessor: 'change',
-				width: 'auto',
-				Cell: AssetChangeCell,
 				className: styles.mobileHideTableCellWrapper,
 			},
 		],
