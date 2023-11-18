@@ -1,7 +1,9 @@
 import clsx from 'clsx'
-import React, { Suspense, useMemo } from 'react'
+import React, { Suspense, useEffect, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
+import { useLocation, useMatch, useMatches, useOutlet, useParams } from 'react-router-dom'
+import useMeasure from 'react-use-measure'
+import { useWindowSize } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
@@ -20,14 +22,17 @@ import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
 import { AccountTotalValue } from './components/total-value'
 import * as styles from './styles.css'
 
-const ScrollContent: React.FC = () => {
+interface IProps {
+	isMobile: boolean
+	isNftCollectionOrList: boolean
+	isNftCollection: boolean
+}
+
+const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList, isNftCollection }) => {
 	const location = useLocation()
 	const outlet = useOutlet()
 	const matches = useMatches()
-	const isMobile = useIsMobileWidth()
 	const isActivitiesVisible = useIsActivitiesVisible()
-
-	const { resourceId } = useParams()
 	const { scrollableNode } = useScroll()
 
 	const sidebars = matches
@@ -37,10 +42,25 @@ const ScrollContent: React.FC = () => {
 	const [sidebar] = sidebars.reverse()
 	const key = useMemo(() => location.pathname.split('/')[2] || '-', [location.pathname])
 
+	const [wrapperRef, { top }] = useMeasure()
+	const { height } = useWindowSize()
+	const mobileMinHeight = Math.max(height - top - 48, 435)
+
+	useEffect(() => {
+		if (isMobile && scrollableNode) {
+			scrollableNode.scrollTo({ top: 0 })
+		}
+	}, [location?.pathname, isMobile])
+
 	return (
 		<Box className={panelViewStyles.panelViewWrapper}>
 			<Box
-				className={clsx(panelViewStyles.panelViewLeftWrapper, !!resourceId && panelViewStyles.panelViewResourceWrapper)}
+				ref={wrapperRef}
+				className={clsx(
+					panelViewStyles.panelViewLeftWrapper,
+					!isNftCollectionOrList && panelViewStyles.panelViewResourceWrapper,
+				)}
+				style={{ minHeight: `${mobileMinHeight}px` }}
 			>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
 					<Box className={styles.accountsStickyWrapper}>
@@ -57,13 +77,14 @@ const ScrollContent: React.FC = () => {
 					</Suspense>
 				</ScrollPanel>
 			</Box>
-			{!resourceId && <MobileScrollingButtons />}
-			<Box className={panelViewStyles.panelViewRightWrapper}>
-				<ScrollPanel
-					showTopScrollShadow={false}
-					scrollParent={isMobile ? scrollableNode : undefined}
-					disabled={isMobile && !resourceId}
-				>
+			{isNftCollectionOrList && <MobileScrollingButtons />}
+			<Box
+				className={clsx(
+					panelViewStyles.panelViewRightWrapper,
+					isNftCollection && panelViewStyles.panelViewRightRelativeWrapper,
+				)}
+			>
+				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
 					<Box className={panelViewStyles.panelViewRightScrollWrapper}>
 						<Suspense key={location.pathname} fallback={<FallbackLoading />}>
 							<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
@@ -79,16 +100,23 @@ const Layout: React.FC = () => {
 	const isMobile = useIsMobileWidth()
 	const { resourceId } = useParams()
 
+	const isNftCollection = useMatch('/accounts/:accountId/nfts/:resourceId')
+	const isNftCollectionOrList = !resourceId || !!isNftCollection
+
 	return (
 		<MotionBox>
 			<Box className={panelViewStyles.panelViewOuterWrapper}>
 				<MobileBackground />
 				<MobileScrollArea
 					className={panelViewStyles.panelViewMobileScrollWrapper}
-					showTopScrollShadow={isMobile && !!resourceId}
+					showTopScrollShadow={isMobile}
 					disabled={!isMobile}
 				>
-					<ScrollContent />
+					<ScrollContent
+						isMobile={isMobile}
+						isNftCollectionOrList={isNftCollectionOrList}
+						isNftCollection={!!isNftCollection}
+					/>
 				</MobileScrollArea>
 			</Box>
 		</MotionBox>

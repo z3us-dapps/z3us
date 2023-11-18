@@ -14,10 +14,6 @@ export type State = {
 	isUnlocked: boolean
 	personas: RadixPersona[]
 	accounts: RadixAccount[]
-	sendTransaction: (input: SendTransactionInput) => Promise<{
-		transactionIntentHash: string
-		status: TransactionStatus
-	}>
 	lock: () => Promise<void>
 	unlock: (password: string) => Promise<void>
 	getSecret: (password: string) => Promise<string>
@@ -29,6 +25,10 @@ export type State = {
 		buttonStyleVariant?: string
 		ignorePassword?: boolean
 	}) => Promise<string>
+	sendTransaction: (input: SendTransactionInput) => Promise<{
+		transactionIntentHash: string
+		status: TransactionStatus
+	}>
 	buildNewPersonKeyParts: () => Promise<Partial<Persona>>
 	buildNewAccountKeyParts: (legacy: boolean) => Promise<Partial<Account>>
 }
@@ -46,11 +46,11 @@ export const defaultState: State = {
 	removeSecret: async () => {
 		throw Error('Can not remove secret without wallet!')
 	},
-	sendTransaction: async () => {
-		throw Error('Incorrect method used!')
-	},
 	confirm: async () => {
 		throw Error('Can not confirm without wallet!')
+	},
+	sendTransaction: async () => {
+		throw Error('Incorrect method used!')
 	},
 	buildNewPersonKeyParts: async () => {
 		throw Error('Can not derive persona keys without wallet!')

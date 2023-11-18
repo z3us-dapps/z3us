@@ -11,7 +11,7 @@ export const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	useEffect(() => {
 		browser.runtime.onMessage.addListener(client.onMessage)
 		return () => browser.runtime.onMessage.removeListener(client.onMessage)
-	}, [client])
+	}, [])
 
 	return <ClientContext.Provider value={client}>{children}</ClientContext.Provider>
 }

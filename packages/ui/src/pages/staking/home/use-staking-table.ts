@@ -79,9 +79,7 @@ export const useStakingTable = (): TAssetsTable => {
 				Header: intl.formatMessage(messages.validator),
 				accessor: 'validator',
 				width: '20%',
-				// width: 'auto',
 				Cell: StakingStatisticCell,
-				// className: styles.mobileHideTableCellWrapper,
 			},
 			{
 				Header: intl.formatMessage(messages.address),
@@ -94,7 +92,6 @@ export const useStakingTable = (): TAssetsTable => {
 				accessor: 'totalStake',
 				width: 'auto',
 				Cell: StakingStatisticCell,
-				// className: styles.mobileHideTableCellWrapper,
 			},
 			{
 				Header: intl.formatMessage(messages.owner_stake),

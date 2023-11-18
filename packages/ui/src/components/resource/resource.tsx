@@ -19,7 +19,7 @@ import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useToken, useUsfHistory } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 import { TimeFrames } from 'ui/src/types'
 
 import ComponentDetails from './components/component-details'
@@ -121,11 +121,11 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 
 	const DetailsComponent = Details[data?.details?.type]
-	const name = getStringMetadata('name', data?.metadata?.items)
-	const symbol = getStringMetadata('symbol', data?.metadata?.items)
-	const description = getStringMetadata('description', data?.metadata?.items)
-	const validator = getStringMetadata('validator', data?.metadata?.items)
-	const pool = getStringMetadata('pool', data?.metadata?.items)
+	const name = findMetadataValue('name', data?.metadata?.items)
+	const symbol = findMetadataValue('symbol', data?.metadata?.items)
+	const description = findMetadataValue('description', data?.metadata?.items)
+	const validator = findMetadataValue('validator', data?.metadata?.items)
+	const pool = findMetadataValue('pool', data?.metadata?.items)
 	const tags =
 		(data?.metadata?.items?.find(m => m.key === 'tags')?.value?.typed as MetadataStringArrayValue)?.values || []
 

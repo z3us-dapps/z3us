@@ -14,12 +14,25 @@ export const keystoreNewWrapper = style([
 	{},
 ])
 
+globalStyle(`${keystoreNewWrapper} *`, {
+	userSelect: 'none',
+})
+
 export const keystoreSelectWrapper = style([
 	sprinkles({
 		display: 'flex',
 		gap: 'small',
 		alignItems: 'center',
 		paddingBottom: 'medium',
+	}),
+	{},
+])
+
+export const keystoreClearButtonWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexGrow: 1,
+		justifyContent: 'flex-end',
 	}),
 	{},
 ])

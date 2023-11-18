@@ -6,7 +6,7 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
-import type { ResourceBalanceKind } from 'ui/src/types'
+import { type ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
 import * as styles from './styles.css'
 
@@ -41,7 +41,9 @@ export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances }) 
 					<Button
 						key={resource.address}
 						className={
-							resourceType === 'nft' ? styles.overlayAssetIconSquareWrapper : styles.overlayAssetIconCircleWrapper
+							resource.type === ResourceBalanceType.NON_FUNGIBLE
+								? styles.overlayAssetIconSquareWrapper
+								: styles.overlayAssetIconCircleWrapper
 						}
 						onClick={handleClick(resource.address)}
 						styleVariant="avatar"

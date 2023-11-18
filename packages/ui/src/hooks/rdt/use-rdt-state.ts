@@ -8,6 +8,8 @@ export const useRdtState = (): WalletData => {
 	const [state, setState] = useState<WalletData>()
 
 	useEffect(() => {
+		if (!rdt) return () => {}
+
 		const subscription = rdt.walletApi.walletData$.subscribe(s => {
 			setState(s)
 		})

@@ -1,21 +1,19 @@
 import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
-import { ChevronDown3Icon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
-import { Input } from 'ui/src/components/input'
+import { ChevronDown3Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
 
@@ -57,8 +55,8 @@ const TabTitle: React.FC = () => {
 
 	const { data } = useEntityMetadata(resourceId)
 
-	const name = getStringMetadata('name', data)
-	const symbol = getStringMetadata('symbol', data) || name
+	const name = findMetadataValue('name', data)
+	const symbol = findMetadataValue('symbol', data) || name
 
 	switch (resourceType) {
 		case 'tokens':
@@ -72,29 +70,29 @@ const TabTitle: React.FC = () => {
 
 export const MobileScrollingButtons: React.FC = () => {
 	const intl = useIntl()
-	const [searchParams, setSearchParams] = useSearchParams()
+	const location = useLocation()
+	const [searchParams] = useSearchParams()
 	const { scrollableNode } = useScroll()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)
 	const [isSticky, setIsSticky] = useState<boolean>(false)
 	const isActivitiesVisible = useIsActivitiesVisible()
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
+	const scrollTopBehavior = isActivitiesVisible ? 'instant' : 'smooth'
+
+	const queryWithActs = new URLSearchParams(searchParams)
+	queryWithActs.set('acts', `true`)
+	const queryWithoutActs = new URLSearchParams(searchParams)
+	queryWithoutActs.delete('acts')
 
 	const onClickChevron = () => {
 		if (isSticky) {
-			scrollableNode.scrollTo({ top: 0, behavior: 'smooth' })
+			scrollableNode.scrollTo({ top: 0, behavior: scrollTopBehavior as any })
 		} else {
 			const HEADER_SPACE = 278
-			scrollableNode.scrollTo({ top: HEADER_SPACE, behavior: 'smooth' })
+			scrollableNode.scrollTo({ top: HEADER_SPACE, behavior: scrollTopBehavior as any })
 		}
 	}
-
-	const handleClick =
-		(isActivity = false) =>
-		() => {
-			searchParams.set('acts', `${isActivity}`)
-			setSearchParams(searchParams)
-		}
 
 	useEffect(() => {
 		setIsSticky(!entry?.isIntersecting)
@@ -106,6 +104,7 @@ export const MobileScrollingButtons: React.FC = () => {
 			className={clsx(
 				styles.accountRoutesScrollingStickyBtnWrapper,
 				isSticky && styles.accountRoutesScrollingStickyShadow,
+				styles.accountRoutesScrollingStickyBtnCollectionWrapper,
 			)}
 		>
 			<Box ref={stickyRef} className={styles.accountRoutesScrollingStickyElem} />
@@ -113,7 +112,7 @@ export const MobileScrollingButtons: React.FC = () => {
 				<Box className={styles.tabsWrapper}>
 					<Link
 						underline="never"
-						onClick={handleClick()}
+						to={`${location.pathname}?${queryWithoutActs}`}
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonLeft,
@@ -127,7 +126,7 @@ export const MobileScrollingButtons: React.FC = () => {
 					</Link>
 					<Link
 						underline="never"
-						onClick={handleClick(true)}
+						to={`${location.pathname}?${queryWithActs}`}
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,
@@ -149,7 +148,8 @@ export const MobileScrollingButtons: React.FC = () => {
 						<ChevronDown3Icon />
 					</Button>
 				</Box>
-				<Box className={styles.searchWrapper}>
+				{/* TODO: search  */}
+				{/* <Box className={styles.searchWrapper}>
 					<Input
 						sizeVariant="small"
 						styleVariant="secondary"
@@ -175,7 +175,7 @@ export const MobileScrollingButtons: React.FC = () => {
 						rightIconClassName={styles.inputSearchClearBtn}
 						onChange={() => {}}
 					/>
-				</Box>
+				</Box> */}
 			</Box>
 		</Box>
 	)

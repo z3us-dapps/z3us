@@ -63,7 +63,7 @@ export const useLedgerClient = () => {
 					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, request))
 					.then(processLedgerResponse),
 			),
-		[client],
+		[client, showModalAndWait],
 	)
 
 	return useMemo(

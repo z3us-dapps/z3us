@@ -56,7 +56,7 @@ export const NotificationsDropdown: React.FC = () => {
 									<DropdownMenuLabel>
 										<Text size="xsmall" weight="strong" color="strong">
 											Connected to{' '}
-											<Link href="https://ociswap.com/" display="inline-flex">
+											<Link to="https://ociswap.com/" display="inline-flex">
 												<Text size="xsmall" weight="strong" color="strong">
 													ocis
 												</Text>

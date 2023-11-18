@@ -93,6 +93,6 @@ export const useMessageClient = () => {
 					toSign: Convert.Uint8Array.toHexString(data),
 				}).then(resp => signatureWithPublicKeyFromJSON(resp || {})),
 		}),
-		[sendMessageToBackgroundAndUpdateTrigger],
+		[sendMessageToBackgroundAndUpdateTrigger, sendMessageToBackground],
 	)
 }

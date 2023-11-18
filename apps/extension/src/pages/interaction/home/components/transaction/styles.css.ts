@@ -85,6 +85,27 @@ export const transactionPreviewBlockWrapper = style([
 	{},
 ])
 
+export const transactionPreviewFeeLinks = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		flexGrow: 1,
+		gap: 'small',
+	}),
+	{},
+])
+
+export const transactionPreviewLinSeparator = style([
+	sprinkles({
+		background: 'borderDivider',
+	}),
+	{
+		width: '1px',
+		height: '10px',
+	},
+])
+
 export const transactionPreviewBlock = style([
 	sprinkles({
 		display: 'block',
@@ -99,4 +120,13 @@ export const transactionPreviewBlock = style([
 		},
 	}),
 	{},
+])
+
+export const transactionPreviewBlockError = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		wordWrap: 'break-word',
+	},
 ])

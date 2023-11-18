@@ -26,12 +26,21 @@ export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; relo
 	}, [])
 
 	useEffect(() => {
+		setIsLoading(true)
 		client
 			.isVaultUnlocked()
 			.then(isVaultUnlocked => setIsUnlocked(isVaultUnlocked))
 			.catch(() => setIsUnlocked(false))
 			.finally(() => setIsLoading(false))
-	}, [time, trigger, keystoreId])
+	}, [keystoreId])
+
+	useEffect(() => {
+		client
+			.isVaultUnlocked()
+			.then(isVaultUnlocked => setIsUnlocked(isVaultUnlocked))
+			.catch(() => setIsUnlocked(false))
+			.finally(() => setIsLoading(false))
+	}, [time, trigger])
 
 	return { isUnlocked, isLoading, reload: () => setTime(Date.now()) }
 }

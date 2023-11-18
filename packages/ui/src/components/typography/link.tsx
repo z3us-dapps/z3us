@@ -25,9 +25,9 @@ export interface LProps {
 	href?: string | Partial<Path>
 	linkFrameWorkComp?: any
 	baseline?: boolean
+	size?: TextProps['size']
 	underline?: 'always' | 'hover' | 'never'
 	variant?: 'link' | 'button'
-	size?: TextProps['size']
 	weight?: TextProps['weight']
 	color?: TextProps['color']
 	type?: TextProps['type']

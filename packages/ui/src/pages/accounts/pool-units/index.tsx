@@ -8,13 +8,10 @@ import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
-import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
-import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
-
-import { PoolCell } from '../components/table/pool-cell'
-import * as styles from '../components/table/styles.css'
+import { PoolCell } from 'ui/src/pages/accounts/components/table/pool-cell'
+import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
+import type { ResourceBalanceKind } from 'ui/src/types'
 
 const messages = defineMessages({
 	address: {
@@ -28,14 +25,6 @@ const messages = defineMessages({
 	amount: {
 		id: 'H5+NAX',
 		defaultMessage: 'Balance',
-	},
-	value: {
-		id: 'GufXy5',
-		defaultMessage: 'Value',
-	},
-	change: {
-		id: 'BY343C',
-		defaultMessage: 'Change',
 	},
 	empty_title: {
 		id: 'jHJmjf',
@@ -68,7 +57,7 @@ const Tokens: React.FC = () => {
 		return {}
 	}, [resourceId, poolUnitsBalances])
 
-	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.POOL_UNIT] }) => {
+	const handleRowSelected = (row: { original: ResourceBalanceKind }) => {
 		const { original } = row
 		navigate(`/accounts/${accountId}/pool-units/${original.address}?${searchParams}`)
 	}
@@ -92,21 +81,6 @@ const Tokens: React.FC = () => {
 				accessor: 'amount',
 				width: 'auto',
 				Cell: AssetAmountCell,
-				className: styles.mobileHideTableCellWrapper,
-			},
-			{
-				Header: intl.formatMessage(messages.value),
-				accessor: 'value',
-				width: 'auto',
-				Cell: AssetValueCell,
-				className: styles.mobileHideTableCellWrapper,
-			},
-			{
-				Header: intl.formatMessage(messages.change),
-				accessor: 'change',
-				width: 'auto',
-				Cell: AssetChangeCell,
-				className: styles.mobileHideTableCellWrapper,
 			},
 		],
 		[],

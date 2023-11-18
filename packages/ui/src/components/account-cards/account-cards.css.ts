@@ -45,7 +45,7 @@ export const card = style([
 			left: 0,
 			right: 0,
 			border: '1px solid',
-			borderColor: vars.color.white,
+			borderColor: 'rgba(255,255,255, 0.5)',
 			pointerEvents: 'none',
 			borderRadius: vars.border.radius.xlarge,
 			opacity: '0.5',
@@ -120,6 +120,8 @@ export const cardAccountText = style([
 	}),
 ])
 
+export const cardAccountName = style([{ maxWidth: '92%' }])
+
 export const cardAccountTextAll = style([
 	sprinkles({
 		color: {
@@ -155,6 +157,19 @@ export const accountDropdownWrapper = style([
 	{},
 ])
 
+export const accountCardZ3USlogoWrapper = style([
+	sprinkles({
+		bottom: 0,
+		right: 0,
+		marginRight: 'large',
+		marginBottom: 'large',
+		pointerEvents: 'none',
+	}),
+	{
+		position: 'absolute',
+	},
+])
+
 export const accountDropdownContentWrapper = style([
 	{
 		minWidth: '160px',
@@ -169,6 +184,7 @@ export const accountCardIconWrapper = style([
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
 		flexShrink: 0,
+		overflow: 'hidden',
 	}),
 	{
 		width: '40px',
@@ -176,3 +192,68 @@ export const accountCardIconWrapper = style([
 		aspectRatio: '8 / 6',
 	},
 ])
+
+export const cardAccountImageWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		pointerEvents: 'none',
+		width: 'full',
+		height: 'full',
+		maxWidth: 'full',
+	}),
+	{},
+])
+
+export const cardAccountLarge = style([
+	sprinkles({
+		position: 'absolute',
+	}),
+	{},
+])
+
+globalStyle(`${cardAccountImageWrapper} img`, {
+	position: 'absolute',
+})
+
+// CARDS
+globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.angel img`, {
+	position: 'absolute',
+	bottom: 0,
+	right: '-20px',
+	maxWidth: '100%',
+	width: '266px',
+	height: 'auto',
+	opacity: '0.5',
+})
+
+globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.apple-hermes img`, {
+	position: 'absolute',
+	bottom: 0,
+	right: '-20px',
+	maxWidth: '100%',
+	width: 'auto',
+	height: '100%',
+	opacity: '0.7',
+})
+
+globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.athens img`, {
+	position: 'absolute',
+	top: 0,
+	right: '0px',
+	maxWidth: '110%',
+	width: '110%',
+	height: 'auto',
+})
+
+globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.man img`, {
+	position: 'absolute',
+	bottom: 0,
+	top: 'unset',
+	right: '-20px',
+	maxWidth: '100%',
+	width: '100%',
+	height: 'auto',
+	opacity: '0.7',
+})

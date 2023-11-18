@@ -1,6 +1,6 @@
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -19,6 +19,7 @@ import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
+import { ValidationErrorMessage } from '../../validation-error-message'
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
 import * as styles from './styles.css'
 
@@ -83,7 +84,9 @@ const messages = defineMessages({
 
 export const Transaction = () => {
 	const intl = useIntl()
-	const [searchParams, setSearchParams] = useSearchParams()
+	const location = useLocation()
+	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
 	const { data: knownAddresses } = useKnownAddresses()
 
 	const transactionId = searchParams.get('tx')
@@ -95,7 +98,7 @@ export const Transaction = () => {
 
 	const navigateBack = () => {
 		searchParams.delete('tx')
-		setSearchParams(searchParams)
+		navigate(`${location.pathname}?${searchParams}`)
 	}
 
 	return (
@@ -141,14 +144,17 @@ export const Transaction = () => {
 								/>
 							</Text>
 						</Box>
+						<Box width="full" className={styles.transactionErrorMessage}>
+							<ValidationErrorMessage align="center" message={data?.transaction?.error_message} />
+						</Box>
 					</Box>
 					<Box className={styles.transactionDetailsWrapper}>
-						<Box marginTop="xsmall" paddingBottom="medium">
+						<Box marginTop="xsmall">
 							<Text size="medium" weight="medium" color="strong">
 								{intl.formatMessage(messages.details)}
 							</Text>
 						</Box>
-						<Box display="flex" flexDirection="column" gap="medium" width="full">
+						<Box className={styles.transactionDetailsNoGapWrapper}>
 							<AccountsTransactionInfo
 								leftTitle={intl.formatMessage(messages.id)}
 								rightData={
@@ -179,6 +185,7 @@ export const Transaction = () => {
 								leftTitle={intl.formatMessage(messages.version)}
 								rightData={<Text size="xsmall">{data?.transaction.state_version}</Text>}
 							/>
+
 							<AccountsTransactionInfo
 								leftTitle={intl.formatMessage(messages.epoch)}
 								rightData={<Text size="xsmall">{data?.transaction.epoch}</Text>}
@@ -195,6 +202,8 @@ export const Transaction = () => {
 									</Text>
 								}
 							/>
+						</Box>
+						<Box className={styles.transactionDetailsGapWrapper}>
 							<AccountsTransactionInfo
 								leftTitle={intl.formatMessage(messages.affected_global_entities)}
 								rightData={

@@ -3,7 +3,6 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 
-import { Box } from 'ui/src/components/box'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'

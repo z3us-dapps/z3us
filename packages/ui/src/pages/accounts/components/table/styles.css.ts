@@ -10,13 +10,3 @@ export const tableWrapper = style([
 	}),
 	{},
 ])
-
-export const mobileHideTableCellWrapper = style([
-	sprinkles({
-		display: {
-			mobile: 'none',
-			tablet: 'table-cell',
-		},
-	}),
-	{},
-])

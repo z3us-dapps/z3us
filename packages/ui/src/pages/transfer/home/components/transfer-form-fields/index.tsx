@@ -124,6 +124,7 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 			<FieldsGroup
 				name="actions"
 				defaultKeys={1}
+				className={styles.transferActionFieldParentWrapper}
 				trashTrigger={
 					<Button styleVariant="ghost" sizeVariant="small" iconOnly className={styles.transferActionTrashButtonWrapper}>
 						<TrashIcon />
@@ -157,10 +158,12 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 							placeholder={intl.formatMessage(messages.to_placeholder)}
 							name="to"
 							toolTipMessageKnownAddress={intl.formatMessage(messages.known_address)}
+							exclude={from}
 						/>
 						<FieldsGroup
 							name="resources"
 							defaultKeys={1}
+							className={styles.transferActionFieldWrapper}
 							addTrigger={
 								<Button
 									styleVariant="secondary"

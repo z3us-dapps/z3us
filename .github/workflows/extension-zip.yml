@@ -55,7 +55,7 @@ jobs:
           NODE_OPTIONS: "--max_old_space_size=4096"
         run: |-
           cd apps/extension
-          yarn build
+          yarn build:radix
       - uses: papeloto/action-zip@v1
         with:
           files: apps/extension/dist

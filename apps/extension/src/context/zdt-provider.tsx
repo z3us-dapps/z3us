@@ -32,10 +32,10 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const client = useMessageClient()
+	const confirm = usePasswordModal()
 	const sendTransaction = useSendTransaction()
 	const buildNewPersonKeyParts = useBuildNewPersonKeyParts()
 	const buildNewAccountKeyParts = useBuildNewAccountKeyParts()
-	const confirm = usePasswordModal()
 	const { isUnlocked } = useIsUnlocked()
 	const { selectedKeystoreId, removeKeystore } = useSharedStore(state => ({
 		selectedKeystoreId: state.selectedKeystoreId,
@@ -87,6 +87,7 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				isUnlocked,
 				accounts,
 				personas,
+				confirm,
 				sendTransaction,
 				unlock: client.unlockVault,
 				lock: client.lockVault,
@@ -94,9 +95,8 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				removeSecret,
 				buildNewPersonKeyParts,
 				buildNewAccountKeyParts,
-				confirm,
 			} as State),
-		[isUnlocked, personas, accounts, client, sendTransaction, confirm, buildNewPersonKeyParts, buildNewAccountKeyParts],
+		[isUnlocked, personas, accounts, client, confirm, sendTransaction, buildNewPersonKeyParts, buildNewAccountKeyParts],
 	)
 
 	return <ZdtContext.Provider value={ctx}>{children}</ZdtContext.Provider>

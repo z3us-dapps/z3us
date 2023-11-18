@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import { LayoutGroup } from 'framer-motion'
 import React, { useMemo, useState } from 'react'
@@ -131,16 +130,18 @@ const removeLastPartOfURL = (path: string): [boolean, string] => {
 const HeaderNavInner = () => {
 	const intl = useIntl()
 	const accounts = useWalletAccounts()
-	const { accountId } = useParams()
+	const { accountId, resourceId } = useParams()
 	const isAllAccounts = useIsAllAccounts()
 
 	const location = useLocation()
 	const navigate = useNavigate()
-	const [searchParams, setSearchParams] = useSearchParams()
+	const [searchParams] = useSearchParams()
 
 	const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false)
 	const [isAddAccountModalOpen, setIsAddAccountModalOpen] = useState<boolean>(false)
 	const isAccountsPath = location?.pathname?.includes('/accounts')
+	const isAccountBgVisible = accountId && accountId !== '-' && !resourceId
+	const buttonVariant = isAccountBgVisible ? 'white-transparent' : 'ghost'
 
 	// TODO: we want this to navigate to www.z3us.com on the website
 	// const z3usLink = '/accounts'
@@ -186,7 +187,7 @@ const HeaderNavInner = () => {
 			searchParams.delete('tx')
 			searchParams.set('query', `${value}`)
 		}
-		setSearchParams(searchParams)
+		navigate(`${location.pathname}?${searchParams}`)
 	}
 
 	const handleClickSearch = (_visible: boolean) => {
@@ -202,26 +203,26 @@ const HeaderNavInner = () => {
 					</Box>
 					<HeaderLavaMenu />
 					<Box className={clsx(styles.headerBackButtonWrapper, styles.tabletHiddenWrapper)}>
-						<BackButton key="nfts" to={backPath} styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} />
-						<Box
-							display="flex"
-							marginLeft="small"
-							justifyContent="center"
-							alignItems="center"
-							gap="xsmall"
-							flexGrow={1}
-						>
-							{!isAllAccounts && (
+						<BackButton key="nfts" to={backPath} styleVariant={buttonVariant} />
+						{!isAllAccounts && (
+							<Box
+								display="flex"
+								marginLeft="small"
+								justifyContent="center"
+								alignItems="center"
+								gap="xsmall"
+								flexGrow={1}
+							>
 								<CopyAddressButton
-									styleVariant="white-transparent"
+									styleVariant={buttonVariant}
 									sizeVariant="small"
 									name={accountName}
 									address={accountAddress}
 									rounded
 									tickColor="inherit"
 								/>
-							)}
-						</Box>
+							</Box>
+						)}
 					</Box>
 				</>
 			) : (
@@ -269,7 +270,7 @@ const HeaderNavInner = () => {
 						<ToolTip message={intl.formatMessage(messages.menuTooltip)}>
 							<Box>
 								<Box className={styles.tabletHiddenWrapper}>
-									<Button styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} sizeVariant="small" iconOnly>
+									<Button styleVariant={buttonVariant} sizeVariant="small" iconOnly>
 										<MenuIcon />
 									</Button>
 								</Box>
@@ -288,7 +289,9 @@ const HeaderNavInner = () => {
 }
 
 export const HeaderNav: React.FC = () => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const dappStatus = useDappStatus()
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const isDappStatusConnected = false
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),

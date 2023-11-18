@@ -75,14 +75,14 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 				...keyParts,
 			} as Persona)
 
-			toast(intl.formatMessage(messages.created_toast), {})
+			toast.success(intl.formatMessage(messages.created_toast), {})
 		} else {
 			addPersona(networkId, identityAddress, {
 				...(currentDetails || {}),
 				...details,
 			} as Persona)
 
-			toast(intl.formatMessage(messages.updated_toast), {})
+			toast.success(intl.formatMessage(messages.updated_toast), {})
 		}
 
 		onClose()

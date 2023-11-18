@@ -50,14 +50,14 @@ export const Home: React.FC = () => {
 	const handleCancelAndClose = () => {
 		browser.tabs
 			.sendMessage(
-				interaction.fromTabId,
+				interaction?.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					walletResponse: {
 						discriminator: 'failure',
 						error: 'Canceled',
 						interactionId,
 					},
-					metadata: interaction.metadata,
+					metadata: interaction?.metadata,
 				}),
 			)
 			.finally(() => window.close())
@@ -82,7 +82,7 @@ export const Home: React.FC = () => {
 				)
 			} else {
 				browser.tabs.sendMessage(
-					interaction.fromTabId,
+					interaction?.fromTabId,
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.requestCancelFail,
@@ -106,11 +106,11 @@ export const Home: React.FC = () => {
 			.then(i => {
 				setInteraction(i)
 				return browser.tabs.sendMessage(
-					i.fromTabId,
+					i?.fromTabId,
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.receivedByWallet,
-						{ interactionId, metadata: interaction?.metadata },
+						{ interactionId, metadata: i?.metadata },
 					),
 				)
 			})

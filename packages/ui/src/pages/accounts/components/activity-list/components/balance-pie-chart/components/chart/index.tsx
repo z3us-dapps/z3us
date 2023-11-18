@@ -12,6 +12,15 @@ const COLORS = [
 	{ start: '#9e54ed', end: '#5c4cb6' },
 	{ start: '#34c3ff', end: '#2876bd' },
 	{ start: '#da9d35', end: '#e96935' },
+	{ start: '#D73D82', end: '#E35595' },
+	{ start: '#1449EF', end: '#14C8EF' },
+	{ start: '#009769', end: '#5AD158' },
+	{ start: '#FFABD0', end: '#FFB199' },
+	{ start: '#7D16FF', end: '#FF85C7' },
+	{ start: '#B53600', end: '#F5568F' },
+	{ start: '#FFB7A5', end: '#FFF8B6' },
+	{ start: '#FFF4AA', end: '#FFBDBD' },
+	{ start: '#F6613A', end: '#F7866A' },
 ]
 
 type Data = {

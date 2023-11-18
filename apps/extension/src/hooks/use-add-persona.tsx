@@ -52,6 +52,8 @@ export const useAddPersona = () => {
 			...keyParts,
 			label: name,
 		} as Persona)
+
+		return keyParts.identityAddress
 	}
 
 	return useCallback(create, [networkId, getPublicKey, personaIndexes, addPersona])

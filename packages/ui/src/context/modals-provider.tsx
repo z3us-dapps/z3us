@@ -1,12 +1,8 @@
 import type { PropsWithChildren } from 'react'
-import React, { Suspense, useMemo, useReducer } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
+import React, { useMemo, useReducer } from 'react'
 
-import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
-
+import type { ModalsMap } from './modals'
 import { ModalsContext } from './modals'
-
-export type ModalsMap = { [id: string]: React.JSX.Element }
 
 type Action = { type: 'add_modal'; id: string; modal: React.JSX.Element } | { type: 'remove_modal'; id: string }
 
@@ -42,22 +38,12 @@ export const ModalsProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	const ctx = useMemo(
 		() => ({
+			modals,
 			addModal,
 			removeModal,
 		}),
-		[dispatch],
+		[dispatch, modals],
 	)
 
-	return (
-		<ModalsContext.Provider value={ctx}>
-			<>
-				{children}
-				{Object.keys(modals).map(id => (
-					<Suspense key={id} fallback={<FallbackLoading />}>
-						<ErrorBoundary fallbackRender={FallbackRenderer}>{modals[id]}</ErrorBoundary>
-					</Suspense>
-				))}
-			</>
-		</ModalsContext.Provider>
-	)
+	return <ModalsContext.Provider value={ctx}>{children}</ModalsContext.Provider>
 }

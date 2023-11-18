@@ -65,7 +65,7 @@ const messages = defineMessages({
 const General: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { isWallet, confirm, removeSecret } = useZdtState()
+	const { isWallet, removeSecret, confirm } = useZdtState()
 
 	const { keystore, changeKeystoreName } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),

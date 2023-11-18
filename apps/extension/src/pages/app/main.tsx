@@ -2,6 +2,7 @@ import { enableMapSet } from 'immer'
 import React from 'react'
 import * as ReactDOM from 'react-dom/client'
 
+import { ImageProvider } from 'ui/src/context/images-provider'
 import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
@@ -33,7 +34,9 @@ ReactDOM.createRoot(container).render(
 									<LedgerClientProvider>
 										<RdtProvider>
 											<ZdtProvider>
-												<App />
+												<ImageProvider>
+													<App />
+												</ImageProvider>
 											</ZdtProvider>
 										</RdtProvider>
 									</LedgerClientProvider>

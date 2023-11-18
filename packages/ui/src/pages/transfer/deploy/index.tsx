@@ -1,7 +1,7 @@
 import { Buffer } from 'buffer'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -64,7 +64,7 @@ const messages = defineMessages({
 const MAX_FILE_SIZE = 5010 * 1024 * 10240000
 const ALLOWED_FILE_TYPES = ['application/wasm', 'application/rdp']
 
-const initialValues = {
+const init = {
 	from: '',
 	badge: '',
 	id: '',
@@ -82,7 +82,12 @@ export const Deploy: React.FC = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const sendTransaction = useSendTransaction()
-	const [searchParams, setSearchParams] = useSearchParams()
+	const location = useLocation()
+	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
+
+	const [initialValues, restFormValues] = useState<typeof init>(init)
+	const [validation, setValidation] = useState<ZodError>()
 
 	const validationSchema = useMemo(
 		() =>
@@ -106,8 +111,6 @@ export const Deploy: React.FC = () => {
 			}),
 		[],
 	)
-
-	const [validation, setValidation] = useState<ZodError>()
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		setValidation(undefined)
@@ -150,10 +153,11 @@ export const Deploy: React.FC = () => {
 						label: intl.formatMessage(messages.toast_action_label),
 						onClick: () => {
 							searchParams.set('tx', `${res.value.transactionIntentHash}`)
-							setSearchParams(searchParams)
+							navigate(`${location.pathname}?${searchParams}`)
 						},
 					},
 				})
+				restFormValues(init)
 			}
 		})
 	}

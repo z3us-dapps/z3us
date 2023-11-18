@@ -7,7 +7,7 @@ import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
 import * as styles from './styles.css'
@@ -24,7 +24,7 @@ const messages = defineMessages({
 
 interface IProps {
 	value?: string
-	row?: { original: ResourceBalance[ResourceBalanceType.LIQUIDITY_POOL_TOKEN] }
+	row?: { original: ResourceBalance[ResourceBalanceType.FUNGIBLE] }
 }
 
 export const ValidatorCell: React.FC<IProps> = props => {
@@ -37,7 +37,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 	const intl = useIntl()
 	const { data, isLoading } = useEntityDetails(validator)
 
-	const name = getStringMetadata('name', data?.metadata?.items)
+	const name = findMetadataValue('name', data?.metadata?.items)
 
 	if (isLoading) return <FallbackLoading />
 

@@ -7,8 +7,6 @@ export enum Theme {
 export enum ResourceBalanceType {
 	FUNGIBLE = 'fungible',
 	NON_FUNGIBLE = 'non_fungible',
-	POOL_UNIT = 'pool_unit',
-	LIQUIDITY_POOL_TOKEN = 'liquidity_pool_token',
 }
 
 export type ResourceBalance = {
@@ -26,22 +24,8 @@ export type ResourceBalance = {
 		description?: string
 		url?: string
 		imageUrl?: string
-	}
-	[ResourceBalanceType.LIQUIDITY_POOL_TOKEN]: {
-		type: ResourceBalanceType.LIQUIDITY_POOL_TOKEN
-		address: string
-		validator: string
-
-		amount: number
-		value: number
-		xrdValue: number
-		change: number
-
-		name: string
-		symbol?: string
-		description?: string
-		url?: string
-		imageUrl?: string
+		validator?: string
+		pool?: string
 	}
 	[ResourceBalanceType.NON_FUNGIBLE]: {
 		type: ResourceBalanceType.NON_FUNGIBLE
@@ -57,22 +41,8 @@ export type ResourceBalance = {
 		description?: string
 		url?: string
 		imageUrl?: string
-	}
-	[ResourceBalanceType.POOL_UNIT]: {
-		type: ResourceBalanceType.POOL_UNIT
-		address: string
-		pool: string
-
-		amount: number
-		value: number
-		xrdValue: number
-		change: number
-
-		name: string
-		symbol?: string
-		description?: string
-		url?: string
-		imageUrl?: string
+		validator?: string
+		pool?: string
 	}
 }
 

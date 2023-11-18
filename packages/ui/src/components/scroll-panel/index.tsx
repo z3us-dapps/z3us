@@ -1,14 +1,13 @@
-import clsx, { type ClassValue } from 'clsx'
+import clsx from 'clsx'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 
-import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
+import { type IScrollAreaRadix, ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './styles.css'
 
-interface IScrollPanelProps {
-	className?: ClassValue
+interface IScrollPanelProps extends IScrollAreaRadix {
 	scrollParent?: HTMLElement | null
 	showTopScrollShadow?: boolean
 	showBottomScrollShadow?: boolean
@@ -17,7 +16,15 @@ interface IScrollPanelProps {
 
 export const ScrollPanel: React.FC<PropsWithChildren<IScrollPanelProps>> = props => {
 	const isMobile = useIsMobileWidth()
-	const { className, showTopScrollShadow, showBottomScrollShadow, scrollParent, children, disabled = false } = props
+	const {
+		className,
+		showTopScrollShadow,
+		showBottomScrollShadow,
+		scrollParent,
+		children,
+		disabled = false,
+		...rest
+	} = props
 
 	return (
 		<ScrollArea
@@ -28,6 +35,7 @@ export const ScrollPanel: React.FC<PropsWithChildren<IScrollPanelProps>> = props
 			showTopScrollShadow={showTopScrollShadow}
 			showBottomScrollShadow={showBottomScrollShadow}
 			overrideScrollParent={scrollParent}
+			{...rest}
 		>
 			{children}
 		</ScrollArea>

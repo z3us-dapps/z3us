@@ -11,6 +11,7 @@ import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-account
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { Chart } from './components/chart'
 import * as styles from './styles.css'
@@ -54,10 +55,10 @@ export const BalancePieChart: React.FC = () => {
 	const data = useMemo(
 		() =>
 			isAllAccounts
-				? Object.keys(accountValues).map((address, index) => ({
+				? Object.keys(accounts).map((address, index) => ({
 						address,
 						index,
-						name: accounts[address]?.name || address,
+						name: accounts[address].name || getShortAddress(address),
 						value: accountValues[address],
 				  }))
 				: balances.map((resource, index) => ({

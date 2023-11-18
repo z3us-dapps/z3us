@@ -45,13 +45,15 @@ const SelectItem: React.FC<ISelectItemProps> = ({ id, account, alias, value, onS
 			display="flex"
 			onClick={handleSelect}
 		>
-			<Box flexGrow={1}>
-				<Text color="strong" truncate>
+			<Box>
+				<Text size="small" color="strong" truncate>
 					{alias}
 				</Text>
 			</Box>
 			<Box flexGrow={1}>
-				<Text truncate>({account})</Text>
+				<Text size="small" truncate>
+					({account})
+				</Text>
 			</Box>
 			{id === value && (
 				<Box flexShrink={0} display="flex" alignItems="center" justifyContent="center">

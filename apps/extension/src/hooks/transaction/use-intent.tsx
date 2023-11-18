@@ -11,8 +11,8 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { buildAccountDerivationPath } from '@src/crypto/derivation_path'
 import { deriveEd25519, ed25519FromSeed } from '@src/crypto/key_pair'
 import { createMnemonic } from '@src/crypto/secret'
-import { appendLockFeeInstruction } from '@src/radix/transaction'
-import type { TransactionSettings } from '@src/types/transaction'
+import { appendLockFeeInstruction, countNftGuarantees, countTokenGuarantees } from '@src/radix/transaction'
+import type { TransactionMeta, TransactionSettings } from '@src/types/transaction'
 
 const messages = defineMessages({
 	empty_signatures_error: {
@@ -33,6 +33,8 @@ function plainTextMessage(message: string): Extract<Message, { kind: 'PlainText'
 	}
 }
 
+const notaryRoot = ed25519FromSeed(createMnemonic())
+
 export const useIntent = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
@@ -42,7 +44,7 @@ export const useIntent = () => {
 		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
-	const buildIntent = async (input: SendTransactionInput, settings: TransactionSettings = {}) => {
+	const buildIntent = async (input: SendTransactionInput, settings: TransactionSettings) => {
 		const instructions = await RadixEngineToolkit.Instructions.convert(
 			{
 				kind: InstructionsKind.String,
@@ -64,7 +66,7 @@ export const useIntent = () => {
 			throw new Error(intl.formatMessage(messages.empty_signatures_error))
 		}
 
-		const notary = deriveEd25519(ed25519FromSeed(createMnemonic()), buildAccountDerivationPath(networkId, 0))
+		const notary = deriveEd25519(notaryRoot, buildAccountDerivationPath(networkId, 0))
 		const { ledger_state: ledgerState } = await status.getCurrent()
 		const validFromEpoch: number = ledgerState.epoch
 
@@ -78,18 +80,24 @@ export const useIntent = () => {
 			tipPercentage: settings.tipPercentage || 0,
 		}
 
+		const feePayer =
+			settings.feePayer ||
+			needSignaturesFrom.sort((x, y) => input.transactionManifest.indexOf(x) - input.transactionManifest.indexOf(y))[0]
+
 		const manifest: TransactionManifest = {
-			instructions: appendLockFeeInstruction(
-				input.transactionManifest,
-				instructions,
-				settings.feePayer || needSignaturesFrom[0],
-			),
+			instructions: appendLockFeeInstruction(instructions, feePayer, settings.lockAmount || 1),
 			blobs: input.blobs?.map(blob => Convert.HexString.toUint8Array(blob)) || [],
 		}
 
 		const intent: Intent = { header, manifest, message: input.message ? plainTextMessage(input.message) : noMessage }
+		const meta: TransactionMeta = {
+			isNotarySignatory: header.notaryIsSignatory,
+			needSignaturesFrom,
+			nftGuaranteesCount: countNftGuarantees(instructions),
+			tokenGuaranteesCount: countTokenGuarantees(instructions),
+		}
 
-		return { notary, intent, needSignaturesFrom }
+		return { notary, intent, meta }
 	}
 
 	return useCallback(buildIntent, [networkId, accountIndexes, status])

@@ -1,4 +1,3 @@
-import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { toast } from 'sonner'
@@ -8,6 +7,7 @@ import { DialogAlert } from 'ui/src/components/dialog-alert'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 interface IProps {
 	address: string
@@ -44,7 +44,7 @@ const DeleteAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 	const handleConfirm = () => {
 		handleRemoveAddress(networkId, address)
 
-		toast(intl.formatMessage(messages.success_message), {})
+		toast.success(intl.formatMessage(messages.success_message), {})
 		onClose()
 	}
 

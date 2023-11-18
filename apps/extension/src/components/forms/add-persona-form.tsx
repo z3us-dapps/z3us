@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { toast } from 'sonner'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
@@ -26,16 +27,26 @@ const messages = defineMessages({
 		id: '2/2yg+',
 		defaultMessage: 'Add',
 	},
+	error_toast: {
+		id: '2dcP1f',
+		defaultMessage: 'Failed to add new persona',
+	},
+	success_toast: {
+		id: 'PIWhuk',
+		defaultMessage: 'Successfully added new persona',
+	},
 })
 
-const initialValues = {
-	name: '',
+interface IProps {
+	onSuccess?: (address: string) => void
+	inputRef?: React.Ref<HTMLInputElement | null>
 }
 
-const AddPersonaForm: React.FC = () => {
+const AddPersonaForm: React.FC<IProps> = ({ onSuccess, inputRef }) => {
 	const intl = useIntl()
 	const addPersona = useAddPersona()
 
+	const [initialValues, restFormValues] = useState<{ name: string }>({ name: '' })
 	const [validation, setValidation] = useState<ZodError>()
 
 	const validationSchema = useMemo(
@@ -53,13 +64,20 @@ const AddPersonaForm: React.FC = () => {
 			setValidation(result.error)
 			return
 		}
-		addPersona(values.name)
-		setValidation(undefined)
+
+		await addPersona(values.name)
+			.then(address => {
+				toast.success(intl.formatMessage(messages.success_toast))
+				restFormValues({ name: '' })
+				if (onSuccess) onSuccess(address)
+			})
+			.catch(error => toast.error(intl.formatMessage(messages.error_toast), { description: error.message }))
+			.finally(() => setValidation(undefined))
 	}
 
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
-			<TextField sizeVariant="large" name="name" placeholder={intl.formatMessage(messages.name)} />
+			<TextField ref={inputRef} sizeVariant="large" name="name" placeholder={intl.formatMessage(messages.name)} />
 			<Box className={styles.modalContentFormButtonWrapper}>
 				<SubmitButton>
 					<Button fullWidth sizeVariant="xlarge">

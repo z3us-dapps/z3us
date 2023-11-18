@@ -7,7 +7,7 @@ import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useEntitiesDetails, useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
 
@@ -23,7 +23,6 @@ const messages = defineMessages({
 
 interface IProps {
 	value?: string
-	// row?: { original: ResourceBalance[ResourceBalanceType.POOL_UNIT] }
 }
 
 export const PoolCell: React.FC<IProps> = props => {
@@ -37,8 +36,8 @@ export const PoolCell: React.FC<IProps> = props => {
 			: [],
 	)
 
-	const name = getStringMetadata('name', data?.metadata?.items)
-	const symbols = entities?.map(entity => getStringMetadata('symbol', entity?.metadata?.items).toUpperCase()) || []
+	const name = findMetadataValue('name', data?.metadata?.items)
+	const symbols = entities?.map(entity => findMetadataValue('symbol', entity?.metadata?.items).toUpperCase()) || []
 
 	if (isLoading || isLoadingResources) return <FallbackLoading />
 

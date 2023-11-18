@@ -3,7 +3,7 @@ import type { ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -18,14 +18,17 @@ import {
 } from 'ui/src/components/dropdown-menu'
 import { DotsHorizontalCircleIcon, InformationIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
+import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
+import { CARD_COLORS } from 'ui/src/constants/account'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import { useNetworkId } from '../../hooks/dapp/use-network-id'
-import { useZdtState } from '../../hooks/zdt/use-zdt'
 import { CopyAddressButton } from '../copy-address-button'
 import * as styles from './account-cards.css'
 
@@ -48,6 +51,35 @@ const messages = defineMessages({
 	},
 })
 
+interface IAccountCardImageProps {
+	address: string
+	className?: string
+	size?: 'small' | 'large'
+}
+
+export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
+	const { address, className, size = 'small' } = props
+
+	const { cardImage, imgClassName, cardColor, colorClassName } = useAccountCardSettings(address)
+
+	const isSizeLarge = size === 'large'
+
+	return (
+		<Box
+			className={clsx(
+				styles.cardAccountImageWrapper,
+				colorClassName,
+				imgClassName,
+				isSizeLarge && styles.cardAccountLarge,
+				className,
+			)}
+		>
+			{/* eslint-disable-next-line @next/next/no-img-element */}
+			<img src={`/images/account-images/${cardImage}`} alt={`${cardImage}-${cardColor}`} />
+		</Box>
+	)
+}
+
 interface IAccountCardIconProps {
 	address: string
 	className?: string
@@ -56,20 +88,12 @@ interface IAccountCardIconProps {
 export const AccountCardIcon: React.FC<IAccountCardIconProps> = props => {
 	const { address, className } = props
 
-	const addressBook = useAddressBook()
-	const account = addressBook[address]
+	const { cardColor } = useAccountCardSettings(address)
 
 	return (
-		<Box
-			className={clsx(styles.accountCardIconWrapper, className)}
-			style={{
-				...(account?.cardImage
-					? {
-							backgroundImage: `url(/images/account-images/${account?.cardImage}), ${account?.cardColor}`,
-					  }
-					: {}),
-			}}
-		/>
+		<Box className={clsx(styles.accountCardIconWrapper, className)} style={{ backgroundImage: `${cardColor}` }}>
+			<AccountCardImage address={address} />
+		</Box>
 	)
 }
 
@@ -95,11 +119,12 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	} = props
 
 	const intl = useIntl()
+	const location = useLocation()
 	const navigate = useNavigate()
-	const [searchParams, setSearchParams] = useSearchParams()
-	const addressBook = useAddressBook()
+	const [searchParams] = useSearchParams()
 	const networkId = useNetworkId()
 	const { isWallet, confirm } = useZdtState()
+	const accounts = useWalletAccounts()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
@@ -111,28 +136,26 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const { data: balanceData } = useBalances(address)
 	const { totalValue = 0 } = balanceData || {}
 
-	const account = addressBook[address]
+	const account = accounts[address]
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
 
-	const handleRemoveAccount = async event => {
+	const handleRemoveAccount = event => {
 		event.stopPropagation()
-		await confirm({
+		confirm({
 			title: intl.formatMessage(messages.delete_account),
 			content: intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
 			buttonTitle: intl.formatMessage(messages.delete_account),
 			buttonStyleVariant: 'destructive',
 			ignorePassword: true,
-		})
-
-		removeAccount(networkId, address)
+		}).then(() => removeAccount(networkId, address))
 	}
 
 	const handleShowDetails = event => {
 		event.stopPropagation()
 		searchParams.delete('tx')
 		searchParams.set('query', `${address}`)
-		setSearchParams(searchParams)
+		navigate(`${location.pathname}?${searchParams}`)
 	}
 
 	const handleClick = () => {
@@ -145,9 +168,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			key={address}
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
-				...(account?.cardImage
-					? { backgroundImage: `url(/images/account-images/${account?.cardImage}), ${account?.cardColor}` }
-					: {}),
+				...(account?.cardColor ? { backgroundImage: `${CARD_COLORS[account?.cardColor]}` } : {}),
 			}}
 			variants={{
 				visible: {
@@ -162,7 +183,8 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			animate={visible ? 'visible' : 'notVisible'}
 		>
 			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
-				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small">
+				<AccountCardImage address={address} size="large" />
+				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small" position="relative">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{getShortAddress(address)}
@@ -180,7 +202,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 						</Box>
 					) : null}
 				</Box>
-				<Box paddingBottom="xsmall" display="flex" flexDirection="column">
+				<Box paddingBottom="xsmall" display="flex" flexDirection="column" position="relative">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{intl.formatNumber(totalValue, {
@@ -194,12 +216,15 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 						size="large"
 						weight="strong"
 						truncate
-						className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}
+						className={clsx(styles.cardAccountText, styles.cardAccountName, isAllAccount && styles.cardAccountTextAll)}
 					>
-						{`${account?.name} ${isLegacy ? intl.formatMessage(messages.legacy) : ``}`}
+						{`${account?.name || getShortAddress(address)} ${isLegacy ? intl.formatMessage(messages.legacy) : ``}`}
 					</Text>
 				</Box>
 			</Box>
+
+			<Z3usLogo className={styles.accountCardZ3USlogoWrapper} isHoverMaskEnabled={false} />
+
 			{showAccountOptions && (
 				<Box className={styles.accountDropdownWrapper}>
 					<DropdownMenu>

@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useTokens } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 import type { Token } from 'ui/src/services/oci'
 import { ResourceBalanceType } from 'ui/src/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/src/types'
@@ -21,13 +21,13 @@ const transformFungibleResourceItemResponse =
 	(knownAddresses: KnownAddresses, xrdPrice: number, tokens: { [key: string]: Token }) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
 		const metadata = item.explicit_metadata?.items
-		const name = getStringMetadata('name', metadata)
-		const symbol = getStringMetadata('symbol', metadata)
-		const description = getStringMetadata('description', metadata)
-		const imageUrl = getStringMetadata('icon_url', metadata)
-		const url = getStringMetadata('info_url', metadata)
-		const validator = getStringMetadata('validator', metadata)
-		const pool = getStringMetadata('pool', metadata)
+		const name = findMetadataValue('name', metadata)
+		const symbol = findMetadataValue('symbol', metadata)
+		const description = findMetadataValue('description', metadata)
+		const imageUrl = findMetadataValue('icon_url', metadata)
+		const url = findMetadataValue('info_url', metadata)
+		const validator = findMetadataValue('validator', metadata)
+		const pool = findMetadataValue('pool', metadata)
 
 		const amount = item.vaults.items.reduce(
 			(acc, curr) => acc + +curr.amount,
@@ -44,7 +44,8 @@ const transformFungibleResourceItemResponse =
 		const change = tokenPriceNow !== 0 ? tokenPriceNow / tokenPrice24h / 100 : 0
 		const xrdValue = amount * (parseFloat(token?.price?.xrd.now) || 0)
 
-		const details = {
+		container[item.resource_address] = {
+			type: ResourceBalanceType.FUNGIBLE,
 			address: item.resource_address,
 			amount,
 			value: xrdValue * xrdPrice,
@@ -54,31 +55,9 @@ const transformFungibleResourceItemResponse =
 			url,
 			imageUrl,
 			change: Number.isFinite(change) ? change : 0,
-		}
-
-		let resourceType
-		let resourceSubtype
-
-		if (validator) {
-			resourceType = ResourceBalanceType.LIQUIDITY_POOL_TOKEN
-			resourceSubtype = validator
-		} else if (pool) {
-			resourceType = ResourceBalanceType.POOL_UNIT
-			resourceSubtype = pool
-		} else {
-			resourceType = ResourceBalanceType.FUNGIBLE
-			resourceSubtype = symbol
-		}
-
-		container[item.resource_address] = {
-			...details,
-			type: resourceType,
-			// eslint-disable-next-line no-nested-ternary
-			[resourceType === ResourceBalanceType.FUNGIBLE
-				? 'symbol'
-				: resourceType === ResourceBalanceType.LIQUIDITY_POOL_TOKEN
-				? 'validator'
-				: 'pool']: resourceSubtype,
+			symbol,
+			validator,
+			pool,
 		}
 
 		return container
@@ -89,10 +68,12 @@ const transformNonFungibleResourceItemResponse = (
 	item: NonFungibleResourcesCollectionItemVaultAggregated,
 ): ResourceBalances => {
 	const metadata = item.explicit_metadata?.items
-	const name = getStringMetadata('name', metadata)
-	const description = getStringMetadata('description', metadata)
-	const imageUrl = getStringMetadata('icon_url', metadata)
-	const url = getStringMetadata('info_url', metadata)
+	const name = findMetadataValue('name', metadata)
+	const description = findMetadataValue('description', metadata)
+	const imageUrl = findMetadataValue('icon_url', metadata)
+	const url = findMetadataValue('info_url', metadata)
+	const validator = findMetadataValue('validator', metadata)
+	const pool = findMetadataValue('pool', metadata)
 
 	const amount = item.vaults.items.reduce(
 		(acc, vault) => acc + +vault.total_count,
@@ -114,7 +95,9 @@ const transformNonFungibleResourceItemResponse = (
 		value: 0,
 		change: 0,
 		xrdValue: 0,
-	} satisfies ResourceBalance[ResourceBalanceType.NON_FUNGIBLE]
+		validator,
+		pool,
+	}
 
 	return container
 }
@@ -134,9 +117,6 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 		[`${valueType}Change`]: Number.isFinite(totalChange) ? totalChange : 0,
 	}
 }
-
-const transformBalancesByType = (balances: ResourceBalances, type: string) =>
-	Object.values(balances).filter(balance => balance.type === type)
 
 type Balances = {
 	balances: ResourceBalanceKind[]
@@ -158,6 +138,11 @@ type Balances = {
 	tokensValue: number
 	tokensChange: number
 	tokensXrdChange: number
+
+	nftsBalances: ResourceBalanceKind[]
+	nftsValue: number
+	nftsChange: number
+	nftsXrdValue: number
 
 	liquidityPoolTokensBalances: ResourceBalanceKind[]
 	liquidityPoolTokensValue: number
@@ -185,7 +170,7 @@ export const useBalances = (...addresses: string[]) => {
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
-		queryKey: ['useBalances', networkId, currency, ...addresses],
+		queryKey: ['useBalances', networkId, currency, addresses],
 		enabled,
 		queryFn: (): Balances => {
 			let fungible: ResourceBalances = {}
@@ -200,11 +185,13 @@ export const useBalances = (...addresses: string[]) => {
 
 			const fungibleTokens = Object.values(fungible)
 			const nonFungibleTokens = Object.values(nonFungible)
-			const otherTokens = transformBalancesByType(fungible, ResourceBalanceType.FUNGIBLE)
-			const lpTokens = transformBalancesByType(fungible, ResourceBalanceType.LIQUIDITY_POOL_TOKEN)
-			const poolUnits = transformBalancesByType(fungible, ResourceBalanceType.POOL_UNIT)
-
 			const balances = [...fungibleTokens, ...nonFungibleTokens]
+
+			const otherTokens = fungibleTokens.filter(balance => !balance.validator && !balance.pool)
+			const otherNFTs = nonFungibleTokens.filter(balance => !balance.validator && !balance.pool)
+			const lpTokens = balances.filter(balance => !!balance.validator)
+			const poolUnits = balances.filter(balance => !!balance.pool)
+
 			const fungibleBalances = transformBalances(fungibleTokens, 'fungible')
 			const nonFungibleBalances = transformBalances(nonFungibleTokens, 'nonFungible')
 
@@ -223,6 +210,7 @@ export const useBalances = (...addresses: string[]) => {
 				...fungibleBalances,
 				...nonFungibleBalances,
 				...transformBalances(otherTokens, 'tokens'),
+				...transformBalances(otherNFTs, 'nfts'),
 				...transformBalances(lpTokens, 'liquidityPoolTokens'),
 				...transformBalances(poolUnits, 'poolUnits'),
 			} as Balances
@@ -245,7 +233,7 @@ export const useAccountValues = (...addresses: string[]) => {
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
-		queryKey: ['useAccountValues', networkId, currency, ...addresses],
+		queryKey: ['useAccountValues', networkId, currency, addresses],
 		enabled,
 		queryFn: () =>
 			accounts.reduce(
@@ -265,14 +253,14 @@ export const useAccountValues = (...addresses: string[]) => {
 
 type AccountNfts = { resource: string; vault: string; account: string }
 
-export const useAccountNftVaults = (resource: string, ...addresses: string[]) => {
+export const useAccountNftVaults = (resource: string, addresses: string[]) => {
 	const networkId = useNetworkId()
 
 	const { data: accounts = [], isLoading } = useEntitiesDetails(addresses.filter(address => !!address))
 
 	return useQuery({
-		queryKey: ['useAccountNftVaults', networkId, ...addresses],
-		enabled: !!resource && !isLoading && accounts.length > 0,
+		queryKey: ['useAccountNftVaults', networkId, resource, addresses],
+		enabled: !!resource && !isLoading && addresses.length > 0 && accounts.length > 0,
 		queryFn: () =>
 			accounts.reduce((result: Array<AccountNfts>, account) => {
 				const items = account.non_fungible_resources.items as Array<NonFungibleResourcesCollectionItemVaultAggregated>

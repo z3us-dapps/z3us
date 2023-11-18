@@ -4978,9 +4978,9 @@
   dependencies:
     lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.3.0-alpha.2":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.3.1-alpha.2":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#ec319e6291a699f3ae377ea145d97f19e7cad679"
+  resolved "https://github.com/radixdlt/connector-extension#de8e1f87824062bc1b69578099cbe92185632e05"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -16243,13 +16243,6 @@ react-error-boundary@^3.1.0:
   version "3.1.4"
   resolved "https://registry.npmjs.org/react-error-boundary/-/react-error-boundary-3.1.4.tgz"
   integrity sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-
-react-error-boundary@^4.0.10:
-  version "4.0.10"
-  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-4.0.10.tgz#975cc298e93ab7760d1460b7ea5a7855621e355a"
-  integrity sha512-pvVKdi77j2OoPHo+p3rorgE43OjDWiqFkaqkJz8sJKK6uf/u8xtzuaVfj5qJ2JnDLIgF1De3zY5AJDijp+LVPA==
   dependencies:
     "@babel/runtime" "^7.12.5"
 

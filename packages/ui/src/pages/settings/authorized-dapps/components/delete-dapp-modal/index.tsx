@@ -2,13 +2,12 @@ import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { toast } from 'sonner'
 
-import { Box } from 'ui/src/components/box'
 import { DialogAlert } from 'ui/src/components/dialog-alert'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { getStringMetadata } from 'ui/src/services/metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 
 interface IProps {
 	address: string
@@ -38,7 +37,7 @@ const DeleteDappModal: React.FC<IProps> = ({ address, onClose }) => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const { data: dappData } = useEntityDetails(address)
-	const dappName = getStringMetadata('name', dappData?.metadata?.items)
+	const dappName = findMetadataValue('name', dappData?.metadata?.items)
 
 	const { remove } = useNoneSharedStore(state => ({
 		remove: state.forgetDappAction,
@@ -47,7 +46,7 @@ const DeleteDappModal: React.FC<IProps> = ({ address, onClose }) => {
 	const handleConfirm = () => {
 		remove(networkId, address)
 
-		toast(intl.formatMessage(messages.success_message), {})
+		toast.success(intl.formatMessage(messages.success_message), {})
 		onClose()
 	}
 

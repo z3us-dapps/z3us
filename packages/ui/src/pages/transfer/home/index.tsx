@@ -1,7 +1,7 @@
 import { ManifestBuilder, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -102,7 +102,9 @@ export const Home: React.FC = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const sendTransaction = useSendTransaction()
-	const [searchParams, setSearchParams] = useSearchParams()
+	const location = useLocation()
+	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
 	const accountId = searchParams.get('accountId') || '-'
 	const resourceId = searchParams.get('resourceId')
 	const rawNftId = searchParams.get('nftId')
@@ -208,7 +210,7 @@ export const Home: React.FC = () => {
 						label: intl.formatMessage(messages.toast_action_label),
 						onClick: () => {
 							searchParams.set('tx', `${res.value.transactionIntentHash}`)
-							setSearchParams(searchParams)
+							navigate(`${location.pathname}?${searchParams}`)
 						},
 					},
 				})

@@ -137,7 +137,7 @@ const UpsertAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 			draft.validation = undefined
 		})
 
-		toast(toastMessage, {})
+		toast.success(toastMessage, {})
 		onClose()
 	}
 

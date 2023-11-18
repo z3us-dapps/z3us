@@ -20,11 +20,11 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useIntent } from '@src/hooks/transaction/use-intent'
 import { useSign } from '@src/hooks/transaction/use-sign'
-import type { TransactionSettings } from '@src/types/transaction'
+import type { TransactionMeta, TransactionSettings } from '@src/types/transaction'
 
 import { DappDetails } from '../dapp-details'
 import { NetworkAlert } from '../network-alert'
-import { Manifest } from '../transaction/manifest'
+import { Transaction } from '../transaction'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -51,11 +51,13 @@ interface IProps {
 
 type State = {
 	input: WalletTransactionItems['send']
+	settings: TransactionSettings
+	meta: TransactionMeta
 	intent?: Intent
 	notary?: PrivateKey
-	needSignaturesFrom?: string[]
 	isDappApproved?: boolean
-} & TransactionSettings
+	error?: string
+}
 
 export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 	const { interactionId } = useParams()
@@ -72,27 +74,53 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 
 	const [state, setState] = useImmer<State>({
 		input: (interaction.items as WalletTransactionItems).send,
+		settings: {
+			tipPercentage: 0,
+			padding: 0,
+			lockAmount: 1,
+		},
+		meta: {
+			needSignaturesFrom: [],
+			isNotarySignatory: false,
+			tokenGuaranteesCount: 0,
+			nftGuaranteesCount: 0,
+		},
 	})
 
 	useEffect(() => {
-		buildIntent(state.input).then(response => {
-			let { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
-			if (interaction.metadata.dAppDefinitionAddress === DAPP_ADDRESS) {
-				accounts = Object.keys(accountIndexes)
-			}
-			const authorizedAccounts = new Set(accounts)
-			setState(draft => {
-				draft.intent = response.intent
-				draft.notary = response.notary
-				draft.needSignaturesFrom = response.needSignaturesFrom
-				draft.isDappApproved = response.needSignaturesFrom.every(account => authorizedAccounts.has(account))
+		buildIntent(state.input, state.settings)
+			.then(response => {
+				let { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
+				if (interaction.metadata.dAppDefinitionAddress === DAPP_ADDRESS) {
+					accounts = Object.keys(accountIndexes)
+				}
+				const authorizedAccounts = new Set(accounts)
+				setState(draft => {
+					draft.error = ''
+					draft.intent = response.intent
+					draft.notary = response.notary
+					draft.meta = response.meta
+					draft.isDappApproved = response.meta.needSignaturesFrom.every(account => authorizedAccounts.has(account))
+				})
 			})
-		})
-	}, [state.input])
+			.catch(err => {
+				setState(draft => {
+					draft.error = err.message
+				})
+			})
+	}, [state.input, state.settings])
+
+	useEffect(() => {
+		if (!state.settings.feePayer && state.meta.needSignaturesFrom.length > 0) {
+			setState(draft => {
+				draft.settings = { ...draft.settings, feePayer: state.meta.needSignaturesFrom[0] }
+			})
+		}
+	}, [state.meta.needSignaturesFrom])
 
 	const handleSubmit = async () => {
 		try {
-			const notarizedTransaction = await sign(state.notary, state.intent, state.needSignaturesFrom)
+			const notarizedTransaction = await sign(state.notary, state.intent, state.meta.needSignaturesFrom)
 			await transaction.innerClient.transactionSubmit({
 				transactionSubmitRequest: { notarized_transaction_hex: notarizedTransaction.toHex() },
 			})
@@ -136,6 +164,12 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 		})
 	}
 
+	const handleSettingsChange = (settings: TransactionSettings) => {
+		setState(draft => {
+			draft.settings = settings
+		})
+	}
+
 	if (interaction.items.discriminator !== 'transaction') return null
 
 	return (
@@ -147,7 +181,16 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					<ValidationErrorMessage
 						message={state.isDappApproved === false ? intl.formatMessage(messages.unauthorized) : ''}
 					/>
-					{state?.intent && <Manifest intent={state.intent} onManifestChange={handleManifestChange} />}
+					<ValidationErrorMessage message={state.error} />
+					{state?.intent && (
+						<Transaction
+							intent={state.intent}
+							settings={state.settings}
+							meta={state.meta}
+							onManifestChange={handleManifestChange}
+							onSettingsChange={handleSettingsChange}
+						/>
+					)}
 				</Box>
 			</ScrollArea>
 			<Box className={styles.interactionLoginFooterWrapper}>

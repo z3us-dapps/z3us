@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import clsx, { type ClassValue } from 'clsx'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import useMeasure from 'react-use-measure'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
@@ -85,6 +85,10 @@ export const Table: React.FC<ITableProps> = props => {
 		toggleAllRowsSelected(false)
 	}
 
+	useEffect(() => {
+		if (Object.keys(selectedRowIds || {}).length === 0) handleDeselectAllRows()
+	}, [selectedRowIds])
+
 	const handleEndReached = () => {
 		onEndReached()
 	}
@@ -110,6 +114,7 @@ export const Table: React.FC<ITableProps> = props => {
 				const index = tableRowProps['data-index']
 				const row = rows[index]
 				const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
+				// console.log('🚀 ~ file: index.tsx:116 ~ rowSelectedProps:', rowSelectedProps)
 				return (
 					<tr
 						onClick={e => {
@@ -143,6 +148,7 @@ export const Table: React.FC<ITableProps> = props => {
 	)
 
 	const { top } = scrollableNode?.getBoundingClientRect() || {}
+
 	const stickyTop = tableTop - top
 
 	return (

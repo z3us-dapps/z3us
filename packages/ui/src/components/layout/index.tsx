@@ -6,8 +6,6 @@ import { useLocation, useOutlet } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { HeaderNav, MobileFooterNavigation } from 'ui/src/components/navigation'
-import { Toasts } from 'ui/src/components/toasts'
-import { ImageProvider } from 'ui/src/context/images-provider'
 import { useTextDirection } from 'ui/src/hooks/use-text-direction'
 
 import { QueryResult } from './query-result'
@@ -26,22 +24,19 @@ const Layout: React.FC = () => {
 	}, [dir])
 
 	return (
-		<ImageProvider>
-			<Box className={styles.layoutWrapper}>
-				<HeaderNav />
-				<Box className={styles.layoutRouteWrapper}>
-					<AnimatePresence initial={false}>
-						<Suspense key={key} fallback={<FallbackLoading />}>
-							<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-						</Suspense>
-					</AnimatePresence>
-				</Box>
-				<MobileFooterNavigation />
-				<Transaction />
-				<QueryResult />
-				<Toasts />
+		<Box className={styles.layoutWrapper}>
+			<HeaderNav />
+			<Box className={styles.layoutRouteWrapper}>
+				<AnimatePresence initial={false}>
+					<Suspense key={key} fallback={<FallbackLoading />}>
+						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+					</Suspense>
+				</AnimatePresence>
 			</Box>
-		</ImageProvider>
+			<MobileFooterNavigation />
+			<Transaction />
+			<QueryResult />
+		</Box>
 	)
 }
 
