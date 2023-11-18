@@ -6,7 +6,6 @@ import { Box } from 'ui/src/components/box'
 import FieldValue from 'ui/src/components/field-value'
 import { NftImageIcon } from 'ui/src/components/nft-image-icon'
 import { Text } from 'ui/src/components/typography'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { findFieldValue } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
@@ -22,8 +21,6 @@ export const NftDataCell: React.FC<IProps> = props => {
 		row: { original },
 	} = props
 
-	const isMobile = useIsMobileWidth()
-
 	const dataJson = value?.programmatic_json as any
 	const name = findFieldValue('name', dataJson?.fields)
 
@@ -32,7 +29,7 @@ export const NftDataCell: React.FC<IProps> = props => {
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
 				<NftImageIcon
 					id={original.non_fungible_id}
-					size={isMobile ? 'large' : 'xlarge'}
+					size={{ mobile: 'large', tablet: 'xlarge' }}
 					address={original.collection}
 				/>
 				<Box className={styles.assetNameCellStatsWrapper}>

@@ -8,7 +8,7 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useNonFungibleIds, useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
-import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
+import { NftNameCell } from 'ui/src/pages/accounts/components/table/nft-name-cell'
 
 import { AssetIdCell } from '../components/table/asset-id-cell'
 import { NftDataCell } from '../components/table/nft-data-cell'
@@ -83,19 +83,21 @@ const NFTs: React.FC = () => {
 				Header: intl.formatMessage(messages.collection),
 				accessor: 'collection',
 				width: 'auto',
-				Cell: AssetNameCell,
+				Cell: NftNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.non_fungible_id),
 				accessor: 'non_fungible_id',
 				width: 'auto',
 				Cell: AssetIdCell,
+				className: styles.mobileHideTableCellWrapper,
 			},
 			{
 				Header: intl.formatMessage(messages.nft),
 				accessor: 'data',
 				width: 'auto',
 				Cell: NftDataCell,
+				className: styles.mobileHideTableCellWrapper,
 			},
 		],
 		[],
