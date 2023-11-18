@@ -35,8 +35,8 @@ const LedgerConfirmModal: React.FC<IProps> = ({ load, onClose }) => {
 
 	useEffect(() => {
 		load().finally(() => {
-			// setIsOpen(false)
-			// onClose()
+			onClose()
+			setIsOpen(false)
 		})
 	}, [])
 
