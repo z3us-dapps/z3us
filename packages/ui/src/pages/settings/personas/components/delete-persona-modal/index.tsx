@@ -44,7 +44,7 @@ const DeletePersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 	const handleConfirm = () => {
 		remove(networkId, identityAddress)
 
-		toast(intl.formatMessage(messages.success_message), {})
+		toast.success(intl.formatMessage(messages.success_message), {})
 		onClose()
 	}
 
