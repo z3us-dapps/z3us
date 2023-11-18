@@ -96,10 +96,13 @@ export const useLedgerClient = () => {
 				singers: Array<Account | Persona>,
 				intent: Uint8Array,
 			): Promise<LedgerSignTransactionResponse['success']> => {
+				console.log('signTx singers', singers)
+				console.log('signTx intent', intent)
 				const device = { ...keystore.ledgerDevice, name: keystore.name } as LedgerDevice
 				const keysParameters = keyParametersFromSingers(singers)
 				const payload = getSignTxPayload(device, keysParameters, Convert.Uint8Array.toHexString(intent))
 
+				console.log('signTx payload', payload)
 				return sendMessageToLedger(payload)
 			},
 		}),

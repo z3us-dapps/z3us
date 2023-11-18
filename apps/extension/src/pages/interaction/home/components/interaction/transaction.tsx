@@ -24,7 +24,7 @@ import type { TransactionMeta, TransactionSettings } from '@src/types/transactio
 
 import { DappDetails } from '../dapp-details'
 import { NetworkAlert } from '../network-alert'
-import { Manifest } from '../transaction/manifest'
+import { Transaction } from '../transaction'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -183,7 +183,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					/>
 					<ValidationErrorMessage message={state.error} />
 					{state?.intent && (
-						<Manifest
+						<Transaction
 							intent={state.intent}
 							settings={state.settings}
 							meta={state.meta}

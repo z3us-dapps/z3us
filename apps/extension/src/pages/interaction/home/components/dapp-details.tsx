@@ -8,6 +8,7 @@ import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Link, Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -33,7 +34,7 @@ interface IProps {
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
-export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin }) => {
+export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin: propsOrigin }) => {
 	const intl = useIntl()
 
 	const { data = [], isLoading } = useEntityMetadata(dAppDefinitionAddress)
@@ -41,9 +42,11 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin })
 	const infoUrl = findMetadataValue('info_url', data)
 	const description = findMetadataValue('description', data)
 
+	const origin = useMemo(() => (propsOrigin === popupURL.origin ? DAPP_ORIGIN : propsOrigin), [propsOrigin])
+
 	const isVerified = useMemo(
 		() =>
-			origin === popupURL.origin ||
+			origin === DAPP_ORIGIN ||
 			!!matches.find(match => match.replace('*://*.', '').replace('/*', '').endsWith(new URL(origin).hostname)),
 		[origin],
 	)

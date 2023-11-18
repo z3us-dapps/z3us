@@ -33,6 +33,8 @@ function plainTextMessage(message: string): Extract<Message, { kind: 'PlainText'
 	}
 }
 
+const notaryRoot = ed25519FromSeed(createMnemonic())
+
 export const useIntent = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
@@ -64,7 +66,7 @@ export const useIntent = () => {
 			throw new Error(intl.formatMessage(messages.empty_signatures_error))
 		}
 
-		const notary = deriveEd25519(ed25519FromSeed(createMnemonic()), buildAccountDerivationPath(networkId, 0))
+		const notary = deriveEd25519(notaryRoot, buildAccountDerivationPath(networkId, 0))
 		const { ledger_state: ledgerState } = await status.getCurrent()
 		const validFromEpoch: number = ledgerState.epoch
 

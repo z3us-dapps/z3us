@@ -162,7 +162,7 @@ interface IProps {
 	intent: Intent
 	settings: TransactionSettings
 	meta: TransactionMeta
-	onSettingsChange: (settings: TransactionSettings) => void
+	onChange: (settings: TransactionSettings) => void
 }
 
 type State = {
@@ -173,7 +173,7 @@ type State = {
 	walletExecutionCost: number
 }
 
-export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsChange }) => {
+export const Preview: React.FC<IProps> = ({ intent, settings, meta, onChange }) => {
 	const intl = useIntl()
 	const buildPreview = usePreview()
 
@@ -208,7 +208,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 			if (settings.padding === 0) {
 				const padding = getFeePaddingAmount(preview.receipt as TransactionReceipt, state.walletExecutionCost)
 				const lockAmount = getFeeToLockAmount(preview.receipt as TransactionReceipt, padding, state.walletExecutionCost)
-				onSettingsChange({
+				onChange({
 					...settings,
 					padding,
 					lockAmount,
@@ -230,7 +230,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 				newSettings.padding,
 				state.walletExecutionCost,
 			)
-			onSettingsChange({ ...newSettings, lockAmount })
+			onChange({ ...newSettings, lockAmount })
 		})
 	}
 
@@ -253,6 +253,14 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 
 	return (
 		<Box className={styles.transactionPreviewWrapper}>
+			{receipt?.error_message && (
+				<Box className={styles.transactionPreviewBlockWrapper}>
+					<Box className={clsx(styles.transactionPreviewBlock, styles.transactionPreviewBlockError)}>
+						<ValidationErrorMessage align="center" message={receipt?.error_message} />
+					</Box>
+				</Box>
+			)}
+
 			{state.flatChanges.map((change, index) => (
 				// eslint-disable-next-line react/no-array-index-key
 				<Box key={`${index}${change.account}${change.resource}`} className={styles.transactionPreviewBlockWrapper}>
@@ -545,13 +553,6 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 						/>
 					</Box>
 				</Box>
-				{receipt?.error_message && (
-					<Box className={styles.transactionPreviewBlockWrapper}>
-						<Box className={clsx(styles.transactionPreviewBlock, styles.transactionPreviewBlockError)}>
-							<ValidationErrorMessage align="center" message={receipt?.error_message} />
-						</Box>
-					</Box>
-				)}
 			</Box>
 		</Box>
 	)
