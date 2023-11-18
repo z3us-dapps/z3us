@@ -21,12 +21,8 @@ export const MessageClient = () => {
 	console.info(`⚡️Z3US⚡️: content-script message client initialized.`)
 
 	let port = browser.runtime.connect({ name: PORT_NAME })
-	port.onDisconnect.addListener(() => {
-		if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
-		port = browser.runtime.connect({ name: PORT_NAME })
-	})
 
-	port.onMessage.addListener((message: ResponseMessage) => {
+	const onPortMessage = (message: ResponseMessage) => {
 		const { target, error } = message
 		if (error) {
 			console.error(`⚡️Z3US⚡️: content-script message client response error`, error)
@@ -43,7 +39,17 @@ export const MessageClient = () => {
 					break
 			}
 		}
-	})
+	}
+
+	const onPortDisconnect = () => {
+		if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
+		port = browser.runtime.connect({ name: PORT_NAME })
+		port.onDisconnect.addListener(onPortDisconnect)
+		port.onMessage.addListener(onPortMessage)
+	}
+
+	port.onDisconnect.addListener(onPortDisconnect)
+	port.onMessage.addListener(onPortMessage)
 
 	const onWindowMessage = (event: MessageEvent<Message>) => {
 		if (event.source !== window) {

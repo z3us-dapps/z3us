@@ -79,9 +79,7 @@ export const MessageClient = (logger: AppLogger) => {
 		})
 
 		port.onDisconnect.addListener(() => {
-			if (port.error) {
-				console.error(`Disconnected due to an error: ${port.error.message}`)
-			}
+			if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
 		})
 	}
 
