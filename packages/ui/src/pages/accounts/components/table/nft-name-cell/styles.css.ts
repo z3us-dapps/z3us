@@ -1,18 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
 
-export const assetNameCellWrapper = style([
+export const nftNameCellWrapper = style([
 	sprinkles({
 		position: 'relative',
+		zIndex: 1,
 	}),
 	{},
 ])
 
-export const assetNameCellContentWrapper = style([
+export const nftNameCellContentWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
@@ -25,7 +24,7 @@ export const assetNameCellContentWrapper = style([
 	{},
 ])
 
-export const assetNameCellLoadingWrapper = style([
+export const nftNameCellLoadingWrapper = style([
 	sprinkles({
 		position: 'absolute',
 		top: 0,
@@ -42,16 +41,19 @@ export const assetNameCellLoadingWrapper = style([
 	{},
 ])
 
-export const assetNameCellStatsWrapper = style([
+export const nftNameCellStatsWrapper = style([
 	sprinkles({
 		display: 'flex',
+		alignItems: {
+			mobile: 'center',
+		},
 		gap: 'medium',
 		flexGrow: 1,
 	}),
 	{},
 ])
 
-export const assetNameCellNameWrapper = style([
+export const nftNameCellNameWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
@@ -70,7 +72,19 @@ export const assetNameCellNameWrapper = style([
 	}),
 ])
 
-export const assetNameCellPriceWrapper = style([
+export const nftNameCellNameIdWrapper = style([
+	{},
+	responsiveStyle({
+		mobile: {
+			display: 'flex',
+		},
+		tablet: {
+			display: 'none',
+		},
+	}),
+])
+
+export const nftNameCellPriceWrapper = style([
 	sprinkles({
 		display: {
 			mobile: 'flex',
@@ -86,14 +100,7 @@ export const assetNameCellPriceWrapper = style([
 	},
 ])
 
-export const assetNameCellPriceTextWrapper = style([
-	sprinkles({
-		maxWidth: 'full',
-	}),
-	{},
-])
-
-export const assetNameCellBalanceWrapper = style([
+export const nftNameCellBalanceWrapper = style([
 	sprinkles({
 		display: {
 			mobile: 'flex',

@@ -11,10 +11,9 @@ import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-am
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
+import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
+import { ValidatorCell } from 'ui/src/pages/accounts/components/table/validator-cell'
 import type { ResourceBalanceKind } from 'ui/src/types'
-
-import * as styles from '../components/table/styles.css'
-import { ValidatorCell } from '../components/table/validator-cell'
 
 const messages = defineMessages({
 	address: {
@@ -92,21 +91,18 @@ const Tokens: React.FC = () => {
 				accessor: 'amount',
 				width: 'auto',
 				Cell: AssetAmountCell,
-				className: styles.mobileHideTableCellWrapper,
 			},
 			{
 				Header: intl.formatMessage(messages.value),
 				accessor: 'value',
 				width: 'auto',
 				Cell: AssetValueCell,
-				className: styles.mobileHideTableCellWrapper,
 			},
 			{
 				Header: intl.formatMessage(messages.change),
 				accessor: 'change',
 				width: 'auto',
 				Cell: AssetChangeCell,
-				className: styles.mobileHideTableCellWrapper,
 			},
 		],
 		[],
