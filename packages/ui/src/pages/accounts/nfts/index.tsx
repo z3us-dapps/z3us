@@ -90,7 +90,6 @@ const NFTs: React.FC = () => {
 				accessor: 'non_fungible_id',
 				width: 'auto',
 				Cell: AssetIdCell,
-				className: styles.mobileHideTableCellWrapper,
 			},
 		],
 		[],
