@@ -1,67 +1,25 @@
 import clsx from 'clsx'
 import React from 'react'
 
-import { Box } from 'ui/src/components/box'
-import {
-	ScrollAreaRoot,
-	ScrollAreaScrollbar,
-	ScrollAreaThumb,
-	ScrollAreaViewport,
-} from 'ui/src/components/scroll-area-radix'
+import { TextAreaAdapter as TextAreaField } from 'ui/src/components/form/fields/text-area-field'
 
-import { CopyAddressButton } from '../../copy-address-button'
-import Text from '../text'
 import * as styles from './styles.css'
 
 interface SProps {
 	content: string
-	className?: string
-	onChange?: (e: React.ChangeEvent<HTMLDivElement>) => void
+	onChange?: (v: string) => void
 	style?: React.CSSProperties
-	isHorizontalScrollEnabled?: boolean
+	className?: string
 }
 
-const Code: React.FC<SProps> = ({ className, content, style, isHorizontalScrollEnabled = true, onChange }) => {
-	const isContentEditable = !!onChange
-
-	return (
-		<Box className={clsx(styles.scrollOuterWrapper, className)} style={style}>
-			<Box className={styles.scrollAbsoluteWrapper}>
-				<ScrollAreaRoot className={styles.scrollWrapper}>
-					<ScrollAreaScrollbar orientation="vertical">
-						<ScrollAreaThumb />
-					</ScrollAreaScrollbar>
-					<ScrollAreaViewport
-						contentEditable={isContentEditable}
-						onInput={onChange}
-						className={styles.scrollViewPortWrapper}
-					>
-						<Text
-							size="xxsmall"
-							className={clsx(styles.textWrapper, isHorizontalScrollEnabled && styles.textWrapperWhiteSpacePre)}
-						>
-							<CopyAddressButton
-								className={styles.copyButton}
-								styleVariant="ghost"
-								sizeVariant="xsmall"
-								address={content}
-								iconOnly
-								rounded={false}
-								tickColor="colorStrong"
-								toolTipDisabled
-							/>
-							{content}
-						</Text>
-					</ScrollAreaViewport>
-					{isHorizontalScrollEnabled && (
-						<ScrollAreaScrollbar orientation="horizontal">
-							<ScrollAreaThumb />
-						</ScrollAreaScrollbar>
-					)}
-				</ScrollAreaRoot>
-			</Box>
-		</Box>
-	)
-}
+const Code: React.FC<SProps> = ({ className, content, style, onChange }) => (
+	<TextAreaField
+		name="manifest"
+		sizeVariant="large"
+		className={clsx(styles.scrollAbsoluteWrapper, className, style)}
+		value={content}
+		onChange={onChange}
+	/>
+)
 
 export default Code
