@@ -1,7 +1,6 @@
 import type { Intent } from '@radixdlt/radix-engine-toolkit'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import useMeasure from 'react-use-measure'
 
 import { Box } from 'ui/src/components/box'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
@@ -36,10 +35,9 @@ interface IProps {
 
 export const Transaction: React.FC<IProps> = ({ intent, settings, meta, onManifestChange, onSettingsChange }) => {
 	const intl = useIntl()
-	const [measureRef, { height: tabHeight }] = useMeasure()
 
 	return (
-		<Box ref={measureRef} className={styles.transactionManifestWrapper}>
+		<Box className={styles.transactionManifestWrapper}>
 			<Tabs
 				list={[
 					{ label: intl.formatMessage(messages.tab_preview), value: PREVIEW },
@@ -52,7 +50,7 @@ export const Transaction: React.FC<IProps> = ({ intent, settings, meta, onManife
 					<Preview intent={intent} settings={settings} meta={meta} onChange={onSettingsChange} />
 				</TabsContent>
 				<TabsContent value={MANIFEST} className={styles.transactionManifestTabsContentWrapper}>
-					<Manifest intent={intent} tabHeight={tabHeight} onChange={onManifestChange} />
+					<Manifest intent={intent} onChange={onManifestChange} />
 				</TabsContent>
 			</Tabs>
 		</Box>
