@@ -1,212 +1,189 @@
-import React, { useState } from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import clsx, { type ClassValue } from 'clsx'
+import React, { forwardRef } from 'react'
 import useMeasure from 'react-use-measure'
-import { styled, keyframes, sharedItemStyles, sharedItemIndicatorStyles } from '../../theme'
-import { Box } from '../atoms/box'
-import Button from '../button'
 
-const animateIn = keyframes({
-	from: { transform: 'translateY(4px)', opacity: 0 },
-	to: { transform: 'translateY(0)', opacity: 1 },
-})
+import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/button'
 
-const animateOut = keyframes({
-	from: { transform: 'translateY(0)', opacity: 1 },
-	to: { transform: 'translateY(4px)', opacity: 0 },
-})
+import { Box } from '../box'
+import { Button } from '../button'
+import { ArrowDownIcon, ArrowUpIcon, Check2Icon, ChevronDown2Icon } from '../icons'
+import { Text } from '../typography'
+import * as styles from './styles.css'
 
-const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
-	display: 'inline-flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-	boxSizing: 'border-box',
-	borderRadius: 4,
-	fontSize: 13,
-	lineHeight: 1,
-	height: 35,
-	gap: 5,
-	backgroundColor: 'white',
-	color: 'grey',
-})
+export const SelectRoot = SelectPrimitive.Root
+export const SelectTrigger = SelectPrimitive.Trigger
+export const SelectValue = SelectPrimitive.Value
+export const SelectPortal = SelectPrimitive.Portal
+export const SelectViewport = SelectPrimitive.Viewport
+export const SelectGroup = SelectPrimitive.Group
+export const SelectItemText = SelectPrimitive.ItemText
+export const SelectItemIndicator = SelectPrimitive.ItemIndicator
 
-const StyledContent = styled(SelectPrimitive.Content, {
-	overflow: 'hidden',
-	padding: '5px',
-	br: '$2',
-	backgroundColor: '$bgPanel',
-	border: '1px solid $borderPopup',
-	boxShadow: '$popup',
-	boxSizing: 'border-box',
-	position: 'relatvie',
-	zIndex: '999',
-
-	// TODO: handle the no-motion preference
-	'&[data-state="open"]': {
-		animation: `${animateIn} 200ms ease`,
-	},
-	'&[data-state="closed"]': {
-		animation: `${animateOut} 200ms ease`,
-	},
-})
-
-const Content = ({ children, ...props }) => (
-	<SelectPrimitive.Portal>
-		<StyledContent {...props}>{children}</StyledContent>
-	</SelectPrimitive.Portal>
+export const SelectScrollDownButton = ({ children, ...props }) => (
+	<SelectPrimitive.ScrollDownButton className={styles.selectMenuScrollButton} {...props}>
+		{children}
+	</SelectPrimitive.ScrollDownButton>
 )
 
-const StyledViewport = styled(SelectPrimitive.Viewport, {
-	padding: 0,
-})
+export const SelectScrollUpButton = ({ children, ...props }) => (
+	<SelectPrimitive.ScrollUpButton className={styles.selectMenuScrollButton} {...props}>
+		{children}
+	</SelectPrimitive.ScrollUpButton>
+)
 
-const StyledItem = styled(SelectPrimitive.Item, {
-	...sharedItemStyles,
-})
-
-const StyledLabel = styled(SelectPrimitive.Label, {
-	...sharedItemStyles,
-	fontWeight: 700,
-	backgroundColor: '$bgPanelHover',
-})
-
-const StyledSeparator = styled(SelectPrimitive.Separator, {
-	height: 1,
-	backgroundColor: '$borderPanel',
-	margin: 5,
-})
-
-const StyledItemIndicator = styled(SelectPrimitive.ItemIndicator, { ...sharedItemIndicatorStyles })
-
-const scrollButtonStyles = {
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-	height: 25,
-	color: '$buttonText',
-	fill: '$buttonText',
-	bg: '$buttonBgTertiary',
-	br: '$2',
-	cursor: 'default',
-	opacity: '0.5',
+interface ISelectContentProps {
+	children: React.ReactNode
+	className?: string
+	style?: React.CSSProperties
 }
 
-const StyledScrollUpButton = styled(SelectPrimitive.ScrollUpButton, scrollButtonStyles)
+export const SelectContent: React.FC<ISelectContentProps> = forwardRef<HTMLElement, ISelectContentProps>(
+	(props, forwardedRef: React.Ref<HTMLDivElement | null>) => {
+		const { children, className, ...rest } = props
 
-const StyledScrollDownButton = styled(SelectPrimitive.ScrollDownButton, scrollButtonStyles)
+		return (
+			<SelectPortal>
+				<SelectPrimitive.Content className={clsx(styles.selectContent, className)} {...rest} ref={forwardedRef}>
+					<SelectScrollUpButton>
+						<ArrowUpIcon />
+					</SelectScrollUpButton>
+					<SelectViewport>{children}</SelectViewport>
+					<SelectScrollDownButton>
+						<ArrowDownIcon />
+					</SelectScrollDownButton>
+				</SelectPrimitive.Content>
+			</SelectPortal>
+		)
+	},
+)
 
-// Exports
-export const Select = SelectPrimitive.Root
-export const SelectTrigger = StyledTrigger
-export const SelectValue = SelectPrimitive.Value
-export const SelectIcon = SelectPrimitive.Icon
-export const SelectContent = Content
-export const SelectViewport = StyledViewport
-export const SelectGroup = SelectPrimitive.Group
-export const SelectItem = StyledItem
-export const SelectItemText = SelectPrimitive.ItemText
-export const SelectItemIndicator = StyledItemIndicator
-export const SelectLabel = StyledLabel
-export const SelectSeparator = StyledSeparator
-export const SelectScrollUpButton = StyledScrollUpButton
-export const SelectScrollDownButton = StyledScrollDownButton
-
-interface IProps {
-	buttonAriaLabel?: string
-	selectNameFormatter?: (name: string) => React.ReactNode | string
-	selectLabel?: string | undefined
-	defaultValue?: string | undefined
-	value?: string | undefined
-	placeholder?: string | undefined
-	onValueChange?: (e: string) => void
-	selectOptions: Array<{
-		value: string
-		name: string
-	}>
+interface ISelectItemProps {
+	children: React.ReactNode
+	className?: ClassValue
+	value: string
 }
 
-const defaultProps = {
-	buttonAriaLabel: undefined,
-	selectLabel: undefined,
-	defaultValue: undefined,
-	value: undefined,
-	placeholder: undefined,
-	selectNameFormatter: (name: string) => name,
-	onValueChange: (value: string) => value,
+const SelectItemDefaultProps = {
+	className: undefined,
 }
 
-export const SelectBox: React.FC<IProps> = ({
-	defaultValue,
-	value,
-	buttonAriaLabel,
-	selectLabel,
-	selectOptions,
-	placeholder,
-	selectNameFormatter,
-	onValueChange,
-}) => {
-	const [measureRef, { width: triggerWidth }] = useMeasure()
-	const [open, setOpen] = useState<boolean>(false)
+export const SelectItem = forwardRef<HTMLDivElement, ISelectItemProps>(
+	(props, forwardedRef: React.Ref<HTMLDivElement | null>) => {
+		const { children, className, ...rest } = props
 
-	const handleValueChange = (_value: string) => {
-		onValueChange(_value)
-		setOpen(false)
-	}
+		return (
+			<SelectPrimitive.Item className={clsx(styles.selectMenuItem, className)} {...rest} ref={forwardedRef}>
+				<SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+				<SelectPrimitive.ItemIndicator>
+					<Check2Icon className={styles.selectMenuItemCheckIcon} />
+				</SelectPrimitive.ItemIndicator>
+			</SelectPrimitive.Item>
+		)
+	},
+)
 
-	return (
-		<Select open={open} defaultValue={defaultValue} value={value} onValueChange={handleValueChange}>
-			<SelectTrigger aria-label={buttonAriaLabel} asChild onClick={() => setOpen(true)}>
-				<Button
-					ref={measureRef}
-					color="input"
-					size="4"
-					fullWidth
-					css={{
-						'&[data-placeholder]': {
-							color: '$txtMuted',
-						},
-					}}
-				>
-					<Box css={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-						<SelectValue placeholder={placeholder} />
-					</Box>
-					<SelectIcon>
-						<ChevronDownIcon />
-					</SelectIcon>
-				</Button>
-			</SelectTrigger>
-			<SelectContent onPointerDownOutside={() => setOpen(false)}>
-				<SelectScrollUpButton>
-					<ChevronUpIcon />
-				</SelectScrollUpButton>
-				<SelectViewport>
-					<SelectGroup>
-						{selectLabel ? <SelectLabel>{selectLabel}</SelectLabel> : null}
-						{selectOptions?.map(({ value: _value, name: _name }) => (
-							<SelectItem
-								key={_value}
-								value={_value}
-								css={{
-									'span:first-child': {
-										overflow: 'hidden',
-										textOverflow: 'ellipsis',
-										whiteSpace: 'nowrap',
-										maxWidth: `${triggerWidth}px`,
-									},
-								}}
+SelectItem.defaultProps = SelectItemDefaultProps
+
+export const SelectLabel = ({ children, ...props }) => (
+	<SelectPrimitive.Label className={styles.selectLabelWrapper} {...props}>
+		{children}
+	</SelectPrimitive.Label>
+)
+
+export const SelectSeparator = () => <SelectPrimitive.Separator className={styles.selectMenuSeparator} />
+
+export const SelectIcon = ({ children, ...props }) => (
+	<SelectPrimitive.Icon className={styles.selectIconWrapper} {...props}>
+		{children}
+	</SelectPrimitive.Icon>
+)
+
+export interface ISelectSimpleProps {
+	value?: string
+	placeholder?: string
+	onValueChange?: (value: string) => void
+	data: { id: string; title: string }[]
+	trigger?: React.ReactNode
+	selectAriaLabel?: string
+	width?: number
+	sizeVariant?: TSizeVariant
+	styleVariant?: TStyleVariant
+	capitalizeFirstLetter?: boolean
+	rounded?: boolean
+	fullWidth?: boolean
+	disabled?: boolean
+}
+
+export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
+	(
+		{
+			value,
+			onValueChange,
+			trigger,
+			data = [],
+			placeholder,
+			selectAriaLabel,
+			width = 300,
+			sizeVariant = 'medium',
+			styleVariant = 'secondary',
+			capitalizeFirstLetter = false,
+			rounded = false,
+			fullWidth = false,
+			disabled = false,
+		},
+		ref,
+	) => {
+		const [measureRef, { width: triggerWidth }] = useMeasure()
+
+		return (
+			<SelectRoot value={value} onValueChange={onValueChange}>
+				{trigger || (
+					<SelectTrigger asChild aria-label={selectAriaLabel}>
+						<Box
+							ref={measureRef}
+							display="inline-flex"
+							style={{
+								...(fullWidth
+									? {
+											width: '100%',
+											maxWidth: '100%',
+									  }
+									: {
+											maxWidth: `${width}px`,
+											width: 'fit-content',
+									  }),
+							}}
+						>
+							<Button
+								ref={ref}
+								sizeVariant={sizeVariant}
+								styleVariant={styleVariant}
+								rightIcon={<ChevronDown2Icon />}
+								rounded={rounded}
+								fullWidth={fullWidth}
+								disabled={disabled}
+								className={clsx(fullWidth && styles.selectFullWidthButton)}
 							>
-								<SelectItemText>{selectNameFormatter(_name)}</SelectItemText>
-								<SelectItemIndicator />
+								<span style={{ overflow: 'hidden' }}>
+									<SelectValue aria-label={value} placeholder={placeholder} />
+								</span>
+							</Button>
+						</Box>
+					</SelectTrigger>
+				)}
+				<SelectContent style={{ maxWidth: `${triggerWidth}px` }}>
+					<SelectGroup>
+						{data.map(({ id, title }) => (
+							<SelectItem key={id} value={id}>
+								<Text truncate size="small" color="strong" capitalizeFirstLetter={capitalizeFirstLetter}>
+									{title}
+								</Text>
 							</SelectItem>
 						))}
 					</SelectGroup>
-				</SelectViewport>
-				<SelectScrollDownButton>
-					<ChevronDownIcon />
-				</SelectScrollDownButton>
-			</SelectContent>
-		</Select>
-	)
-}
-
-SelectBox.defaultProps = defaultProps
+				</SelectContent>
+			</SelectRoot>
+		)
+	},
+)

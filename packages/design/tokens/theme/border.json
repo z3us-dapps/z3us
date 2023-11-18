@@ -2,34 +2,82 @@
 	"color": {
 		"border": {
 			"divider_primary": {
-				"value": "{color.core.bleached_silk.200.value}",
+				"value": "{color.core.bleached_silk.400.value}",
 				"darkValue": "{color.core.lead.400.value}"
 			},
+			"divider_secondary": {
+				"value": "{color.core.bleached_silk.600.value}",
+				"darkValue": "{color.core.lead.300.value}"
+			},
 			"btn_secondary_border": {
-				"value": "{color.core.bleached_silk.500.value}",
-				"darkValue": "{color.core.lead.400.value}"
+				"value": "{color.core.bleached_silk.600.value}",
+				"darkValue": "{color.core.lead.400.value}",
+				"modify": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.7}"
+					}
+				],
+				"modifyDarkValue": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.0}"
+					}
+				]
 			},
 			"btn_secondary_border_hover": {
 				"value": "{color.core.bleached_silk.500.value}",
 				"darkValue": "{color.core.wax.300.value}"
+			},
+			"btn_tertiary_border": {
+				"value": "{color.core.bleached_silk.600.value}",
+				"darkValue": "{color.core.lead.400.value}"
+			},
+			"btn_tertiary_border_hover": {
+				"value": "{color.core.bleached_silk.700.value}",
+				"darkValue": "{color.core.wax.400.value}"
 			},
 			"btn_ghost_border": {
 				"value": "{color.core.bleached_silk.500.value}",
 				"darkValue": "{color.core.bleached_silk.500.value}"
 			},
 			"btn_ghost_border_hover": {
-				"value": "{color.core.bleached_silk.500.value}",
+				"value": "{color.core.bleached_silk.600.value}",
 				"darkValue": "{color.core.wax.300.value}"
 			},
 			"input_primary_border": {
-				"value": "{color.core.bleached_silk.500.value}",
+				"value": "{color.core.bleached_silk.600.value}",
 				"darkValue": "{color.core.lead.400.value}"
 			},
 			"input_primary_border_hover": {
-				"value": "{color.core.bleached_silk.500.value}",
+				"value": "{color.core.bleached_silk.700.value}",
 				"darkValue": "{color.core.wax.300.value}"
 			},
 			"input_primary_border_focus": {
+				"value": "{color.core.purple.600.value}",
+				"darkValue": "{color.core.purple.600.value}"
+			},
+			"input_secondary_border": {
+				"value": "{color.core.bleached_silk.600.value}",
+				"darkValue": "{color.core.lead.400.value}",
+				"modify": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.7}"
+					}
+				],
+				"modifyDarkValue": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.0}"
+					}
+				]
+			},
+			"input_secondary_border_hover": {
+				"value": "{color.core.bleached_silk.500.value}",
+				"darkValue": "{color.core.wax.300.value}"
+			},
+			"input_secondary_border_focus": {
 				"value": "{color.core.purple.600.value}",
 				"darkValue": "{color.core.purple.600.value}"
 			}

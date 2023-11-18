@@ -1,154 +1,168 @@
-/* eslint-disable react/jsx-props-no-spreading, react/no-array-index-key */
-import React, {
-	Children,
-	MouseEvent,
-	PropsWithoutRef,
-	RefAttributes,
-	useEffect,
-	useImperativeHandle,
-	useRef,
-	useState,
-} from 'react'
+import clsx from 'clsx'
+import React, { forwardRef } from 'react'
 
-import { PropsWithCSS } from '../../types'
-import { __DEV__ } from '../../utils/assertion'
-import { NormalColors, NormalSizes } from '../../utils/prop-types'
-import withDefaults from '../../utils/with-defaults'
-import StyledButton, { ButtonVariantsProps, StyledLoader, StyledRipple, StyledTextWrapper } from './button.styles'
+import { Box } from 'ui/src/components/box'
 
-export interface IProps {
-	color?: NormalColors
-	size?: NormalSizes
-	clickable?: boolean
-	showRipple?: boolean
-	disabled?: boolean
-	loading?: boolean
-	iconOnly?: boolean
-	circle?: boolean
-	fullWidth?: boolean
-	active?: boolean
-	icon?: React.ReactNode
-	iconRight?: React.ReactNode
-	onClick?: React.MouseEventHandler<HTMLButtonElement>
-	as?: keyof JSX.IntrinsicElements
-	className?: string
-	href?: string
-	target?: string
-	download?: string
+import * as styles from './styles.css'
+
+export type TType = 'button' | 'submit'
+type TTSizeVariantOption = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
+
+export type TSizeVariant =
+	| TTSizeVariantOption
+	| {
+			mobile?: TTSizeVariantOption
+			tablet?: TTSizeVariantOption
+			desktop?: TTSizeVariantOption
+	  }
+
+export type TStyleVariant =
+	| 'primary'
+	| 'secondary'
+	| 'secondary-error'
+	| 'tertiary'
+	| 'tertiary-error'
+	| 'ghost'
+	| 'inverse'
+	| 'white-transparent'
+	| 'destructive'
+	| 'avatar'
+
+interface IButtonRequiredProps {
+	children: React.ReactNode
 }
 
-const defaultProps = {
-	clickable: true,
-	showRipple: true,
-	disabled: false,
-	loading: false,
+interface IButtonOptionalProps {
+	className?: string
+	linkFrameWorkComp?: any
+	onClick?: React.MouseEventHandler<HTMLButtonElement>
+	onMouseOver?: React.MouseEventHandler<HTMLButtonElement>
+	onMouseOut?: React.MouseEventHandler<HTMLButtonElement>
+	disabled?: boolean
+	iconOnly?: boolean
+	rightIcon?: React.ReactNode
+	leftIcon?: React.ReactNode
+	sizeVariant?: TSizeVariant
+	styleVariant?: TStyleVariant
+	type?: TType
+	href?: string
+	rounded?: boolean
+	fullWidth?: boolean
+	loading?: boolean
+	active?: boolean
+}
+
+export interface IButtonProps extends IButtonRequiredProps, IButtonOptionalProps {}
+
+const defaultProps: IButtonOptionalProps = {
+	className: undefined,
+	linkFrameWorkComp: undefined,
+	onClick: undefined,
+	onMouseOver: undefined,
+	onMouseOut: undefined,
 	iconOnly: false,
-	circle: false,
+	rightIcon: undefined,
+	leftIcon: undefined,
+	rounded: false,
 	fullWidth: false,
+	disabled: false,
+	sizeVariant: 'medium',
+	styleVariant: 'primary',
+	type: 'button',
+	href: undefined,
+	loading: false,
 	active: false,
 }
 
-type NativeAttrs = Omit<React.ButtonHTMLAttributes<unknown>, keyof IProps>
+export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: React.Ref<HTMLButtonElement | null>) => {
+	const {
+		children,
+		disabled,
+		iconOnly,
+		rightIcon,
+		leftIcon,
+		rounded,
+		fullWidth,
+		onClick,
+		className,
+		sizeVariant,
+		styleVariant,
+		type,
+		linkFrameWorkComp,
+		href,
+		loading,
+		active,
+		...rest
+	} = props
 
-export type ButtonProps = PropsWithCSS<IProps & NativeAttrs & ButtonVariantsProps>
+	const sizeVariantMobile = typeof sizeVariant === 'object' ? sizeVariant.mobile : sizeVariant
+	const sizeVariantTablet = typeof sizeVariant === 'object' ? sizeVariant.tablet : undefined
 
-const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<ButtonProps>>(
-	(props, ref: React.Ref<HTMLButtonElement | null>) => {
-		const {
-			children,
-			size,
-			color,
-			disabled,
-			loading,
-			iconOnly,
-			circle,
-			fullWidth,
-			active,
-			onClick,
-			href,
-			target,
-			clickable,
-			showRipple,
-			css,
-			...rest
-		} = props
-		const [buttonWidth, setButtonWidth] = useState<number>(0)
-		const rippleRef = useRef<HTMLElement>(null)
-		const buttonRef = useRef<HTMLButtonElement>(null)
-		useImperativeHandle(ref, () => buttonRef.current)
-		const childArray = Children.toArray(children)
+	const ButtonComponent = linkFrameWorkComp || Box
 
-		const clickHandler = (event: MouseEvent<HTMLButtonElement>) => {
-			const btnBounds = event.currentTarget.getBoundingClientRect()
-			const x = event.clientX - btnBounds.left
-			const y = event.clientY - btnBounds.top
-			if (!disabled) {
-				rippleRef.current.style.left = `${x}px`
-				rippleRef.current.style.top = `${y}px`
-			}
+	const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+		if (disabled) return
 
-			if (disabled) return
-
-			if (onClick) {
-				onClick(event)
-			}
+		if (onClick) {
+			onClick(e)
 		}
+	}
 
-		useEffect(() => {
-			setButtonWidth((buttonRef.current?.offsetWidth || 0) * 1.1)
-		}, [])
+	return (
+		<ButtonComponent
+			component={href ? 'a' : 'button'}
+			href={href}
+			type={type}
+			ref={ref}
+			className={clsx(
+				className,
+				styles.baseSprinkles,
+				styles.button({
+					sizeVariant: sizeVariantMobile,
+					sizeVariantTablet,
+					styleVariant,
+					iconOnly,
+					disabled,
+					rounded,
+					fullWidth,
+					active,
+				}),
+			)}
+			disabled={disabled}
+			onClick={clickHandler}
+			{...rest}
+		>
+			{leftIcon ? (
+				<Box
+					className={clsx(
+						styles.buttonIconLeft({
+							sizeVariant: sizeVariantMobile,
+							sizeVariantTablet,
+							styleVariant,
+							iconOnly,
+						}),
+					)}
+				>
+					{leftIcon}
+				</Box>
+			) : null}
+			{children}
+			{rightIcon ? (
+				<Box
+					className={clsx(
+						styles.buttonIconRight({
+							sizeVariant: sizeVariantMobile,
+							sizeVariantTablet,
+							styleVariant,
+							iconOnly,
+						}),
+					)}
+				>
+					{rightIcon}
+				</Box>
+			) : null}
+		</ButtonComponent>
+	)
+})
 
-		return (
-			<StyledButton
-				ref={buttonRef}
-				size={size}
-				color={color}
-				disabled={disabled}
-				loading={loading}
-				iconOnly={iconOnly}
-				circle={circle}
-				fullWidth={fullWidth}
-				onClick={clickHandler}
-				clickable={clickable}
-				showRipple={showRipple}
-				href={href}
-				target={target}
-				active={active}
-				css={{
-					...(buttonWidth
-						? {
-								'&:hover': {
-									'&:before': {
-										transform: `translateX(${buttonWidth}px) skewX(-15deg)`,
-									},
-									'&:after': {
-										transform: `translateX(${buttonWidth}px) skewX(-15deg)`,
-									},
-								},
-						  }
-						: {}),
-					...css,
-				}}
-				{...rest}
-			>
-				{Children.map(childArray, (child, index) => {
-					const isStringChild = typeof child === 'string'
-					const isTextWrapped = isStringChild && childArray.length > 1
-					return isTextWrapped ? <StyledTextWrapper key={index}>{child}</StyledTextWrapper> : child
-				})}
-				<StyledLoader />
-				<StyledRipple ref={rippleRef} />
-			</StyledButton>
-		)
-	},
-)
-
-type ButtonComponent<T, P = unknown> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
-
-if (__DEV__) {
-	Button.displayName = 'z3us ui - Button'
-}
-
-Button.toString = () => '.z3us-ui-button'
-
-export default withDefaults(Button, defaultProps) as ButtonComponent<HTMLButtonElement, ButtonProps>
+Button.defaultProps = defaultProps

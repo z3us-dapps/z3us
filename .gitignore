@@ -3,6 +3,7 @@
 
 # dependencies
 node_modules
+.yarn
 .pnp
 .pnp.js
 
@@ -19,6 +20,8 @@ build
 # misc
 .DS_Store
 *.pem
+*.local
+*.tsbuildinfo
 
 # debug
 npm-debug.log*
@@ -27,7 +30,6 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env
 .env.local
 .env.development.local
 .env.test.local
@@ -43,3 +45,13 @@ apps/extension/stats.html
 apps/extension/playwright-report/index.html
 apps/extension/m-jest.sh
 apps/extension/jestOutput.txt
+
+
+# website sitemap
+apps/website/public/sitemap.xml
+apps/website/public/sitemap-0.xml
+apps/website/public/sitemap-1.xml
+
+# website contentlayer
+apps/website/.contentlayer
+

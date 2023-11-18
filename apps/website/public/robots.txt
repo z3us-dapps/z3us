@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://z3us.com/
+
+# Sitemaps
+Sitemap: https://z3us.com/sitemap.xml

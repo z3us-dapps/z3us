@@ -1,25 +1,11 @@
 {
+	"extends": "tsconfig/nextjs.json",
 	"compilerOptions": {
-		"outDir": "./dist",
-		"rootDir": "./src",
-		"baseUrl": ".",
 		"paths": {
-			"@src/*": ["src/*"]
-		},
-		"target": "ES6",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"allowJs": true,
-		"skipLibCheck": true,
-		"strict": false,
-		"forceConsistentCasingInFileNames": true,
-		"noEmit": true,
-		"esModuleInterop": true,
-		"module": "esnext",
-		"moduleResolution": "node",
-		"isolatedModules": true,
-		"jsx": "preserve",
-		"resolveJsonModule": true
+			"@/*": ["./apps/website/src/*"],
+			"contentlayer/generated": ["./apps/website/.contentlayer/generated"]
+		}
 	},
-	"exclude": ["node_modules", "src/__test__/**/*"],
-	"include": ["src"]
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".contentlayer/generated"],
+	"exclude": ["node_modules", "./scripts/build-components.ts"]
 }

@@ -1,57 +1,33 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
-import { Cross2Icon } from '@radix-ui/react-icons'
-import { PropsWithCSS } from '../../types'
-import withDefaults from '../../utils/with-defaults'
-import { __DEV__ } from '../../utils/assertion'
-import Button from '../button'
-import { StyledPill, PillVariantsProps } from './pill.styles'
+import clsx, { type ClassValue } from 'clsx'
+import React, { forwardRef } from 'react'
 
-export interface Props {
-	as?: keyof JSX.IntrinsicElements
-	onClose?: () => void
+import { Box } from '../box'
+import * as styles from './pill.css'
+
+interface IPillProps {
+	children: React.ReactNode
+	className?: ClassValue
+	sizeVariant?: 'small' | 'medium' | 'large'
+	styleVariant?: 'caution' | 'neutral'
 }
 
-const defaultProps = {
-	as: 'div' as keyof JSX.IntrinsicElements,
-	onClose: undefined,
-}
+export const Pill = forwardRef<HTMLButtonElement, IPillProps>((props, ref) => {
+	const { children, className, sizeVariant, styleVariant, ...rest } = props
 
-type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
-
-export type PillProps = React.PropsWithChildren<PropsWithCSS<Props & NativeAttrs & PillVariantsProps>>
-
-const Pill = React.forwardRef<HTMLDivElement, PillProps>(
-	({ children, as, css, onClose, color, ...rest }, ref: React.Ref<HTMLDivElement | null>) => {
-		const cardRef = useRef<HTMLDivElement>(null)
-		useImperativeHandle(ref, () => cardRef.current)
-
-		return (
-			<StyledPill ref={cardRef} as={as} color={color} css={{ ...(css as any) }} {...rest}>
-				{children}
-				{onClose ? (
-					<Button
-						color="ghost"
-						iconOnly
-						aria-label="wallet options"
-						size="1"
-						css={{ flexShrink: 0, mt: '2px', mr: '2px' }}
-						onClick={() => onClose()}
-					>
-						<Cross2Icon />
-					</Button>
-				) : null}
-			</StyledPill>
-		)
-	},
-)
-
-type PillComponent<T, P = {}> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
-
-if (__DEV__) {
-	Pill.displayName = 'z3usUI - Pill'
-}
-
-Pill.toString = () => '.z3us pill'
-
-export default withDefaults(Pill, defaultProps) as PillComponent<HTMLDivElement, PillProps>
+	return (
+		<Box
+			ref={ref}
+			className={clsx(
+				styles.pillRootWrapper,
+				styles.pillRecipe({
+					sizeVariant,
+					styleVariant,
+				}),
+				className,
+			)}
+			{...rest}
+		>
+			<Box>{children}</Box>
+		</Box>
+	)
+})

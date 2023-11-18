@@ -1,97 +1,85 @@
-import React from 'react'
-import { CSS, styled } from '@stitches/react'
-//import { violet, blackA } from '@radix-ui/colors';
-//import { CheckIcon } from '@radix-ui/react-icons';
-import { CheckIcon as CheckIconRadixUi } from '@radix-ui/react-icons'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import { Box } from '../atoms/box'
+import clsx, { type ClassValue } from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
+import type { ForwardedRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 
-const StyledCheckbox = styled(CheckboxPrimitive.Root, {
-	all: 'unset',
-	backgroundColor: '$bgPanel2',
-	width: 25,
-	height: 25,
-	borderRadius: '$1',
-	display: 'flex',
-	alignItems: 'center',
-	position: 'relative',
-	justifyContent: 'center',
-	border: '1px solid $borderInput',
-	transition: '$default',
-	'&:hover': {
-		border: '1px solid $borderInputHover',
-		boxShadow: '$inputHover',
-	},
-	'&:focus': {
-		border: '1px solid $borderInputHover',
-		boxShadow: '$inputFocus',
-	},
-	//'&:focus:not(&:focus-visible)': {
-	//boxShadow: 'none',
-	//},
-	'&[data-state="checked"]': {
-		border: '1px solid $borderInputHover',
-		div: {
-			opacity: '1',
-		},
-	},
+import { Box } from '../box'
+import { type TThemeColorKey } from '../system/theme.css'
+import * as styles from './styles.css'
 
-	variants: {
-		size: {
-			'1': {
-				borderRadius: '$1',
-				width: 18,
-				height: 18,
-				div: {
-					marginTop: '-7px',
-				},
-			},
-			'2': {
-				borderRadius: '$1',
-				width: 25,
-				height: 25,
-				div: {
-					marginTop: '-7px',
-					transform: 'scale(1.2)',
-				},
-			},
-		},
-	},
+export type TSizeVariant = 'small' | 'medium'
+export type TStyleVariant = 'primary' | 'primary-error' | 'secondary' | 'secondary-error' | 'tertiary'
 
-	defaultVariants: {
-		size: '1',
-	},
+export const CheckboxRoot = CheckboxPrimitive.Root
+export const CheckboxIndicator = CheckboxPrimitive.Indicator
+
+export interface ICheckboxProps {
+	id?: string
+	checked?: boolean
+	className?: ClassValue
+	disabled?: boolean
+	sizeVariant?: TSizeVariant
+	styleVariant?: TStyleVariant
+	tickColor?: TThemeColorKey
+	onCheckedChange?: (checked: boolean) => void
+}
+
+export const Checkbox = forwardRef<HTMLElement, ICheckboxProps>((props, ref: ForwardedRef<any>) => {
+	const {
+		id,
+		checked = false,
+		className,
+		sizeVariant = 'small',
+		styleVariant = 'secondary',
+		disabled,
+		tickColor = 'colorNeutral',
+		onCheckedChange,
+		...rest
+	} = props
+	const [animate, setAnimate] = useState<boolean>(checked)
+
+	const handleCheckChanged = (_checked: boolean) => {
+		setAnimate(_checked)
+		onCheckedChange(_checked)
+	}
+
+	return (
+		<CheckboxRoot
+			id={id}
+			ref={ref}
+			checked={animate}
+			onCheckedChange={handleCheckChanged}
+			className={clsx(
+				styles.checkboxWrapper({
+					sizeVariant,
+					styleVariant,
+					disabled,
+				}),
+			)}
+			{...rest}
+		>
+			<Box color={tickColor} width="full" height="full">
+				<AnimatePresence initial={false}>
+					{animate && (
+						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="CheckIcon">
+							<motion.path
+								initial={{ pathLength: 0 }}
+								animate={{ pathLength: 1 }}
+								exit={{ pathLength: 0 }}
+								transition={{
+									type: 'tween',
+									duration: 0.2,
+									ease: animate ? 'easeOut' : 'easeIn',
+								}}
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M7.75 12.75L10 15.25L16.25 8.75"
+							/>
+						</svg>
+					)}
+				</AnimatePresence>
+			</Box>
+		</CheckboxRoot>
+	)
 })
-
-const StyledCheckIcon = ({ css }: CSS) => (
-	<Box
-		as="div"
-		css={{
-			position: 'absolute',
-			display: 'flex',
-			pe: 'none',
-			opacity: '0',
-			top: '50%',
-			left: '50%',
-			marginTop: '-8px',
-			marginLeft: '-8px',
-			width: '16px',
-			height: '16px',
-			transition: '$default',
-			//transition: 'opacity 150ms 200ms, background-color 150ms 200ms, transform 350ms cubic-bezier(.78,-1.22,.17,1.89)',
-			transform: 'scale(1)',
-			...(css as any),
-		}}
-	>
-		<CheckIconRadixUi />
-	</Box>
-)
-
-const StyledIndicator = styled(CheckboxPrimitive.Indicator, {
-	color: 'grey',
-})
-
-// Exports
-export const Checkbox = StyledCheckbox
-export const CheckboxIndicator = StyledIndicator
-export const CheckIcon = StyledCheckIcon

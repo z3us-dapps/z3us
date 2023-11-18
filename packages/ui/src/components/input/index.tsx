@@ -1,123 +1,146 @@
-import React, { PropsWithoutRef, RefAttributes, useEffect, useImperativeHandle, useRef } from 'react'
-import { CSS } from '../../theme'
-import { PropsWithCSS } from '../../types'
-import withDefaults from '../../utils/with-defaults'
-import { __DEV__ } from '../../utils/assertion'
-import { StyledInput, StyledInputWrapper, StyledInputPlaceholder, InputVariantsProps } from './input.styles'
+import clsx, { type ClassValue } from 'clsx'
+import type { HTMLProps, KeyboardEvent } from 'react'
+import React, { forwardRef } from 'react'
+
+import { Box } from '../box'
+import { element } from '../system/reset.css'
+import * as styles from './input.css'
+
+export type TSizeVariant = 'small' | 'medium' | 'large'
+export type TStyleVariant = 'primary' | 'secondary' | 'primary-error' | 'secondary-error'
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
-export interface IProps {
-	type?: string
-	size?: string
-	placeholder?: string
-	value?: string
+export interface IInputProps
+	extends Omit<HTMLProps<HTMLInputElement>, 'onChange' | 'onFocus' | 'onBlur' | 'onKeyDown'> {
+	value?: string | number
+	onClick?: () => void
 	disabled?: boolean
-	error?: boolean
-	focusOnMount?: boolean
-	selectOnMount?: boolean
-	min?: string
-	theme?: string
+	rounded?: boolean
+	sizeVariant?: TSizeVariant
+	styleVariant?: TStyleVariant
+	name?: string
+	type?: HTMLInputElement['type'] | HTMLTextAreaElement['type']
+	elementType?: 'input' | 'textarea'
+	placeholder?: string
+	leftIcon?: React.ReactNode
+	leftIconClassName?: ClassValue
+	rightIcon?: React.ReactNode
+	rightIconClassName?: ClassValue
 	onChange?: (e: React.ChangeEvent<FormElement>) => void
-	onFocus?: (e: React.ChangeEvent<FormElement>) => void
-	onBlur?: (e: React.ChangeEvent<FormElement>) => void
-	css?: CSS
-	autoComplete?: 'off' | 'on'
-	as?: keyof JSX.IntrinsicElements
+	onKeyDown?: (e: KeyboardEvent<FormElement>) => void
+	onFocus?: (e: React.FocusEvent<FormElement>) => void
+	onBlur?: (e: React.FocusEvent<FormElement>) => void
 }
 
-const defaultProps = {
-	type: 'text',
-	placeholder: '',
-	focusOnMount: false,
-	selectOnMount: false,
-	onChange: () => {},
-	min: undefined,
-}
-
-type NativeAttrs = Omit<React.InputHTMLAttributes<any>, keyof IProps>
-export type InputProps = IProps & typeof defaultProps & NativeAttrs & InputVariantsProps
-
-const Input = React.forwardRef<FormElement, PropsWithCSS<InputProps>>((props, ref: React.Ref<FormElement | null>) => {
-	const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null)
-
+export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref<FormElement | null>) => {
 	const {
-		type,
+		disabled = false,
+		rounded = false,
+		onClick,
+		className,
+		sizeVariant = 'medium',
+		styleVariant = 'primary',
+		elementType = 'input',
+		type = 'text',
+		value = '',
+		name,
+		placeholder,
+		leftIcon,
+		leftIconClassName,
+		rightIcon,
+		rightIconClassName,
 		onChange,
+		onKeyDown,
 		onFocus,
 		onBlur,
-		placeholder,
-		disabled,
-		error,
-		value,
-		size,
-		focusOnMount,
-		selectOnMount,
-		as,
-		min,
-		css,
 		...rest
 	} = props
 
-	useImperativeHandle(ref, () => inputRef.current)
-
-	// @TODO: implement properties below
-	const readOnly = false
-	const required = false
-	const isTextarea = as === 'textarea'
+	const isElementTextArea = elementType === 'textarea'
+	const baseStyles = clsx(
+		className,
+		element.textarea,
+		styles.baseSprinkles,
+		styles.input({
+			sizeVariant,
+			styleVariant,
+			rounded,
+			leftIcon: !!leftIcon,
+			rightIcon: !!rightIcon,
+			disabled,
+		}),
+		isElementTextArea && styles.textAreaDefault,
+	)
 
 	const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
-		if (disabled || readOnly) return
+		if (disabled) return
 		onChange(event)
 	}
 
-	useEffect(() => {
-		if (selectOnMount) {
-			inputRef.current.select()
-		}
-		if (focusOnMount) {
-			inputRef.current.focus()
-		}
-	}, [])
+	const handleOnKeyDown = (event: KeyboardEvent<FormElement>) => {
+		if (disabled) return
+		if (onKeyDown) onKeyDown(event)
+	}
 
 	return (
-		<StyledInputWrapper css={{ ...(css as any), textarea: { height: '100%' } }}>
-			<StyledInput
-				ref={inputRef}
-				value={value}
-				type={type}
-				size={size}
-				isTextarea={isTextarea}
-				as={as}
-				placeholder={placeholder}
-				disabled={disabled}
-				error={error}
-				onChange={handleOnChange}
-				onBlur={onBlur}
-				onFocus={onFocus}
-				aria-label="input"
-				min={min}
-				aria-placeholder={placeholder}
-				aria-readonly={readOnly}
-				aria-required={required}
-				aria-multiline={isTextarea}
-				onWheelCapture={() => {
-					// Note: Removes behaviour for the mouse wheel incrementing the number input
-					inputRef.current.blur()
-				}}
-				{...rest}
-			/>
-			<StyledInputPlaceholder as="span">{placeholder}</StyledInputPlaceholder>
-		</StyledInputWrapper>
+		<Box className={styles.inputWrapper}>
+			{isElementTextArea ? (
+				<textarea
+					ref={ref as React.Ref<HTMLTextAreaElement>}
+					className={baseStyles}
+					name={name}
+					value={value}
+					disabled={disabled}
+					onClick={onClick}
+					placeholder={placeholder}
+					onChange={handleOnChange}
+					onKeyDown={handleOnKeyDown}
+					onFocus={onFocus}
+					onBlur={onBlur}
+					rows={20}
+				/>
+			) : (
+				<input
+					ref={ref as React.Ref<HTMLInputElement>}
+					type={type}
+					className={baseStyles}
+					name={name}
+					value={value}
+					disabled={disabled}
+					onClick={onClick}
+					placeholder={placeholder}
+					onChange={handleOnChange}
+					onKeyDown={handleOnKeyDown}
+					onFocus={onFocus}
+					onBlur={onBlur}
+					{...rest}
+				/>
+			)}
+			{leftIcon ? (
+				<Box
+					className={clsx(
+						styles.iconLeft({
+							sizeVariant,
+						}),
+						leftIconClassName,
+					)}
+				>
+					{leftIcon}
+				</Box>
+			) : null}
+			{rightIcon ? (
+				<Box
+					className={clsx(
+						styles.iconRight({
+							sizeVariant,
+						}),
+						rightIconClassName,
+					)}
+				>
+					{rightIcon}
+				</Box>
+			) : null}
+		</Box>
 	)
 })
-
-type InputComponent<T, P = unknown> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
-
-if (__DEV__) {
-	Input.displayName = 'z3us ui - Input'
-}
-
-Input.toString = () => '.z3us-ui-input'
-
-export default withDefaults(Input, defaultProps) as InputComponent<FormElement, IProps>

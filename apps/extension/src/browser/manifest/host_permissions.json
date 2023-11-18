@@ -1,0 +1,14 @@
+[
+    "*://localhost/*",
+    "*://127.0.0.1/*",
+    "*://*.z3us.com/*",
+    "*://*.radixdlt.com/*",
+    "*://api.bitfinex.com/*",
+    "*://api.coingecko.com/api/*",
+    "*://www.radixscan.io/*",
+    "*://api.ociswap.com/v1/graphql/*",
+    "*://dogecubex.live/api/*",
+    "*://api.astrolescent.com/z3us/*",
+    "*://pjhht6w8p9.execute-api.eu-west-2.amazonaws.com/prod/*",
+    "*://api.dsor.io/*"
+]
