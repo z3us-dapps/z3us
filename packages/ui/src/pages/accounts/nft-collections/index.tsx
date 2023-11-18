@@ -8,7 +8,7 @@ import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
-import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
+import { NFTCollectionNameCell } from 'ui/src/pages/accounts/components/table/nft-collection-name-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
@@ -63,14 +63,13 @@ const NftCollections: React.FC = () => {
 				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
 				width: 'auto',
-				Cell: AssetNameCell,
+				Cell: NFTCollectionNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
 				accessor: 'amount',
 				width: 'auto',
 				Cell: AssetAmountCell,
-				className: styles.mobileHideTableCellWrapper,
 			},
 		],
 		[],
