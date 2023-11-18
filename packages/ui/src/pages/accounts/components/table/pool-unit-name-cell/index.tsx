@@ -21,7 +21,7 @@ export const PoolUnitNameCell: React.FC<IProps> = props => {
 		value,
 		row: { original },
 	} = props
-	const { symbol, name, amount, change } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
+	const { symbol, name, amount } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 	const a = amount
 		? intl.formatNumber(amount, {
 				style: 'decimal',
@@ -54,23 +54,7 @@ export const PoolUnitNameCell: React.FC<IProps> = props => {
 						)}
 					</Box>
 					<Box className={styles.poolUnitNameCellPriceWrapper}>
-						<Box className={styles.poolUnitNameCellPriceTextWrapper}>
-							<RedGreenText
-								change={change}
-								capitalizeFirstLetter
-								size="xsmall"
-								color="strong"
-								truncate
-								weight="medium"
-								align="right"
-							>
-								{change &&
-									intl.formatNumber(change, {
-										style: 'percent',
-										maximumFractionDigits: 2,
-									})}
-							</RedGreenText>
-						</Box>
+						<Box className={styles.poolUnitNameCellPriceTextWrapper} />
 					</Box>
 				</Box>
 			</Box>

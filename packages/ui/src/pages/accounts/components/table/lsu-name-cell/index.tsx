@@ -52,7 +52,7 @@ export const LSUNameCell: React.FC<IProps> = props => {
 
 	const { data, isLoading } = useEntityDetails(original?.validator)
 
-	const validatorName = findMetadataValue('name', data?.metadata?.items)
+	const validatorName = findMetadataValue('validator', data?.metadata?.items)
 
 	return (
 		<Box className={styles.lsuNameCellWrapper}>

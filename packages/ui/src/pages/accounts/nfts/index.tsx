@@ -80,8 +80,8 @@ const NFTs: React.FC = () => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: intl.formatMessage(messages.collection),
-				accessor: 'collection',
+				Header: intl.formatMessage(messages.nft),
+				accessor: 'data',
 				width: 'auto',
 				Cell: NftNameCell,
 			},
@@ -90,13 +90,6 @@ const NFTs: React.FC = () => {
 				accessor: 'non_fungible_id',
 				width: 'auto',
 				Cell: AssetIdCell,
-				className: styles.mobileHideTableCellWrapper,
-			},
-			{
-				Header: intl.formatMessage(messages.nft),
-				accessor: 'data',
-				width: 'auto',
-				Cell: NftDataCell,
 				className: styles.mobileHideTableCellWrapper,
 			},
 		],
