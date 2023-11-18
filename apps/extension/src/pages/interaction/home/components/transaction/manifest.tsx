@@ -5,7 +5,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
-import Code from 'ui/src/components/typography/code'
+import { TextAreaAdapter as TextAreaField } from 'ui/src/components/form/fields/text-area-field'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import * as styles from './styles.css'
@@ -18,7 +18,6 @@ const messages = defineMessages({
 })
 
 interface IProps {
-	tabHeight: number
 	intent: Intent
 	onChange: (manifest: string) => void
 }
@@ -28,7 +27,7 @@ type State = {
 	error: string
 }
 
-export const Manifest: React.FC<IProps> = ({ intent, tabHeight, onChange }) => {
+export const Manifest: React.FC<IProps> = ({ intent, onChange }) => {
 	const intl = useIntl()
 	const [state, setState] = useImmer<State>({ manifest: '', error: '' })
 
@@ -72,11 +71,12 @@ export const Manifest: React.FC<IProps> = ({ intent, tabHeight, onChange }) => {
 			<Box className={styles.transactionManifestValidationWrapper}>
 				<ValidationErrorMessage message={state.error} />
 			</Box>
-			<Code
-				content={state.manifest}
+			<TextAreaField
+				name="manifest"
+				sizeVariant="large"
 				className={styles.transactionManifestTextArea}
+				value={state.manifest}
 				onChange={handleManifestChange}
-				style={{ height: `${tabHeight - 80}px` }}
 			/>
 		</>
 	)
