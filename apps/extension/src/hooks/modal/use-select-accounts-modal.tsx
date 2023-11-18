@@ -28,7 +28,10 @@ export const useSelectAccountsModal = () => {
 				reject(intl.formatMessage(messages.rejected))
 				removeModal(id)
 			}
-			addModal(id, <Modal required={required} exactly={exactly} onConfirm={handleConfirm} onCancel={handleCancel} />)
+			addModal(
+				id,
+				<Modal key={id} required={required} exactly={exactly} onConfirm={handleConfirm} onCancel={handleCancel} />,
+			)
 		})
 
 	return selectAccounts

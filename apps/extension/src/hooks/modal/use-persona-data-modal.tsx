@@ -39,7 +39,13 @@ export const usePersonaDataModal = () => {
 
 			addModal(
 				id,
-				<Modal identityAddress={identityAddress} request={request} onConfirm={handleConfirm} onCancel={handleCancel} />,
+				<Modal
+					key={id}
+					identityAddress={identityAddress}
+					request={request}
+					onConfirm={handleConfirm}
+					onCancel={handleCancel}
+				/>,
 			)
 		})
 

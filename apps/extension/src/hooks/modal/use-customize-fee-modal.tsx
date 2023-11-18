@@ -30,7 +30,7 @@ export const useCustomizeFeeModal = () => {
 				reject(intl.formatMessage(messages.rejected))
 				removeModal(id)
 			}
-			addModal(id, <Modal settings={settings} onConfirm={handleConfirm} onCancel={handleCancel} />)
+			addModal(id, <Modal key={id} settings={settings} onConfirm={handleConfirm} onCancel={handleCancel} />)
 		})
 
 	return confirm

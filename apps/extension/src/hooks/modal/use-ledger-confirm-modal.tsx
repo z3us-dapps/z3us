@@ -32,7 +32,7 @@ export const useLedgerConfirmModal = () => {
 				removeModal(id)
 			}
 
-			addModal(id, <Modal onClose={handleCancel} load={handleLoad} />)
+			addModal(id, <Modal key={id} onClose={handleCancel} load={handleLoad} />)
 		})
 
 	return showModalAndWait

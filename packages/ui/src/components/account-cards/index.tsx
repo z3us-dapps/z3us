@@ -25,7 +25,6 @@ import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
-import { useConfirm } from 'ui/src/hooks/zdt/use-confirm'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -124,8 +123,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
 	const networkId = useNetworkId()
-	const { isWallet } = useZdtState()
-	const confirm = useConfirm()
+	const { isWallet, confirm } = useZdtState()
 	const accounts = useWalletAccounts()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),

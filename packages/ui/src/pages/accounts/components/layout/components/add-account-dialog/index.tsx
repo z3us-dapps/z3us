@@ -65,9 +65,8 @@ export const AddAccountDialog: React.FC<IProps> = props => {
 		setIsLegacy(!isLegacy)
 	}
 
-	const handleAdd = async () => {
-		const keyParts = await buildNewAccountKeyParts(isLegacy)
-		addAccount(networkId, keyParts.address, keyParts as Account)
+	const handleAdd = () => {
+		buildNewAccountKeyParts(isLegacy).then(keyParts => addAccount(networkId, keyParts.address, keyParts as Account))
 	}
 
 	if (!isWallet || keystore?.type === KeystoreType.RADIX_WALLET) return null

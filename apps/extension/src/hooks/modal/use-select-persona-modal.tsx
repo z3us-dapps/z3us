@@ -28,7 +28,7 @@ export const useSelectPersonaModal = () => {
 				reject(intl.formatMessage(messages.rejected))
 				removeModal(id)
 			}
-			addModal(id, <Modal onConfirm={handleConfirm} onCancel={handleCancel} />)
+			addModal(id, <Modal key={id} onConfirm={handleConfirm} onCancel={handleCancel} />)
 		})
 
 	return selectPersona

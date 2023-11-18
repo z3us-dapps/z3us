@@ -4,7 +4,7 @@ import type {
 	SendTransactionInput,
 	TransactionStatus,
 } from '@radixdlt/radix-dapp-toolkit'
-import type { Context } from 'react'
+import type { Context, ReactNode } from 'react'
 import { createContext } from 'react'
 
 import type { Account, Persona } from 'ui/src/store/types'
@@ -14,14 +14,21 @@ export type State = {
 	isUnlocked: boolean
 	personas: RadixPersona[]
 	accounts: RadixAccount[]
-	sendTransaction: (input: SendTransactionInput) => Promise<{
-		transactionIntentHash: string
-		status: TransactionStatus
-	}>
 	lock: () => Promise<void>
 	unlock: (password: string) => Promise<void>
 	getSecret: (password: string) => Promise<string>
 	removeSecret: (password: string) => Promise<void>
+	confirm: (input: {
+		title?: ReactNode
+		content: ReactNode
+		buttonTitle?: string
+		buttonStyleVariant?: string
+		ignorePassword?: boolean
+	}) => Promise<string>
+	sendTransaction: (input: SendTransactionInput) => Promise<{
+		transactionIntentHash: string
+		status: TransactionStatus
+	}>
 	buildNewPersonKeyParts: () => Promise<Partial<Persona>>
 	buildNewAccountKeyParts: (legacy: boolean) => Promise<Partial<Account>>
 }
@@ -38,6 +45,9 @@ export const defaultState: State = {
 	},
 	removeSecret: async () => {
 		throw Error('Can not remove secret without wallet!')
+	},
+	confirm: async () => {
+		throw Error('Can not confirm without wallet!')
 	},
 	sendTransaction: async () => {
 		throw Error('Incorrect method used!')

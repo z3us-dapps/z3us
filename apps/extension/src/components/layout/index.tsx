@@ -5,6 +5,7 @@ import browser from 'webextension-polyfill'
 
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { Toasts } from 'ui/src/components/toasts'
+import { useModals } from 'ui/src/hooks/use-modals'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { openTabWithURL } from '@src/browser/tabs'
@@ -17,6 +18,7 @@ import Unlock from './unlock'
 const popupUrl = browser.runtime.getURL('')
 
 const Layout: React.FC = () => {
+	const { modals } = useModals()
 	const location = useLocation()
 	const { isUnlocked, isLoading, reload } = useIsUnlocked()
 
@@ -53,6 +55,11 @@ const Layout: React.FC = () => {
 					<Outlet />
 				</ErrorBoundary>
 			</Suspense>
+			{Object.keys(modals).map(id => (
+				<Suspense key={id} fallback={<FallbackLoading />}>
+					<ErrorBoundary fallbackRender={FallbackRenderer}>{modals[id]}</ErrorBoundary>
+				</Suspense>
+			))}
 			<Toasts />
 		</>
 	)
