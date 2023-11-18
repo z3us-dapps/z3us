@@ -44,7 +44,7 @@ const DeleteAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 	const handleConfirm = () => {
 		handleRemoveAddress(networkId, address)
 
-		toast(intl.formatMessage(messages.success_message), {})
+		toast.success(intl.formatMessage(messages.success_message), {})
 		onClose()
 	}
 

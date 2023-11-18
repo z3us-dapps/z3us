@@ -152,7 +152,7 @@ const General: React.FC = () => {
 						capitalizeFirstLetter
 						value={theme}
 						onValueChange={_theme => {
-							toast(`Theme has been updated ${_theme}`, {
+							toast.success(`Theme has been updated ${_theme}`, {
 								description: 'Just here for testing toasts',
 							})
 							setTheme(_theme as any)
