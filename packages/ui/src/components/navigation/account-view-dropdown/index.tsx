@@ -186,9 +186,11 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 													<DropdownMenuSub>
 														<DropdownMenuSubTrigger>
 															<DropdownMenuLeftSlot>
-																{keystore.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
-																{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-																{keystore.type === KeystoreType.LOCAL && <KeyIcon />}
+																<Box className={styles.accountMenuIconWrapper}>
+																	{keystore.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
+																	{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+																	{keystore.type === KeystoreType.LOCAL && <KeyIcon />}
+																</Box>
 															</DropdownMenuLeftSlot>
 															<Box flexGrow={1} display="flex" marginLeft="small">
 																<Text size="xsmall" truncate>
@@ -211,9 +213,11 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 																		.map(k => (
 																			<DropdownMenuRadioItem key={k.id} value={k.id}>
 																				<DropdownMenuLeftSlot>
-																					{k.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
-																					{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-																					{k.type === KeystoreType.LOCAL && <KeyIcon />}
+																					<Box className={styles.accountMenuIconWrapper}>
+																						{k.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
+																						{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+																						{k.type === KeystoreType.LOCAL && <KeyIcon />}
+																					</Box>
 																				</DropdownMenuLeftSlot>
 																				<Box flexGrow={1} marginLeft="small">
 																					<Text size="xsmall"> {k.name}</Text>
