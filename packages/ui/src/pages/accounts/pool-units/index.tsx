@@ -9,8 +9,8 @@ import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
-import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
+import { PoolUnitNameCell } from 'ui/src/pages/accounts/components/table/pool-unit-name-cell'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
 import { PoolCell } from '../components/table/pool-cell'
@@ -79,13 +79,14 @@ const Tokens: React.FC = () => {
 				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
 				width: 'auto',
-				Cell: AssetNameCell,
+				Cell: PoolUnitNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.pool),
 				accessor: 'pool',
 				width: 'auto',
 				Cell: PoolCell,
+				className: styles.mobileHideTableCellWrapper,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
