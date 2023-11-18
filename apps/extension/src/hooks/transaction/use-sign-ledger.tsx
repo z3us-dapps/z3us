@@ -19,8 +19,6 @@ export const useSignTransactionWithLedger = () => {
 	}))
 
 	const sign = async (intent: Intent, needSignaturesFrom: string[]): Promise<SignatureWithPublicKey[]> => {
-		console.log('intent', intent)
-		console.log('needSignaturesFrom', needSignaturesFrom)
 		const compiledIntent = await RadixEngineToolkit.Intent.compile(intent)
 		const ledgerSignatures = await ledger.signTx(
 			needSignaturesFrom.map(idx => accountIndexes[idx]),

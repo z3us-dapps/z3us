@@ -42,6 +42,11 @@ export const Manifest: React.FC<IProps> = ({ intent, tabHeight, onChange }) => {
 	}, [intent])
 
 	const handleManifestChange = async (event: React.ChangeEvent<HTMLDivElement>) => {
+		const evt = event.nativeEvent as InputEvent
+		if (evt.isComposing) {
+			return
+		}
+
 		const newValue = event.target.textContent || ''
 		setState(draft => {
 			draft.manifest = newValue

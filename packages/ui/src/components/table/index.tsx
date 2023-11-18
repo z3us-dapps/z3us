@@ -63,8 +63,6 @@ export const Table: React.FC<ITableProps> = props => {
 
 	const [measureRef, { top: tableTop }] = useMeasure()
 
-	const rowIdsKeys = Object.keys(selectedRowIds || {})
-
 	const initialSort = useMemo(() => {
 		if (sort || !columns?.length) return sort
 		return [{ id: columns[0].accessor, desc: true }]
@@ -86,6 +84,10 @@ export const Table: React.FC<ITableProps> = props => {
 	const handleDeselectAllRows = () => {
 		toggleAllRowsSelected(false)
 	}
+
+	useEffect(() => {
+		if (Object.keys(selectedRowIds || {}).length === 0) handleDeselectAllRows()
+	}, [selectedRowIds])
 
 	const handleEndReached = () => {
 		onEndReached()
@@ -144,12 +146,6 @@ export const Table: React.FC<ITableProps> = props => {
 		}),
 		[data, columns, loading, loadMore],
 	)
-
-	useEffect(() => {
-		if (rowIdsKeys?.length === 0) {
-			handleDeselectAllRows()
-		}
-	}, [rowIdsKeys?.length])
 
 	const { top } = scrollableNode?.getBoundingClientRect() || {}
 

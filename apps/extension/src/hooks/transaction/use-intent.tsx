@@ -80,12 +80,12 @@ export const useIntent = () => {
 			tipPercentage: settings.tipPercentage || 0,
 		}
 
+		const feePayer =
+			settings.feePayer ||
+			needSignaturesFrom.sort((x, y) => input.transactionManifest.indexOf(x) - input.transactionManifest.indexOf(y))[0]
+
 		const manifest: TransactionManifest = {
-			instructions: appendLockFeeInstruction(
-				instructions,
-				settings.feePayer || needSignaturesFrom[0],
-				settings.lockAmount || 1,
-			),
+			instructions: appendLockFeeInstruction(instructions, feePayer, settings.lockAmount || 1),
 			blobs: input.blobs?.map(blob => Convert.HexString.toUint8Array(blob)) || [],
 		}
 

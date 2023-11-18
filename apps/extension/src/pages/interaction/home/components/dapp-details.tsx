@@ -54,7 +54,7 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin: p
 	const isMalicious = useMemo(() => {
 		const claimedWebsites = findMetadataValue('claimed_websites', data)
 		return (
-			!isLoading && origin !== popupURL.origin && origin !== claimedWebsites && !claimedWebsites.includes(`${origin}, `)
+			!isLoading && origin !== DAPP_ORIGIN && origin !== claimedWebsites && !claimedWebsites.includes(`${origin}, `)
 		)
 	}, [data, isLoading, origin])
 
