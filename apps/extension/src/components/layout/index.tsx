@@ -29,9 +29,10 @@ const Layout: React.FC = () => {
 		if (rootElement) {
 			rootElement.classList.add('z3-extension-mounted')
 		}
-		if (isLoading) return
-		if (isUnlocked) return
-		if (location.pathname.startsWith('/keystore/new')) return
+	}, [])
+
+	useEffect(() => {
+		if (isLoading || isUnlocked || location.pathname.startsWith('/keystore/new')) return
 		if (!keystoreId) {
 			getTheme().then(theme => {
 				const newKeystoreUrl = `${popupUrl}${config.popup.dir}/${theme}.html#/keystore/new`
@@ -40,10 +41,8 @@ const Layout: React.FC = () => {
 		}
 	}, [keystoreId, isLoading, isUnlocked, location.pathname])
 
-	if (isLoading) return <FallbackLoading />
-
 	if (!location.pathname.startsWith('/keystore/new')) {
-		if (!keystoreId) return <FallbackLoading />
+		if (isLoading || !keystoreId) return <FallbackLoading />
 		if (!isUnlocked) return <Unlock onUnlock={reload} />
 	}
 
