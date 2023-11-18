@@ -251,7 +251,7 @@ const HeaderNavInner = () => {
 									</Button>
 								</Box>
 								<Box className={styles.headerMobileHiddenWrapper}>
-									<Button styleVariant={buttonVariant} sizeVariant="small" iconOnly>
+									<Button styleVariant="ghost" sizeVariant="small" iconOnly>
 										<MenuIcon />
 									</Button>
 								</Box>
