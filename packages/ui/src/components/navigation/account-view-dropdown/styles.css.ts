@@ -61,3 +61,15 @@ export const accountViewPaddingXWrapper = style([
 	}),
 	{},
 ])
+
+export const accountMenuIconWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	}),
+	{
+		width: '24px',
+		height: '24px',
+	},
+])
