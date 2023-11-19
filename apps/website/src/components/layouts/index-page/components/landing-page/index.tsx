@@ -389,18 +389,52 @@ export const LandingPage: React.FC = () => (
 							</Box>
 						</Box>
 						<Box className={styles.landingFeaturePointImgBlock}>
-							<Image
-								priority
-								src="/landing-page-2023/nft-01.png"
-								width={392}
-								height={636}
-								alt="Vanilla Extract logo"
-								className={clsx(
-									styles.landingHeroCalloutImg,
-									styles.landingHeroCalloutRoundedLargeImg,
-									styles.landingNftOneLarge,
-								)}
-							/>
+							<Box className={styles.landingNftSmallWrapperLarge}>
+								<Image
+									priority
+									src="/landing-page-2023/nft-small_01.png"
+									width={238}
+									height={238}
+									alt="Radix nft item"
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedLargeImg,
+										styles.landingNftSmallOne,
+									)}
+								/>
+								<Image
+									priority
+									src="/landing-page-2023/nft-small_02.webp"
+									width={122}
+									height={122}
+									alt="Radix nft item"
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedLargeImg,
+										styles.landingNftSmallTwo,
+									)}
+								/>
+								<Image
+									priority
+									src="/landing-page-2023/nft-small_03.png"
+									width={98}
+									height={98}
+									alt="Radix nft item"
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedLargeImg,
+										styles.landingNftSmallThree,
+									)}
+								/>
+								<Image
+									priority
+									src="/landing-page-2023/nft-small_04.png"
+									width={58}
+									height={58}
+									alt="Radix nft item"
+									className={clsx(styles.landingHeroCalloutImg, styles.landingNftSmallFour)}
+								/>
+							</Box>
 							<Image
 								priority
 								src="/landing-page-2023/nft-02.png"
@@ -467,25 +501,11 @@ export const LandingPage: React.FC = () => (
 							<Text size="xxxxlarge" color="strong" weight="stronger">
 								Multi-wallet and asset insights
 							</Text>
-							<Text size="large" color="strong">
+							<Text size="large">
 								Don&apos;t compromise clarity while managing multiple wallets. Z3US Analytics offers an intuitive
 								platform for a comprehensive view of all your wallets, presented through dynamic dashboards and
 								insightful reports.
 							</Text>
-							<Box component="ul">
-								<Box component="li" color="colorNeutral">
-									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
-								</Box>
-								<Box component="li" color="colorNeutral">
-									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
-								</Box>
-								<Box component="li" color="colorNeutral">
-									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
-								</Box>
-							</Box>
 						</Box>
 					</Box>
 					{/* END: MULTI-WALLET */}

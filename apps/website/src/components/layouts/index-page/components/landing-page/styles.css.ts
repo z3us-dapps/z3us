@@ -381,15 +381,72 @@ export const landingAddressBookImgTwoLarge = style([
 	}),
 ])
 
-export const landingNftOneLarge = style([
-	sprinkles({}),
+export const landingNftSmallWrapperLarge = style([
+	sprinkles({
+		flexShrink: 0,
+		flexGrow: 0,
+	}),
 	{
 		// border: '1px solid red',
 	},
 	responsiveStyle({
 		mobile: { maxWidth: '100%', height: 'auto' },
-		tablet: { marginBottom: '118px' },
+		tablet: { height: '736px' },
 		// desktop: { width: '25%' },
+	}),
+])
+export const landingNftSmallOne = style([
+	sprinkles({
+		flexShrink: 0,
+		flexGrow: 0,
+	}),
+	{
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		mobile: { position: 'absolute', maxWidth: '100%', height: 'auto' },
+		tablet: { top: '0px', left: '0px' },
+	}),
+])
+
+export const landingNftSmallTwo = style([
+	sprinkles({
+		position: 'absolute',
+		flexShrink: 0,
+		flexGrow: 0,
+	}),
+	{
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		mobile: { position: 'absolute', maxWidth: '100%', height: 'auto' },
+		tablet: { top: '260px', left: '30px' },
+	}),
+])
+
+export const landingNftSmallThree = style([
+	sprinkles({
+		position: 'absolute',
+		flexShrink: 0,
+		flexGrow: 0,
+	}),
+	{},
+	responsiveStyle({
+		mobile: { position: 'absolute', maxWidth: '100%', height: 'auto' },
+		tablet: { top: '430px', left: '110px' },
+	}),
+])
+
+export const landingNftSmallFour = style([
+	sprinkles({
+		flexShrink: 0,
+		flexGrow: 0,
+		borderRadius: 'small',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { position: 'absolute', maxWidth: '100%', height: 'auto' },
+		tablet: { top: '30px', left: '280px' },
 	}),
 ])
 
