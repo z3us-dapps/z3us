@@ -15,7 +15,6 @@ import { SearchButtonInput } from 'ui/src/components/search-button-input'
 import { SelectSimple } from 'ui/src/components/select'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Link } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
@@ -73,15 +72,13 @@ const Z3USLogoLink = () => {
 
 	const handleZ3USLogoClick = () => {
 		const currentURL = window.location.href
-		const isZ3USDomain = currentURL.includes('z3us')
+		const isZ3USDomain = window.location.hostname === 'z3us.com'
 		const newURL = currentURL.split('#')[0]
 
-		// TODO: better way to do this ??
 		if (isZ3USDomain) {
 			window.location.href = newURL
 		} else {
-			window.location.href = newURL
-			// navigate('/accounts')
+			navigate('/accounts')
 		}
 	}
 
