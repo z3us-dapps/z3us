@@ -68,6 +68,10 @@ const TabTitle: React.FC = () => {
 	}
 }
 
+const HEADER_SPACE = 278
+const scrollToTop: ScrollToOptions = { top: 0, behavior: 'smooth' }
+const scrollToHeader: ScrollToOptions = { top: HEADER_SPACE, behavior: 'smooth' }
+
 export const MobileScrollingButtons: React.FC = () => {
 	const intl = useIntl()
 	const location = useLocation()
@@ -78,7 +82,6 @@ export const MobileScrollingButtons: React.FC = () => {
 	const [isSticky, setIsSticky] = useState<boolean>(false)
 	const isActivitiesVisible = useIsActivitiesVisible()
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
-	const scrollTopBehavior = isActivitiesVisible ? 'instant' : 'smooth'
 
 	const queryWithActs = new URLSearchParams(searchParams)
 	queryWithActs.set('acts', `true`)
@@ -86,12 +89,7 @@ export const MobileScrollingButtons: React.FC = () => {
 	queryWithoutActs.delete('acts')
 
 	const onClickChevron = () => {
-		if (isSticky) {
-			scrollableNode.scrollTo({ top: 0, behavior: scrollTopBehavior as any })
-		} else {
-			const HEADER_SPACE = 278
-			scrollableNode.scrollTo({ top: HEADER_SPACE, behavior: scrollTopBehavior as any })
-		}
+		scrollableNode.scrollTo(isSticky ? scrollToTop : scrollToHeader)
 	}
 
 	useEffect(() => {
