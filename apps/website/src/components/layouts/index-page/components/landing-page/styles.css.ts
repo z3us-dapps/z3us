@@ -489,7 +489,7 @@ export const landingMultiWalletImgTwoLarge = style([
 	},
 	responsiveStyle({
 		// mobile: { width: '100%' },
-		tablet: { marginTop: '118px', marginLeft: '60px' },
+		tablet: { marginTop: '148px', marginLeft: '80px' },
 		// desktop: { width: '25%' },
 	}),
 ])
@@ -531,13 +531,68 @@ export const landingDetailsGridBoxWrapper = style([
 		},
 		tablet: {
 			gap: vars.spacing.xlarge,
-			gridTemplateColumns: '1fr 1fr',
+			gridTemplateColumns: '1fr 1fr 1fr',
 		},
 		desktop: {
 			gap: vars.spacing.xxlarge,
 			gridTemplateColumns: '1fr 1fr 1fr',
 		},
 	}),
+])
+
+export const landingDetailsGridBoxImageWrapper = style([
+	sprinkles({
+		display: 'block',
+		position: 'relative',
+		width: 'full',
+		border: 1,
+		borderStyle: 'solid',
+		borderColor: 'purple500',
+	}),
+	{},
+	responsiveStyle({
+		mobile: {
+			height: '300px',
+		},
+		tablet: {
+			height: '340px',
+		},
+		desktop: {
+			height: '400px',
+		},
+	}),
+])
+
+export const landingDetailsGridBoxImageBlock = style([
+	sprinkles({
+		display: 'block',
+		width: 'full',
+		height: 'full',
+	}),
+	{
+		mixBlendMode: 'overlay',
+	},
+])
+
+export const landingDetailsGridCircleWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 'full',
+		border: 1,
+		background: 'purple500',
+		borderRadius: 'full',
+	}),
+	{
+		top: '50%',
+		left: '50%',
+		marginTop: '-40px',
+		marginLeft: '-40px',
+		width: '80px',
+		height: '80px',
+	},
 ])
 
 export const landingDetailsGridTextWrapper = style([
@@ -549,18 +604,10 @@ export const landingDetailsGridTextWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 		gap: {
-			tablet: 'xxsmall',
+			tablet: 'xsmall',
 		},
 	}),
 	{},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { marginTop: '118px', marginLeft: '60px' },
-		// desktop: {
-		// 	gap: vars.spacing.large,
-		// 	gridTemplateColumns: '1fr 1fr 1fr',
-		// },
-	}),
 ])
 
 export const landingPageFooterWrapper = style([

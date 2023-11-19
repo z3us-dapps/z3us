@@ -15,16 +15,22 @@ import * as styles from './styles.css'
 
 const GRID_DETAILS = {
 	fast: {
-		title: 'self custodial',
-		subTitle: 'your keys, your control',
+		title: 'Self-custodial',
+		subTitle: 'Your keys, your kingdom. Our self-custodial wallet lets you be the undisputed ruler.',
+		bgImage: 'sweat-details-01.png',
+		icon: 'sweat-details-svg-01.svg',
 	},
 	easy_ux: {
-		title: 'Open source communiy orientated',
-		subTitle: 'Easy UX',
+		title: 'Open source community orientated',
+		subTitle: "Together, we're not just building a wallet, we're crafting the future.",
+		bgImage: 'sweat-details-02.png',
+		icon: 'sweat-details-svg-02.svg',
 	},
 	secure: {
-		title: 'Secure with hardware ledger support',
-		subTitle: 'Easy UX',
+		title: 'Hardware ledger support',
+		subTitle: 'Sleep peacefully, knowing your digital treasure is shielded from the digital storm.',
+		bgImage: 'sweat-details-03.png',
+		icon: 'sweat-details-svg-03.svg',
 	},
 }
 
@@ -466,7 +472,7 @@ export const LandingPage: React.FC = () => (
 								src="/landing-page-2023/multi-wallet-01.png"
 								width={360}
 								height={600}
-								alt="Vanilla Extract logo"
+								alt="multi wallet and pie chart"
 								className={clsx(
 									styles.landingHeroCalloutImg,
 									styles.landingHeroCalloutRoundedLargeImg,
@@ -476,9 +482,9 @@ export const LandingPage: React.FC = () => (
 							<Image
 								priority
 								src="/landing-page-2023/multi-wallet-02.png"
-								width={393}
-								height={636}
-								alt="Vanilla Extract logo"
+								width={360}
+								height={516}
+								alt="multi wallet"
 								className={clsx(
 									styles.landingHeroCalloutImg,
 									styles.landingHeroCalloutRoundedLargeImg,
@@ -529,14 +535,22 @@ export const LandingPage: React.FC = () => (
 								</Text>
 							</Box>
 							<Box className={styles.landingDetailsGridBoxWrapper}>
-								{Object.entries(GRID_DETAILS).map(([key, { title, subTitle }]) => (
+								{Object.entries(GRID_DETAILS).map(([key, { title, subTitle, bgImage, icon }]) => (
 									<Box key={key}>
-										<Box style={{ background: 'white', width: '100%', height: '208px' }} />
+										<Box className={styles.landingDetailsGridBoxImageWrapper}>
+											<Box
+												className={styles.landingDetailsGridBoxImageBlock}
+												style={{ backgroundImage: `url(/landing-page-2023/${bgImage})` }}
+											/>
+											<Box className={styles.landingDetailsGridCircleWrapper}>
+												<Image priority src={`/landing-page-2023/${icon}`} width={48} height={48} alt={title} />
+											</Box>
+										</Box>
 										<Box className={styles.landingDetailsGridTextWrapper}>
-											<Text size="large" weight="stronger" color="strong">
+											<Text size="xlarge" weight="stronger" color="strong">
 												{title}
 											</Text>
-											<Text>{subTitle}</Text>
+											<Text size="medium">{subTitle}</Text>
 										</Box>
 									</Box>
 								))}
