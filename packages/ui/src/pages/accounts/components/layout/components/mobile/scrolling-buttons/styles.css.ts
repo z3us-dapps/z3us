@@ -237,9 +237,9 @@ globalStyle(`${searchWrapper} ${inputSearchClearBtn}`, {
 
 globalStyle(`${tabsWrapperScrollBtn} > svg`, {
 	transition: vars.transition.fastall,
-	transform: 'rotateX(0deg) scale3d(1,1,1)',
+	transform: 'rotateX(180deg) scale3d(1,1,1)',
 })
 
 globalStyle(`${tabsWrapperScrollBtnScrolled} > svg`, {
-	transform: 'rotateX(180deg) scale3d(1,1,1)',
+	transform: 'rotateX(0deg) scale3d(1,1,1)',
 })
