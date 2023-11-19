@@ -10,7 +10,7 @@ export type State = {
 }
 
 export const ThemeContext: Context<State> = createContext<State>({
-	theme: Theme.SYSTEM,
-	resolvedTheme: Theme.LIGHT,
+	theme: Theme.DARK,
+	resolvedTheme: Theme.DARK,
 	setTheme: () => {},
 })

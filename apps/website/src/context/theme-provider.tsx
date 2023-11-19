@@ -33,7 +33,7 @@ export const InnerThemeProvider: React.FC<PropsWithChildren> = ({ children }) =>
 export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => (
 	<NextThemesProvider
 		attribute="class"
-		defaultTheme="system"
+		defaultTheme="dark"
 		enableSystem
 		value={{
 			light: lightThemeClass,

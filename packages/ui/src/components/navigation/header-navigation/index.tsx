@@ -10,7 +10,7 @@ import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { MenuIcon } from 'ui/src/components/icons'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
-import { Link, NavLink } from 'ui/src/components/router-link'
+import { NavLink } from 'ui/src/components/router-link'
 import { SearchButtonInput } from 'ui/src/components/search-button-input'
 import { SelectSimple } from 'ui/src/components/select'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
@@ -67,6 +67,27 @@ const messages = defineMessages({
 	},
 })
 
+const Z3USLogoLink = () => {
+	const navigate = useNavigate()
+
+	const handleZ3USLogoClick = () => {
+		const currentURL = window.location.href
+		const isZ3USDomain = window.location.hostname === 'z3us.com'
+		const newURL = currentURL.split('#')[0]
+
+		if (isZ3USDomain) {
+			window.location.href = newURL
+		} else {
+			navigate('/accounts')
+		}
+	}
+
+	return (
+		<Box component="button" onClick={handleZ3USLogoClick}>
+			<Z3usLogo />
+		</Box>
+	)
+}
 const HeaderLavaMenu = () => {
 	const intl = useIntl()
 	return (
@@ -118,6 +139,10 @@ const HeaderNavInner = () => {
 	const isAccountsPath = location?.pathname?.includes('/accounts')
 	const isAccountBgVisible = accountId && accountId !== '-' && !resourceId
 	const buttonVariant = isAccountBgVisible ? 'white-transparent' : 'ghost'
+
+	// TODO: we want this to navigate to www.z3us.com on the website
+	// const z3usLink = '/accounts'
+	const z3usLink = '/'
 
 	const accountMenuItems = [
 		...[{ id: 'home', title: intl.formatMessage(messages.all) }],
@@ -171,9 +196,7 @@ const HeaderNavInner = () => {
 			{canGoBack ? (
 				<>
 					<Box className={styles.headerMobileHiddenWrapper}>
-						<Link to="/accounts">
-							<Z3usLogo />
-						</Link>
+						<Z3USLogoLink />
 					</Box>
 					<HeaderLavaMenu />
 					<Box className={clsx(styles.headerBackButtonWrapper, styles.tabletHiddenWrapper)}>
@@ -201,9 +224,7 @@ const HeaderNavInner = () => {
 				</>
 			) : (
 				<>
-					<Link to="/accounts">
-						<Z3usLogo />
-					</Link>
+					<Z3USLogoLink />
 					<HeaderLavaMenu />
 					<Box className={styles.tabletHiddenWrapper}>
 						{isAccountsPath && !isSearchVisible && (

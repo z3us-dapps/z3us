@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom'
+import { RouterProvider, createHashRouter } from 'react-router-dom'
 
 import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
 import AppLayout from 'ui/src/components/layout'
@@ -19,34 +19,20 @@ import transferRoute from 'ui/src/pages/transfer/router'
 import WebsiteLayout from './components/layout'
 import IntlProvider from './intl-provider'
 
-// import { LandingPage } from '../landing-page'
-
 export const router = createHashRouter([
 	{
 		path: '/',
 		element: <WebsiteLayout />,
 		errorElement: <RouterErrorBoundary />,
 		children: [
-			{
-				index: true,
-				element: <Navigate to={`/${accountsRoute.path}`} />,
-			},
+			// Note: we don't want the redirect for z3us.com
+			// {
+			// 	index: true,
+			// 	element: <Navigate to={`/${accountsRoute.path}`} />,
+			// },
 			{
 				element: <AppLayout />,
-				children: [
-					// {
-					// 	index: true,
-					// 	element: (
-					// 		<Suspense>
-					// 			<LandingPage />
-					// 		</Suspense>
-					// 	),
-					// },
-					accountsRoute,
-					settingsRoute,
-					stakingRoute,
-					transferRoute,
-				],
+				children: [accountsRoute, settingsRoute, stakingRoute, transferRoute],
 			},
 		],
 	},

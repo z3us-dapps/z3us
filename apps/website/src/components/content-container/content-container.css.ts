@@ -9,7 +9,7 @@ export const contentContainerWrapper = style([
 		width: 'full',
 		justifyContent: 'center',
 		paddingX: {
-			mobile: 'small',
+			mobile: 'large',
 			tablet: 'large',
 			desktop: 'xxlarge',
 		},
@@ -20,7 +20,6 @@ export const contentContainerWrapper = style([
 export const contentContainerInnerWrapper = style([
 	sprinkles({
 		position: 'relative',
-		// maxWidth: 'xxlarge',
 		width: 'full',
 	}),
 	{
