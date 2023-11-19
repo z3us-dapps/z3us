@@ -17,16 +17,22 @@ Clone repo
 git clone git@github.com:z3us-dapps/z3us.git
 ```
 
-Go to `z3us` directory run
+Go to inside repository directory and run
 
 ```
 yarn install
 ```
 
-Now build the extension using
+Now build packages and other dependencies
 
 ```
 yarn build
+```
+
+Now build the extension using
+
+```
+cd apps/extension && build:radix
 ```
 
 You will see a `dist` folder generated inside `apps/extension`
@@ -35,9 +41,26 @@ You will see a `dist` folder generated inside `apps/extension`
 
 In Chrome browser, go to chrome://extensions page and switch on developer mode. This enables the ability to locally install a Chrome extension.
 
-Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist/chrome`, this will install the Z3US wallet chrome extension.
+Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist`, this will install the Z3US wallet chrome extension.
 
 #### Adding extension to Firefox
+
+Before building:
+
+1. Fix `connector extension` dependency events dispatching by updating `chromeDAppClient.sendMessage` at `@radixdlt/connector-extension/src/chrome/dapp/dapp-client.ts:14`
+
+```diff
+export const ChromeDAppClient = (logger: AppLogger) => {
+  const sendMessage = (message: Record<string, any>) => {
++	const clonedDetail = (globalThis as any).cloneInto ? (globalThis as any).cloneInto(message, document.defaultView) : message
+    window.dispatchEvent(
+      new CustomEvent(dAppEvent.receive, {
++        detail: clonedDetail,
+      }),
+    )
+    return ok(true)
+  }
+```
 
 Before adding to firefox some changes to manifest file must be made:
 
@@ -106,23 +129,7 @@ const permissions = [
 ] 
 ```
 
-5. Fix `connector extension` dependency events dispatching by updating `chromeDAppClient.sendMessage` at `@radixdlt/connector-extension/src/chrome/dapp/dapp-client.ts:14`
-```diff
-export const ChromeDAppClient = (logger: AppLogger) => {
-  const sendMessage = (message: Record<string, any>) => {
-+	const clonedDetail = (globalThis as any).cloneInto ? (globalThis as any).cloneInto(message, document.defaultView) : message
-    window.dispatchEvent(
-      new CustomEvent(dAppEvent.receive, {
-        detail: clonedDetail,
-      }),
-    )
-    return ok(true)
-  }
-```
-
-chromeDAppClient.sendMessage
-
-- Create archive by compresing all the files `inside` the directory `apps/extension/dist`.
+- Create archive by compressing all the files `inside` the directory `apps/extension/dist`.
 - In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`.
 - Click the button `Load temporary Add-on...`, then select an archive file you prepared.
 
