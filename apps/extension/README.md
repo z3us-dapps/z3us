@@ -39,6 +39,22 @@ Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist/chrome`, thi
 
 #### Adding extension to Firefox
 
+Before building:
+
+1. Fix `connector extension` dependency events dispatching by updating `chromeDAppClient.sendMessage` at `@radixdlt/connector-extension/src/chrome/dapp/dapp-client.ts:14`
+```diff
+export const ChromeDAppClient = (logger: AppLogger) => {
+  const sendMessage = (message: Record<string, any>) => {
++	const clonedDetail = (globalThis as any).cloneInto ? (globalThis as any).cloneInto(message, document.defaultView) : message
+    window.dispatchEvent(
+      new CustomEvent(dAppEvent.receive, {
+        detail: clonedDetail,
+      }),
+    )
+    return ok(true)
+  }
+```
+
 Before adding to firefox some changes to manifest file must be made:
 
 1. Remove all `use_dynamic_url` keys from all entries in `web_accessible_resources`
@@ -104,20 +120,6 @@ const permissions = [
 	'scripting',
 	'contextMenus',
 ] 
-```
-
-5. Fix `connector extension` dependency events dispatching by updating `chromeDAppClient.sendMessage` at `@radixdlt/connector-extension/src/chrome/dapp/dapp-client.ts:14`
-```diff
-export const ChromeDAppClient = (logger: AppLogger) => {
-  const sendMessage = (message: Record<string, any>) => {
-+	const clonedDetail = (globalThis as any).cloneInto ? (globalThis as any).cloneInto(message, document.defaultView) : message
-    window.dispatchEvent(
-      new CustomEvent(dAppEvent.receive, {
-        detail: clonedDetail,
-      }),
-    )
-    return ok(true)
-  }
 ```
 
 chromeDAppClient.sendMessage
