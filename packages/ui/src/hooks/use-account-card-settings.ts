@@ -16,9 +16,11 @@ export const useAccountCardSettings = (address: string): CardSettings => {
 		)
 
 		const imgClassName =
-			accountsArray[idx]?.cardImage || Object.keys(CARD_IMAGES)[idx % Object.keys(CARD_IMAGES).length]
+			(CARD_IMAGES[accountsArray[idx]?.cardImage] ? accountsArray[idx]?.cardImage : undefined) ||
+			Object.keys(CARD_IMAGES)[idx % Object.keys(CARD_IMAGES).length]
 		const colorClassName =
-			accountsArray[idx]?.cardColor || Object.keys(CARD_COLORS)[idx % Object.keys(CARD_COLORS).length]
+			(CARD_COLORS[accountsArray[idx]?.cardColor] ? accountsArray[idx]?.cardColor : undefined) ||
+			Object.keys(CARD_COLORS)[idx % Object.keys(CARD_COLORS).length]
 
 		const cardImage = CARD_IMAGES[imgClassName]
 		const cardColor = CARD_COLORS[colorClassName]
