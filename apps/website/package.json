@@ -1,6 +1,6 @@
 {
 	"name": "z3us-website",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"private": true,
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
@@ -43,6 +43,7 @@
 		"@types/react-dom": "18.2.6",
 		"concurrently": "^8.2.0",
 		"eslint": "^8.43.0",
-		"typescript": "5.0.4"
+		"typescript": "5.0.4",
+		"serve": "^14.2.1"
 	}
 }

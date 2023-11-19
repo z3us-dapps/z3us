@@ -8,12 +8,11 @@ import clsx from 'clsx'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { type IButtonProps } from 'ui/src/components/button'
 // import { Button } from 'ui/src/components/button'
-import { GithubIcon } from 'ui/src/components/icons/github-icon'
 // import { MoonIcon } from 'ui/src/components/icons/moon-icon'
 // import { SunIcon } from 'ui/src/components/icons/sun-icon'
-import { TelegramIcon } from 'ui/src/components/icons/telegram-icon'
-import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
+import { GithubIcon, TelegramIcon, XIcon } from 'ui/src/components/icons'
 // import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Text, { type TextProps } from 'ui/src/components/typography/text'
@@ -21,12 +20,12 @@ import Text, { type TextProps } from 'ui/src/components/typography/text'
 import * as styles from './styles.css'
 
 interface IProps {
-	showTopBorder?: boolean
 	textColor?: TextProps['color']
+	buttonStyleVariant?: IButtonProps['styleVariant']
 }
 
 export const Footer: React.FC<IProps> = props => {
-	const { showTopBorder = false, textColor = 'neutral' } = props
+	const { textColor = 'neutral', buttonStyleVariant = 'primary' } = props
 	// const { setTheme, theme, resolvedTheme } = useTheme()
 
 	// const isDarkTheme = resolvedTheme === 'dark'
@@ -45,19 +44,25 @@ export const Footer: React.FC<IProps> = props => {
 				Terms
 			</NextLink>
 			<Box>&middot;</Box>
-			<NextLink size="small" href="/terms" underline="hover" color={textColor}>
-				Support
-			</NextLink>
-			<Box>&middot;</Box>
-			<NextLink size="small" href="/terms" underline="hover" color={textColor}>
+			<NextLink size="small" href="/faq" underline="hover" color={textColor}>
 				FAQ
 			</NextLink>
+			{/* <Box>&middot;</Box> */}
+			{/* <NextLink
+				size="small"
+				href="https://z3us-dapps.featureos.app"
+				underline="hover"
+				color={textColor}
+				target="_blank"
+			>
+				Support
+			</NextLink> */}
 		</>
 	)
 
 	return (
 		<ContentContainer>
-			<Box className={clsx(styles.footerWrapper, showTopBorder && styles.footerBorderWrapper)}>
+			<Box className={clsx(styles.footerWrapper)}>
 				<Box className={styles.footerInnerWrapper}>
 					<Box className={styles.footerLeftWrapper}>
 						<Z3usLogoLink />
@@ -69,11 +74,11 @@ export const Footer: React.FC<IProps> = props => {
 					<Box className={styles.footerRightWrapper}>
 						<Box className={styles.tabletLinks}>{pageLinks}</Box>
 						<Box display="flex" gap="xsmall">
-							<ToolTip message="telegram">
+							<ToolTip message="Telegram">
 								<NextButton
 									rounded
 									sizeVariant="small"
-									styleVariant="primary"
+									styleVariant={buttonStyleVariant}
 									iconOnly
 									to="https://t.me/z3us_dapps"
 									target="_blank"
@@ -81,23 +86,23 @@ export const Footer: React.FC<IProps> = props => {
 									<TelegramIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="twitter">
+							<ToolTip message="Z3US on X">
 								<NextButton
 									rounded
 									sizeVariant="small"
-									styleVariant="primary"
+									styleVariant={buttonStyleVariant}
 									iconOnly
 									to="https://twitter.com/z3us_dapps"
 									target="_blank"
 								>
-									<TwitterIcon />
+									<XIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="github">
+							<ToolTip message="Github">
 								<NextButton
 									rounded
 									sizeVariant="small"
-									styleVariant="primary"
+									styleVariant={buttonStyleVariant}
 									iconOnly
 									to="https://github.com/z3us-dapps/z3us"
 									target="_blank"

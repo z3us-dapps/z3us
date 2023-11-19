@@ -18,13 +18,8 @@ export const MessageClient = () => {
 	} = {}
 
 	let port = browser.runtime.connect({ name: PORT_NAME })
-	port.onDisconnect.addListener(() => {
-		// eslint-disable-next-line no-console
-		if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
-		port = browser.runtime.connect({ name: PORT_NAME })
-	})
 
-	port.onMessage.addListener((message: ResponseMessage) => {
+	const onPortMessage = (message: ResponseMessage) => {
 		if (!message?.messageId) {
 			return
 		}
@@ -32,7 +27,18 @@ export const MessageClient = () => {
 		if (handler) {
 			handler(message)
 		}
-	})
+	}
+
+	const onPortDisconnect = () => {
+		// eslint-disable-next-line no-console
+		if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
+		port = browser.runtime.connect({ name: PORT_NAME })
+		port.onDisconnect.addListener(onPortDisconnect)
+		port.onMessage.addListener(onPortMessage)
+	}
+
+	port.onDisconnect.addListener(onPortDisconnect)
+	port.onMessage.addListener(onPortMessage)
 
 	const sendMessage = async (
 		action: BackgroundMessageAction,

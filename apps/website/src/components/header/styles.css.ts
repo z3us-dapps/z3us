@@ -15,7 +15,10 @@ export const headerWrapper = style([
 
 export const headerTextLinks = style([
 	sprinkles({
-		display: 'flex',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 		alignItems: 'center',
 		gap: 'large',
 		paddingRight: 'large',
@@ -32,27 +35,6 @@ export const headerSocialLinks = style([
 	{
 		marginRight: '0px',
 	},
-])
-
-// export const landingPageHeaderWrapper = style([
-// 	sprinkles({
-// 		position: 'relative',
-// 		borderBottom: 1,
-// 		borderBottomStyle: 'solid',
-// 		borderColor: 'lead800',
-// 	}),
-// 	{},
-// ])
-
-// TODO: inner shadow border
-export const headerWrapperBorderColor = style([
-	sprinkles({
-		borderColor: {
-			lightMode: 'bleached_silk600',
-			darkMode: 'lead500',
-		},
-	}),
-	{},
 ])
 
 export const headerInnerWrapper = style([
@@ -148,9 +130,8 @@ export const landingPageHeaderInnerWrapper = style([
 	}),
 	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
+		mobile: { height: '58px' },
 		tablet: { height: '72px' },
-		// desktop: { width: '25%' },
 	}),
 ])
 
@@ -173,6 +154,24 @@ export const landingPageHeaderMenuWrapper = style([
 	}),
 	{},
 ])
+
+export const headerConnectRadixWrapper = style([
+	sprinkles({
+		paddingLeft: 'small',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
+	}),
+	{},
+])
+
+globalStyle(`${headerConnectRadixWrapper} svg`, {
+	width: '18px',
+	height: 'auto',
+	marginTop: '2px',
+	marginRight: '6px',
+})
 
 globalStyle(`${landingHeaderZ3usLink} > div`, {
 	transition: vars.transition.fastall,
