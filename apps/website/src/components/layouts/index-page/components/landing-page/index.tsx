@@ -236,20 +236,20 @@ export const LandingPage: React.FC = () => (
 							</Text>
 							<Text size="large">
 								With Z3US&apos;s customization, every transaction becomes an expression of your identity. It&apos;s more
-								than just a wallet – it&apos;s a canvas for your digital financial interactions.
+								than just a wallet &ndash; it&apos;s a canvas for your digital financial interactions.
 							</Text>
 							<Box component="ul">
 								<Box component="li" color="colorNeutral">
 									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
+									<Text>Unique colors and images for accounts</Text>
 								</Box>
 								<Box component="li" color="colorNeutral">
 									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
+									<Text>Add personal account labels</Text>
 								</Box>
 								<Box component="li" color="colorNeutral">
 									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
+									<Text>Save and export account settings (coming soon)</Text>
 								</Box>
 							</Box>
 						</Box>
@@ -265,7 +265,7 @@ export const LandingPage: React.FC = () => (
 								/>
 								<Image
 									priority
-									src="/landing-page-2023/make-it-your-own-card-01.png"
+									src="/landing-page-2023/make-it-your-own-card-02.png"
 									width={316}
 									height={190}
 									alt="Vanilla Extract logo"
@@ -273,7 +273,7 @@ export const LandingPage: React.FC = () => (
 								/>
 								<Image
 									priority
-									src="/landing-page-2023/make-it-your-own-card-01.png"
+									src="/landing-page-2023/make-it-your-own-card-03.png"
 									width={316}
 									height={190}
 									alt="Vanilla Extract logo"
