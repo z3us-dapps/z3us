@@ -17,7 +17,7 @@ Clone repo
 git clone git@github.com:z3us-dapps/z3us.git
 ```
 
-Go to `z3us` directory run
+Go to inside repository directory and run
 
 ```
 yarn install
