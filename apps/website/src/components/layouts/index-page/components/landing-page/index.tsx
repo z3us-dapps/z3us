@@ -348,20 +348,16 @@ export const LandingPage: React.FC = () => (
 							</Text>
 							<Text size="large" color="strong">
 								With Z3US&apos;s customization, every transaction becomes an expression of your identity. It&apos;s more
-								than just a wallet – it&apos;s a canvas for your digital financial interactions.
+								than just a wallet &ndash; it&apos;s a canvas for your digital financial interactions.
 							</Text>
 							<Box component="ul">
 								<Box component="li" color="colorNeutral">
 									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
+									<Text>Manage addresses for individual wallets</Text>
 								</Box>
 								<Box component="li" color="colorNeutral">
 									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
-								</Box>
-								<Box component="li" color="colorNeutral">
-									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
+									<Text>Export address book (coming soon)</Text>
 								</Box>
 							</Box>
 						</Box>
@@ -384,15 +380,11 @@ export const LandingPage: React.FC = () => (
 							<Box component="ul">
 								<Box component="li" color="colorNeutral">
 									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
+									<Text>View NFT&apos;s and asset ledger information</Text>
 								</Box>
 								<Box component="li" color="colorNeutral">
 									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
-								</Box>
-								<Box component="li" color="colorNeutral">
-									<Check2Icon />
-									<Text>With Z3US&apos;s</Text>
+									<Text>Send and receive NFT assets</Text>
 								</Box>
 							</Box>
 						</Box>
