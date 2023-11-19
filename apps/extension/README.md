@@ -42,6 +42,7 @@ Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist/chrome`, thi
 Before building:
 
 1. Fix `connector extension` dependency events dispatching by updating `chromeDAppClient.sendMessage` at `@radixdlt/connector-extension/src/chrome/dapp/dapp-client.ts:14`
+
 ```diff
 export const ChromeDAppClient = (logger: AppLogger) => {
   const sendMessage = (message: Record<string, any>) => {
@@ -121,8 +122,6 @@ const permissions = [
 	'contextMenus',
 ] 
 ```
-
-chromeDAppClient.sendMessage
 
 - Create archive by compresing all the files `inside` the directory `apps/extension/dist`.
 - In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`.
