@@ -383,15 +383,17 @@ export const landingAddressBookImgTwoLarge = style([
 
 export const landingNftSmallWrapperLarge = style([
 	sprinkles({
-		flexShrink: 0,
-		flexGrow: 0,
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 	}),
 	{
 		// border: '1px solid red',
 	},
 	responsiveStyle({
 		mobile: { maxWidth: '100%', height: 'auto' },
-		tablet: { height: '736px' },
+		tablet: { height: '736px', flexShrink: 0, flexGrow: 0 },
 		// desktop: { width: '25%' },
 	}),
 ])
@@ -455,13 +457,11 @@ export const landingNftTwoLarge = style([
 		top: 0,
 		left: 0,
 	}),
-	{
-		position: 'absolute',
-		// border: '1px solid red',
-	},
+	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
-		tablet: { marginTop: '118px', marginLeft: '190px' },
+		mobile: { position: 'relative' },
+		tablet: { position: 'absolute', marginTop: '118px', marginLeft: '190px' },
+
 		// desktop: { width: '25%' },
 	}),
 ])

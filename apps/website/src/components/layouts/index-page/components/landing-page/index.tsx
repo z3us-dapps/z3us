@@ -451,7 +451,6 @@ export const LandingPage: React.FC = () => (
 									styles.landingHeroCalloutImg,
 									styles.landingHeroCalloutRoundedLargeImg,
 									styles.landingNftTwoLarge,
-									styles.landingHeroImgMobileHidden,
 								)}
 							/>
 						</Box>
