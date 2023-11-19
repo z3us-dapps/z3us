@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
@@ -30,11 +29,6 @@ export const landingPageBodyWrapper = style([
 		position: 'relative',
 	}),
 	{},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { paddingTop: '72px' },
-		// desktop: { width: '25%' },
-	}),
 ])
 
 export const landingPageLargeImgFloatLeft = style([
@@ -102,11 +96,6 @@ export const landingPageDarkWrapper = style([
 	{
 		background: bgColor,
 	},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { paddingTop: '72px' },
-		// desktop: { width: '25%' },
-	}),
 ])
 
 export const landingPageInvadersHeroWrapper = style([
@@ -115,7 +104,6 @@ export const landingPageInvadersHeroWrapper = style([
 	responsiveStyle({
 		mobile: { marginTop: '-80px' },
 		tablet: { marginTop: '0px' },
-		// desktop: { marginTop: '-100px' },
 	}),
 ])
 
@@ -174,11 +162,6 @@ export const landingPagePurpleWrapper = style([
 	{
 		backgroundColor: '#7C4DFF',
 	},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { paddingTop: '72px' },
-		// desktop: { width: '25%' },
-	}),
 ])
 
 export const landingPageBelowFeatureWrapper = style([
@@ -276,9 +259,7 @@ export const landingFeaturePointBlock = style([
 	}),
 	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
 		tablet: { paddingTop: '0px', paddingBottom: '0px', maxWidth: '490px' },
-		// desktop: { width: '25%' },
 	}),
 ])
 
@@ -300,13 +281,9 @@ export const landingFeaturePointImgBlock = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
 		tablet: { paddingTop: '0px', paddingBottom: '0px', width: '490px' },
-		// desktop: { width: '25%' },
 	}),
 ])
 
@@ -324,13 +301,9 @@ export const landingMakeItYourOwnImgLarge = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
 		tablet: { marginTop: '118px', marginLeft: '190px' },
-		// desktop: { width: '25%' },
 	}),
 ])
 
@@ -343,13 +316,9 @@ export const landingMakeItYourOwnAccountsColumn = style([
 		flexDirection: 'column',
 		gap: 'large',
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 	responsiveStyle({
-		// mobile: { width: '100%' },
 		tablet: { width: '316px', marginLeft: '0px' },
-		// desktop: { width: '25%' },
 	}),
 ])
 
@@ -362,7 +331,6 @@ export const landingAddressBookImgOneLarge = style([
 	responsiveStyle({
 		mobile: { maxWidth: '100%', height: 'auto' },
 		tablet: { marginLeft: '-70px', marginBottom: '120px' },
-		// desktop: { width: '25%' },
 	}),
 ])
 
@@ -388,13 +356,10 @@ export const landingNftSmallWrapperLarge = style([
 			tablet: 'flex',
 		},
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 	responsiveStyle({
 		mobile: { maxWidth: '100%', height: 'auto' },
 		tablet: { height: '736px', flexShrink: 0, flexGrow: 0 },
-		// desktop: { width: '25%' },
 	}),
 ])
 export const landingNftSmallOne = style([
@@ -402,9 +367,7 @@ export const landingNftSmallOne = style([
 		flexShrink: 0,
 		flexGrow: 0,
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 	responsiveStyle({
 		mobile: { position: 'absolute', maxWidth: '100%', height: 'auto' },
 		tablet: { top: '0px', left: '0px' },
@@ -417,9 +380,7 @@ export const landingNftSmallTwo = style([
 		flexShrink: 0,
 		flexGrow: 0,
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 	responsiveStyle({
 		mobile: { position: 'absolute', maxWidth: '100%', height: 'auto' },
 		tablet: { top: '260px', left: '30px' },
@@ -461,8 +422,6 @@ export const landingNftTwoLarge = style([
 	responsiveStyle({
 		mobile: { position: 'relative' },
 		tablet: { position: 'absolute', marginTop: '118px', marginLeft: '190px' },
-
-		// desktop: { width: '25%' },
 	}),
 ])
 
@@ -475,7 +434,6 @@ export const landingMultiWalletImgOneLarge = style([
 	responsiveStyle({
 		mobile: { maxWidth: '100%', height: 'auto' },
 		tablet: { marginLeft: '-70px', marginBottom: '160px' },
-		// desktop: { width: '25%' },
 	}),
 ])
 
@@ -488,9 +446,7 @@ export const landingMultiWalletImgTwoLarge = style([
 		position: 'absolute',
 	},
 	responsiveStyle({
-		// mobile: { width: '100%' },
 		tablet: { marginTop: '148px', marginLeft: '80px' },
-		// desktop: { width: '25%' },
 	}),
 ])
 
@@ -503,11 +459,6 @@ export const landingDetailsGridWrapper = style([
 		},
 	}),
 	{},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { marginTop: '118px', marginLeft: '60px' },
-		// desktop: { width: '25%' },
-	}),
 ])
 
 export const landingDetailsGridHeader = style([
@@ -698,11 +649,6 @@ export const landingCalloutButtonIcon = style([
 		width: '20px',
 		height: '20px',
 	},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { paddingBottom: '72px', maxWidth: '500px', marginRight: '200px' },
-		// desktop: { width: '25%' },
-	}),
 ])
 
 export const landingPageHeroImage = style([
@@ -713,8 +659,6 @@ export const landingPageHeroImage = style([
 	{},
 	responsiveStyle({
 		mobile: { maxWidth: '100%', height: 'auto' },
-		// tablet: { paddingBottom: '72px', maxWidth: '500px', marginRight: '200px' },
-		// desktop: { width: '1160px', height: '784px' },
 	}),
 ])
 

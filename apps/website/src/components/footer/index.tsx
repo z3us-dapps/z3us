@@ -47,8 +47,8 @@ export const Footer: React.FC<IProps> = props => {
 			<NextLink size="small" href="/faq" underline="hover" color={textColor}>
 				FAQ
 			</NextLink>
-			<Box>&middot;</Box>
-			<NextLink
+			{/* <Box>&middot;</Box> */}
+			{/* <NextLink
 				size="small"
 				href="https://z3us-dapps.featureos.app"
 				underline="hover"
@@ -56,10 +56,6 @@ export const Footer: React.FC<IProps> = props => {
 				target="_blank"
 			>
 				Support
-			</NextLink>
-			{/* <Box>&middot;</Box> */}
-			{/* <NextLink size="small" href="/terms" underline="hover" color={textColor}>
-				FAQ
 			</NextLink> */}
 		</>
 	)

@@ -32,7 +32,7 @@ export const Header = () => {
 							<NextLink href="/faq" underline="hover" weight="medium" size="small">
 								FAQ
 							</NextLink>
-							<NextLink
+							{/* <NextLink
 								href="https://z3us-dapps.featureos.app"
 								underline="hover"
 								target="_blank"
@@ -40,10 +40,6 @@ export const Header = () => {
 								size="small"
 							>
 								Support
-							</NextLink>
-							{/* TODO: FAQ coming soon */}
-							{/* <NextLink href="/" underline="hover">
-								Faq
 							</NextLink> */}
 						</Box>
 						<Box className={styles.headerSocialLinks}>
