@@ -62,17 +62,15 @@ export const LandingPage: React.FC = () => (
 					<Box className={styles.landingCalloutFlexWrapper}>
 						<Box className={styles.landingCalloutTextWrapper}>
 							<Box>
-								<Text size="xlarge" color="strong" weight="strong" className={styles.landingCalloutText}>
-									Z3US wallet is your home on Radix. <br />
-								</Text>
 								<Text size="xlarge" color="strong" className={styles.landingCalloutText}>
 									Manage accounts, send and receive tokens, manage multiple wallets and connect to DApps from Z3US, the
-									premier browser wallet for{' '}
+									best browser wallet for{' '}
 									<Link
 										size="xlarge"
 										color="strong"
 										href="https://www.radixdlt.com/"
 										className={styles.landingCalloutText}
+										target="_blank"
 									>
 										Radix DLT
 									</Link>
@@ -121,10 +119,10 @@ export const LandingPage: React.FC = () => (
 							Seamless
 						</Text>
 						<Text size="xxxxlarge" color="strong" weight="stronger">
-							Experience your radix wallet in a whole new way.
+							Experience your Radix DLT assets in a whole new way.
 						</Text>
 						<Text size="large" color="strong">
-							Access your existing Radix wallets seamlessly alongside newly created Z3US wallets, simplifying asset
+							Access your existing wallets seamlessly alongside newly created Z3US wallets, simplifying asset
 							consolidation and management. Say goodbye to platform hopping – Z3US keeps your crypto experience unified
 							and seamless.
 						</Text>
@@ -171,8 +169,8 @@ export const LandingPage: React.FC = () => (
 								Send. Receive. Sign.
 							</Text>
 							<Text size="large" color="strong">
-								Flawless essentials and powerful features. With the added functionality of group transactions and
-								detailed asset and transaction insights.
+								Experience seamless essentials and robust features, now enhanced with group transaction capabilities and
+								in-depth insights into your assets and transactions.
 							</Text>
 						</Box>
 					</Box>
@@ -350,22 +348,12 @@ export const LandingPage: React.FC = () => (
 								Address book
 							</Text>
 							<Text size="xxxxlarge" color="strong" weight="stronger">
-								Make it easy
+								Your crypto contacts, organized and secure
 							</Text>
-							<Text size="large" color="strong">
-								With Z3US&apos;s customization, every transaction becomes an expression of your identity. It&apos;s more
-								than just a wallet &ndash; it&apos;s a canvas for your digital financial interactions.
+							<Text size="large">
+								Say goodbye to the hassle of searching for addresses or worrying about typos. With our intuitive
+								interface, adding and managing contacts is just a click away.
 							</Text>
-							<Box component="ul">
-								<Box component="li" color="colorNeutral">
-									<Check2Icon />
-									<Text>Manage addresses for individual wallets</Text>
-								</Box>
-								<Box component="li" color="colorNeutral">
-									<Check2Icon />
-									<Text>Export address book (coming soon)</Text>
-								</Box>
-							</Box>
 						</Box>
 					</Box>
 					{/* END: ADDRESS BOOK */}
@@ -374,10 +362,10 @@ export const LandingPage: React.FC = () => (
 					<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
 						<Box className={styles.landingFeaturePointBlock}>
 							<Text component="h4" capitalize size="large" weight="stronger" className={styles.landingTextPurple}>
-								Immersive
+								NFTs
 							</Text>
 							<Text size="xxxxlarge" color="strong" weight="stronger">
-								Unveiling NFT excellence
+								Collectors & investors
 							</Text>
 							<Text size="large">
 								Whether you&apos;re a collector or an investor, Z3US has the tools you need to immerse yourself in the
@@ -386,7 +374,7 @@ export const LandingPage: React.FC = () => (
 							<Box component="ul">
 								<Box component="li" color="colorNeutral">
 									<Check2Icon />
-									<Text>View NFT&apos;s and asset ledger information</Text>
+									<Text>View NFT&apos;s and asset detail</Text>
 								</Box>
 								<Box component="li" color="colorNeutral">
 									<Check2Icon />
@@ -504,12 +492,11 @@ export const LandingPage: React.FC = () => (
 								Analytics
 							</Text>
 							<Text size="xxxxlarge" color="strong" weight="stronger">
-								Multi-wallet and asset insights
+								Track and optimize your crypto journey
 							</Text>
 							<Text size="large">
-								Don&apos;t compromise clarity while managing multiple wallets. Z3US Analytics offers an intuitive
-								platform for a comprehensive view of all your wallets, presented through dynamic dashboards and
-								insightful reports.
+								Don&apos;t compromise clarity while managing multiple wallets. Gain insights into your transaction
+								history, asset distribution, and market trends, all in one intuitive dashboard.
 							</Text>
 						</Box>
 					</Box>
