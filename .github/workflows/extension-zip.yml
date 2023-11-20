@@ -55,12 +55,20 @@ jobs:
           NODE_OPTIONS: "--max_old_space_size=4096"
         run: |-
           cd apps/extension
-          yarn build:radix
+          yarn build:release
       - uses: papeloto/action-zip@v1
         with:
           files: apps/extension/dist
-          dest: extension.zip
-      - uses: shogo82148/actions-upload-release-asset@v1
+          dest: chrome.zip
+      - uses: papeloto/action-zip@v1
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ${{ github.workspace }}/extension.zip
+          files: apps/extension/dist-firefox/
+          dest: firefox.zip
+      - uses: actions/upload-artifact@v1
+        with:
+          name: chrome
+          path: ${{ github.workspace }}/chrome.zip
+      - uses: actions/upload-artifact@v1
+        with:
+          name: firefox
+          path: ${{ github.workspace }}/firefox.zip

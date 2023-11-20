@@ -1,5 +1,6 @@
 import type { ContentScriptMessageHandlerOptions } from '@radixdlt/connector-extension/src/chrome/content-script/message-handler'
 import { ContentScriptMessageHandler } from '@radixdlt/connector-extension/src/chrome/content-script/message-handler'
+import { dAppEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
 import {
 	ChromeDAppClient,
 	type ChromeDAppClient as ChromeDAppClientType,
@@ -7,12 +8,23 @@ import {
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
 import type { SendMessage } from '@radixdlt/connector-extension/src/chrome/messages/send-message'
 import { logger as utilsLogger } from '@radixdlt/connector-extension/src/utils/logger'
-import { ResultAsync, errAsync, okAsync } from 'neverthrow'
+import { ResultAsync, errAsync, ok, okAsync } from 'neverthrow'
 import browser from 'webextension-polyfill'
 
 export const logger = utilsLogger.getSubLogger({ name: 'content-script' })
 
 export const chromeDAppClient: ChromeDAppClientType = ChromeDAppClient(logger)
+chromeDAppClient.sendMessage = (message: Record<string, any>) => {
+	const clonedDetail = (globalThis as any).cloneInto
+		? (globalThis as any).cloneInto(message, document.defaultView)
+		: message
+	window.dispatchEvent(
+		new CustomEvent(dAppEvent.receive, {
+			detail: clonedDetail,
+		}),
+	)
+	return ok(true)
+}
 
 export const sendRadixMessageToDapp: ContentScriptMessageHandlerOptions['sendMessageToDapp'] = message => {
 	const result = chromeDAppClient.sendMessage(message)
