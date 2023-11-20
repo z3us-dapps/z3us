@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"type": "module",
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
@@ -10,6 +10,8 @@
 		"build:dev": "DEV_TOOLS=true yarn build:radix",
 		"build:radix": "RADIX=true yarn build",
 		"build": "npm_config_build_from_source=true tsc --build && vite build --mode production",
+		"build:copy-as-firefox": "node src/helpers/firefox",
+		"build:release": "yarn build:radix && yarn build:copy-as-firefox",
 		"preview": "vite preview",
 		"check-types": "tsc --noemit",
 		"eslint": "eslint --fix --ignore-path .eslintignore --ext .js,.ts,.tsx .",

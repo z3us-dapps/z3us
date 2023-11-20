@@ -9,6 +9,7 @@ node_modules
 
 # build
 dist
+dist-firefox
 
 # testing
 coverage
