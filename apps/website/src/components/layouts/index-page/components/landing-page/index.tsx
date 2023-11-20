@@ -45,7 +45,7 @@ export const LandingPage: React.FC = () => (
 						src="/landing-page-2023/bg-left.png"
 						width={786}
 						height={1222}
-						alt="angel left"
+						alt="Z3US angel left"
 						className={styles.landingPageLargeImgFloatLeft}
 					/>
 					<Image
@@ -53,7 +53,7 @@ export const LandingPage: React.FC = () => (
 						src="/landing-page-2023/bg-right.png"
 						width={710}
 						height={474}
-						alt="angel right"
+						alt="Z3US angel right"
 						className={styles.landingPageLargeImgFloatRight}
 					/>
 					<Box className={styles.landingHeroTextWrapper}>
@@ -103,7 +103,7 @@ export const LandingPage: React.FC = () => (
 						src="/landing-page-2023/purple-invaders-horizontal-bg.png"
 						width={1440}
 						height={244}
-						alt="purple pattern"
+						alt="purple background pattern"
 					/>
 				</Box>
 			</Box>
@@ -135,7 +135,7 @@ export const LandingPage: React.FC = () => (
 							src="/landing-page-2023/experience-hero-left.png"
 							width={760}
 							height={726}
-							alt="Vanilla Extract logo"
+							alt="Z3US desktop experience on Radix"
 							className={clsx(
 								styles.landingHeroCalloutImg,
 								styles.landingHeroCalloutRoundedImg,
@@ -147,7 +147,7 @@ export const LandingPage: React.FC = () => (
 							src="/landing-page-2023/experience-hero-right.png"
 							width={360}
 							height={926}
-							alt="Vanilla Extract logo"
+							alt="Z3US desktop experience with asset details"
 							className={clsx(
 								styles.landingHeroCalloutImg,
 								styles.landingHeroCalloutRoundedImg,
@@ -182,7 +182,7 @@ export const LandingPage: React.FC = () => (
 							src="/landing-page-2023/send-receive-stake-01.png"
 							width={360}
 							height={600}
-							alt="Vanilla Extract logo"
+							alt="Z3US send and receive tokens"
 							className={clsx(
 								styles.landingHeroCalloutImg,
 								styles.landingHeroCalloutRoundedLargeImg,
@@ -194,7 +194,7 @@ export const LandingPage: React.FC = () => (
 							src="/landing-page-2023/send-receive-stake-02.png"
 							width={360}
 							height={529}
-							alt="Vanilla Extract logo"
+							alt="Z3US transaction preview"
 							className={clsx(
 								styles.landingHeroCalloutImg,
 								styles.landingHeroCalloutRoundedLargeImg,
@@ -207,7 +207,7 @@ export const LandingPage: React.FC = () => (
 							src="/landing-page-2023/send-receive-stake-03.png"
 							width={360}
 							height={600}
-							alt="Vanilla Extract logo"
+							alt="Z3US transaction details"
 							className={clsx(
 								styles.landingHeroCalloutImg,
 								styles.landingHeroCalloutRoundedLargeImg,
@@ -225,7 +225,7 @@ export const LandingPage: React.FC = () => (
 						src="/landing-page-2023/purple-invaders-horizontal-bg.png"
 						width={1440}
 						height={244}
-						alt="purple pattern"
+						alt="Z3US background purple pattern"
 					/>
 				</Box>
 			</Box>
@@ -266,7 +266,7 @@ export const LandingPage: React.FC = () => (
 									src="/landing-page-2023/make-it-your-own-card-01.png"
 									width={316}
 									height={190}
-									alt="Vanilla Extract logo"
+									alt="Z3US account card top"
 									className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
 								/>
 								<Image
@@ -274,7 +274,7 @@ export const LandingPage: React.FC = () => (
 									src="/landing-page-2023/make-it-your-own-card-02.png"
 									width={316}
 									height={190}
-									alt="Vanilla Extract logo"
+									alt="Z3US account card middle"
 									className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
 								/>
 								<Image
@@ -282,7 +282,7 @@ export const LandingPage: React.FC = () => (
 									src="/landing-page-2023/make-it-your-own-card-03.png"
 									width={316}
 									height={190}
-									alt="Vanilla Extract logo"
+									alt="Z3US account card bottom"
 									className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
 								/>
 							</Box>
@@ -291,7 +291,7 @@ export const LandingPage: React.FC = () => (
 								src="/landing-page-2023/make-it-your-own-01.png"
 								width={360}
 								height={600}
-								alt="Vanilla Extract logo"
+								alt="Z3US account card customization UX"
 								className={clsx(
 									styles.landingHeroCalloutImg,
 									styles.landingMakeItYourOwnImgLarge,
@@ -317,7 +317,7 @@ export const LandingPage: React.FC = () => (
 								src="/landing-page-2023/address-book-01.png"
 								width={360}
 								height={600}
-								alt="Vanilla Extract logo"
+								alt="address book confirmation user interface"
 								className={clsx(
 									styles.landingHeroCalloutImg,
 									styles.landingHeroCalloutRoundedLargeImg,
@@ -329,7 +329,7 @@ export const LandingPage: React.FC = () => (
 								src="/landing-page-2023/address-book-02.png"
 								width={360}
 								height={600}
-								alt="Vanilla Extract logo"
+								alt="address book user interface"
 								className={clsx(
 									styles.landingHeroCalloutImg,
 									styles.landingHeroCalloutRoundedLargeImg,
@@ -401,7 +401,7 @@ export const LandingPage: React.FC = () => (
 									src="/landing-page-2023/nft-small_01.png"
 									width={238}
 									height={238}
-									alt="Radix nft item"
+									alt="Radix nft item one"
 									className={clsx(
 										styles.landingHeroCalloutImg,
 										styles.landingHeroCalloutRoundedLargeImg,
@@ -413,7 +413,7 @@ export const LandingPage: React.FC = () => (
 									src="/landing-page-2023/nft-small_02.webp"
 									width={122}
 									height={122}
-									alt="Radix nft item"
+									alt="Radix nft item two"
 									className={clsx(
 										styles.landingHeroCalloutImg,
 										styles.landingHeroCalloutRoundedLargeImg,
@@ -425,7 +425,7 @@ export const LandingPage: React.FC = () => (
 									src="/landing-page-2023/nft-small_03.png"
 									width={98}
 									height={98}
-									alt="Radix nft item"
+									alt="Radix nft item three"
 									className={clsx(
 										styles.landingHeroCalloutImg,
 										styles.landingHeroCalloutRoundedLargeImg,
@@ -437,7 +437,7 @@ export const LandingPage: React.FC = () => (
 									src="/landing-page-2023/nft-small_04.png"
 									width={58}
 									height={58}
-									alt="Radix nft item"
+									alt="Radix nft item four"
 									className={clsx(styles.landingHeroCalloutImg, styles.landingNftSmallFour)}
 								/>
 							</Box>
@@ -446,7 +446,7 @@ export const LandingPage: React.FC = () => (
 								src="/landing-page-2023/nft-02.png"
 								width={392}
 								height={636}
-								alt="Vanilla Extract logo"
+								alt="Z3US nft asset details view"
 								className={clsx(
 									styles.landingHeroCalloutImg,
 									styles.landingHeroCalloutRoundedLargeImg,
@@ -566,7 +566,7 @@ export const LandingPage: React.FC = () => (
 						src="/landing-page-2023/purple-invaders-horizontal-bg.png"
 						width={1440}
 						height={244}
-						alt="Vanilla Extract logo"
+						alt="Z3US purple invaders pattern"
 					/>
 				</Box>
 			</Box>
