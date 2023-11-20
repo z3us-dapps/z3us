@@ -185,6 +185,7 @@ export const LandingPage: React.FC = () => (
 								styles.landingHeroCalloutImg,
 								styles.landingHeroCalloutRoundedLargeImg,
 								styles.landingHeroSendReceiveStakeImg,
+								styles.landingHeroSendReceiveStakeImgOne,
 							)}
 						/>
 						<Image
@@ -211,6 +212,7 @@ export const LandingPage: React.FC = () => (
 								styles.landingHeroCalloutRoundedLargeImg,
 								styles.landingHeroSendReceiveStakeImg,
 								styles.landingHeroImgMobileHidden,
+								styles.landingHeroSendReceiveStakeImgThree,
 							)}
 						/>
 					</Box>
