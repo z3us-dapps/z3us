@@ -45,6 +45,8 @@ Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist`, this will 
 
 #### Adding extension to Firefox
 
+Create archive by compressing all the files `inside` the directory `apps/extension/dist-firefox`.
+
 In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`.
 
 Now click the button `Load temporary Add-on...`, then select an archive file you prepared.
