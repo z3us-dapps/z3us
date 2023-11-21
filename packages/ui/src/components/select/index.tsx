@@ -2,6 +2,7 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 import useMeasure from 'react-use-measure'
+import { undefined } from 'zod'
 
 import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/button'
 
@@ -106,7 +107,7 @@ export interface ISelectSimpleProps {
 	data: { id: string; title: string }[]
 	trigger?: React.ReactNode
 	selectAriaLabel?: string
-	width?: number
+	width?: number | undefined
 	sizeVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
 	capitalizeFirstLetter?: boolean
@@ -124,7 +125,7 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 			data = [],
 			placeholder,
 			selectAriaLabel,
-			width = 300,
+			width = undefined,
 			sizeVariant = 'medium',
 			styleVariant = 'secondary',
 			capitalizeFirstLetter = false,
@@ -136,25 +137,33 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 	) => {
 		const [measureRef, { width: triggerWidth }] = useMeasure()
 
+		const generateSelectButtonStyle = () => {
+			let style = {
+				maxWidth: '100%',
+				width: 'fit-content',
+			}
+
+			if (fullWidth) {
+				style = {
+					width: '100%',
+					maxWidth: '100%',
+				}
+			}
+
+			if (width) {
+				style = {
+					width: `${width}px`,
+					maxWidth: '100%',
+				}
+			}
+			return style
+		}
+
 		return (
 			<SelectRoot value={value} onValueChange={onValueChange}>
 				{trigger || (
 					<SelectTrigger asChild aria-label={selectAriaLabel}>
-						<Box
-							ref={measureRef}
-							display="inline-flex"
-							style={{
-								...(fullWidth
-									? {
-											width: '100%',
-											maxWidth: '100%',
-									  }
-									: {
-											maxWidth: `${width}px`,
-											width: 'fit-content',
-									  }),
-							}}
-						>
+						<Box ref={measureRef} display="inline-flex" style={generateSelectButtonStyle()}>
 							<Button
 								ref={ref}
 								sizeVariant={sizeVariant}
