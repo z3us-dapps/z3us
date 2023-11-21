@@ -83,7 +83,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = pr
 		showBottomScrollShadow = true,
 		showScrollUpButton = true,
 		roundedScrollArea = false,
-		scrollTopBehavior = 'smooth',
+		scrollTopBehavior = 'instant',
 		...rest
 	} = props
 
