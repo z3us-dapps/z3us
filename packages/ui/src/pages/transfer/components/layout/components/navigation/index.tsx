@@ -12,6 +12,10 @@ const messages = defineMessages({
 		id: '3Rx6Qo',
 		defaultMessage: 'Advanced',
 	},
+	swap: {
+		id: 's8BnAC',
+		defaultMessage: 'Swap',
+	},
 	deploy: {
 		id: '2UvVKh',
 		defaultMessage: 'Deploy package',
@@ -39,6 +43,10 @@ const Navigation: React.FC<IProps> = props => {
 			{
 				title: intl.formatMessage(messages.raw),
 				href: '/transfer/raw',
+			},
+			{
+				title: intl.formatMessage(messages.swap),
+				href: '/transfer/swap',
 			},
 		],
 		[intl, messages],

@@ -65,8 +65,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 	}, [initialValues])
 
 	useEffect(() => {
-		const { values } = state
-		if (onChange) onChange(values)
+		if (onChange) onChange(state.values)
 	}, [state.values])
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -92,8 +91,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 	}
 
 	const handleGetFieldValue = (name: string) => {
-		const { values } = state
-		const value = get(values, name)
+		const value = get(state.values, name)
 		return value
 	}
 

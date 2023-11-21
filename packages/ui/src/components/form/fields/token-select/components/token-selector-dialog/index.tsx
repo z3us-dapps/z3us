@@ -24,17 +24,11 @@ import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
-import type { ResourceBalanceKind } from 'ui/src/types'
+import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './styles.css'
-
-export interface ITokenSelectorDialogProps {
-	trigger: React.ReactNode
-	balances: ResourceBalanceKind[]
-	onTokenUpdate: (address: string) => void
-	tokenAddress?: string
-}
 
 const messages = defineMessages({
 	close: {
@@ -67,14 +61,17 @@ const searchAndFilterArray = (array: Array<any>, searchString: string) =>
 		: array
 
 interface ISelectItemProps {
-	symbol: string
-	name: string
 	address: string
-	selectedAddress?: string
+	selected?: string
 	onSelect: (address: string) => void
 }
 
-const SelectItem: React.FC<ISelectItemProps> = ({ selectedAddress, symbol, name, address, onSelect }) => {
+const SelectItem: React.FC<ISelectItemProps> = ({ selected, address, onSelect }) => {
+	const { data } = useEntityMetadata(address)
+
+	const name = findMetadataValue('name', data)
+	const symbol = findMetadataValue('symbol', data)
+
 	const handleSelect = () => {
 		onSelect(address)
 	}
@@ -85,7 +82,7 @@ const SelectItem: React.FC<ISelectItemProps> = ({ selectedAddress, symbol, name,
 				component="button"
 				className={clsx(
 					styles.tokenListItemWrapperButton,
-					address === selectedAddress && styles.tokenListItemWrapperButtonSelected,
+					address === selected && styles.tokenListItemWrapperButtonSelected,
 				)}
 				onClick={handleSelect}
 			>
@@ -118,18 +115,25 @@ const SelectItem: React.FC<ISelectItemProps> = ({ selectedAddress, symbol, name,
 	)
 }
 
+export interface ITokenSelectorDialogProps {
+	trigger: React.ReactNode
+	resourceAddresses: string[]
+	onTokenUpdate: (address: string) => void
+	tokenAddress?: string
+}
+
 export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props => {
-	const { trigger, balances, tokenAddress, onTokenUpdate } = props
+	const { trigger, resourceAddresses, tokenAddress, onTokenUpdate } = props
 	const intl = useIntl()
 	const inputRef = useRef(null)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
-	const [localBalances, setLocalBalances] = useState<ResourceBalanceKind[]>(balances)
+	const [data, setData] = useState<string[]>(resourceAddresses)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')
 	const [debouncedInputValue] = useDebounce<string>(inputValue, 500)
 
-	const selected = balances.find(resource => resource.address === tokenAddress)
+	const selected = resourceAddresses.find(address => address === tokenAddress)
 
 	const handleScroll = (event: Event) => {
 		const target = event.target as Element
@@ -163,19 +167,12 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 	}, [isOpen, inputRef?.current])
 
 	useEffect(() => {
-		setLocalBalances(searchAndFilterArray(balances, debouncedInputValue))
-	}, [balances, debouncedInputValue])
+		setData(searchAndFilterArray(resourceAddresses, debouncedInputValue))
+	}, [resourceAddresses, debouncedInputValue])
 
 	const renderItem = useCallback(
-		(_: number, { symbol, name, address }: any) => (
-			<SelectItem
-				key={address}
-				selectedAddress={selected?.address}
-				symbol={symbol}
-				name={name}
-				address={address}
-				onSelect={handleSelectToken}
-			/>
+		(_: number, address: string) => (
+			<SelectItem key={address} selected={selected} address={address} onSelect={handleSelectToken} />
 		),
 		[handleSelectToken, selected],
 	)
@@ -238,7 +235,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 							)} */}
 						</Box>
 						<Box>
-							{localBalances?.length === 0 && (
+							{data?.length === 0 && (
 								<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingTop="xxlarge">
 									<EmptyState
 										title={intl.formatMessage(messages.no_results_title)}
@@ -246,7 +243,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 									/>
 								</Box>
 							)}
-							<Virtuoso data={localBalances} itemContent={renderItem} customScrollParent={customScrollParent} />
+							<Virtuoso data={data} itemContent={renderItem} customScrollParent={customScrollParent} />
 						</Box>
 					</ScrollArea>
 				</DialogContent>
