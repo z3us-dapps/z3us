@@ -765,6 +765,28 @@ export const landingHeroSendReceiveStakeImg = style([
 	}),
 ])
 
+export const landingHeroSendReceiveStakeImgOne = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: {},
+		tablet: { marginTop: '40px' },
+	}),
+])
+
+export const landingHeroSendReceiveStakeImgThree = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: {},
+		tablet: { marginTop: '80px' },
+	}),
+])
+
 export const landingHeroImgMobileHidden = style([
 	sprinkles({}),
 	{},
