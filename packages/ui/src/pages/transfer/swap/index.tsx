@@ -159,7 +159,7 @@ export const Swap: React.FC = () => {
 			setValidation(result.error)
 			return
 		}
-
+		const component = 'component_rdx1czdm00vzh3ac0sh9n3acfr0rr48q0882fc5pkapcdk8e3jzd03nysq'
 		const transactionManifest = `
 	CALL_METHOD
 		Address("${values.account}")
@@ -172,7 +172,7 @@ export const Swap: React.FC = () => {
 		Bucket("bucket1")
 	;
 	CALL_METHOD
-		Address("component_rdx1czdm00vzh3ac0sh9n3acfr0rr48q0882fc5pkapcdk8e3jzd03nysq")
+		Address("${component}")
 		"swap"
 		Bucket("bucket1")
 	;
