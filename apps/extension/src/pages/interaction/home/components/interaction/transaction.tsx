@@ -97,6 +97,13 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					accounts = Object.keys(accountIndexes)
 				}
 				const authorizedAccounts = new Set(accounts)
+				if (
+					state.settings.feePayer &&
+					!authorizedAccounts.has(state.settings.feePayer) &&
+					accountIndexes[state.settings.feePayer]
+				) {
+					authorizedAccounts.add(state.settings.feePayer)
+				}
 				setState(draft => {
 					draft.error = ''
 					draft.intent = response.intent
