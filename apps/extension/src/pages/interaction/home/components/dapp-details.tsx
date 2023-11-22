@@ -60,7 +60,7 @@ export const DappDetails: React.FC<IProps> = ({ dAppDefinitionAddress, origin: p
 
 	return (
 		<Box display="flex" flexDirection="column" gap="xsmall" alignItems="center" justifyContent="center">
-			<Link color="strong" size="xlarge" weight="strong" href={infoUrl} underline="never" target="_blank">
+			<Link color="strong" size="xlarge" weight="strong" href={infoUrl || origin} underline="never" target="_blank">
 				<Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
 					<ResourceImageIcon size="xxlarge" address={dAppDefinitionAddress} />
 					<Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
