@@ -4971,10 +4971,10 @@
   resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.2.0.tgz#d29746306322ead187ef353075eb2f6ad80d106f"
   integrity sha512-9pMSwNkbVN+0+y3+zcuUTOO9PGrTB7/tv0TFtRildg29YW94nR6jC9A+SLEy7ovUzPYOrjJfAv72oJOHXyfS9g==
 
-"@radixdlt/connect-button@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-1.0.0.tgz#2ef8a85f0cdd63d14d1fb9edc2f65d320b035f63"
-  integrity sha512-MLgKibN8dyMW2GUu89EWyJrwyMUragXKNzpzluc4PnXWBd3foNnj0RHFU1o3/PkJkfgUPxdUcIZ54JTwtQAtyQ==
+"@radixdlt/connect-button@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-1.0.1.tgz#daf2744678dcd53e37f9b9e0aeab3749da9ecc3a"
+  integrity sha512-zKwQkIWW59iajQGhOBXB+x8H0iV/fx7+6/befmUwy+SpsKZ9dgQJz0q2wibaJkk1GES7+4IeziK32a7FB/RgUw==
   dependencies:
     lit "^2.7.5"
 
@@ -5040,13 +5040,13 @@
     tslog "4.8.0"
     zod "^3.22.4"
 
-"@radixdlt/radix-dapp-toolkit@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-1.3.0.tgz#cf6488052a3768b5309c5d32ba2b9c4457a87c73"
-  integrity sha512-J9ISFvQFqGhXq4abYSTTas6sYJEAOFaHgjcTlJemaKs+u/SWpG980CpVKENRleNv9a+8IYM61icSJA9PwLSj6w==
+"@radixdlt/radix-dapp-toolkit@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-1.3.1.tgz#b7a1e7c8905f94d9c0c86c2a9b1789d83d5794fd"
+  integrity sha512-yih43Bw386O2a2+Jq+viAQeb8jgUl56Ga69KUDBN8cBj0WVJVhNlBzUiH4LOwSJVCSH8mX8aKy1rFYpjEO576w==
   dependencies:
     "@radixdlt/babylon-gateway-api-sdk" "^1.2.0"
-    "@radixdlt/connect-button" "1.0.0"
+    "@radixdlt/connect-button" "^1.0.1"
     "@radixdlt/wallet-sdk" "1.0.1"
     immer "^10.0.2"
     lodash.isequal "^4.5.0"

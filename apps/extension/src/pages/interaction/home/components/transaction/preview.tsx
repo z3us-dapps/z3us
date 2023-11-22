@@ -12,7 +12,7 @@ import { AccountSnippet } from 'ui/src/components/snippet/account'
 import { ResourceSnippet } from 'ui/src/components/snippet/resource'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
+import { RedGreenText, Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -210,7 +210,8 @@ interface IProps {
 	intent: Intent
 	settings: TransactionSettings
 	meta: TransactionMeta
-	onChange: (settings: TransactionSettings) => void
+	onSettingsChange: (settings: TransactionSettings) => void
+	onStatusChange?: (status: string) => void
 }
 
 type State = {
@@ -223,7 +224,7 @@ type State = {
 	hasManualSettings: boolean
 }
 
-export const Preview: React.FC<IProps> = ({ intent, settings, meta, onChange }) => {
+export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsChange, onStatusChange }) => {
 	const intl = useIntl()
 	const buildPreview = usePreview()
 
@@ -257,6 +258,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onChange }) 
 				draft.preview = preview
 				draft.flatChanges = aggregateConsecutiveChanges(preview.resource_changes).filter(change => change.amount !== 0)
 			})
+			onStatusChange((preview?.receipt as TransactionReceipt).status)
 		})
 	}, [intent])
 
@@ -271,7 +273,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onChange }) 
 		})
 		const padding = getFeePaddingAmount(receipt, state.walletExecutionCost + settings.padding)
 		const lockAmount = getFeeToLockAmount(receipt, padding, state.walletExecutionCost)
-		onChange({
+		onSettingsChange({
 			...settings,
 			padding,
 			lockAmount,
@@ -294,7 +296,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onChange }) 
 			setState(draft => {
 				draft.hasManualSettings = newSettings.padding !== 0
 			})
-			onChange({ ...newSettings, lockAmount })
+			onSettingsChange({ ...newSettings, lockAmount })
 		})
 	}
 
@@ -319,11 +321,16 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onChange }) 
 
 	return (
 		<Box className={styles.transactionPreviewWrapper}>
-			{receipt?.error_message && (
+			{receipt?.status !== 'Succeeded' && (
 				<Box className={styles.transactionPreviewBlockWrapper}>
-					<Box className={clsx(styles.transactionPreviewBlock, styles.transactionPreviewBlockError)}>
-						<ValidationErrorMessage align="center" message={receipt?.error_message} />
-					</Box>
+					<RedGreenText change={-1} color="strong" size="xsmall" weight="strong" align="center">
+						{receipt?.status}
+					</RedGreenText>
+					{receipt?.error_message && (
+						<Box className={clsx(styles.transactionPreviewBlock, styles.transactionPreviewBlockError)}>
+							<ValidationErrorMessage align="center" message={receipt?.error_message} />
+						</Box>
+					)}
 				</Box>
 			)}
 
