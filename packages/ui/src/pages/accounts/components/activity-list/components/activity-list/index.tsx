@@ -7,11 +7,13 @@ import { useLocation, useSearchParams } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Link } from 'ui/src/components/router-link'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
+import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { TransactionStatusIcon } from 'ui/src/components/transaction-status-icon'
 import { Text } from 'ui/src/components/typography'
 import { animatePageVariants } from 'ui/src/constants/page'
@@ -149,7 +151,28 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 								<Text size="xsmall">{roundToDecimalPlaces(transaction.fee_paid, 3)} XRD</Text>
 							</Box>
 							<Box className={styles.activityItemTextEventsWrapper}>
-								<Text size="xsmall">{transaction.transaction_status}</Text>
+								<Box display="flex" className={styles.activityItemBalanceChangeWrapper}>
+									<TransactionIcon
+										size={{ mobile: 'large', tablet: 'large' }}
+										address="resource_rdx1t52pvtk5wfhltchwh3rkzls2x0r98fw9cjhpyrf3vsykhkuwrf7jg8"
+										transactionType="deposit"
+									/>
+									<TransactionIcon
+										size={{ mobile: 'large', tablet: 'large' }}
+										address="resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
+										transactionType="withdraw"
+									/>
+									<TransactionIcon
+										size={{ mobile: 'large', tablet: 'large' }}
+										address="resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
+										transactionType="withdraw"
+									/>
+								</Box>
+								<Box paddingLeft="small">
+									<Text size="xxsmall" weight="medium">
+										+ 7
+									</Text>
+								</Box>
 							</Box>
 						</Link>
 					</Box>

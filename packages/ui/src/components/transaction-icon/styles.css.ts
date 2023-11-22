@@ -5,15 +5,9 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 export const transactionIconWrapper = style([
 	sprinkles({
 		position: 'relative',
-		borderRadius: 'full',
-		borderWidth: 'xsmall',
-		borderStyle: 'solid',
 		flexShrink: 0,
 	}),
-	{
-		width: '38px',
-		height: '38px',
-	},
+	{},
 ])
 
 export const transactionIconMediumWrapper = style([
@@ -79,7 +73,6 @@ export const transactionTypeWrapper = style([
 	sprinkles({
 		position: 'absolute',
 		borderRadius: 'full',
-		color: 'colorNeutral',
 		background: 'backgroundPrimary',
 		display: 'flex',
 		alignItems: 'center',
@@ -87,6 +80,7 @@ export const transactionTypeWrapper = style([
 		borderStyle: 'solid',
 		borderWidth: 'xxsmall',
 		borderColor: 'backgroundSecondary',
+		zIndex: 1,
 	}),
 	{
 		width: '20px',
@@ -96,7 +90,21 @@ export const transactionTypeWrapper = style([
 	},
 ])
 
+export const transactionTypeGreen = style([
+	sprinkles({
+		color: 'green400',
+	}),
+	{},
+])
+
+export const transactionTypeRed = style([
+	sprinkles({
+		color: 'red400',
+	}),
+	{},
+])
+
 globalStyle(`${transactionTypeWrapper} svg`, {
-	width: '12px',
-	height: '12px',
+	width: '16px',
+	height: '16px',
 })
