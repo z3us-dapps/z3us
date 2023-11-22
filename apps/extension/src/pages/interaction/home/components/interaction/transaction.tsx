@@ -57,6 +57,7 @@ type State = {
 	notary?: PrivateKey
 	isDappApproved?: boolean
 	error?: string
+	previewStatus: string
 }
 
 export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
@@ -85,6 +86,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 			tokenGuaranteesCount: 0,
 			nftGuaranteesCount: 0,
 		},
+		previewStatus: '',
 	})
 
 	useEffect(() => {
@@ -170,6 +172,12 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 		})
 	}
 
+	const handlePreviewStatusChange = (status: string) => {
+		setState(draft => {
+			draft.previewStatus = status
+		})
+	}
+
 	if (interaction.items.discriminator !== 'transaction') return null
 
 	return (
@@ -189,6 +197,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 							meta={state.meta}
 							onManifestChange={handleManifestChange}
 							onSettingsChange={handleSettingsChange}
+							onPreviewStatusChange={handlePreviewStatusChange}
 						/>
 					)}
 				</Box>
@@ -199,7 +208,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					styleVariant="primary"
 					sizeVariant="xlarge"
 					fullWidth
-					disabled={!state?.intent || state.isDappApproved === false}
+					disabled={!state?.intent || state.isDappApproved === false || state.previewStatus !== 'Succeeded'}
 				>
 					{intl.formatMessage(messages.submit)}
 				</Button>
