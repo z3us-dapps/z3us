@@ -12,6 +12,7 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
+import { TransactionStatusIcon } from 'ui/src/components/transaction-status-icon'
 import { Text } from 'ui/src/components/typography'
 import { animatePageVariants } from 'ui/src/constants/page'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -25,6 +26,25 @@ import * as styles from './styles.css'
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
 
 const ItemContainer = props => <Box {...props} className={styles.activityItem} />
+
+// TODO: handle in way that uses number formats in settings
+
+const roundToDecimalPlaces = (number, decimalPlaces = 2) => {
+	const numericNumber = typeof number === 'string' ? parseFloat(number) : number
+
+	if (typeof numericNumber !== 'number' || typeof decimalPlaces !== 'number') {
+		throw new Error('Both arguments must be numbers')
+	}
+
+	if (decimalPlaces < 0) {
+		throw new Error('Decimal places must be a non-negative integer')
+	}
+
+	const multiplier = 10 ** decimalPlaces
+	const roundedNumber = Math.round(numericNumber * multiplier) / multiplier
+
+	return Number(roundedNumber.toFixed(decimalPlaces))
+}
 
 const SkeletonRow = ({ index }: { index: number }) => (
 	<motion.div
@@ -111,6 +131,9 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 							onMouseOver={handleMouseOver}
 							onMouseLeave={handleMouseLeave}
 						>
+							<Box className={styles.activityItemStatusWrapper}>
+								<TransactionStatusIcon statusType={transaction.transaction_status} size="small" />
+							</Box>
 							<Box className={styles.activityItemTextWrapper}>
 								<Text weight="stronger" size="small" color="strong" truncate>
 									{getShortAddress(transaction.intent_hash)}
@@ -119,12 +142,13 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 									<TimeFromNow date={transaction.confirmed_at} />
 								</Text>
 							</Box>
-							<Box className={styles.activityItemTextWrapper}>
+							<Box className={styles.activityItemTextPriceWrapper}>
 								<Text size="xsmall">
 									<TokenPrice amount={transaction.fee_paid as any} address={knownAddresses?.resourceAddresses.xrd} />
 								</Text>
+								<Text size="xsmall">{roundToDecimalPlaces(transaction.fee_paid, 3)} XRD</Text>
 							</Box>
-							<Box className={styles.activityItemTextWrapper}>
+							<Box className={styles.activityItemTextEventsWrapper}>
 								<Text size="xsmall">{transaction.transaction_status}</Text>
 							</Box>
 						</Link>

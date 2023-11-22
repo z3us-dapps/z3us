@@ -122,8 +122,7 @@ globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activityIt
 
 export const activityItemInnerBtn = style([
 	sprinkles({
-		display: 'flex',
-		alignItems: 'center',
+		display: 'grid',
 		position: 'relative',
 		paddingTop: 'medium',
 		paddingBottom: 'medium',
@@ -145,6 +144,12 @@ export const activityItemInnerBtn = style([
 			},
 		},
 	},
+	responsiveStyle({
+		mobile: {
+			gap: vars.spacing.small,
+			gridTemplateColumns: '24px 1fr 1fr 1fr',
+		},
+	}),
 ])
 
 export const activityItemTextWrapper = style([
@@ -154,6 +159,36 @@ export const activityItemTextWrapper = style([
 		flexGrow: 1,
 	}),
 	{},
+])
+
+export const activityItemStatusWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	}),
+	{},
+])
+
+export const activityItemTextPriceWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		flexGrow: 1,
+		gap: 'xxsmall',
+	}),
+	{},
+])
+
+export const activityItemTextEventsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		flexGrow: 1,
+	}),
+	{
+		border: '1px solid red',
+	},
 ])
 
 export const activityItemInnerSelected = style([
