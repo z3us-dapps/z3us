@@ -20,8 +20,11 @@ export const InnerThemeProvider: React.FC<PropsWithChildren> = ({ children }) =>
 
 	const ctx = useMemo(
 		(): ThemeState => ({
-			theme: theme as Theme,
-			resolvedTheme: resolvedTheme as Omit<Theme, Theme.SYSTEM>,
+			// TODO: resolve when we have light theme
+			theme: 'dark' as Theme,
+			resolvedTheme: 'dark' as Omit<Theme, Theme.SYSTEM>,
+			// theme: theme as Theme,
+			// resolvedTheme: resolvedTheme as Omit<Theme, Theme.SYSTEM>,
 			setTheme,
 		}),
 		[theme],
