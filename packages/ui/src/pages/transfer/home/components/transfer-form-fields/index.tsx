@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { forwardRef, useContext, useEffect, useRef } from 'react'
+import React, { forwardRef, useContext, useEffect, useMemo, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
@@ -16,6 +16,7 @@ import { useFieldValue } from 'ui/src/components/form/use-field-value'
 import { CirclePlusIcon, TrashIcon, UsersPlusIcon } from 'ui/src/components/icons'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
 import { Text } from 'ui/src/components/typography'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './styles.css'
@@ -107,6 +108,11 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 	const intl = useIntl()
 	const { name: parentName } = useContext(FieldContext)
 	const from = useFieldValue(`${parentName ? `${parentName}.` : ''}${ACCOUNT_KEY}`) || ''
+
+	const { data: balanceData } = useBalances(from)
+	const { fungibleBalances = [] } = balanceData || {}
+
+	const resourceAddresses = useMemo(() => fungibleBalances.map(b => b.address), [balanceData])
 
 	return (
 		<>
@@ -200,7 +206,7 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 									className={styles.transferActionTabsWrapper}
 								>
 									<TabsContent value={TOKENS} className={styles.transferActionTabsContentWrapper}>
-										<TokenAmountSelect fromAccount={from} />
+										<TokenAmountSelect balances={fungibleBalances} resourceAddresses={resourceAddresses} />
 									</TabsContent>
 									<TabsContent value={NFTS} className={styles.transferActionTabsContentWrapper}>
 										<NftSelect fromAccount={from} />

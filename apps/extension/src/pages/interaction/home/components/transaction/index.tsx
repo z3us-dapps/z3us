@@ -31,9 +31,17 @@ interface IProps {
 	meta: TransactionMeta
 	onManifestChange?: (manifest: string) => void
 	onSettingsChange: (settings: TransactionSettings) => void
+	onPreviewStatusChange?: (status: string) => void
 }
 
-export const Transaction: React.FC<IProps> = ({ intent, settings, meta, onManifestChange, onSettingsChange }) => {
+export const Transaction: React.FC<IProps> = ({
+	intent,
+	settings,
+	meta,
+	onManifestChange,
+	onSettingsChange,
+	onPreviewStatusChange,
+}) => {
 	const intl = useIntl()
 
 	return (
@@ -47,7 +55,13 @@ export const Transaction: React.FC<IProps> = ({ intent, settings, meta, onManife
 				className={styles.transactionManifestTabsWrapper}
 			>
 				<TabsContent value={PREVIEW} className={styles.transactionManifestTabsContentWrapper}>
-					<Preview intent={intent} settings={settings} meta={meta} onChange={onSettingsChange} />
+					<Preview
+						intent={intent}
+						settings={settings}
+						meta={meta}
+						onSettingsChange={onSettingsChange}
+						onStatusChange={onPreviewStatusChange}
+					/>
 				</TabsContent>
 				<TabsContent value={MANIFEST} className={styles.transactionManifestTabsContentWrapper}>
 					<Manifest intent={intent} onChange={onManifestChange} />

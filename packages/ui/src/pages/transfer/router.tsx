@@ -5,6 +5,7 @@ import Layout from './components/layout'
 
 const Home = lazy(() => import('./home'))
 const Raw = lazy(() => import('./raw'))
+const Swap = lazy(() => import('./swap'))
 // const Deploy = lazy(() => import('./deploy'))
 
 const route = {
@@ -30,6 +31,13 @@ const route = {
 			element: <Raw />,
 			handle: {
 				title: <FormattedMessage id="3Rx6Qo" defaultMessage="Advanced" />,
+			},
+		},
+		{
+			path: 'swap',
+			element: <Swap />,
+			handle: {
+				title: <FormattedMessage id="s8BnAC" defaultMessage="Swap" />,
 			},
 		},
 	],

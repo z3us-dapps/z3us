@@ -5,7 +5,8 @@ import { Button } from 'ui/src/components/button'
 import { ChevronDown2Icon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
+import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
+import { findMetadataValue } from 'ui/src/services/metadata'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 import { type ITokenSelectorDialogProps, TokenSelectorDialog } from './components/token-selector-dialog'
@@ -18,9 +19,14 @@ interface IAdapterProps extends Omit<ITokenSelectorDialogProps, 'onTokenUpdate' 
 }
 
 export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props, ref) => {
-	const { value, onChange, balances, hasError, ...rest } = props
+	const { value, onChange, resourceAddresses, hasError, ...rest } = props
 
-	const selectedToken = balances.find(b => b.address === value) as ResourceBalance[ResourceBalanceType.FUNGIBLE]
+	const selected = resourceAddresses.find(address => address === value)
+
+	const { data } = useEntityMetadata(selected)
+
+	const name = findMetadataValue('name', data)
+	const symbol = findMetadataValue('symbol', data)
 
 	return (
 		<TokenSelectorDialog
@@ -42,12 +48,12 @@ export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props
 				>
 					<Box display="flex" alignItems="center" width="full" textAlign="left">
 						<Text size="medium" color="strong" truncate>
-							{selectedToken?.symbol || selectedToken?.name}
+							{symbol || name}
 						</Text>
 					</Box>
 				</Button>
 			}
-			balances={balances}
+			resourceAddresses={resourceAddresses}
 		/>
 	)
 })
