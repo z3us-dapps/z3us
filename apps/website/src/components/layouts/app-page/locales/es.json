@@ -386,5 +386,6 @@
     "MoWYiJ": "El impacto en el precio es la influencia de la operación individual de un usuario en el precio de mercado de una pareja de activos subyacentes. Se correlaciona directamente con la cantidad de liquidez en la piscina. El impacto en el precio puede ser especialmente alto para mercados/pares ilíquidos, y puede hacer que un operador pierda una parte significativa de sus fondos.",
     "OS5a2i": "Tarifa de la piscina",
     "WBB92z": "Impacto en el precio",
-    "s8BnAC": "Intercambio"
+    "s8BnAC": "Intercambio",
+    "PyXtpD": "Tarifa de billetera"
 }
