@@ -57,7 +57,7 @@ jobs:
       - name: Deploy
         run: |-
           cd apps/website
-          deploy
+          yarn deploy
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3
         with:
