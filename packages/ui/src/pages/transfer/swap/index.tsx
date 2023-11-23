@@ -159,7 +159,7 @@ export const Swap: React.FC = () => {
 			setValidation(result.error)
 			return
 		}
-		const component = 'component_rdx1czdm00vzh3ac0sh9n3acfr0rr48q0882fc5pkapcdk8e3jzd03nysq'
+
 		const transactionManifest = `
 	CALL_METHOD
 		Address("${values.account}")
@@ -171,11 +171,15 @@ export const Swap: React.FC = () => {
 		Address("${values.from[0].address}")
 		Bucket("bucket1")
 	;
-	CALL_METHOD
-		Address("${component}")
-		"swap"
-		Bucket("bucket1")
-	;
+	${preview.swaps.map(
+		s => `
+		CALL_METHOD
+			Address("${s.pool_address}")
+			"swap"
+			Bucket("bucket1")
+		;
+	`,
+	)}
 	CALL_METHOD
 		Address("${values.from[0].address}")
 		"deposit_batch"
