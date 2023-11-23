@@ -33,13 +33,9 @@ export const IndexPage: React.FC = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			if (!isDappVisible) {
-				// eslint-disable-next-line no-console
-				console.log('TESTING  11')
 				document.documentElement.classList.add(darkThemeClass)
 				document.documentElement.classList.add('dark')
 			} else if (resolvedTheme === 'light') {
-				// eslint-disable-next-line no-console
-				console.log('TESTING  22')
 				document.documentElement.classList.remove('dark')
 				document.documentElement.classList.add(lightThemeClass)
 				document.documentElement.classList.remove(darkThemeClass)
