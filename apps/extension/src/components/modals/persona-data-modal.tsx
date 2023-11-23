@@ -141,7 +141,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 		}
 
 		return z.object(schema)
-	}, [])
+	}, [request])
 
 	const handleSubmit = async values => {
 		const response: PersonaDataRequestResponseItem = {}
