@@ -47,7 +47,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 	const poolName = findMetadataValue('name', poolData?.metadata?.items)
 
 	const a = amount
-		? intl.formatNumber(amount, {
+		? intl.formatNumber(Number.parseFloat(amount), {
 				style: 'decimal',
 				maximumFractionDigits: 18,
 		  })

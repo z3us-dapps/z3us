@@ -33,14 +33,11 @@ const messages = defineMessages({
 	},
 })
 
-function fullWideNumber(x: number) {
-	return x.toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: 18 })
-}
-
-function countDecimals(value: number) {
+function countDecimals(value: string) {
 	if (!value) return 0
-	if (value % 1 === 0) return 0
-	return fullWideNumber(value).split('.')[1].length
+	const parts = value.split('.')
+	if (parts.length < 2) return 0
+	return value.split('.')[1].length
 }
 
 interface IProps extends Omit<WrapperProps, 'name'> {
@@ -72,11 +69,11 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	)
 
 	const handleMaxValue = () => {
-		onFieldChange(`${parentName}${parentName ? '.' : ''}${amountKey}`, fullWideNumber(selectedTokenAmount))
+		onFieldChange(`${parentName}${parentName ? '.' : ''}${amountKey}`, selectedTokenAmount)
 	}
 
 	const validateDivisibility = (v: string) => {
-		if (countDecimals(+v) > details?.divisibility) {
+		if (countDecimals(v) > details?.divisibility) {
 			return intl.formatMessage(messages.divisibility, { divisibility: details?.divisibility })
 		}
 		return ''

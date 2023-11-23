@@ -23,7 +23,7 @@ export const NFTCollectionNameCell: React.FC<IProps> = props => {
 	} = props
 	const { symbol, name, amount } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 	const a = amount
-		? intl.formatNumber(amount, {
+		? intl.formatNumber(Number.parseFloat(amount), {
 				style: 'decimal',
 				maximumFractionDigits: 18,
 		  })

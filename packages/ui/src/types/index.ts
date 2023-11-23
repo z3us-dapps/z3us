@@ -15,7 +15,7 @@ export type ResourceBalance = {
 		address: string
 		name: string
 
-		amount: number
+		amount: string
 		value: number
 		xrdValue: number
 		change: number
@@ -33,7 +33,7 @@ export type ResourceBalance = {
 		vaults: string[]
 		name: string
 
-		amount: number
+		amount: string
 		value: number
 		xrdValue: number
 		change: number
