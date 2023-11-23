@@ -33,14 +33,14 @@ export const IndexPage: React.FC = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			if (!isDappVisible) {
-				document.documentElement.classList.add('dark')
 				document.documentElement.classList.add(darkThemeClass)
+				document.documentElement.classList.add('dark')
 			} else if (resolvedTheme === 'light') {
 				document.documentElement.classList.remove('dark')
 				document.documentElement.classList.add(lightThemeClass)
 				document.documentElement.classList.remove(darkThemeClass)
 			}
-		}, 0)
+		}, 50)
 	}, [isDappVisible])
 
 	if (isDappVisible) {
