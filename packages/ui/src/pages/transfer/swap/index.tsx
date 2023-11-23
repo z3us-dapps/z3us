@@ -13,6 +13,7 @@ import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { FEE_RATIO } from 'ui/src/constants/swap'
 import { useSwapPreview } from 'ui/src/hooks/queries/oci'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
 import type { SwapPreview } from 'ui/src/services/oci'
@@ -20,6 +21,10 @@ import type { SwapPreview } from 'ui/src/services/oci'
 import SwapFormFields from './components/swap-form-fields'
 
 const messages = defineMessages({
+	fee_wallet: {
+		id: 'PyXtpD',
+		defaultMessage: 'Wallet fee',
+	},
 	fee_lp: {
 		id: 'OS5a2i',
 		defaultMessage: 'Pool fee',
@@ -77,15 +82,20 @@ type SwapSettings = {
 	to: string
 	side: 'send' | 'receive'
 	amount: number
+	fee: number
 }
 
 function getSwapSettingsFromFormValues(old: typeof init, values: typeof init): SwapSettings {
 	const side = old.to[0].amount !== values.to[0].amount ? 'receive' : 'send'
+	const amount = side === 'send' ? values.from[0].amount : values.to[0].amount
+	const fee = amount * FEE_RATIO
+
 	return {
 		from: values.from[0].address,
 		to: values.to[0].address,
 		side,
-		amount: side === 'send' ? values.from[0].amount : values.to[0].amount,
+		amount: amount + fee,
+		fee,
 	}
 }
 
@@ -168,7 +178,7 @@ export const Swap: React.FC = () => {
 				Address("${values.account}")
 				"withdraw"
 				Address("${s[`${fromKey}_address`]}")
-				Decimal("${s[`${fromKey}_amount`].token}")
+				Decimal("${Number.parseFloat(s[`${fromKey}_amount`].token) * (1 + FEE_RATIO)}")
 			;
 			TAKE_ALL_FROM_WORKTOP
 				Address("${s[`${fromKey}_address`]}")
@@ -227,6 +237,18 @@ export const Swap: React.FC = () => {
 										</Text>
 									</Box>
 								</ToolTip>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
+							rightData={
+								<Text size="small" color="strong">
+									{intl.formatNumber(swap.fee, {
+										style: 'decimal',
+										maximumFractionDigits: 18,
+									})}{' '}
+									{symbol}
+								</Text>
 							}
 						/>
 						<AccountsTransactionInfo
