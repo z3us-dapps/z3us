@@ -1,7 +1,7 @@
 [
     "*://*.localhost/*",
     "*://*.127.0.0.1/*",
-	"*://*.radixdlt.com/*",
+    "*://*.radixdlt.com/*",
     "*://*.z3us.com/*",
     "*://*.ociswap.com/*",
     "*://*.dsor.io/*",
