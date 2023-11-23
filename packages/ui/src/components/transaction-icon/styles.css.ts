@@ -6,8 +6,11 @@ export const transactionIconWrapper = style([
 	sprinkles({
 		position: 'relative',
 		flexShrink: 0,
+		flexGrow: 0,
 	}),
-	{},
+	{
+		width: 'fit-content',
+	},
 ])
 
 export const transactionIconMediumWrapper = style([

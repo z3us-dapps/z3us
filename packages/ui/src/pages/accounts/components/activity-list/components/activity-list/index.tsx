@@ -7,7 +7,6 @@ import { useLocation, useSearchParams } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
-import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Link } from 'ui/src/components/router-link'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'

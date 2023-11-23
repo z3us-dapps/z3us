@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
@@ -11,8 +11,10 @@ import { Button } from 'ui/src/components/router-button'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { TransactionManifest } from 'ui/src/components/transaction-manifest'
-import { Text } from 'ui/src/components/typography'
+import { TransactionStatusIcon } from 'ui/src/components/transaction-status-icon'
+import { RedGreenText, Text } from 'ui/src/components/typography'
 import Code from 'ui/src/components/typography/code'
 import { config } from 'ui/src/constants/config'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -60,6 +62,14 @@ const messages = defineMessages({
 		id: 'anjq2Q',
 		defaultMessage: 'Affected global entities',
 	},
+	affected_global_entities_show_all: {
+		id: 'JMac37',
+		defaultMessage: 'Show all',
+	},
+	affected_global_entities_show_less: {
+		id: 'qyJtWy',
+		defaultMessage: 'Show less',
+	},
 	message: {
 		id: 'T7Ry38',
 		defaultMessage: 'Message',
@@ -67,6 +77,10 @@ const messages = defineMessages({
 	manifest: {
 		id: 'c+Uxfa',
 		defaultMessage: 'Transaction manifest',
+	},
+	balance_changes: {
+		id: 'XJND8b',
+		defaultMessage: 'Balance changes',
 	},
 	message_title: {
 		id: 'V9XAYn',
@@ -88,6 +102,7 @@ export const Transaction = () => {
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
 	const { data: knownAddresses } = useKnownAddresses()
+	const [showAllEntities, setShowAllEntities] = useState<boolean>(false)
 
 	const transactionId = searchParams.get('tx')
 	const isTransactionVisible = !!transactionId
@@ -99,6 +114,10 @@ export const Transaction = () => {
 	const navigateBack = () => {
 		searchParams.delete('tx')
 		navigate(`${location.pathname}?${searchParams}`)
+	}
+
+	const handleClickViewAllEntities = () => {
+		setShowAllEntities(!showAllEntities)
 	}
 
 	return (
@@ -179,7 +198,12 @@ export const Transaction = () => {
 							/>
 							<AccountsTransactionInfo
 								leftTitle={intl.formatMessage(messages.status)}
-								rightData={<Text size="xsmall">{data?.transaction.transaction_status}</Text>}
+								rightData={
+									<Box display="flex" alignItems="flex-end" gap="small">
+										<Text size="xsmall">{data?.transaction.transaction_status}</Text>
+										<TransactionStatusIcon statusType={data?.transaction.transaction_status} size="small" />
+									</Box>
+								}
 							/>
 							<AccountsTransactionInfo
 								leftTitle={intl.formatMessage(messages.version)}
@@ -203,16 +227,99 @@ export const Transaction = () => {
 								}
 							/>
 						</Box>
+
+						<Box className={styles.balanceChangeWrapper}>
+							<Box className={styles.balanceChangeLabelWrapper}>
+								<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.balance_changes)} rightData={null} />
+							</Box>
+							<Box className={styles.balanceChangeItemsFlexWrapper}>
+								{/* TODO: iterate here */}
+								<Box className={styles.balanceChangeItem}>
+									<Box className={styles.balanceChangeItemHeader}>
+										<ToolTip message={data?.transaction.intent_hash}>
+											<Box>
+												<Text size="xsmall">{getShortAddress(data?.transaction.intent_hash, 8)}</Text>
+											</Box>
+										</ToolTip>
+										<CopyAddressButton
+											styleVariant="ghost"
+											address={data?.transaction.intent_hash}
+											sizeVariant="xsmall"
+											iconOnly
+											rounded={false}
+											tickColor="colorStrong"
+										/>
+									</Box>
+									<Box className={styles.balanceChangeItemContent}>
+										<Box className={styles.balanceChangeItemContentRow}>
+											<Box display="flex" alignItems="center" gap="medium" width="full">
+												<TransactionIcon
+													size={{ mobile: 'large', tablet: 'large' }}
+													address="resource_rdx1t52pvtk5wfhltchwh3rkzls2x0r98fw9cjhpyrf3vsykhkuwrf7jg8"
+													transactionType="deposit"
+												/>
+												<Box flexGrow={1}>
+													<Text size="xsmall" truncate>
+														Ociswap (ociswap) Ociswap (ociswap) Ociswap (ociswap)
+													</Text>
+												</Box>
+												<Box display="flex" flexDirection="column" gap="xxsmall" flexShrink={0}>
+													<RedGreenText change={1} size="xxsmall" align="right">
+														0.1234432 XRD
+													</RedGreenText>
+												</Box>
+											</Box>
+										</Box>
+										<Box className={styles.balanceChangeItemContentRow}>
+											<Box display="flex" alignItems="center" gap="medium" width="full">
+												<TransactionIcon
+													size={{ mobile: 'large', tablet: 'large' }}
+													address="resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
+													// transactionType="withdraw"
+												/>
+												<Box flexGrow={1}>
+													<Text size="xsmall" truncate>
+														Ociswap (ociswap) Ociswap (ociswap) Ociswap (ociswap)
+													</Text>
+												</Box>
+												<Box display="flex" flexDirection="column" gap="xxsmall" flexShrink={0}>
+													<RedGreenText change={-1} size="xxsmall" align="right">
+														0.1234432 XRD
+													</RedGreenText>
+													<Text size="xxsmall" align="right">
+														Transaction fee
+													</Text>
+												</Box>
+											</Box>
+										</Box>
+									</Box>
+								</Box>
+								{/* TODO: end iterate here */}
+							</Box>
+						</Box>
+
 						<Box className={styles.transactionDetailsGapWrapper}>
-							<AccountsTransactionInfo
-								leftTitle={intl.formatMessage(messages.affected_global_entities)}
-								rightData={
-									<Box display="flex" flexDirection="column" gap="xsmall">
-										{[data?.transaction.affected_global_entities?.[0]]?.map(entity => (
-											<Box key={entity} display="flex" alignItems="flex-end" gap="small" justifyContent="flex-end">
+							<Box paddingY="xsmall">
+								<AccountsTransactionInfo
+									leftTitle={intl.formatMessage(messages.affected_global_entities)}
+									rightData={
+										data?.transaction.affected_global_entities.length > 3 ? (
+											<Button sizeVariant="xsmall" styleVariant="secondary" onClick={handleClickViewAllEntities}>
+												{showAllEntities
+													? intl.formatMessage(messages.affected_global_entities_show_less)
+													: intl.formatMessage(messages.affected_global_entities_show_all)}
+											</Button>
+										) : null
+									}
+								/>
+								<Box display="flex" flexDirection="column" gap="xsmall" paddingTop="small" width="full">
+									{data?.transaction.affected_global_entities
+										?.slice(0, showAllEntities ? data?.transaction.affected_global_entities.length : 3)
+										?.map(entity => (
+											<Box key={entity} display="flex" alignItems="flex-end" gap="small" justifyContent="flex-start">
 												<ToolTip message={entity}>
 													<Box>
-														<Text size="xsmall">{getShortAddress(entity, 8)}</Text>
+														<Text size="xsmall">{getShortAddress(entity, 12)}</Text>
 													</Box>
 												</ToolTip>
 												<Box className={styles.transactionInfoCopyBtnWrapper}>
@@ -227,29 +334,7 @@ export const Transaction = () => {
 												</Box>
 											</Box>
 										))}
-									</Box>
-								}
-							/>
-							<Box className={styles.transactionExtraRowsWrapper}>
-								{data?.transaction.affected_global_entities?.slice(1)?.map(entity => (
-									<Box key={entity} display="flex" alignItems="flex-end" gap="small" justifyContent="flex-end">
-										<ToolTip message={entity}>
-											<Box>
-												<Text size="xsmall">{getShortAddress(entity, 8)}</Text>
-											</Box>
-										</ToolTip>
-										<Box className={styles.transactionInfoCopyBtnWrapper}>
-											<CopyAddressButton
-												styleVariant="ghost"
-												sizeVariant="xsmall"
-												address={entity}
-												iconOnly
-												rounded={false}
-												tickColor="colorStrong"
-											/>
-										</Box>
-									</Box>
-								))}
+								</Box>
 							</Box>
 
 							{message && (
