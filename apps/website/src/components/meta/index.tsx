@@ -19,7 +19,7 @@ export const Meta = (props: IProps) => {
 		slug,
 		noIndex,
 		children,
-		ogImage = `${SITE}/favicon/og-image-1200px-630px-min.jpg`,
+		ogImage = `${SITE}favicon/og-image-1200px-630px-min.jpg`,
 	} = props
 
 	return (
