@@ -53,7 +53,7 @@ const CustomizeFeeForm: React.FC<IProps> = ({ settings, onSubmit }) => {
 			z.object({
 				feePayer: z.undefined().or(z.string()),
 				tipPercentage: z.number().int().min(0).max(100),
-				padding: z.number().positive(),
+				padding: z.number().min(0),
 			}),
 		[],
 	)

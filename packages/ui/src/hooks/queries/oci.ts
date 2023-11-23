@@ -1,8 +1,20 @@
 import { useQuery } from '@tanstack/react-query'
 
-import type { Token, UdfHistory } from 'ui/src/services/oci'
+import type { SwapPreview, Token, UdfHistory } from 'ui/src/services/oci'
 import oci from 'ui/src/services/oci'
 import { TimeFrames } from 'ui/src/types'
+
+export const useSwapPreview = (from: string, to: string, side: 'send' | 'receive', amount: number) =>
+	useQuery(
+		['oci', 'useSwapPreview', from, to, side, amount],
+		async (): Promise<SwapPreview> => oci.previewSwap(from, to, side, amount),
+		{
+			enabled: !!from && !!to && amount > 0,
+			staleTime: 30 * 1000,
+			refetchInterval: 30 * 1000,
+			retry: false,
+		},
+	)
 
 export const useToken = (address: string) =>
 	useQuery(

@@ -17,7 +17,7 @@ export const NumberInputAdapter = forwardRef<HTMLInputElement, IAdapterProps>((p
 			return
 		}
 
-		onChange(+event.target.value)
+		onChange(event.target.value === '' ? undefined : +event.target.value)
 	}
 
 	return (

@@ -1,13 +1,13 @@
 import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
-import React, { forwardRef, useContext } from 'react'
+import React, { forwardRef, useContext, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { Text } from 'ui/src/components/typography'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
+import type { ResourceBalanceKind } from 'ui/src/types'
 
 import { FormContext } from '../../context'
 import { type IProps as WrapperProps } from '../../field-wrapper'
@@ -17,12 +17,6 @@ import NumberField from '../number-field'
 import { TokenSelect } from '../token-select'
 import { CurrencySelect } from './components/currency-selector'
 import * as styles from './styles.css'
-
-interface IProps extends Omit<WrapperProps, 'name'> {
-	fromAccount?: string
-	amountKey?: string
-	resourceKey?: string
-}
 
 const messages = defineMessages({
 	amount_placeholder: {
@@ -49,24 +43,36 @@ function countDecimals(value: number) {
 	return fullWideNumber(value).split('.')[1].length
 }
 
+interface IProps extends Omit<WrapperProps, 'name'> {
+	balances: ResourceBalanceKind[]
+	resourceAddresses: string[]
+	amountKey?: string
+	resourceKey?: string
+}
+
 export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, ref) => {
 	const intl = useIntl()
-	const { fromAccount, amountKey = 'amount', resourceKey = 'address', ...rest } = props
+	const { resourceAddresses, balances, amountKey = 'amount', resourceKey = 'address', ...rest } = props
 	const { onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 
-	const { data: balanceData, isLoading } = useBalances(fromAccount)
-	const { fungibleBalances = [] } = balanceData || {}
 	const amount = useFieldValue(`${parentName}${parentName ? '.' : ''}${amountKey}`)
 	const resource = useFieldValue(`${parentName}${parentName ? '.' : ''}${resourceKey}`)
 
 	const { data } = useEntityDetails(resource)
 	const details = data?.details as StateEntityDetailsResponseFungibleResourceDetails
 
-	const selectedToken = fungibleBalances.find(b => b.address === resource)
+	const selectedToken = useMemo(
+		() => resourceAddresses.find(resourceAddress => resourceAddress === resource),
+		[resourceAddresses, resource],
+	)
+	const selectedTokenAmount = useMemo(
+		() => balances.find(b => b.address === resource)?.amount || 0,
+		[resourceAddresses, resource],
+	)
 
 	const handleMaxValue = () => {
-		onFieldChange(`${parentName}${parentName ? '.' : ''}${amountKey}`, fullWideNumber(selectedToken?.amount || 0))
+		onFieldChange(`${parentName}${parentName ? '.' : ''}${amountKey}`, fullWideNumber(selectedTokenAmount))
 	}
 
 	const validateDivisibility = (v: string) => {
@@ -77,7 +83,7 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	}
 
 	return (
-		<Box disabled={!fromAccount || isLoading} position="relative">
+		<Box disabled={resourceAddresses.length === 0} position="relative">
 			<NumberField
 				{...rest}
 				step={
@@ -93,7 +99,7 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 				sizeVariant="large"
 				validate={validateDivisibility}
 			/>
-			<TokenSelect name={resourceKey} balances={fungibleBalances} />
+			<TokenSelect name={resourceKey} resourceAddresses={resourceAddresses} />
 			<Box
 				display="flex"
 				justifyContent="space-between"
@@ -114,10 +120,10 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 					)}
 				>
 					<Text color="inherit" size="small" truncate>
-						{intl.formatMessage(messages.max_amount, { amount: selectedToken?.amount || 0 })}
+						{intl.formatMessage(messages.max_amount, { amount: selectedTokenAmount })}
 					</Text>
 				</Box>
-				<CurrencySelect selectedToken={selectedToken} amount={amount} />
+				<CurrencySelect resourceAddress={selectedToken} amount={amount} />
 			</Box>
 		</Box>
 	)

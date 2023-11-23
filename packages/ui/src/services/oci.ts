@@ -20,7 +20,49 @@ export type Token = {
 	}
 }
 
-export type TokensResponse = Array<Token>
+export type SwapPreview = {
+	input_address: string
+	input_amount: {
+		token: string
+		xrd: string
+		usd: string
+	}
+	output_address: string
+	output_amount: {
+		token: string
+		xrd: string
+		usd: string
+	}
+	input_fee_lp: {
+		token: string
+		xrd: string
+		usd: string
+	}
+	price_impact: string
+	swaps: [
+		{
+			pool_address: string
+			input_address: string
+			input_amount: {
+				token: string
+				xrd: string
+				usd: string
+			}
+			output_address: string
+			output_amount: {
+				token: string
+				xrd: string
+				usd: string
+			}
+			input_fee_lp: {
+				token: string
+				xrd: string
+				usd: string
+			}
+			price_impact: string
+		},
+	]
+}
 
 export type UdfConfig = {
 	supported_resolutions: string[]
@@ -97,6 +139,22 @@ export class OCIService {
 
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
+			throw new Error(`Invalid request: ${response.status} received`)
+		}
+
+		return response.json()
+	}
+
+	previewSwap = async (from: string, to: string, side: 'send' | 'receive', amount: number): Promise<SwapPreview> => {
+		const path = `${this.baseURL}/preview/swap?input_address=${from}&output_address=${to}&${
+			side === 'send' ? 'input_amount' : 'output_amount'
+		}=${encodeURIComponent(amount)}`
+
+		const response = await fetch(path, this.options)
+		if (response.status !== 200) {
+			const json = await response.json()
+			if (json.error) throw new Error(json.error)
+
 			throw new Error(`Invalid request: ${response.status} received`)
 		}
 

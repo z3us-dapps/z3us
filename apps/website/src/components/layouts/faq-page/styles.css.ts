@@ -60,6 +60,7 @@ export const faqPageBodyWrapper = style([
 	sprinkles({
 		position: 'relative',
 		flexGrow: 1,
+		color: 'white',
 	}),
 	{},
 	responsiveStyle({
@@ -157,6 +158,7 @@ export const faqAccordionHeader = style([
 		position: 'relative',
 		display: 'flex',
 		width: 'full',
+		color: 'white',
 	}),
 	{},
 ])
@@ -174,6 +176,7 @@ export const faqAccordionTrigger = style([
 		paddingY: 'large',
 		paddingRight: 'large',
 		textAlign: 'left',
+		color: 'white',
 	}),
 	{
 		fontWeight: '500',

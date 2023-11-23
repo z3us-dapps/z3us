@@ -22,10 +22,9 @@ import { FAVORITE_CURRENCIES } from 'ui/src/constants/currency'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { CURRENCY } from 'ui/src/store/types'
-import type { ResourceBalanceKind } from 'ui/src/types'
 
 interface IProps {
-	selectedToken: ResourceBalanceKind
+	resourceAddress: string
 	amount: number
 }
 
@@ -44,7 +43,7 @@ const messages = defineMessages({
 	},
 })
 
-export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
+export const CurrencySelect: React.FC<IProps> = ({ resourceAddress, amount }) => {
 	const intl = useIntl()
 	const { data: currencies } = useSupportedCurrencies()
 
@@ -69,9 +68,9 @@ export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 					<SelectValue aria-label={selectedCurrency}>
 						<Text truncate size="small" color="inherit">
 							<Box display="flex">
-								{selectedToken && (
+								{resourceAddress && (
 									<Box component="span">
-										<TokenPrice address={selectedToken.address} amount={amount} currency={currency} />
+										<TokenPrice address={resourceAddress} amount={amount} currency={currency} />
 										&nbsp;
 									</Box>
 								)}
