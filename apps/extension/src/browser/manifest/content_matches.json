@@ -1,10 +1,12 @@
 [
     "*://*.localhost/*",
     "*://*.127.0.0.1/*",
+    "*://*.radixdlt.com/*",
     "*://*.z3us.com/*",
     "*://*.ociswap.com/*",
     "*://*.dsor.io/*",
     "*://*.caviarswap.io/*",
+    "*://*.caviarswap.com/*",
     "*://*.radit.io/*",
     "*://*.radixplanet.com/*",
     "*://*.vikingland.net/*",

@@ -51,8 +51,8 @@ export const LandingPage: React.FC = () => (
 					<Image
 						priority
 						src="/landing-page-2023/bg-right.png"
-						width={710}
-						height={474}
+						width={902}
+						height={559}
 						alt="Z3US angel right"
 						className={styles.landingPageLargeImgFloatRight}
 					/>
