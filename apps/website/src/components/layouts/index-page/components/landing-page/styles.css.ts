@@ -81,9 +81,9 @@ export const landingPageLargeImgFloatRight = style([
 		},
 		desktop: {
 			top: '0px',
-			right: '-160px',
-			width: '710px',
-			height: '474px',
+			right: '-350px',
+			width: '902px',
+			height: '559px',
 		},
 	}),
 ])

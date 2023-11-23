@@ -1,7 +1,9 @@
 import { TextPage } from '@/components/layouts/text-page'
 import { Meta } from '@/components/meta'
 import { allDocs } from 'contentlayer/generated'
-import React from 'react'
+import React, { useEffect } from 'react'
+
+import { darkThemeClass } from 'ui/src/components/system/theme.css'
 
 interface DocPageProps {
 	params: {
@@ -23,6 +25,13 @@ function getDocFromParams({ params }: DocPageProps) {
 // eslint-disable-next-line react/function-component-definition
 export default function TermsPage(props: { doc: any }) {
 	const { doc } = props
+
+	useEffect(() => {
+		setTimeout(() => {
+			document.documentElement.classList.add(darkThemeClass)
+			document.documentElement.classList.add('dark')
+		}, 50)
+	}, [])
 
 	return (
 		<>

@@ -1,9 +1,18 @@
 import { FaqPage } from '@/components/layouts/faq-page'
 import { Meta } from '@/components/meta'
-import React from 'react'
+import React, { useEffect } from 'react'
+
+import { darkThemeClass } from 'ui/src/components/system/theme.css'
 
 // eslint-disable-next-line react/function-component-definition
 export default function Faq() {
+	useEffect(() => {
+		setTimeout(() => {
+			document.documentElement.classList.add(darkThemeClass)
+			document.documentElement.classList.add('dark')
+		}, 50)
+	}, [])
+
 	return (
 		<>
 			<Meta
