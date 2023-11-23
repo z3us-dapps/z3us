@@ -135,8 +135,8 @@ export const Swap: React.FC = () => {
 
 		return z.object({
 			account: z.string().min(1, intl.formatMessage(messages.validation_account)),
-			from: tokenSchema,
-			to: tokenSchema,
+			from: z.array(tokenSchema).length(1),
+			to: z.array(tokenSchema).length(1),
 		})
 	}, [])
 
@@ -160,31 +160,33 @@ export const Swap: React.FC = () => {
 			return
 		}
 
-		const transactionManifest = `
-	CALL_METHOD
-		Address("${values.account}")
-		"withdraw"
-		Address("${values.from[0].address}")
-		Decimal("${values.from[0].amount}")
-	;
-	TAKE_ALL_FROM_WORKTOP
-		Address("${values.from[0].address}")
-		Bucket("bucket1")
-	;
-	${preview.swaps.map(
-		s => `
-		CALL_METHOD
-			Address("${s.pool_address}")
-			"swap"
-			Bucket("bucket1")
-		;
-	`,
-	)}
-	CALL_METHOD
-		Address("${values.from[0].address}")
-		"deposit_batch"
-		Expression("ENTIRE_WORKTOP")
-	;`
+		const fromKey = swap.side === 'send' ? 'input' : 'output'
+		const transactionManifest = preview.swaps.reduce(
+			(manifest, s) => `
+		${manifest}
+			CALL_METHOD
+				Address("${values.account}")
+				"withdraw"
+				Address("${s[`${fromKey}_address`]}")
+				Decimal("${s[`${fromKey}_amount`].token}")
+			;
+			TAKE_ALL_FROM_WORKTOP
+				Address("${s[`${fromKey}_address`]}")
+				Bucket("bucket1")
+			;
+			CALL_METHOD
+				Address("${s.pool_address}")
+				"swap"
+				Bucket("bucket1")
+			;
+			CALL_METHOD
+				Address("${values.account}")
+				"deposit_batch"
+				Expression("ENTIRE_WORKTOP")
+			;
+		`,
+			'',
+		)
 
 		await sendTransaction({
 			version: 1,
