@@ -13,7 +13,14 @@ interface IProps {
 }
 
 export const Meta = (props: IProps) => {
-	const { title, description, slug, noIndex, children, ogImage = '/favicon/og-image-1200px-630px-min.jpg' } = props
+	const {
+		title,
+		description,
+		slug,
+		noIndex,
+		children,
+		ogImage = `${SITE}/favicon/og-image-1200px-630px-min.jpg`,
+	} = props
 
 	return (
 		<Head>
@@ -35,11 +42,11 @@ export const Meta = (props: IProps) => {
 			<meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, minimum-scale=1" />
 			<meta httpEquiv="X-UA-Compatible" content="IE=EmulateIE9" />
-			<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png" />
-			<link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-icon-192x192.png" />
-			<link rel="icon" type="image/png" sizes="128x128" href="/favicon/favicon-128x128.png" />
-			<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
-			<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+			<link rel="apple-touch-icon" sizes="180x180" href={`${SITE}/favicon/apple-icon-180x180.png`} />
+			<link rel="icon" type="image/png" sizes="192x192" href={`${SITE}/favicon/android-icon-192x192.png`} />
+			<link rel="icon" type="image/png" sizes="128x128" href={`${SITE}/favicon/favicon-128x128.png`} />
+			<link rel="icon" type="image/png" sizes="32x32" href={`${SITE}/favicon//favicon/favicon-32x32.png`} />
+			<link rel="icon" type="image/png" sizes="16x16" href={`${SITE}/favicon//favicon/favicon-16x16.png`} />
 			{noIndex ? <meta name="robots" content="noindex" /> : null}
 			{children}
 		</Head>
