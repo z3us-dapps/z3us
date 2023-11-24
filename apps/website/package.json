@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-		"copy_ext_images": "cp -r ../extension/public/images public",
+		"copy_ext_images": "rm -rf public/images && cp -r ../extension/public/images public",
 		"dev": "concurrently \"yarn copy_ext_images\" \"contentlayer dev\" \"next dev -p 3001\"",
 		"build": "yarn copy_ext_images && contentlayer build && next build",
 		"build:serve": "serve -p 3001 ./out",
