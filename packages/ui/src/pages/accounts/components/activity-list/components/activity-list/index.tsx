@@ -28,25 +28,6 @@ const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref=
 
 const ItemContainer = props => <Box {...props} className={styles.activityItem} />
 
-// TODO: handle in way that uses number formats in settings
-
-const roundToDecimalPlaces = (number, decimalPlaces = 2) => {
-	const numericNumber = typeof number === 'string' ? parseFloat(number) : number
-
-	if (typeof numericNumber !== 'number' || typeof decimalPlaces !== 'number') {
-		throw new Error('Both arguments must be numbers')
-	}
-
-	if (decimalPlaces < 0) {
-		throw new Error('Decimal places must be a non-negative integer')
-	}
-
-	const multiplier = 10 ** decimalPlaces
-	const roundedNumber = Math.round(numericNumber * multiplier) / multiplier
-
-	return Number(roundedNumber.toFixed(decimalPlaces))
-}
-
 const SkeletonRow = ({ index }: { index: number }) => (
 	<motion.div
 		initial="hidden"
@@ -91,8 +72,11 @@ interface IRowProps {
 	setSelected: (_: string) => void
 }
 
+const DEFAULT_BALANCE_CHANGE_ITEMS = 3
+
 const ItemWrapper: React.FC<IRowProps> = props => {
 	const location = useLocation()
+	const intl = useIntl()
 	const [searchParams] = useSearchParams()
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
@@ -100,6 +84,22 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 
 	const isSelected = selected === transaction?.intent_hash
 	const isHovered = hovered === transaction?.intent_hash
+
+	const balanceChanges = useMemo(
+		() => [
+			...(transaction?.balance_changes?.fungible_balance_changes.map(change => ({
+				resource_address: change.resource_address,
+				entity_address: change.entity_address,
+				amount: change.balance_change,
+			})) || []),
+			...(transaction?.balance_changes?.non_fungible_balance_changes.map(change => ({
+				resource_address: change.resource_address,
+				entity_address: change.entity_address,
+				amount: `${change.added.length - change.removed.length}`,
+			})) || []),
+		],
+		[transaction],
+	)
 
 	const handleClick = () => {
 		setSelected(transaction.intent_hash)
@@ -147,32 +147,33 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 								<Text size="xsmall">
 									<TokenPrice amount={transaction.fee_paid as any} address={knownAddresses?.resourceAddresses.xrd} />
 								</Text>
-								<Text size="xsmall">{roundToDecimalPlaces(transaction.fee_paid, 3)} XRD</Text>
+								<Text size="xsmall">{`${intl.formatNumber(Number.parseFloat(transaction.fee_paid) || 0, {
+									style: 'decimal',
+									maximumFractionDigits: 18,
+								})} XRD`}</Text>
 							</Box>
-							<Box className={styles.activityItemTextEventsWrapper}>
-								<Box display="flex" className={styles.activityItemBalanceChangeWrapper}>
-									<TransactionIcon
-										size={{ mobile: 'large', tablet: 'large' }}
-										address="resource_rdx1t52pvtk5wfhltchwh3rkzls2x0r98fw9cjhpyrf3vsykhkuwrf7jg8"
-										transactionType="deposit"
-									/>
-									<TransactionIcon
-										size={{ mobile: 'large', tablet: 'large' }}
-										address="resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
-										transactionType="withdraw"
-									/>
-									<TransactionIcon
-										size={{ mobile: 'large', tablet: 'large' }}
-										address="resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
-										transactionType="withdraw"
-									/>
+							{balanceChanges.length > 0 && (
+								<Box className={styles.activityItemTextEventsWrapper}>
+									<Box display="flex" className={styles.activityItemBalanceChangeWrapper}>
+										{balanceChanges.slice(0, DEFAULT_BALANCE_CHANGE_ITEMS).map(change => (
+											<TransactionIcon
+												key={`${change.entity_address}-${change.resource_address}`}
+												size={{ mobile: 'large', tablet: 'large' }}
+												address={change.resource_address}
+												transactionType={Number.parseFloat(change.amount) > 0 ? 'deposit' : 'withdraw'}
+											/>
+										))}
+									</Box>
+
+									{balanceChanges.length > DEFAULT_BALANCE_CHANGE_ITEMS && (
+										<Box paddingLeft="small">
+											<Text size="xxsmall" weight="medium">
+												+ {balanceChanges.length - DEFAULT_BALANCE_CHANGE_ITEMS}
+											</Text>
+										</Box>
+									)}
 								</Box>
-								<Box paddingLeft="small">
-									<Text size="xxsmall" weight="medium">
-										+ 7
-									</Text>
-								</Box>
-							</Box>
+							)}
 						</Link>
 					</Box>
 				)}

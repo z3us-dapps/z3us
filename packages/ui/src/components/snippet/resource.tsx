@@ -9,6 +9,8 @@ import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { findMetadataValue } from 'ui/src/services/metadata'
 
+import { getShortAddress } from '../../utils/string-utils'
+
 interface IProps {
 	address: string
 	change?: number
@@ -22,7 +24,7 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed })
 	const name = findMetadataValue('name', data?.metadata?.items)
 	const symbol = findMetadataValue('symbol', data?.metadata?.items)
 
-	const displayName = symbol?.toUpperCase() || name
+	const displayName = symbol?.toUpperCase() || name || getShortAddress(address)
 	const c = change
 		? intl.formatNumber(change, {
 				style: 'decimal',

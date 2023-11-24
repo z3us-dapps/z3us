@@ -1,9 +1,22 @@
-import React, { useState } from 'react'
+import type {
+	TransactionFungibleBalanceChanges,
+	TransactionFungibleFeeBalanceChanges,
+	TransactionNonFungibleBalanceChanges,
+} from '@radixdlt/babylon-gateway-api-sdk'
+import {
+	instanceOfTransactionFungibleBalanceChanges,
+	instanceOfTransactionFungibleFeeBalanceChanges,
+	instanceOfTransactionNonFungibleBalanceChanges,
+} from '@radixdlt/babylon-gateway-api-sdk'
+import { useWalletAccounts } from 'packages/ui/src/hooks/use-accounts'
+import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
+import { AccountCardIcon } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ShareIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { SlideOutDialog } from 'ui/src/components/layout/slide-out-dialog'
@@ -16,12 +29,14 @@ import { TransactionManifest } from 'ui/src/components/transaction-manifest'
 import { TransactionStatusIcon } from 'ui/src/components/transaction-status-icon'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import Code from 'ui/src/components/typography/code'
+import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { config } from 'ui/src/constants/config'
+import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
+import { findMetadataValue } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import { ValidationErrorMessage } from '../../validation-error-message'
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
 import * as styles from './styles.css'
 
@@ -62,11 +77,11 @@ const messages = defineMessages({
 		id: 'anjq2Q',
 		defaultMessage: 'Affected global entities',
 	},
-	affected_global_entities_show_all: {
+	show_all: {
 		id: 'JMac37',
 		defaultMessage: 'Show all',
 	},
-	affected_global_entities_show_less: {
+	show_less: {
 		id: 'qyJtWy',
 		defaultMessage: 'Show less',
 	},
@@ -96,20 +111,145 @@ const messages = defineMessages({
 	},
 })
 
+function groupBalanceChanges(
+	changes: Array<
+		TransactionFungibleFeeBalanceChanges | TransactionFungibleBalanceChanges | TransactionNonFungibleBalanceChanges
+	>,
+) {
+	return changes.reduce((rv, change) => {
+		rv[change.entity_address] = rv[change.entity_address] || []
+		switch (true) {
+			case instanceOfTransactionFungibleFeeBalanceChanges(change):
+				rv[change.entity_address].push({
+					resource_address: change.resource_address,
+					entity_address: change.entity_address,
+					amount: (change as TransactionFungibleFeeBalanceChanges).balance_change,
+					type: (change as TransactionFungibleFeeBalanceChanges).type,
+					isFee: true,
+				})
+				break
+			case instanceOfTransactionFungibleBalanceChanges(change):
+				rv[change.entity_address].push({
+					resource_address: change.resource_address,
+					entity_address: change.entity_address,
+					amount: (change as TransactionFungibleBalanceChanges).balance_change,
+					isFee: false,
+				})
+				break
+			case instanceOfTransactionNonFungibleBalanceChanges(change):
+				rv[change.entity_address].push({
+					resource_address: change.resource_address,
+					entity_address: change.entity_address,
+					amount: `${
+						(change as TransactionNonFungibleBalanceChanges).added.length -
+						(change as TransactionNonFungibleBalanceChanges).removed.length
+					}`,
+					isFee: false,
+				})
+				break
+			default:
+				break
+		}
+		return rv
+	}, {})
+}
+
+const BalanceChange = ({ change }) => {
+	const intl = useIntl()
+	const { data, isLoading } = useEntityDetails(change.resource_address)
+
+	const name = findMetadataValue('name', data?.metadata?.items)
+	const symbol = findMetadataValue('symbol', data?.metadata?.items)
+	const displayName = symbol?.toUpperCase() || name || getShortAddress(change.resource_address)
+
+	if (isLoading) return <FallbackLoading />
+
+	return (
+		<Box className={styles.balanceChangeItemContentRow}>
+			<Box display="flex" alignItems="center" gap="medium" width="full">
+				<TransactionIcon
+					size={{ mobile: 'large', tablet: 'large' }}
+					address={change.resource_address}
+					transactionType={Number.parseFloat(change.amount) > 0 ? 'deposit' : 'withdraw'}
+				/>
+				<Box flexGrow={1}>
+					<Text size="xsmall" truncate>
+						{displayName}
+					</Text>
+				</Box>
+				<Box display="flex" flexDirection="column" gap="xxsmall" flexShrink={0}>
+					<RedGreenText change={Number.parseFloat(change.amount) || 0} size="xxsmall" align="right">
+						{intl.formatNumber(Number.parseFloat(change.amount) || 0, {
+							style: 'decimal',
+							maximumFractionDigits: 18,
+						})}
+					</RedGreenText>
+				</Box>
+			</Box>
+		</Box>
+	)
+}
+
+const BalanceChangeFee = ({ change }) => {
+	const intl = useIntl()
+	const { data: knownAddresses } = useKnownAddresses()
+
+	return (
+		<Box className={styles.balanceChangeItemContentRow}>
+			<Box display="flex" alignItems="center" gap="medium" width="full">
+				<TransactionIcon size={{ mobile: 'large', tablet: 'large' }} address={knownAddresses?.resourceAddresses.xrd} />
+				<Box flexGrow={1}>
+					<Text size="xsmall" truncate>
+						{intl.formatMessage(messages.fee)}
+					</Text>
+				</Box>
+				<Box display="flex" flexDirection="column" gap="xxsmall" flexShrink={0}>
+					<RedGreenText change={-1} size="xxsmall" align="right">
+						{`${intl.formatNumber(Number.parseFloat(change.amount) || 0, {
+							style: 'decimal',
+							maximumFractionDigits: 18,
+						})} XRD`}
+					</RedGreenText>
+					<Text size="xxsmall" align="right">
+						{change.type}
+					</Text>
+				</Box>
+			</Box>
+		</Box>
+	)
+}
+
 export const Transaction = () => {
 	const intl = useIntl()
 	const location = useLocation()
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
 	const { data: knownAddresses } = useKnownAddresses()
+	const accounts = useWalletAccounts()
+
 	const [showAllEntities, setShowAllEntities] = useState<boolean>(false)
+	const [showAllBalanceChanges, setShowAllBalanceChanges] = useState<boolean>(false)
 
 	const transactionId = searchParams.get('tx')
 	const isTransactionVisible = !!transactionId
 
 	const { data, isLoading } = useTransaction(transactionId)
-	// {"type":"Plaintext","content":{"type":"String","value":"test"},"mime_type":"text/plain"}
-	const message = (data?.transaction.message as any)?.content?.value
+
+	const message = useMemo(
+		// {"type":"Plaintext","content":{"type":"String","value":"test"},"mime_type":"text/plain"}
+		() => (data?.transaction.message as any)?.content?.value,
+		[data],
+	)
+
+	const balanceChanges = useMemo(
+		() =>
+			groupBalanceChanges([
+				...(data?.transaction.balance_changes?.fungible_fee_balance_changes || []),
+				...(data?.transaction.balance_changes?.fungible_balance_changes || []),
+				...(data?.transaction.balance_changes?.non_fungible_balance_changes || []),
+			]),
+		[data],
+	)
 
 	const navigateBack = () => {
 		searchParams.delete('tx')
@@ -118,6 +258,10 @@ export const Transaction = () => {
 
 	const handleClickViewAllEntities = () => {
 		setShowAllEntities(!showAllEntities)
+	}
+
+	const handleClickViewAllBalanceChanges = () => {
+		setShowAllBalanceChanges(!showAllBalanceChanges)
 	}
 
 	return (
@@ -230,71 +374,55 @@ export const Transaction = () => {
 
 						<Box className={styles.balanceChangeWrapper}>
 							<Box className={styles.balanceChangeLabelWrapper}>
-								<AccountsTransactionInfo leftTitle={intl.formatMessage(messages.balance_changes)} rightData={null} />
+								<AccountsTransactionInfo
+									leftTitle={intl.formatMessage(messages.balance_changes)}
+									rightData={
+										Object.keys(balanceChanges).length > 3 ? (
+											<Button sizeVariant="xsmall" styleVariant="secondary" onClick={handleClickViewAllBalanceChanges}>
+												{showAllBalanceChanges
+													? intl.formatMessage(messages.show_less)
+													: intl.formatMessage(messages.show_all)}
+											</Button>
+										) : null
+									}
+								/>
 							</Box>
 							<Box className={styles.balanceChangeItemsFlexWrapper}>
-								{/* TODO: iterate here */}
-								<Box className={styles.balanceChangeItem}>
-									<Box className={styles.balanceChangeItemHeader}>
-										<ToolTip message={data?.transaction.intent_hash}>
-											<Box>
-												<Text size="xsmall">{getShortAddress(data?.transaction.intent_hash, 8)}</Text>
-											</Box>
-										</ToolTip>
-										<CopyAddressButton
-											styleVariant="ghost"
-											address={data?.transaction.intent_hash}
-											sizeVariant="xsmall"
-											iconOnly
-											rounded={false}
-											tickColor="colorStrong"
-										/>
-									</Box>
-									<Box className={styles.balanceChangeItemContent}>
-										<Box className={styles.balanceChangeItemContentRow}>
-											<Box display="flex" alignItems="center" gap="medium" width="full">
-												<TransactionIcon
-													size={{ mobile: 'large', tablet: 'large' }}
-													address="resource_rdx1t52pvtk5wfhltchwh3rkzls2x0r98fw9cjhpyrf3vsykhkuwrf7jg8"
-													transactionType="deposit"
-												/>
-												<Box flexGrow={1}>
-													<Text size="xsmall" truncate>
-														Ociswap (ociswap) Ociswap (ociswap) Ociswap (ociswap)
-													</Text>
-												</Box>
-												<Box display="flex" flexDirection="column" gap="xxsmall" flexShrink={0}>
-													<RedGreenText change={1} size="xxsmall" align="right">
-														0.1234432 XRD
-													</RedGreenText>
+								{Object.keys(balanceChanges)
+									.slice(0, showAllBalanceChanges ? Object.keys(balanceChanges).length : 3)
+									.map(entity_address => (
+										<Box key={entity_address} className={styles.balanceChangeItem}>
+											<Box className={styles.balanceChangeItemHeader}>
+												<ToolTip message={data?.transaction.intent_hash}>
+													<Box display="flex" alignItems="center" gap="medium">
+														<Box flexShrink={0}>
+															{accounts[entity_address] && <AccountCardIcon address={entity_address} />}
+														</Box>
+														<Box flexGrow={1} minWidth={0}>
+															<Text truncate size="small">
+																{getShortAddress(entity_address)}
+															</Text>
+														</Box>
+													</Box>
+												</ToolTip>
+												<Box display="flex" alignItems="flex-end" flexGrow={1}>
+													<CopyAddressButton
+														styleVariant="ghost"
+														address={entity_address}
+														sizeVariant="xsmall"
+														iconOnly
+														rounded={false}
+														tickColor="colorStrong"
+													/>
 												</Box>
 											</Box>
+											{balanceChanges[entity_address].map(change => (
+												<Box key={change.resource_address} className={styles.balanceChangeItemContent}>
+													{change.isFee ? <BalanceChangeFee change={change} /> : <BalanceChange change={change} />}
+												</Box>
+											))}
 										</Box>
-										<Box className={styles.balanceChangeItemContentRow}>
-											<Box display="flex" alignItems="center" gap="medium" width="full">
-												<TransactionIcon
-													size={{ mobile: 'large', tablet: 'large' }}
-													address="resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
-													// transactionType="withdraw"
-												/>
-												<Box flexGrow={1}>
-													<Text size="xsmall" truncate>
-														Ociswap (ociswap) Ociswap (ociswap) Ociswap (ociswap)
-													</Text>
-												</Box>
-												<Box display="flex" flexDirection="column" gap="xxsmall" flexShrink={0}>
-													<RedGreenText change={-1} size="xxsmall" align="right">
-														0.1234432 XRD
-													</RedGreenText>
-													<Text size="xxsmall" align="right">
-														Transaction fee
-													</Text>
-												</Box>
-											</Box>
-										</Box>
-									</Box>
-								</Box>
-								{/* TODO: end iterate here */}
+									))}
 							</Box>
 						</Box>
 
@@ -306,8 +434,8 @@ export const Transaction = () => {
 										data?.transaction.affected_global_entities.length > 3 ? (
 											<Button sizeVariant="xsmall" styleVariant="secondary" onClick={handleClickViewAllEntities}>
 												{showAllEntities
-													? intl.formatMessage(messages.affected_global_entities_show_less)
-													: intl.formatMessage(messages.affected_global_entities_show_all)}
+													? intl.formatMessage(messages.show_less)
+													: intl.formatMessage(messages.show_all)}
 											</Button>
 										) : null
 									}
