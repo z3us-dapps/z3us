@@ -12,6 +12,8 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
+import { TransactionIcon } from 'ui/src/components/transaction-icon'
+import { TransactionStatusIcon } from 'ui/src/components/transaction-status-icon'
 import { Text } from 'ui/src/components/typography'
 import { animatePageVariants } from 'ui/src/constants/page'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -70,8 +72,11 @@ interface IRowProps {
 	setSelected: (_: string) => void
 }
 
+const DEFAULT_BALANCE_CHANGE_ITEMS = 3
+
 const ItemWrapper: React.FC<IRowProps> = props => {
 	const location = useLocation()
+	const intl = useIntl()
 	const [searchParams] = useSearchParams()
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
@@ -79,6 +84,22 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 
 	const isSelected = selected === transaction?.intent_hash
 	const isHovered = hovered === transaction?.intent_hash
+
+	const balanceChanges = useMemo(
+		() => [
+			...(transaction?.balance_changes?.fungible_balance_changes.map(change => ({
+				resource_address: change.resource_address,
+				entity_address: change.entity_address,
+				amount: change.balance_change,
+			})) || []),
+			...(transaction?.balance_changes?.non_fungible_balance_changes.map(change => ({
+				resource_address: change.resource_address,
+				entity_address: change.entity_address,
+				amount: `${change.added.length - change.removed.length}`,
+			})) || []),
+		],
+		[transaction],
+	)
 
 	const handleClick = () => {
 		setSelected(transaction.intent_hash)
@@ -111,6 +132,9 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 							onMouseOver={handleMouseOver}
 							onMouseLeave={handleMouseLeave}
 						>
+							<Box className={styles.activityItemStatusWrapper}>
+								<TransactionStatusIcon statusType={transaction.transaction_status} size="small" />
+							</Box>
 							<Box className={styles.activityItemTextWrapper}>
 								<Text weight="stronger" size="small" color="strong" truncate>
 									{getShortAddress(transaction.intent_hash)}
@@ -119,14 +143,40 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 									<TimeFromNow date={transaction.confirmed_at} />
 								</Text>
 							</Box>
-							<Box className={styles.activityItemTextWrapper}>
-								<Text size="xsmall">
-									<TokenPrice amount={transaction.fee_paid as any} address={knownAddresses?.resourceAddresses.xrd} />
-								</Text>
-							</Box>
-							<Box className={styles.activityItemTextWrapper}>
-								<Text size="xsmall">{transaction.transaction_status}</Text>
-							</Box>
+							{balanceChanges.length > 0 && (
+								<Box className={styles.activityItemTextEventsWrapper}>
+									<Box display="flex" className={styles.activityItemBalanceChangeWrapper}>
+										{balanceChanges.slice(0, DEFAULT_BALANCE_CHANGE_ITEMS).map(change => (
+											<TransactionIcon
+												key={`${change.entity_address}-${change.resource_address}`}
+												size={{ mobile: 'medium', tablet: 'medium' }}
+												address={change.resource_address}
+												transactionType={Number.parseFloat(change.amount) > 0 ? 'deposit' : 'withdraw'}
+											/>
+										))}
+										{balanceChanges.length > DEFAULT_BALANCE_CHANGE_ITEMS && (
+											<Box paddingLeft="medium">
+												<Text size="xxsmall" weight="medium">
+													+ {balanceChanges.length - DEFAULT_BALANCE_CHANGE_ITEMS}
+												</Text>
+											</Box>
+										)}
+									</Box>
+									<Box className={styles.activityItemTextPriceWrapper}>
+										<Text size="xsmall">
+											<TokenPrice
+												amount={transaction.fee_paid as any}
+												address={knownAddresses?.resourceAddresses.xrd}
+											/>
+										</Text>
+										<Text> &nbsp;&middot;&nbsp; </Text>
+										<Text size="xsmall">{`${intl.formatNumber(Number.parseFloat(transaction.fee_paid) || 0, {
+											style: 'decimal',
+											maximumFractionDigits: 18,
+										})} XRD`}</Text>
+									</Box>
+								</Box>
+							)}
 						</Link>
 					</Box>
 				)}

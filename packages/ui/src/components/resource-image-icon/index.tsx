@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react'
 
+import { Box } from 'ui/src/components/box'
 import { type IImageIconProps, ImageIcon } from 'ui/src/components/image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
@@ -8,12 +9,13 @@ import { findMetadataValue } from 'ui/src/services/metadata'
 import { getStrPrefix } from 'ui/src/utils/get-str-prefix'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-interface IProps extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc' | 'rounded'> {
+export interface IResourceImageIconProps
+	extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc' | 'rounded'> {
 	address: string
 	toolTipEnabled?: boolean
 }
 
-export const ResourceImageIcon = forwardRef<HTMLElement, IProps>(
+export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps>(
 	({ address, toolTipEnabled = false, size, ...props }, ref: React.Ref<HTMLElement | null>) => {
 		const { data } = useEntityDetails(address)
 		const images = useImages()
@@ -29,17 +31,17 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IProps>(
 
 		return (
 			<ToolTip side="top" message={tooltip} disabled={!toolTipEnabled || !tooltip}>
-				<span>
+				<Box position="relative">
 					<ImageIcon
 						imgSrc={imageSrc}
 						imgAlt={name || shortAddress}
 						fallbackText={getStrPrefix(symbol || name || shortAddress, 3)}
 						rounded={data?.details?.type !== 'NonFungibleResource'}
 						size={size}
-						{...props}
 						ref={ref}
+						{...props}
 					/>
-				</span>
+				</Box>
 			</ToolTip>
 		)
 	},

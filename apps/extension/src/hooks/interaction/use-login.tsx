@@ -81,48 +81,54 @@ export const useLogin = () => {
 					throw new Error(`Can not sign with keystore type: ${keystore?.type}`)
 			}
 		},
-		[keystore, client, ledger],
+		[keystore, client, ledger, confirm, intl],
 	)
 
-	const loginWithChallenge = async (
-		selectedPersona: string,
-		req?: AuthLoginWithChallengeRequestItem,
-		metadata?: any,
-	): Promise<AuthLoginWithChallengeRequestResponseItem> => {
-		if (!req) return undefined
-		const { challenge, discriminator } = req
-		const persona = personaIndexes[selectedPersona]
-		let proof: AuthLoginWithChallengeRequestResponseItem['proof']
-		if (challenge) {
-			proof = await sign(persona, challenge, metadata)
-		}
+	const loginWithChallenge = useCallback(
+		async (
+			selectedPersona: string,
+			req?: AuthLoginWithChallengeRequestItem,
+			metadata?: any,
+		): Promise<AuthLoginWithChallengeRequestResponseItem> => {
+			if (!req) return undefined
+			const { challenge, discriminator } = req
+			const persona = personaIndexes[selectedPersona]
+			let proof: AuthLoginWithChallengeRequestResponseItem['proof']
+			if (challenge) {
+				proof = await sign(persona, challenge, metadata)
+			}
 
-		return { discriminator, challenge, persona, proof }
-	}
+			return { discriminator, challenge, persona, proof }
+		},
+		[personaIndexes, sign],
+	)
 
-	const login = async (
-		selectedPersona: string,
-		auth?: AuthLoginWithChallengeRequestItem | AuthLoginWithoutChallengeRequestItem | AuthUsePersonaRequestItem,
-		metadata?: any,
-	): Promise<
-		| AuthUsePersonaRequestResponseItem
-		| AuthLoginWithChallengeRequestResponseItem
-		| AuthLoginWithoutChallengeRequestResponseItem
-		| undefined
-	> => {
-		switch (auth?.discriminator) {
-			case 'usePersona':
-			case 'loginWithoutChallenge':
-				return {
-					discriminator: auth.discriminator,
-					persona: personaIndexes[selectedPersona],
-				}
-			case 'loginWithChallenge':
-				return loginWithChallenge(selectedPersona, auth, metadata)
-			default:
-				return undefined
-		}
-	}
+	const login = useCallback(
+		async (
+			selectedPersona: string,
+			auth?: AuthLoginWithChallengeRequestItem | AuthLoginWithoutChallengeRequestItem | AuthUsePersonaRequestItem,
+			metadata?: any,
+		): Promise<
+			| AuthUsePersonaRequestResponseItem
+			| AuthLoginWithChallengeRequestResponseItem
+			| AuthLoginWithoutChallengeRequestResponseItem
+			| undefined
+		> => {
+			switch (auth?.discriminator) {
+				case 'usePersona':
+				case 'loginWithoutChallenge':
+					return {
+						discriminator: auth.discriminator,
+						persona: personaIndexes[selectedPersona],
+					}
+				case 'loginWithChallenge':
+					return loginWithChallenge(selectedPersona, auth, metadata)
+				default:
+					return undefined
+			}
+		},
+		[loginWithChallenge, personaIndexes],
+	)
 
 	return login
 }

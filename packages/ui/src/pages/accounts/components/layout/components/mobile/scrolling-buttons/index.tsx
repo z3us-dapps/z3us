@@ -69,8 +69,8 @@ const TabTitle: React.FC = () => {
 }
 
 const HEADER_SPACE = 278
-const scrollToTop: ScrollToOptions = { top: 0, behavior: 'smooth' }
-const scrollToHeader: ScrollToOptions = { top: HEADER_SPACE, behavior: 'smooth' }
+const scrollToTop: ScrollToOptions = { top: 0, behavior: 'instant' as ScrollBehavior }
+const scrollToHeader: ScrollToOptions = { top: HEADER_SPACE, behavior: 'instant' as ScrollBehavior }
 
 export const MobileScrollingButtons: React.FC = () => {
 	const intl = useIntl()

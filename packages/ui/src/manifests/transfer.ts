@@ -12,7 +12,7 @@ interface SendFungibleTokens {
 	to: string
 	tokens: Array<{
 		resource: string
-		amount: number
+		amount: string
 	}>
 }
 
@@ -27,7 +27,12 @@ export const sendFungibleTokens = (
 		(container, transfer) => ({
 			...container,
 			[transfer.from]: transfer.tokens.reduce(
-				(tokens, token) => ({ ...tokens, [token.resource]: token.amount + (tokens[token.resource] || 0) }),
+				(tokens, token) => ({
+					...tokens,
+					[token.resource]: decimal(token.amount)
+						.value.add(decimal(tokens[token.resource] || 0).value)
+						.toString(),
+				}),
 				{},
 			),
 		}),

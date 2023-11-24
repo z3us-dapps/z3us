@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -121,4 +121,86 @@ export const transactionMessageWrapper = style([
 		mobile: { height: '60px' },
 		tablet: { height: '100px' },
 	}),
+])
+
+export const balanceChangeWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		width: 'full',
+		paddingTop: 'medium',
+		paddingBottom: 'medium',
+	}),
+	{},
+])
+
+export const balanceChangeLabelWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		paddingBottom: 'medium',
+	}),
+	{},
+])
+
+export const balanceChangeItemsFlexWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		width: 'full',
+		gap: 'medium',
+	}),
+	{},
+])
+
+export const balanceChangeItem = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		width: 'full',
+		border: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDividerSecondary',
+		borderRadius: 'xsmall',
+		overflow: 'hidden',
+	}),
+	{
+		minHeight: '100px',
+	},
+])
+
+export const balanceChangeItemHeader = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		background: 'backgroundPrimary',
+		paddingX: 'small',
+		paddingY: 'small',
+		gap: 'small',
+	}),
+	{},
+])
+
+export const balanceChangeItemContent = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		paddingX: 'medium',
+	}),
+	{},
+])
+
+globalStyle(`${balanceChangeItemContent} > div:first-child`, {
+	borderTop: 'none',
+})
+
+export const balanceChangeItemContentRow = style([
+	sprinkles({
+		display: 'flex',
+		borderTop: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+		paddingY: 'medium',
+	}),
+	{},
 ])

@@ -17,8 +17,8 @@ type Props<P = {}> = {
 	initialValues: P
 	errors?: FormErrors<P>
 	className?: string
-	onSubmit: (values: P) => Promise<void> | void
-	onChange?: (values: P) => Promise<void> | void
+	onSubmit: (values: P) => Promise<void>
+	onChange?: (values: P) => Promise<void>
 }
 
 type State<P = {}> = {

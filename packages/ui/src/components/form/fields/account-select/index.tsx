@@ -1,4 +1,5 @@
 import React, { forwardRef, useCallback } from 'react'
+import { FormattedNumber } from 'react-intl'
 
 import { AccountCardIcon } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
@@ -6,6 +7,8 @@ import { Button, type TSizeVariant, type TStyleVariant } from 'ui/src/components
 import { DropdownMenuItemIndicator, DropdownMenuRadioItem, DropdownMenuVirtuoso } from 'ui/src/components/dropdown-menu'
 import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -17,23 +20,32 @@ interface ISelectItemProps {
 	title: string
 }
 
-const SelectItem: React.FC<ISelectItemProps> = ({ id, title }) => (
-	<DropdownMenuRadioItem value={id}>
-		<Box display="flex" alignItems="center" gap="medium">
-			<Box flexShrink={0}>
-				<AccountCardIcon address={id} />
+const SelectItem: React.FC<ISelectItemProps> = ({ id, title }) => {
+	const { data: balanceData } = useBalances(id)
+	const { fungibleBalances = [] } = balanceData || {}
+
+	const { data: knownAddresses } = useKnownAddresses()
+	const balance = fungibleBalances?.find(b => b.address === knownAddresses.resourceAddresses.xrd)?.amount || ''
+
+	return (
+		<DropdownMenuRadioItem value={id}>
+			<Box display="flex" alignItems="center" gap="medium">
+				<Box flexShrink={0}>
+					<AccountCardIcon address={id} />
+				</Box>
+				<Box flexGrow={1} minWidth={0}>
+					<Text truncate size="small">
+						{title} - {getShortAddress(id)}
+					</Text>
+					<FormattedNumber value={Number.parseFloat(balance) || 0} maximumFractionDigits={18} /> XRD
+				</Box>
 			</Box>
-			<Box flexGrow={1} minWidth={0}>
-				<Text truncate size="small">
-					{title} - {getShortAddress(id)}
-				</Text>
-			</Box>
-		</Box>
-		<DropdownMenuItemIndicator>
-			<Check2Icon />
-		</DropdownMenuItemIndicator>
-	</DropdownMenuRadioItem>
-)
+			<DropdownMenuItemIndicator>
+				<Check2Icon />
+			</DropdownMenuItemIndicator>
+		</DropdownMenuRadioItem>
+	)
+}
 
 interface IAdapterProps {
 	placeholder?: string

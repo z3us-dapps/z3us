@@ -180,11 +180,12 @@ const HeaderNavInner = () => {
 		} else if (value.startsWith('txid_')) {
 			searchParams.delete('query')
 			searchParams.set('tx', `${value}`)
+			navigate(`${location.pathname}?${searchParams}`)
 		} else {
 			searchParams.delete('tx')
 			searchParams.set('query', `${value}`)
+			navigate(`${location.pathname}?${searchParams}`)
 		}
-		navigate(`${location.pathname}?${searchParams}`)
 	}
 
 	const handleClickSearch = (_visible: boolean) => {

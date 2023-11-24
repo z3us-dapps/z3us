@@ -5,7 +5,7 @@ import { type IInputProps, Input } from 'ui/src/components/input'
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 
 interface IAdapterProps extends Omit<IInputProps, 'onChange'> {
-	onChange?: (value: number) => void
+	onChange?: (value: string) => void
 	hasError?: boolean
 }
 
@@ -17,7 +17,7 @@ export const NumberInputAdapter = forwardRef<HTMLInputElement, IAdapterProps>((p
 			return
 		}
 
-		onChange(event.target.value === '' ? undefined : +event.target.value)
+		onChange(event.target.value)
 	}
 
 	return (

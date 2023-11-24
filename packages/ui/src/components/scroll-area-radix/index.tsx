@@ -83,7 +83,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = pr
 		showBottomScrollShadow = true,
 		showScrollUpButton = true,
 		roundedScrollArea = false,
-		scrollTopBehavior = 'smooth',
+		scrollTopBehavior = 'instant',
 		...rest
 	} = props
 
@@ -184,7 +184,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = pr
 					className={clsx(styles.scrolledButtonWrapper, isScrollUpButtonVisible && styles.scrolledButtonWrapperVisible)}
 				>
 					<ToolTip message={intl.formatMessage(messages.up)} side="top">
-						<Button styleVariant="white-transparent" sizeVariant="small" iconOnly onClick={handleUpButtonClick}>
+						<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleUpButtonClick}>
 							<ArrowUpIcon />
 						</Button>
 					</ToolTip>

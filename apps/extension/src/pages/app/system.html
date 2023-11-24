@@ -73,18 +73,30 @@
 				}
 			}
 			.z3-extension-dimension {
-				min-width: 420px;
-				min-height: 600px;
-				height: 100vh;
-				width: 100vw;
+				width: 420px;
+				height: 600px;
+				overflow: hidden;
+			}
+			@media (min-width: 421px) {
+				.z3-extension-mounted {
+					min-width: 420px;
+					min-height: 600px;
+					height: 100vh;
+					width: 100vw;
+					overflow: unset;
+				}
 			}
 			@media (max-width: 419px) {
 				.z3-extension-mounted {
+					width: 100vw;
 					min-width: 100%;
+					min-height: 600px;
+					height: 100vh;
 				}
 			}
 			@media (max-height: 599px) {
 				.z3-extension-mounted {
+					height: 100vh;
 					min-height: 100%;
 				}
 			}

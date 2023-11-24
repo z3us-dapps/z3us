@@ -97,7 +97,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 		return z.object({
 			accounts: accountsSchema,
 		})
-	}, [])
+	}, [exactly, required])
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		setValidation(undefined)
