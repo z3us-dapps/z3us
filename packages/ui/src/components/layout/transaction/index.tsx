@@ -394,12 +394,14 @@ export const Transaction = () => {
 										<Box key={entity_address} className={styles.balanceChangeItem}>
 											<Box className={styles.balanceChangeItemHeader}>
 												<ToolTip message={data?.transaction.intent_hash}>
-													<Box display="flex" alignItems="center" gap="medium">
-														<Box flexShrink={0}>
-															{accounts[entity_address] && <AccountCardIcon address={entity_address} />}
-														</Box>
+													<Box display="flex" alignItems="center" gap="small">
+														{accounts[entity_address] && (
+															<Box flexShrink={0}>
+																<AccountCardIcon address={entity_address} />
+															</Box>
+														)}
 														<Box flexGrow={1} minWidth={0}>
-															<Text truncate size="small">
+															<Text truncate size="xsmall">
 																{getShortAddress(entity_address)}
 															</Text>
 														</Box>
@@ -416,11 +418,13 @@ export const Transaction = () => {
 													/>
 												</Box>
 											</Box>
-											{balanceChanges[entity_address].map(change => (
-												<Box key={change.resource_address} className={styles.balanceChangeItemContent}>
-													{change.isFee ? <BalanceChangeFee change={change} /> : <BalanceChange change={change} />}
-												</Box>
-											))}
+											<Box className={styles.balanceChangeItemContent}>
+												{balanceChanges[entity_address].map(change => (
+													<React.Fragment key={change.resource_address}>
+														{change.isFee ? <BalanceChangeFee change={change} /> : <BalanceChange change={change} />}
+													</React.Fragment>
+												))}
+											</Box>
 										</Box>
 									))}
 							</Box>

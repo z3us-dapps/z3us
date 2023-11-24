@@ -31,3 +31,17 @@ export const transactionStatusIconMediumWrapper = style([
 		height: '24px',
 	},
 ])
+
+export const transactionStatusSuccess = style([
+	sprinkles({
+		color: 'green500',
+	}),
+	{},
+])
+
+export const transactionStatusFailure = style([
+	sprinkles({
+		color: 'red500',
+	}),
+	{},
+])

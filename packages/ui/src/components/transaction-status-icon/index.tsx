@@ -27,6 +27,8 @@ export const TransactionStatusIcon = forwardRef<HTMLElement, IProps>((props, ref
 	const { className, size = 'medium', statusType } = props
 
 	const icon = getIconByType(statusType)
+	const isTypeSuccess = statusType === 'CommittedSuccess'
+	const isTypeFailure = statusType === 'CommittedFailure'
 
 	return (
 		<Box
@@ -35,6 +37,8 @@ export const TransactionStatusIcon = forwardRef<HTMLElement, IProps>((props, ref
 				styles.transactionStatusIconWrapper,
 				size === 'medium' && styles.transactionStatusIconMediumWrapper,
 				size === 'small' && styles.transactionStatusIconSmallWrapper,
+				isTypeSuccess && styles.transactionStatusSuccess,
+				isTypeFailure && styles.transactionStatusFailure,
 				className,
 			)}
 		>

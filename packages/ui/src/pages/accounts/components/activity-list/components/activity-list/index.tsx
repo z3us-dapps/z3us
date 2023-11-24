@@ -143,35 +143,38 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 									<TimeFromNow date={transaction.confirmed_at} />
 								</Text>
 							</Box>
-							<Box className={styles.activityItemTextPriceWrapper}>
-								<Text size="xsmall">
-									<TokenPrice amount={transaction.fee_paid as any} address={knownAddresses?.resourceAddresses.xrd} />
-								</Text>
-								<Text size="xsmall">{`${intl.formatNumber(Number.parseFloat(transaction.fee_paid) || 0, {
-									style: 'decimal',
-									maximumFractionDigits: 18,
-								})} XRD`}</Text>
-							</Box>
 							{balanceChanges.length > 0 && (
 								<Box className={styles.activityItemTextEventsWrapper}>
 									<Box display="flex" className={styles.activityItemBalanceChangeWrapper}>
 										{balanceChanges.slice(0, DEFAULT_BALANCE_CHANGE_ITEMS).map(change => (
 											<TransactionIcon
 												key={`${change.entity_address}-${change.resource_address}`}
-												size={{ mobile: 'large', tablet: 'large' }}
+												size={{ mobile: 'medium', tablet: 'medium' }}
 												address={change.resource_address}
 												transactionType={Number.parseFloat(change.amount) > 0 ? 'deposit' : 'withdraw'}
 											/>
 										))}
+										{balanceChanges.length > DEFAULT_BALANCE_CHANGE_ITEMS && (
+											<Box paddingLeft="medium">
+												<Text size="xxsmall" weight="medium">
+													+ {balanceChanges.length - DEFAULT_BALANCE_CHANGE_ITEMS}
+												</Text>
+											</Box>
+										)}
 									</Box>
-
-									{balanceChanges.length > DEFAULT_BALANCE_CHANGE_ITEMS && (
-										<Box paddingLeft="small">
-											<Text size="xxsmall" weight="medium">
-												+ {balanceChanges.length - DEFAULT_BALANCE_CHANGE_ITEMS}
-											</Text>
-										</Box>
-									)}
+									<Box className={styles.activityItemTextPriceWrapper}>
+										<Text size="xsmall">
+											<TokenPrice
+												amount={transaction.fee_paid as any}
+												address={knownAddresses?.resourceAddresses.xrd}
+											/>
+										</Text>
+										<Text> &nbsp;&middot;&nbsp; </Text>
+										<Text size="xsmall">{`${intl.formatNumber(Number.parseFloat(transaction.fee_paid) || 0, {
+											style: 'decimal',
+											maximumFractionDigits: 18,
+										})} XRD`}</Text>
+									</Box>
 								</Box>
 							)}
 						</Link>

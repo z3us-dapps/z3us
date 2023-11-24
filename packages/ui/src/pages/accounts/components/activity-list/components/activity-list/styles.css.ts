@@ -130,7 +130,7 @@ export const activityItemInnerBtn = style([
 		cursor: 'pointer',
 	}),
 	{
-		paddingTop: '12px',
+		paddingTop: '6px',
 		selectors: {
 			'&:focus-visible': {
 				outline: 'none',
@@ -146,8 +146,16 @@ export const activityItemInnerBtn = style([
 	},
 	responsiveStyle({
 		mobile: {
+			gap: vars.spacing.xsmall,
+			gridTemplateColumns: '24px 1fr 160px ',
+		},
+		tablet: {
 			gap: vars.spacing.small,
-			gridTemplateColumns: '24px 1fr 1fr 130px',
+			gridTemplateColumns: '24px 1fr 180px ',
+		},
+		desktop: {
+			gap: vars.spacing.small,
+			gridTemplateColumns: '24px 1fr 200px ',
 		},
 	}),
 ])
@@ -173,8 +181,6 @@ export const activityItemStatusWrapper = style([
 export const activityItemTextPriceWrapper = style([
 	sprinkles({
 		display: 'flex',
-		flexDirection: 'column',
-		flexGrow: 1,
 		gap: 'xxsmall',
 		paddingTop: 'xxsmall',
 	}),
@@ -184,11 +190,15 @@ export const activityItemTextPriceWrapper = style([
 export const activityItemTextEventsWrapper = style([
 	sprinkles({
 		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-end',
+		flexDirection: 'column',
+		gap: 'xsmall',
+		alignItems: 'flex-end',
+		justifyContent: 'center',
 		flexGrow: 1,
 	}),
-	{},
+	{
+		paddingTop: '2px',
+	},
 ])
 
 export const activityItemBalanceChangeWrapper = style([
@@ -200,7 +210,7 @@ export const activityItemBalanceChangeWrapper = style([
 ])
 
 globalStyle(`${activityItemBalanceChangeWrapper} > div:not(:first-child)`, {
-	marginLeft: '-4px',
+	marginLeft: '-2px',
 })
 
 export const activityItemInnerSelected = style([
