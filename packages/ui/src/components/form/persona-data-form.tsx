@@ -88,7 +88,7 @@ type Values = {
 export interface IProps {
 	identityAddress?: string
 	customValidationSchema?: z.AnyZodObject
-	onSubmit: (values: Values) => void
+	onSubmit: (values: Values) => Promise<void>
 }
 
 const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSchema, onSubmit }) => {
@@ -156,7 +156,7 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 				return
 			}
 		}
-		onSubmit(values)
+		await onSubmit(values)
 		setValidation(undefined)
 	}
 

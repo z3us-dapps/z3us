@@ -288,14 +288,10 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 
 	const handleClickCustomize = () => {
 		customize(settings).then(newSettings => {
-			const lockAmount = getFeeToLockAmount(
-				receipt as TransactionReceipt,
-				newSettings.padding,
-				state.walletExecutionCost,
-			)
 			setState(draft => {
 				draft.hasManualSettings = newSettings.padding !== 0
 			})
+			const lockAmount = getFeeToLockAmount(receipt, newSettings.padding, state.walletExecutionCost)
 			onSettingsChange({ ...newSettings, lockAmount })
 		})
 	}

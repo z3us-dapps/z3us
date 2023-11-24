@@ -32,8 +32,8 @@ browser.tabs.onUpdated.addListener(handleTabUpdated)
 browser.tabs.onRemoved.addListener(handleTabRemoved)
 
 browser.contextMenus.removeAll().then(() => {
-	addDashboard()
 	addInjectContentScript()
+	addDashboard()
 	addLogs()
 	addLedger()
 	addDevTools()

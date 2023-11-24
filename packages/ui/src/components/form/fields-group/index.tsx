@@ -1,11 +1,14 @@
+import get from 'lodash/get'
 import type { PropsWithChildren } from 'react'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { generateId } from 'ui/src/utils/generate-id'
 
+import { ValidationErrorMessage } from '../../validation-error-message'
 import { FormContext } from '../context'
 import { FieldContext } from '../field-wrapper/context'
 import { AddTrigger } from './add-trigger'
@@ -28,6 +31,11 @@ interface IProps {
 	ignoreTriggers?: boolean
 }
 
+type State = {
+	keys: string[]
+	error: string
+}
+
 export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	const intl = useIntl()
 	const {
@@ -39,24 +47,47 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 		defaultKeys = 0,
 		ignoreTriggers,
 	} = props
-	const { values } = useContext(FormContext)
+	const { values, errors, onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
-	const [keys, setKeys] = useState<string[]>(
-		Array.from({ length: values?.[fieldName]?.length || defaultKeys }, generateId),
-	)
+
+	const [state, setState] = useImmer<State>({
+		keys: Array.from({ length: values?.[fieldName]?.length || defaultKeys }, generateId),
+		error: '',
+	})
+
+	useEffect(() => {
+		setState(draft => {
+			// eslint-disable-next-line no-underscore-dangle
+			const fieldErrors = get(errors, fieldName)?._errors || []
+			draft.error = fieldErrors.length > 0 ? fieldErrors[0] : ''
+		})
+	}, [errors])
 
 	const handleRemove = (key: string) => {
-		setKeys(keys.filter(k => k !== key))
+		const idx = state.keys.findIndex(k => k === key)
+		if (idx > -1) {
+			const v = [...(values?.[fieldName] || [])]
+			v.splice(idx, 1)
+			onFieldChange(fieldName, v)
+		}
+
+		setState(draft => {
+			draft.keys = draft.keys.filter(k => k !== key)
+			draft.error = ''
+		})
 	}
 
 	const handleAdd = () => {
-		setKeys([...keys, generateId()])
+		setState(draft => {
+			draft.keys = [...draft.keys, generateId()]
+			draft.error = ''
+		})
 	}
 
 	return (
-		<>
-			{keys.map((key, idx) => (
+		<Box>
+			{state.keys.map((key, idx) => (
 				<Box className={className} position="relative" key={key}>
 					<GroupField idx={idx} name={name}>
 						{children}
@@ -70,10 +101,10 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 					)}
 				</Box>
 			))}
-			{!ignoreTriggers &&
-				React.cloneElement(addTrigger, {
-					onClick: handleAdd,
-				})}
-		</>
+			<Box display="flex" justifyContent="space-between">
+				<ValidationErrorMessage message={state.error} />
+			</Box>
+			{!ignoreTriggers && React.cloneElement(addTrigger, { onClick: handleAdd })}
+		</Box>
 	)
 }

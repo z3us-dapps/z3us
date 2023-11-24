@@ -386,5 +386,6 @@
     "MoWYiJ": "Der Preiseinfluss ist die Wirkung eines einzelnen Handels eines Benutzers auf den Marktpreis eines zugrunde liegenden Vermögenspaares. Er hängt direkt mit der Menge an Liquidität im Pool zusammen. Der Preiseinfluss kann für illiquide Märkte/Paare besonders hoch sein und einem Händler dazu führen, einen erheblichen Teil seines Geldes zu verlieren.",
     "OS5a2i": "Poolgebühr",
     "WBB92z": "Preiseinfluss",
-    "s8BnAC": "Swap"
+    "s8BnAC": "Tauschen",
+    "PyXtpD": "Wallet-Gebühr"
 }

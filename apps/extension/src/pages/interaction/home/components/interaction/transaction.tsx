@@ -151,6 +151,8 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 				}),
 			)
 		} catch (error) {
+			// eslint-disable-next-line no-console
+			console.error(error)
 			browser.tabs.sendMessage(
 				interaction.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {

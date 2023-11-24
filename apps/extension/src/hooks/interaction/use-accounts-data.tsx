@@ -70,12 +70,12 @@ export const useAccountsData = () => {
 					)
 				case KeystoreType.HARDWARE:
 					const response = await ledger.signChallenge(
-						needSignaturesFrom.map(idx => accountIndexes[idx]),
+						needSignaturesFrom.map(address => accountIndexes[address]),
 						challenge,
 						metadata,
 					)
 					return response.map((signature, idx) => ({
-						accountAddress: accountIndexes[idx].address,
+						accountAddress: needSignaturesFrom[idx],
 						proof: {
 							signature: signature.signature,
 							publicKey: signature.derivedPublicKey.publicKey,
@@ -86,28 +86,31 @@ export const useAccountsData = () => {
 					throw new Error(`Can not sign with keystore type: ${keystore?.type}`)
 			}
 		},
-		[keystore, client, ledger],
+		[keystore, client, ledger, accountIndexes, intl, confirm],
 	)
 
-	const buildAccounts = async (selectedAccounts: string[], req?: AccountsRequestItem, metadata?: any) => {
-		if (!req) return undefined
+	const buildAccounts = useCallback(
+		async (selectedAccounts: string[], req?: AccountsRequestItem, metadata?: any) => {
+			if (!req) return undefined
 
-		const { challenge } = req
-		let proofs: AccountProof[]
-		if (challenge) {
-			proofs = await sign(selectedAccounts, challenge, metadata)
-		}
+			const { challenge } = req
+			let proofs: AccountProof[]
+			if (challenge) {
+				proofs = await sign(selectedAccounts, challenge, metadata)
+			}
 
-		const accounts = selectedAccounts.map((idx, appearanceId) => ({
-			address: accountIndexes[idx].address,
-			label:
-				addressBook[accountIndexes[idx].address]?.name ||
-				intl.formatMessage(messages.unknown_account, { appearanceId }),
-			appearanceId,
-		}))
+			const accounts = selectedAccounts.map((idx, appearanceId) => ({
+				address: accountIndexes[idx].address,
+				label:
+					addressBook[accountIndexes[idx].address]?.name ||
+					intl.formatMessage(messages.unknown_account, { appearanceId }),
+				appearanceId,
+			}))
 
-		return { accounts, challenge, proofs }
-	}
+			return { accounts, challenge, proofs }
+		},
+		[sign, accountIndexes, addressBook, intl],
+	)
 
 	return buildAccounts
 }

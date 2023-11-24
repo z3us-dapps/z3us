@@ -179,7 +179,7 @@ export const Home: React.FC = () => {
 						if (id) {
 							nfts.push({ resource: address, ids: [id] })
 						} else {
-							tokens.push({ resource: address, amount: +amount })
+							tokens.push({ resource: address, amount })
 						}
 					})
 

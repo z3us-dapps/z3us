@@ -2,7 +2,7 @@ import type {
 	FungibleResourcesCollectionItemVaultAggregated,
 	NonFungibleResourcesCollectionItemVaultAggregated,
 } from '@radixdlt/radix-dapp-toolkit'
-import type { KnownAddresses } from '@radixdlt/radix-engine-toolkit'
+import { type KnownAddresses, decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
@@ -30,10 +30,10 @@ const transformFungibleResourceItemResponse =
 		const pool = findMetadataValue('pool', metadata)
 
 		const amount = item.vaults.items.reduce(
-			(acc, curr) => acc + +curr.amount,
-			container[item.resource_address]?.amount || 0,
+			(acc, curr) => decimal(curr.amount).value.add(acc),
+			decimal(container[item.resource_address]?.amount || 0).value,
 		)
-		if (amount === 0) {
+		if (!amount.gt(0)) {
 			return container
 		}
 
@@ -42,12 +42,12 @@ const transformFungibleResourceItemResponse =
 		const tokenPriceNow = parseFloat(token?.price?.usd.now) || 0
 		const tokenPrice24h = parseFloat(token?.price?.usd['24h']) || 0
 		const change = tokenPriceNow !== 0 ? tokenPriceNow / tokenPrice24h / 100 : 0
-		const xrdValue = amount * (parseFloat(token?.price?.xrd.now) || 0)
+		const xrdValue = amount.toNumber() * (parseFloat(token?.price?.xrd.now) || 0)
 
 		container[item.resource_address] = {
 			type: ResourceBalanceType.FUNGIBLE,
 			address: item.resource_address,
-			amount,
+			amount: amount.toString(),
 			value: xrdValue * xrdPrice,
 			xrdValue,
 			name,
@@ -76,10 +76,10 @@ const transformNonFungibleResourceItemResponse = (
 	const pool = findMetadataValue('pool', metadata)
 
 	const amount = item.vaults.items.reduce(
-		(acc, vault) => acc + +vault.total_count,
-		container[item.resource_address]?.amount || 0,
+		(acc, curr) => decimal(curr.total_count).value.add(acc),
+		decimal(container[item.resource_address]?.amount || 0).value,
 	)
-	if (amount === 0) {
+	if (!amount.gt(0)) {
 		return container
 	}
 
@@ -87,7 +87,7 @@ const transformNonFungibleResourceItemResponse = (
 		type: ResourceBalanceType.NON_FUNGIBLE,
 		address: item.resource_address,
 		vaults: item.vaults.items.map(vault => vault.vault_address),
-		amount,
+		amount: amount.toString(),
 		name,
 		description,
 		url,

@@ -1,6 +1,8 @@
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
+import { Box } from 'ui/src/components/box'
+import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 
 const messages = defineMessages({
@@ -22,5 +24,12 @@ export const NetworkAlert: React.FC<IProps> = ({ networkId: dAppNetworkId }) => 
 		return null
 	}
 
-	return <h1>{intl.formatMessage(messages.invalid_network, { dAppNetworkId, networkId })}</h1>
+	return (
+		<Box display="flex" flexDirection="column" gap="xsmall" alignItems="center" justifyContent="center">
+			<ValidationErrorMessage
+				align="center"
+				message={intl.formatMessage(messages.invalid_network, { dAppNetworkId, networkId })}
+			/>
+		</Box>
+	)
 }
