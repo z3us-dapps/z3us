@@ -13,7 +13,7 @@ import { Link } from 'ui/src/components/router-link'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { TransactionIcon } from 'ui/src/components/transaction-icon'
+// import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
@@ -140,11 +140,9 @@ export const ValidatorPanel = () => {
 							) : (
 								<>
 									<Box display="flex" flexDirection="column" alignItems="center">
-										<TransactionIcon
-											transactionIconBorderColor="borderDividerSecondary"
-											transactionIconSize="large"
+										{/* <TransactionIcon
 											transactionType="deposit"
-										/>
+										/> */}
 										<Box marginTop="small">
 											<Link size="small" to="http://www.sundaevalidator.xrd" underline="hover">
 												http://www.sundaevalidator.xrd

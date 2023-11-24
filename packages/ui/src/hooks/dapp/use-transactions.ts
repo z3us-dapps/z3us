@@ -35,6 +35,7 @@ export const useTransaction = (intent_hash: string) => {
 						receipt_costing_parameters: true,
 						receipt_events: true,
 						affected_global_entities: true,
+						balance_changes: true,
 					},
 				},
 			}),
@@ -54,7 +55,13 @@ export const useTransactions = (addresses: string[]) => {
 					pageParam?.[idx] === null
 						? { items: [], next_cursor: null }
 						: stream.innerClient.streamTransactions({
-								streamTransactionsRequest: { cursor: pageParam?.[idx], affected_global_entities_filter: [address] },
+								streamTransactionsRequest: {
+									cursor: pageParam?.[idx],
+									affected_global_entities_filter: [address],
+									opt_ins: {
+										balance_changes: true,
+									},
+								},
 						  }),
 				),
 			)

@@ -122,16 +122,15 @@ globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activityIt
 
 export const activityItemInnerBtn = style([
 	sprinkles({
-		display: 'flex',
-		alignItems: 'center',
+		display: 'grid',
 		position: 'relative',
-		paddingTop: 'medium',
-		paddingBottom: 'medium',
 		width: 'full',
+		alignItems: 'center',
 		gap: 'medium',
 		cursor: 'pointer',
 	}),
 	{
+		paddingTop: '6px',
 		selectors: {
 			'&:focus-visible': {
 				outline: 'none',
@@ -145,6 +144,20 @@ export const activityItemInnerBtn = style([
 			},
 		},
 	},
+	responsiveStyle({
+		mobile: {
+			gap: vars.spacing.xsmall,
+			gridTemplateColumns: '24px 1fr 160px ',
+		},
+		tablet: {
+			gap: vars.spacing.small,
+			gridTemplateColumns: '24px 1fr 180px ',
+		},
+		desktop: {
+			gap: vars.spacing.small,
+			gridTemplateColumns: '24px 1fr 200px ',
+		},
+	}),
 ])
 
 export const activityItemTextWrapper = style([
@@ -155,6 +168,50 @@ export const activityItemTextWrapper = style([
 	}),
 	{},
 ])
+
+export const activityItemStatusWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	}),
+	{},
+])
+
+export const activityItemTextPriceWrapper = style([
+	sprinkles({
+		display: 'flex',
+		gap: 'xxsmall',
+		paddingTop: 'xxsmall',
+	}),
+	{},
+])
+
+export const activityItemTextEventsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'xsmall',
+		alignItems: 'flex-end',
+		justifyContent: 'center',
+		flexGrow: 1,
+	}),
+	{
+		paddingTop: '2px',
+	},
+])
+
+export const activityItemBalanceChangeWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+	}),
+	{},
+])
+
+globalStyle(`${activityItemBalanceChangeWrapper} > div:not(:first-child)`, {
+	marginLeft: '-2px',
+})
 
 export const activityItemInnerSelected = style([
 	sprinkles({}),
