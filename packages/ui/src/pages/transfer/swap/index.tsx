@@ -150,7 +150,7 @@ export const Swap: React.FC = () => {
 		})
 	}, [])
 
-	const handleChange = (values: typeof init) => {
+	const handleChange = async (values: typeof init) => {
 		if (
 			localValues.from[0].address === values.from[0].address &&
 			localValues.from[0].amount === values.from[0].amount &&
