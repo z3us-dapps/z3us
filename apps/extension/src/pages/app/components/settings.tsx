@@ -134,6 +134,8 @@ const Settings: React.FC = () => {
 					<SelectSimple
 						value={`${unlockTimer}`}
 						onValueChange={handleChangeUnlockTime}
+						width={160}
+						fullWidth
 						data={[
 							{ id: '0', title: intl.formatMessage(messages.session_never) },
 							{ id: '1', title: intl.formatMessage(messages.session_one_minute) },
