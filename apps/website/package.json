@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+		"copy_images": "cp -r ../extension/public/images public/images",
 		"dev": "concurrently \"contentlayer dev\" \"next dev -p 3001\"",
 		"build": "contentlayer build && next build",
 		"build:serve": "serve -p 3001 ./out",
