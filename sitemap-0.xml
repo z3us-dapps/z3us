@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://z3us.com</loc><lastmod>2023-11-23T06:13:28.930Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://z3us.com/faq</loc><lastmod>2023-11-23T06:13:28.931Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://z3us.com/privacy</loc><lastmod>2023-11-23T06:13:28.931Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://z3us.com/terms</loc><lastmod>2023-11-23T06:13:28.931Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://z3us.com</loc><lastmod>2023-11-25T00:42:44.793Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://z3us.com/faq</loc><lastmod>2023-11-25T00:42:44.793Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://z3us.com/privacy</loc><lastmod>2023-11-25T00:42:44.793Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://z3us.com/terms</loc><lastmod>2023-11-25T00:42:44.793Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>
