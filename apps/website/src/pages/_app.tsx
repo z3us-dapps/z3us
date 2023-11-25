@@ -3,11 +3,9 @@ import '@/styles/global-style.css'
 import React from 'react'
 
 const App = ({ Component, pageProps }) => (
-	<div suppressHydrationWarning>
-		<ThemeProvider>
-			<Component {...pageProps} />
-		</ThemeProvider>
-	</div>
+	<ThemeProvider>
+		<Component {...pageProps} />
+	</ThemeProvider>
 )
 
 export default App

@@ -40,7 +40,7 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => (
 			dark: darkThemeClass,
 		}}
 	>
-		<style>{`
+		<style suppressHydrationWarning>{`
 		:root {
 			--font-sans: ${fontSans.style.fontFamily};
 			--font-mono: ${fontMono.style.fontFamily};
