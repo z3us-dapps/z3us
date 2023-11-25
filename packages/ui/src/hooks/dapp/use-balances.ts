@@ -5,11 +5,10 @@ import type {
 import { type KnownAddresses, decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 
-import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
-import { useTokens } from 'ui/src/hooks/queries/oci'
+import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
+import { type Token, useTokens } from 'ui/src/hooks/queries/tokens'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import type { Token } from 'ui/src/services/oci'
 import { ResourceBalanceType } from 'ui/src/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/src/types'
 
@@ -39,10 +38,9 @@ const transformFungibleResourceItemResponse =
 
 		const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
 
-		const tokenPriceNow = parseFloat(token?.price?.usd.now) || 0
-		const tokenPrice24h = parseFloat(token?.price?.usd['24h']) || 0
-		const change = tokenPriceNow !== 0 ? tokenPriceNow / tokenPrice24h / 100 : 0
-		const xrdValue = amount.toNumber() * (parseFloat(token?.price?.xrd.now) || 0)
+		const tokenPriceNow = token?.price || 0
+		const change = token?.change || 0
+		const xrdValue = amount.toNumber() * tokenPriceNow
 
 		container[item.resource_address] = {
 			type: ResourceBalanceType.FUNGIBLE,

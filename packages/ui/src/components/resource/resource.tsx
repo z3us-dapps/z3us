@@ -16,8 +16,9 @@ import { Button } from 'ui/src/components/router-button'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
-import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
-import { useToken, useUsfHistory } from 'ui/src/hooks/queries/oci'
+import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
+import { useUsfHistory } from 'ui/src/hooks/queries/oci'
+import { useToken } from 'ui/src/hooks/queries/tokens'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { TimeFrames } from 'ui/src/types'
@@ -131,15 +132,9 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 
 	const { data: token } = useToken(validator && knownAddresses ? knownAddresses.resourceAddresses.xrd : resourceId)
 
-	const value = useMemo(() => (parseFloat(token?.price?.xrd.now) || 0) * xrdPrice, [token, xrdPrice])
-	const change = useMemo(() => {
-		const v = token ? (parseFloat(token?.price?.usd.now) || 0) / (parseFloat(token?.price?.usd['24h']) || 0) / 100 : 0
-		return Number.isFinite(v) ? v : 0
-	}, [token])
-	const increase = useMemo(
-		() => (token ? (parseFloat(token?.price?.usd.now) || 0) - (parseFloat(token?.price?.usd['24h']) || 0) : 0),
-		[token],
-	)
+	const value = useMemo(() => (token?.price || 0) * xrdPrice, [token, xrdPrice])
+	const change = useMemo(() => token?.change || 0, [token])
+	const increase = useMemo(() => token?.increase || 0, [token])
 
 	const [timeFrame, setTimeFrame] = useState<TimeFrames>(TimeFrames.THREE_MONTHS)
 	const { data: udfHistory } = useUsfHistory(resourceId, timeFrame)

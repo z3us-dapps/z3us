@@ -14,7 +14,7 @@ import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
+import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { useCustomizeFeeModal } from '@src/hooks/modal/use-customize-fee-modal'
