@@ -8,10 +8,11 @@ import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
-import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { PoolCell } from 'ui/src/pages/accounts/components/table/pool-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 import type { ResourceBalanceKind } from 'ui/src/types'
+
+import { PoolResourcesCell } from '../components/table/pool-resources-cell'
 
 const messages = defineMessages({
 	address: {
@@ -65,16 +66,16 @@ const Tokens: React.FC = () => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: intl.formatMessage(messages.address),
+				Header: intl.formatMessage(messages.pool),
 				accessor: 'address',
 				width: 'auto',
-				Cell: AssetNameCell,
+				Cell: PoolCell,
 			},
 			{
-				Header: intl.formatMessage(messages.pool),
+				Header: intl.formatMessage(messages.address),
 				accessor: 'pool',
 				width: 'auto',
-				Cell: PoolCell,
+				Cell: PoolResourcesCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),

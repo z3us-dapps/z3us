@@ -1,13 +1,12 @@
 import clsx from 'clsx'
+import { ToolTip } from 'packages/ui/src/components/tool-tip'
 import React from 'react'
 import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { RedGreenText, Text } from 'ui/src/components/typography'
-import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { findMetadataValue } from 'ui/src/services/metadata'
 import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'
 import { ResourceBalanceType } from 'ui/src/types'
 
@@ -19,11 +18,6 @@ interface IProps {
 }
 
 export const AssetNameCell: React.FC<IProps> = props => {
-	const intl = useIntl()
-	const { currency } = useNoneSharedStore(state => ({
-		currency: state.currency,
-	}))
-
 	const {
 		value,
 		row: { original },
@@ -36,15 +30,12 @@ export const AssetNameCell: React.FC<IProps> = props => {
 		change,
 		value: tokenValue,
 		type,
-		validator,
-		pool,
 	} = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
-	const { data: validatorData } = useEntityDetails(validator)
-	const { data: poolData } = useEntityDetails(pool)
-
-	const validatorName = findMetadataValue('name', validatorData?.metadata?.items)
-	const poolName = findMetadataValue('name', poolData?.metadata?.items)
+	const intl = useIntl()
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
 
 	const a = amount
 		? intl.formatNumber(Number.parseFloat(amount), {
@@ -53,17 +44,21 @@ export const AssetNameCell: React.FC<IProps> = props => {
 		  })
 		: ''
 
+	const displayName = symbol ? `${symbol.toUpperCase()} - ${name}` : name
+
 	return (
 		<Box className={styles.assetNameCellWrapper}>
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
-				<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={value} />
+				<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={value} toolTipEnabled />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
-						<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
-							{validatorName && `${validatorName}`}
-							{poolName && `${poolName}`}
-							{!validatorName && !poolName && symbol ? `${symbol.toUpperCase()} - ${name}` : name}
-						</Text>
+						<ToolTip side="top" message={displayName}>
+							<Box>
+								<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
+									{displayName}
+								</Text>
+							</Box>
+						</ToolTip>
 						{amount && (
 							<Box>
 								<Text
@@ -78,7 +73,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 							</Box>
 						)}
 					</Box>
-					{type === ResourceBalanceType.FUNGIBLE && !pool && (
+					{type === ResourceBalanceType.FUNGIBLE && (
 						<Box className={styles.assetNameCellPriceWrapper}>
 							<Box className={styles.assetNameCellPriceTextWrapper}>
 								<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">

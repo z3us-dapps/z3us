@@ -75,16 +75,16 @@ const Tokens: React.FC = () => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: intl.formatMessage(messages.address),
-				accessor: 'address',
-				width: 'auto',
-				Cell: AssetNameCell,
-			},
-			{
 				Header: intl.formatMessage(messages.validator),
 				accessor: 'validator',
 				width: 'auto',
 				Cell: ValidatorCell,
+			},
+			{
+				Header: intl.formatMessage(messages.address),
+				accessor: 'address',
+				width: 'auto',
+				Cell: AssetNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
