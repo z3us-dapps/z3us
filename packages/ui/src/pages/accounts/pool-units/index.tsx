@@ -66,13 +66,13 @@ const Tokens: React.FC = () => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: intl.formatMessage(messages.pool),
+				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
 				width: 'auto',
 				Cell: PoolCell,
 			},
 			{
-				Header: intl.formatMessage(messages.address),
+				Header: intl.formatMessage(messages.pool),
 				accessor: 'pool',
 				width: 'auto',
 				Cell: PoolResourcesCell,
