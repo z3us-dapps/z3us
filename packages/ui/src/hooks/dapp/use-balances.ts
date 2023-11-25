@@ -38,9 +38,8 @@ const transformFungibleResourceItemResponse =
 
 		const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
 
-		const tokenPriceNow = token?.price || 0
 		const change = token?.change || 0
-		const xrdValue = amount.toNumber() * tokenPriceNow
+		const xrdValue = amount.toNumber() * (token?.price || 0)
 
 		container[item.resource_address] = {
 			type: ResourceBalanceType.FUNGIBLE,

@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 
+import type { Token as AstrolescentToken } from '../../services/astrolescent'
+import type { Token as OciToken } from '../../services/oci'
 import { useToken as useAstrolescentToken, useTokens as useAstrolescentTokens } from './astrolescent'
 import { useToken as useOciToken, useTokens as useOciTokens } from './oci'
 
@@ -12,54 +14,61 @@ export type Token = {
 	increase: number
 }
 
+function transformAstrolescentToken(token: AstrolescentToken): Token {
+	const tokenPrice24h = token.tokenPriceXRD - token.diff24H
+	const change = token.tokenPriceXRD / tokenPrice24h / 100
+
+	return {
+		address: token.address,
+		name: token.name,
+		symbol: token.symbol,
+
+		price: token.tokenPriceXRD,
+		change: Number.isFinite(change) ? change : 0,
+		increase: token.diff24H,
+	}
+}
+
+function transformOciToken(token: OciToken): Token {
+	const tokenPriceNow = parseFloat(token.price.xrd.now) || 0
+	const tokenPrice24h = parseFloat(token.price.xrd['24h']) || 0
+	const change = tokenPriceNow / tokenPrice24h / 100
+	const increase = tokenPriceNow - tokenPrice24h
+
+	return {
+		address: token.address,
+		name: token.name,
+		symbol: token.symbol,
+		price: tokenPriceNow,
+		change: Number.isFinite(change) ? change : 0,
+		increase,
+	}
+}
+
 export const useTokens = () => {
 	const { data: astrolescentTokens, isLoading: isLoadingAstrolescent } = useAstrolescentTokens()
 	const { data: ociTokens, isLoading: isLoadingOci } = useOciTokens()
 
-	return useMemo(
-		() => ({
+	return useMemo(() => {
+		const data = Object.values(ociTokens || {}).reduce(
+			(container, token) => ({
+				...container,
+				[token.address]: transformOciToken(token),
+			}),
+			{},
+		)
+
+		return {
 			isLoading: isLoadingAstrolescent || isLoadingOci,
-			data: {
-				...(ociTokens || {}),
-				...Object.values(ociTokens || {}).reduce((container, token) => {
-					const tokenPriceNow = parseFloat(token?.price?.usd.now) || 0
-					const tokenPrice24h = parseFloat(token?.price?.usd['24h']) || 0
-					const change = tokenPriceNow !== 0 ? tokenPriceNow / tokenPrice24h / 100 : 0
-					const increase = tokenPriceNow - tokenPrice24h
-
-					return {
-						...container,
-						[token.address]: {
-							address: token.address,
-							name: token.name,
-							symbol: token.symbol,
-							price: tokenPriceNow,
-							change: Number.isFinite(change) ? change : 0,
-							increase,
-						},
-					} as Token
-				}, {}),
-				...Object.values(astrolescentTokens || {}).reduce((container, token) => {
-					const tokenPrice24h = token.tokenPriceUSD + token.diff24HUSD
-					const change = token.tokenPriceUSD !== 0 ? token.tokenPriceUSD / tokenPrice24h / 100 : 0
-
-					return {
-						...container,
-						[token.address]: {
-							address: token.address,
-							name: token.address,
-							symbol: token.address,
-
-							price: token.tokenPriceUSD,
-							change: Number.isFinite(change) ? change : 0,
-							increase: token.diff24HUSD,
-						},
-					} as Token
-				}, {}),
-			},
-		}),
-		[astrolescentTokens, isLoadingAstrolescent, ociTokens, isLoadingOci],
-	)
+			data: Object.values(astrolescentTokens || {}).reduce(
+				(container, token) => ({
+					...container,
+					[token.address]: transformAstrolescentToken(token),
+				}),
+				data,
+			),
+		}
+	}, [astrolescentTokens, isLoadingAstrolescent, ociTokens, isLoadingOci])
 }
 
 export const useToken = (address: string) => {
@@ -67,43 +76,11 @@ export const useToken = (address: string) => {
 	const { data: ociToken, isLoading: isLoadingOci } = useOciToken(address)
 
 	return useMemo(() => {
-		const astrolescentTokenPrice24h = !astrolescentToken
-			? 0
-			: astrolescentToken.tokenPriceUSD + astrolescentToken.diff24HUSD
-		const astrolescentChange =
-			astrolescentToken && astrolescentToken.tokenPriceUSD !== 0
-				? astrolescentToken.tokenPriceUSD / astrolescentTokenPrice24h / 100
-				: 0
-		const at = astrolescentToken
-			? ({
-					address: astrolescentToken.address,
-					name: astrolescentToken.address,
-					symbol: astrolescentToken.address,
-
-					price: astrolescentToken.tokenPriceUSD,
-					change: Number.isFinite(astrolescentChange) ? astrolescentChange : 0,
-					increase: astrolescentToken?.diff24HUSD || 0,
-			  } as Token)
-			: null
-
-		const ociTokenPriceNow = parseFloat(ociToken?.price?.usd.now) || 0
-		const ociTokenPrice24h = parseFloat(ociToken?.price?.usd['24h']) || 0
-		const ociChange = ociTokenPriceNow !== 0 ? ociTokenPriceNow / ociTokenPrice24h / 100 : 0
-
-		const ot = ociToken
-			? ({
-					address: ociToken.address,
-					name: ociToken.name,
-					symbol: ociToken.symbol,
-					price: ociTokenPriceNow,
-					change: Number.isFinite(ociChange) ? ociChange : 0,
-					increase: ociTokenPriceNow - ociTokenPrice24h,
-			  } as Token)
-			: null
-
+		const at = astrolescentToken ? transformAstrolescentToken(astrolescentToken) : null
+		const ot = ociToken ? transformOciToken(ociToken) : null
 		return {
-			data: at || ot || null,
-			isLoading: isLoadingAstrolescent || isLoadingOci,
+			data: at || ot,
+			isLoading: isLoadingOci,
 		}
 	}, [astrolescentToken, isLoadingAstrolescent, ociToken, isLoadingOci])
 }
