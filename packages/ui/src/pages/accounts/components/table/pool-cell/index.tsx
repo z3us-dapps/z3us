@@ -7,8 +7,9 @@ import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { ResourceSnippet } from 'ui/src/components/snippet/resource'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
+import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
@@ -24,9 +25,12 @@ export const PoolCell: React.FC<IProps> = props => {
 		value,
 		row: { original },
 	} = props
-	const { pool, amount } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
+	const { pool, amount, change, value: tokenValue } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
 	const intl = useIntl()
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
 
 	const { data } = useEntityDetails(pool)
 	const { data: poolData, isLoading } = useEntityDetails(value)
@@ -77,6 +81,32 @@ export const PoolCell: React.FC<IProps> = props => {
 							{resources.map(resource => (
 								<ResourceSnippet key={resource} address={resource} size="small" />
 							))}
+						</Box>
+					</Box>
+					<Box className={styles.assetNameCellPriceWrapper}>
+						<Box className={styles.assetNameCellPriceTextWrapper}>
+							<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">
+								{tokenValue &&
+									intl.formatNumber(tokenValue, {
+										style: 'currency',
+										currency,
+									})}
+							</Text>
+							<RedGreenText
+								change={change}
+								capitalizeFirstLetter
+								size="xsmall"
+								color="strong"
+								truncate
+								weight="medium"
+								align="right"
+							>
+								{change &&
+									intl.formatNumber(change, {
+										style: 'percent',
+										maximumFractionDigits: 2,
+									})}
+							</RedGreenText>
 						</Box>
 					</Box>
 				</Box>

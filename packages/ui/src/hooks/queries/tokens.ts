@@ -30,8 +30,8 @@ function transformAstrolescentToken(token: AstrolescentToken): Token {
 }
 
 function transformOciToken(token: OciToken): Token {
-	const tokenPriceNow = parseFloat(token.price.xrd.now) || 0
-	const tokenPrice24h = parseFloat(token.price.xrd['24h']) || 0
+	const tokenPriceNow = parseFloat(token.price?.xrd.now) || 0
+	const tokenPrice24h = parseFloat(token.price?.xrd['24h']) || 0
 	const change = tokenPriceNow / tokenPrice24h / 100
 	const increase = tokenPriceNow - tokenPrice24h
 
@@ -51,20 +51,14 @@ export const useTokens = () => {
 
 	return useMemo(() => {
 		const data = Object.values(ociTokens || {}).reduce(
-			(container, token) => ({
-				...container,
-				[token.address]: transformOciToken(token),
-			}),
+			(container, token) => ({ ...container, [token.address]: transformOciToken(token) }),
 			{},
 		)
 
 		return {
 			isLoading: isLoadingAstrolescent || isLoadingOci,
 			data: Object.values(astrolescentTokens || {}).reduce(
-				(container, token) => ({
-					...container,
-					[token.address]: transformAstrolescentToken(token),
-				}),
+				(container, token) => ({ ...container, [token.address]: transformAstrolescentToken(token) }),
 				data,
 			),
 		}
