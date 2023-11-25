@@ -4,8 +4,9 @@
 	"private": true,
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-		"dev": "concurrently \"contentlayer dev\" \"next dev -p 3001\"",
-		"build": "contentlayer build && next build",
+		"copy_ext_images": "rm -rf public/images && cp -r ../extension/public/images public",
+		"dev": "concurrently \"yarn copy_ext_images\" \"contentlayer dev\" \"next dev -p 3001\"",
+		"build": "yarn copy_ext_images && contentlayer build && next build",
 		"build:serve": "serve -p 3001 ./out",
 		"lint": "next lint",
 		"start": "next start",
