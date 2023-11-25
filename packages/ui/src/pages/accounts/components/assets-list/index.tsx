@@ -105,18 +105,28 @@ export const AssetsList: React.FC = () => {
 					<Box className={styles.assetsListBalancesWrapper}>
 						<OverlayAssetIcons resourceType={path.slice(0, -1) as any} balances={rows[path].balances} />
 						<Box className={styles.assetsListBalancesTextWrapper}>
-							<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
-								{intl.formatNumber(rows[path].value, {
-									style: 'currency',
-									currency,
-								})}
-							</Text>
-							<RedGreenText size="small" change={rows[path].change} truncate className={styles.assetsListBalancesText}>
-								{intl.formatNumber(rows[path].change, {
-									style: 'percent',
-									maximumFractionDigits: 2,
-								})}
-							</RedGreenText>
+							{rows[path].value !== 0 && (
+								<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
+									{intl.formatNumber(rows[path].value, {
+										style: 'currency',
+										currency,
+									})}
+								</Text>
+							)}
+
+							{rows[path].change !== 0 && (
+								<RedGreenText
+									size="small"
+									change={rows[path].change}
+									truncate
+									className={styles.assetsListBalancesText}
+								>
+									{intl.formatNumber(rows[path].change, {
+										style: 'percent',
+										maximumFractionDigits: 2,
+									})}
+								</RedGreenText>
+							)}
 						</Box>
 					</Box>
 				</Link>
