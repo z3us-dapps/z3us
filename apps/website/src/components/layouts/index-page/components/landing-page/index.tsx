@@ -94,7 +94,7 @@ export const LandingPage: React.FC = () => (
 					</Box>
 				</ContentContainer>
 			</Box>
-			<Box className={clsx(styles.landingPageInvadersWrapper, styles.landingPageInvadersHeroWrapper)}>
+			<Box className={clsx(styles.landingPageInvadersWrapper)}>
 				<Box className={styles.landingPageInvadersInnerWrapper}>
 					<Image
 						priority
@@ -229,7 +229,7 @@ export const LandingPage: React.FC = () => (
 					/>
 				</Box>
 			</Box>
-			<Box className={styles.landingPageDarkWrapper}>
+			<Box className={clsx(styles.landingPageDarkWrapper, styles.landingMakeItYourOwnWrapper)}>
 				<ContentContainer>
 					{/* START: MAKE IT YOUR OWN */}
 					<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
