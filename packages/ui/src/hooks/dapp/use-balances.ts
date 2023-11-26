@@ -1,15 +1,16 @@
 import type {
 	FungibleResourcesCollectionItemVaultAggregated,
 	NonFungibleResourcesCollectionItemVaultAggregated,
+	StateEntityDetailsResponseItem,
 } from '@radixdlt/radix-dapp-toolkit'
 import { type KnownAddresses, decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 
-import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
-import { useTokens } from 'ui/src/hooks/queries/oci'
+import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
+import { type Token, useTokens } from 'ui/src/hooks/queries/tokens'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import type { Token } from 'ui/src/services/oci'
 import { ResourceBalanceType } from 'ui/src/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/src/types'
 
@@ -17,8 +18,36 @@ import { useEntitiesDetails } from './use-entity-details'
 import { useKnownAddresses } from './use-known-addresses'
 import { useNetworkId } from './use-network-id'
 
+const collectResourcePools = (container: string[], item: FungibleResourcesCollectionItemVaultAggregated): string[] => {
+	const metadata = item.explicit_metadata?.items
+	const pool = findMetadataValue('pool', metadata)
+	if (pool) container.push(pool)
+	return container
+}
+
+const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
+	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)
+	const totalValue = balanceValues.reduce((total, balance) => total + balance.value, 0)
+	const totalChange = balanceValues.reduce(
+		(change, balance) => change + (balance.change / totalValue) * balance.value,
+		0,
+	)
+
+	return {
+		[`${valueType}Balances`]: balanceValues,
+		[`${valueType}XrdValue`]: Number.isFinite(totalXrdValue) ? totalXrdValue : 0,
+		[`${valueType}Value`]: Number.isFinite(totalValue) ? totalValue : 0,
+		[`${valueType}Change`]: Number.isFinite(totalChange) ? totalChange : 0,
+	}
+}
+
 const transformFungibleResourceItemResponse =
-	(knownAddresses: KnownAddresses, xrdPrice: number, tokens: { [key: string]: Token }) =>
+	(
+		knownAddresses: KnownAddresses,
+		xrdPrice: number,
+		tokens: { [key: string]: Token },
+		poolsMap: { [key: string]: StateEntityDetailsResponseItem },
+	) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
 		const metadata = item.explicit_metadata?.items
 		const name = findMetadataValue('name', metadata)
@@ -37,12 +66,36 @@ const transformFungibleResourceItemResponse =
 			return container
 		}
 
-		const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
+		let change = 0
+		let xrdValue = 0
+		if (pool && poolsMap[pool]) {
+			const poolTokensMap = poolsMap[pool].fungible_resources.items.reduce(
+				transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, poolsMap),
+				{},
+			)
+			const poolTokens = Object.values(poolTokensMap)
+			const poolBalances = transformBalances(poolTokens, 'pool')
 
-		const tokenPriceNow = parseFloat(token?.price?.usd.now) || 0
-		const tokenPrice24h = parseFloat(token?.price?.usd['24h']) || 0
-		const change = tokenPriceNow !== 0 ? tokenPriceNow / tokenPrice24h / 100 : 0
-		const xrdValue = amount.toNumber() * (parseFloat(token?.price?.xrd.now) || 0)
+			xrdValue = poolTokens.reduce(
+				(total, balance) =>
+					total + amount.mul(decimal(balance.xrdValue).value.div(decimal(balance.amount).value)).toNumber(),
+				0,
+			)
+			change = poolTokens.reduce(
+				(c, balance) =>
+					c +
+					balance.change /
+						((poolBalances.poolValue as number) === 0
+							? 1
+							: (poolBalances.poolValue as number) / (balance.value === 0 ? 1 : balance.value)),
+				0,
+			)
+		} else {
+			const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
+
+			change = token?.change || 0
+			xrdValue = amount.toNumber() * (token?.price || 0)
+		}
 
 		container[item.resource_address] = {
 			type: ResourceBalanceType.FUNGIBLE,
@@ -102,22 +155,6 @@ const transformNonFungibleResourceItemResponse = (
 	return container
 }
 
-const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
-	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)
-	const totalValue = balanceValues.reduce((total, balance) => total + balance.value, 0)
-	const totalChange = balanceValues.reduce(
-		(change, balance) => change + (balance.change / totalValue) * balance.value,
-		0,
-	)
-
-	return {
-		[`${valueType}Balances`]: balanceValues,
-		[`${valueType}XrdValue`]: Number.isFinite(totalXrdValue) ? totalXrdValue : 0,
-		[`${valueType}Value`]: Number.isFinite(totalValue) ? totalValue : 0,
-		[`${valueType}Change`]: Number.isFinite(totalChange) ? totalChange : 0,
-	}
-}
-
 type Balances = {
 	balances: ResourceBalanceKind[]
 	totalValue: number
@@ -155,29 +192,53 @@ type Balances = {
 	poolUnitsXrdValue: number
 }
 
+const useAccountPools = accounts => {
+	const poolAddresses = useMemo(() => {
+		if (!accounts) return []
+		return accounts
+			.map(({ fungible_resources }) => fungible_resources.items.reduce(collectResourcePools, []))
+			.reduce((a, b) => a.concat(b), [])
+			.filter((value, index, array) => array.indexOf(value) === index)
+	}, [accounts])
+	return useEntitiesDetails(poolAddresses)
+}
+
 export const useBalances = (...addresses: string[]) => {
 	const networkId = useNetworkId()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 
+	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
+
 	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
 	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(addresses.filter(address => !!address))
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
+	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts)
 
-	const isLoading = isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts
+	const poolsMap = useMemo(
+		() =>
+			pools?.reduce((map, pool) => {
+				map[pool.address] = pool
+				return map
+			}, {}) || {},
+		[pools],
+	)
+
+	const isLoading =
+		isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts || isLoadingPools
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
-		queryKey: ['useBalances', networkId, currency, addresses],
+		queryKey: ['useBalances', networkId, currency, accountAddresses, pools?.length],
 		enabled,
 		queryFn: (): Balances => {
 			let fungible: ResourceBalances = {}
 			let nonFungible: ResourceBalances = {}
 			accounts.forEach(({ fungible_resources, non_fungible_resources }) => {
 				fungible = fungible_resources.items.reduce(
-					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens),
+					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, poolsMap),
 					fungible,
 				)
 				nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse, nonFungible)
@@ -224,16 +285,28 @@ export const useAccountValues = (...addresses: string[]) => {
 		currency: state.currency,
 	}))
 
+	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
+
 	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
 	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(addresses.filter(address => !!address))
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
+	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts)
 
-	const isLoading = isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts
+	const poolsMap = useMemo(
+		() =>
+			pools?.reduce((map, pool) => {
+				map[pool.address] = pool
+				return map
+			}, {}) || {},
+		[pools],
+	)
+	const isLoading =
+		isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts || isLoadingPools
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
-		queryKey: ['useAccountValues', networkId, currency, addresses],
+		queryKey: ['useAccountValues', networkId, currency, accountAddresses],
 		enabled,
 		queryFn: () =>
 			accounts.reduce(
@@ -241,7 +314,7 @@ export const useAccountValues = (...addresses: string[]) => {
 					...container,
 					[account.address]: Object.values(
 						account.fungible_resources.items.reduce(
-							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens),
+							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, poolsMap),
 							{},
 						),
 					).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),
@@ -256,11 +329,12 @@ type AccountNfts = { resource: string; vault: string; account: string }
 export const useAccountNftVaults = (resource: string, addresses: string[]) => {
 	const networkId = useNetworkId()
 
-	const { data: accounts = [], isLoading } = useEntitiesDetails(addresses.filter(address => !!address))
+	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
+	const { data: accounts = [], isLoading } = useEntitiesDetails(accountAddresses)
 
 	return useQuery({
-		queryKey: ['useAccountNftVaults', networkId, resource, addresses],
-		enabled: !!resource && !isLoading && addresses.length > 0 && accounts.length > 0,
+		queryKey: ['useAccountNftVaults', networkId, resource, accountAddresses],
+		enabled: !!resource && !isLoading && accountAddresses.length > 0 && accounts.length > 0,
 		queryFn: () =>
 			accounts.reduce((result: Array<AccountNfts>, account) => {
 				const items = account.non_fungible_resources.items as Array<NonFungibleResourcesCollectionItemVaultAggregated>

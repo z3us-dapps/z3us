@@ -8,10 +8,13 @@ import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
-import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { PoolCell } from 'ui/src/pages/accounts/components/table/pool-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 import type { ResourceBalanceKind } from 'ui/src/types'
+
+import { AssetChangeCell } from '../components/table/asset-change-cell'
+import { AssetValueCell } from '../components/table/asset-value-cell'
+import { PoolResourcesCell } from '../components/table/pool-resources-cell'
 
 const messages = defineMessages({
 	address: {
@@ -25,6 +28,14 @@ const messages = defineMessages({
 	amount: {
 		id: 'H5+NAX',
 		defaultMessage: 'Balance',
+	},
+	value: {
+		id: 'GufXy5',
+		defaultMessage: 'Value',
+	},
+	change: {
+		id: 'BY343C',
+		defaultMessage: 'Change',
 	},
 	empty_title: {
 		id: 'jHJmjf',
@@ -68,19 +79,31 @@ const Tokens: React.FC = () => {
 				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
 				width: 'auto',
-				Cell: AssetNameCell,
+				Cell: PoolCell,
 			},
 			{
 				Header: intl.formatMessage(messages.pool),
 				accessor: 'pool',
 				width: 'auto',
-				Cell: PoolCell,
+				Cell: PoolResourcesCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
 				accessor: 'amount',
 				width: 'auto',
 				Cell: AssetAmountCell,
+			},
+			{
+				Header: intl.formatMessage(messages.value),
+				accessor: 'value',
+				width: 'auto',
+				Cell: AssetValueCell,
+			},
+			{
+				Header: intl.formatMessage(messages.change),
+				accessor: 'change',
+				width: 'auto',
+				Cell: AssetChangeCell,
 			},
 		],
 		[],

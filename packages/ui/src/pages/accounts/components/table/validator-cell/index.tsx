@@ -1,30 +1,23 @@
 import clsx from 'clsx'
 import React from 'react'
-import { defineMessages, useIntl } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
-import { Text } from 'ui/src/components/typography'
+import { ResourceSnippet } from 'ui/src/components/snippet/resource'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
+import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
 import * as styles from './styles.css'
 
-const messages = defineMessages({
-	unknown: {
-		id: 'EqfQEG',
-		defaultMessage: `{hasName, select,
-			true {{name}}
-			other {Unknown}
-		}`,
-	},
-})
-
 interface IProps {
 	value?: string
-	row?: { original: ResourceBalance[ResourceBalanceType.FUNGIBLE] }
+	row?: { original: ResourceBalanceKind }
 }
 
 export const ValidatorCell: React.FC<IProps> = props => {
@@ -32,10 +25,14 @@ export const ValidatorCell: React.FC<IProps> = props => {
 		value,
 		row: { original },
 	} = props
-	const { symbol, validator } = original
+	const { address, amount, change, value: tokenValue } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
 	const intl = useIntl()
-	const { data, isLoading } = useEntityDetails(validator)
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
+
+	const { data, isLoading } = useEntityDetails(value)
 
 	const name = findMetadataValue('name', data?.metadata?.items)
 
@@ -47,10 +44,58 @@ export const ValidatorCell: React.FC<IProps> = props => {
 				<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={value} />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
-						<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
-							{symbol && `${symbol.toUpperCase()} - `}
-							{intl.formatMessage(messages.unknown, { hasName: !!name, name })}
-						</Text>
+						<ToolTip side="top" message={name}>
+							<Box>
+								<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
+									{name}
+								</Text>
+							</Box>
+						</ToolTip>
+						{amount && (
+							<Box>
+								<Text
+									capitalizeFirstLetter
+									size="xsmall"
+									truncate
+									weight="strong"
+									className={styles.assetNameCellBalanceWrapper}
+								>
+									{intl.formatNumber(Number.parseFloat(amount), {
+										style: 'decimal',
+										maximumFractionDigits: 18,
+									})}
+								</Text>
+							</Box>
+						)}
+					</Box>
+					<Box className={styles.assetNameCellPriceWrapper}>
+						<Box className={styles.assetNameCellPriceTextWrapper}>
+							<ResourceSnippet address={address} size="small" />
+						</Box>
+						<Box className={styles.assetNameCellPriceTextWrapper}>
+							<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">
+								{tokenValue &&
+									intl.formatNumber(tokenValue, {
+										style: 'currency',
+										currency,
+									})}
+							</Text>
+							<RedGreenText
+								change={change}
+								capitalizeFirstLetter
+								size="xsmall"
+								color="strong"
+								truncate
+								weight="medium"
+								align="right"
+							>
+								{change &&
+									intl.formatNumber(change, {
+										style: 'percent',
+										maximumFractionDigits: 2,
+									})}
+							</RedGreenText>
+						</Box>
 					</Box>
 				</Box>
 			</Box>

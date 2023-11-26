@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react'
 
-import { Box } from 'ui/src/components/box'
 import { type IImageIconProps, ImageIcon } from 'ui/src/components/image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
@@ -31,7 +30,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 
 		return (
 			<ToolTip side="top" message={tooltip} disabled={!toolTipEnabled || !tooltip}>
-				<Box position="relative">
+				<span>
 					<ImageIcon
 						imgSrc={imageSrc}
 						imgAlt={name || shortAddress}
@@ -41,7 +40,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 						ref={ref}
 						{...props}
 					/>
-				</Box>
+				</span>
 			</ToolTip>
 		)
 	},

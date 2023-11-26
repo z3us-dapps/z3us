@@ -10,14 +10,16 @@ import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { findMetadataValue } from 'ui/src/services/metadata'
 
 import { getShortAddress } from '../../utils/string-utils'
+import type { TImageSizes } from '../image-icon'
 
 interface IProps {
 	address: string
 	change?: number
 	reversed?: boolean
+	size?: TImageSizes
 }
 
-export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed }) => {
+export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed, size = 'xlarge' }) => {
 	const intl = useIntl()
 	const { data, isLoading } = useEntityDetails(address)
 
@@ -37,7 +39,7 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed })
 
 	return (
 		<Box display="flex" flexDirection={reversed ? 'row-reverse' : 'row'} gap="medium" alignItems="center">
-			<ResourceImageIcon address={address} size="xlarge" />
+			<ResourceImageIcon address={address} size={size} />
 			<Box display="flex" flexDirection="column" flexShrink={0}>
 				{displayName && (
 					<Text align={reversed ? 'right' : 'left'} color="strong" weight="medium" size="xsmall" truncate>

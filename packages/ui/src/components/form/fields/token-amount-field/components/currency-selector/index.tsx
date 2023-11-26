@@ -19,7 +19,7 @@ import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles
 import { TokenPrice } from 'ui/src/components/token-price'
 import { Text } from 'ui/src/components/typography'
 import { FAVORITE_CURRENCIES } from 'ui/src/constants/currency'
-import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
+import { useSupportedCurrencies } from 'ui/src/hooks/queries/coingecko'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { CURRENCY } from 'ui/src/store/types'
 

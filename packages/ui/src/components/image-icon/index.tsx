@@ -10,9 +10,9 @@ import * as styles from './image-icon.css'
 
 export type TImageColors = 'primary' | 'secondary'
 
-type TImageSizeOption = 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge'
+export type TImageSizeOption = 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge'
 
-type TImageSizes =
+export type TImageSizes =
 	| TImageSizeOption
 	| {
 			mobile?: TImageSizeOption
