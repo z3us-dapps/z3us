@@ -38,8 +38,13 @@ export const useMessageClient = () => {
 		() => ({
 			ping: (): Promise<boolean> => sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_PING),
 
-			getSecret: (password: string): Promise<string | null> =>
+			getSecret: (password: string, combinedKeystoreId: string): Promise<string | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_GET, {
+					password,
+					combinedKeystoreId,
+				}),
+			getData: (password: string): Promise<Data> =>
+				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_GET_DATA, {
 					password,
 				}),
 
@@ -62,10 +67,11 @@ export const useMessageClient = () => {
 			isVaultUnlocked: (): Promise<boolean> =>
 				sendMessageToBackground(BackgroundMessageAction.BACKGROUND_VAULT_IS_UNLOCKED),
 
-			getPublicKey: (curve: CURVE, derivationPath: string): Promise<PublicKey | null> =>
+			getPublicKey: (curve: CURVE, derivationPath: string, combinedKeystoreId: string): Promise<PublicKey | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_GET_PUBLIC_KEY, {
 					curve,
 					derivationPath,
+					combinedKeystoreId,
 				}).then(resp => publicKeyFromJSON(resp || {})),
 
 			signToSignature: (
@@ -73,24 +79,28 @@ export const useMessageClient = () => {
 				derivationPath: string,
 				password: string,
 				data: Uint8Array,
+				combinedKeystoreId: string,
 			): Promise<Signature | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE, {
 					curve,
 					derivationPath,
 					password,
 					toSign: Convert.Uint8Array.toHexString(data),
+					combinedKeystoreId,
 				}).then(resp => signatureFromJSON(resp || {})),
 			signToSignatureWithPublicKey: (
 				curve: CURVE,
 				derivationPath: string,
 				password: string,
 				data: Uint8Array,
+				combinedKeystoreId: string,
 			): Promise<SignatureWithPublicKey | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY, {
 					curve,
 					derivationPath,
 					password,
 					toSign: Convert.Uint8Array.toHexString(data),
+					combinedKeystoreId,
 				}).then(resp => signatureWithPublicKeyFromJSON(resp || {})),
 		}),
 		[sendMessageToBackgroundAndUpdateTrigger, sendMessageToBackground],

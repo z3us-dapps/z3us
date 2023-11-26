@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import type { HardwareKeySource } from 'ui/src/store/types'
 
 import { signatureCurveFromLedgerCurve } from '@src/browser/ledger/signature'
 import { signatureWithPublicKeyFromJSON } from '@src/crypto/signature'
@@ -18,9 +19,14 @@ export const useSignTransactionWithLedger = () => {
 		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
-	const sign = async (intent: Intent, needSignaturesFrom: string[]): Promise<SignatureWithPublicKey[]> => {
+	const sign = async (
+		keySource: HardwareKeySource,
+		intent: Intent,
+		needSignaturesFrom: string[],
+	): Promise<SignatureWithPublicKey[]> => {
 		const compiledIntent = await RadixEngineToolkit.Intent.compile(intent)
 		const ledgerSignatures = await ledger.signTx(
+			keySource,
 			needSignaturesFrom.map(address => accountIndexes[address]),
 			compiledIntent,
 		)

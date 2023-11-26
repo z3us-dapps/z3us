@@ -16,22 +16,26 @@ export const useBuildNewPersonKeyParts = () => {
 		personaIndexes: state.personaIndexes[networkId] || {},
 	}))
 
-	const buildNewPersonKeyParts = useCallback(async () => {
-		const idx = Math.max(-1, ...Object.values(personaIndexes).map(persona => persona.entityIndex)) + 1
-		const derivationPath = buildPersonaDerivationPath(networkId, idx)
-		const publicKey = await getPublicKey(CURVE.CURVE25519, derivationPath)
-		const address = await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(publicKey, networkId)
-		const identityAddress = address.toString()
+	const buildNewPersonKeyParts = useCallback(
+		async (combinedKeystoreId: string = '') => {
+			const idx = Math.max(-1, ...Object.values(personaIndexes).map(persona => persona.entityIndex)) + 1
+			const derivationPath = buildPersonaDerivationPath(networkId, idx)
+			const publicKey = await getPublicKey(CURVE.CURVE25519, derivationPath, combinedKeystoreId)
+			const address = await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(publicKey, networkId)
+			const identityAddress = address.toString()
 
-		return {
-			entityIndex: +idx,
-			identityAddress,
-			publicKeyHex: publicKey.hexString(),
-			curve: CURVE.CURVE25519,
-			scheme: SCHEME.CAP26,
-			derivationPath,
-		}
-	}, [networkId, personaIndexes, getPublicKey])
+			return {
+				entityIndex: +idx,
+				identityAddress,
+				publicKeyHex: publicKey.hexString(),
+				curve: CURVE.CURVE25519,
+				scheme: SCHEME.CAP26,
+				derivationPath,
+				combinedKeystoreId,
+			}
+		},
+		[networkId, personaIndexes, getPublicKey],
+	)
 
 	return buildNewPersonKeyParts
 }

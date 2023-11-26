@@ -5,6 +5,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import type { Accounts, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { getDAppDataToSign, proofCurve, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
@@ -24,6 +25,16 @@ const messages = defineMessages({
 	},
 })
 
+function groupAddressesByCombinedKeystoreId(accounts: Accounts, needSignaturesFrom: string[]) {
+	return needSignaturesFrom.reduce((rv, address) => {
+		if (!rv[accounts[address].combinedKeystoreId]) {
+			rv[accounts[address].combinedKeystoreId] = []
+		}
+		rv[accounts[address].combinedKeystoreId].push(address)
+		return rv
+	}, {})
+}
+
 export const useAccountsData = () => {
 	const intl = useIntl()
 	const client = useMessageClient()
@@ -31,8 +42,8 @@ export const useAccountsData = () => {
 	const networkId = useNetworkId()
 	const confirm = usePasswordModal()
 
-	const { keystore } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	const { selectedKeystore } = useSharedStore(state => ({
+		selectedKeystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
 	const { accountIndexes, addressBook } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes[networkId] || {},
@@ -41,6 +52,7 @@ export const useAccountsData = () => {
 
 	const sign = useCallback(
 		async (
+			keystore: Keystore,
 			needSignaturesFrom: string[],
 			challenge: string,
 			metadata: { origin: string; dAppDefinitionAddress: string },
@@ -55,6 +67,7 @@ export const useAccountsData = () => {
 								accountIndexes[address].derivationPath,
 								password,
 								getDAppDataToSign(challenge, metadata.origin, metadata.dAppDefinitionAddress),
+								accountIndexes[address].combinedKeystoreId,
 							)
 							const signature = signatureWithPublicKeyToJSON(signatureWithPublicKey)
 
@@ -70,6 +83,7 @@ export const useAccountsData = () => {
 					)
 				case KeystoreType.HARDWARE:
 					const response = await ledger.signChallenge(
+						keystore,
 						needSignaturesFrom.map(address => accountIndexes[address]),
 						challenge,
 						metadata,
@@ -82,11 +96,25 @@ export const useAccountsData = () => {
 							curve: signature.derivedPublicKey.curve,
 						},
 					}))
+				case KeystoreType.COMBINED:
+					const grouped = groupAddressesByCombinedKeystoreId(accountIndexes, needSignaturesFrom)
+					const combinedKeystoreIds = Object.keys(grouped)
+					const combinedResponses = await Promise.all(
+						combinedKeystoreIds.map(async combinedKeystoreId =>
+							sign(
+								{ id: combinedKeystoreId, name: keystore.id, ...keystore.keySources[combinedKeystoreId] },
+								grouped[combinedKeystoreId],
+								challenge,
+								metadata,
+							),
+						),
+					)
+					return combinedResponses.flat()
 				default:
 					throw new Error(`Can not sign with keystore type: ${keystore?.type}`)
 			}
 		},
-		[keystore, client, ledger, accountIndexes, intl, confirm],
+		[client, ledger, accountIndexes, intl, confirm],
 	)
 
 	const buildAccounts = useCallback(
@@ -96,7 +124,7 @@ export const useAccountsData = () => {
 			const { challenge } = req
 			let proofs: AccountProof[]
 			if (challenge) {
-				proofs = await sign(selectedAccounts, challenge, metadata)
+				proofs = await sign(selectedKeystore, selectedAccounts, challenge, metadata)
 			}
 
 			const accounts = selectedAccounts.map((idx, appearanceId) => ({
@@ -109,7 +137,7 @@ export const useAccountsData = () => {
 
 			return { accounts, challenge, proofs }
 		},
-		[sign, accountIndexes, addressBook, intl],
+		[sign, selectedKeystore, accountIndexes, addressBook, intl],
 	)
 
 	return buildAccounts

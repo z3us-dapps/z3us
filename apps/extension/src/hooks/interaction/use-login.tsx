@@ -12,7 +12,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
-import type { Persona } from 'ui/src/store/types'
+import type { Keystore, Persona } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { getDAppDataToSign, proofCurve, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
@@ -39,8 +39,8 @@ export const useLogin = () => {
 	const networkId = useNetworkId()
 	const confirm = usePasswordModal()
 
-	const { keystore } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	const { selectedKeystore } = useSharedStore(state => ({
+		selectedKeystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
 	const { personaIndexes } = useNoneSharedStore(state => ({
 		personaIndexes: state.personaIndexes[networkId] || {},
@@ -48,6 +48,7 @@ export const useLogin = () => {
 
 	const sign = useCallback(
 		async (
+			keystore: Keystore,
 			persona: Persona,
 			challenge: string,
 			metadata: { origin: string; dAppDefinitionAddress: string },
@@ -63,6 +64,7 @@ export const useLogin = () => {
 						persona.derivationPath,
 						password,
 						getDAppDataToSign(challenge, metadata.origin, metadata.dAppDefinitionAddress),
+						persona.combinedKeystoreId,
 					)
 					const signature = signatureWithPublicKeyToJSON(signatureWithPublicKey)
 					return {
@@ -71,17 +73,24 @@ export const useLogin = () => {
 						curve: proofCurve(signature.curve),
 					}
 				case KeystoreType.HARDWARE:
-					const [ledgerSignature] = await ledger.signChallenge([persona], challenge, metadata)
+					const [ledgerSignature] = await ledger.signChallenge(keystore, [persona], challenge, metadata)
 					return {
 						signature: ledgerSignature.signature,
 						publicKey: ledgerSignature.derivedPublicKey.publicKey,
 						curve: ledgerSignature.derivedPublicKey.curve,
 					}
+				case KeystoreType.COMBINED:
+					return sign(
+						{ id: persona.combinedKeystoreId, name: keystore.id, ...keystore.keySources[persona.combinedKeystoreId] },
+						persona,
+						challenge,
+						metadata,
+					)
 				default:
 					throw new Error(`Can not sign with keystore type: ${keystore?.type}`)
 			}
 		},
-		[keystore, client, ledger, confirm, intl],
+		[client, ledger, confirm, intl],
 	)
 
 	const loginWithChallenge = useCallback(
@@ -95,12 +104,12 @@ export const useLogin = () => {
 			const persona = personaIndexes[selectedPersona]
 			let proof: AuthLoginWithChallengeRequestResponseItem['proof']
 			if (challenge) {
-				proof = await sign(persona, challenge, metadata)
+				proof = await sign(selectedKeystore, persona, challenge, metadata)
 			}
 
 			return { discriminator, challenge, persona, proof }
 		},
-		[personaIndexes, sign],
+		[personaIndexes, selectedKeystore, sign],
 	)
 
 	const login = useCallback(

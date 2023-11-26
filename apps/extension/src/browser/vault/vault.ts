@@ -205,6 +205,9 @@ export class Vault {
 			case KeystoreType.HARDWARE:
 				await setConnectionPassword('')
 				break
+			case KeystoreType.COMBINED:
+				await setConnectionPassword('')
+				break
 			default:
 				break
 			// we do not reset password on lock here to let connect button send events to radix mobile

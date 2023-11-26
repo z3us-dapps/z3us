@@ -17,7 +17,7 @@ export const useBuildNewAccountKeyParts = () => {
 	}))
 
 	const buildNewAccountKeyParts = useCallback(
-		async (legacy: boolean) => {
+		async (legacy: boolean, combinedKeystoreId: string = '') => {
 			const idx =
 				Math.max(
 					-1,
@@ -28,7 +28,7 @@ export const useBuildNewAccountKeyParts = () => {
 			const derivationPath = legacy ? buildOlympiaDerivationPath(idx) : buildAccountDerivationPath(networkId, idx)
 			const curve = legacy ? CURVE.SECP256K1 : CURVE.CURVE25519
 			const scheme = legacy ? SCHEME.BIP440OLYMPIA : SCHEME.CAP26
-			const publicKey = await getPublicKey(curve, derivationPath)
+			const publicKey = await getPublicKey(curve, derivationPath, combinedKeystoreId)
 			const address = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(publicKey, networkId)
 
 			return {
@@ -38,6 +38,7 @@ export const useBuildNewAccountKeyParts = () => {
 				curve,
 				scheme,
 				derivationPath,
+				combinedKeystoreId,
 			}
 		},
 		[networkId, accountIndexes, getPublicKey],
@@ -56,8 +57,8 @@ export const useAddAccount = () => {
 		setAddressBookEntry: state.setAddressBookEntryAction,
 	}))
 
-	const create = async (name: string = '', isLegacy: boolean = false) => {
-		const keyParts = await buildNewAccountKeyParts(isLegacy)
+	const create = async (name: string = '', isLegacy: boolean = false, combinedKeystoreId: string = '') => {
+		const keyParts = await buildNewAccountKeyParts(isLegacy, combinedKeystoreId)
 		addAccount(networkId, keyParts.address, keyParts as Account)
 		if (name) {
 			const entry = { ...(addressBook[keyParts.address] || {}), name } as AddressBookEntry

@@ -42,6 +42,7 @@ export const useSignTransactionWithBackground = () => {
 					accountIndexes[signBy].derivationPath,
 					password,
 					intentHash.hash,
+					accountIndexes[signBy].combinedKeystoreId,
 				),
 			),
 		)
