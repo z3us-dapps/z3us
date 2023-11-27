@@ -77,14 +77,7 @@ const transformFungibleResourceItemResponse =
 					.mul(decimal(poolToken.xrdValue).value.div(decimal(poolToken.amount).value)),
 			)
 			const poolTotalValue = poolTokenValues.reduce((sum, poolTokenValue) => sum.add(poolTokenValue), DECIMAL_ZERO)
-
-			xrdValue = poolTokenValues.reduce((total, value) => total.add(value), DECIMAL_ZERO).toNumber()
-			change = poolTokens
-				.reduce(
-					(c, balance, idx) => c.add(decimal(balance.change).value.div(poolTotalValue.div(poolTokenValues[idx]))),
-					DECIMAL_ZERO,
-				)
-				.toNumber()
+			xrdValue = poolTotalValue.toNumber()
 		} else {
 			const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
 

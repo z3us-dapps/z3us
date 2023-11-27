@@ -12,8 +12,8 @@ import { PoolCell } from 'ui/src/pages/accounts/components/table/pool-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
-import { AssetChangeCell } from '../components/table/asset-change-cell'
 import { AssetValueCell } from '../components/table/asset-value-cell'
+import { PoolChangeCell } from '../components/table/pool-change'
 import { PoolLiquidityCell } from '../components/table/pool-liquidity'
 import { PoolResourcesCell } from '../components/table/pool-resources-cell'
 
@@ -114,7 +114,7 @@ const Tokens: React.FC = () => {
 				Header: intl.formatMessage(messages.change),
 				accessor: 'change',
 				width: 'auto',
-				Cell: AssetChangeCell,
+				Cell: PoolChangeCell,
 			},
 		],
 		[],

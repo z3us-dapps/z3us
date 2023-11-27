@@ -48,7 +48,9 @@ export const PoolLiquidityCell: React.FC<IProps> = props => {
 
 	const fraction = useMemo(
 		() =>
-			decimal(amount).value.div((tokenData?.details as StateEntityDetailsResponseFungibleResourceDetails).total_supply),
+			decimal(amount).value.div(
+				(tokenData?.details as StateEntityDetailsResponseFungibleResourceDetails)?.total_supply || 0,
+			),
 		[amount, tokenData],
 	)
 
