@@ -17,13 +17,7 @@ import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/
 import { useEntitiesDetails } from './use-entity-details'
 import { useKnownAddresses } from './use-known-addresses'
 import { useNetworkId } from './use-network-id'
-
-const collectResourcePools = (container: string[], item: FungibleResourcesCollectionItemVaultAggregated): string[] => {
-	const metadata = item.explicit_metadata?.items
-	const pool = findMetadataValue('pool', metadata)
-	if (pool) container.push(pool)
-	return container
-}
+import { usePools } from './use-pools'
 
 const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
 	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)
@@ -100,6 +94,7 @@ const transformFungibleResourceItemResponse =
 		container[item.resource_address] = {
 			type: ResourceBalanceType.FUNGIBLE,
 			address: item.resource_address,
+			vaults: item.vaults.items.map(vault => vault.vault_address),
 			amount: amount.toString(),
 			value: xrdValue * xrdPrice,
 			xrdValue,
@@ -192,17 +187,6 @@ type Balances = {
 	poolUnitsXrdValue: number
 }
 
-const useAccountPools = accounts => {
-	const poolAddresses = useMemo(() => {
-		if (!accounts) return []
-		return accounts
-			.map(({ fungible_resources }) => fungible_resources.items.reduce(collectResourcePools, []))
-			.reduce((a, b) => a.concat(b), [])
-			.filter((value, index, array) => array.indexOf(value) === index)
-	}, [accounts])
-	return useEntitiesDetails(poolAddresses)
-}
-
 export const useBalances = (...addresses: string[]) => {
 	const networkId = useNetworkId()
 	const { currency } = useNoneSharedStore(state => ({
@@ -215,16 +199,7 @@ export const useBalances = (...addresses: string[]) => {
 	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
-	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts)
-
-	const poolsMap = useMemo(
-		() =>
-			pools?.reduce((map, pool) => {
-				map[pool.address] = pool
-				return map
-			}, {}) || {},
-		[pools],
-	)
+	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
 
 	const isLoading =
 		isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts || isLoadingPools
@@ -238,7 +213,7 @@ export const useBalances = (...addresses: string[]) => {
 			let nonFungible: ResourceBalances = {}
 			accounts.forEach(({ fungible_resources, non_fungible_resources }) => {
 				fungible = fungible_resources.items.reduce(
-					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, poolsMap),
+					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, pools),
 					fungible,
 				)
 				nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse, nonFungible)
@@ -291,16 +266,8 @@ export const useAccountValues = (...addresses: string[]) => {
 	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
-	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts)
+	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
 
-	const poolsMap = useMemo(
-		() =>
-			pools?.reduce((map, pool) => {
-				map[pool.address] = pool
-				return map
-			}, {}) || {},
-		[pools],
-	)
 	const isLoading =
 		isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts || isLoadingPools
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
@@ -314,7 +281,7 @@ export const useAccountValues = (...addresses: string[]) => {
 					...container,
 					[account.address]: Object.values(
 						account.fungible_resources.items.reduce(
-							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, poolsMap),
+							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, pools),
 							{},
 						),
 					).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),
