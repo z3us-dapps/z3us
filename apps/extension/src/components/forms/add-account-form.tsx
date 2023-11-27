@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { toast } from 'sonner'
 import type { ZodError } from 'zod'
@@ -8,6 +8,9 @@ import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
+import { SelectSimple } from 'ui/src/components/select'
+import { useSharedStore } from 'ui/src/hooks/use-store'
+import { KeystoreType } from 'ui/src/store/types'
 
 import { useAddAccount } from '@src/hooks/use-add-account'
 
@@ -42,8 +45,26 @@ const AddAccountForm: React.FC<IProps> = ({ onSuccess }) => {
 	const intl = useIntl()
 	const addAccount = useAddAccount()
 
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
+
 	const [initialValues, restFormValues] = useState<{ name: string }>({ name: '' })
 	const [validation, setValidation] = useState<ZodError>()
+	const [keySourceId, setKeySourceId] = useState<string>('')
+
+	useEffect(() => {
+		if (!keystore || keySourceId) return
+		setKeySourceId(keystore.id)
+	}, [keystore])
+
+	const selectItems = useMemo(
+		() =>
+			keystore?.type === KeystoreType.COMBINED
+				? Object.keys(keystore.keySources).map(id => ({ id, title: keystore.keySources[id].name }))
+				: [],
+		[keystore],
+	)
 
 	const validationSchema = useMemo(
 		() =>
@@ -61,7 +82,7 @@ const AddAccountForm: React.FC<IProps> = ({ onSuccess }) => {
 			return
 		}
 
-		await addAccount(values.name)
+		await addAccount(keystore.id, values.name)
 			.then(address => {
 				toast.success(intl.formatMessage(messages.success_toast))
 				restFormValues({ name: '' })
@@ -73,8 +94,16 @@ const AddAccountForm: React.FC<IProps> = ({ onSuccess }) => {
 
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
+			{selectItems.length > 0 && (
+				<SelectSimple
+					fullWidth
+					value={keystore?.id}
+					onValueChange={setKeySourceId}
+					data={selectItems}
+					sizeVariant="xlarge"
+				/>
+			)}
 			<TextField name="name" placeholder={intl.formatMessage(messages.name)} />
-
 			<SubmitButton>
 				<Button sizeVariant="small">{intl.formatMessage(messages.form_button_title)}</Button>
 			</SubmitButton>

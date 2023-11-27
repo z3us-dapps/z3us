@@ -48,7 +48,7 @@ export const WalletSecretForm: React.FC<IProps> = ({ combinedKeystoreId, onUnloc
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		try {
-			const secret = await getSecret(values.password, combinedKeystoreId)
+			const secret = await getSecret(combinedKeystoreId, values.password)
 			onUnlock(secret)
 			setError('')
 		} catch (err) {

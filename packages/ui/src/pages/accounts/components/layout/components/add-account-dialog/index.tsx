@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { AccountCard } from 'ui/src/components/account-cards'
@@ -6,6 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Dialog } from 'ui/src/components/dialog'
 import { PlusIcon } from 'ui/src/components/icons'
+import { SelectSimple } from 'ui/src/components/select'
 import { Switch } from 'ui/src/components/switch'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
@@ -33,6 +34,10 @@ const messages = defineMessages({
 		defaultMessage: 'Toggle ON to recover legacy account (Olympia users)',
 		id: 'mCV56n',
 	},
+	keySource: {
+		defaultMessage: 'Key source',
+		id: 'RlCZeE',
+	},
 })
 
 interface IProps {
@@ -55,6 +60,20 @@ export const AddAccountDialog: React.FC<IProps> = props => {
 	}))
 
 	const [isLegacy, setIsLegacy] = useState<boolean>(false)
+	const [keySourceId, setKeySourceId] = useState<string>('')
+
+	useEffect(() => {
+		if (!keystore || keySourceId) return
+		setKeySourceId(keystore.id)
+	}, [keystore])
+
+	const selectItems = useMemo(
+		() =>
+			keystore?.type === KeystoreType.COMBINED
+				? Object.keys(keystore.keySources).map(id => ({ id, title: keystore.keySources[id].name }))
+				: [],
+		[keystore],
+	)
 
 	const accounts = useMemo(
 		() => Object.values(accountIndexes).filter(account => isLegacy === (account.scheme === SCHEME.BIP440OLYMPIA)),
@@ -66,7 +85,9 @@ export const AddAccountDialog: React.FC<IProps> = props => {
 	}
 
 	const handleAdd = () => {
-		buildNewAccountKeyParts(isLegacy).then(keyParts => addAccount(networkId, keyParts.address, keyParts as Account))
+		buildNewAccountKeyParts(keySourceId, isLegacy).then(keyParts =>
+			addAccount(networkId, keyParts.address, keyParts as Account),
+		)
 	}
 
 	if (!isWallet || keystore?.type === KeystoreType.RADIX_WALLET) return null
@@ -87,10 +108,26 @@ export const AddAccountDialog: React.FC<IProps> = props => {
 								{intl.formatMessage(messages.addAccount)}
 							</Button>
 						</Box>
-						<Box className={styles.addAccountSwitchWrapper}>
-							<Text size="xxsmall">{intl.formatMessage(messages.olympia)}</Text>
-							<Switch sizeVariant="medium" defaultChecked={isLegacy} onCheckedChange={handleToggle} />
-						</Box>
+					</Box>
+				</Box>
+				<Box className={styles.keySourceWrapper}>
+					<Box className={styles.addAccountSwitchWrapper}>
+						{selectItems.length > 0 && (
+							<>
+								<Text size="xxsmall">{intl.formatMessage(messages.keySource)}</Text>
+								<SelectSimple
+									fullWidth
+									value={keystore?.id}
+									onValueChange={setKeySourceId}
+									data={selectItems}
+									sizeVariant="xlarge"
+								/>
+							</>
+						)}
+					</Box>
+					<Box className={styles.addAccountSwitchWrapper}>
+						<Text size="xxsmall">{intl.formatMessage(messages.olympia)}</Text>
+						<Switch sizeVariant="medium" defaultChecked={isLegacy} onCheckedChange={handleToggle} />
 					</Box>
 				</Box>
 				<Box className={styles.addAccountGridWrapper} component="ul">

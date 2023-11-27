@@ -16,7 +16,7 @@ export type State = {
 	accounts: RadixAccount[]
 	lock: () => Promise<void>
 	unlock: (password: string) => Promise<void>
-	getSecret: (password: string, combinedKeystoreId: string) => Promise<string>
+	getSecret: (combinedKeystoreId: string, password: string) => Promise<string>
 	removeSecret: (password: string) => Promise<void>
 	confirm: (input: {
 		title?: ReactNode
@@ -29,8 +29,8 @@ export type State = {
 		transactionIntentHash: string
 		status: TransactionStatus
 	}>
-	buildNewPersonKeyParts: () => Promise<Partial<Persona>>
-	buildNewAccountKeyParts: (legacy: boolean) => Promise<Partial<Account>>
+	buildNewPersonKeyParts: (combinedKeystoreId: string) => Promise<Partial<Persona>>
+	buildNewAccountKeyParts: (combinedKeystoreId: string, legacy: boolean) => Promise<Partial<Account>>
 }
 
 export const defaultState: State = {

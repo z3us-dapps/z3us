@@ -58,6 +58,23 @@ export const addAccountCheckBoxWrapper = style([
 	}),
 ])
 
+export const keySourceWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: {
+			mobile: 'column-reverse',
+			tablet: 'row',
+		},
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		gap: 'small',
+		paddingTop: {
+			mobile: 'medium',
+			tablet: 'small',
+		},
+	}),
+])
+
 export const addAccountSwitchWrapper = style([
 	sprinkles({
 		display: 'flex',

@@ -38,7 +38,7 @@ export const useMessageClient = () => {
 		() => ({
 			ping: (): Promise<boolean> => sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_PING),
 
-			getSecret: (password: string, combinedKeystoreId: string): Promise<string | null> =>
+			getSecret: (combinedKeystoreId: string, password: string): Promise<string | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_GET, {
 					password,
 					combinedKeystoreId,

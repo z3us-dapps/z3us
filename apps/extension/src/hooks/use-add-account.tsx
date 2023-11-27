@@ -17,7 +17,7 @@ export const useBuildNewAccountKeyParts = () => {
 	}))
 
 	const buildNewAccountKeyParts = useCallback(
-		async (legacy: boolean, combinedKeystoreId: string = '') => {
+		async (combinedKeystoreId: string, legacy: boolean) => {
 			const idx =
 				Math.max(
 					-1,
@@ -57,8 +57,8 @@ export const useAddAccount = () => {
 		setAddressBookEntry: state.setAddressBookEntryAction,
 	}))
 
-	const create = async (name: string = '', isLegacy: boolean = false, combinedKeystoreId: string = '') => {
-		const keyParts = await buildNewAccountKeyParts(isLegacy, combinedKeystoreId)
+	const create = async (combinedKeystoreId: string, name: string = '', isLegacy: boolean = false) => {
+		const keyParts = await buildNewAccountKeyParts(combinedKeystoreId, isLegacy)
 		addAccount(networkId, keyParts.address, keyParts as Account)
 		if (name) {
 			const entry = { ...(addressBook[keyParts.address] || {}), name } as AddressBookEntry

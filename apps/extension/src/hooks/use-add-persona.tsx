@@ -17,7 +17,7 @@ export const useBuildNewPersonKeyParts = () => {
 	}))
 
 	const buildNewPersonKeyParts = useCallback(
-		async (combinedKeystoreId: string = '') => {
+		async (combinedKeystoreId: string) => {
 			const idx = Math.max(-1, ...Object.values(personaIndexes).map(persona => persona.entityIndex)) + 1
 			const derivationPath = buildPersonaDerivationPath(networkId, idx)
 			const publicKey = await getPublicKey(CURVE.CURVE25519, derivationPath, combinedKeystoreId)
@@ -50,8 +50,8 @@ export const useAddPersona = () => {
 		addPersona: state.addPersonaAction,
 	}))
 
-	const create = async (name: string = '') => {
-		const keyParts = await buildNewPersonKeyParts()
+	const create = async (combinedKeystoreId: string, name: string = '') => {
+		const keyParts = await buildNewPersonKeyParts(combinedKeystoreId)
 		addPersona(networkId, keyParts.identityAddress, {
 			...keyParts,
 			label: name,

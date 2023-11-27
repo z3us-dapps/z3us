@@ -40,7 +40,7 @@ export const Done: React.FC<IProps> = ({ onNext }) => {
 
 	const handleNext = () => {
 		if (keystore && keystore.type !== KeystoreType.RADIX_WALLET && keystore.type !== KeystoreType.COMBINED) {
-			addAccount('', false, keystore.id)
+			addAccount(keystore.id, '', false)
 		}
 		onNext()
 	}
