@@ -80,12 +80,7 @@ export const useLogin = () => {
 						curve: ledgerSignature.derivedPublicKey.curve,
 					}
 				case KeystoreType.COMBINED:
-					return sign(
-						{ id: persona.combinedKeystoreId, name: keystore.id, ...keystore.keySources[persona.combinedKeystoreId] },
-						persona,
-						challenge,
-						metadata,
-					)
+					return sign(keystore.keySources[persona.combinedKeystoreId], persona, challenge, metadata)
 				default:
 					throw new Error(`Can not sign with keystore type: ${keystore?.type}`)
 			}

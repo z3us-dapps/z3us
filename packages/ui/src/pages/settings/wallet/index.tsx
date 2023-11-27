@@ -119,9 +119,27 @@ const General: React.FC = () => {
 							</Box>
 						</>
 					}
-					rightCol={<SecretDisplay />}
+					rightCol={<SecretDisplay keystore={keystore} />}
 				/>
 			)}
+			{isWallet &&
+				keystore?.type === KeystoreType.COMBINED &&
+				Object.keys(keystore.keySources).map(id => (
+					<SettingsBlock
+						key={id}
+						leftCol={
+							<>
+								<Text size="large" weight="strong" color="strong">
+									{intl.formatMessage(messages.secret_title)}
+								</Text>
+								<Box>
+									<Text size="xsmall">{intl.formatMessage(messages.secret_subtitle)}</Text>
+								</Box>
+							</>
+						}
+						rightCol={<SecretDisplay keystore={keystore.keySources[id]} />}
+					/>
+				))}
 			{isWallet && (
 				<SettingsBlock
 					isBottomBorderVisible={false}

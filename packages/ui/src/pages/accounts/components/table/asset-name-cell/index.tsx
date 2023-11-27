@@ -1,10 +1,10 @@
 import clsx from 'clsx'
-import { ToolTip } from 'packages/ui/src/components/tool-tip'
 import React from 'react'
 import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'

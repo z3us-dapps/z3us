@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import type { ZodError } from 'zod'
+import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -16,6 +18,10 @@ import { useMessageClient } from '@src/hooks/use-message-client'
 import { type Data } from '@src/types/vault'
 
 const messages = defineMessages({
+	name_placeholder: {
+		id: 'HAlOn1',
+		defaultMessage: 'Name',
+	},
 	password_placeholder: {
 		id: '5sg7KC',
 		defaultMessage: 'Password',
@@ -24,9 +30,14 @@ const messages = defineMessages({
 		id: 'gpEcOb',
 		defaultMessage: 'Add key source',
 	},
+	validation_name: {
+		id: 'XK/xhU',
+		defaultMessage: 'Please insert name',
+	},
 })
 
 const initialValues = {
+	name: '',
 	password: '',
 }
 
@@ -51,7 +62,26 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 		addPersonaAction: state.addPersonaAction,
 	}))
 
+	const [validation, setValidation] = useState<ZodError>()
+
+	const validationSchema = useMemo(
+		() =>
+			z.object({
+				name: z.string().min(1, intl.formatMessage(messages.validation_name)),
+			}),
+		[],
+	)
+
 	const handleSubmit = async (values: typeof initialValues) => {
+		setValidation(undefined)
+		const result = validationSchema.safeParse(values)
+		if (result.success === false) {
+			setValidation(result.error)
+			return
+		}
+
+		setValidation(undefined)
+
 		const combinedKeystore: Keystore = {
 			id: keystore.id,
 			name: keystore.name,
@@ -63,11 +93,15 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 		if (keystore.type !== KeystoreType.COMBINED) {
 			if (keystore.type === KeystoreType.HARDWARE) {
 				combinedKeystore.keySources[keystore.id] = {
+					id: keystore.id,
+					name: keystore.name,
 					type: keystore.type,
 					ledgerDevice: keystore.ledgerDevice,
 				}
 			} else {
 				combinedKeystore.keySources[keystore.id] = {
+					id: keystore.id,
+					name: keystore.name,
 					type: keystore.type,
 				}
 			}
@@ -93,13 +127,18 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 		const data = onSubmit()
 		combinedData.push(data)
 
+		const keystoreId = generateId()
 		if (keystoreType === KeystoreType.HARDWARE) {
-			combinedKeystore.keySources[generateId()] = {
+			combinedKeystore.keySources[keystoreId] = {
+				id: keystoreId,
+				name: values.name,
 				type: keystoreType,
 				ledgerDevice: JSON.parse(getSecret(data)),
 			}
 		} else {
-			combinedKeystore.keySources[generateId()] = {
+			combinedKeystore.keySources[keystoreId] = {
+				id: keystoreId,
+				name: values.name,
 				type: keystoreType,
 			}
 		}
@@ -116,8 +155,9 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 
 	return (
 		<>
-			<Form onSubmit={handleSubmit} initialValues={initialValues}>
+			<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 				<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
+					<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
 					<TextField
 						isPassword
 						name="password"

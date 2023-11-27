@@ -101,12 +101,7 @@ export const useAccountsData = () => {
 					const combinedKeystoreIds = Object.keys(grouped)
 					const combinedResponses = await Promise.all(
 						combinedKeystoreIds.map(async combinedKeystoreId =>
-							sign(
-								{ id: combinedKeystoreId, name: keystore.id, ...keystore.keySources[combinedKeystoreId] },
-								grouped[combinedKeystoreId],
-								challenge,
-								metadata,
-							),
+							sign(keystore.keySources[combinedKeystoreId], grouped[combinedKeystoreId], challenge, metadata),
 						),
 					)
 					return combinedResponses.flat()

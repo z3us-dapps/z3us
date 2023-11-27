@@ -23,6 +23,7 @@ import {
 	DropdownMenuTrigger,
 } from 'ui/src/components/dropdown-menu'
 import {
+	AccountsIcon,
 	CheckIcon,
 	ChevronRightIcon,
 	HardwareWalletIcon,
@@ -96,6 +97,7 @@ const weights = {
 	[KeystoreType.RADIX_WALLET]: 1,
 	[KeystoreType.HARDWARE]: 2,
 	[KeystoreType.LOCAL]: 3,
+	[KeystoreType.COMBINED]: 4,
 }
 
 interface IAccountViewDropdownProps {
@@ -190,6 +192,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 																	{keystore.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
 																	{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
 																	{keystore.type === KeystoreType.LOCAL && <KeyIcon />}
+																	{keystore.type === KeystoreType.COMBINED && <AccountsIcon />}
 																</Box>
 															</DropdownMenuLeftSlot>
 															<Box flexGrow={1} display="flex" marginLeft="small">
@@ -217,6 +220,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 																						{k.type === KeystoreType.RADIX_WALLET && <SmartPhoneIcon />}
 																						{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
 																						{k.type === KeystoreType.LOCAL && <KeyIcon />}
+																						{k.type === KeystoreType.COMBINED && <AccountsIcon />}
 																					</Box>
 																				</DropdownMenuLeftSlot>
 																				<Box flexGrow={1} marginLeft="small">

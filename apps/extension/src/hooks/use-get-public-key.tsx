@@ -36,12 +36,7 @@ export const useGetPublicKey = () => {
 						curve: signatureCurveFromLedgerCurve(ledgerPublicKey.curve),
 					})
 				case KeystoreType.COMBINED:
-					return getPublicKey(
-						{ id: combinedKeystoreId, name: keystore.id, ...keystore.keySources[combinedKeystoreId] },
-						curve,
-						derivationPath,
-						'',
-					)
+					return getPublicKey(keystore.keySources[combinedKeystoreId], curve, derivationPath, '')
 				default:
 					throw new Error(`Can not derive public key type: ${keystore?.type}`)
 			}

@@ -19,6 +19,8 @@ export enum KeystoreType {
 }
 
 export type HardwareKeySource = {
+	id: string
+	name: string
 	type: KeystoreType.HARDWARE
 	ledgerDevice: object
 }
@@ -26,20 +28,21 @@ export type HardwareKeySource = {
 export type KeySource =
 	| HardwareKeySource
 	| {
+			id: string
+			name: string
 			type: Exclude<KeystoreType, KeystoreType.COMBINED | KeystoreType.HARDWARE>
 	  }
 
 export type KeySources = { [key: string]: KeySource }
 
 export type CombinedKeySource = {
+	id: string
+	name: string
 	type: KeystoreType.COMBINED
 	keySources: KeySources
 }
 
-export type Keystore = {
-	id: string
-	name: string
-} & (KeySource | CombinedKeySource)
+export type Keystore = KeySource | CombinedKeySource
 
 export type KeystoresState = {
 	selectedKeystoreId: string

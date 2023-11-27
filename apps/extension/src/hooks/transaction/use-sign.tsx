@@ -58,11 +58,7 @@ export const useSign = () => {
 					const combinedKeystoreIds = Object.keys(grouped)
 					const combinedResponses = await Promise.all(
 						combinedKeystoreIds.map(async combinedKeystoreId =>
-							sign(
-								{ id: combinedKeystoreId, name: keystore.id, ...keystore.keySources[combinedKeystoreId] },
-								intent,
-								grouped[combinedKeystoreId],
-							),
+							sign(keystore.keySources[combinedKeystoreId], intent, grouped[combinedKeystoreId]),
 						),
 					)
 					return combinedResponses.flat()

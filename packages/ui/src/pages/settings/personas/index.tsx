@@ -57,7 +57,7 @@ const Personas: React.FC = () => {
 	})
 
 	useEffect(() => {
-		if (keystore?.type !== KeystoreType.LOCAL && keystore?.type !== KeystoreType.HARDWARE) {
+		if (keystore?.type === KeystoreType.RADIX_WALLET) {
 			navigate('/')
 		}
 	}, [keystore])

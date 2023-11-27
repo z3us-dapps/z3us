@@ -8,7 +8,6 @@ import {
 	instanceOfTransactionFungibleFeeBalanceChanges,
 	instanceOfTransactionNonFungibleBalanceChanges,
 } from '@radixdlt/babylon-gateway-api-sdk'
-import { useWalletAccounts } from 'packages/ui/src/hooks/use-accounts'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -34,6 +33,7 @@ import { config } from 'ui/src/constants/config'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
