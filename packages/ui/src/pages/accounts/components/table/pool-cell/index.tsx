@@ -49,10 +49,10 @@ export const PoolCell: React.FC<IProps> = props => {
 	return (
 		<Box className={styles.assetNameCellWrapper}>
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
-				<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={poolData?.address} />
+				<ResourceImageIcon size={{ mobile: 'large', tablet: 'large' }} address={poolData?.address} />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
-						<ToolTip side="top" message={name}>
+						<ToolTip message={name}>
 							<Box>
 								<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
 									{name}

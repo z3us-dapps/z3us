@@ -17,7 +17,7 @@ export const assetStatisticCellContentWrapper = style([
 		transition: 'fast',
 		flexDirection: 'column',
 		gap: {
-			mobile: 'medium',
+			mobile: 'xsmall',
 		},
 	}),
 	{},

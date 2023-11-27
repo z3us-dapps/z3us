@@ -67,11 +67,13 @@ export const PoolLiquidityCell: React.FC<IProps> = props => {
 
 					return (
 						<ToolTip key={resourceAddress} message={liq}>
-							<Box display="flex" flexDirection="row" gap="small">
+							<Box display="flex" gap="xsmall" width="full">
+								<Box display="flex" flexShrink={0}>
+									<ResourceSnippet address={resourceAddress} size="small" /> &nbsp;-{' '}
+								</Box>
 								<Text size="small" color="strong" truncate>
 									{liq}
 								</Text>
-								<ResourceSnippet address={resourceAddress} size="small" />
 							</Box>
 						</ToolTip>
 					)
