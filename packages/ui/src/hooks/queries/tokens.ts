@@ -10,6 +10,7 @@ export type Token = {
 	symbol: string
 	name: string
 	price: number
+	price24h: number
 	change: number
 	increase: number
 }
@@ -22,8 +23,8 @@ function transformAstrolescentToken(token: AstrolescentToken): Token {
 		address: token.address,
 		name: token.name,
 		symbol: token.symbol,
-
 		price: token.tokenPriceXRD,
+		price24h: tokenPrice24h,
 		change: Number.isFinite(change) ? change : 0,
 		increase: token.diff24H,
 	}
@@ -40,6 +41,7 @@ function transformOciToken(token: OciToken): Token {
 		name: token.name,
 		symbol: token.symbol,
 		price: tokenPriceNow,
+		price24h: tokenPrice24h,
 		change: Number.isFinite(change) ? change : 0,
 		increase,
 	}
