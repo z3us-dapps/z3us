@@ -16,7 +16,7 @@ export type State = {
 	accounts: RadixAccount[]
 	lock: () => Promise<void>
 	unlock: (password: string) => Promise<void>
-	getSecret: (password: string) => Promise<string>
+	getSecret: (password: string, combinedKeystoreId: string) => Promise<string>
 	removeSecret: (password: string) => Promise<void>
 	confirm: (input: {
 		title?: ReactNode

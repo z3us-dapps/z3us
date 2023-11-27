@@ -31,10 +31,11 @@ const initialValues = {
 }
 
 interface IProps {
+	combinedKeystoreId: string
 	onUnlock: (secret: string) => void
 }
 
-export const WalletSecretForm: React.FC<IProps> = ({ onUnlock }) => {
+export const WalletSecretForm: React.FC<IProps> = ({ combinedKeystoreId, onUnlock }) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 	const { getSecret } = useZdtState()
@@ -47,7 +48,7 @@ export const WalletSecretForm: React.FC<IProps> = ({ onUnlock }) => {
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		try {
-			const secret = await getSecret(values.password)
+			const secret = await getSecret(values.password, combinedKeystoreId)
 			onUnlock(secret)
 			setError('')
 		} catch (err) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import WalletSecretForm from 'ui/src/components/form/wallet-secret-form'
 import SeedPhraseDisplay from 'ui/src/components/seed-phrase-display'
@@ -18,12 +18,13 @@ const SecretDisplay: React.FC<IProps> = ({ keystore }) => {
 	const [secret, setSecret] = useState<string | undefined>()
 	const [words, setWords] = useState<string[]>([])
 
-	useEffect(() => {
-		setWords(secret?.split(' ') || [])
-	}, [secret])
+	const onSecret = (value: string) => {
+		setSecret(value)
+		setWords(value?.split(' ') || [])
+	}
 
 	if (!isWallet || keystore?.type !== KeystoreType.LOCAL) return null
-	if (!secret) return <WalletSecretForm onUnlock={setSecret} />
+	if (!secret) return <WalletSecretForm combinedKeystoreId={keystore.id} onUnlock={onSecret} />
 
 	return words?.length === 1 ? <SecretTextDisplay secret={secret} /> : <SeedPhraseDisplay words={words} />
 }
