@@ -49,7 +49,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 	return (
 		<Box className={styles.assetNameCellWrapper}>
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
-				<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={value} toolTipEnabled />
+				<ResourceImageIcon size={{ mobile: 'large', tablet: 'large' }} address={value} toolTipEnabled />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
 						<ToolTip side="top" message={displayName}>
@@ -61,13 +61,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 						</ToolTip>
 						{amount && (
 							<Box>
-								<Text
-									capitalizeFirstLetter
-									size="xsmall"
-									truncate
-									weight="strong"
-									className={styles.assetNameCellBalanceWrapper}
-								>
+								<Text capitalizeFirstLetter size="xsmall" truncate className={styles.assetNameCellBalanceWrapper}>
 									{a}
 								</Text>
 							</Box>

@@ -61,13 +61,7 @@ export const PoolCell: React.FC<IProps> = props => {
 						</ToolTip>
 						{amount && (
 							<Box>
-								<Text
-									capitalizeFirstLetter
-									size="xsmall"
-									truncate
-									weight="strong"
-									className={styles.assetNameCellBalanceWrapper}
-								>
+								<Text capitalizeFirstLetter size="xsmall" truncate className={styles.assetNameCellBalanceWrapper}>
 									{intl.formatNumber(Number.parseFloat(amount), {
 										style: 'decimal',
 										maximumFractionDigits: 18,
