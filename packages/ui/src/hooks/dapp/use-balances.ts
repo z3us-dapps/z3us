@@ -35,6 +35,8 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 	}
 }
 
+const DECIMAL_ZERO = decimal(0).value
+
 const transformFungibleResourceItemResponse =
 	(
 		knownAddresses: KnownAddresses,
@@ -68,22 +70,21 @@ const transformFungibleResourceItemResponse =
 				{},
 			)
 			const poolTokens = Object.values(poolTokensMap)
-			const poolBalances = transformBalances(poolTokens, 'pool')
+			const fraction = decimal(amount).value.div((poolsMap[pool] as any).poolUnitTotalSupply)
+			const poolTokenValues = poolTokens.map(poolToken =>
+				fraction
+					.mul(decimal(poolToken.amount).value)
+					.mul(decimal(poolToken.xrdValue).value.div(decimal(poolToken.amount).value)),
+			)
+			const poolTotalValue = poolTokenValues.reduce((sum, poolTokenValue) => sum.add(poolTokenValue), DECIMAL_ZERO)
 
-			xrdValue = poolTokens.reduce(
-				(total, balance) =>
-					total + amount.mul(decimal(balance.xrdValue).value.div(decimal(balance.amount).value)).toNumber(),
-				0,
-			)
-			change = poolTokens.reduce(
-				(c, balance) =>
-					c +
-					balance.change /
-						((poolBalances.poolValue as number) === 0
-							? 1
-							: (poolBalances.poolValue as number) / (balance.value === 0 ? 1 : balance.value)),
-				0,
-			)
+			xrdValue = poolTokenValues.reduce((total, value) => total.add(value), DECIMAL_ZERO).toNumber()
+			change = poolTokens
+				.reduce(
+					(c, balance, idx) => c.add(decimal(balance.change).value.div(poolTotalValue.div(poolTokenValues[idx]))),
+					DECIMAL_ZERO,
+				)
+				.toNumber()
 		} else {
 			const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
 

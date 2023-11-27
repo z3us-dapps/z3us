@@ -99,6 +99,12 @@ const Tokens: React.FC = () => {
 				Cell: AssetAmountCell,
 			},
 			{
+				Header: intl.formatMessage(messages.liquidity),
+				accessor: 'vaults',
+				width: 'auto',
+				Cell: PoolLiquidityCell,
+			},
+			{
 				Header: intl.formatMessage(messages.value),
 				accessor: 'value',
 				width: 'auto',
@@ -109,12 +115,6 @@ const Tokens: React.FC = () => {
 				accessor: 'change',
 				width: 'auto',
 				Cell: AssetChangeCell,
-			},
-			{
-				Header: intl.formatMessage(messages.liquidity),
-				accessor: 'vaults',
-				width: 'auto',
-				Cell: PoolLiquidityCell,
 			},
 		],
 		[],

@@ -1,4 +1,7 @@
-import type { FungibleResourcesCollectionItemVaultAggregated } from '@radixdlt/babylon-gateway-api-sdk'
+import type {
+	FungibleResourcesCollectionItemVaultAggregated,
+	StateEntityDetailsResponseFungibleResourceDetails,
+} from '@radixdlt/babylon-gateway-api-sdk'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
 import React, { useMemo } from 'react'
@@ -22,9 +25,10 @@ export const PoolLiquidityCell: React.FC<IProps> = props => {
 	const {
 		row: { original },
 	} = props
-	const { pool, amount } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
+	const { pool, amount, address } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
 	const intl = useIntl()
+	const { data: tokenData } = useEntityDetails(address)
 	const { data, isLoading } = useEntityDetails(pool)
 
 	const poolResourceAmounts = useMemo(
@@ -42,16 +46,11 @@ export const PoolLiquidityCell: React.FC<IProps> = props => {
 		[data],
 	)
 
-	const total = useMemo(
+	const fraction = useMemo(
 		() =>
-			Object.keys(poolResourceAmounts).reduce(
-				(t, resourceAddress) => t.mul(poolResourceAmounts[resourceAddress]),
-				decimal(1).value,
-			),
-		[poolResourceAmounts],
+			decimal(amount).value.div((tokenData?.details as StateEntityDetailsResponseFungibleResourceDetails).total_supply),
+		[amount, tokenData],
 	)
-
-	const fraction = useMemo(() => decimal(amount).value.div(total), [amount, total])
 
 	if (isLoading) return <FallbackLoading />
 
