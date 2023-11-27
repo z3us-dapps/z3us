@@ -8,6 +8,7 @@ import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
+import { SelectSimple } from 'ui/src/components/select'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import type { Account, Keystore, Persona } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
@@ -28,7 +29,7 @@ const messages = defineMessages({
 	},
 	form_button_title: {
 		id: 'gpEcOb',
-		defaultMessage: 'Add key source',
+		defaultMessage: 'Add as key source to {name} wallet',
 	},
 	validation_name: {
 		id: 'XK/xhU',
@@ -50,11 +51,13 @@ interface IProps {
 export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext }) => {
 	const intl = useIntl()
 	const client = useMessageClient()
-	const { keystore, addKeystore } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-		addKeystore: state.addKeystoreAction,
-	}))
 
+	const { keystore, keystores, addKeystore, selectKeystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+		keystores: state.keystores,
+		addKeystore: state.addKeystoreAction,
+		selectKeystore: state.selectKeystoreAction,
+	}))
 	const { accountIndexes, addAccountAction, personaIndexes, addPersonaAction } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes,
 		addAccountAction: state.addAccountAction,
@@ -71,6 +74,18 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 			}),
 		[],
 	)
+
+	const selectItems = useMemo(
+		() =>
+			keystores
+				.filter(({ type }) => type === KeystoreType.LOCAL || type === KeystoreType.HARDWARE)
+				.map(({ id, name }) => ({ id, title: name })),
+		[keystores],
+	)
+
+	const handleSelect = (id: string) => {
+		selectKeystore(id)
+	}
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		setValidation(undefined)
@@ -155,9 +170,17 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 
 	return (
 		<>
+			<hr />
 			<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 				<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
 					<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
+					<SelectSimple
+						fullWidth
+						value={keystore?.id}
+						onValueChange={handleSelect}
+						data={selectItems}
+						sizeVariant="xlarge"
+					/>
 					<TextField
 						isPassword
 						name="password"
@@ -165,11 +188,12 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 						sizeVariant="large"
 					/>
 					<SubmitButton>
-						<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title)}</Button>
+						<Button sizeVariant="large">
+							{intl.formatMessage(messages.form_button_title, { name: keystore.name })}
+						</Button>
 					</SubmitButton>
 				</Box>
 			</Form>
-			<hr />
 		</>
 	)
 }

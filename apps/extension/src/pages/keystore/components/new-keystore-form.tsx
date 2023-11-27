@@ -31,8 +31,8 @@ const messages = defineMessages({
 		defaultMessage: 'Confirm your password',
 	},
 	form_button_title: {
-		id: 'VzzYJk',
-		defaultMessage: 'Create',
+		id: 's2g2Y9',
+		defaultMessage: 'Create new wallet',
 	},
 	validation_name: {
 		id: 'XK/xhU',

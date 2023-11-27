@@ -16,8 +16,8 @@ interface IProps {
 
 export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext }) => (
 	<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
-		<CombineKeystoreForm onSubmit={onSubmit} keystoreType={keystoreType} onNext={onNext} />
 		<NewKeystoreForm onSubmit={onSubmit} keystoreType={keystoreType} onNext={onNext} />
+		<CombineKeystoreForm onSubmit={onSubmit} keystoreType={keystoreType} onNext={onNext} />
 	</Box>
 )
 
