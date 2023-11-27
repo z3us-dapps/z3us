@@ -9,41 +9,79 @@ export type Token = {
 	address: string
 	symbol: string
 	name: string
-	price: number
-	price24h: number
-	change: number
-	increase: number
+	price: {
+		xrd: {
+			now: number
+			['24h']: number
+			change: number
+			increase: number
+		}
+		usd: {
+			now: number
+			['24h']: number
+			change: number
+			increase: number
+		}
+	}
 }
 
 function transformAstrolescentToken(token: AstrolescentToken): Token {
-	const tokenPrice24h = token.tokenPriceXRD - token.diff24H
-	const change = token.tokenPriceXRD / tokenPrice24h / 100
+	const xrdPrice24h = Math.abs(token.diff24H)
+	const changeXRD = (token.tokenPriceXRD + token.diff24H) / token.diff24H
+
+	const usdPrice24h = Math.abs(token.diff24HUSD)
+	const usdChange = (token.tokenPriceUSD + token.diff24HUSD) / token.diff24HUSD
 
 	return {
 		address: token.address,
 		name: token.name,
 		symbol: token.symbol,
-		price: token.tokenPriceXRD,
-		price24h: tokenPrice24h,
-		change: Number.isFinite(change) ? change : 0,
-		increase: token.diff24H,
+		price: {
+			xrd: {
+				now: token.tokenPriceXRD,
+				'24h': xrdPrice24h,
+				change: changeXRD,
+				increase: token.diff24H,
+			},
+			usd: {
+				now: token.tokenPriceUSD,
+				'24h': usdPrice24h,
+				change: usdChange,
+				increase: token.diff24HUSD,
+			},
+		},
 	}
 }
 
 function transformOciToken(token: OciToken): Token {
 	const tokenPriceNow = parseFloat(token.price?.xrd.now) || 0
 	const tokenPrice24h = parseFloat(token.price?.xrd['24h']) || 0
-	const change = tokenPriceNow / tokenPrice24h / 100
-	const increase = tokenPriceNow - tokenPrice24h
+	const xrdChange = (tokenPriceNow - tokenPrice24h) / tokenPrice24h
+	const xrdIncrease = tokenPriceNow - tokenPrice24h
+
+	const tokenPriceNowUsd = parseFloat(token.price?.usd.now) || 0
+	const tokenPrice24hUsd = parseFloat(token.price?.usd['24h']) || 0
+	const usdChange = (tokenPriceNowUsd - tokenPrice24hUsd) / tokenPrice24hUsd
+	const usdIncrease = tokenPriceNowUsd - tokenPrice24hUsd
 
 	return {
 		address: token.address,
 		name: token.name,
 		symbol: token.symbol,
-		price: tokenPriceNow,
-		price24h: tokenPrice24h,
-		change: Number.isFinite(change) ? change : 0,
-		increase,
+		price: {
+			xrd: {
+				now: tokenPriceNow,
+				'24h': tokenPrice24h,
+				change: xrdChange,
+				increase: xrdIncrease,
+			},
+			usd: {
+				now: tokenPriceNowUsd,
+				'24h': tokenPrice24hUsd,
+				change: usdChange,
+				increase: usdIncrease,
+			},
+		},
 	}
 }
 

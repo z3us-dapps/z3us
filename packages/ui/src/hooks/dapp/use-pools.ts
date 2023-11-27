@@ -106,7 +106,7 @@ export const usePools = (addresses: string[]) => {
 										total.add(
 											vaults.items
 												.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
-												.mul(tokens[resource_address]?.price || 0),
+												.mul(tokens[resource_address]?.price.usd.now || 0),
 										),
 									ZERO,
 								)
@@ -120,7 +120,7 @@ export const usePools = (addresses: string[]) => {
 										total.add(
 											vaults.items
 												.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
-												.mul(tokens[resource_address]?.price24h || 0),
+												.mul(tokens[resource_address]?.price.usd['24h'] || 0),
 										),
 									ZERO,
 								)

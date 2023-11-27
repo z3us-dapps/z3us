@@ -82,8 +82,8 @@ const transformFungibleResourceItemResponse =
 		} else {
 			const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
 
-			change = token?.change || 0
-			xrdValue = amount.toNumber() * (token?.price || 0)
+			change = token?.price.usd.change || 0
+			xrdValue = amount.toNumber() * (token?.price.xrd.now || 0)
 		}
 
 		container[item.resource_address] = {
