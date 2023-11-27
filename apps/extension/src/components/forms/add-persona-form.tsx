@@ -22,6 +22,10 @@ const messages = defineMessages({
 		id: 'HAlOn1',
 		defaultMessage: 'Name',
 	},
+	keySource: {
+		defaultMessage: 'Key source',
+		id: 'RlCZeE',
+	},
 	validation_name: {
 		id: 'Gvxoji',
 		defaultMessage: 'Name is required',
@@ -86,7 +90,7 @@ const AddPersonaForm: React.FC<IProps> = ({ onSuccess, inputRef }) => {
 			return
 		}
 
-		await addPersona(keystore.id, values.name)
+		await addPersona(keySourceId, values.name)
 			.then(address => {
 				toast.success(intl.formatMessage(messages.success_toast))
 				restFormValues({ name: '' })
@@ -105,6 +109,7 @@ const AddPersonaForm: React.FC<IProps> = ({ onSuccess, inputRef }) => {
 					onValueChange={setKeySourceId}
 					data={selectItems}
 					sizeVariant="xlarge"
+					placeholder={intl.formatMessage(messages.keySource)}
 				/>
 			)}
 			<TextField ref={inputRef} sizeVariant="large" name="name" placeholder={intl.formatMessage(messages.name)} />

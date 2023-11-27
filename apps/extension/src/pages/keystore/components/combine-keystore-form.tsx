@@ -28,7 +28,7 @@ const messages = defineMessages({
 		defaultMessage: 'Password',
 	},
 	form_button_title: {
-		id: 'gpEcOb',
+		id: 'RP6gL2',
 		defaultMessage: 'Add as key source to {name} wallet',
 	},
 	validation_name: {

@@ -19,6 +19,10 @@ const messages = defineMessages({
 		id: 'HAlOn1',
 		defaultMessage: 'Name',
 	},
+	keySource: {
+		defaultMessage: 'Key source',
+		id: 'RlCZeE',
+	},
 	validation_name: {
 		id: 'Gvxoji',
 		defaultMessage: 'Name is required',
@@ -82,7 +86,7 @@ const AddAccountForm: React.FC<IProps> = ({ onSuccess }) => {
 			return
 		}
 
-		await addAccount(keystore.id, values.name)
+		await addAccount(keySourceId, values.name)
 			.then(address => {
 				toast.success(intl.formatMessage(messages.success_toast))
 				restFormValues({ name: '' })
@@ -101,6 +105,7 @@ const AddAccountForm: React.FC<IProps> = ({ onSuccess }) => {
 					onValueChange={setKeySourceId}
 					data={selectItems}
 					sizeVariant="xlarge"
+					placeholder={intl.formatMessage(messages.keySource)}
 				/>
 			)}
 			<TextField name="name" placeholder={intl.formatMessage(messages.name)} />

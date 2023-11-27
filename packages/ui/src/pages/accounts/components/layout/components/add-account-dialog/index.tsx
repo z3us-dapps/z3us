@@ -121,6 +121,7 @@ export const AddAccountDialog: React.FC<IProps> = props => {
 									onValueChange={setKeySourceId}
 									data={selectItems}
 									sizeVariant="xlarge"
+									placeholder={intl.formatMessage(messages.keySource)}
 								/>
 							</>
 						)}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { toast } from 'sonner'
 
@@ -6,16 +6,21 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Dialog } from 'ui/src/components/dialog'
 import PersonaDataForm from 'ui/src/components/form/persona-data-form'
+import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
-import type { Persona } from 'ui/src/store/types'
+import { KeystoreType, type Persona } from 'ui/src/store/types'
 
 const messages = defineMessages({
 	title: {
 		id: 'y50Ejq',
 		defaultMessage: 'Persona details',
+	},
+	keySource: {
+		defaultMessage: 'Key source',
+		id: 'RlCZeE',
 	},
 	updated_toast: {
 		id: 'YcDkRR',
@@ -40,10 +45,28 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const { buildNewPersonKeyParts } = useZdtState()
+
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
 	const { personaIndexes, addPersona } = useNoneSharedStore(state => ({
 		personaIndexes: state.personaIndexes[networkId] || {},
 		addPersona: state.addPersonaAction,
 	}))
+	const [keySourceId, setKeySourceId] = useState<string>('')
+
+	useEffect(() => {
+		if (!keystore || keySourceId) return
+		setKeySourceId(keystore.id)
+	}, [keystore])
+
+	const selectItems = useMemo(
+		() =>
+			keystore?.type === KeystoreType.COMBINED
+				? Object.keys(keystore.keySources).map(id => ({ id, title: keystore.keySources[id].name }))
+				: [],
+		[keystore],
+	)
 
 	const handleSubmit = async values => {
 		const currentDetails = personaIndexes?.[identityAddress]
@@ -69,7 +92,7 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 		}
 
 		if (identityAddress === '') {
-			const keyParts = await buildNewPersonKeyParts()
+			const keyParts = await buildNewPersonKeyParts(keySourceId)
 			addPersona(networkId, keyParts.identityAddress, {
 				...details,
 				...keyParts,
@@ -94,6 +117,18 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 				<Text size="xlarge" color="strong" weight="strong">
 					{intl.formatMessage(messages.title)}
 				</Text>
+				{selectItems.length > 0 && (
+					<Box>
+						<SelectSimple
+							fullWidth
+							value={keystore?.id}
+							onValueChange={setKeySourceId}
+							data={selectItems}
+							sizeVariant="xlarge"
+							placeholder={intl.formatMessage(messages.keySource)}
+						/>
+					</Box>
+				)}
 				<Box display="flex" flexDirection="column" gap="xsmall">
 					<PersonaDataForm onSubmit={handleSubmit} identityAddress={identityAddress} />
 				</Box>
