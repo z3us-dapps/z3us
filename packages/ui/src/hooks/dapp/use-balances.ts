@@ -37,12 +37,19 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 
 const DECIMAL_ZERO = decimal(0).value
 
+type PoolDetails = {
+	resourceAmounts: { [key: string]: typeof DECIMAL_ZERO }
+	poolUnitTotalSupply: string
+	resourceAmountsBefore: { [key: string]: typeof DECIMAL_ZERO }
+	poolUnitTotalSupplyBefore: string
+}
+
 const transformFungibleResourceItemResponse =
 	(
 		knownAddresses: KnownAddresses,
 		xrdPrice: number,
 		tokens: { [key: string]: Token },
-		poolsMap: { [key: string]: StateEntityDetailsResponseItem },
+		poolsMap: { [key: string]: StateEntityDetailsResponseItem & PoolDetails },
 	) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
 		const metadata = item.explicit_metadata?.items
@@ -65,20 +72,35 @@ const transformFungibleResourceItemResponse =
 		let change = 0
 		let xrdValue = 0
 		if (pool && poolsMap[pool]) {
-			const poolTokensMap = poolsMap[pool].fungible_resources.items.reduce(
-				transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, poolsMap),
-				{},
+			const p = poolsMap[pool]
+
+			const fraction = decimal(amount).value.div(p.poolUnitTotalSupply)
+			const totalValueNow = Object.keys(p.resourceAmounts).reduce(
+				(sum, resource) =>
+					sum.add(fraction.mul(p.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.usd.now).value)),
+				DECIMAL_ZERO,
 			)
-			const poolTokens = Object.values(poolTokensMap)
-			const fraction = decimal(amount).value.div((poolsMap[pool] as any).poolUnitTotalSupply)
-			const poolTokenValues = poolTokens.map(poolToken =>
-				fraction
-					.mul(decimal(poolToken.amount).value)
-					.mul(decimal(poolToken.xrdValue).value.div(decimal(poolToken.amount).value)),
+
+			const fractionBefore = decimal(amount).value.div(p.poolUnitTotalSupply)
+			const totalValueBefore = Object.keys(p.resourceAmountsBefore).reduce(
+				(sum, resource) =>
+					sum.add(
+						fractionBefore
+							.mul(p.resourceAmountsBefore[resource])
+							.mul(decimal(tokens[resource]?.price.usd['24h']).value),
+					),
+				DECIMAL_ZERO,
 			)
-			const poolTotalValue = poolTokenValues.reduce((sum, poolTokenValue) => sum.add(poolTokenValue), DECIMAL_ZERO)
-			xrdValue = poolTotalValue.toNumber()
-			change = (poolsMap[pool] as any).change
+
+			xrdValue = Object.keys(p.resourceAmounts)
+				.reduce(
+					(sum, resource) =>
+						sum.add(fraction.mul(p.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.xrd.now || 0).value)),
+					DECIMAL_ZERO,
+				)
+				.toNumber()
+
+			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
 		} else {
 			const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
 

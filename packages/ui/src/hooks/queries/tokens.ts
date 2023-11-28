@@ -26,11 +26,11 @@ export type Token = {
 }
 
 function transformAstrolescentToken(token: AstrolescentToken): Token {
-	const xrdPrice24h = Math.abs(token.diff24H)
-	const changeXRD = (token.tokenPriceXRD + token.diff24H) / token.diff24H
+	const xrdPrice24h = token.tokenPriceXRD - token.diff24H
+	const xrdChange = (token.tokenPriceXRD - xrdPrice24h) / xrdPrice24h
 
-	const usdPrice24h = Math.abs(token.diff24HUSD)
-	const usdChange = (token.tokenPriceUSD + token.diff24HUSD) / token.diff24HUSD
+	const usdPrice24h = token.tokenPriceUSD - token.diff24HUSD
+	const usdChange = (token.tokenPriceUSD - usdPrice24h) / usdPrice24h
 
 	return {
 		address: token.address,
@@ -40,14 +40,14 @@ function transformAstrolescentToken(token: AstrolescentToken): Token {
 			xrd: {
 				now: token.tokenPriceXRD,
 				'24h': xrdPrice24h,
-				change: changeXRD,
-				increase: token.diff24H,
+				change: Number.isFinite(xrdChange) ? xrdChange : 0,
+				increase: token.tokenPriceXRD - xrdPrice24h,
 			},
 			usd: {
 				now: token.tokenPriceUSD,
 				'24h': usdPrice24h,
-				change: usdChange,
-				increase: token.diff24HUSD,
+				change: Number.isFinite(usdChange) ? usdChange : 0,
+				increase: token.tokenPriceUSD - usdPrice24h,
 			},
 		},
 	}
@@ -72,13 +72,13 @@ function transformOciToken(token: OciToken): Token {
 			xrd: {
 				now: tokenPriceNow,
 				'24h': tokenPrice24h,
-				change: xrdChange,
+				change: Number.isFinite(xrdChange) ? xrdChange : 0,
 				increase: xrdIncrease,
 			},
 			usd: {
 				now: tokenPriceNowUsd,
 				'24h': tokenPrice24hUsd,
-				change: usdChange,
+				change: Number.isFinite(usdChange) ? usdChange : 0,
 				increase: usdIncrease,
 			},
 		},
@@ -90,15 +90,15 @@ export const useTokens = () => {
 	const { data: ociTokens, isLoading: isLoadingOci } = useOciTokens()
 
 	return useMemo(() => {
-		const data = Object.values(ociTokens || {}).reduce(
-			(container, token) => ({ ...container, [token.address]: transformOciToken(token) }),
+		const data = Object.values(astrolescentTokens || {}).reduce(
+			(container, token) => ({ ...container, [token.address]: transformAstrolescentToken(token) }),
 			{},
 		)
 
 		return {
 			isLoading: isLoadingAstrolescent || isLoadingOci,
-			data: Object.values(astrolescentTokens || {}).reduce(
-				(container, token) => ({ ...container, [token.address]: transformAstrolescentToken(token) }),
+			data: Object.values(ociTokens || {}).reduce(
+				(container, token) => ({ ...container, [token.address]: transformOciToken(token) }),
 				data,
 			),
 		}
@@ -113,7 +113,7 @@ export const useToken = (address: string) => {
 		const at = astrolescentToken ? transformAstrolescentToken(astrolescentToken) : null
 		const ot = ociToken ? transformOciToken(ociToken) : null
 		return {
-			data: at || ot,
+			data: ot || at,
 			isLoading: isLoadingOci,
 		}
 	}, [astrolescentToken, isLoadingAstrolescent, ociToken, isLoadingOci])

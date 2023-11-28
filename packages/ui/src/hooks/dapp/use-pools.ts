@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { findMetadataValue } from 'ui/src/services/metadata'
 
-import { useTokens } from '../queries/tokens'
 import { useEntitiesDetails } from './use-entity-details'
 import { useNetworkId } from './use-network-id'
 
@@ -32,7 +31,6 @@ const useAccountPools = (accounts, at?: Date) => {
 export const usePools = (addresses: string[]) => {
 	const networkId = useNetworkId()
 
-	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(addresses)
 
 	const [before, setBefore] = useState<Date>(new Date())
@@ -59,85 +57,62 @@ export const usePools = (addresses: string[]) => {
 	)
 
 	const isLoading =
-		isLoadingPools ||
-		isLoadingAccounts ||
-		isLoadingPoolUnits ||
-		isLoadingPoolUnitsBefore ||
-		isLoadingTokens ||
-		isLoadingPoolsBefore
+		isLoadingPools || isLoadingAccounts || isLoadingPoolUnits || isLoadingPoolUnitsBefore || isLoadingPoolsBefore
 	const enabled = !isLoading && addresses.length > 0 && !!pools && !!poolsBefore && !!poolUnits && !!poolUnitsBefore
+
+	const queryFn = () => {
+		const poolsBeforeMap = poolsBefore.reduce((map, pool) => {
+			map[pool.address] = pool
+			return map
+		}, {})
+
+		const poolUnitsSupply = poolUnits.reduce((m, unit) => {
+			m[unit.address] = unit.details.total_supply
+			return m
+		}, {})
+
+		const poolUnitsSupplyBefore = poolUnitsBefore.reduce((m, unit) => {
+			m[unit.address] = unit.details.total_supply
+			return m
+		}, {})
+
+		return (
+			pools.reduce((map, pool) => {
+				const resourceAmounts = pool.fungible_resources.items.reduce(
+					(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
+						m[resource_address] = vaults.items
+							.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
+							.add(m[resource_address] || 0)
+
+						return m
+					},
+					{},
+				)
+				const resourceAmountsBefore = poolsBeforeMap[pool.address]?.fungible_resources.items.reduce(
+					(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
+						m[resource_address] = vaults.items
+							.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
+							.add(m[resource_address] || 0)
+
+						return m
+					},
+					{},
+				)
+
+				pool.resourceAmounts = resourceAmounts || {}
+				pool.poolUnitTotalSupply = poolUnitsSupply[pool.details.state.pool_unit_resource_address] || '0'
+				pool.resourceAmountsBefore = resourceAmountsBefore || {}
+				pool.poolUnitTotalSupplyBefore = poolUnitsSupplyBefore[pool.details.state.pool_unit_resource_address] || '0'
+
+				map[pool.address] = pool
+				return map
+			}, {}) || {}
+		)
+	}
 
 	return useQuery({
 		queryKey: ['usePools', networkId, addresses, before],
 		enabled,
-		queryFn: () => {
-			const poolsBeforeMap = poolsBefore.reduce((map, pool) => {
-				map[pool.address] = pool
-				return map
-			}, {})
-
-			const poolUnitsSupply = poolUnits.reduce((m, unit) => {
-				m[unit.address] = unit.details.total_supply
-				return m
-			}, {})
-
-			const poolUnitsSupplyBefore = poolUnitsBefore.reduce((m, unit) => {
-				m[unit.address] = unit.details.total_supply
-				return m
-			}, {})
-
-			return (
-				pools.reduce((map, pool) => {
-					const resourceAmounts = pool.fungible_resources.items.reduce(
-						(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
-							m[resource_address] = vaults.items
-								.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
-								.add(m[resource_address] || 0)
-
-							return m
-						},
-						{},
-					)
-
-					const totalValueNow = poolUnitsSupply[pool.details.state.pool_unit_resource_address]
-						? pool.fungible_resources.items
-								.reduce(
-									(total, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) =>
-										total.add(
-											vaults.items
-												.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
-												.mul(tokens[resource_address]?.price.usd.now || 0),
-										),
-									ZERO,
-								)
-								.div(poolUnitsSupply[pool.details.state.pool_unit_resource_address])
-						: ZERO
-
-					const totalValueBefore = poolUnitsSupplyBefore[pool.details.state.pool_unit_resource_address]
-						? poolsBeforeMap[pool.address]?.fungible_resources.items
-								.reduce(
-									(total, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) =>
-										total.add(
-											vaults.items
-												.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
-												.mul(tokens[resource_address]?.price.usd['24h'] || 0),
-										),
-									ZERO,
-								)
-								.div(poolUnitsSupplyBefore[pool.details.state.pool_unit_resource_address])
-						: ZERO
-
-					pool.change =
-						totalValueNow && totalValueBefore && totalValueBefore.gt(0)
-							? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber()
-							: 0
-					pool.resourceAmounts = resourceAmounts
-					pool.poolUnitTotalSupply = poolUnitsSupply[pool.details.state.pool_unit_resource_address]
-
-					map[pool.address] = pool
-					return map
-				}, {}) || {}
-			)
-		},
+		queryFn,
 	})
 }
