@@ -45,7 +45,6 @@ export const NFTCollectionNameCell: React.FC<IProps> = props => {
 									capitalizeFirstLetter
 									size="xsmall"
 									truncate
-									weight="strong"
 									className={styles.nftCollectionNameCellBalanceWrapper}
 								>
 									{a}

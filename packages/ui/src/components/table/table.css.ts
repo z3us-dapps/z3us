@@ -129,6 +129,17 @@ export const footerLoadingIconWrapper = style([
 	}),
 ])
 
+export const tableHeaderTruncateWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		whiteSpace: 'nowrap',
+	},
+])
+
 export const tableIconWrapper = style([
 	sprinkles({
 		position: 'relative',

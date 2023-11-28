@@ -95,13 +95,13 @@ const Tokens: React.FC = () => {
 			{
 				Header: intl.formatMessage(messages.value),
 				accessor: 'value',
-				width: 'auto',
+				width: '12%',
 				Cell: AssetValueCell,
 			},
 			{
 				Header: intl.formatMessage(messages.change),
 				accessor: 'change',
-				width: 'auto',
+				width: '12%',
 				Cell: AssetChangeCell,
 			},
 		],

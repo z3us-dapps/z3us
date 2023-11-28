@@ -21,12 +21,13 @@ export const useEntitiesDetails = (
 	addresses: string[],
 	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultOptIns,
+	at?: Date,
 ) => {
 	const networkId = useNetworkId()
 	const { state } = useGatewayClient()!
 
 	return useQuery({
-		queryKey: ['useEntitiesDetails', networkId, addresses],
+		queryKey: ['useEntitiesDetails', networkId, addresses, at],
 		queryFn: () =>
 			addresses.length > 0
 				? state.innerClient
@@ -35,6 +36,11 @@ export const useEntitiesDetails = (
 								addresses,
 								aggregation_level: aggregation,
 								opt_ins: optIns,
+								at_ledger_state: at
+									? {
+											timestamp: at,
+									  }
+									: null,
 							},
 						})
 						.then(resp => resp.items)
@@ -49,7 +55,8 @@ export const useEntityDetails = (
 	address: string,
 	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultOptIns,
+	at?: Date,
 ) => {
-	const { data, ...rest } = useEntitiesDetails(address ? [address] : [], aggregation, optIns)
+	const { data, ...rest } = useEntitiesDetails(address ? [address] : [], aggregation, optIns, at)
 	return { ...rest, data: (data?.[0] || null) as StateEntityDetailsResponseItem }
 }

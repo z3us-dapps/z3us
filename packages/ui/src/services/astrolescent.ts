@@ -15,7 +15,7 @@ export type Token = {
 	icon_url: string
 }
 
-export type TokensResponse = Array<Token>
+export type TokensResponse = { [key: string]: Token }
 
 export type SwapResponse = {
 	inputTokens?: number
@@ -36,7 +36,9 @@ export class AstrolescentService {
 	}
 
 	getTokens = async (): Promise<TokensResponse> => {
-		const response = await fetch(`${this.baseURL}/tokens`, this.options)
+		const url = new URL(`${this.baseURL}/prices`)
+		const path = url.toString()
+		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
 			throw new Error(`Invalid request: ${response.status} received`)
 		}

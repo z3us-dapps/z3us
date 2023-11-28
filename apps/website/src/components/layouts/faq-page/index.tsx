@@ -25,7 +25,7 @@ const FAQ_ITEMS = {
 			<Box>
 				<Text size="large" color="strong">
 					Z3US enables you to generate new seed phrase-based wallets. You&apos;ll receive a set of 24 words that you
-					must write down. These words are crucial for wallet restoration in case it&apos;s ever necessary. .
+					must write down. These words are crucial for wallet restoration in case it&apos;s ever necessary.
 				</Text>
 			</Box>
 		),
@@ -172,7 +172,8 @@ const FAQ_ITEMS = {
 			<Box>
 				<Text size="large" color="strong">
 					No, if you wish to user Connector Extension you should disable Z3US connector extension features in the
-					settings. Having both enabled at the same time will result in a race condition for Connect Button interactions
+					settings. Having both enabled at the same time will result in a race condition for Connect Button
+					interactions.
 				</Text>
 			</Box>
 		),

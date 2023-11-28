@@ -18,7 +18,7 @@ export const assetNameCellContentWrapper = style([
 		alignItems: 'center',
 		transition: 'fast',
 		gap: {
-			mobile: 'medium',
+			mobile: 'small',
 		},
 	}),
 	{},

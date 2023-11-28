@@ -62,7 +62,7 @@ export const useUsfHistory = (address: string, timeFrame: TimeFrames) =>
 			const now = new Date()
 			switch (timeFrame) {
 				case TimeFrames.WEEK:
-					from.setDate(from.getDate() - 1)
+					from.setDate(from.getDate() - 7)
 					break
 				case TimeFrames.MONTH:
 					from.setMonth(from.getMonth() - 1)

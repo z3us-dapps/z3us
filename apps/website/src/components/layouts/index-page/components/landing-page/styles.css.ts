@@ -98,15 +98,6 @@ export const landingPageDarkWrapper = style([
 	},
 ])
 
-export const landingPageInvadersHeroWrapper = style([
-	sprinkles({}),
-	{},
-	responsiveStyle({
-		mobile: { marginTop: '-80px' },
-		tablet: { marginTop: '0px' },
-	}),
-])
-
 export const landingPageInvadersWrapper = style([
 	sprinkles({
 		display: 'flex',
@@ -170,8 +161,9 @@ export const landingPageBelowFeatureWrapper = style([
 	}),
 	{},
 	responsiveStyle({
-		tablet: { paddingTop: '40px' },
-		desktop: { paddingTop: '20px' },
+		mobile: { paddingTop: '80px' },
+		tablet: { paddingTop: '180px' },
+		desktop: { paddingTop: '400px' },
 	}),
 ])
 
@@ -197,6 +189,18 @@ export const landingLeftAllInTextWrapper = style([
 		mobile: { paddingTop: '100px' },
 		tablet: { paddingTop: '100px' },
 		desktop: { paddingTop: '20px' },
+	}),
+])
+
+export const landingMakeItYourOwnWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { paddingTop: '240px' },
+		tablet: { paddingTop: '240px' },
+		desktop: { paddingTop: '240px' },
 	}),
 ])
 
@@ -420,7 +424,7 @@ export const landingNftTwoLarge = style([
 	}),
 	{},
 	responsiveStyle({
-		mobile: { position: 'relative' },
+		mobile: { position: 'relative', maxWidth: '100%', height: 'auto' },
 		tablet: { position: 'absolute', marginTop: '118px', marginLeft: '190px' },
 	}),
 ])
@@ -658,7 +662,9 @@ export const landingPageHeroImage = style([
 	}),
 	{},
 	responsiveStyle({
-		mobile: { maxWidth: '100%', height: 'auto' },
+		mobile: { maxWidth: '100%', height: 'auto', marginBottom: '-220px' },
+		tablet: { marginBottom: '-320px' },
+		desktop: { marginBottom: '-520px' },
 	}),
 ])
 
@@ -751,6 +757,11 @@ export const landingHeroSendReceiveStakeWrapper = style([
 		marginTop: 'xxlarge',
 	}),
 	{},
+	responsiveStyle({
+		mobile: { marginBottom: '-400px' },
+		tablet: { marginBottom: '-400px' },
+		desktop: { marginBottom: '-440px' },
+	}),
 ])
 
 export const landingHeroSendReceiveStakeImg = style([

@@ -169,7 +169,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 												address={knownAddresses?.resourceAddresses.xrd}
 											/>
 										</Text>
-										<Text> &nbsp;&middot;&nbsp; </Text>
+										<Text>&nbsp;&middot;&nbsp;</Text>
 										<Text size="xsmall">{`${intl.formatNumber(Number.parseFloat(transaction.fee_paid) || 0, {
 											style: 'decimal',
 											maximumFractionDigits: 18,

@@ -38,7 +38,7 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed, s
 	if (isLoading) return <FallbackLoading />
 
 	return (
-		<Box display="flex" flexDirection={reversed ? 'row-reverse' : 'row'} gap="medium" alignItems="center">
+		<Box display="flex" flexDirection={reversed ? 'row-reverse' : 'row'} gap="small" alignItems="center">
 			<ResourceImageIcon address={address} size={size} />
 			<Box display="flex" flexDirection="column" flexShrink={0}>
 				{displayName && (

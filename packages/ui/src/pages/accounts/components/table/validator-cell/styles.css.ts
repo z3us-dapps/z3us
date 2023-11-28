@@ -19,7 +19,7 @@ export const assetNameCellContentWrapper = style([
 		alignItems: 'center',
 		transition: 'fast',
 		gap: {
-			mobile: 'medium',
+			mobile: 'small',
 		},
 	}),
 	{},
@@ -45,6 +45,7 @@ export const assetNameCellLoadingWrapper = style([
 export const assetNameCellStatsWrapper = style([
 	sprinkles({
 		display: 'flex',
+		alignItems: 'center',
 		gap: 'medium',
 		flexGrow: 1,
 	}),
@@ -77,18 +78,21 @@ export const assetNameCellPriceWrapper = style([
 			tablet: 'none',
 		},
 		flexDirection: 'column',
-		flexGrow: 1,
 		alignItems: 'flex-end',
+		justifyContent: 'center',
 	}),
 	{
-		width: '30%',
-		flexBasis: '30%',
+		width: '55%',
+		flexBasis: '55%',
 	},
 ])
 
 export const assetNameCellPriceTextWrapper = style([
 	sprinkles({
 		maxWidth: 'full',
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'xsmall',
 	}),
 	{},
 ])

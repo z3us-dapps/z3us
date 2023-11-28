@@ -17,13 +17,7 @@ import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/
 import { useEntitiesDetails } from './use-entity-details'
 import { useKnownAddresses } from './use-known-addresses'
 import { useNetworkId } from './use-network-id'
-
-const collectResourcePools = (container: string[], item: FungibleResourcesCollectionItemVaultAggregated): string[] => {
-	const metadata = item.explicit_metadata?.items
-	const pool = findMetadataValue('pool', metadata)
-	if (pool) container.push(pool)
-	return container
-}
+import { usePools } from './use-pools'
 
 const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
 	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)
@@ -41,12 +35,21 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 	}
 }
 
+const DECIMAL_ZERO = decimal(0).value
+
+type PoolDetails = {
+	resourceAmounts: { [key: string]: typeof DECIMAL_ZERO }
+	poolUnitTotalSupply: string
+	resourceAmountsBefore: { [key: string]: typeof DECIMAL_ZERO }
+	poolUnitTotalSupplyBefore: string
+}
+
 const transformFungibleResourceItemResponse =
 	(
 		knownAddresses: KnownAddresses,
 		xrdPrice: number,
 		tokens: { [key: string]: Token },
-		poolsMap: { [key: string]: StateEntityDetailsResponseItem },
+		poolsMap: { [key: string]: StateEntityDetailsResponseItem & PoolDetails },
 	) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
 		const metadata = item.explicit_metadata?.items
@@ -69,37 +72,46 @@ const transformFungibleResourceItemResponse =
 		let change = 0
 		let xrdValue = 0
 		if (pool && poolsMap[pool]) {
-			const poolTokensMap = poolsMap[pool].fungible_resources.items.reduce(
-				transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, poolsMap),
-				{},
-			)
-			const poolTokens = Object.values(poolTokensMap)
-			const poolBalances = transformBalances(poolTokens, 'pool')
+			const p = poolsMap[pool]
 
-			xrdValue = poolTokens.reduce(
-				(total, balance) =>
-					total + amount.mul(decimal(balance.xrdValue).value.div(decimal(balance.amount).value)).toNumber(),
-				0,
+			const fraction = decimal(amount).value.div(p.poolUnitTotalSupply)
+			const totalValueNow = Object.keys(p.resourceAmounts).reduce(
+				(sum, resource) =>
+					sum.add(fraction.mul(p.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.usd.now).value)),
+				DECIMAL_ZERO,
 			)
-			change = poolTokens.reduce(
-				(c, balance) =>
-					c +
-					balance.change /
-						((poolBalances.poolValue as number) === 0
-							? 1
-							: (poolBalances.poolValue as number) / (balance.value === 0 ? 1 : balance.value)),
-				0,
+
+			const fractionBefore = decimal(amount).value.div(p.poolUnitTotalSupply)
+			const totalValueBefore = Object.keys(p.resourceAmountsBefore).reduce(
+				(sum, resource) =>
+					sum.add(
+						fractionBefore
+							.mul(p.resourceAmountsBefore[resource])
+							.mul(decimal(tokens[resource]?.price.usd['24h']).value),
+					),
+				DECIMAL_ZERO,
 			)
+
+			xrdValue = Object.keys(p.resourceAmounts)
+				.reduce(
+					(sum, resource) =>
+						sum.add(fraction.mul(p.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.xrd.now || 0).value)),
+					DECIMAL_ZERO,
+				)
+				.toNumber()
+
+			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
 		} else {
 			const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
 
-			change = token?.change || 0
-			xrdValue = amount.toNumber() * (token?.price || 0)
+			change = token?.price.usd.change || 0
+			xrdValue = amount.toNumber() * (token?.price.xrd.now || 0)
 		}
 
 		container[item.resource_address] = {
 			type: ResourceBalanceType.FUNGIBLE,
 			address: item.resource_address,
+			vaults: item.vaults.items.map(vault => vault.vault_address),
 			amount: amount.toString(),
 			value: xrdValue * xrdPrice,
 			xrdValue,
@@ -192,17 +204,6 @@ type Balances = {
 	poolUnitsXrdValue: number
 }
 
-const useAccountPools = accounts => {
-	const poolAddresses = useMemo(() => {
-		if (!accounts) return []
-		return accounts
-			.map(({ fungible_resources }) => fungible_resources.items.reduce(collectResourcePools, []))
-			.reduce((a, b) => a.concat(b), [])
-			.filter((value, index, array) => array.indexOf(value) === index)
-	}, [accounts])
-	return useEntitiesDetails(poolAddresses)
-}
-
 export const useBalances = (...addresses: string[]) => {
 	const networkId = useNetworkId()
 	const { currency } = useNoneSharedStore(state => ({
@@ -215,16 +216,7 @@ export const useBalances = (...addresses: string[]) => {
 	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
-	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts)
-
-	const poolsMap = useMemo(
-		() =>
-			pools?.reduce((map, pool) => {
-				map[pool.address] = pool
-				return map
-			}, {}) || {},
-		[pools],
-	)
+	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
 
 	const isLoading =
 		isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts || isLoadingPools
@@ -238,7 +230,7 @@ export const useBalances = (...addresses: string[]) => {
 			let nonFungible: ResourceBalances = {}
 			accounts.forEach(({ fungible_resources, non_fungible_resources }) => {
 				fungible = fungible_resources.items.reduce(
-					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, poolsMap),
+					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, pools),
 					fungible,
 				)
 				nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse, nonFungible)
@@ -291,16 +283,8 @@ export const useAccountValues = (...addresses: string[]) => {
 	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
-	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts)
+	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
 
-	const poolsMap = useMemo(
-		() =>
-			pools?.reduce((map, pool) => {
-				map[pool.address] = pool
-				return map
-			}, {}) || {},
-		[pools],
-	)
 	const isLoading =
 		isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts || isLoadingPools
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
@@ -314,7 +298,7 @@ export const useAccountValues = (...addresses: string[]) => {
 					...container,
 					[account.address]: Object.values(
 						account.fungible_resources.items.reduce(
-							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, poolsMap),
+							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, pools),
 							{},
 						),
 					).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),
