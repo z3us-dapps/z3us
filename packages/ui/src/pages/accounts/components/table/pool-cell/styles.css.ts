@@ -19,7 +19,7 @@ export const assetNameCellContentWrapper = style([
 		alignItems: 'center',
 		transition: 'fast',
 		gap: {
-			mobile: 'medium',
+			mobile: 'small',
 		},
 	}),
 	{},
@@ -46,6 +46,7 @@ export const assetNameCellStatsWrapper = style([
 	sprinkles({
 		display: 'flex',
 		gap: 'medium',
+		alignItems: 'center',
 		flexGrow: 1,
 	}),
 	{},
@@ -89,6 +90,9 @@ export const assetNameCellPriceWrapper = style([
 export const assetNameCellPriceTextWrapper = style([
 	sprinkles({
 		maxWidth: 'full',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'xsmall',
 	}),
 	{},
 ])

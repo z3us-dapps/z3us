@@ -188,7 +188,9 @@ export const Table: React.FC<ITableProps> = props => {
 									}}
 								>
 									<Box position="relative" component="span" display="inline-flex" alignItems="center" gap="xsmall">
-										<Box component="span">{column.render('Header', headerProps)}</Box>
+										<Box component="span" className={styles.tableHeaderTruncateWrapper}>
+											{column.render('Header', headerProps)}
+										</Box>
 										<Box component="span" className={styles.tableIconWrapper}>
 											{/* eslint-disable-next-line no-nested-ternary */}
 											{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}

@@ -3,6 +3,7 @@ import React from 'react'
 import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
@@ -23,15 +24,21 @@ export const AssetValueCell: React.FC<IProps> = props => {
 
 	if (!value) return null
 
+	const formattedValue = intl.formatNumber(value, {
+		style: 'currency',
+		currency,
+	})
+
 	return (
 		<Box className={styles.assetStatisticCellWrapper}>
 			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-				<Text size="small" color="strong" truncate>
-					{intl.formatNumber(value, {
-						style: 'currency',
-						currency,
-					})}
-				</Text>
+				<ToolTip message={formattedValue}>
+					<Box>
+						<Text size="small" color="strong" truncate>
+							{formattedValue}
+						</Text>
+					</Box>
+				</ToolTip>
 			</Box>
 		</Box>
 	)

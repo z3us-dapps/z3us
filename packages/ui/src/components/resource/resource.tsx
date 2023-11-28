@@ -132,9 +132,9 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 
 	const { data: token } = useToken(validator && knownAddresses ? knownAddresses.resourceAddresses.xrd : resourceId)
 
-	const value = useMemo(() => (token?.price || 0) * xrdPrice, [token, xrdPrice])
-	const change = useMemo(() => token?.change || 0, [token])
-	const increase = useMemo(() => token?.increase || 0, [token])
+	const value = useMemo(() => (token?.price.xrd.now || 0) * xrdPrice, [token, xrdPrice])
+	const change = useMemo(() => token?.price.usd.change || 0, [token])
+	const increase = useMemo(() => token?.price.usd.increase || 0, [token])
 
 	const [timeFrame, setTimeFrame] = useState<TimeFrames>(TimeFrames.THREE_MONTHS)
 	const { data: udfHistory } = useUsfHistory(resourceId, timeFrame)

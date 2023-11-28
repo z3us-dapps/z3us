@@ -130,7 +130,7 @@ export const activityItemInnerBtn = style([
 		cursor: 'pointer',
 	}),
 	{
-		paddingTop: '6px',
+		paddingTop: '5px',
 		selectors: {
 			'&:focus-visible': {
 				outline: 'none',
@@ -147,7 +147,7 @@ export const activityItemInnerBtn = style([
 	responsiveStyle({
 		mobile: {
 			gap: vars.spacing.xsmall,
-			gridTemplateColumns: '24px 1fr 160px ',
+			gridTemplateColumns: '24px 1fr 220px ',
 		},
 		tablet: {
 			gap: vars.spacing.small,
@@ -181,6 +181,7 @@ export const activityItemStatusWrapper = style([
 export const activityItemTextPriceWrapper = style([
 	sprinkles({
 		display: 'flex',
+		alignItems: 'center',
 		gap: 'xxsmall',
 		paddingTop: 'xxsmall',
 	}),

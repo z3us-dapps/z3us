@@ -13,6 +13,7 @@ export type ResourceBalance = {
 	[ResourceBalanceType.FUNGIBLE]: {
 		type: ResourceBalanceType.FUNGIBLE
 		address: string
+		vaults: string[]
 		name: string
 
 		amount: string
