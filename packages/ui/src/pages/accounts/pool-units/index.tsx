@@ -15,7 +15,6 @@ import type { ResourceBalanceKind } from 'ui/src/types'
 import { AssetChangeCell } from '../components/table/asset-change-cell'
 import { AssetValueCell } from '../components/table/asset-value-cell'
 import { PoolLiquidityCell } from '../components/table/pool-liquidity'
-import { PoolResourcesCell } from '../components/table/pool-resources-cell'
 
 const messages = defineMessages({
 	address: {
@@ -87,28 +86,22 @@ const Tokens: React.FC = () => {
 				Cell: PoolCell,
 			},
 			{
-				Header: intl.formatMessage(messages.pool),
-				accessor: 'pool',
-				width: '10%',
-				Cell: PoolResourcesCell,
-			},
-			{
 				Header: intl.formatMessage(messages.amount),
 				accessor: 'amount',
 				width: 'auto',
 				Cell: AssetAmountCell,
 			},
 			{
-				Header: intl.formatMessage(messages.liquidity),
-				accessor: 'vaults',
-				width: 'auto',
-				Cell: PoolLiquidityCell,
-			},
-			{
 				Header: intl.formatMessage(messages.value),
 				accessor: 'value',
 				width: '12%',
 				Cell: AssetValueCell,
+			},
+			{
+				Header: intl.formatMessage(messages.liquidity),
+				accessor: 'vaults',
+				width: 'auto',
+				Cell: PoolLiquidityCell,
 			},
 			{
 				Header: intl.formatMessage(messages.change),
