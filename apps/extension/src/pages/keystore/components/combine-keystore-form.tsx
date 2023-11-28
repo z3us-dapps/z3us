@@ -1,5 +1,5 @@
 import SelectField from 'packages/ui/src/components/form/fields/select-field'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -45,7 +45,7 @@ const messages = defineMessages({
 	},
 })
 
-const initialValues = {
+const init = {
 	name: '',
 	keySourceId: '',
 	password: '',
@@ -73,7 +73,13 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 		addPersonaAction: state.addPersonaAction,
 	}))
 
+	const [initialValues, restFormValues] = useState<typeof init>({ name: '', keySourceId: keystore?.id, password: '' })
 	const [validation, setValidation] = useState<ZodError>()
+
+	useEffect(() => {
+		if (!keystore || initialValues.keySourceId) return
+		restFormValues({ name: '', keySourceId: keystore?.id, password: '' })
+	}, [keystore])
 
 	const selectItems = useMemo(
 		() =>
@@ -177,6 +183,7 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 		await client.unlockVault(keystore, values.password)
 
 		if (onNext) onNext()
+		restFormValues(init)
 	}
 
 	if (!keystore || keystore.type === KeystoreType.RADIX_WALLET) return null
