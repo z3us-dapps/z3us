@@ -2,7 +2,7 @@ import type { Omnibox } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
 const popupURL = new URL(browser.runtime.getURL(''))
-const websiteURL = `${popupURL}src/pages/app/index.html`
+const websiteURL = `${popupURL}src/pages/app/system.html`
 
 export const handleChange = (text: string, suggest: (suggestResults: Omnibox.SuggestResult[]) => void) => {
 	const suggestions = []
