@@ -24,7 +24,7 @@ export const TokenPrice: React.FC<IProps> = ({ amount, address, currency }) => {
 
 	if (isLoadingToken || isLoadingPrice) return <FallbackLoading />
 
-	const value = (amount || 0) * (token?.price || 0) * (xrdPrice || 0)
+	const value = (amount || 0) * (token?.price.xrd.now || 0) * (xrdPrice || 0)
 
 	return (
 		<>

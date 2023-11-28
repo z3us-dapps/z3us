@@ -30,7 +30,7 @@ export const PoolResourcesCell: React.FC<IProps> = props => {
 		<Box className={styles.assetNameCellWrapper}>
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
 				<Box className={styles.assetNameCellStatsWrapper}>
-					<Box className={styles.assetNameCellNameWrapper}>
+					<Box className={styles.assetNameCellNameWrapper} gap="xsmall">
 						{resources.map(resource => (
 							<ResourceSnippet key={resource} address={resource} size="small" />
 						))}

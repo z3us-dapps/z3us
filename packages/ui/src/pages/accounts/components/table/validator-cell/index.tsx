@@ -41,7 +41,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 	return (
 		<Box className={styles.assetNameCellWrapper}>
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
-				<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={value} />
+				<ResourceImageIcon size={{ mobile: 'large', tablet: 'large' }} address={value} />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
 						<ToolTip side="top" message={name}>
@@ -53,13 +53,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 						</ToolTip>
 						{amount && (
 							<Box>
-								<Text
-									capitalizeFirstLetter
-									size="xsmall"
-									truncate
-									weight="strong"
-									className={styles.assetNameCellBalanceWrapper}
-								>
+								<Text capitalizeFirstLetter size="xsmall" truncate className={styles.assetNameCellBalanceWrapper}>
 									{intl.formatNumber(Number.parseFloat(amount), {
 										style: 'decimal',
 										maximumFractionDigits: 18,
@@ -73,12 +67,13 @@ export const ValidatorCell: React.FC<IProps> = props => {
 							<ResourceSnippet address={address} size="small" />
 						</Box>
 						<Box className={styles.assetNameCellPriceTextWrapper}>
-							<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">
+							<Text capitalizeFirstLetter size="xsmall" color="strong" truncate weight="medium" align="right">
 								{tokenValue &&
 									intl.formatNumber(tokenValue, {
 										style: 'currency',
 										currency,
 									})}
+								&nbsp;-&nbsp;
 							</Text>
 							<RedGreenText
 								change={change}

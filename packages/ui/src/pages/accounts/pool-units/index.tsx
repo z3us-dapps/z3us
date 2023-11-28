@@ -14,6 +14,7 @@ import type { ResourceBalanceKind } from 'ui/src/types'
 
 import { AssetChangeCell } from '../components/table/asset-change-cell'
 import { AssetValueCell } from '../components/table/asset-value-cell'
+import { PoolLiquidityCell } from '../components/table/pool-liquidity'
 import { PoolResourcesCell } from '../components/table/pool-resources-cell'
 
 const messages = defineMessages({
@@ -36,6 +37,10 @@ const messages = defineMessages({
 	change: {
 		id: 'BY343C',
 		defaultMessage: 'Change',
+	},
+	liquidity: {
+		id: 'ctieLo',
+		defaultMessage: 'Liquidity',
 	},
 	empty_title: {
 		id: 'jHJmjf',
@@ -78,13 +83,13 @@ const Tokens: React.FC = () => {
 			{
 				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
-				width: 'auto',
+				width: '20%',
 				Cell: PoolCell,
 			},
 			{
 				Header: intl.formatMessage(messages.pool),
 				accessor: 'pool',
-				width: 'auto',
+				width: '10%',
 				Cell: PoolResourcesCell,
 			},
 			{
@@ -94,15 +99,21 @@ const Tokens: React.FC = () => {
 				Cell: AssetAmountCell,
 			},
 			{
+				Header: intl.formatMessage(messages.liquidity),
+				accessor: 'vaults',
+				width: 'auto',
+				Cell: PoolLiquidityCell,
+			},
+			{
 				Header: intl.formatMessage(messages.value),
 				accessor: 'value',
-				width: 'auto',
+				width: '12%',
 				Cell: AssetValueCell,
 			},
 			{
 				Header: intl.formatMessage(messages.change),
 				accessor: 'change',
-				width: 'auto',
+				width: '12%',
 				Cell: AssetChangeCell,
 			},
 		],
