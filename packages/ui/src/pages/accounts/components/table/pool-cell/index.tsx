@@ -1,3 +1,8 @@
+import type {
+	FungibleResourcesCollectionItemVaultAggregated,
+	StateEntityDetailsResponseFungibleResourceDetails,
+} from '@radixdlt/babylon-gateway-api-sdk'
+import { decimal } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { useIntl } from 'react-intl'
@@ -32,24 +37,40 @@ export const PoolCell: React.FC<IProps> = props => {
 		currency: state.currency,
 	}))
 
-	const { data } = useEntityDetails(pool)
-	const { data: poolData, isLoading } = useEntityDetails(value)
+	const { data: tokenData, isLoading } = useEntityDetails(value)
+	const { data, isLoading: isLoadingPool } = useEntityDetails(pool)
 
-	const name = findMetadataValue('name', poolData?.metadata?.items)
-	const resources = useMemo(
+	const name = findMetadataValue('name', tokenData?.metadata?.items)
+
+	const poolResourceAmounts = useMemo(
 		() =>
-			data?.details?.type === 'Component'
-				? (data?.details?.state as any)?.vaults.map(vault => vault.resource_address) || []
-				: [],
+			data?.fungible_resources.items.reduce(
+				(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
+					m[resource_address] = vaults.items
+						.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), decimal(0).value)
+						.add(m[resource_address] || 0)
+
+					return m
+				},
+				{},
+			),
 		[data],
 	)
 
-	if (isLoading) return <FallbackLoading />
+	const fraction = useMemo(
+		() =>
+			decimal(amount).value.div(
+				(tokenData?.details as StateEntityDetailsResponseFungibleResourceDetails)?.total_supply || 0,
+			),
+		[amount, tokenData],
+	)
+
+	if (isLoading || isLoadingPool) return <FallbackLoading />
 
 	return (
 		<Box className={styles.assetNameCellWrapper}>
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
-				<ResourceImageIcon size={{ mobile: 'large', tablet: 'large' }} address={poolData?.address} />
+				<ResourceImageIcon size={{ mobile: 'large', tablet: 'large' }} address={value} />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
 						<ToolTip message={name}>
@@ -72,9 +93,25 @@ export const PoolCell: React.FC<IProps> = props => {
 					</Box>
 					<Box className={styles.assetNameCellPriceWrapper}>
 						<Box className={styles.assetNameCellPriceTextWrapper}>
-							{resources.map(resource => (
-								<ResourceSnippet key={resource} address={resource} size="small" />
-							))}
+							{Object.keys(poolResourceAmounts).map(resourceAddress => {
+								const liq = intl.formatNumber(fraction.mul(poolResourceAmounts[resourceAddress]).toNumber(), {
+									style: 'decimal',
+									maximumFractionDigits: 18,
+								})
+
+								return (
+									<ToolTip key={resourceAddress} message={liq}>
+										<Box display="flex" gap="xsmall" width="full">
+											<Box display="flex" flexShrink={0}>
+												<ResourceSnippet address={resourceAddress} size="small" /> &nbsp;-{' '}
+											</Box>
+											<Text size="small" color="strong" truncate>
+												{liq}
+											</Text>
+										</Box>
+									</ToolTip>
+								)
+							})}
 						</Box>
 					</Box>
 					<Box className={styles.assetNameCellPriceWrapper}>
