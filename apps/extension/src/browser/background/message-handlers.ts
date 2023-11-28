@@ -41,20 +41,27 @@ async function lockVault(): Promise<void> {
 }
 
 export interface UnlockVaultMessage {
+	keystore: Keystore
 	password: string
 }
 
 async function unlockVault(message: Message): Promise<void> {
-	const { password } = message.payload as UnlockVaultMessage
-	await vault.unlock(password)
+	const { keystore, password } = message.payload as UnlockVaultMessage
+	await vault.unlock(keystore, password)
 }
 
-async function isVaultUnlocked(): Promise<boolean> {
+export interface IsUnlockVaultMessage {
+	keystore: Keystore
+}
+
+async function isVaultUnlocked(message: Message): Promise<boolean> {
+	const { keystore } = message.payload as UnlockVaultMessage
+
 	const walletData = await vault.get()
 	if (!walletData) {
 		try {
-			await vault.checkPassword('')
-			return !!(await vault.unlock(''))
+			await vault.checkPassword(keystore, '')
+			return !!(await vault.unlock(keystore, ''))
 		} catch (error) {
 			return false
 		}
@@ -74,12 +81,13 @@ async function storeInVault(message: Message): Promise<void> {
 }
 
 export interface RemoveFromVaultMessage {
+	keystore: Keystore
 	password: string
 }
 
 async function removeFromVault(message: Message): Promise<void> {
-	const { password } = message.payload as RemoveFromVaultMessage
-	return vault.remove(password)
+	const { keystore, password } = message.payload as RemoveFromVaultMessage
+	return vault.remove(keystore, password)
 }
 
 export interface GetPublicKeyMessage {
@@ -103,6 +111,7 @@ async function getPublicKey(message: Message): Promise<PublicKeyJSON | null> {
 }
 
 export interface SignMessage {
+	keystore: Keystore
 	password: string
 	toSign: string
 	curve: CURVE
@@ -111,13 +120,13 @@ export interface SignMessage {
 }
 
 async function signToSignature(message: Message): Promise<SignatureJSON | null> {
-	const { curve, derivationPath, password, toSign, combinedKeystoreId } = message.payload as SignMessage
+	const { keystore, curve, derivationPath, password, toSign, combinedKeystoreId } = message.payload as SignMessage
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
 
-	await vault.checkPassword(password)
+	await vault.checkPassword(keystore, password)
 
 	const data = getCombineData(walletData.data, combinedKeystoreId)
 	const privateKey: PrivateKey = getPrivateKey(data, curve, derivationPath)
@@ -126,13 +135,13 @@ async function signToSignature(message: Message): Promise<SignatureJSON | null> 
 }
 
 async function signToSignatureWithPublicKey(message: Message): Promise<SignatureWithPublicKeyJSON | null> {
-	const { curve, derivationPath, password, toSign, combinedKeystoreId } = message.payload as SignMessage
+	const { keystore, curve, derivationPath, password, toSign, combinedKeystoreId } = message.payload as SignMessage
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
 
-	await vault.checkPassword(password)
+	await vault.checkPassword(keystore, password)
 
 	const data = getCombineData(walletData.data, combinedKeystoreId)
 	const privateKey: PrivateKey = getPrivateKey(data, curve, derivationPath)
@@ -141,35 +150,37 @@ async function signToSignatureWithPublicKey(message: Message): Promise<Signature
 }
 
 export interface GetSecretMessage {
+	keystore: Keystore
 	password: string
 	combinedKeystoreId: string
 }
 
 async function getSecret(message: Message): Promise<string> {
-	const { password, combinedKeystoreId } = message.payload as GetSecretMessage
+	const { keystore, password, combinedKeystoreId } = message.payload as GetSecretMessage
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
 
-	await vault.checkPassword(password)
+	await vault.checkPassword(keystore, password)
 
 	const data = getCombineData(walletData.data, combinedKeystoreId)
 	return cryptoGetSecret(data)
 }
 
 export interface GetDataMessage {
+	keystore: Keystore
 	password: string
 }
 
 async function getData(message: Message): Promise<Data> {
-	const { password } = message.payload as GetDataMessage
+	const { keystore, password } = message.payload as GetDataMessage
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
 
-	await vault.checkPassword(password)
+	await vault.checkPassword(keystore, password)
 
 	return walletData.data
 }
@@ -258,7 +269,7 @@ export type MessageTypes = {
 	[MessageAction.BACKGROUND_VAULT_UNLOCK]: UnlockVaultMessage
 	[MessageAction.BACKGROUND_VAULT_SAVE]: StoreInVaultMessage
 	[MessageAction.BACKGROUND_VAULT_REMOVE]: RemoveFromVaultMessage
-	[MessageAction.BACKGROUND_VAULT_IS_UNLOCKED]: undefined
+	[MessageAction.BACKGROUND_VAULT_IS_UNLOCKED]: IsUnlockVaultMessage
 	[MessageAction.BACKGROUND_VAULT_GET]: GetSecretMessage
 	[MessageAction.BACKGROUND_VAULT_GET_DATA]: GetDataMessage
 

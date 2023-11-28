@@ -22,6 +22,7 @@ export const useBuildNewAccountKeyParts = () => {
 				Math.max(
 					-1,
 					...Object.values(accountIndexes)
+						.filter(account => account.combinedKeystoreId === combinedKeystoreId)
 						.filter(account => legacy === (account.scheme === SCHEME.BIP440OLYMPIA))
 						.map(account => account.entityIndex),
 				) + 1

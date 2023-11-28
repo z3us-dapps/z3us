@@ -75,10 +75,10 @@ export function secretToData(type: DataType, secret: string = '', language: Lang
 	}
 }
 
-export function combineData(...data: Data[]): Data {
+export function combineData(combinedData: { [key: string]: Data }): Data {
 	return {
 		type: DataType.COMBINED,
-		secret: JSON.stringify(data),
+		secret: JSON.stringify(combinedData),
 	}
 }
 
@@ -86,5 +86,7 @@ export function getCombineData(combinedData: Data, key: string): Data {
 	if (combinedData.type !== DataType.COMBINED) {
 		return combinedData
 	}
-	return JSON.parse(combinedData.secret)[key]
+
+	const secret = JSON.parse(combinedData.secret)
+	return secret[key]
 }

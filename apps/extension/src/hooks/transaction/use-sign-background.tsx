@@ -5,7 +5,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 
 import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useMessageClient } from '@src/hooks/use-message-client'
@@ -28,6 +28,9 @@ export const useSignTransactionWithBackground = () => {
 	const client = useMessageClient()
 	const confirm = usePasswordModal()
 
+	const { selectedKeystore } = useSharedStore(state => ({
+		selectedKeystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
 	const { accountIndexes } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
@@ -38,6 +41,7 @@ export const useSignTransactionWithBackground = () => {
 		return Promise.all(
 			needSignaturesFrom.map(signBy =>
 				client.signToSignatureWithPublicKey(
+					selectedKeystore,
 					accountIndexes[signBy].curve,
 					accountIndexes[signBy].derivationPath,
 					password,
@@ -48,5 +52,5 @@ export const useSignTransactionWithBackground = () => {
 		)
 	}
 
-	return useCallback(sign, [networkId, accountIndexes, client, confirm])
+	return useCallback(sign, [networkId, accountIndexes, client, selectedKeystore, confirm])
 }

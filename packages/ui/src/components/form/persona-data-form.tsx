@@ -114,6 +114,15 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 		phoneNumbers: personaIndexes?.[identityAddress]?.phoneNumbers?.map(number => ({ number })) || [],
 	}
 
+	const selectItems = useMemo(
+		() =>
+			nameVariants.map(variant => ({
+				id: variant,
+				title: intl.formatMessage(messages[variant]),
+			})),
+		[intl],
+	)
+
 	const validationSchema = useMemo(() => {
 		const emailSchema = z.object({
 			email: z.string().min(1, intl.formatMessage(messages.validation_email)),
@@ -169,10 +178,7 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 						sizeVariant="xlarge"
 						fullWidth
 						placeholder={intl.formatMessage(messages.variant)}
-						data={nameVariants.map(variant => ({
-							id: variant,
-							title: intl.formatMessage(messages[variant]),
-						}))}
+						data={selectItems}
 					/>
 				</Box>
 				<Box className={styles.formInputWrapper}>

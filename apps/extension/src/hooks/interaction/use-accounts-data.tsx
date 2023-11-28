@@ -63,6 +63,7 @@ export const useAccountsData = () => {
 					return Promise.all<AccountProof>(
 						needSignaturesFrom.map(async address => {
 							const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
+								selectedKeystore,
 								accountIndexes[address].curve,
 								accountIndexes[address].derivationPath,
 								password,
@@ -109,7 +110,7 @@ export const useAccountsData = () => {
 					throw new Error(`Can not sign with keystore type: ${keystore?.type}`)
 			}
 		},
-		[client, ledger, accountIndexes, intl, confirm],
+		[client, ledger, accountIndexes, selectedKeystore, intl, confirm],
 	)
 
 	const buildAccounts = useCallback(

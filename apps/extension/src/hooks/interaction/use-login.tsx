@@ -60,6 +60,7 @@ export const useLogin = () => {
 						content: intl.formatMessage(messages.persona_challenge, { label: persona.label }),
 					})
 					const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
+						selectedKeystore,
 						persona.curve,
 						persona.derivationPath,
 						password,
@@ -85,7 +86,7 @@ export const useLogin = () => {
 					throw new Error(`Can not sign with keystore type: ${keystore?.type}`)
 			}
 		},
-		[client, ledger, confirm, intl],
+		[client, ledger, selectedKeystore, confirm, intl],
 	)
 
 	const loginWithChallenge = useCallback(

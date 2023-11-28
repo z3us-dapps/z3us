@@ -117,7 +117,7 @@ export const AddAccountDialog: React.FC<IProps> = props => {
 								<Text size="xxsmall">{intl.formatMessage(messages.keySource)}</Text>
 								<SelectSimple
 									fullWidth
-									value={keystore?.id}
+									value={keySourceId}
 									onValueChange={setKeySourceId}
 									data={selectItems}
 									sizeVariant="xlarge"

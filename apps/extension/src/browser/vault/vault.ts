@@ -7,7 +7,6 @@ import { type Keystore, KeystoreType } from 'ui/src/store/types'
 import { CryptoService } from '@src/crypto/crypto'
 import type { Data } from '@src/types/vault'
 
-import { getSelectedKeystore } from './keystore'
 import { getSecret, removeSecret, saveSecret, setConnectionPassword } from './storage'
 
 type WalletData = {
@@ -29,14 +28,9 @@ export class Vault {
 		this.wallet = null
 	}
 
-	checkPassword = async (password: string): Promise<WalletData> => {
+	checkPassword = async (keystore: Keystore, password: string): Promise<WalletData> => {
 		const release = await this.mutex.acquire()
 		try {
-			const keystore = await getSelectedKeystore()
-			if (!keystore) {
-				throw new Error('Keystore is not selected')
-			}
-
 			const secret = await getSecret(keystore.id)
 			if (secret) await this.crypto.decrypt<Data>(password, secret)
 		} finally {
@@ -46,14 +40,9 @@ export class Vault {
 		return this.wallet
 	}
 
-	unlock = async (password: string): Promise<WalletData> => {
+	unlock = async (keystore: Keystore, password: string): Promise<WalletData> => {
 		const release = await this.mutex.acquire()
 		try {
-			const keystore = await getSelectedKeystore()
-			if (!keystore) {
-				throw new Error('Keystore is not selected')
-			}
-
 			const secret = await getSecret(keystore.id)
 			const data = secret ? await this.crypto.decrypt<Data>(password, secret) : null
 
@@ -82,14 +71,8 @@ export class Vault {
 	get = async (): Promise<WalletData | null> => {
 		const release = await this.mutex.acquire()
 		try {
-			if (this.wallet) {
-				const keystore = await getSelectedKeystore()
-				if (!keystore) {
-					throw new Error('Keystore is not selected')
-				}
-				if (this.wallet?.keystore.id !== keystore.id) {
-					throw new Error('Forbidden!')
-				}
+			if (!this.wallet) {
+				throw new Error('Locked')
 			}
 		} catch (error) {
 			await this.clearState()
@@ -126,19 +109,11 @@ export class Vault {
 		}
 	}
 
-	remove = async (password: string) => {
+	remove = async (keystore: Keystore, password: string) => {
 		const release = await this.mutex.acquire()
 		try {
 			if (!this.wallet) {
 				throw new Error('Locked')
-			}
-
-			const keystore = await getSelectedKeystore()
-			if (!keystore) {
-				throw new Error('Keystore is not selected')
-			}
-			if (this.wallet?.keystore.id !== keystore.id) {
-				throw new Error('Forbidden!')
 			}
 
 			// check if we can decrypt

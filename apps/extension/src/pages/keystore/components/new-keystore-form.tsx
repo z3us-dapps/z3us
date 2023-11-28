@@ -111,7 +111,7 @@ export const NewKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNe
 		addKeystore(keystore)
 
 		await client.storeInVault(keystore, data, values.password)
-		await client.unlockVault(values.password)
+		await client.unlockVault(keystore, values.password)
 
 		if (onNext) onNext()
 	}

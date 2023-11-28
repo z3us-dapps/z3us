@@ -121,7 +121,7 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 					<Box>
 						<SelectSimple
 							fullWidth
-							value={keystore?.id}
+							value={keySourceId}
 							onValueChange={setKeySourceId}
 							data={selectItems}
 							sizeVariant="xlarge"

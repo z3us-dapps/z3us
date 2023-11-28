@@ -83,7 +83,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		try {
-			await client.unlockVault(values.password)
+			await client.unlockVault(keystore, values.password)
 			onUnlock()
 			setError('')
 		} catch (err) {

@@ -38,20 +38,23 @@ export const useMessageClient = () => {
 		() => ({
 			ping: (): Promise<boolean> => sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_PING),
 
-			getSecret: (combinedKeystoreId: string, password: string): Promise<string | null> =>
+			getSecret: (keystore: Keystore, combinedKeystoreId: string, password: string): Promise<string | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_GET, {
+					keystore,
 					password,
 					combinedKeystoreId,
 				}),
-			getData: (password: string): Promise<Data> =>
+			getData: (keystore: Keystore, password: string): Promise<Data> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_GET_DATA, {
+					keystore,
 					password,
 				}),
 
 			lockVault: (): Promise<void> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_LOCK),
-			unlockVault: (password: string): Promise<void> =>
+			unlockVault: (keystore: Keystore, password: string): Promise<void> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_UNLOCK, {
+					keystore,
 					password,
 				}),
 			storeInVault: (keystore: Keystore, data: Data, password: string): Promise<void> =>
@@ -60,21 +63,29 @@ export const useMessageClient = () => {
 					data,
 					password,
 				}),
-			removeFromVault: (password: string) =>
+			removeFromVault: (keystore: Keystore, password: string) =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_VAULT_REMOVE, {
+					keystore,
 					password,
 				}),
-			isVaultUnlocked: (): Promise<boolean> =>
-				sendMessageToBackground(BackgroundMessageAction.BACKGROUND_VAULT_IS_UNLOCKED),
+			isVaultUnlocked: (keystore: Keystore): Promise<boolean> =>
+				sendMessageToBackground(BackgroundMessageAction.BACKGROUND_VAULT_IS_UNLOCKED, { keystore }),
 
-			getPublicKey: (curve: CURVE, derivationPath: string, combinedKeystoreId: string): Promise<PublicKey | null> =>
+			getPublicKey: (
+				keystore: Keystore,
+				curve: CURVE,
+				derivationPath: string,
+				combinedKeystoreId: string,
+			): Promise<PublicKey | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_GET_PUBLIC_KEY, {
+					keystore,
 					curve,
 					derivationPath,
 					combinedKeystoreId,
 				}).then(resp => publicKeyFromJSON(resp || {})),
 
 			signToSignature: (
+				keystore: Keystore,
 				curve: CURVE,
 				derivationPath: string,
 				password: string,
@@ -82,6 +93,7 @@ export const useMessageClient = () => {
 				combinedKeystoreId: string,
 			): Promise<Signature | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE, {
+					keystore,
 					curve,
 					derivationPath,
 					password,
@@ -89,6 +101,7 @@ export const useMessageClient = () => {
 					combinedKeystoreId,
 				}).then(resp => signatureFromJSON(resp || {})),
 			signToSignatureWithPublicKey: (
+				keystore: Keystore,
 				curve: CURVE,
 				derivationPath: string,
 				password: string,
@@ -96,6 +109,7 @@ export const useMessageClient = () => {
 				combinedKeystoreId: string,
 			): Promise<SignatureWithPublicKey | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY, {
+					keystore,
 					curve,
 					derivationPath,
 					password,

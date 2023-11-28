@@ -101,7 +101,7 @@ const AddAccountForm: React.FC<IProps> = ({ onSuccess }) => {
 			{selectItems.length > 0 && (
 				<SelectSimple
 					fullWidth
-					value={keystore?.id}
+					value={keySourceId}
 					onValueChange={setKeySourceId}
 					data={selectItems}
 					sizeVariant="xlarge"

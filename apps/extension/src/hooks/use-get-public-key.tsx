@@ -23,7 +23,7 @@ export const useGetPublicKey = () => {
 		async (keystore: Keystore, curve: CURVE, derivationPath: string, combinedKeystoreId: string) => {
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL:
-					return client.getPublicKey(curve, derivationPath, combinedKeystoreId)
+					return client.getPublicKey(selectedKeystore, curve, derivationPath, combinedKeystoreId)
 				case KeystoreType.HARDWARE:
 					const [ledgerPublicKey] = await ledger.derivePublicKeys(keystore, [
 						{
@@ -36,12 +36,12 @@ export const useGetPublicKey = () => {
 						curve: signatureCurveFromLedgerCurve(ledgerPublicKey.curve),
 					})
 				case KeystoreType.COMBINED:
-					return getPublicKey(keystore.keySources[combinedKeystoreId], curve, derivationPath, '')
+					return getPublicKey(keystore.keySources[combinedKeystoreId], curve, derivationPath, combinedKeystoreId)
 				default:
 					throw new Error(`Can not derive public key type: ${keystore?.type}`)
 			}
 		},
-		[client, ledger],
+		[client, ledger, selectedKeystore],
 	)
 
 	return useCallback(

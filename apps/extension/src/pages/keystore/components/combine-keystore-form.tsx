@@ -1,3 +1,4 @@
+import SelectField from 'packages/ui/src/components/form/fields/select-field'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
@@ -8,9 +9,8 @@ import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
-import { SelectSimple } from 'ui/src/components/select'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
-import type { Account, Keystore, Persona } from 'ui/src/store/types'
+import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 import { generateId } from 'ui/src/utils/generate-id'
 
@@ -22,6 +22,10 @@ const messages = defineMessages({
 	name_placeholder: {
 		id: 'HAlOn1',
 		defaultMessage: 'Name',
+	},
+	key_source_placeholder: {
+		defaultMessage: 'Key source',
+		id: 'RlCZeE',
 	},
 	password_placeholder: {
 		id: '5sg7KC',
@@ -35,10 +39,15 @@ const messages = defineMessages({
 		id: 'XK/xhU',
 		defaultMessage: 'Please insert name',
 	},
+	validation_key_source: {
+		id: 'KmI7iF',
+		defaultMessage: 'Please select wallet',
+	},
 })
 
 const initialValues = {
 	name: '',
+	keySourceId: '',
 	password: '',
 }
 
@@ -52,11 +61,10 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 	const intl = useIntl()
 	const client = useMessageClient()
 
-	const { keystore, keystores, addKeystore, selectKeystore } = useSharedStore(state => ({
+	const { keystore, keystores, addKeystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 		keystores: state.keystores,
 		addKeystore: state.addKeystoreAction,
-		selectKeystore: state.selectKeystoreAction,
 	}))
 	const { accountIndexes, addAccountAction, personaIndexes, addPersonaAction } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes,
@@ -67,14 +75,6 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 
 	const [validation, setValidation] = useState<ZodError>()
 
-	const validationSchema = useMemo(
-		() =>
-			z.object({
-				name: z.string().min(1, intl.formatMessage(messages.validation_name)),
-			}),
-		[],
-	)
-
 	const selectItems = useMemo(
 		() =>
 			keystores
@@ -83,9 +83,13 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 		[keystores],
 	)
 
-	const handleSelect = (id: string) => {
-		selectKeystore(id)
-	}
+	const validationSchema = useMemo(() => {
+		const keystoreIds = keystores.map(key => key.id)
+		return z.object({
+			name: z.string().min(1, intl.formatMessage(messages.validation_name)),
+			keySourceId: z.custom<string>((val: string) => keystoreIds.includes(val)),
+		})
+	}, [keystores])
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		setValidation(undefined)
@@ -97,51 +101,53 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 
 		setValidation(undefined)
 
+		const destination = keystores.find(({ id }) => id === values.keySourceId)
+
 		const combinedKeystore: Keystore = {
-			id: keystore.id,
-			name: keystore.name,
+			id: destination.id,
+			name: destination.name,
 			type: KeystoreType.COMBINED,
 			keySources: {},
 		}
 
-		const combinedData = []
-		if (keystore.type !== KeystoreType.COMBINED) {
-			if (keystore.type === KeystoreType.HARDWARE) {
-				combinedKeystore.keySources[keystore.id] = {
-					id: keystore.id,
-					name: keystore.name,
-					type: keystore.type,
-					ledgerDevice: keystore.ledgerDevice,
+		const combinedData = {}
+		if (destination.type !== KeystoreType.COMBINED) {
+			if (destination.type === KeystoreType.HARDWARE) {
+				combinedKeystore.keySources[destination.id] = {
+					id: destination.id,
+					name: destination.name,
+					type: destination.type,
+					ledgerDevice: destination.ledgerDevice,
 				}
 			} else {
-				combinedKeystore.keySources[keystore.id] = {
-					id: keystore.id,
-					name: keystore.name,
-					type: keystore.type,
+				combinedKeystore.keySources[destination.id] = {
+					id: destination.id,
+					name: destination.name,
+					type: destination.type,
 				}
 			}
-			const currentData = await client.getData(values.password)
-			combinedData.push(currentData)
+			const currentData = await client.getData(keystore, values.password)
+			combinedData[destination.id] = currentData
 
 			Object.keys(accountIndexes).forEach(networkId => {
 				Object.keys(accountIndexes[networkId] || {}).forEach(address => {
-					const account: Account = accountIndexes[networkId][address]
-					account.combinedKeystoreId = keystore.id
-					addAccountAction(+networkId, address, account)
+					addAccountAction(+networkId, address, {
+						...accountIndexes[networkId][address],
+						combinedKeystoreId: destination.id,
+					})
 				})
 			})
 			Object.keys(personaIndexes).forEach(networkId => {
 				Object.keys(personaIndexes[networkId] || {}).forEach(address => {
-					const persona: Persona = personaIndexes[networkId][address]
-					persona.combinedKeystoreId = keystore.id
-					addPersonaAction(+networkId, address, persona)
+					addPersonaAction(+networkId, address, {
+						...personaIndexes[networkId][address],
+						combinedKeystoreId: destination.id,
+					})
 				})
 			})
 		}
 
 		const data = onSubmit()
-		combinedData.push(data)
-
 		const keystoreId = generateId()
 		if (keystoreType === KeystoreType.HARDWARE) {
 			combinedKeystore.keySources[keystoreId] = {
@@ -158,10 +164,12 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 			}
 		}
 
+		combinedData[keystoreId] = data
+
 		addKeystore(combinedKeystore)
 
-		await client.storeInVault(combinedKeystore, combineData(...combinedData), values.password)
-		await client.unlockVault(values.password)
+		await client.storeInVault(combinedKeystore, combineData(combinedData), values.password)
+		await client.unlockVault(keystore, values.password)
 
 		if (onNext) onNext()
 	}
@@ -174,12 +182,12 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 			<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 				<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
 					<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
-					<SelectSimple
+					<SelectField
+						name="keySourceId"
 						fullWidth
-						value={keystore?.id}
-						onValueChange={handleSelect}
+						sizeVariant="large"
+						placeholder={intl.formatMessage(messages.key_source_placeholder)}
 						data={selectItems}
-						sizeVariant="xlarge"
 					/>
 					<TextField
 						isPassword

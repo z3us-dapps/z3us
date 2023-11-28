@@ -76,6 +76,15 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	const [isAddPersonaFormVisible, setIsAddPersonaFormVisible] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 
+	const selectItems = useMemo(
+		() =>
+			Object.keys(personaIndexes).map(address => ({
+				id: address,
+				title: personaIndexes[address].label || address,
+			})),
+		[personaIndexes],
+	)
+
 	const validationSchema = useMemo(
 		() =>
 			z.object({
@@ -135,10 +144,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 						name="persona"
 						placeholder={intl.formatMessage(messages.persona_placeholder)}
 						sizeVariant="large"
-						data={Object.keys(personaIndexes).map(address => ({
-							id: address,
-							title: personaIndexes[address].label || address,
-						}))}
+						data={selectItems}
 						fullWidth
 					/>
 					<Box className={clsx(styles.modalContentFormButtonWrapper, styles.modalContentFormBorderWrapper)}>

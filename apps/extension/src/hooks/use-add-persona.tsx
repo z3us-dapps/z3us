@@ -18,7 +18,13 @@ export const useBuildNewPersonKeyParts = () => {
 
 	const buildNewPersonKeyParts = useCallback(
 		async (combinedKeystoreId: string) => {
-			const idx = Math.max(-1, ...Object.values(personaIndexes).map(persona => persona.entityIndex)) + 1
+			const idx =
+				Math.max(
+					-1,
+					...Object.values(personaIndexes)
+						.filter(persona => persona.combinedKeystoreId === combinedKeystoreId)
+						.map(persona => persona.entityIndex),
+				) + 1
 			const derivationPath = buildPersonaDerivationPath(networkId, idx)
 			const publicKey = await getPublicKey(CURVE.CURVE25519, derivationPath, combinedKeystoreId)
 			const address = await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(publicKey, networkId)
