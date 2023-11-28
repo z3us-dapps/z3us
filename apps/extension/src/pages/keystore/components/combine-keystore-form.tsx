@@ -77,9 +77,7 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 
 	const selectItems = useMemo(
 		() =>
-			keystores
-				.filter(({ type }) => type === KeystoreType.LOCAL || type === KeystoreType.HARDWARE)
-				.map(({ id, name }) => ({ id, title: name })),
+			keystores.filter(({ type }) => type !== KeystoreType.RADIX_WALLET).map(({ id, name }) => ({ id, title: name })),
 		[keystores],
 	)
 
@@ -103,6 +101,8 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 
 		const destination = keystores.find(({ id }) => id === values.keySourceId)
 
+		await client.unlockVault(destination, values.password)
+
 		const combinedKeystore: Keystore = {
 			id: destination.id,
 			name: destination.name,
@@ -110,8 +110,15 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 			keySources: {},
 		}
 
-		const combinedData = {}
-		if (destination.type !== KeystoreType.COMBINED) {
+		const currentData = await client.getData(destination, values.password)
+
+		let combinedData = {}
+		if (destination.type === KeystoreType.COMBINED) {
+			combinedData = JSON.parse(currentData.secret)
+			combinedKeystore.keySources = destination.keySources
+		} else {
+			combinedData[destination.id] = currentData
+
 			if (destination.type === KeystoreType.HARDWARE) {
 				combinedKeystore.keySources[destination.id] = {
 					id: destination.id,
@@ -126,8 +133,6 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 					type: destination.type,
 				}
 			}
-			const currentData = await client.getData(keystore, values.password)
-			combinedData[destination.id] = currentData
 
 			Object.keys(accountIndexes).forEach(networkId => {
 				Object.keys(accountIndexes[networkId] || {}).forEach(address => {
