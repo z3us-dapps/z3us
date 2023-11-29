@@ -233,7 +233,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 					<Text size="xxlarge" weight="strong" color="strong" align="center">
 						{name}
 					</Text>
-					{data?.details?.type === 'FungibleResource' && (
+					{!validator && data?.details?.type === 'FungibleResource' && (
 						<ResourceValue value={value} change={change} increase={increase} xrdValue={token?.price.xrd.now || 0} />
 					)}
 				</Box>
