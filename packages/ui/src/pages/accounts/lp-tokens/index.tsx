@@ -9,11 +9,11 @@ import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
-import { AssetChangeCell } from '../components/table/asset-change-cell'
-import { AssetValueCell } from '../components/table/asset-value-cell'
 import * as styles from '../components/table/styles.css'
 import { ValidatorCell } from '../components/table/validator-cell'
+import { ValidatorChangeCell } from '../components/table/validator-change-cell'
 import { ValidatorLiquidityCell } from '../components/table/validator-liquidity'
+import { ValidatorValueCell } from '../components/table/validator-value-cell'
 
 const messages = defineMessages({
 	validator: {
@@ -86,13 +86,13 @@ const Tokens: React.FC = () => {
 				Header: intl.formatMessage(messages.value),
 				accessor: 'value',
 				width: '12%',
-				Cell: AssetValueCell,
+				Cell: ValidatorValueCell,
 			},
 			{
 				Header: intl.formatMessage(messages.change),
 				accessor: 'change',
 				width: '12%',
-				Cell: AssetChangeCell,
+				Cell: ValidatorChangeCell,
 			},
 		],
 		[],

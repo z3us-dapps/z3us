@@ -169,7 +169,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 	const tags =
 		(data?.metadata?.items?.find(m => m.key === 'tags')?.value?.typed as MetadataStringArrayValue)?.values || []
 
-	const { data: token } = useToken(validator && knownAddresses ? knownAddresses.resourceAddresses.xrd : resourceId)
+	const { data: token } = useToken(resourceId)
 
 	const value = useMemo(() => (token?.price.xrd.now || 0) * xrdPrice, [token, xrdPrice])
 	const change = useMemo(() => token?.price.usd.change || 0, [token])

@@ -6,35 +6,48 @@ import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { ResourceSnippet } from 'ui/src/components/snippet/resource'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
+import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
+import { useToken } from 'ui/src/hooks/queries/tokens'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'
 import { ResourceBalanceType } from 'ui/src/types'
 
+import * as styles from '../asset-value-cell/styles.css'
 import { getStakedAmount, getUnStakeAmount } from '../validator-cell'
-import * as styles from './styles.css'
 
 interface IProps {
 	row?: { original: ResourceBalanceKind }
 }
 
-export const ValidatorLiquidityCell: React.FC<IProps> = props => {
+export const ValidatorValueCell: React.FC<IProps> = props => {
 	const {
 		row: { original },
 	} = props
-	const { amount, address, validator, ids, type } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE] & {
-		ids?: string[]
-	}
+	const {
+		validator,
+		address,
+		amount,
+		value: tokenValue,
+		ids,
+		type,
+	} = original as ResourceBalance[ResourceBalanceType.FUNGIBLE] & { ids?: string[] }
+
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
 
 	const intl = useIntl()
 	const { data, isLoading } = useEntityDetails(validator)
 	const { data: tokenData, isLoading: isLoadingResource } = useEntityDetails(address)
-	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
 	const { data: nfts = [] } = useNonFungiblesData(address, ids || [])
+	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
+	const { data: token, isLoading: isLoadingToken } = useToken(knownAddresses?.resourceAddresses.xrd)
 
 	const xrdAmount = useMemo(() => {
 		if (type === ResourceBalanceType.FUNGIBLE) {
@@ -46,34 +59,26 @@ export const ValidatorLiquidityCell: React.FC<IProps> = props => {
 		return getUnStakeAmount(nfts)
 	}, [type, amount, data, tokenData, knownAddresses, nfts])
 
-	if (isLoading || isLoadingResource || isLoadingKnownAddresses) return <FallbackLoading />
+	const tokenPrice = useMemo(() => {
+		if (type === ResourceBalanceType.FUNGIBLE) return tokenValue
+		return xrdAmount.mul(xrdPrice || 0).toNumber()
+	}, [tokenValue, xrdAmount, xrdPrice, token])
+
+	const formattedValue = intl.formatNumber(tokenPrice, {
+		style: 'currency',
+		currency,
+	})
+
+	if (isLoading || isLoadingResource || isLoadingToken || isLoadingKnownAddresses || isLoadingPrice)
+		return <FallbackLoading />
 
 	return (
 		<Box className={styles.assetStatisticCellWrapper}>
 			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-				<ToolTip message={amount}>
-					<Box display="flex" gap="xsmall" width="full">
-						<Box display="flex" flexShrink={0}>
-							<ResourceSnippet address={address} size="small" /> &nbsp;-{' '}
-						</Box>
+				<ToolTip message={tokenPrice}>
+					<Box>
 						<Text size="small" color="strong" truncate>
-							{intl.formatNumber(Number.parseFloat(amount), {
-								style: 'decimal',
-								maximumFractionDigits: 18,
-							})}
-						</Text>
-					</Box>
-				</ToolTip>
-				<ToolTip message={xrdAmount.toString()}>
-					<Box display="flex" gap="xsmall" width="full">
-						<Box display="flex" flexShrink={0}>
-							<ResourceSnippet address={knownAddresses.resourceAddresses.xrd} size="small" /> &nbsp;-{' '}
-						</Box>
-						<Text size="small" color="strong" truncate>
-							{intl.formatNumber(xrdAmount.toNumber(), {
-								style: 'decimal',
-								maximumFractionDigits: 18,
-							})}
+							{formattedValue}
 						</Text>
 					</Box>
 				</ToolTip>

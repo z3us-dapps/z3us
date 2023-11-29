@@ -179,6 +179,11 @@ const transformNonFungibleResourceItemResponse =
 			return container
 		}
 
+		const ids = item.vaults.items.reduce((acc, curr) => {
+			acc.push(...curr.items)
+			return acc
+		}, [])
+
 		container[item.resource_address] = {
 			type: ResourceBalanceType.NON_FUNGIBLE,
 			address: item.resource_address,
@@ -193,6 +198,7 @@ const transformNonFungibleResourceItemResponse =
 			xrdValue: 0,
 			validator,
 			pool,
+			ids,
 		}
 
 		return container

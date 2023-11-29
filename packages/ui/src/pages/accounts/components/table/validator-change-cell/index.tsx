@@ -6,34 +6,36 @@ import { useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { ResourceSnippet } from 'ui/src/components/snippet/resource'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
+import { RedGreenText } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
+import { useToken } from 'ui/src/hooks/queries/tokens'
 import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'
 import { ResourceBalanceType } from 'ui/src/types'
 
+import * as styles from '../asset-change-cell/styles.css'
 import { getStakedAmount, getUnStakeAmount } from '../validator-cell'
-import * as styles from './styles.css'
 
 interface IProps {
 	row?: { original: ResourceBalanceKind }
 }
 
-export const ValidatorLiquidityCell: React.FC<IProps> = props => {
+export const ValidatorChangeCell: React.FC<IProps> = props => {
 	const {
 		row: { original },
 	} = props
-	const { amount, address, validator, ids, type } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE] & {
-		ids?: string[]
-	}
+	const { validator, address, amount, change, ids, type } =
+		original as ResourceBalance[ResourceBalanceType.FUNGIBLE] & {
+			ids?: string[]
+		}
 
 	const intl = useIntl()
 	const { data, isLoading } = useEntityDetails(validator)
 	const { data: tokenData, isLoading: isLoadingResource } = useEntityDetails(address)
 	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
+	const { data: token, isLoading: isLoadingToken } = useToken(knownAddresses?.resourceAddresses.xrd)
 	const { data: nfts = [] } = useNonFungiblesData(address, ids || [])
 
 	const xrdAmount = useMemo(() => {
@@ -46,38 +48,25 @@ export const ValidatorLiquidityCell: React.FC<IProps> = props => {
 		return getUnStakeAmount(nfts)
 	}, [type, amount, data, tokenData, knownAddresses, nfts])
 
-	if (isLoading || isLoadingResource || isLoadingKnownAddresses) return <FallbackLoading />
+	const tokenChange = useMemo(() => {
+		if (type === ResourceBalanceType.FUNGIBLE) return change
+		return xrdAmount.mul(token.price.usd.change).toNumber()
+	}, [change, xrdAmount, token])
+
+	if (isLoading || isLoadingResource || isLoadingToken || isLoadingKnownAddresses) return <FallbackLoading />
 
 	return (
 		<Box className={styles.assetStatisticCellWrapper}>
-			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-				<ToolTip message={amount}>
-					<Box display="flex" gap="xsmall" width="full">
-						<Box display="flex" flexShrink={0}>
-							<ResourceSnippet address={address} size="small" /> &nbsp;-{' '}
-						</Box>
-						<Text size="small" color="strong" truncate>
-							{intl.formatNumber(Number.parseFloat(amount), {
-								style: 'decimal',
-								maximumFractionDigits: 18,
-							})}
-						</Text>
-					</Box>
-				</ToolTip>
-				<ToolTip message={xrdAmount.toString()}>
-					<Box display="flex" gap="xsmall" width="full">
-						<Box display="flex" flexShrink={0}>
-							<ResourceSnippet address={knownAddresses.resourceAddresses.xrd} size="small" /> &nbsp;-{' '}
-						</Box>
-						<Text size="small" color="strong" truncate>
-							{intl.formatNumber(xrdAmount.toNumber(), {
-								style: 'decimal',
-								maximumFractionDigits: 18,
-							})}
-						</Text>
-					</Box>
-				</ToolTip>
-			</Box>
+			<ToolTip message={tokenChange}>
+				<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
+					<RedGreenText size="large" change={tokenChange} truncate>
+						{intl.formatNumber(tokenChange, {
+							style: 'percent',
+							maximumFractionDigits: 2,
+						})}
+					</RedGreenText>
+				</Box>
+			</ToolTip>
 		</Box>
 	)
 }
