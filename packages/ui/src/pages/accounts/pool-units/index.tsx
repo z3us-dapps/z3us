@@ -82,13 +82,13 @@ const Tokens: React.FC = () => {
 			{
 				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
-				width: '20%',
+				width: '25%',
 				Cell: PoolCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
 				accessor: 'amount',
-				width: 'auto',
+				width: '18%',
 				Cell: AssetAmountCell,
 			},
 			{

@@ -12,6 +12,7 @@ import type { ResourceBalanceKind } from 'ui/src/types'
 import * as styles from '../components/table/styles.css'
 import { ValidatorCell } from '../components/table/validator-cell'
 import { ValidatorChangeCell } from '../components/table/validator-change-cell'
+import { ValidatorFeeCell } from '../components/table/validator-fee-cell'
 import { ValidatorLiquidityCell } from '../components/table/validator-liquidity'
 import { ValidatorValueCell } from '../components/table/validator-value-cell'
 
@@ -19,6 +20,10 @@ const messages = defineMessages({
 	validator: {
 		id: 'Ykb512',
 		defaultMessage: 'Validator',
+	},
+	fee: {
+		id: 'uT4OlP',
+		defaultMessage: 'Fee',
 	},
 	amount: {
 		id: 'H5+NAX',
@@ -73,8 +78,14 @@ const Tokens: React.FC = () => {
 			{
 				Header: intl.formatMessage(messages.validator),
 				accessor: 'address',
-				width: 'auto',
+				width: '25%',
 				Cell: ValidatorCell,
+			},
+			{
+				Header: intl.formatMessage(messages.fee),
+				accessor: 'validator',
+				width: '12%',
+				Cell: ValidatorFeeCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
@@ -85,7 +96,7 @@ const Tokens: React.FC = () => {
 			{
 				Header: intl.formatMessage(messages.value),
 				accessor: 'value',
-				width: '12%',
+				width: '18%',
 				Cell: ValidatorValueCell,
 			},
 			{
