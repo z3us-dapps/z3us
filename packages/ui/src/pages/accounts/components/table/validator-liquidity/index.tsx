@@ -1,9 +1,4 @@
-import type {
-	FungibleResourcesCollectionItemVaultAggregated,
-	StateEntityDetailsResponseFungibleResourceDetails,
-	StateEntityDetailsResponseItem,
-} from '@radixdlt/babylon-gateway-api-sdk'
-import type { KnownAddresses } from '@radixdlt/radix-engine-toolkit'
+import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
 import { useKnownAddresses } from 'packages/ui/src/hooks/dapp/use-known-addresses'
@@ -18,24 +13,8 @@ import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
+import { getStakedAmount } from '../validator-cell'
 import * as styles from './styles.css'
-
-const ZERO = decimal(0).value
-
-const getStakedAmount = (data: StateEntityDetailsResponseItem, knownAddresses: KnownAddresses) =>
-	data?.fungible_resources.items
-		.filter(({ resource_address }) => resource_address === knownAddresses?.resourceAddresses.xrd)
-		.reduce(
-			(total, { vaults }: FungibleResourcesCollectionItemVaultAggregated) =>
-				total.add(
-					vaults.items
-						.filter(({ vault_address }) => vault_address === (data.details as any).state.stake_xrd_vault.entity_address)
-						.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO),
-				),
-			ZERO,
-		) || ZERO
-
-// pending_xrd_withdraw_vault
 
 interface IProps {
 	row?: { original: ResourceBalanceKind }
