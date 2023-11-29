@@ -7,19 +7,15 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
-import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
-import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
-import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
-import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
-import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
-import { ValidatorCell } from 'ui/src/pages/accounts/components/table/validator-cell'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
+import { AssetChangeCell } from '../components/table/asset-change-cell'
+import { AssetValueCell } from '../components/table/asset-value-cell'
+import * as styles from '../components/table/styles.css'
+import { ValidatorCell } from '../components/table/validator-cell'
+import { ValidatorLiquidityCell } from '../components/table/validator-liquidity'
+
 const messages = defineMessages({
-	address: {
-		id: 'lPDfi7',
-		defaultMessage: 'LP Token',
-	},
 	validator: {
 		id: 'Ykb512',
 		defaultMessage: 'Validator',
@@ -76,21 +72,15 @@ const Tokens: React.FC = () => {
 		() => [
 			{
 				Header: intl.formatMessage(messages.validator),
-				accessor: 'validator',
-				width: 'auto',
-				Cell: ValidatorCell,
-			},
-			{
-				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
 				width: 'auto',
-				Cell: AssetNameCell,
+				Cell: ValidatorCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
 				accessor: 'amount',
 				width: 'auto',
-				Cell: AssetAmountCell,
+				Cell: ValidatorLiquidityCell,
 			},
 			{
 				Header: intl.formatMessage(messages.value),

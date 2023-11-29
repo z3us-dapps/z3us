@@ -18,6 +18,7 @@ import { useEntitiesDetails } from './use-entity-details'
 import { useKnownAddresses } from './use-known-addresses'
 import { useNetworkId } from './use-network-id'
 import { usePools } from './use-pools'
+import { useValidators } from './use-validators'
 
 const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
 	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)
@@ -44,11 +45,21 @@ type PoolDetails = {
 	poolUnitTotalSupplyBefore: string
 }
 
+type ValidatorDetails = {
+	resourceAmounts: { [key: string]: typeof DECIMAL_ZERO }
+	resourceAmountsBefore: { [key: string]: typeof DECIMAL_ZERO }
+	validatorUnitTotalSupply: string
+	validatorUnitTotalSupplyBefore: string
+	validatorClaimTotalSupply: string
+	validatorClaimTotalSupplyBefore: string
+}
+
 const transformFungibleResourceItemResponse =
 	(
 		knownAddresses: KnownAddresses,
 		xrdPrice: number,
 		tokens: { [key: string]: Token },
+		validatorsMap: { [key: string]: StateEntityDetailsResponseItem & ValidatorDetails },
 		poolsMap: { [key: string]: StateEntityDetailsResponseItem & PoolDetails },
 	) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
@@ -101,9 +112,30 @@ const transformFungibleResourceItemResponse =
 				.toNumber()
 
 			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
-		} else {
-			const token = validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address] || null
+		} else if (validator && validatorsMap[validator]) {
+			const v = validatorsMap[validator]
 
+			const fraction = decimal(amount).value.div(v.validatorUnitTotalSupply)
+			const totalValueNow = fraction
+				.mul(v.resourceAmounts[knownAddresses.resourceAddresses.xrd])
+				.mul(decimal(tokens[knownAddresses.resourceAddresses.xrd]?.price.usd.now).value)
+
+			const fractionBefore = decimal(amount).value.div(v.validatorUnitTotalSupply)
+			const totalValueBefore = fractionBefore
+				.mul(v.resourceAmountsBefore[knownAddresses.resourceAddresses.xrd])
+				.mul(decimal(tokens[knownAddresses.resourceAddresses.xrd]?.price.usd['24h']).value)
+
+			xrdValue = Object.keys(v.resourceAmounts)
+				.reduce(
+					(sum, resource) =>
+						sum.add(fraction.mul(v.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.xrd.now || 0).value)),
+					DECIMAL_ZERO,
+				)
+				.toNumber()
+
+			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
+		} else {
+			const token = tokens?.[item.resource_address]
 			change = token?.price.usd.change || 0
 			xrdValue = amount.toNumber() * (token?.price.xrd.now || 0)
 		}
@@ -128,44 +160,43 @@ const transformFungibleResourceItemResponse =
 		return container
 	}
 
-const transformNonFungibleResourceItemResponse = (
-	container: ResourceBalances,
-	item: NonFungibleResourcesCollectionItemVaultAggregated,
-): ResourceBalances => {
-	const metadata = item.explicit_metadata?.items
-	const name = findMetadataValue('name', metadata)
-	const description = findMetadataValue('description', metadata)
-	const imageUrl = findMetadataValue('icon_url', metadata)
-	const url = findMetadataValue('info_url', metadata)
-	const validator = findMetadataValue('validator', metadata)
-	const pool = findMetadataValue('pool', metadata)
+const transformNonFungibleResourceItemResponse =
+	() =>
+	(container: ResourceBalances, item: NonFungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
+		const metadata = item.explicit_metadata?.items
+		const name = findMetadataValue('name', metadata)
+		const description = findMetadataValue('description', metadata)
+		const imageUrl = findMetadataValue('icon_url', metadata)
+		const url = findMetadataValue('info_url', metadata)
+		const validator = findMetadataValue('validator', metadata)
+		const pool = findMetadataValue('pool', metadata)
 
-	const amount = item.vaults.items.reduce(
-		(acc, curr) => decimal(curr.total_count).value.add(acc),
-		decimal(container[item.resource_address]?.amount || 0).value,
-	)
-	if (!amount.gt(0)) {
+		const amount = item.vaults.items.reduce(
+			(acc, curr) => decimal(curr.total_count).value.add(acc),
+			decimal(container[item.resource_address]?.amount || 0).value,
+		)
+		if (!amount.gt(0)) {
+			return container
+		}
+
+		container[item.resource_address] = {
+			type: ResourceBalanceType.NON_FUNGIBLE,
+			address: item.resource_address,
+			vaults: item.vaults.items.map(vault => vault.vault_address),
+			amount: amount.toString(),
+			name,
+			description,
+			url,
+			imageUrl,
+			value: 0,
+			change: 0,
+			xrdValue: 0,
+			validator,
+			pool,
+		}
+
 		return container
 	}
-
-	container[item.resource_address] = {
-		type: ResourceBalanceType.NON_FUNGIBLE,
-		address: item.resource_address,
-		vaults: item.vaults.items.map(vault => vault.vault_address),
-		amount: amount.toString(),
-		name,
-		description,
-		url,
-		imageUrl,
-		value: 0,
-		change: 0,
-		xrdValue: 0,
-		validator,
-		pool,
-	}
-
-	return container
-}
 
 type Balances = {
 	balances: ResourceBalanceKind[]
@@ -217,9 +248,15 @@ export const useBalances = (...addresses: string[]) => {
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
 	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
+	const { data: validators, isLoading: isLoadingValidators } = useValidators(accountAddresses)
 
 	const isLoading =
-		isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts || isLoadingPools
+		isLoadingKnownAddresses ||
+		isLoadingXrdPrice ||
+		isLoadingTokens ||
+		isLoadingAccounts ||
+		isLoadingPools ||
+		isLoadingValidators
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
@@ -230,10 +267,10 @@ export const useBalances = (...addresses: string[]) => {
 			let nonFungible: ResourceBalances = {}
 			accounts.forEach(({ fungible_resources, non_fungible_resources }) => {
 				fungible = fungible_resources.items.reduce(
-					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, pools),
+					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, validators, pools),
 					fungible,
 				)
-				nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse, nonFungible)
+				nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse(), nonFungible)
 			})
 
 			const fungibleTokens = Object.values(fungible)
@@ -284,9 +321,15 @@ export const useAccountValues = (...addresses: string[]) => {
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
 	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
+	const { data: validators, isLoading: isLoadingValidators } = useValidators(accountAddresses)
 
 	const isLoading =
-		isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts || isLoadingPools
+		isLoadingKnownAddresses ||
+		isLoadingXrdPrice ||
+		isLoadingTokens ||
+		isLoadingAccounts ||
+		isLoadingPools ||
+		isLoadingValidators
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
@@ -298,7 +341,7 @@ export const useAccountValues = (...addresses: string[]) => {
 					...container,
 					[account.address]: Object.values(
 						account.fungible_resources.items.reduce(
-							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, pools),
+							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, validators, pools),
 							{},
 						),
 					).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),

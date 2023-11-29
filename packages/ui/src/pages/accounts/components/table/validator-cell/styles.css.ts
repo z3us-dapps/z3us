@@ -91,7 +91,7 @@ export const assetNameCellPriceTextWrapper = style([
 	sprinkles({
 		maxWidth: 'full',
 		display: 'flex',
-		alignItems: 'center',
+		flexDirection: 'column',
 		gap: 'xsmall',
 	}),
 	{},

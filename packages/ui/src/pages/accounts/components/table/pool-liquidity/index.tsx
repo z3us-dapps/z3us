@@ -28,7 +28,7 @@ export const PoolLiquidityCell: React.FC<IProps> = props => {
 	const { pool, amount, address } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
 	const intl = useIntl()
-	const { data: tokenData } = useEntityDetails(address)
+	const { data: tokenData, isLoading: isLoadingUnit } = useEntityDetails(address)
 	const { data, isLoading } = useEntityDetails(pool)
 
 	const poolResourceAmounts = useMemo(
@@ -54,7 +54,7 @@ export const PoolLiquidityCell: React.FC<IProps> = props => {
 		[amount, tokenData],
 	)
 
-	if (isLoading) return <FallbackLoading />
+	if (isLoading || isLoadingUnit) return <FallbackLoading />
 
 	return (
 		<Box className={styles.assetStatisticCellWrapper}>
