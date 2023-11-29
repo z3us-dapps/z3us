@@ -106,6 +106,45 @@ const Details: { [key in StateEntityDetailsResponseItemDetails['type']]: React.F
 	Package: PackageDetails,
 }
 
+interface IValueProps {
+	value: number
+	xrdValue: number
+	change: number
+	increase: number
+}
+
+export const ResourceValue: React.FC<IValueProps> = ({ value, xrdValue, change, increase }) => {
+	const intl = useIntl()
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
+
+	const [format, setFormat] = useState<'currency' | 'xrd'>('currency')
+
+	const handleToggleFormat = () => {
+		setFormat(format === 'currency' ? 'xrd' : 'currency')
+	}
+
+	return (
+		<>
+			<Box component="button" onClick={handleToggleFormat} className={styles.totalValueWrapper}>
+				<Text size="xxxlarge" weight="medium" color="strong" align="center">
+					{format === 'currency' ? intl.formatNumber(value, { style: 'currency', currency }) : `${xrdValue} XRD`}
+				</Text>
+			</Box>
+			<Box display="flex" gap="xsmall">
+				<Text size="large">{`${intl.formatNumber(increase, { style: 'currency', currency })}`}</Text>
+				<RedGreenText size="large" change={change}>
+					{`(${intl.formatNumber(change, {
+						style: 'percent',
+						maximumFractionDigits: 2,
+					})})`}
+				</RedGreenText>
+			</Box>
+		</>
+	)
+}
+
 interface IProps {
 	resourceId: string
 	hideButtons?: boolean
@@ -195,20 +234,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 						{name}
 					</Text>
 					{data?.details?.type === 'FungibleResource' && (
-						<>
-							<Text size="xxxlarge" weight="medium" color="strong">
-								{intl.formatNumber(value, { style: 'currency', currency })}
-							</Text>
-							<Box display="flex" gap="xsmall">
-								<Text size="large">{`${intl.formatNumber(increase, { style: 'currency', currency })}`}</Text>
-								<RedGreenText size="large" change={change}>
-									{`(${intl.formatNumber(change, {
-										style: 'percent',
-										maximumFractionDigits: 2,
-									})})`}
-								</RedGreenText>
-							</Box>
-						</>
+						<ResourceValue value={value} change={change} increase={increase} xrdValue={token?.price.xrd.now || 0} />
 					)}
 				</Box>
 
