@@ -101,18 +101,21 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 
 	const [validation, setValidation] = useState<ZodError>()
 
-	const initialValues: Values = {
-		names: [
-			{
-				variant: personaIndexes?.[identityAddress]?.nameVariant || 'western',
-				nickname: personaIndexes?.[identityAddress]?.nickName || '',
-				givenNames: personaIndexes?.[identityAddress]?.givenNames || '',
-				familyName: personaIndexes?.[identityAddress]?.familyName || '',
-			},
-		],
-		emailAddresses: personaIndexes?.[identityAddress]?.emailAddresses?.map(email => ({ email })) || [],
-		phoneNumbers: personaIndexes?.[identityAddress]?.phoneNumbers?.map(number => ({ number })) || [],
-	}
+	const initialValues: Values = useMemo(
+		() => ({
+			names: [
+				{
+					variant: personaIndexes?.[identityAddress]?.nameVariant || 'western',
+					nickname: personaIndexes?.[identityAddress]?.nickName || '',
+					givenNames: personaIndexes?.[identityAddress]?.givenNames || '',
+					familyName: personaIndexes?.[identityAddress]?.familyName || '',
+				},
+			],
+			emailAddresses: personaIndexes?.[identityAddress]?.emailAddresses?.map(email => ({ email })) || [],
+			phoneNumbers: personaIndexes?.[identityAddress]?.phoneNumbers?.map(number => ({ number })) || [],
+		}),
+		[identityAddress, personaIndexes],
+	)
 
 	const selectItems = useMemo(
 		() =>

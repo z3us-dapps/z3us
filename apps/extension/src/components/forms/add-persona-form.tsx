@@ -103,14 +103,17 @@ const AddPersonaForm: React.FC<IProps> = ({ onSuccess, inputRef }) => {
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 			{selectItems.length > 0 && (
-				<SelectSimple
-					fullWidth
-					value={keySourceId}
-					onValueChange={setKeySourceId}
-					data={selectItems}
-					sizeVariant="xlarge"
-					placeholder={intl.formatMessage(messages.keySource)}
-				/>
+				<>
+					<SelectSimple
+						fullWidth
+						value={keySourceId}
+						onValueChange={setKeySourceId}
+						data={selectItems}
+						sizeVariant="xlarge"
+						placeholder={intl.formatMessage(messages.keySource)}
+					/>
+					<hr />
+				</>
 			)}
 			<TextField ref={inputRef} sizeVariant="large" name="name" placeholder={intl.formatMessage(messages.name)} />
 			<Box className={styles.modalContentFormButtonWrapper}>

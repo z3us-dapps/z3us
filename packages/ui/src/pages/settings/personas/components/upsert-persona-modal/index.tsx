@@ -34,6 +34,10 @@ const messages = defineMessages({
 		id: '47FYwb',
 		defaultMessage: 'Cancel',
 	},
+	validation_key_source: {
+		id: 'CIXFwg',
+		defaultMessage: 'Please select key source',
+	},
 })
 
 interface IProps {
@@ -69,6 +73,8 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 	)
 
 	const handleSubmit = async values => {
+		if (!keySourceId) throw new Error(intl.formatMessage(messages.validation_key_source))
+
 		const currentDetails = personaIndexes?.[identityAddress]
 		const labelParts: string[] = []
 		if (values.names?.[0]?.givenNames) {
@@ -117,17 +123,20 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 				<Text size="xlarge" color="strong" weight="strong">
 					{intl.formatMessage(messages.title)}
 				</Text>
-				{selectItems.length > 0 && (
-					<Box>
-						<SelectSimple
-							fullWidth
-							value={keySourceId}
-							onValueChange={setKeySourceId}
-							data={selectItems}
-							sizeVariant="xlarge"
-							placeholder={intl.formatMessage(messages.keySource)}
-						/>
-					</Box>
+				{!identityAddress && selectItems.length > 0 && (
+					<>
+						<Box>
+							<SelectSimple
+								fullWidth
+								value={keySourceId}
+								onValueChange={setKeySourceId}
+								data={selectItems}
+								sizeVariant="xlarge"
+								placeholder={intl.formatMessage(messages.keySource)}
+							/>
+						</Box>
+						<hr />
+					</>
 				)}
 				<Box display="flex" flexDirection="column" gap="xsmall">
 					<PersonaDataForm onSubmit={handleSubmit} identityAddress={identityAddress} />
