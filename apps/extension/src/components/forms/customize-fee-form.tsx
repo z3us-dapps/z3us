@@ -37,9 +37,11 @@ const messages = defineMessages({
 	},
 })
 
+export type Values = { feePayer: string; tipPercentage: string; padding: string }
+
 export interface IProps {
 	settings: TransactionSettings
-	onSubmit: (values: TransactionSettings) => void
+	onSubmit: (values: Values) => void
 }
 
 const CustomizeFeeForm: React.FC<IProps> = ({ settings, onSubmit }) => {
@@ -62,7 +64,7 @@ const CustomizeFeeForm: React.FC<IProps> = ({ settings, onSubmit }) => {
 		inputRef?.current?.focus()
 	}, [])
 
-	const handleSubmit = async (values: TransactionSettings) => {
+	const handleSubmit = async (values: Values) => {
 		setValidation(undefined)
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {

@@ -29,7 +29,7 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed, s
 	const validator = findMetadataValue('validator', data?.metadata?.items)
 	let symbol = findMetadataValue('symbol', data?.metadata?.items)
 
-	if (data.details.type === 'FungibleResource' && validator && !symbol) {
+	if (data?.details.type === 'FungibleResource' && validator && !symbol) {
 		symbol = LSU
 	}
 

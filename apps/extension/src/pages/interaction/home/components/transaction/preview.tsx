@@ -292,7 +292,10 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 				draft.hasManualSettings = newSettings.padding !== 0
 			})
 			const lockAmount = getFeeToLockAmount(receipt, newSettings.padding, state.walletExecutionCost)
-			onSettingsChange({ ...newSettings, lockAmount })
+			onSettingsChange({
+				...newSettings,
+				lockAmount,
+			})
 		})
 	}
 
