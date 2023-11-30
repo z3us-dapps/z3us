@@ -22,7 +22,7 @@ export const ValidatorFeeCell: React.FC<IProps> = props => {
 
 	const { data, isLoading } = useEntityDetails(value)
 
-	const factor = useMemo(() => Number.parseFloat((data?.details as any).state.validator_fee_factor) || 0, [data])
+	const factor = useMemo(() => (data ? Number.parseFloat((data.details as any).state.validator_fee_factor) : 0), [data])
 
 	if (isLoading) return <FallbackLoading />
 
