@@ -59,8 +59,8 @@ export const assetNameCellNameWrapper = style([
 	{},
 	responsiveStyle({
 		mobile: {
-			width: '70%',
-			flexBasis: '70%',
+			width: '50%',
+			flexBasis: '50%',
 		},
 		tablet: {
 			width: '100%',
@@ -80,8 +80,8 @@ export const assetNameCellPriceWrapper = style([
 		justifyContent: 'center',
 	}),
 	{
-		width: '55%',
-		flexBasis: '55%',
+		width: '50%',
+		flexBasis: '50%',
 	},
 ])
 
