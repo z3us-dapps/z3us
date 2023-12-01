@@ -38,24 +38,24 @@ export const useTotalBalance = () => {
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue
 		if (resourceType === 'tokens') return fungibleValue
-		if (resourceType === 'lsus') return liquidityPoolTokensValue
-		if (resourceType === 'lpus') return poolUnitsValue
+		if (['lsus', 'lp-tokens'].includes(resourceType)) return liquidityPoolTokensValue
+		if (['lpus', 'pool-units'].includes(resourceType)) return poolUnitsValue
 		return totalValue
 	}, [resourceType, totalValue, nonFungibleValue, fungibleValue, liquidityPoolTokensValue, poolUnitsValue])
 
 	const change = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleChange
 		if (resourceType === 'tokens') return fungibleChange
-		if (resourceType === 'lsus') return liquidityPoolTokensChange
-		if (resourceType === 'lpus') return poolUnitsChange
+		if (['lsus', 'lp-tokens'].includes(resourceType)) return liquidityPoolTokensChange
+		if (['lpus', 'pool-units'].includes(resourceType)) return poolUnitsChange
 		return totalChange
 	}, [resourceType, totalChange, nonFungibleChange, fungibleChange, liquidityPoolTokensChange, poolUnitsChange])
 
 	const xrdValue = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleXrdValue
 		if (resourceType === 'tokens') return fungibleXrdValue
-		if (resourceType === 'lsus') return liquidityPoolTokensXrdValue
-		if (resourceType === 'lpus') return poolUnitsXrdValue
+		if (['lsus', 'lp-tokens'].includes(resourceType)) return liquidityPoolTokensXrdValue
+		if (['lpus', 'pool-units'].includes(resourceType)) return poolUnitsXrdValue
 		return totalXrdValue
 	}, [
 		resourceType,

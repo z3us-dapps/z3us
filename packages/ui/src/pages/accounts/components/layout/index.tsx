@@ -146,9 +146,9 @@ const Layout: React.FC = () => {
 			parts.push(intl.formatMessage(messages.nfts))
 		} else if (resourceType === 'tokens') {
 			parts.push(intl.formatMessage(messages.tokens))
-		} else if (resourceType === 'lsus') {
+		} else if (['lsus', 'lp-tokens'].includes(resourceType)) {
 			parts.push(intl.formatMessage(messages.lsus))
-		} else if (resourceType === 'lpus') {
+		} else if (['lpus', 'pool-units'].includes(resourceType)) {
 			parts.push(intl.formatMessage(messages.lpus))
 		}
 

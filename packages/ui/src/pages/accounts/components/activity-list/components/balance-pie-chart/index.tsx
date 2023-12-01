@@ -47,8 +47,8 @@ export const BalancePieChart: React.FC = () => {
 	const selectedBalances = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleBalances
 		if (resourceType === 'tokens') return tokensBalances
-		if (resourceType === 'lsus') return liquidityPoolTokensBalances
-		if (resourceType === 'lpus') return poolUnitsBalances
+		if (['lsus', 'lp-tokens'].includes(resourceType)) return liquidityPoolTokensBalances
+		if (['lpus', 'pool-units'].includes(resourceType)) return poolUnitsBalances
 		return balances
 	}, [balances, resourceType])
 
