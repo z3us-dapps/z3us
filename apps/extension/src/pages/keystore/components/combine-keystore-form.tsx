@@ -190,15 +190,16 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
-			<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
-				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
+			<Box display="flex" flexDirection="column" gap="medium">
 				<SelectField
 					name="keySourceId"
 					fullWidth
-					sizeVariant="large"
+					sizeVariant="xlarge"
+					styleVariant="tertiary"
 					placeholder={intl.formatMessage(messages.key_source_placeholder)}
 					data={selectItems}
 				/>
+				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
 				<TextField
 					isPassword
 					name="password"
