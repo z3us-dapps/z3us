@@ -17,10 +17,6 @@ import { AssetValueCell } from '../components/table/asset-value-cell'
 import { PoolLiquidityCell } from '../components/table/pool-liquidity'
 
 const messages = defineMessages({
-	address: {
-		id: '+ZvWOP',
-		defaultMessage: 'Pool Unit',
-	},
 	pool: {
 		id: '11oARw',
 		defaultMessage: 'Pool',
@@ -51,7 +47,7 @@ const messages = defineMessages({
 	},
 })
 
-const Tokens: React.FC = () => {
+const LPUs: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const { scrollableNode, isScrolledTop } = useScroll()
@@ -74,13 +70,13 @@ const Tokens: React.FC = () => {
 
 	const handleRowSelected = (row: { original: ResourceBalanceKind }) => {
 		const { original } = row
-		navigate(`/accounts/${accountId}/pool-units/${original.address}?${searchParams}`)
+		navigate(`/accounts/${accountId}/lpus/${original.address}?${searchParams}`)
 	}
 
 	const columns = useMemo(
 		() => [
 			{
-				Header: intl.formatMessage(messages.address),
+				Header: intl.formatMessage(messages.pool),
 				accessor: 'address',
 				width: '25%',
 				Cell: PoolCell,
@@ -135,4 +131,4 @@ const Tokens: React.FC = () => {
 	)
 }
 
-export default Tokens
+export default LPUs

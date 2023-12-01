@@ -1,6 +1,8 @@
 import { lazy } from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { ToolTip } from 'ui/src/components/tool-tip'
+
 import Layout from './components/layout'
 import { AccountBreadcrumb } from './components/layout/components/breadcrumbs/account-breadcrumb'
 import { LinkBreadcrumb } from './components/layout/components/breadcrumbs/link-breadcrumb'
@@ -9,10 +11,10 @@ import { ResourceBreadcrumb } from './components/layout/components/breadcrumbs/r
 
 const Home = lazy(() => import('./home'))
 const Tokens = lazy(() => import('./tokens'))
-const LPTokens = lazy(() => import('./lp-tokens'))
-const PoolUnits = lazy(() => import('./pool-units'))
 const NftCollections = lazy(() => import('./nft-collections'))
-const Nfts = lazy(() => import('./nfts'))
+const NFTs = lazy(() => import('./nfts'))
+const LSUS = lazy(() => import('./lsus'))
+const LPUs = lazy(() => import('./lpus'))
 
 const ActivityList = lazy(() => import('./components/activity-list'))
 const ResourceDetails = lazy(() => import('./components/resource-details'))
@@ -64,13 +66,17 @@ const route = {
 						},
 					],
 				},
-				{
-					path: 'lp-tokens',
-					element: <LPTokens />,
+				...['lsus', 'lp-tokens'].map(path => ({
+					path,
+					element: <LSUS />,
 					handle: {
 						crumb: ({ accountId }, isLast: boolean) => (
-							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/lp-tokens`}>
-								<FormattedMessage id="zspeCR" defaultMessage="LSUs" />
+							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/lsus`}>
+								<ToolTip message={<FormattedMessage id="AgA3Nu" defaultMessage="Liquid Stake Units" />}>
+									<span>
+										<FormattedMessage id="zspeCR" defaultMessage="LSUs" />
+									</span>
+								</ToolTip>
 							</LinkBreadcrumb>
 						),
 					},
@@ -78,19 +84,23 @@ const route = {
 						{
 							path: ':resourceId',
 							handle: {
-								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="lp-token" />,
+								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="lsu" />,
 								sidebar: <ResourceDetails />,
 							},
 						},
 					],
-				},
-				{
-					path: 'pool-units',
-					element: <PoolUnits />,
+				})),
+				...['lpus', 'pool-units'].map(path => ({
+					path,
+					element: <LPUs />,
 					handle: {
 						crumb: ({ accountId }, isLast: boolean) => (
-							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/pool-units`}>
-								<FormattedMessage id="h/CJ+m" defaultMessage="Pool Units" />
+							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/lpus`}>
+								<ToolTip message={<FormattedMessage id="lR39xr" defaultMessage="Liquidity Pool Units" />}>
+									<span>
+										<FormattedMessage id="uLpYbE" defaultMessage="LPUs" />
+									</span>
+								</ToolTip>
 							</LinkBreadcrumb>
 						),
 					},
@@ -98,12 +108,12 @@ const route = {
 						{
 							path: ':resourceId',
 							handle: {
-								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="pool-unit" />,
+								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="lpu" />,
 								sidebar: <ResourceDetails />,
 							},
 						},
 					],
-				},
+				})),
 				{
 					path: 'nfts',
 					handle: {
@@ -120,7 +130,7 @@ const route = {
 						},
 						{
 							path: ':resourceId',
-							element: <Nfts />,
+							element: <NFTs />,
 							handle: {
 								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="nft" />,
 								sidebar: <ResourceDetails />,

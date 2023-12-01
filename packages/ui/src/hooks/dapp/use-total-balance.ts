@@ -38,24 +38,24 @@ export const useTotalBalance = () => {
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue
 		if (resourceType === 'tokens') return fungibleValue
-		if (resourceType === 'lp-tokens') return liquidityPoolTokensValue
-		if (resourceType === 'pool-units') return poolUnitsValue
+		if (resourceType === 'lsus') return liquidityPoolTokensValue
+		if (resourceType === 'lpus') return poolUnitsValue
 		return totalValue
 	}, [resourceType, totalValue, nonFungibleValue, fungibleValue, liquidityPoolTokensValue, poolUnitsValue])
 
 	const change = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleChange
 		if (resourceType === 'tokens') return fungibleChange
-		if (resourceType === 'lp-tokens') return liquidityPoolTokensChange
-		if (resourceType === 'pool-units') return poolUnitsChange
+		if (resourceType === 'lsus') return liquidityPoolTokensChange
+		if (resourceType === 'lpus') return poolUnitsChange
 		return totalChange
 	}, [resourceType, totalChange, nonFungibleChange, fungibleChange, liquidityPoolTokensChange, poolUnitsChange])
 
 	const xrdValue = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleXrdValue
 		if (resourceType === 'tokens') return fungibleXrdValue
-		if (resourceType === 'lp-tokens') return liquidityPoolTokensXrdValue
-		if (resourceType === 'pool-units') return poolUnitsXrdValue
+		if (resourceType === 'lsus') return liquidityPoolTokensXrdValue
+		if (resourceType === 'lpus') return poolUnitsXrdValue
 		return totalXrdValue
 	}, [
 		resourceType,

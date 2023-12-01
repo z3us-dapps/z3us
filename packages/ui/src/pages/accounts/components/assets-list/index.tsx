@@ -22,13 +22,13 @@ const messages = defineMessages({
 		id: 'nqRscq',
 		defaultMessage: 'NFTs',
 	},
-	lp_tokens: {
+	lsus: {
 		id: 'zspeCR',
 		defaultMessage: 'LSUs',
 	},
-	pool_units: {
-		id: 'h/CJ+m',
-		defaultMessage: 'Pool Units',
+	lpus: {
+		id: 'uLpYbE',
+		defaultMessage: 'LPUs',
 	},
 })
 
@@ -69,17 +69,17 @@ export const AssetsList: React.FC = () => {
 			change: nftsChange,
 			title: intl.formatMessage(messages.nfts),
 		},
-		'lp-tokens': {
+		lsus: {
 			balances: liquidityPoolTokensBalances,
 			value: liquidityPoolTokensValue,
 			change: liquidityPoolTokensChange,
-			title: intl.formatMessage(messages.lp_tokens),
+			title: intl.formatMessage(messages.lsus),
 		},
-		'pool-units': {
+		lpus: {
 			balances: poolUnitsBalances,
 			value: poolUnitsValue,
 			change: poolUnitsChange,
-			title: intl.formatMessage(messages.pool_units),
+			title: intl.formatMessage(messages.lpus),
 		},
 	}
 

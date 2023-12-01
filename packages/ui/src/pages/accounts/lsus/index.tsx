@@ -47,7 +47,7 @@ const messages = defineMessages({
 	},
 })
 
-const Tokens: React.FC = () => {
+const LSUs: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const { scrollableNode, isScrolledTop } = useScroll()
@@ -70,7 +70,7 @@ const Tokens: React.FC = () => {
 
 	const handleRowSelected = (row: { original: ResourceBalanceKind }) => {
 		const { original } = row
-		navigate(`/accounts/${accountId}/lp-tokens/${original.address}?${searchParams}`)
+		navigate(`/accounts/${accountId}/lsus/${original.address}?${searchParams}`)
 	}
 
 	const columns = useMemo(
@@ -131,4 +131,4 @@ const Tokens: React.FC = () => {
 	)
 }
 
-export default Tokens
+export default LSUs
