@@ -1,6 +1,7 @@
 import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import React, { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
@@ -57,10 +58,7 @@ export const ValidatorLiquidityCell: React.FC<IProps> = props => {
 							<ResourceSnippet address={address} size="small" /> &nbsp;-{' '}
 						</Box>
 						<Text size="small" color="strong" truncate>
-							{intl.formatNumber(Number.parseFloat(amount), {
-								style: 'decimal',
-								maximumFractionDigits: 18,
-							})}
+							{intl.formatNumber(Number.parseFloat(amount), DECIMAL_STYLES)}
 						</Text>
 					</Box>
 				</ToolTip>
@@ -70,10 +68,7 @@ export const ValidatorLiquidityCell: React.FC<IProps> = props => {
 							<ResourceSnippet address={knownAddresses.resourceAddresses.xrd} size="small" /> &nbsp;-{' '}
 						</Box>
 						<Text size="small" color="strong" truncate>
-							{intl.formatNumber(xrdAmount.toNumber(), {
-								style: 'decimal',
-								maximumFractionDigits: 18,
-							})}
+							{intl.formatNumber(xrdAmount.toNumber(), DECIMAL_STYLES)}
 						</Text>
 					</Box>
 				</ToolTip>

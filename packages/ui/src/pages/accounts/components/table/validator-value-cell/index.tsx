@@ -8,6 +8,7 @@ import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { CURRENCY_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -64,10 +65,7 @@ export const ValidatorValueCell: React.FC<IProps> = props => {
 		return xrdAmount.mul(xrdPrice || 0).toNumber()
 	}, [tokenValue, xrdAmount, xrdPrice, token])
 
-	const formattedValue = intl.formatNumber(tokenPrice, {
-		style: 'currency',
-		currency,
-	})
+	const formattedValue = intl.formatNumber(tokenPrice, { currency, ...CURRENCY_STYLES })
 
 	if (isLoading || isLoadingResource || isLoadingToken || isLoadingKnownAddresses || isLoadingPrice)
 		return <FallbackLoading />

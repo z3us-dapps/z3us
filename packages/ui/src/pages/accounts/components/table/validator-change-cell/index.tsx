@@ -1,6 +1,7 @@
 import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
+import { PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import React, { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
@@ -60,10 +61,7 @@ export const ValidatorChangeCell: React.FC<IProps> = props => {
 			<ToolTip message={tokenChange}>
 				<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
 					<RedGreenText size="large" change={tokenChange} truncate>
-						{intl.formatNumber(tokenChange, {
-							style: 'percent',
-							maximumFractionDigits: 2,
-						})}
+						{intl.formatNumber(tokenChange, PERCENTAGE_STYLES)}
 					</RedGreenText>
 				</Box>
 			</ToolTip>

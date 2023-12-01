@@ -5,6 +5,7 @@ import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { CURRENCY_STYLES } from 'ui/src/constants/number'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import * as styles from './styles.css'
@@ -46,10 +47,7 @@ export const ListRow: React.FC<IProps> = ({ address, name, value }) => {
 			<Box className={styles.dottedSpacer} />
 			<Box className={styles.addressInfoWrapperRight}>
 				<Text size="xsmall" truncate>
-					{intl.formatNumber(value, {
-						style: 'currency',
-						currency,
-					})}
+					{intl.formatNumber(value, { currency, ...CURRENCY_STYLES })}
 				</Text>
 			</Box>
 		</Box>

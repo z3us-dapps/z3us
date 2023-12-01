@@ -16,6 +16,7 @@ import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { ResourceSnippet } from 'ui/src/components/snippet/resource'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
+import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -125,10 +126,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 						{amount && (
 							<Box>
 								<Text capitalizeFirstLetter size="xsmall" truncate className={styles.assetNameCellBalanceWrapper}>
-									{intl.formatNumber(Number.parseFloat(amount), {
-										style: 'decimal',
-										maximumFractionDigits: 18,
-									})}
+									{intl.formatNumber(Number.parseFloat(amount), DECIMAL_STYLES)}
 								</Text>
 							</Box>
 						)}
@@ -141,10 +139,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 										<ResourceSnippet address={value} size="small" /> &nbsp;-{' '}
 									</Box>
 									<Text size="small" color="strong" truncate>
-										{intl.formatNumber(Number.parseFloat(amount), {
-											style: 'decimal',
-											maximumFractionDigits: 18,
-										})}
+										{intl.formatNumber(Number.parseFloat(amount), DECIMAL_STYLES)}
 									</Text>
 								</Box>
 							</ToolTip>
@@ -154,10 +149,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 										<ResourceSnippet address={knownAddresses.resourceAddresses.xrd} size="small" /> &nbsp;-{' '}
 									</Box>
 									<Text size="small" color="strong" truncate>
-										{intl.formatNumber(xrdAmount.toNumber(), {
-											style: 'decimal',
-											maximumFractionDigits: 18,
-										})}
+										{intl.formatNumber(xrdAmount.toNumber(), DECIMAL_STYLES)}
 									</Text>
 								</Box>
 							</ToolTip>
@@ -166,11 +158,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 					<Box className={styles.assetNameCellPriceWrapper}>
 						<Box className={styles.assetNameCellPriceTextWrapper}>
 							<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">
-								{tokenPrice &&
-									intl.formatNumber(tokenPrice, {
-										style: 'currency',
-										currency,
-									})}
+								{tokenPrice && intl.formatNumber(tokenPrice, { currency, ...CURRENCY_STYLES })}
 							</Text>
 							<RedGreenText
 								change={tokenChange}
@@ -181,11 +169,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 								weight="medium"
 								align="right"
 							>
-								{tokenChange &&
-									intl.formatNumber(tokenChange, {
-										style: 'percent',
-										maximumFractionDigits: 2,
-									})}
+								{tokenChange && intl.formatNumber(tokenChange, PERCENTAGE_STYLES)}
 							</RedGreenText>
 						</Box>
 					</Box>

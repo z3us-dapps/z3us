@@ -1,3 +1,4 @@
+import { DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -233,7 +234,7 @@ export const Swap: React.FC = () => {
 								<ToolTip message={intl.formatMessage(messages.price_impact_info)}>
 									<Box>
 										<Text size="small" color="strong">
-											{intl.formatNumber(Number.parseFloat(preview.price_impact), { style: 'percent' })}
+											{intl.formatNumber(Number.parseFloat(preview.price_impact), PERCENTAGE_STYLES)}
 										</Text>
 									</Box>
 								</ToolTip>
@@ -243,11 +244,7 @@ export const Swap: React.FC = () => {
 							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
 							rightData={
 								<Text size="small" color="strong">
-									{intl.formatNumber(swap.fee, {
-										style: 'decimal',
-										maximumFractionDigits: 18,
-									})}{' '}
-									{symbol}
+									{intl.formatNumber(swap.fee, DECIMAL_STYLES)} {symbol}
 								</Text>
 							}
 						/>
@@ -255,11 +252,7 @@ export const Swap: React.FC = () => {
 							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_lp)}</Text>}
 							rightData={
 								<Text size="small" color="strong">
-									{intl.formatNumber(Number.parseFloat(preview.input_fee_lp.token), {
-										style: 'decimal',
-										maximumFractionDigits: 18,
-									})}{' '}
-									{symbol}
+									{intl.formatNumber(Number.parseFloat(preview.input_fee_lp.token), DECIMAL_STYLES)} {symbol}
 								</Text>
 							}
 						/>

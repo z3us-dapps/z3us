@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
+import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -71,8 +72,8 @@ export const useTotalBalance = () => {
 		xrdValue,
 		value,
 		change,
-		formattedXrdValue: intl.formatNumber(xrdValue, { style: 'decimal', maximumFractionDigits: 18 }),
-		formattedValue: intl.formatNumber(value, { style: 'currency', currency }),
-		formattedChange: intl.formatNumber(change, { style: 'percent', maximumFractionDigits: 2 }),
+		formattedXrdValue: intl.formatNumber(xrdValue, DECIMAL_STYLES),
+		formattedValue: intl.formatNumber(value, { currency, ...CURRENCY_STYLES }),
+		formattedChange: intl.formatNumber(change, PERCENTAGE_STYLES),
 	}
 }

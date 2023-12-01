@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { DECIMAL_STYLES, TOOLTIP_DECIMAL_STYLES } from 'ui/src/constants/number'
 
 import * as styles from './styles.css'
 
@@ -17,20 +18,13 @@ export const AssetAmountCell: React.FC<IProps> = props => {
 
 	const { value } = props
 
-	const v = value
-		? intl.formatNumber(value, {
-				style: 'decimal',
-				maximumFractionDigits: 18,
-		  })
-		: ''
-
 	return (
 		<Box className={styles.assetStatisticCellWrapper}>
 			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-				<ToolTip message={v}>
+				<ToolTip message={value ? intl.formatNumber(value, TOOLTIP_DECIMAL_STYLES) : ''}>
 					<Box>
 						<Text size="small" color="strong" truncate>
-							{v}
+							{value ? intl.formatNumber(value, DECIMAL_STYLES) : ''}
 						</Text>
 					</Box>
 				</ToolTip>

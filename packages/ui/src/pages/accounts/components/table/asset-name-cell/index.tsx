@@ -6,6 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
+import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'
 import { ResourceBalanceType } from 'ui/src/types'
@@ -37,12 +38,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 		currency: state.currency,
 	}))
 
-	const a = amount
-		? intl.formatNumber(Number.parseFloat(amount), {
-				style: 'decimal',
-				maximumFractionDigits: 18,
-		  })
-		: ''
+	const a = amount ? intl.formatNumber(Number.parseFloat(amount), DECIMAL_STYLES) : ''
 
 	const displayName = symbol ? `${symbol.toUpperCase()} - ${name}` : name
 
@@ -71,11 +67,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 						<Box className={styles.assetNameCellPriceWrapper}>
 							<Box className={styles.assetNameCellPriceTextWrapper}>
 								<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">
-									{tokenValue &&
-										intl.formatNumber(tokenValue, {
-											style: 'currency',
-											currency,
-										})}
+									{tokenValue && intl.formatNumber(tokenValue, { currency, ...CURRENCY_STYLES })}
 								</Text>
 								<RedGreenText
 									change={change}
@@ -86,11 +78,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 									weight="medium"
 									align="right"
 								>
-									{change &&
-										intl.formatNumber(change, {
-											style: 'percent',
-											maximumFractionDigits: 2,
-										})}
+									{change && intl.formatNumber(change, PERCENTAGE_STYLES)}
 								</RedGreenText>
 							</Box>
 						</Box>

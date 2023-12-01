@@ -20,6 +20,7 @@ import { DotsHorizontalCircleIcon, InformationIcon, TrashIcon } from 'ui/src/com
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { CARD_COLORS } from 'ui/src/constants/account'
+import { CURRENCY_STYLES } from 'ui/src/constants/number'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
@@ -205,10 +206,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				<Box paddingBottom="xsmall" display="flex" flexDirection="column" position="relative">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							{intl.formatNumber(totalValue, {
-								style: 'currency',
-								currency,
-							})}
+							{intl.formatNumber(totalValue, { currency, ...CURRENCY_STYLES })}
 						</Box>
 					</Text>
 					<Text

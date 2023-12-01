@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import clsx from 'clsx'
+import { PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import React, { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
@@ -31,10 +32,7 @@ export const ValidatorFeeCell: React.FC<IProps> = props => {
 			<ToolTip message={factor}>
 				<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
 					<Text size="large" color={factor > 0.015 ? 'red' : factor > 0 ? 'neutral' : 'green'} truncate>
-						{intl.formatNumber(factor, {
-							style: 'percent',
-							maximumFractionDigits: 2,
-						})}
+						{intl.formatNumber(factor, PERCENTAGE_STYLES)}
 					</Text>
 				</Box>
 			</ToolTip>

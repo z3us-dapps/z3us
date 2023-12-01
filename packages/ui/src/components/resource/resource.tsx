@@ -14,6 +14,7 @@ import MetadataValue from 'ui/src/components/metadata-value'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { RedGreenText, Text } from 'ui/src/components/typography'
+import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
@@ -129,16 +130,19 @@ export const ResourceValue: React.FC<IValueProps> = ({ value, xrdValue, change, 
 		<>
 			<Box component="button" onClick={handleToggleFormat} className={styles.totalValueWrapper}>
 				<Text size="xxxlarge" weight="medium" color="strong" align="center">
-					{format === 'currency' ? intl.formatNumber(value, { style: 'currency', currency }) : `${xrdValue} XRD`}
+					{format === 'currency'
+						? intl.formatNumber(value, { currency, ...CURRENCY_STYLES })
+						: `${intl.formatNumber(value * xrdValue, DECIMAL_STYLES)} XRD`}
 				</Text>
 			</Box>
 			<Box display="flex" gap="xsmall">
-				<Text size="large">{`${intl.formatNumber(increase, { style: 'currency', currency })}`}</Text>
+				<Text size="large">
+					{format === 'currency'
+						? intl.formatNumber(increase, { currency, ...CURRENCY_STYLES })
+						: `${intl.formatNumber(increase * xrdValue, DECIMAL_STYLES)} XRD`}
+				</Text>
 				<RedGreenText size="large" change={change}>
-					{`(${intl.formatNumber(change, {
-						style: 'percent',
-						maximumFractionDigits: 2,
-					})})`}
+					{`(${intl.formatNumber(change, PERCENTAGE_STYLES)})`}
 				</RedGreenText>
 			</Box>
 		</>
@@ -185,7 +189,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 			return marketData.map(_value => ({
 				name: intl.formatDate(_value[0]),
 				value: _value[1],
-				inCurrency: intl.formatNumber(_value[1], { style: 'currency', currency }),
+				inCurrency: intl.formatNumber(_value[1], { currency, ...CURRENCY_STYLES }),
 			}))
 		}
 		if (!udfHistory) return []
@@ -194,7 +198,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 			return {
 				name: intl.formatDate(t * 1000),
 				value: v,
-				inCurrency: intl.formatNumber(v * xrdPrice, { style: 'currency', currency }),
+				inCurrency: intl.formatNumber(v * xrdPrice, { currency, ...CURRENCY_STYLES }),
 			}
 		})
 	}, [resourceId, knownAddresses, udfHistory, marketData])

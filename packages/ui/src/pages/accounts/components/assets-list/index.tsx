@@ -6,6 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 import { RedGreenText, Text } from 'ui/src/components/typography'
+import { CURRENCY_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -107,10 +108,7 @@ export const AssetsList: React.FC = () => {
 						<Box className={styles.assetsListBalancesTextWrapper}>
 							{rows[path].value !== 0 && (
 								<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
-									{intl.formatNumber(rows[path].value, {
-										style: 'currency',
-										currency,
-									})}
+									{intl.formatNumber(rows[path].value, { currency, ...CURRENCY_STYLES })}
 								</Text>
 							)}
 
@@ -121,10 +119,7 @@ export const AssetsList: React.FC = () => {
 									truncate
 									className={styles.assetsListBalancesText}
 								>
-									{intl.formatNumber(rows[path].change, {
-										style: 'percent',
-										maximumFractionDigits: 2,
-									})}
+									{intl.formatNumber(rows[path].change, PERCENTAGE_STYLES)}
 								</RedGreenText>
 							)}
 						</Box>

@@ -13,6 +13,7 @@ import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { ResourceSnippet } from 'ui/src/components/snippet/resource'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
+import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
@@ -83,10 +84,7 @@ export const PoolCell: React.FC<IProps> = props => {
 						{amount && (
 							<Box>
 								<Text capitalizeFirstLetter size="xsmall" truncate className={styles.assetNameCellBalanceWrapper}>
-									{intl.formatNumber(Number.parseFloat(amount), {
-										style: 'decimal',
-										maximumFractionDigits: 18,
-									})}
+									{intl.formatNumber(Number.parseFloat(amount), DECIMAL_STYLES)}
 								</Text>
 							</Box>
 						)}
@@ -94,10 +92,10 @@ export const PoolCell: React.FC<IProps> = props => {
 					<Box className={styles.assetNameCellPriceWrapper}>
 						<Box className={styles.assetNameCellPriceTextWrapper}>
 							{Object.keys(poolResourceAmounts).map(resourceAddress => {
-								const liq = intl.formatNumber(fraction.mul(poolResourceAmounts[resourceAddress]).toNumber(), {
-									style: 'decimal',
-									maximumFractionDigits: 18,
-								})
+								const liq = intl.formatNumber(
+									fraction.mul(poolResourceAmounts[resourceAddress]).toNumber(),
+									DECIMAL_STYLES,
+								)
 
 								return (
 									<ToolTip key={resourceAddress} message={liq}>
@@ -117,11 +115,7 @@ export const PoolCell: React.FC<IProps> = props => {
 					<Box className={styles.assetNameCellPriceWrapper}>
 						<Box className={styles.assetNameCellPriceTextWrapper}>
 							<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">
-								{tokenValue &&
-									intl.formatNumber(tokenValue, {
-										style: 'currency',
-										currency,
-									})}
+								{tokenValue && intl.formatNumber(tokenValue, { currency, ...CURRENCY_STYLES })}
 							</Text>
 							<RedGreenText
 								change={change}
@@ -132,11 +126,7 @@ export const PoolCell: React.FC<IProps> = props => {
 								weight="medium"
 								align="right"
 							>
-								{change &&
-									intl.formatNumber(change, {
-										style: 'percent',
-										maximumFractionDigits: 2,
-									})}
+								{change && intl.formatNumber(change, PERCENTAGE_STYLES)}
 							</RedGreenText>
 						</Box>
 					</Box>
