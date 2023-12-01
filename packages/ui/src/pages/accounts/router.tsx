@@ -119,7 +119,11 @@ const route = {
 					handle: {
 						crumb: ({ accountId }, isLast: boolean) => (
 							<LinkBreadcrumb isLast={isLast} to={`/accounts/${accountId}/nfts`}>
-								<FormattedMessage id="nqRscq" defaultMessage="NFTs" />
+								<ToolTip message={<FormattedMessage id="vYHKVC" defaultMessage="Non-Fungible Tokens" />}>
+									<span>
+										<FormattedMessage id="nqRscq" defaultMessage="NFTs" />
+									</span>
+								</ToolTip>
 							</LinkBreadcrumb>
 						),
 					},
