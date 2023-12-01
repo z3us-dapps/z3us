@@ -181,7 +181,7 @@ export const Cost: React.FC<ICostProps> = ({ value, xrdPrice, format, currency }
 		<ToolTip
 			message={
 				format === 'currency'
-					? `${intl.formatNumber(value, DECIMAL_STYLES)} XRD`
+					? `${intl.formatNumber(value, { maximumSignificantDigits: 3, ...DECIMAL_STYLES })} XRD`
 					: intl.formatNumber(value * xrdPrice, { currency, ...CURRENCY_STYLES })
 			}
 		>
@@ -189,7 +189,7 @@ export const Cost: React.FC<ICostProps> = ({ value, xrdPrice, format, currency }
 				<Text size="small" color="strong" truncate>
 					{format === 'currency'
 						? intl.formatNumber(value * xrdPrice, { currency, ...CURRENCY_STYLES })
-						: `${intl.formatNumber(value, DECIMAL_STYLES)} XRD`}
+						: `${intl.formatNumber(value, { maximumSignificantDigits: 3, ...DECIMAL_STYLES })} XRD`}
 				</Text>
 			</Box>
 		</ToolTip>

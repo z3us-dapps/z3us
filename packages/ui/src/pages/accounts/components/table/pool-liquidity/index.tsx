@@ -12,7 +12,7 @@ import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceSnippet } from 'ui/src/components/snippet/resource'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
-import { DECIMAL_STYLES, TOOLTIP_DECIMAL_STYLES } from 'ui/src/constants/number'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
@@ -61,13 +61,7 @@ export const PoolLiquidityCell: React.FC<IProps> = props => {
 		<Box className={styles.assetStatisticCellWrapper}>
 			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
 				{Object.keys(poolResourceAmounts).map(resourceAddress => (
-					<ToolTip
-						key={resourceAddress}
-						message={intl.formatNumber(
-							fraction.mul(poolResourceAmounts[resourceAddress]).toNumber(),
-							TOOLTIP_DECIMAL_STYLES,
-						)}
-					>
+					<ToolTip key={resourceAddress} message={fraction.mul(poolResourceAmounts[resourceAddress]).toString()}>
 						<Box display="flex" gap="xsmall" width="full">
 							<Box display="flex" flexShrink={0}>
 								<ResourceSnippet address={resourceAddress} size="small" /> &nbsp;-{' '}

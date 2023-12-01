@@ -108,17 +108,17 @@ const Details: { [key in StateEntityDetailsResponseItemDetails['type']]: React.F
 }
 
 interface IValueProps {
-	value: number
-	xrdValue: number
-	change: number
-	increase: number
+	resourceId: string
 }
 
-export const ResourceValue: React.FC<IValueProps> = ({ value, xrdValue, change, increase }) => {
+export const ResourceValue: React.FC<IValueProps> = ({ resourceId }) => {
 	const intl = useIntl()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
+
+	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: token } = useToken(resourceId)
 
 	const [format, setFormat] = useState<'currency' | 'xrd'>('currency')
 
@@ -131,18 +131,21 @@ export const ResourceValue: React.FC<IValueProps> = ({ value, xrdValue, change, 
 			<Box component="button" onClick={handleToggleFormat} className={styles.totalValueWrapper}>
 				<Text size="xxxlarge" weight="medium" color="strong" align="center">
 					{format === 'currency'
-						? intl.formatNumber(value, { currency, ...CURRENCY_STYLES })
-						: `${intl.formatNumber(value * xrdValue, DECIMAL_STYLES)} XRD`}
+						? intl.formatNumber((token?.price.xrd.now || 0) * xrdPrice, { currency, ...CURRENCY_STYLES })
+						: `${intl.formatNumber(token?.price.xrd.now || 0, { maximumSignificantDigits: 3, ...DECIMAL_STYLES })} XRD`}
 				</Text>
 			</Box>
 			<Box display="flex" gap="xsmall">
 				<Text size="large">
 					{format === 'currency'
-						? intl.formatNumber(increase, { currency, ...CURRENCY_STYLES })
-						: `${intl.formatNumber(increase * xrdValue, DECIMAL_STYLES)} XRD`}
+						? intl.formatNumber((token?.price.xrd.increase || 0) * xrdPrice, { currency, ...CURRENCY_STYLES })
+						: `${intl.formatNumber(token?.price.xrd.increase || 0, {
+								maximumSignificantDigits: 3,
+								...DECIMAL_STYLES,
+						  })} XRD`}
 				</Text>
-				<RedGreenText size="large" change={change}>
-					{`(${intl.formatNumber(change, PERCENTAGE_STYLES)})`}
+				<RedGreenText size="large" change={token?.price.usd.change || 0}>
+					{`(${intl.formatNumber(token?.price.usd.change || 0, PERCENTAGE_STYLES)})`}
 				</RedGreenText>
 			</Box>
 		</>
@@ -172,12 +175,6 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 	const pool = findMetadataValue('pool', data?.metadata?.items)
 	const tags =
 		(data?.metadata?.items?.find(m => m.key === 'tags')?.value?.typed as MetadataStringArrayValue)?.values || []
-
-	const { data: token } = useToken(resourceId)
-
-	const value = useMemo(() => (token?.price.xrd.now || 0) * xrdPrice, [token, xrdPrice])
-	const change = useMemo(() => token?.price.usd.change || 0, [token])
-	const increase = useMemo(() => token?.price.usd.increase || 0, [token])
 
 	const [timeFrame, setTimeFrame] = useState<TimeFrames>(TimeFrames.THREE_MONTHS)
 	const { data: udfHistory } = useUsfHistory(resourceId, timeFrame)
@@ -237,9 +234,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 					<Text size="xxlarge" weight="strong" color="strong" align="center">
 						{name}
 					</Text>
-					{!validator && data?.details?.type === 'FungibleResource' && (
-						<ResourceValue value={value} change={change} increase={increase} xrdValue={token?.price.xrd.now || 0} />
-					)}
+					{!validator && data?.details?.type === 'FungibleResource' && <ResourceValue resourceId={resourceId} />}
 				</Box>
 
 				{hideButtons !== true && (
