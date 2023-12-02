@@ -4,8 +4,10 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import type { State } from 'ui/src/context/zdt'
 import { ZdtContext } from 'ui/src/context/zdt'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useSendTransaction } from '@src/hooks/transaction/use-send'
@@ -30,7 +32,6 @@ const messages = defineMessages({
 
 export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const intl = useIntl()
-	const networkId = useNetworkId()
 	const client = useMessageClient()
 	const confirm = usePasswordModal()
 	const sendTransaction = useSendTransaction()
@@ -41,11 +42,9 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 		removeKeystore: state.removeKeystoreAction,
 	}))
-	const { accountIndexes, personaIndexes, addressBook } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
-		personaIndexes: state.personaIndexes[networkId] || {},
-		addressBook: state.addressBook[networkId] || {},
-	}))
+	const personaIndexes = usePersonaIndexes()
+	const accountIndexes = useAccountIndexes()
+	const addressBook = useAddressBook()
 
 	const accounts = useMemo<Account[]>(
 		() =>

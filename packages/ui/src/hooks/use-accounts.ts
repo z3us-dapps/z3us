@@ -41,7 +41,7 @@ export const useWalletAccounts = (): { [key: string]: AddressBookEntry } => {
 	)
 
 	const { addressBook } = useNoneSharedStore(state => ({
-		addressBook: state.addressBook[networkId] || {},
+		addressBook: state.addressBook[networkId],
 	}))
 
 	return accounts.reduce(
@@ -52,7 +52,7 @@ export const useWalletAccounts = (): { [key: string]: AddressBookEntry } => {
 				cardColor: Object.keys(CARD_COLORS)[idx % Object.keys(CARD_COLORS).length],
 				dateAdded: Date.now(),
 				dateUpdated: Date.now(),
-				...addressBook[account.address],
+				...(addressBook?.[account.address] || {}),
 				name: account.label,
 				address: account.address,
 			} as AddressBookEntry,

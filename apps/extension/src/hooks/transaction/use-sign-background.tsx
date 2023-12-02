@@ -5,7 +5,8 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useMessageClient } from '@src/hooks/use-message-client'
@@ -27,12 +28,10 @@ export const useSignTransactionWithBackground = () => {
 	const networkId = useNetworkId()
 	const client = useMessageClient()
 	const confirm = usePasswordModal()
+	const accountIndexes = useAccountIndexes()
 
 	const { selectedKeystore } = useSharedStore(state => ({
 		selectedKeystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
-	const { accountIndexes } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
 	const sign = async (intent: Intent, needSignaturesFrom: string[]): Promise<SignatureWithPublicKey[]> => {

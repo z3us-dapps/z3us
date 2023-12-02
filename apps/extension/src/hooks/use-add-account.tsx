@@ -2,6 +2,8 @@ import { LTSRadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { CURVE, SCHEME } from 'ui/src/store/types'
 import type { Account, AddressBookEntry } from 'ui/src/store/types'
@@ -12,10 +14,7 @@ import { useGetPublicKey } from '@src/hooks/use-get-public-key'
 export const useBuildNewAccountKeyParts = () => {
 	const networkId = useNetworkId()
 	const getPublicKey = useGetPublicKey()
-	const { accountIndexes } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
-	}))
-
+	const accountIndexes = useAccountIndexes()
 	const buildNewAccountKeyParts = useCallback(
 		async (combinedKeystoreId: string, legacy: boolean) => {
 			const idx =
@@ -51,9 +50,8 @@ export const useBuildNewAccountKeyParts = () => {
 export const useAddAccount = () => {
 	const networkId = useNetworkId()
 	const buildNewAccountKeyParts = useBuildNewAccountKeyParts()
-
-	const { addressBook, addAccount, setAddressBookEntry } = useNoneSharedStore(state => ({
-		addressBook: state.addressBook[networkId] || {},
+	const addressBook = useAddressBook()
+	const { addAccount, setAddressBookEntry } = useNoneSharedStore(state => ({
 		addAccount: state.addAccountAction,
 		setAddressBookEntry: state.setAddressBookEntryAction,
 	}))

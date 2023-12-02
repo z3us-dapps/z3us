@@ -10,6 +10,7 @@ import { SelectSimple } from 'ui/src/components/select'
 import { Switch } from 'ui/src/components/switch'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import type { Account } from 'ui/src/store/types'
@@ -51,11 +52,11 @@ export const AddAccountDialog: React.FC<IProps> = props => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const { isWallet, buildNewAccountKeyParts } = useZdtState()
+	const accountIndexes = useAccountIndexes()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
-	const { accountIndexes, addAccount } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
+	const { addAccount } = useNoneSharedStore(state => ({
 		addAccount: state.addAccountAction,
 	}))
 

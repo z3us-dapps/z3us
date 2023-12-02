@@ -9,6 +9,7 @@ import PersonaDataForm from 'ui/src/components/form/persona-data-form'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { KeystoreType, type Persona } from 'ui/src/store/types'
@@ -49,12 +50,12 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const { buildNewPersonKeyParts } = useZdtState()
+	const personaIndexes = usePersonaIndexes()
 
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
-	const { personaIndexes, addPersona } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId] || {},
+	const { addPersona } = useNoneSharedStore(state => ({
 		addPersona: state.addPersonaAction,
 	}))
 	const [keySourceId, setKeySourceId] = useState<string>('')

@@ -13,8 +13,8 @@ import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { PlusIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
 
 import * as styles from './styles.css'
 
@@ -70,11 +70,8 @@ export interface IProps {
 
 const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, onCancel }) => {
 	const intl = useIntl()
-	const networkId = useNetworkId()
-	const { accountIndexes, addressBook } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
-		addressBook: state.addressBook[networkId] || {},
-	}))
+	const accountIndexes = useAccountIndexes()
+	const addressBook = useAddressBook()
 
 	const [validation, setValidation] = useState<ZodError>()
 	const [isOpen, setIsOpen] = useState<boolean>(true)

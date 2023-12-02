@@ -10,8 +10,8 @@ import type {
 import { useCallback } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Keystore, Persona } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -36,14 +36,11 @@ export const useLogin = () => {
 	const intl = useIntl()
 	const client = useMessageClient()
 	const ledger = useLedgerClient()
-	const networkId = useNetworkId()
 	const confirm = usePasswordModal()
+	const personaIndexes = usePersonaIndexes()
 
 	const { selectedKeystore } = useSharedStore(state => ({
 		selectedKeystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
-	const { personaIndexes } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId] || {},
 	}))
 
 	const sign = useCallback(
