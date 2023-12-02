@@ -112,7 +112,9 @@ const AddPersonaForm: React.FC<IProps> = ({ onSuccess, inputRef }) => {
 						sizeVariant="xlarge"
 						placeholder={intl.formatMessage(messages.keySource)}
 					/>
-					<hr />
+					<Box paddingY="large">
+						<Box borderTop={1} borderStyle="solid" borderColor="borderDivider" />
+					</Box>
 				</>
 			)}
 			<TextField ref={inputRef} sizeVariant="large" name="name" placeholder={intl.formatMessage(messages.name)} />
