@@ -89,18 +89,13 @@ export const useMenuItems = () => {
 			href: '/settings/accounts',
 			icon: <CoinsIcon />,
 		})
-		switch (keystore?.type) {
-			case KeystoreType.LOCAL:
-			case KeystoreType.HARDWARE:
-				items.push({
-					title: intl.formatMessage(messages.personas_title),
-					subTitle: intl.formatMessage(messages.personas_subtitle),
-					href: '/settings/personas',
-					icon: <CoinsIcon />,
-				})
-				break
-			default:
-				break
+		if (keystore?.type !== KeystoreType.RADIX_WALLET) {
+			items.push({
+				title: intl.formatMessage(messages.personas_title),
+				subTitle: intl.formatMessage(messages.personas_subtitle),
+				href: '/settings/personas',
+				icon: <CoinsIcon />,
+			})
 		}
 		items.push({
 			title: intl.formatMessage(messages.address_book_title),
@@ -108,18 +103,13 @@ export const useMenuItems = () => {
 			href: '/settings/address-book',
 			icon: <AddressBookIcon />,
 		})
-		switch (keystore?.type) {
-			case KeystoreType.LOCAL:
-			case KeystoreType.HARDWARE:
-				items.push({
-					title: intl.formatMessage(messages.authorized_dapps_title),
-					subTitle: intl.formatMessage(messages.authorized_dapps_subtitle),
-					href: '/settings/authorized-dapps',
-					icon: <AddressBookIcon />,
-				})
-				break
-			default:
-				break
+		if (keystore?.type !== KeystoreType.RADIX_WALLET) {
+			items.push({
+				title: intl.formatMessage(messages.authorized_dapps_title),
+				subTitle: intl.formatMessage(messages.authorized_dapps_subtitle),
+				href: '/settings/authorized-dapps',
+				icon: <AddressBookIcon />,
+			})
 		}
 		return items
 	}, [keystore, intl])

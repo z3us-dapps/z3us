@@ -17,7 +17,9 @@ import { UserCheck, WalletIcon } from 'ui/src/components/icons'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
+import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
+import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ApprovedDapps, Personas } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -107,14 +109,14 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	const selectPersona = useSelectPersonaModal()
 	const selectAccounts = useSelectAccountsModal()
 	const getPersonaData = usePersonaDataModal()
-	const addressBook = useAddressBook()
+	const addressBook = useAddressBookWithAccounts()
+	const personaIndexes = usePersonaIndexes()
+	const approvedDapps = useApprovedDapps()
 
 	const login = useLogin()
 	const buildAccounts = useAccountsData()
 
-	const { approvedDapps, personaIndexes, approveDapp } = useNoneSharedStore(state => ({
-		approvedDapps: state.approvedDapps[networkId] || {},
-		personaIndexes: state.personaIndexes[networkId] || {},
+	const { approveDapp } = useNoneSharedStore(state => ({
 		approveDapp: state.approveDappAction,
 	}))
 

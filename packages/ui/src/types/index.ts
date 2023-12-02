@@ -38,6 +38,7 @@ export type ResourceBalance = {
 		value: number
 		xrdValue: number
 		change: number
+		ids: string[]
 
 		description?: string
 		url?: string

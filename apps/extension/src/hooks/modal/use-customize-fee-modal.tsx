@@ -4,6 +4,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useModals } from 'ui/src/hooks/use-modals'
 import { generateId } from 'ui/src/utils/generate-id'
 
+import type { Values } from '@src/components/forms/customize-fee-form'
 import type { TransactionSettings } from '@src/types/transaction'
 
 const messages = defineMessages({
@@ -22,8 +23,13 @@ export const useCustomizeFeeModal = () => {
 	const confirm = (settings: TransactionSettings) =>
 		new Promise<TransactionSettings>((resolve, reject) => {
 			const id = generateId()
-			const handleConfirm = (newSettings: TransactionSettings) => {
-				resolve(newSettings)
+			const handleConfirm = (newSettings: Values) => {
+				resolve({
+					feePayer: newSettings.feePayer,
+					tipPercentage: Number.parseFloat(newSettings.tipPercentage) || 0,
+					padding: Number.parseFloat(newSettings.padding) || 0,
+					lockAmount: settings.lockAmount,
+				})
 				removeModal(id)
 			}
 			const handleCancel = () => {

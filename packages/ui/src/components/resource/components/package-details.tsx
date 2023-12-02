@@ -6,6 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 
 const messages = defineMessages({
 	title: {
@@ -61,18 +62,10 @@ const PackageDetails: React.FC<IProps> = ({ details }) => {
 					</Text>
 				}
 				rightData={
-					<ToolTip
-						message={intl.formatNumber(parseFloat(details.royalty_vault_balance) || 0, {
-							style: 'decimal',
-							maximumFractionDigits: 18,
-						})}
-					>
+					<ToolTip message={details.royalty_vault_balance}>
 						<Box>
 							<Text size="xxsmall" truncate>
-								{intl.formatNumber(parseFloat(details.royalty_vault_balance) || 0, {
-									style: 'decimal',
-									maximumFractionDigits: 18,
-								})}
+								{intl.formatNumber(parseFloat(details.royalty_vault_balance) || 0, DECIMAL_STYLES)}
 							</Text>
 						</Box>
 					</ToolTip>

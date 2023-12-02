@@ -7,6 +7,7 @@ import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 
 import * as styles from '../styles.css'
 
@@ -70,18 +71,10 @@ const FungibleVaultDetails: React.FC<IProps> = ({ details }) => {
 					</Text>
 				}
 				rightData={
-					<ToolTip
-						message={intl.formatNumber(parseFloat(details.balance.amount) || 0, {
-							style: 'decimal',
-							maximumFractionDigits: 18,
-						})}
-					>
+					<ToolTip message={details.balance.amount}>
 						<Box>
 							<Text size="xxsmall" truncate>
-								{intl.formatNumber(parseFloat(details.balance.amount) || 0, {
-									style: 'decimal',
-									maximumFractionDigits: 18,
-								})}
+								{intl.formatNumber(parseFloat(details.balance.amount) || 0, DECIMAL_STYLES)}
 							</Text>
 						</Box>
 					</ToolTip>

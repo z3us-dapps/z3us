@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useTotalBalance } from 'ui/src/hooks/dapp/use-total-balance'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
@@ -20,12 +21,12 @@ export const SideBarTotal: React.FC = () => {
 	const intl = useIntl()
 	const isAllAccounts = useIsAllAccounts()
 
-	const { isLoading, formattedXrdValue, formattedValue, formattedChange, change } = useTotalBalance()
+	const { isLoading, formattedXrdValue, formattedValue, formattedChange, value, xrdValue, change } = useTotalBalance()
 
-	const [value, setValue] = useState<'currency' | 'xrd'>('currency')
+	const [format, setFormat] = useState<'currency' | 'xrd'>('currency')
 
 	const handleToggleValue = () => {
-		setValue(value === 'currency' ? 'xrd' : 'currency')
+		setFormat(format === 'currency' ? 'xrd' : 'currency')
 	}
 
 	if (isLoading) {
@@ -37,11 +38,13 @@ export const SideBarTotal: React.FC = () => {
 			<Text color="strong" size="xlarge">
 				{intl.formatMessage(messages.all_assets_total_balance)}
 			</Text>
-			<Box display="flex" alignItems="center" gap="small" onClick={handleToggleValue}>
-				<Text weight="medium" size="xxlarge" color="strong" truncate className={styles.totalValueWrapper}>
-					{value === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
-				</Text>
-			</Box>
+			<ToolTip message={format === 'currency' ? value : xrdValue}>
+				<Box display="flex" alignItems="center" gap="small" onClick={handleToggleValue}>
+					<Text weight="medium" size="xxlarge" color="strong" truncate className={styles.totalValueWrapper}>
+						{format === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
+					</Text>
+				</Box>
+			</ToolTip>
 			<RedGreenText size="small" weight="strong" truncate change={change}>
 				{formattedChange}
 			</RedGreenText>

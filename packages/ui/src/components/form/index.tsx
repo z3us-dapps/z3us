@@ -68,26 +68,25 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 		if (onChange) onChange(state.values)
 	}, [state.values])
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setState(draft => {
 			draft.isLoading = true
 		})
 
-		try {
-			const { values } = state
-			await onSubmit(values)
-		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
-			setState(draft => {
-				draft.error = intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message })
+		onSubmit(state.values)
+			.catch(error => {
+				// eslint-disable-next-line no-console
+				console.error(error)
+				setState(draft => {
+					draft.error = intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message })
+				})
 			})
-		} finally {
-			setState(draft => {
-				draft.isLoading = false
+			.finally(() => {
+				setState(draft => {
+					draft.isLoading = false
+				})
 			})
-		}
 	}
 
 	const handleGetFieldValue = (name: string) => {

@@ -8,21 +8,18 @@ import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
-import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
-import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
-import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
+import { PoolCell } from 'ui/src/pages/accounts/components/table/pool-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
-import { ValidatorCell } from 'ui/src/pages/accounts/components/table/validator-cell'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
+import { AssetChangeCell } from '../components/table/asset-change-cell'
+import { AssetValueCell } from '../components/table/asset-value-cell'
+import { PoolLiquidityCell } from '../components/table/pool-liquidity'
+
 const messages = defineMessages({
-	address: {
-		id: 'lPDfi7',
-		defaultMessage: 'LP Token',
-	},
-	validator: {
-		id: 'Ykb512',
-		defaultMessage: 'Validator',
+	pool: {
+		id: '11oARw',
+		defaultMessage: 'Pool',
 	},
 	amount: {
 		id: 'H5+NAX',
@@ -36,17 +33,21 @@ const messages = defineMessages({
 		id: 'BY343C',
 		defaultMessage: 'Change',
 	},
+	liquidity: {
+		id: 'ctieLo',
+		defaultMessage: 'Liquidity',
+	},
 	empty_title: {
 		id: 'jHJmjf',
 		defaultMessage: 'No results',
 	},
 	empty_subtitle: {
-		id: '5b2WMl',
-		defaultMessage: 'Could not find any liquidity pool tokens in this account',
+		id: '7EL6GH',
+		defaultMessage: 'Could not find any pool units in this account',
 	},
 })
 
-const Tokens: React.FC = () => {
+const LPUs: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const { scrollableNode, isScrolledTop } = useScroll()
@@ -55,41 +56,35 @@ const Tokens: React.FC = () => {
 	const selectedAccounts = useSelectedAccounts()
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
-	const { liquidityPoolTokensBalances = [] } = balanceData || {}
+	const { poolUnitsBalances = [] } = balanceData || {}
 
 	const selectedRowIds = useMemo(() => {
-		const idx = liquidityPoolTokensBalances.findIndex(b => b.address === resourceId)
+		const idx = poolUnitsBalances.findIndex(b => b.address === resourceId)
 		if (idx >= 0) {
 			return {
 				[idx]: true,
 			}
 		}
 		return {}
-	}, [resourceId, liquidityPoolTokensBalances])
+	}, [resourceId, poolUnitsBalances])
 
 	const handleRowSelected = (row: { original: ResourceBalanceKind }) => {
 		const { original } = row
-		navigate(`/accounts/${accountId}/lp-tokens/${original.address}?${searchParams}`)
+		navigate(`/accounts/${accountId}/lpus/${original.address}?${searchParams}`)
 	}
 
 	const columns = useMemo(
 		() => [
 			{
-				Header: intl.formatMessage(messages.validator),
-				accessor: 'validator',
-				width: 'auto',
-				Cell: ValidatorCell,
-			},
-			{
-				Header: intl.formatMessage(messages.address),
+				Header: intl.formatMessage(messages.pool),
 				accessor: 'address',
-				width: 'auto',
-				Cell: AssetNameCell,
+				width: '25%',
+				Cell: PoolCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
 				accessor: 'amount',
-				width: 'auto',
+				width: '18%',
 				Cell: AssetAmountCell,
 			},
 			{
@@ -97,6 +92,12 @@ const Tokens: React.FC = () => {
 				accessor: 'value',
 				width: '12%',
 				Cell: AssetValueCell,
+			},
+			{
+				Header: intl.formatMessage(messages.liquidity),
+				accessor: 'vaults',
+				width: 'auto',
+				Cell: PoolLiquidityCell,
 			},
 			{
 				Header: intl.formatMessage(messages.change),
@@ -116,7 +117,7 @@ const Tokens: React.FC = () => {
 				styleVariant="primary"
 				sizeVariant="large"
 				scrollableNode={scrollableNode ?? undefined}
-				data={liquidityPoolTokensBalances}
+				data={poolUnitsBalances}
 				columns={columns}
 				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
@@ -130,4 +131,4 @@ const Tokens: React.FC = () => {
 	)
 }
 
-export default Tokens
+export default LPUs

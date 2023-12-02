@@ -11,8 +11,7 @@ import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
 
 import AddPersonaForm from '../forms/add-persona-form'
 import * as styles from './styles.css'
@@ -66,15 +65,21 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const selectRef = useRef(null)
 	const formRef = useRef(null)
-	const networkId = useNetworkId()
-	const { personaIndexes } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId] || {},
-	}))
+	const personaIndexes = usePersonaIndexes()
 
 	const [initialValues, restFormValues] = useState<{ persona: string }>({ persona: '' })
 	const [validation, setValidation] = useState<ZodError>()
 	const [isAddPersonaFormVisible, setIsAddPersonaFormVisible] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
+
+	const selectItems = useMemo(
+		() =>
+			Object.keys(personaIndexes).map(address => ({
+				id: address,
+				title: personaIndexes[address].label || address,
+			})),
+		[personaIndexes],
+	)
 
 	const validationSchema = useMemo(
 		() =>
@@ -135,10 +140,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 						name="persona"
 						placeholder={intl.formatMessage(messages.persona_placeholder)}
 						sizeVariant="large"
-						data={Object.keys(personaIndexes).map(address => ({
-							id: address,
-							title: personaIndexes[address].label || address,
-						}))}
+						data={selectItems}
 						fullWidth
 					/>
 					<Box className={clsx(styles.modalContentFormButtonWrapper, styles.modalContentFormBorderWrapper)}>

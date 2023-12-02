@@ -5,6 +5,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { Box } from 'ui/src/components/box'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
+import { CURRENCY_STYLES } from 'ui/src/constants/number'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
@@ -50,7 +51,7 @@ export const Chart: React.FC<IProps> = ({ data }) => {
 				<ChartToolTip
 					color={COLORS[index % COLORS.length].start}
 					name={name}
-					value={intl.formatNumber(value, { style: 'currency', currency })}
+					value={intl.formatNumber(value, { currency, ...CURRENCY_STYLES })}
 				/>
 			)
 		}

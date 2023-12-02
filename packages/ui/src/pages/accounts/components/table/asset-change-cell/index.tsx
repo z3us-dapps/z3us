@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import React from 'react'
 import { useIntl } from 'react-intl'
 
@@ -22,10 +23,7 @@ export const AssetChangeCell: React.FC<IProps> = props => {
 			<ToolTip message={value}>
 				<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
 					<RedGreenText size="large" change={value} truncate>
-						{intl.formatNumber(value, {
-							style: 'percent',
-							maximumFractionDigits: 2,
-						})}
+						{intl.formatNumber(value, PERCENTAGE_STYLES)}
 					</RedGreenText>
 				</Box>
 			</ToolTip>

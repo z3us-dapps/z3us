@@ -25,7 +25,7 @@ const responsiveProperties = defineProperties({
 	defaultCondition: 'mobile',
 	properties: {
 		position: ['absolute', 'relative', 'fixed', 'sticky'],
-		display: ['none', 'flex', 'block', 'inline-flex', 'grid', 'table-cell'],
+		display: ['none', 'flex', 'block', 'inline-flex', 'grid', 'table-cell', 'inline'],
 		flexDirection: ['row', 'row-reverse', 'column', 'column-reverse'],
 		justifyContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-around', 'space-between'],
 		alignItems: ['stretch', 'flex-start', 'center', 'flex-end', 'self-start'],

@@ -9,8 +9,11 @@ import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { findMetadataValue } from 'ui/src/services/metadata'
 
+import { DECIMAL_STYLES } from '../../constants/number'
 import { getShortAddress } from '../../utils/string-utils'
 import type { TImageSizes } from '../image-icon'
+
+const LSU = 'LSU'
 
 interface IProps {
 	address: string
@@ -24,16 +27,14 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed, s
 	const { data, isLoading } = useEntityDetails(address)
 
 	const name = findMetadataValue('name', data?.metadata?.items)
-	const symbol = findMetadataValue('symbol', data?.metadata?.items)
+	const validator = findMetadataValue('validator', data?.metadata?.items)
+	let symbol = findMetadataValue('symbol', data?.metadata?.items)
+
+	if (data?.details.type === 'FungibleResource' && validator && !symbol) {
+		symbol = LSU
+	}
 
 	const displayName = symbol?.toUpperCase() || name || getShortAddress(address)
-	const c = change
-		? intl.formatNumber(change, {
-				style: 'decimal',
-				maximumFractionDigits: 18,
-				signDisplay: 'always',
-		  })
-		: ''
 
 	if (isLoading) return <FallbackLoading />
 
@@ -47,10 +48,10 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed, s
 					</Text>
 				)}
 				{change && (
-					<ToolTip message={c}>
+					<ToolTip message={change}>
 						<Box>
 							<RedGreenText align={reversed ? 'right' : 'left'} color="strong" size="xsmall" truncate change={change}>
-								{c}
+								{intl.formatNumber(change, DECIMAL_STYLES)}
 							</RedGreenText>
 						</Box>
 					</ToolTip>

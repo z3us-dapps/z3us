@@ -11,6 +11,7 @@ import { type FormElement, Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import type { TZodValidation } from './validation'
@@ -76,9 +77,9 @@ export interface IState {
 const UpsertAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
+	const addressBook = useAddressBook()
 
-	const { addressBook, setAddressBookEntry } = useNoneSharedStore(state => ({
-		addressBook: state.addressBook[networkId] || {},
+	const { setAddressBookEntry } = useNoneSharedStore(state => ({
 		setAddressBookEntry: state.setAddressBookEntryAction,
 	}))
 

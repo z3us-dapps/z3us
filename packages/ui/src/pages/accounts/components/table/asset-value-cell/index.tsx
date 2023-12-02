@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { CURRENCY_STYLES } from 'ui/src/constants/number'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import * as styles from './styles.css'
@@ -24,18 +25,13 @@ export const AssetValueCell: React.FC<IProps> = props => {
 
 	if (!value) return null
 
-	const formattedValue = intl.formatNumber(value, {
-		style: 'currency',
-		currency,
-	})
-
 	return (
 		<Box className={styles.assetStatisticCellWrapper}>
 			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-				<ToolTip message={formattedValue}>
+				<ToolTip message={value}>
 					<Box>
 						<Text size="small" color="strong" truncate>
-							{formattedValue}
+							{intl.formatNumber(value, { currency, ...CURRENCY_STYLES })}
 						</Text>
 					</Box>
 				</ToolTip>

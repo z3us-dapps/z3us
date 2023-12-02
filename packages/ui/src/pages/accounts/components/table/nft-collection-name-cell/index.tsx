@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import React from 'react'
 import { useIntl } from 'react-intl'
 
@@ -22,12 +23,7 @@ export const NFTCollectionNameCell: React.FC<IProps> = props => {
 		row: { original },
 	} = props
 	const { symbol, name, amount } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
-	const a = amount
-		? intl.formatNumber(Number.parseFloat(amount), {
-				style: 'decimal',
-				maximumFractionDigits: 18,
-		  })
-		: ''
+	const a = amount ? intl.formatNumber(Number.parseFloat(amount), DECIMAL_STYLES) : ''
 
 	return (
 		<Box className={styles.nftCollectionNameCellWrapper}>

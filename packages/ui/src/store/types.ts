@@ -15,21 +15,41 @@ export enum KeystoreType {
 	LOCAL = 'local',
 	HARDWARE = 'hardware',
 	RADIX_WALLET = 'radix_wallet',
+	COMBINED = 'combined',
 }
 
-export type Keystore = {
+export type HardwareKeySource = {
 	id: string
 	name: string
-	type: KeystoreType
-	ledgerDevice?: object
+	type: KeystoreType.HARDWARE
+	ledgerDevice: object
 }
+
+export type KeySource =
+	| HardwareKeySource
+	| {
+			id: string
+			name: string
+			type: Exclude<KeystoreType, KeystoreType.COMBINED | KeystoreType.HARDWARE>
+	  }
+
+export type KeySources = { [key: string]: KeySource }
+
+export type CombinedKeySource = {
+	id: string
+	name: string
+	type: KeystoreType.COMBINED
+	keySources: KeySources
+}
+
+export type Keystore = KeySource | CombinedKeySource
 
 export type KeystoresState = {
 	selectedKeystoreId: string
 	selectKeystoreAction: (id: string) => void
 
 	keystores: Keystore[]
-	addKeystoreAction: (id: string, name: string, type: KeystoreType, ledgerDevice?: any) => void
+	addKeystoreAction: (keystore: Keystore) => void
 	removeKeystoreAction: (id: string) => void
 	changeKeystoreNameAction: (id: string, name: string) => void
 }
@@ -112,6 +132,7 @@ export type Persona = {
 	curve: CURVE
 	scheme: SCHEME
 	derivationPath: string
+	combinedKeystoreId?: string
 }
 
 export type Personas = { [address: string]: Persona }
@@ -127,6 +148,7 @@ export type Account = {
 	scheme: SCHEME
 	derivationPath: string
 	olympiaAddress?: string
+	combinedKeystoreId?: string
 }
 
 export type Accounts = { [address: string]: Account }

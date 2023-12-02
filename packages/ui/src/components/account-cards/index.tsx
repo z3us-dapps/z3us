@@ -20,9 +20,11 @@ import { DotsHorizontalCircleIcon, InformationIcon, TrashIcon } from 'ui/src/com
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { CARD_COLORS } from 'ui/src/constants/account'
+import { CURRENCY_STYLES } from 'ui/src/constants/number'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
@@ -125,12 +127,12 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const networkId = useNetworkId()
 	const { isWallet, confirm } = useZdtState()
 	const accounts = useWalletAccounts()
+	const accountIndexes = useAccountIndexes()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
-	const { currency, accountIndexes, removeAccount } = useNoneSharedStore(state => ({
+	const { currency, removeAccount } = useNoneSharedStore(state => ({
 		currency: state.currency,
-		accountIndexes: state.accountIndexes[networkId] || {},
 		removeAccount: state.removeAccountAction,
 	}))
 	const { data: balanceData } = useBalances(address)
@@ -205,10 +207,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				<Box paddingBottom="xsmall" display="flex" flexDirection="column" position="relative">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							{intl.formatNumber(totalValue, {
-								style: 'currency',
-								currency,
-							})}
+							{intl.formatNumber(totalValue, { currency, ...CURRENCY_STYLES })}
 						</Box>
 					</Text>
 					<Text

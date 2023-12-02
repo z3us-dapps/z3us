@@ -2,6 +2,7 @@ export enum DataType {
 	MNEMONIC = 'mnemonic',
 	PRIVATE_KEY = 'private_key',
 	STRING = 'string',
+	COMBINED = 'combined',
 	NONE = 'none',
 }
 

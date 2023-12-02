@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
+import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -38,24 +39,24 @@ export const useTotalBalance = () => {
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue
 		if (resourceType === 'tokens') return fungibleValue
-		if (resourceType === 'lp-tokens') return liquidityPoolTokensValue
-		if (resourceType === 'pool-units') return poolUnitsValue
+		if (['lsus', 'lp-tokens'].includes(resourceType)) return liquidityPoolTokensValue
+		if (['lpus', 'pool-units'].includes(resourceType)) return poolUnitsValue
 		return totalValue
 	}, [resourceType, totalValue, nonFungibleValue, fungibleValue, liquidityPoolTokensValue, poolUnitsValue])
 
 	const change = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleChange
 		if (resourceType === 'tokens') return fungibleChange
-		if (resourceType === 'lp-tokens') return liquidityPoolTokensChange
-		if (resourceType === 'pool-units') return poolUnitsChange
+		if (['lsus', 'lp-tokens'].includes(resourceType)) return liquidityPoolTokensChange
+		if (['lpus', 'pool-units'].includes(resourceType)) return poolUnitsChange
 		return totalChange
 	}, [resourceType, totalChange, nonFungibleChange, fungibleChange, liquidityPoolTokensChange, poolUnitsChange])
 
 	const xrdValue = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleXrdValue
 		if (resourceType === 'tokens') return fungibleXrdValue
-		if (resourceType === 'lp-tokens') return liquidityPoolTokensXrdValue
-		if (resourceType === 'pool-units') return poolUnitsXrdValue
+		if (['lsus', 'lp-tokens'].includes(resourceType)) return liquidityPoolTokensXrdValue
+		if (['lpus', 'pool-units'].includes(resourceType)) return poolUnitsXrdValue
 		return totalXrdValue
 	}, [
 		resourceType,
@@ -71,8 +72,8 @@ export const useTotalBalance = () => {
 		xrdValue,
 		value,
 		change,
-		formattedXrdValue: intl.formatNumber(xrdValue, { style: 'decimal', maximumFractionDigits: 18 }),
-		formattedValue: intl.formatNumber(value, { style: 'currency', currency }),
-		formattedChange: intl.formatNumber(change, { style: 'percent', maximumFractionDigits: 2 }),
+		formattedXrdValue: intl.formatNumber(xrdValue, { maximumSignificantDigits: 3, ...DECIMAL_STYLES }),
+		formattedValue: intl.formatNumber(value, { currency, ...CURRENCY_STYLES }),
+		formattedChange: intl.formatNumber(change, PERCENTAGE_STYLES),
 	}
 }

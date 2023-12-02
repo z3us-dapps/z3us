@@ -5,6 +5,7 @@ import { Box } from 'ui/src/components/box'
 import { Dialog } from 'ui/src/components/dialog'
 import { Text } from 'ui/src/components/typography'
 
+import type { Values } from '@src/components/forms/customize-fee-form'
 import CustomizeFeeForm from '@src/components/forms/customize-fee-form'
 import type { TransactionSettings } from '@src/types/transaction'
 
@@ -24,7 +25,7 @@ const messages = defineMessages({
 
 export interface IProps {
 	settings: TransactionSettings
-	onConfirm: (response: TransactionSettings) => void
+	onConfirm: (response: Values) => void
 	onCancel: () => void
 }
 
@@ -33,7 +34,7 @@ const CustomizeFeeModal: React.FC<IProps> = ({ settings, onConfirm, onCancel }) 
 
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 
-	const handleSubmit = async (values: TransactionSettings) => {
+	const handleSubmit = async (values: Values) => {
 		onConfirm(values)
 		setIsOpen(false)
 	}
