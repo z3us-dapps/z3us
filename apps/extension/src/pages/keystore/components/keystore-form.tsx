@@ -14,8 +14,8 @@ import NewKeystoreForm from './new-keystore-form'
 
 const messages = defineMessages({
 	switch_title: {
-		defaultMessage: 'Add to existing account',
-		id: 'MsK5s2',
+		defaultMessage: 'Add to existing wallet',
+		id: 'dJBcj5',
 	},
 })
 

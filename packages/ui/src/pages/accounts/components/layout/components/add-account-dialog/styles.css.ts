@@ -70,10 +70,7 @@ export const keySourceWrapper = style([
 			mobile: 'flex-start',
 		},
 		gap: 'small',
-		paddingTop: {
-			mobile: 'small',
-			tablet: 'small',
-		},
+		paddingTop: 'small',
 	}),
 	{},
 ])
