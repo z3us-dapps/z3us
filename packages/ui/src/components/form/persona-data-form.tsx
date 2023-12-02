@@ -11,9 +11,8 @@ import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { MailIcon, PhoneIcon, TrashIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
+import { usePersonaIndexes } from '../../hooks/use-persona-indexes'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -85,6 +84,7 @@ type Values = {
 	emailAddresses: { email: string }[]
 	phoneNumbers: { number: string }[]
 }
+
 export interface IProps {
 	identityAddress?: string
 	customValidationSchema?: z.AnyZodObject
@@ -94,10 +94,7 @@ export interface IProps {
 const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSchema, onSubmit }) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
-	const networkId = useNetworkId()
-	const { personaIndexes } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId] || {},
-	}))
+	const personaIndexes = usePersonaIndexes()
 
 	const [validation, setValidation] = useState<ZodError>()
 

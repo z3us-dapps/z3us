@@ -14,7 +14,8 @@ import type {
 import { useCallback } from 'react'
 
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Accounts, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -33,15 +34,12 @@ function groupAddressesByCombinedKeystoreId(accounts: Accounts, needSignaturesFr
 
 export const useSign = () => {
 	const networkId = useNetworkId()
-
+	const accountIndexes = useAccountIndexes()
 	const signBackground = useSignTransactionWithBackground()
 	const signLedger = useSignTransactionWithLedger()
 
 	const { selectedKeystore } = useSharedStore(state => ({
 		selectedKeystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
-	const { accountIndexes } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
 	const sign = useCallback(

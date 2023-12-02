@@ -6,8 +6,8 @@ import { useImmer } from 'use-immer'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { PlusIcon } from 'ui/src/components/icons'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Persona } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -41,13 +41,10 @@ export interface IState {
 const Personas: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const networkId = useNetworkId()
+	const personaIndexes = usePersonaIndexes()
 
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
-	const { personaIndexes } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId] || {},
 	}))
 
 	const [state, setState] = useImmer<IState>({

@@ -3,8 +3,8 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 import { useImmer } from 'use-immer'
 
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { SettingsTitle } from '../components/settings-title'
@@ -30,13 +30,10 @@ export interface IState {
 const AuthorizedDapps: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const networkId = useNetworkId()
+	const approvedDapps = useApprovedDapps()
 
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
-	const { approvedDapps } = useNoneSharedStore(state => ({
-		approvedDapps: state.approvedDapps[networkId] || {},
 	}))
 
 	const [state, setState] = useImmer<IState>({

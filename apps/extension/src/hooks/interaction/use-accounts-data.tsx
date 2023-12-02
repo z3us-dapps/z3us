@@ -3,8 +3,9 @@ import type { AccountProof, AccountsRequestItem } from '@radixdlt/radix-dapp-too
 import { useCallback } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Accounts, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -39,15 +40,12 @@ export const useAccountsData = () => {
 	const intl = useIntl()
 	const client = useMessageClient()
 	const ledger = useLedgerClient()
-	const networkId = useNetworkId()
 	const confirm = usePasswordModal()
+	const accountIndexes = useAccountIndexes()
+	const addressBook = useAddressBook()
 
 	const { selectedKeystore } = useSharedStore(state => ({
 		selectedKeystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-	}))
-	const { accountIndexes, addressBook } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
-		addressBook: state.addressBook[networkId] || {},
 	}))
 
 	const sign = useCallback(

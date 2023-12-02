@@ -2,6 +2,7 @@ import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { Persona } from 'ui/src/store/types'
 import { CURVE, SCHEME } from 'ui/src/store/types'
@@ -12,9 +13,7 @@ import { useGetPublicKey } from '@src/hooks/use-get-public-key'
 export const useBuildNewPersonKeyParts = () => {
 	const networkId = useNetworkId()
 	const getPublicKey = useGetPublicKey()
-	const { personaIndexes } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId] || {},
-	}))
+	const personaIndexes = usePersonaIndexes()
 
 	const buildNewPersonKeyParts = useCallback(
 		async (combinedKeystoreId: string) => {
@@ -50,9 +49,9 @@ export const useAddPersona = () => {
 	const networkId = useNetworkId()
 	const getPublicKey = useGetPublicKey()
 	const buildNewPersonKeyParts = useBuildNewPersonKeyParts()
+	const personaIndexes = usePersonaIndexes()
 
-	const { personaIndexes, addPersona } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId] || {},
+	const { addPersona } = useNoneSharedStore(state => ({
 		addPersona: state.addPersonaAction,
 	}))
 

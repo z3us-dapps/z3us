@@ -2,8 +2,7 @@ import type { Intent, SignatureWithPublicKey } from '@radixdlt/radix-engine-tool
 import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import type { HardwareKeySource } from 'ui/src/store/types'
 
 import { signatureCurveFromLedgerCurve } from '@src/browser/ledger/signature'
@@ -12,12 +11,8 @@ import { signatureWithPublicKeyFromJSON } from '@src/crypto/signature'
 import { useLedgerClient } from '../use-ledger-client'
 
 export const useSignTransactionWithLedger = () => {
-	const networkId = useNetworkId()
 	const ledger = useLedgerClient()
-
-	const { accountIndexes } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
-	}))
+	const accountIndexes = useAccountIndexes()
 
 	const sign = async (
 		keySource: HardwareKeySource,

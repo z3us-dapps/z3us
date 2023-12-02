@@ -14,8 +14,8 @@ import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-rad
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { DAPP_ADDRESS } from 'ui/src/constants/dapp'
 import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
+import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useIntent } from '@src/hooks/transaction/use-intent'
@@ -63,12 +63,9 @@ type State = {
 export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 	const { interactionId } = useParams()
 	const intl = useIntl()
-	const networkId = useNetworkId()
 	const { transaction } = useGatewayClient()
-	const { accountIndexes, approvedDapps } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
-		approvedDapps: state.approvedDapps[networkId] || {},
-	}))
+	const accountIndexes = useAccountIndexes()
+	const approvedDapps = useApprovedDapps()
 
 	const buildIntent = useIntent()
 	const sign = useSign()

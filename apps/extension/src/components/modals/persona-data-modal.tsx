@@ -8,7 +8,9 @@ import { Dialog } from 'ui/src/components/dialog'
 import PersonaDataForm from 'ui/src/components/form/persona-data-form'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import type { Persona } from 'ui/src/store/types'
 
 import * as styles from './styles.css'
 
@@ -77,8 +79,8 @@ export interface IProps {
 const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
-	const { personaIndexes, updatePersona } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId] || {},
+	const personaIndexes = usePersonaIndexes()
+	const { updatePersona } = useNoneSharedStore(state => ({
 		updatePersona: state.addPersonaAction,
 	}))
 
@@ -166,8 +168,8 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 			labelParts.push(response.name?.familyName)
 		}
 
-		const currentDetails = personaIndexes?.[identityAddress]
-		const persona = {
+		const currentDetails = personaIndexes[identityAddress]
+		const persona: Persona = {
 			...currentDetails,
 			label: labelParts.length > 0 ? labelParts.join(' ') : currentDetails.label,
 			nickName: response.name?.nickname,
