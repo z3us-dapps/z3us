@@ -4,7 +4,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { Switch } from 'ui/src/components/switch'
 import { Text } from 'ui/src/components/typography'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import type { Data } from '@src/types/vault'
