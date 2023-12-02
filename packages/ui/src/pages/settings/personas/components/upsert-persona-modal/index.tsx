@@ -136,7 +136,7 @@ const UpsertPersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 								placeholder={intl.formatMessage(messages.keySource)}
 							/>
 						</Box>
-						<hr />
+						<Box borderTop={1} borderStyle="solid" borderColor="borderDivider" />
 					</>
 				)}
 				<Box display="flex" flexDirection="column" gap="xsmall">

@@ -66,11 +66,29 @@ export const keySourceWrapper = style([
 			tablet: 'row',
 		},
 		justifyContent: 'space-between',
+		alignItems: {
+			mobile: 'flex-start',
+		},
+		gap: 'small',
+		paddingTop: 'small',
+	}),
+	{},
+])
+
+export const keySourceSelectWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexShrink: 0,
 		alignItems: 'center',
 		gap: 'small',
-		paddingTop: {
-			mobile: 'medium',
-			tablet: 'small',
+	}),
+	{},
+	responsiveStyle({
+		mobile: {
+			width: 'auto',
+		},
+		tablet: {
+			width: '300px',
 		},
 	}),
 ])
@@ -78,6 +96,7 @@ export const keySourceWrapper = style([
 export const addAccountSwitchWrapper = style([
 	sprinkles({
 		display: 'flex',
+		flexShrink: 0,
 		flexDirection: {
 			mobile: 'row-reverse',
 			tablet: 'row',

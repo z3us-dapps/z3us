@@ -189,32 +189,28 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 	if (!keystore || keystore.type === KeystoreType.RADIX_WALLET) return null
 
 	return (
-		<>
-			<hr />
-			<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
-				<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
-					<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
-					<SelectField
-						name="keySourceId"
-						fullWidth
-						sizeVariant="large"
-						placeholder={intl.formatMessage(messages.key_source_placeholder)}
-						data={selectItems}
-					/>
-					<TextField
-						isPassword
-						name="password"
-						placeholder={intl.formatMessage(messages.password_placeholder)}
-						sizeVariant="large"
-					/>
-					<SubmitButton>
-						<Button sizeVariant="large">
-							{intl.formatMessage(messages.form_button_title, { name: keystore.name })}
-						</Button>
-					</SubmitButton>
-				</Box>
-			</Form>
-		</>
+		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
+			<Box display="flex" flexDirection="column" gap="medium">
+				<SelectField
+					name="keySourceId"
+					fullWidth
+					sizeVariant="xlarge"
+					styleVariant="tertiary"
+					placeholder={intl.formatMessage(messages.key_source_placeholder)}
+					data={selectItems}
+				/>
+				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
+				<TextField
+					isPassword
+					name="password"
+					placeholder={intl.formatMessage(messages.password_placeholder)}
+					sizeVariant="large"
+				/>
+				<SubmitButton>
+					<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title, { name: keystore.name })}</Button>
+				</SubmitButton>
+			</Box>
+		</Form>
 	)
 }
 
