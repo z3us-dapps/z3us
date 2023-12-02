@@ -121,24 +121,10 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 		let combinedData = {}
 		if (destination.type === KeystoreType.COMBINED) {
 			combinedData = JSON.parse(currentData.secret)
-			combinedKeystore.keySources = destination.keySources
+			combinedKeystore.keySources = { ...destination.keySources }
 		} else {
 			combinedData[destination.id] = currentData
-
-			if (destination.type === KeystoreType.HARDWARE) {
-				combinedKeystore.keySources[destination.id] = {
-					id: destination.id,
-					name: destination.name,
-					type: destination.type,
-					ledgerDevice: destination.ledgerDevice,
-				}
-			} else {
-				combinedKeystore.keySources[destination.id] = {
-					id: destination.id,
-					name: destination.name,
-					type: destination.type,
-				}
-			}
+			combinedKeystore.keySources[destination.id] = destination
 
 			Object.keys(accountIndexes).forEach(networkId => {
 				Object.keys(accountIndexes[networkId] || {}).forEach(address => {
