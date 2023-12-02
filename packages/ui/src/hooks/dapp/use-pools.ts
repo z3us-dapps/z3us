@@ -41,10 +41,11 @@ export const usePools = (addresses: string[]) => {
 	}, [])
 
 	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts)
+	const { data: poolsBefore, isLoading: isLoadingPoolsBefore } = useAccountPools(accounts, before)
+
 	const poolResources = useMemo(() => pools?.map(pool => pool.details.state.pool_unit_resource_address) || [], [pools])
 	const { data: poolUnits, isLoading: isLoadingPoolUnits } = useEntitiesDetails(poolResources)
 
-	const { data: poolsBefore, isLoading: isLoadingPoolsBefore } = useAccountPools(accounts, before)
 	const poolResourcesBefore = useMemo(
 		() => poolsBefore?.map(pool => pool.details.state.pool_unit_resource_address) || [],
 		[poolsBefore],

@@ -1,4 +1,4 @@
-import type { IKeystoresStateSetter, Keystore, KeystoreType, KeystoresState } from './types'
+import type { IKeystoresStateSetter, Keystore, KeystoresState } from './types'
 
 export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	keystores: [],
@@ -7,21 +7,16 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	selectKeystoreAction: (keystoreId: string) => {
 		set(draft => {
 			const keystore = draft.keystores.find(({ id }) => id === keystoreId)
-			// eslint-disable-next-line no-nested-ternary
-			draft.selectedKeystoreId = keystore ? keystore.id : draft.keystores.length > 0 ? draft.keystores[0].id : ''
+			draft.selectedKeystoreId = keystore?.id || (draft.keystores.length > 0 ? draft.keystores[0].id : '')
 		})
 	},
 
-	addKeystoreAction: (keystoreId: string, name: string, type: KeystoreType, ledgerDevice?: any) => {
+	addKeystoreAction: (keystore: Keystore) => {
 		set(draft => {
-			const keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
-			const current = draft.keystores.find(({ id }) => id === keystoreId) || ({} as Keystore)
+			const keystores = draft.keystores.filter(({ id }) => keystore.id !== id) || []
 
-			draft.selectedKeystoreId = keystoreId
-			draft.keystores = [
-				...keystores,
-				{ ...current, ledgerDevice: ledgerDevice || current.ledgerDevice, id: keystoreId, name, type },
-			]
+			draft.selectedKeystoreId = keystore.id
+			draft.keystores = [...keystores, keystore]
 		})
 	},
 

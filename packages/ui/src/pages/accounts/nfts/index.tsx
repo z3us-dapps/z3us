@@ -51,6 +51,7 @@ const NFTs: React.FC = () => {
 	)
 
 	const { data: tableData = [], isLoading } = useNonFungiblesData(resourceId, ids)
+
 	const selectedRowIds = useMemo(() => {
 		const idx = ids.findIndex(b => b === nftId)
 		if (idx >= 0) {

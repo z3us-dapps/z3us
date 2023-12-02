@@ -10,7 +10,7 @@ import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
-import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
@@ -68,7 +68,7 @@ export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref)
 	} = props
 
 	const accounts = useWalletAccounts()
-	const addressBook = useAddressBook()
+	const addressBook = useAddressBookWithAccounts()
 	const addressBookEntry = addressBook[value]
 	const accountReadableName = addressBookEntry?.name || getShortAddress(value)
 

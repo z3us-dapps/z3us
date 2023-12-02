@@ -8,7 +8,6 @@ import {
 	instanceOfTransactionFungibleFeeBalanceChanges,
 	instanceOfTransactionNonFungibleBalanceChanges,
 } from '@radixdlt/babylon-gateway-api-sdk'
-import { useWalletAccounts } from 'packages/ui/src/hooks/use-accounts'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -31,9 +30,11 @@ import { RedGreenText, Text } from 'ui/src/components/typography'
 import Code from 'ui/src/components/typography/code'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { config } from 'ui/src/constants/config'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
@@ -179,10 +180,7 @@ const BalanceChange = ({ change }) => {
 				</Box>
 				<Box display="flex" flexDirection="column" gap="xxsmall" flexShrink={0}>
 					<RedGreenText change={Number.parseFloat(change.amount) || 0} size="xxsmall" align="right">
-						{intl.formatNumber(Number.parseFloat(change.amount) || 0, {
-							style: 'decimal',
-							maximumFractionDigits: 18,
-						})}
+						{intl.formatNumber(Number.parseFloat(change.amount) || 0, DECIMAL_STYLES)}
 					</RedGreenText>
 				</Box>
 			</Box>
@@ -205,10 +203,7 @@ const BalanceChangeFee = ({ change }) => {
 				</Box>
 				<Box display="flex" flexDirection="column" gap="xxsmall" flexShrink={0}>
 					<RedGreenText change={-1} size="xxsmall" align="right">
-						{`${intl.formatNumber(Number.parseFloat(change.amount) || 0, {
-							style: 'decimal',
-							maximumFractionDigits: 18,
-						})} XRD`}
+						{`${intl.formatNumber(Number.parseFloat(change.amount) || 0, DECIMAL_STYLES)} XRD`}
 					</RedGreenText>
 					<Text size="xxsmall" align="right">
 						{change.type}
@@ -292,11 +287,7 @@ export const Transaction = () => {
 						</Box>
 						<Box marginTop="xxsmall">
 							<Text size="xxxlarge" color="strong">
-								{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, {
-									style: 'decimal',
-									maximumFractionDigits: 18,
-								})}{' '}
-								XRD
+								{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, DECIMAL_STYLES)} XRD
 							</Text>
 						</Box>
 						<Box>
@@ -419,8 +410,9 @@ export const Transaction = () => {
 												</Box>
 											</Box>
 											<Box className={styles.balanceChangeItemContent}>
-												{balanceChanges[entity_address].map(change => (
-													<React.Fragment key={change.resource_address}>
+												{balanceChanges[entity_address].map((change, idx) => (
+													// eslint-disable-next-line react/no-array-index-key
+													<React.Fragment key={idx}>
 														{change.isFee ? <BalanceChangeFee change={change} /> : <BalanceChange change={change} />}
 													</React.Fragment>
 												))}

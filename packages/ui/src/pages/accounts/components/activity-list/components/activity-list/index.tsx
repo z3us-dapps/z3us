@@ -1,6 +1,7 @@
 import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useSearchParams } from 'react-router-dom'
@@ -170,10 +171,10 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 											/>
 										</Text>
 										<Text>&nbsp;&middot;&nbsp;</Text>
-										<Text size="xsmall">{`${intl.formatNumber(Number.parseFloat(transaction.fee_paid) || 0, {
-											style: 'decimal',
-											maximumFractionDigits: 18,
-										})} XRD`}</Text>
+										<Text size="xsmall">{`${intl.formatNumber(
+											Number.parseFloat(transaction.fee_paid) || 0,
+											DECIMAL_STYLES,
+										)} XRD`}</Text>
 									</Box>
 								</Box>
 							)}

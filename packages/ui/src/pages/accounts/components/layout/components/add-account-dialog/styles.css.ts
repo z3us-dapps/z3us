@@ -58,9 +58,45 @@ export const addAccountCheckBoxWrapper = style([
 	}),
 ])
 
+export const keySourceWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: {
+			mobile: 'column-reverse',
+			tablet: 'row',
+		},
+		justifyContent: 'space-between',
+		alignItems: {
+			mobile: 'flex-start',
+		},
+		gap: 'small',
+		paddingTop: 'small',
+	}),
+	{},
+])
+
+export const keySourceSelectWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexShrink: 0,
+		alignItems: 'center',
+		gap: 'small',
+	}),
+	{},
+	responsiveStyle({
+		mobile: {
+			width: 'auto',
+		},
+		tablet: {
+			width: '300px',
+		},
+	}),
+])
+
 export const addAccountSwitchWrapper = style([
 	sprinkles({
 		display: 'flex',
+		flexShrink: 0,
 		flexDirection: {
 			mobile: 'row-reverse',
 			tablet: 'row',

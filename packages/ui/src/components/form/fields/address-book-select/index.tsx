@@ -6,7 +6,7 @@ import { type IInputProps } from 'ui/src/components/input'
 import { SearchableInput } from 'ui/src/components/searchable-input'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
-import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
@@ -35,7 +35,7 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 		onChange(_value)
 	}
 
-	const addressBook = useAddressBook()
+	const addressBook = useAddressBookWithAccounts()
 	const allEntries = Object.values(addressBook)
 		.filter(entry => entry.address !== exclude)
 		.map(entry => ({

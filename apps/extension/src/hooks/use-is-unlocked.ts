@@ -8,9 +8,9 @@ const refreshInterval = 15 * 1000 // 15 seconds
 
 export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; reload: () => void } => {
 	const client = useMessageClient()
-	const { trigger, keystoreId } = useSharedStore(state => ({
+	const { trigger, selectedKeystore } = useSharedStore(state => ({
 		trigger: state.sharedStoreReloadTrigger,
-		keystoreId: state.selectedKeystoreId,
+		selectedKeystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
 
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -28,15 +28,15 @@ export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; relo
 	useEffect(() => {
 		setIsLoading(true)
 		client
-			.isVaultUnlocked()
+			.isVaultUnlocked(selectedKeystore)
 			.then(isVaultUnlocked => setIsUnlocked(isVaultUnlocked))
 			.catch(() => setIsUnlocked(false))
 			.finally(() => setIsLoading(false))
-	}, [keystoreId])
+	}, [selectedKeystore])
 
 	useEffect(() => {
 		client
-			.isVaultUnlocked()
+			.isVaultUnlocked(selectedKeystore)
 			.then(isVaultUnlocked => setIsUnlocked(isVaultUnlocked))
 			.catch(() => setIsUnlocked(false))
 			.finally(() => setIsLoading(false))

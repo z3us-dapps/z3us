@@ -31,8 +31,12 @@ export function getSecret(data: Data): string {
 		case DataType.PRIVATE_KEY:
 		case DataType.STRING:
 			return data.secret
-		default:
+		case DataType.NONE:
 			return ''
+		case DataType.COMBINED:
+			throw new Error(`Can not get secret from data type: ${data.type} directly`)
+		default:
+			throw new Error(`Unknown data type: ${data.type}`)
 	}
 }
 
@@ -59,10 +63,30 @@ export function secretToData(type: DataType, secret: string = '', language: Lang
 				type,
 				secret,
 			}
-		default:
+		case DataType.NONE:
 			return {
 				type,
 				secret: '',
 			}
+		case DataType.COMBINED:
+			throw new Error(`Can not create data from secret type: ${type} directly`)
+		default:
+			throw new Error(`Unknown data type: ${type}`)
 	}
+}
+
+export function combineData(combinedData: { [key: string]: Data }): Data {
+	return {
+		type: DataType.COMBINED,
+		secret: JSON.stringify(combinedData),
+	}
+}
+
+export function getCombineData(combinedData: Data, key: string): Data {
+	if (combinedData.type !== DataType.COMBINED) {
+		return combinedData
+	}
+
+	const secret = JSON.parse(combinedData.secret)
+	return secret[key]
 }

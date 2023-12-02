@@ -4,8 +4,10 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import type { State } from 'ui/src/context/zdt'
 import { ZdtContext } from 'ui/src/context/zdt'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useSendTransaction } from '@src/hooks/transaction/use-send'
@@ -30,22 +32,19 @@ const messages = defineMessages({
 
 export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const intl = useIntl()
-	const networkId = useNetworkId()
 	const client = useMessageClient()
 	const confirm = usePasswordModal()
 	const sendTransaction = useSendTransaction()
 	const buildNewPersonKeyParts = useBuildNewPersonKeyParts()
 	const buildNewAccountKeyParts = useBuildNewAccountKeyParts()
 	const { isUnlocked } = useIsUnlocked()
-	const { selectedKeystoreId, removeKeystore } = useSharedStore(state => ({
-		selectedKeystoreId: state.selectedKeystoreId,
+	const { keystore, removeKeystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 		removeKeystore: state.removeKeystoreAction,
 	}))
-	const { accountIndexes, personaIndexes, addressBook } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId] || {},
-		personaIndexes: state.personaIndexes[networkId] || {},
-		addressBook: state.addressBook[networkId] || {},
-	}))
+	const personaIndexes = usePersonaIndexes()
+	const accountIndexes = useAccountIndexes()
+	const addressBook = useAddressBook()
 
 	const accounts = useMemo<Account[]>(
 		() =>
@@ -73,11 +72,20 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	const removeSecret = useCallback(
 		async (password: string) => {
-			await client.removeFromVault(password)
-			removeKeystore(selectedKeystoreId)
+			await client.removeFromVault(keystore, password)
+			removeKeystore(keystore.id)
 			await client.lockVault()
 		},
-		[client, selectedKeystoreId, removeKeystore],
+		[client, keystore, removeKeystore],
+	)
+
+	const unlock = useCallback(async (password: string) => client.unlockVault(keystore, password), [client, keystore])
+
+	const lock = useCallback(async () => client.lockVault(), [client])
+
+	const getSecret = useCallback(
+		async (combinedKeystoreId: string, password: string) => client.getSecret(keystore, combinedKeystoreId, password),
+		[client, keystore],
 	)
 
 	const ctx = useMemo(
@@ -89,14 +97,25 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				personas,
 				confirm,
 				sendTransaction,
-				unlock: client.unlockVault,
+				unlock,
 				lock: client.lockVault,
-				getSecret: client.getSecret,
+				getSecret,
 				removeSecret,
 				buildNewPersonKeyParts,
 				buildNewAccountKeyParts,
 			} as State),
-		[isUnlocked, personas, accounts, client, confirm, sendTransaction, buildNewPersonKeyParts, buildNewAccountKeyParts],
+		[
+			isUnlocked,
+			personas,
+			accounts,
+			confirm,
+			sendTransaction,
+			unlock,
+			lock,
+			getSecret,
+			buildNewPersonKeyParts,
+			buildNewAccountKeyParts,
+		],
 	)
 
 	return <ZdtContext.Provider value={ctx}>{children}</ZdtContext.Provider>

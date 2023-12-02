@@ -7,7 +7,7 @@ import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
-import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
@@ -18,7 +18,7 @@ interface IProps {
 
 export const AccountSnippet: React.FC<IProps> = ({ address, reversed }) => {
 	const { data, isLoading } = useEntityDetails(address)
-	const addressBook = useAddressBook()
+	const addressBook = useAddressBookWithAccounts()
 
 	const name = findMetadataValue('name', data?.metadata?.items)
 	const dappAddress = findMetadataValue('dapp_definition', data?.metadata?.items)

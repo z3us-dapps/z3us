@@ -5,9 +5,8 @@ import { useImmer } from 'use-immer'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { PlusIcon } from 'ui/src/components/icons'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import type { AddressBookEntry } from 'ui/src/store/types'
 
 import { SettingsTitle } from '../components/settings-title'
@@ -40,11 +39,8 @@ export interface IState {
 
 const AddressBook: React.FC = () => {
 	const intl = useIntl()
-	const networkId = useNetworkId()
 	const accounts = useWalletAccounts()
-	const { addressBook } = useNoneSharedStore(state => ({
-		addressBook: state.addressBook[networkId] || {},
-	}))
+	const addressBook = useAddressBook()
 
 	const [state, setState] = useImmer<IState>({
 		entries: [],

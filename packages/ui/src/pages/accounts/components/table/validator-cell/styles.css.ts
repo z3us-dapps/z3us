@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
 
 export const assetNameCellWrapper = style([
 	sprinkles({
@@ -61,8 +59,8 @@ export const assetNameCellNameWrapper = style([
 	{},
 	responsiveStyle({
 		mobile: {
-			width: '70%',
-			flexBasis: '70%',
+			width: '50%',
+			flexBasis: '50%',
 		},
 		tablet: {
 			width: '100%',
@@ -82,8 +80,8 @@ export const assetNameCellPriceWrapper = style([
 		justifyContent: 'center',
 	}),
 	{
-		width: '55%',
-		flexBasis: '55%',
+		width: '50%',
+		flexBasis: '50%',
 	},
 ])
 
@@ -91,7 +89,7 @@ export const assetNameCellPriceTextWrapper = style([
 	sprinkles({
 		maxWidth: 'full',
 		display: 'flex',
-		alignItems: 'center',
+		flexDirection: 'column',
 		gap: 'xsmall',
 	}),
 	{},

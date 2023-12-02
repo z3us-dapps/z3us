@@ -13,7 +13,7 @@ import * as styles from './styles.css'
 const DEFAULT_ITEMS = 6
 
 interface IProps {
-	resourceType: 'token' | 'nft' | 'lp-token' | 'pool-unit'
+	resourceType: 'token' | 'nft' | 'lsu' | 'lpu'
 	balances: ResourceBalanceKind[]
 }
 

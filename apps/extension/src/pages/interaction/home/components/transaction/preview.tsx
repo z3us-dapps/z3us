@@ -14,6 +14,7 @@ import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { CURRENCY_STYLES, DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
@@ -169,37 +170,26 @@ function getFeeToLockAmount(receipt: TransactionReceipt, padding: number, wallet
 interface ICostProps {
 	value: number
 	xrdPrice: number
-	currency: 'currency' | 'xrd'
+	format: 'currency' | 'xrd'
+	currency: string
 }
 
-export const Cost: React.FC<ICostProps> = ({ value, xrdPrice, currency }) => {
+export const Cost: React.FC<ICostProps> = ({ value, xrdPrice, format, currency }) => {
 	const intl = useIntl()
 
 	return (
 		<ToolTip
 			message={
-				currency === 'currency'
-					? `${intl.formatNumber(value, {
-							style: 'decimal',
-							maximumFractionDigits: 18,
-					  })} XRD`
-					: intl.formatNumber(value * xrdPrice, {
-							style: 'currency',
-							currency,
-					  })
+				format === 'currency'
+					? `${intl.formatNumber(value, { maximumSignificantDigits: 3, ...DECIMAL_STYLES })} XRD`
+					: intl.formatNumber(value * xrdPrice, { currency, ...CURRENCY_STYLES })
 			}
 		>
 			<Box>
 				<Text size="small" color="strong" truncate>
-					{currency === 'currency'
-						? intl.formatNumber(value * xrdPrice, {
-								style: 'currency',
-								currency,
-						  })
-						: `${intl.formatNumber(value, {
-								style: 'decimal',
-								maximumFractionDigits: 18,
-						  })} XRD`}
+					{format === 'currency'
+						? intl.formatNumber(value * xrdPrice, { currency, ...CURRENCY_STYLES })
+						: `${intl.formatNumber(value, { maximumSignificantDigits: 3, ...DECIMAL_STYLES })} XRD`}
 				</Text>
 			</Box>
 		</ToolTip>
@@ -292,7 +282,10 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 				draft.hasManualSettings = newSettings.padding !== 0
 			})
 			const lockAmount = getFeeToLockAmount(receipt, newSettings.padding, state.walletExecutionCost)
-			onSettingsChange({ ...newSettings, lockAmount })
+			onSettingsChange({
+				...newSettings,
+				lockAmount,
+			})
 		})
 	}
 
@@ -426,7 +419,8 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_execution_cost)}</Text>}
 							rightData={
 								<Cost
-									currency={state.currency}
+									format={state.currency}
+									currency={currency}
 									value={Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost)}
 									xrdPrice={xrdPrice}
 								/>
@@ -436,7 +430,8 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_finalization_cost)}</Text>}
 							rightData={
 								<Cost
-									currency={state.currency}
+									format={state.currency}
+									currency={currency}
 									value={Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost)}
 									xrdPrice={xrdPrice}
 								/>
@@ -446,7 +441,8 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_royalty_cost)}</Text>}
 							rightData={
 								<Cost
-									currency={state.currency}
+									format={state.currency}
+									currency={currency}
 									value={Number.parseFloat(receipt.fee_summary.xrd_total_royalty_cost)}
 									xrdPrice={xrdPrice}
 								/>
@@ -456,7 +452,8 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 							leftTitle={<Text size="small">{intl.formatMessage(messages.xrd_total_storage_cost)}</Text>}
 							rightData={
 								<Cost
-									currency={state.currency}
+									format={state.currency}
+									currency={currency}
 									value={Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost)}
 									xrdPrice={xrdPrice}
 								/>
@@ -470,7 +467,8 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 							}
 							rightData={
 								<Cost
-									currency={state.currency}
+									format={state.currency}
+									currency={currency}
 									value={Number.parseFloat(receipt.fee_summary.xrd_total_tipping_cost)}
 									xrdPrice={xrdPrice}
 								/>
@@ -482,7 +480,14 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 									{intl.formatMessage(messages.xrd_total_wallet_cost)}
 								</Text>
 							}
-							rightData={<Cost currency={state.currency} value={state.walletExecutionCost} xrdPrice={xrdPrice} />}
+							rightData={
+								<Cost
+									format={state.currency}
+									currency={currency}
+									value={state.walletExecutionCost}
+									xrdPrice={xrdPrice}
+								/>
+							}
 						/>
 						<AccountsTransactionInfo
 							leftTitle={
@@ -490,7 +495,9 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 									{intl.formatMessage(messages.xrd_padding_cost)}
 								</Text>
 							}
-							rightData={<Cost currency={state.currency} value={settings.padding} xrdPrice={xrdPrice} />}
+							rightData={
+								<Cost format={state.currency} currency={currency} value={settings.padding} xrdPrice={xrdPrice} />
+							}
 						/>
 					</Box>
 				</Box>

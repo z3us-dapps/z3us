@@ -16,7 +16,7 @@ import { Convert } from '@radixdlt/radix-engine-toolkit'
 import { useCallback, useContext, useMemo } from 'react'
 
 import { useSharedStore } from 'ui/src/hooks/use-store'
-import type { Account, Persona } from 'ui/src/store/types'
+import type { Account, HardwareKeySource, Persona } from 'ui/src/store/types'
 
 import {
 	getDerivePublicKeyPayload,
@@ -71,9 +71,10 @@ export const useLedgerClient = () => {
 			getDeviceInfo: (): Promise<LedgerDevice> => sendMessageToLedger(getDeviceInfoPayload()),
 
 			derivePublicKeys: (
+				keySource: HardwareKeySource,
 				singers: Array<Account | Persona | KeyParameters>,
 			): Promise<LedgerPublicKeyResponse['success']> => {
-				const device = { ...keystore.ledgerDevice, name: keystore.name } as LedgerDevice
+				const device = { ...keySource.ledgerDevice, name: keystore.name } as LedgerDevice
 				const keysParameters = keyParametersFromSingers(singers)
 				const payload = getDerivePublicKeyPayload(device, keysParameters)
 
@@ -81,11 +82,12 @@ export const useLedgerClient = () => {
 			},
 
 			signChallenge: (
+				keySource: HardwareKeySource,
 				singers: Array<Account | Persona>,
 				challenge: string,
 				metadata: { origin: string; dAppDefinitionAddress: string },
 			): Promise<LedgerSignChallengeResponse['success']> => {
-				const device = { ...keystore.ledgerDevice, name: keystore.name } as LedgerDevice
+				const device = { ...keySource.ledgerDevice, name: keystore.name } as LedgerDevice
 				const keysParameters = keyParametersFromSingers(singers)
 				const payload = getSignChallengePayload(device, keysParameters, challenge, metadata)
 
@@ -93,10 +95,11 @@ export const useLedgerClient = () => {
 			},
 
 			signTx: (
+				keySource: HardwareKeySource,
 				singers: Array<Account | Persona>,
 				intent: Uint8Array,
 			): Promise<LedgerSignTransactionResponse['success']> => {
-				const device = { ...keystore.ledgerDevice, name: keystore.name } as LedgerDevice
+				const device = { ...keySource.ledgerDevice, name: keystore.name } as LedgerDevice
 				const keysParameters = keyParametersFromSingers(singers)
 				const payload = getSignTxPayload(device, keysParameters, Convert.Uint8Array.toHexString(intent))
 

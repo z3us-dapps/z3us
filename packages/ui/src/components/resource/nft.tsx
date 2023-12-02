@@ -36,8 +36,8 @@ const Nft: React.FC = () => {
 	const intl = useIntl()
 	const { resourceId, nftId: rawNftId } = useParams()
 	const nftId = decodeURIComponent(rawNftId)
-	const { data, isLoading } = useNonFungibleData(resourceId, nftId)
 
+	const { data, isLoading } = useNonFungibleData(resourceId, nftId)
 	const dataJson = data?.data.programmatic_json as any
 	const name = findFieldValue('name', dataJson?.fields)
 	const description = findFieldValue('description', dataJson?.fields)

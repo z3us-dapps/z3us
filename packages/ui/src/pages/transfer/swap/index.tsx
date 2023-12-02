@@ -1,7 +1,4 @@
-import { ToolTip } from 'packages/ui/src/components/tool-tip'
-import { Text } from 'packages/ui/src/components/typography'
-import { useEntityMetadata } from 'packages/ui/src/hooks/dapp/use-entity-metadata'
-import { findMetadataValue } from 'packages/ui/src/services/metadata'
+import { DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -12,10 +9,14 @@ import { z } from 'zod'
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { FEE_RATIO } from 'ui/src/constants/swap'
+import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useSwapPreview } from 'ui/src/hooks/queries/oci'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
+import { findMetadataValue } from 'ui/src/services/metadata'
 import type { SwapPreview } from 'ui/src/services/oci'
 
 import SwapFormFields from './components/swap-form-fields'
@@ -233,7 +234,7 @@ export const Swap: React.FC = () => {
 								<ToolTip message={intl.formatMessage(messages.price_impact_info)}>
 									<Box>
 										<Text size="small" color="strong">
-											{intl.formatNumber(Number.parseFloat(preview.price_impact), { style: 'percent' })}
+											{intl.formatNumber(Number.parseFloat(preview.price_impact), PERCENTAGE_STYLES)}
 										</Text>
 									</Box>
 								</ToolTip>
@@ -243,11 +244,7 @@ export const Swap: React.FC = () => {
 							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
 							rightData={
 								<Text size="small" color="strong">
-									{intl.formatNumber(swap.fee, {
-										style: 'decimal',
-										maximumFractionDigits: 18,
-									})}{' '}
-									{symbol}
+									{intl.formatNumber(swap.fee, DECIMAL_STYLES)} {symbol}
 								</Text>
 							}
 						/>
@@ -255,11 +252,7 @@ export const Swap: React.FC = () => {
 							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_lp)}</Text>}
 							rightData={
 								<Text size="small" color="strong">
-									{intl.formatNumber(Number.parseFloat(preview.input_fee_lp.token), {
-										style: 'decimal',
-										maximumFractionDigits: 18,
-									})}{' '}
-									{symbol}
+									{intl.formatNumber(Number.parseFloat(preview.input_fee_lp.token), DECIMAL_STYLES)} {symbol}
 								</Text>
 							}
 						/>

@@ -6,9 +6,10 @@ import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-re
 import { Toasts } from 'ui/src/components/toasts'
 import { useModals } from 'ui/src/hooks/use-modals'
 import { useSharedStore } from 'ui/src/hooks/use-store'
+import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
-export const defaultKeystore = { id: 'default', name: 'Default', type: KeystoreType.RADIX_WALLET }
+export const defaultKeystore: Keystore = { id: 'default', name: 'Default', type: KeystoreType.RADIX_WALLET }
 
 const Layout: React.FC = () => {
 	const { modals } = useModals()
@@ -19,7 +20,7 @@ const Layout: React.FC = () => {
 	}))
 
 	useEffect(() => {
-		if (!selectedKeystoreId) addKeystore(defaultKeystore.id, defaultKeystore.name, defaultKeystore.type)
+		if (!selectedKeystoreId) addKeystore(defaultKeystore)
 	}, [selectedKeystoreId])
 
 	return (

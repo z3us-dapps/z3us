@@ -11,7 +11,7 @@ interface IAdapterProps extends Omit<IInputProps, 'onChange'> {
 }
 
 export const TextInputAdapter = forwardRef<HTMLInputElement, IAdapterProps>(
-	({ isPassword, onChange, hasError, styleVariant, ...rest }, ref) => {
+	({ isPassword, onChange, hasError, styleVariant = 'primary', ...rest }, ref) => {
 		const errorVariant = styleVariant === 'primary' ? 'primary-error' : 'secondary-error'
 
 		const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

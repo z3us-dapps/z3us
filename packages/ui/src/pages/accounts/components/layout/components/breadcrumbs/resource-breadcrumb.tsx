@@ -20,7 +20,7 @@ const messages = defineMessages({
 
 interface IProps {
 	isLast?: boolean
-	resourceType: 'token' | 'nft' | 'lp-token' | 'pool-unit'
+	resourceType: 'token' | 'nft' | 'lsu' | 'lpu'
 }
 
 export const ResourceBreadcrumb: React.FC<IProps> = ({ isLast, resourceType }) => {
