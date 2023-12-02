@@ -31,12 +31,12 @@ const messages = defineMessages({
 		id: 'F9uaGi',
 	},
 	olympia: {
-		defaultMessage: 'Toggle ON to recover legacy account (Olympia users)',
-		id: 'mCV56n',
+		defaultMessage: 'Add legacy account (Olympia users)',
+		id: 'LFbkcm',
 	},
 	keySource: {
-		defaultMessage: 'Key source',
-		id: 'RlCZeE',
+		defaultMessage: 'Key source:',
+		id: 'l+CFN7',
 	},
 })
 
@@ -111,21 +111,21 @@ export const AddAccountDialog: React.FC<IProps> = props => {
 					</Box>
 				</Box>
 				<Box className={styles.keySourceWrapper}>
-					<Box className={styles.addAccountSwitchWrapper}>
-						{selectItems.length > 0 && (
-							<>
-								<Text size="xxsmall">{intl.formatMessage(messages.keySource)}</Text>
-								<SelectSimple
-									fullWidth
-									value={keySourceId}
-									onValueChange={setKeySourceId}
-									data={selectItems}
-									sizeVariant="xlarge"
-									placeholder={intl.formatMessage(messages.keySource)}
-								/>
-							</>
-						)}
-					</Box>
+					{selectItems.length > 0 && (
+						<Box className={styles.keySourceSelectWrapper}>
+							<Box flexShrink={0}>
+								<Text size="xsmall">{intl.formatMessage(messages.keySource)}</Text>
+							</Box>
+							<SelectSimple
+								fullWidth
+								value={keySourceId}
+								onValueChange={setKeySourceId}
+								data={selectItems}
+								sizeVariant="small"
+								placeholder={intl.formatMessage(messages.keySource)}
+							/>
+						</Box>
+					)}
 					<Box className={styles.addAccountSwitchWrapper}>
 						<Text size="xxsmall">{intl.formatMessage(messages.olympia)}</Text>
 						<Switch sizeVariant="medium" defaultChecked={isLegacy} onCheckedChange={handleToggle} />

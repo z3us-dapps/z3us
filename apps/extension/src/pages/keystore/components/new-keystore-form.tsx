@@ -118,7 +118,7 @@ export const NewKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNe
 
 	return (
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
-			<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
+			<Box display="flex" flexDirection="column" gap="medium">
 				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
 				<TextField
 					isPassword

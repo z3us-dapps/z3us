@@ -37,10 +37,8 @@ export const KeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext 
 		setIsCombineFormVisible(isChecked)
 	}
 
-	if (!keystore || keystore.type === KeystoreType.RADIX_WALLET) return null
-
 	return (
-		<Box display="flex" flexDirection="column" gap="medium" paddingBottom="large">
+		<Box display="flex" flexDirection="column" gap="medium">
 			{keystore && keystore.type !== KeystoreType.RADIX_WALLET && (
 				<Box display="flex" alignItems="center" gap="small">
 					<Switch sizeVariant="medium" defaultChecked={false} onCheckedChange={handleToggleCombine} />
