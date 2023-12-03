@@ -1,7 +1,6 @@
 import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
-import { PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import React, { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
@@ -9,6 +8,7 @@ import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText } from 'ui/src/components/typography'
+import { PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -60,7 +60,7 @@ export const ValidatorChangeCell: React.FC<IProps> = props => {
 		<Box className={styles.assetStatisticCellWrapper}>
 			<ToolTip message={tokenChange}>
 				<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-					<RedGreenText size="large" change={tokenChange} truncate>
+					<RedGreenText size="small" change={tokenChange} truncate>
 						{intl.formatNumber(tokenChange, PERCENTAGE_STYLES)}
 					</RedGreenText>
 				</Box>

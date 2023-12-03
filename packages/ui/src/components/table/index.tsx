@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import clsx, { type ClassValue } from 'clsx'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import useMeasure from 'react-use-measure'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
@@ -62,6 +62,7 @@ export const Table: React.FC<ITableProps> = props => {
 	} = props
 
 	const [measureRef, { top: tableTop }] = useMeasure()
+	const [stickyTop, setStickyTop] = useState<number>(0)
 
 	const initialSort = useMemo(() => {
 		if (sort || !columns?.length) return sort
@@ -147,15 +148,20 @@ export const Table: React.FC<ITableProps> = props => {
 		[data, columns, loading, loadMore],
 	)
 
-	const { top } = scrollableNode?.getBoundingClientRect() || {}
+	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect
 
-	const stickyTop = tableTop - top
+	useEffect(() => {
+		const updateStickyTop = tableTop - (scrollableNodeBounding?.top ?? 0)
+		if (tableTop && tableTop > 0 && updateStickyTop !== stickyTop) {
+			setStickyTop(updateStickyTop)
+		}
+	}, [scrollableNodeBounding?.top, tableTop])
 
 	return (
 		<Box
 			ref={measureRef}
 			className={clsx(styles.tableWrapper, className)}
-			style={assignInlineVars({ [styles.stickyTop]: `${stickyTop}px` })}
+			style={assignInlineVars({ [styles.stickyTop]: `${249 - 103}px` })}
 		>
 			<TableVirtuoso
 				className={clsx(

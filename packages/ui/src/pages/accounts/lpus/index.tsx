@@ -102,7 +102,7 @@ const LPUs: React.FC = () => {
 			{
 				Header: intl.formatMessage(messages.change),
 				accessor: 'change',
-				width: '12%',
+				width: '10%',
 				Cell: AssetChangeCell,
 			},
 		],
