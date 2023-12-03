@@ -11,21 +11,20 @@ import { useNetworkId } from './use-network-id'
 const ZERO = decimal(0).value
 
 const collectResourcePools = (container: string[], item: FungibleResourcesCollectionItemVaultAggregated): string[] => {
-	const metadata = item.explicit_metadata?.items
-	const pool = findMetadataValue('pool', metadata)
+	const pool = findMetadataValue('pool', item.explicit_metadata?.items)
 	if (pool) container.push(pool)
 	return container
 }
 
 const useAccountPools = (accounts, at?: Date) => {
-	const poolAddresses = useMemo(() => {
+	const addresses = useMemo(() => {
 		if (!accounts) return []
 		return accounts
 			.map(({ fungible_resources }) => fungible_resources.items.reduce(collectResourcePools, []))
 			.reduce((a, b) => a.concat(b), [])
 			.filter((value, index, array) => array.indexOf(value) === index)
 	}, [accounts])
-	return useEntitiesDetails(poolAddresses, undefined, undefined, at)
+	return useEntitiesDetails(addresses, undefined, undefined, at)
 }
 
 export const usePools = (addresses: string[]) => {
@@ -43,11 +42,14 @@ export const usePools = (addresses: string[]) => {
 	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts)
 	const { data: poolsBefore, isLoading: isLoadingPoolsBefore } = useAccountPools(accounts, before)
 
-	const poolResources = useMemo(() => pools?.map(pool => pool.details.state.pool_unit_resource_address) || [], [pools])
+	const poolResources = useMemo(
+		() => pools?.map(pool => pool.details.state.pool_unit_resource_address).filter(a => !!a) || [],
+		[pools],
+	)
 	const { data: poolUnits, isLoading: isLoadingPoolUnits } = useEntitiesDetails(poolResources)
 
 	const poolResourcesBefore = useMemo(
-		() => poolsBefore?.map(pool => pool.details.state.pool_unit_resource_address) || [],
+		() => poolsBefore?.map(pool => pool.details.state.pool_unit_resource_address).filter(a => !!a) || [],
 		[poolsBefore],
 	)
 	const { data: poolUnitsBefore, isLoading: isLoadingPoolUnitsBefore } = useEntitiesDetails(

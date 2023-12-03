@@ -110,6 +110,7 @@ const transformFungibleResourceItemResponse =
 					DECIMAL_ZERO,
 				)
 				.toNumber()
+			xrdValue = Number.isFinite(xrdValue) ? xrdValue : 0
 
 			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
 		} else if (validator && validatorsMap[validator]) {
@@ -132,6 +133,7 @@ const transformFungibleResourceItemResponse =
 					DECIMAL_ZERO,
 				)
 				.toNumber()
+			xrdValue = Number.isFinite(xrdValue) ? xrdValue : 0
 
 			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
 		} else {
