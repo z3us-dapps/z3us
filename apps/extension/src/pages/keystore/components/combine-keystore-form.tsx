@@ -32,8 +32,8 @@ const messages = defineMessages({
 		defaultMessage: 'Password',
 	},
 	form_button_title: {
-		id: 'RP6gL2',
-		defaultMessage: 'Add as key source to {name} wallet',
+		id: 'yWBWL6',
+		defaultMessage: 'Add as key source',
 	},
 	validation_name: {
 		id: 'XK/xhU',
@@ -193,7 +193,7 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 					sizeVariant="large"
 				/>
 				<SubmitButton>
-					<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title, { name: keystore.name })}</Button>
+					<Button sizeVariant="large">{intl.formatMessage(messages.form_button_title)}</Button>
 				</SubmitButton>
 			</Box>
 		</Form>
