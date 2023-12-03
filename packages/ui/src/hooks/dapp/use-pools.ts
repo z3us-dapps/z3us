@@ -12,7 +12,7 @@ const ZERO = decimal(0).value
 
 const collectResourcePools = (container: string[], item: FungibleResourcesCollectionItemVaultAggregated): string[] => {
 	const pool = findMetadataValue('pool', item.explicit_metadata?.items)
-	if (pool) container.push(pool)
+	if (pool && pool.startsWith('pool_')) container.push(pool)
 	return container
 }
 

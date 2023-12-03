@@ -155,8 +155,8 @@ const transformFungibleResourceItemResponse =
 			imageUrl,
 			change: Number.isFinite(change) ? change : 0,
 			symbol,
-			validator,
-			pool,
+			validator: validator?.startsWith('validator_') ? validator : undefined,
+			pool: pool?.startsWith('pool_') ? pool : undefined,
 		}
 
 		return container
@@ -189,6 +189,7 @@ const transformNonFungibleResourceItemResponse =
 		container[item.resource_address] = {
 			type: ResourceBalanceType.NON_FUNGIBLE,
 			address: item.resource_address,
+			ids,
 			vaults: item.vaults.items.map(vault => vault.vault_address),
 			amount: amount.toString(),
 			name,
@@ -198,9 +199,8 @@ const transformNonFungibleResourceItemResponse =
 			value: 0,
 			change: 0,
 			xrdValue: 0,
-			validator,
-			pool,
-			ids,
+			validator: validator?.startsWith('validator_') ? validator : undefined,
+			pool: pool?.startsWith('pool_') ? pool : undefined,
 		}
 
 		return container
