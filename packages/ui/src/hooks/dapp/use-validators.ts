@@ -1,6 +1,5 @@
 import type {
-	FungibleResourcesCollectionItemVaultAggregated,
-	// NonFungibleResourcesCollectionItemVaultAggregated,
+	FungibleResourcesCollectionItemVaultAggregated, // NonFungibleResourcesCollectionItemVaultAggregated,
 } from '@radixdlt/radix-dapp-toolkit'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
@@ -17,8 +16,7 @@ const collectResourceValidators = (
 	container: string[],
 	item: FungibleResourcesCollectionItemVaultAggregated,
 ): string[] => {
-	const metadata = item.explicit_metadata?.items
-	const validator = findMetadataValue('validator', metadata)
+	const validator = findMetadataValue('validator', item.explicit_metadata?.items)
 	if (validator) container.push(validator)
 	return container
 }
@@ -50,13 +48,14 @@ export const useValidators = (addresses: string[]) => {
 	const { data: validatorsBefore, isLoading: isLoadingPoolsBefore } = useAccountValidators(accounts, before)
 
 	const validatorResources = useMemo(
-		() => validators?.map(validator => validator.details.state.stake_unit_resource_address) || [],
+		() => validators?.map(validator => validator.details.state.stake_unit_resource_address).filter(a => !!a) || [],
 		[validators],
 	)
 	const { data: units, isLoading: isLoadingValidatorUnits } = useEntitiesDetails(validatorResources)
 
 	const validatorResourcesBefore = useMemo(
-		() => validatorsBefore?.map(validator => validator.details.state.stake_unit_resource_address) || [],
+		() =>
+			validatorsBefore?.map(validator => validator.details.state.stake_unit_resource_address).filter(a => !!a) || [],
 		[validatorsBefore],
 	)
 	const { data: unitsBefore, isLoading: isLoadingValidatorUnitsBefore } = useEntitiesDetails(
@@ -67,13 +66,14 @@ export const useValidators = (addresses: string[]) => {
 	)
 
 	const validatorNFT = useMemo(
-		() => validators?.map(validator => validator.details.state.claim_token_resource_address) || [],
+		() => validators?.map(validator => validator.details.state.claim_token_resource_address).filter(a => !!a) || [],
 		[validators],
 	)
 	const { data: claims, isLoading: isLoadingValidatorClaims } = useEntitiesDetails(validatorNFT)
 
 	const validatorNFTBefore = useMemo(
-		() => validatorsBefore?.map(validator => validator.details.state.claim_token_resource_address) || [],
+		() =>
+			validatorsBefore?.map(validator => validator.details.state.claim_token_resource_address).filter(a => !!a) || [],
 		[validatorsBefore],
 	)
 	const { data: claimsBefore, isLoading: isLoadingValidatorClaimsBefore } = useEntitiesDetails(
