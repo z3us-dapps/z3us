@@ -17,7 +17,7 @@ const collectResourceValidators = (
 	item: FungibleResourcesCollectionItemVaultAggregated,
 ): string[] => {
 	const validator = findMetadataValue('validator', item.explicit_metadata?.items)
-	if (validator) container.push(validator)
+	if (validator && validator.startsWith('validator_')) container.push(validator)
 	return container
 }
 
