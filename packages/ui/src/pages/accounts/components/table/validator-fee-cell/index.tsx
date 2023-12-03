@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import clsx from 'clsx'
-import { PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import React, { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
@@ -8,6 +7,7 @@ import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 
 import * as styles from '../asset-change-cell/styles.css'
@@ -31,7 +31,7 @@ export const ValidatorFeeCell: React.FC<IProps> = props => {
 		<Box className={styles.assetStatisticCellWrapper}>
 			<ToolTip message={factor}>
 				<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-					<Text size="large" color={factor > 0.015 ? 'red' : factor > 0 ? 'neutral' : 'green'} truncate>
+					<Text size="small" color={factor > 0.015 ? 'red' : factor > 0 ? 'neutral' : 'green'} truncate>
 						{intl.formatNumber(factor, PERCENTAGE_STYLES)}
 					</Text>
 				</Box>
