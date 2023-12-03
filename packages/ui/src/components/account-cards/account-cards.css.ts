@@ -193,6 +193,14 @@ export const accountCardIconWrapper = style([
 	},
 ])
 
+globalStyle(`${accountCardIconWrapper} img`, {
+	position: 'absolute',
+	top: '0',
+	left: '0',
+	width: '120%',
+	opacity: '0.6',
+})
+
 export const cardAccountImageWrapper = style([
 	sprinkles({
 		position: 'absolute',
