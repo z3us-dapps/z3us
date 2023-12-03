@@ -34,6 +34,7 @@ export interface LProps {
 	display?: 'block' | 'flex' | 'inline-flex'
 	target?: '_blank' | '_self'
 	highlightOnFocus?: boolean
+	truncate?: boolean
 	className?: string | ((props: { isActive: boolean; isPending: boolean }) => string | undefined)
 	children?: React.ReactNode | ((props: { isActive: boolean; isPending: boolean }) => React.ReactNode)
 }
@@ -51,6 +52,7 @@ export const LinkComponent = forwardRef<HTMLAnchorElement, LProps>(
 			type = 'body',
 			highlightOnFocus = true,
 			display = 'inline-flex',
+			truncate,
 			className,
 			children,
 			...restProps
@@ -62,7 +64,7 @@ export const LinkComponent = forwardRef<HTMLAnchorElement, LProps>(
 			underline === 'hover' ? styles.underlineOnHover : undefined,
 			underline === 'never' ? styles.underlineNever : undefined,
 			highlightOnFocus ? styles.highlightOnHover : undefined,
-			textStyles({ size, type, color, weight, baseline }),
+			textStyles({ size, type, color, weight, baseline, truncate }),
 			className,
 		)
 

@@ -1,6 +1,7 @@
 import type { MetadataStringArrayValue, StateEntityDetailsResponseItemDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useLocation } from 'react-router-dom'
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { Box } from 'ui/src/components/box'
@@ -13,6 +14,7 @@ import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transa
 import MetadataValue from 'ui/src/components/metadata-value'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
+import { Link } from 'ui/src/components/router-link'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
@@ -113,6 +115,7 @@ interface IValueProps {
 
 export const ResourceValue: React.FC<IValueProps> = ({ resourceId }) => {
 	const intl = useIntl()
+
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -159,6 +162,8 @@ interface IProps {
 
 const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 	const intl = useIntl()
+	const location = useLocation()
+
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -365,9 +370,9 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 								}
 								rightData={
 									<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-										<Text size="xxsmall" truncate>
+										<Link size="xxsmall" truncate to={`${location.pathname}?query=${encodeURIComponent(validator)}`}>
 											{validator}
-										</Text>
+										</Link>
 										<CopyAddressButton
 											styleVariant="ghost"
 											sizeVariant="xsmall"
@@ -390,9 +395,9 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 								}
 								rightData={
 									<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-										<Text size="xxsmall" truncate>
+										<Link size="xxsmall" truncate to={`${location.pathname}?query=${encodeURIComponent(pool)}`}>
 											{pool}
-										</Text>
+										</Link>
 										<CopyAddressButton
 											styleVariant="ghost"
 											sizeVariant="xsmall"
