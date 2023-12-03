@@ -14,7 +14,13 @@ export const ImageProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	useEffect(() => {
 		if (knownAddresses) {
-			setImages(new Map([[knownAddresses.resourceAddresses.xrd, '/images/token-images/xrd-token-icon.svg']]))
+			setImages(
+				new Map([
+					[knownAddresses.resourceAddresses.xrd, '/images/token-images/xrd-token-icon.svg'],
+					// TODO:
+					// [knownAddresses.resourceAddresses.xrd, '/images/token-images/nft-placeholder.svg'],
+				]),
+			)
 		}
 	}, [networkId, knownAddresses])
 
