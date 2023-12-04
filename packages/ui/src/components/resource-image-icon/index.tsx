@@ -14,19 +14,23 @@ export interface IResourceImageIconProps
 	toolTipEnabled?: boolean
 }
 
+const defaultNftImage = '/images/token-images/nft-placeholder.svg'
+
 export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps>(
 	({ address, toolTipEnabled = false, size, ...props }, ref: React.Ref<HTMLElement | null>) => {
 		const { data } = useEntityDetails(address)
 		const images = useImages()
-		const shortAddress = getShortAddress(address)
-		const localImageUrl = images.get(address)
 
+		const shortAddress = getShortAddress(address)
 		const name = findMetadataValue('name', data?.metadata?.items)
 		const symbol = findMetadataValue('symbol', data?.metadata?.items)
 		const imageUrl = findMetadataValue('icon_url', data?.metadata?.items)
-		const imageSrc =
-			localImageUrl || (imageUrl ? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageUrl}` : '')
+
+		const isNFT = data?.details?.type === 'NonFungibleResource'
 		const tooltip = (symbol || '').toUpperCase() || name
+		let imageSrc = images.get(address)
+		imageSrc = !imageSrc && imageUrl ? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageUrl}` : ''
+		imageSrc = !imageSrc && isNFT ? defaultNftImage : ''
 
 		return (
 			<ToolTip side="top" message={tooltip} disabled={!toolTipEnabled || !tooltip}>
@@ -35,7 +39,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 						imgSrc={imageSrc}
 						imgAlt={name || shortAddress}
 						fallbackText={getStrPrefix(symbol || name || shortAddress, 3)}
-						rounded={data?.details?.type !== 'NonFungibleResource'}
+						rounded={!isNFT}
 						size={size}
 						ref={ref}
 						{...props}

@@ -51,7 +51,7 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed, s
 					<ToolTip message={change}>
 						<Box>
 							<RedGreenText align={reversed ? 'right' : 'left'} color="strong" size="xsmall" truncate change={change}>
-								{intl.formatNumber(change, DECIMAL_STYLES)}
+								{intl.formatNumber(change, { signDisplay: 'exceptZero', ...DECIMAL_STYLES })}
 							</RedGreenText>
 						</Box>
 					</ToolTip>

@@ -61,7 +61,7 @@ export const ValidatorChangeCell: React.FC<IProps> = props => {
 			<ToolTip message={tokenChange}>
 				<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
 					<RedGreenText size="small" change={tokenChange} truncate>
-						{intl.formatNumber(tokenChange, PERCENTAGE_STYLES)}
+						{intl.formatNumber(tokenChange, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES })}
 					</RedGreenText>
 				</Box>
 			</ToolTip>

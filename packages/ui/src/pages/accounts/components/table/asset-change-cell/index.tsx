@@ -23,7 +23,7 @@ export const AssetChangeCell: React.FC<IProps> = props => {
 			<ToolTip message={value}>
 				<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
 					<RedGreenText size="small" change={value} truncate>
-						{intl.formatNumber(value, PERCENTAGE_STYLES)}
+						{intl.formatNumber(value, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES })}
 					</RedGreenText>
 				</Box>
 			</ToolTip>
