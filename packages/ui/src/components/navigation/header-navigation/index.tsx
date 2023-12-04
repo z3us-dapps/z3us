@@ -140,10 +140,6 @@ const HeaderNavInner = () => {
 	const isAccountBgVisible = accountId && accountId !== '-' && !resourceId
 	const buttonVariant = isAccountBgVisible ? 'white-transparent' : 'ghost'
 
-	// TODO: we want this to navigate to www.z3us.com on the website
-	// const z3usLink = '/accounts'
-	// const z3usLink = '/'
-
 	const accountMenuItems = [
 		...[{ id: 'home', title: intl.formatMessage(messages.all) }],
 		...Object.values(accounts).map(({ address, name }) => ({
@@ -231,6 +227,7 @@ const HeaderNavInner = () => {
 						{isAccountsPath && !isSearchVisible && (
 							<>
 								<SelectSimple
+									dropDownWidth={220}
 									value={accountAddress || 'home'}
 									onValueChange={handleSelectAccount}
 									styleVariant="ghost"
