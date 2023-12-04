@@ -107,6 +107,7 @@ export interface ISelectSimpleProps {
 	trigger?: React.ReactNode
 	selectAriaLabel?: string
 	width?: number
+	dropDownWidth?: number | undefined
 	sizeVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
 	capitalizeFirstLetter?: boolean
@@ -125,6 +126,7 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 			placeholder,
 			selectAriaLabel,
 			width = 300,
+			dropDownWidth,
 			sizeVariant = 'medium',
 			styleVariant = 'secondary',
 			capitalizeFirstLetter = false,
@@ -172,7 +174,16 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 						</Box>
 					</SelectTrigger>
 				)}
-				<SelectContent style={{ maxWidth: `${triggerWidth}px` }}>
+				<SelectContent
+					style={{
+						maxWidth: `${dropDownWidth || triggerWidth}px`,
+						...(dropDownWidth
+							? {
+									width: `${dropDownWidth}px`,
+							  }
+							: {}),
+					}}
+				>
 					<SelectGroup>
 						{data.map(({ id, title }) => (
 							<SelectItem key={id} value={id}>
