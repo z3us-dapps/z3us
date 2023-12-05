@@ -180,7 +180,7 @@ const BalanceChange = ({ change }) => {
 				</Box>
 				<Box display="flex" flexDirection="column" gap="xxsmall" flexShrink={0}>
 					<RedGreenText change={Number.parseFloat(change.amount) || 0} size="xxsmall" align="right">
-						{intl.formatNumber(Number.parseFloat(change.amount) || 0, DECIMAL_STYLES)}
+						{intl.formatNumber(Number.parseFloat(change.amount) || 0, { signDisplay: 'exceptZero', ...DECIMAL_STYLES })}
 					</RedGreenText>
 				</Box>
 			</Box>
