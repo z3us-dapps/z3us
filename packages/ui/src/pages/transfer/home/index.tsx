@@ -200,23 +200,23 @@ export const Home: React.FC = () => {
 			version: 1,
 			transactionManifest: convertedInstructions.value as string,
 			message: values.message,
-		}).then(res => {
-			if (res.isErr()) {
-				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message || res.error.error })
-			} else {
+		})
+			.then(value => {
 				toast.success(intl.formatMessage(messages.success_toast), {
-					description: res.value.status,
+					description: value.status,
 					action: {
 						label: intl.formatMessage(messages.toast_action_label),
 						onClick: () => {
-							searchParams.set('tx', `${res.value.transactionIntentHash}`)
+							searchParams.set('tx', `${value.transactionIntentHash}`)
 							navigate(`${location.pathname}?${searchParams}`)
 						},
 					},
 				})
 				restFormValues(getInitialValues('', '', ''))
-			}
-		})
+			})
+			.catch(error => {
+				toast.error(intl.formatMessage(messages.error_toast), { description: error.message || error.error })
+			})
 	}
 
 	return (

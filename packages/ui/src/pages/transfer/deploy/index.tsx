@@ -143,23 +143,23 @@ export const Deploy: React.FC = () => {
 			version: 1,
 			transactionManifest,
 			blobs: [input.wasm],
-		}).then(res => {
-			if (res.isErr()) {
-				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message || res.error.error })
-			} else {
+		})
+			.then(value => {
 				toast.success(intl.formatMessage(messages.success_toast), {
-					description: res.value.status,
+					description: value.status,
 					action: {
 						label: intl.formatMessage(messages.toast_action_label),
 						onClick: () => {
-							searchParams.set('tx', `${res.value.transactionIntentHash}`)
+							searchParams.set('tx', `${value.transactionIntentHash}`)
 							navigate(`${location.pathname}?${searchParams}`)
 						},
 					},
 				})
 				restFormValues(init)
-			}
-		})
+			})
+			.catch(error => {
+				toast.error(intl.formatMessage(messages.error_toast), { description: error.message || error.error })
+			})
 	}
 
 	return (

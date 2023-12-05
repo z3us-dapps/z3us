@@ -20,6 +20,7 @@ export const SubmitButton: React.FC<IProps> = ({ children }) => {
 					? React.cloneElement(child, {
 							type: 'submit',
 							disabled: isLoading,
+							loading: isLoading,
 							rightIcon: isLoading ? (
 								<Box marginLeft="small">
 									<LoadingBarsIcon />

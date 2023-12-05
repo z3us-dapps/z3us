@@ -84,7 +84,7 @@ const LSUs: React.FC = () => {
 			{
 				Header: intl.formatMessage(messages.fee),
 				accessor: 'validator',
-				width: '12%',
+				width: '10%',
 				Cell: ValidatorFeeCell,
 			},
 			{

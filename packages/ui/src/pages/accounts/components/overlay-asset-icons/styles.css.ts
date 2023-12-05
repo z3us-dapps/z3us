@@ -71,6 +71,10 @@ export const overlayAssetIconSquareWrapper = style([
 	},
 ])
 
+globalStyle(`${overlayAssetIconSquareWrapper} img`, {
+	borderRadius: vars.border.radius.small,
+})
+
 globalStyle(`${overlayAssetIconsWrapper} button:first-child`, {
 	marginLeft: '0',
 })

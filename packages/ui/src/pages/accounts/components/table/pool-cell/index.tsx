@@ -126,7 +126,7 @@ export const PoolCell: React.FC<IProps> = props => {
 								weight="medium"
 								align="right"
 							>
-								{change && intl.formatNumber(change, PERCENTAGE_STYLES)}
+								{change && intl.formatNumber(change, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES })}
 							</RedGreenText>
 						</Box>
 					</Box>

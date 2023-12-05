@@ -113,7 +113,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 			getFieldValue: handleGetFieldValue,
 			onFieldChange: handleFieldChange,
 		}),
-		[state.values, errors],
+		[state.isLoading, state.values, errors],
 	)
 
 	return (

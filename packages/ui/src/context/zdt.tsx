@@ -1,12 +1,8 @@
-import type {
-	Account as RadixAccount,
-	Persona as RadixPersona,
-	SendTransactionInput,
-	TransactionStatus,
-} from '@radixdlt/radix-dapp-toolkit'
+import type { Account as RadixAccount, Persona as RadixPersona } from '@radixdlt/radix-dapp-toolkit'
 import type { Context, ReactNode } from 'react'
 import { createContext } from 'react'
 
+import type { SendTransaction } from 'ui/src/hooks/use-send-transaction'
 import type { Account, Persona } from 'ui/src/store/types'
 
 export type State = {
@@ -25,10 +21,7 @@ export type State = {
 		buttonStyleVariant?: string
 		ignorePassword?: boolean
 	}) => Promise<string>
-	sendTransaction: (input: SendTransactionInput) => Promise<{
-		transactionIntentHash: string
-		status: TransactionStatus
-	}>
+	sendTransaction: SendTransaction
 	buildNewPersonKeyParts: (combinedKeystoreId: string) => Promise<Partial<Persona>>
 	buildNewAccountKeyParts: (combinedKeystoreId: string, legacy: boolean) => Promise<Partial<Account>>
 }
