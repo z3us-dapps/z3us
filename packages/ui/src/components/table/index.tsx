@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import clsx, { type ClassValue } from 'clsx'
+import { sortBy } from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import useMeasure from 'react-use-measure'
@@ -26,7 +27,6 @@ interface ITableProps {
 	sizeVariant?: 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary'
 	loading?: boolean
-	// Will adjust the THEAD sticky position and ensure shadow on sticky THEAD when scrolled
 	stickyShadowTop?: boolean
 	loadMore?: boolean
 	overscan?: number
@@ -69,7 +69,7 @@ export const Table: React.FC<ITableProps> = props => {
 		return [{ id: columns[0].accessor, desc: true }]
 	}, [sort])
 
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, toggleAllRowsSelected } = useTable(
+	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, toggleAllRowsSelected, state } = useTable(
 		{
 			columns,
 			data,
@@ -87,7 +87,9 @@ export const Table: React.FC<ITableProps> = props => {
 	}
 
 	useEffect(() => {
-		if (Object.keys(selectedRowIds || {}).length === 0) handleDeselectAllRows()
+		if (Object.keys(selectedRowIds || {}).length === 0) {
+			handleDeselectAllRows()
+		}
 	}, [selectedRowIds])
 
 	const handleEndReached = () => {
@@ -115,7 +117,6 @@ export const Table: React.FC<ITableProps> = props => {
 				const index = tableRowProps['data-index']
 				const row = rows[index]
 				const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
-				// console.log('🚀 ~ file: index.tsx:116 ~ rowSelectedProps:', rowSelectedProps)
 				return (
 					<tr
 						onClick={e => {
@@ -145,23 +146,23 @@ export const Table: React.FC<ITableProps> = props => {
 				/>
 			)),
 		}),
-		[data, columns, loading, loadMore],
+		[data, columns, loading, loadMore, JSON.stringify(state?.sortBy || {})],
 	)
 
 	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect
 
 	useEffect(() => {
 		const updateStickyTop = tableTop - (scrollableNodeBounding?.top ?? 0)
-		if (tableTop && tableTop > 0 && updateStickyTop !== stickyTop) {
+		if (tableTop && tableTop > 0 && stickyTop === 0) {
 			setStickyTop(updateStickyTop)
 		}
-	}, [scrollableNodeBounding?.top, tableTop])
+	}, [scrollableNodeBounding?.top, tableTop, stickyTop])
 
 	return (
 		<Box
 			ref={measureRef}
 			className={clsx(styles.tableWrapper, className)}
-			style={assignInlineVars({ [styles.stickyTop]: `${249 - 103}px` })}
+			style={assignInlineVars({ [styles.stickyTop]: `${stickyTop}px` })}
 		>
 			<TableVirtuoso
 				className={clsx(
