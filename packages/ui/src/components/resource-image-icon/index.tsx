@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useMemo } from 'react'
 
 import { type IImageIconProps, ImageIcon } from 'ui/src/components/image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -21,29 +21,32 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 		const { data } = useEntityDetails(address)
 		const images = useImages()
 
-		const shortAddress = getShortAddress(address)
-		const name = findMetadataValue('name', data?.metadata?.items)
-		const symbol = findMetadataValue('symbol', data?.metadata?.items)
-		const imageUrl = findMetadataValue('icon_url', data?.metadata?.items)
+		const { tooltip, ...computedProps } = useMemo(() => {
+			const shortAddress = getShortAddress(address)
+			const name = findMetadataValue('name', data?.metadata?.items)
+			const symbol = findMetadataValue('symbol', data?.metadata?.items)
+			const imageUrl = findMetadataValue('icon_url', data?.metadata?.items)
 
-		const isNFT = data?.details?.type === 'NonFungibleResource'
-		const tooltip = (symbol || '').toUpperCase() || name
-		let imageSrc = images.get(address)
-		imageSrc = !imageSrc && imageUrl ? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageUrl}` : ''
-		imageSrc = !imageSrc && isNFT ? defaultNftImage : ''
+			const isNFT = data?.details?.type === 'NonFungibleResource'
+
+			let imgSrc = images.get(address)
+			imgSrc = !imgSrc && imageUrl ? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageUrl}` : imgSrc
+			imgSrc = !imgSrc && isNFT ? defaultNftImage : imgSrc
+
+			return {
+				tooltip: (symbol || '').toUpperCase() || name,
+
+				rounded: !isNFT,
+				imgSrc,
+				imgAlt: name || shortAddress,
+				fallbackText: getStrPrefix(symbol || name || shortAddress, 3),
+			}
+		}, [data, images])
 
 		return (
 			<ToolTip side="top" message={tooltip} disabled={!toolTipEnabled || !tooltip}>
 				<span>
-					<ImageIcon
-						imgSrc={imageSrc}
-						imgAlt={name || shortAddress}
-						fallbackText={getStrPrefix(symbol || name || shortAddress, 3)}
-						rounded={!isNFT}
-						size={size}
-						ref={ref}
-						{...props}
-					/>
+					<ImageIcon size={size} ref={ref} {...props} {...computedProps} />
 				</span>
 			</ToolTip>
 		)
