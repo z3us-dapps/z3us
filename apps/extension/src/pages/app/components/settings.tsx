@@ -133,6 +133,7 @@ const Settings: React.FC = () => {
 				rightCol={
 					<SelectSimple
 						value={`${unlockTimer}`}
+						dropDownWidth={150}
 						onValueChange={handleChangeUnlockTime}
 						data={[
 							{ id: '0', title: intl.formatMessage(messages.session_never) },
