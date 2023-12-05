@@ -1,4 +1,3 @@
-import { DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -12,6 +11,7 @@ import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transa
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { FEE_RATIO } from 'ui/src/constants/swap'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useSwapPreview } from 'ui/src/hooks/queries/oci'
@@ -202,23 +202,23 @@ export const Swap: React.FC = () => {
 		await sendTransaction({
 			version: 1,
 			transactionManifest,
-		}).then(res => {
-			if (res.isErr()) {
-				toast.error(intl.formatMessage(messages.error_toast), { description: res.error.message || res.error.error })
-			} else {
+		})
+			.then(value => {
 				toast.success(intl.formatMessage(messages.success_toast), {
-					description: res.value.status,
+					description: value.status,
 					action: {
 						label: intl.formatMessage(messages.toast_action_label),
 						onClick: () => {
-							searchParams.set('tx', `${res.value.transactionIntentHash}`)
+							searchParams.set('tx', `${value.transactionIntentHash}`)
 							navigate(`${location.pathname}?${searchParams}`)
 						},
 					},
 				})
 				setFormValues(init)
-			}
-		})
+			})
+			.catch(error => {
+				toast.error(intl.formatMessage(messages.error_toast), { description: error.message || error.error })
+			})
 	}
 
 	return (
