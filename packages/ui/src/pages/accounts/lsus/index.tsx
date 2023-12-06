@@ -11,7 +11,7 @@ import type { ResourceBalanceKind } from 'ui/src/types'
 
 import * as styles from '../components/table/styles.css'
 import { ValidatorFeeCell } from '../components/table/validator-fee-cell'
-import { ValidatorLiquidityCell } from '../components/table/validator-liquidity'
+import { ValidatorLiquidityCell } from '../components/table/validator-liquidity-cell'
 import { ValidatorNameCell } from '../components/table/validator-name-cell'
 import { ValidatorValueCell } from '../components/table/validator-value-cell'
 

@@ -11,7 +11,7 @@ import { ResourceNameCell } from 'ui/src/pages/accounts/components/table/resourc
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
-import { PoolLiquidityCell } from '../components/table/pool-liquidity'
+import { PoolLiquidityCell } from '../components/table/pool-liquidity-cell'
 import { ResourceValueCell } from '../components/table/resource-value-cell'
 
 const messages = defineMessages({

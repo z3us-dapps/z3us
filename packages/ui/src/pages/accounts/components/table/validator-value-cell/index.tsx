@@ -19,7 +19,7 @@ import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'
 import { ResourceBalanceType } from 'ui/src/types'
 
 import * as styles from '../styles.css'
-import { getStakedAmount, getUnStakeAmount } from '../validator-liquidity'
+import { getStakedAmount, getUnStakeAmount } from '../validator-liquidity-cell'
 
 interface IProps {
 	row?: { original: ResourceBalanceKind }
