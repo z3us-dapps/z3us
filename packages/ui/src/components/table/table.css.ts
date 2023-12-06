@@ -402,15 +402,6 @@ export const tableTdRecipe = recipe({
 	],
 })
 
-recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tr td:not(:first-child)', {
-	mobile: {
-		display: 'none',
-	},
-	tablet: {
-		display: 'table-cell',
-	},
-})
-
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'thead', {
 	mobile: {
 		position: 'relative',

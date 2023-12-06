@@ -9,9 +9,8 @@ import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
+import { ResourceNameCell } from '../components/table/resource-name-cell'
 import * as styles from '../components/table/styles.css'
-import { ValidatorCell } from '../components/table/validator-cell'
-import { ValidatorChangeCell } from '../components/table/validator-change-cell'
 import { ValidatorFeeCell } from '../components/table/validator-fee-cell'
 import { ValidatorLiquidityCell } from '../components/table/validator-liquidity'
 import { ValidatorValueCell } from '../components/table/validator-value-cell'
@@ -32,10 +31,6 @@ const messages = defineMessages({
 	value: {
 		id: 'GufXy5',
 		defaultMessage: 'Value',
-	},
-	change: {
-		id: 'BY343C',
-		defaultMessage: 'Change',
 	},
 	empty_title: {
 		id: 'jHJmjf',
@@ -77,33 +72,27 @@ const LSUs: React.FC = () => {
 		() => [
 			{
 				Header: intl.formatMessage(messages.validator),
-				accessor: 'address',
-				width: '25%',
-				Cell: ValidatorCell,
+				accessor: 'validator',
+				width: '40%',
+				Cell: ResourceNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.fee),
-				accessor: 'validator',
+				accessor: 'address',
 				width: '10%',
 				Cell: ValidatorFeeCell,
+			},
+			{
+				Header: intl.formatMessage(messages.value),
+				accessor: 'value',
+				width: '15%',
+				Cell: ValidatorValueCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
 				accessor: 'amount',
 				width: 'auto',
 				Cell: ValidatorLiquidityCell,
-			},
-			{
-				Header: intl.formatMessage(messages.value),
-				accessor: 'value',
-				width: '18%',
-				Cell: ValidatorValueCell,
-			},
-			{
-				Header: intl.formatMessage(messages.change),
-				accessor: 'change',
-				width: '12%',
-				Cell: ValidatorChangeCell,
 			},
 		],
 		[],

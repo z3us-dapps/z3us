@@ -1,7 +1,12 @@
-import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
+import type {
+	FungibleResourcesCollectionItemVaultAggregated,
+	StateEntityDetailsResponseFungibleResourceDetails,
+	StateEntityDetailsResponseItem,
+	StateNonFungibleDetailsResponseItem,
+} from '@radixdlt/babylon-gateway-api-sdk'
+import type { KnownAddresses } from '@radixdlt/radix-engine-toolkit'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
-import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import React, { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
@@ -10,14 +15,38 @@ import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceSnippet } from 'ui/src/components/snippet/resource'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
+import { findFieldValue } from 'ui/src/services/metadata'
 import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'
 import { ResourceBalanceType } from 'ui/src/types'
 
-import { getStakedAmount, getUnStakeAmount } from '../validator-cell'
-import * as styles from './styles.css'
+import * as styles from '../styles.css'
+
+export const ZERO = decimal(0).value
+
+export const getStakedAmount = (data: StateEntityDetailsResponseItem, knownAddresses: KnownAddresses) =>
+	data?.fungible_resources.items
+		.filter(({ resource_address }) => resource_address === knownAddresses?.resourceAddresses.xrd)
+		.reduce(
+			(total, { vaults }: FungibleResourcesCollectionItemVaultAggregated) =>
+				total.add(
+					vaults.items
+						.filter(({ vault_address }) => vault_address === (data.details as any).state.stake_xrd_vault.entity_address)
+						.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO),
+				),
+			ZERO,
+		) || ZERO
+
+export const getUnStakeAmount = (items: Array<StateNonFungibleDetailsResponseItem>) =>
+	items?.reduce((total, { data }) => {
+		const dataJson = data?.programmatic_json as any
+		const amount = findFieldValue('claim_amount', dataJson?.fields)
+
+		return total.add(amount || 0)
+	}, ZERO) || ZERO
 
 interface IProps {
 	row?: { original: ResourceBalanceKind }
@@ -50,28 +79,30 @@ export const ValidatorLiquidityCell: React.FC<IProps> = props => {
 	if (isLoading || isLoadingResource || isLoadingKnownAddresses) return <FallbackLoading />
 
 	return (
-		<Box className={styles.assetStatisticCellWrapper}>
-			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-				<ToolTip message={amount}>
-					<Box display="flex" gap="xsmall" width="full">
-						<Box display="flex" flexShrink={0}>
-							<ResourceSnippet address={address} size="small" /> &nbsp;-{' '}
+		<Box className={styles.cellWrapper}>
+			<Box className={clsx(styles.cellContentWrapper, 'td-cell')}>
+				<Box display="flex" flexDirection="column">
+					<ToolTip message={amount}>
+						<Box display="flex" gap="xsmall" width="full">
+							<Box display="flex" flexShrink={0}>
+								<ResourceSnippet address={address} size="small" /> &nbsp;-{' '}
+							</Box>
+							<Text size="small" color="strong" truncate>
+								{intl.formatNumber(Number.parseFloat(amount), DECIMAL_STYLES)}
+							</Text>
 						</Box>
-						<Text size="small" color="strong" truncate>
-							{intl.formatNumber(Number.parseFloat(amount), DECIMAL_STYLES)}
-						</Text>
-					</Box>
-				</ToolTip>
-				<ToolTip message={xrdAmount.toString()}>
-					<Box display="flex" gap="xsmall" width="full">
-						<Box display="flex" flexShrink={0}>
-							<ResourceSnippet address={knownAddresses.resourceAddresses.xrd} size="small" /> &nbsp;-{' '}
+					</ToolTip>
+					<ToolTip message={xrdAmount.toString()}>
+						<Box display="flex" gap="xsmall" width="full">
+							<Box display="flex" flexShrink={0}>
+								<ResourceSnippet address={knownAddresses.resourceAddresses.xrd} size="small" /> &nbsp;-{' '}
+							</Box>
+							<Text size="small" color="strong" truncate>
+								{intl.formatNumber(xrdAmount.toNumber(), DECIMAL_STYLES)}
+							</Text>
 						</Box>
-						<Text size="small" color="strong" truncate>
-							{intl.formatNumber(xrdAmount.toNumber(), DECIMAL_STYLES)}
-						</Text>
-					</Box>
-				</ToolTip>
+					</ToolTip>
+				</Box>
 			</Box>
 		</Box>
 	)

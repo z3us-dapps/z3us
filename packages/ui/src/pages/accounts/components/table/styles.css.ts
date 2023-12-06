@@ -10,3 +10,24 @@ export const tableWrapper = style([
 	}),
 	{},
 ])
+
+export const cellWrapper = style([
+	sprinkles({
+		position: 'relative',
+		zIndex: 1,
+	}),
+	{},
+])
+
+export const cellContentWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		transition: 'fast',
+		gap: {
+			mobile: 'small',
+		},
+	}),
+	{},
+])

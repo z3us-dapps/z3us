@@ -7,31 +7,21 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
-import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
-import { PoolCell } from 'ui/src/pages/accounts/components/table/pool-cell'
+import { ResourceNameCell } from 'ui/src/pages/accounts/components/table/resource-name-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
-import { AssetChangeCell } from '../components/table/asset-change-cell'
-import { AssetValueCell } from '../components/table/asset-value-cell'
 import { PoolLiquidityCell } from '../components/table/pool-liquidity'
+import { ResourceValueCell } from '../components/table/resource-value-cell'
 
 const messages = defineMessages({
 	pool: {
 		id: '11oARw',
 		defaultMessage: 'Pool',
 	},
-	amount: {
-		id: 'H5+NAX',
-		defaultMessage: 'Balance',
-	},
 	value: {
 		id: 'GufXy5',
 		defaultMessage: 'Value',
-	},
-	change: {
-		id: 'BY343C',
-		defaultMessage: 'Change',
 	},
 	liquidity: {
 		id: 'ctieLo',
@@ -77,33 +67,21 @@ const LPUs: React.FC = () => {
 		() => [
 			{
 				Header: intl.formatMessage(messages.pool),
-				accessor: 'address',
-				width: '25%',
-				Cell: PoolCell,
-			},
-			{
-				Header: intl.formatMessage(messages.amount),
-				accessor: 'amount',
-				width: '18%',
-				Cell: AssetAmountCell,
+				accessor: 'pool',
+				width: '40%',
+				Cell: ResourceNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.value),
 				accessor: 'value',
-				width: '12%',
-				Cell: AssetValueCell,
+				width: '15%',
+				Cell: ResourceValueCell,
 			},
 			{
 				Header: intl.formatMessage(messages.liquidity),
 				accessor: 'vaults',
 				width: 'auto',
 				Cell: PoolLiquidityCell,
-			},
-			{
-				Header: intl.formatMessage(messages.change),
-				accessor: 'change',
-				width: '10%',
-				Cell: AssetChangeCell,
 			},
 		],
 		[],

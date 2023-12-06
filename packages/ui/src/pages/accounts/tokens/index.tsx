@@ -7,12 +7,10 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
-import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
-import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
-import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
-import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
+import { ResourceNameCell } from '../components/table/resource-name-cell'
+import { ResourceValueCell } from '../components/table/resource-value-cell'
 import * as styles from '../components/table/styles.css'
 
 const messages = defineMessages({
@@ -73,26 +71,14 @@ const Tokens: React.FC = () => {
 			{
 				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
-				width: '40%',
-				Cell: AssetNameCell,
-			},
-			{
-				Header: intl.formatMessage(messages.amount),
-				accessor: 'amount',
-				width: '30%',
-				Cell: AssetAmountCell,
+				width: '70%',
+				Cell: ResourceNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.value),
 				accessor: 'value',
 				width: 'auto',
-				Cell: AssetValueCell,
-			},
-			{
-				Header: intl.formatMessage(messages.change),
-				accessor: 'change',
-				width: 'auto',
-				Cell: AssetChangeCell,
+				Cell: ResourceValueCell,
 			},
 		],
 		[],
