@@ -50,7 +50,7 @@ export const ResourceValueCell: React.FC<IProps> = props => {
 						color="strong"
 						truncate
 						weight="medium"
-						align="right"
+						align="left"
 					>
 						{change && intl.formatNumber(change, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES })}
 					</RedGreenText>

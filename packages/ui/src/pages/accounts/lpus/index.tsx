@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
@@ -88,7 +89,7 @@ const LPUs: React.FC = () => {
 	)
 
 	return (
-		<Box className={styles.tableWrapper}>
+		<Box className={clsx(styles.tableWrapper, styles.tableLpusWrapper)}>
 			<TableWithEmptyState
 				emptyStateTitle={intl.formatMessage(messages.empty_title)}
 				emptyStateSubTitle={intl.formatMessage(messages.empty_subtitle)}

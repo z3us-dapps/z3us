@@ -379,7 +379,7 @@ export const tableTdRecipe = recipe({
 						tablet: 'large',
 					},
 					paddingX: {
-						mobile: 'large',
+						mobile: 'medium',
 						tablet: 'medium',
 					},
 				}),
@@ -468,7 +468,27 @@ recipeResponsiveGlobalStyle(
 	true,
 )
 
-recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:before', {
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:after', {
+	mobile: {
+		opacity: 0,
+	},
+	tablet: {
+		opacity: 1,
+	},
+})
+
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr', {
+	mobile: {
+		borderBottom: '1px',
+		borderBottomStyle: 'solid',
+		borderBottomColor: vars.color.borderDivider,
+	},
+	tablet: {
+		borderBottom: '0px',
+	},
+})
+
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:after', {
 	mobile: {
 		content: '""',
 		position: 'absolute',
@@ -553,15 +573,14 @@ recipeResponsiveGlobalStyle(
 	},
 )
 
-recipeResponsiveGlobalStyle(
-	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
-	'tbody tr:hover td:before',
-	{
-		mobile: {
-			opacity: '1',
-		},
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover:after', {
+	mobile: {
+		opacity: '1',
 	},
-)
+	tablet: {
+		opacity: '1',
+	},
+})
 
 recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),

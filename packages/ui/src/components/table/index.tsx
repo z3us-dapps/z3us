@@ -35,7 +35,6 @@ interface ITableProps {
 	headerProps?: any
 	cellProps?: any
 	onEndReached?: () => void
-	// TODO: should this just be ID?? and not the whole row??
 	onRowSelected?: (row: any) => void
 }
 
