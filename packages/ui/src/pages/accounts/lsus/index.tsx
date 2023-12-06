@@ -9,10 +9,10 @@ import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
-import { ResourceNameCell } from '../components/table/resource-name-cell'
 import * as styles from '../components/table/styles.css'
 import { ValidatorFeeCell } from '../components/table/validator-fee-cell'
 import { ValidatorLiquidityCell } from '../components/table/validator-liquidity'
+import { ValidatorNameCell } from '../components/table/validator-name-cell'
 import { ValidatorValueCell } from '../components/table/validator-value-cell'
 
 const messages = defineMessages({
@@ -74,7 +74,7 @@ const LSUs: React.FC = () => {
 				Header: intl.formatMessage(messages.validator),
 				accessor: 'validator',
 				width: '40%',
-				Cell: ResourceNameCell,
+				Cell: ValidatorNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.fee),
