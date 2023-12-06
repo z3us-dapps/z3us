@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import clsx, { type ClassValue } from 'clsx'
-import { sortBy } from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import useMeasure from 'react-use-measure'
@@ -146,7 +145,7 @@ export const Table: React.FC<ITableProps> = props => {
 				/>
 			)),
 		}),
-		[data, columns, loading, loadMore, JSON.stringify(state?.sortBy || {})],
+		[data, columns, loading, loadMore, state?.sortBy?.id, state?.sortBy?.desc],
 	)
 
 	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect
