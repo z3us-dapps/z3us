@@ -16,7 +16,7 @@ import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
-import * as styles from './styles.css'
+import * as styles from '../styles.css'
 
 interface IProps {
 	row?: { original: ResourceBalanceKind }
@@ -58,20 +58,22 @@ export const PoolLiquidityCell: React.FC<IProps> = props => {
 	if (isLoading || isLoadingUnit) return <FallbackLoading />
 
 	return (
-		<Box className={styles.assetStatisticCellWrapper}>
-			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-				{Object.keys(poolResourceAmounts).map(resourceAddress => (
-					<ToolTip key={resourceAddress} message={fraction.mul(poolResourceAmounts[resourceAddress]).toString()}>
-						<Box display="flex" gap="xsmall" width="full">
-							<Box display="flex" flexShrink={0}>
-								<ResourceSnippet address={resourceAddress} size="small" /> &nbsp;-{' '}
+		<Box className={styles.cellWrapper}>
+			<Box className={clsx(styles.cellContentWrapper, 'td-cell')}>
+				<Box display="flex" flexDirection="column">
+					{Object.keys(poolResourceAmounts).map(resourceAddress => (
+						<ToolTip key={resourceAddress} message={fraction.mul(poolResourceAmounts[resourceAddress]).toString()}>
+							<Box display="flex" gap="xsmall" width="full">
+								<Box display="flex" flexShrink={0}>
+									<ResourceSnippet address={resourceAddress} size="small" /> &nbsp;-{' '}
+								</Box>
+								<Text size="small" color="strong" truncate>
+									{intl.formatNumber(fraction.mul(poolResourceAmounts[resourceAddress]).toNumber(), DECIMAL_STYLES)}
+								</Text>
 							</Box>
-							<Text size="small" color="strong" truncate>
-								{intl.formatNumber(fraction.mul(poolResourceAmounts[resourceAddress]).toNumber(), DECIMAL_STYLES)}
-							</Text>
-						</Box>
-					</ToolTip>
-				))}
+						</ToolTip>
+					))}
+				</Box>
 			</Box>
 		</Box>
 	)

@@ -9,28 +9,33 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
+import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
-import * as styles from '../asset-change-cell/styles.css'
+import * as styles from '../styles.css'
 
 interface IProps {
-	value?: string
+	row?: { original: ResourceBalanceKind }
 }
 
 export const ValidatorFeeCell: React.FC<IProps> = props => {
+	const {
+		row: { original },
+	} = props
+	const { validator } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE] & {
+		ids?: string[]
+	}
+
 	const intl = useIntl()
-
-	const { value } = props
-
-	const { data, isLoading } = useEntityDetails(value)
+	const { data, isLoading } = useEntityDetails(validator)
 
 	const factor = useMemo(() => (data ? Number.parseFloat((data.details as any).state.validator_fee_factor) : 0), [data])
 
 	if (isLoading) return <FallbackLoading />
 
 	return (
-		<Box className={styles.assetStatisticCellWrapper}>
+		<Box className={styles.cellWrapper}>
 			<ToolTip message={factor}>
-				<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
+				<Box className={clsx(styles.cellContentWrapper, 'td-cell')}>
 					<Text size="small" color={factor > 0.015 ? 'red' : factor > 0 ? 'neutral' : 'green'} truncate>
 						{intl.formatNumber(factor, PERCENTAGE_STYLES)}
 					</Text>
