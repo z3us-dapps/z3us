@@ -8,7 +8,6 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useNonFungibleIds, useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
-import { AssetIdCell } from 'ui/src/pages/accounts/components/table/asset-id-cell'
 import { NftNameCell } from 'ui/src/pages/accounts/components/table/nft-name-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 
@@ -83,12 +82,6 @@ const NFTs: React.FC = () => {
 				accessor: 'data',
 				width: 'auto',
 				Cell: NftNameCell,
-			},
-			{
-				Header: intl.formatMessage(messages.non_fungible_id),
-				accessor: 'non_fungible_id',
-				width: 'auto',
-				Cell: AssetIdCell,
 			},
 		],
 		[],

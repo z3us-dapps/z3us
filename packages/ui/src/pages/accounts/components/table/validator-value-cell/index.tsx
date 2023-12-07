@@ -7,8 +7,8 @@ import { useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
-import { CURRENCY_STYLES } from 'ui/src/constants/number'
+import { RedGreenText, Text } from 'ui/src/components/typography'
+import { CURRENCY_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -18,8 +18,8 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'
 import { ResourceBalanceType } from 'ui/src/types'
 
-import * as styles from '../asset-value-cell/styles.css'
-import { getStakedAmount, getUnStakeAmount } from '../validator-cell'
+import * as styles from '../styles.css'
+import { getStakedAmount, getUnStakeAmount } from '../validator-liquidity-cell'
 
 interface IProps {
 	row?: { original: ResourceBalanceKind }
@@ -33,6 +33,7 @@ export const ValidatorValueCell: React.FC<IProps> = props => {
 		validator,
 		address,
 		amount,
+		change,
 		value: tokenValue,
 		ids,
 		type,
@@ -65,21 +66,37 @@ export const ValidatorValueCell: React.FC<IProps> = props => {
 		return xrdAmount.mul(xrdPrice || 0).toNumber()
 	}, [tokenValue, xrdAmount, xrdPrice, token])
 
-	const formattedValue = intl.formatNumber(tokenPrice, { currency, ...CURRENCY_STYLES })
+	const tokenChange = useMemo(() => {
+		if (type === ResourceBalanceType.FUNGIBLE) return change
+		return xrdAmount.mul(token.price.usd.change).toNumber()
+	}, [change, xrdAmount, token])
 
 	if (isLoading || isLoadingResource || isLoadingToken || isLoadingKnownAddresses || isLoadingPrice)
 		return <FallbackLoading />
 
 	return (
-		<Box className={styles.assetStatisticCellWrapper}>
-			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
-				<ToolTip message={tokenPrice}>
-					<Box>
-						<Text size="small" color="strong" truncate>
-							{formattedValue}
-						</Text>
-					</Box>
-				</ToolTip>
+		<Box className={styles.cellWrapper}>
+			<Box className={clsx(styles.cellContentWrapper, 'td-cell')}>
+				<Box display="flex" flexDirection="column">
+					<ToolTip message={tokenPrice}>
+						<Box>
+							<Text size="small" color="strong" weight="medium" align="right" truncate>
+								{intl.formatNumber(tokenPrice, { currency, ...CURRENCY_STYLES })}
+							</Text>
+						</Box>
+					</ToolTip>
+					<RedGreenText
+						change={tokenChange}
+						capitalizeFirstLetter
+						size="xsmall"
+						color="strong"
+						truncate
+						weight="medium"
+						align="right"
+					>
+						{tokenChange && intl.formatNumber(tokenChange, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES })}
+					</RedGreenText>
+				</Box>
 			</Box>
 		</Box>
 	)

@@ -9,7 +9,7 @@ import { Text } from 'ui/src/components/typography'
 import { findFieldValue } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import * as styles from './styles.css'
+import * as styles from '../styles.css'
 
 interface IProps {
 	value?: ScryptoSborValue
@@ -26,27 +26,28 @@ export const NftNameCell: React.FC<IProps> = props => {
 	const name = findFieldValue('name', dataJson?.fields)
 
 	return (
-		<Box className={styles.nftNameCellWrapper}>
-			<Box className={clsx(styles.nftNameCellContentWrapper, 'td-cell')}>
+		<Box className={styles.cellWrapper}>
+			<Box className={clsx(styles.cellContentWrapper, 'td-cell')}>
 				<NftImageIcon
 					id={original.non_fungible_id}
 					size={{ mobile: 'large', tablet: 'xlarge' }}
 					address={original.collection}
 				/>
-				<Box className={styles.nftNameCellStatsWrapper}>
-					<Box className={styles.nftNameCellNameWrapper}>
-						<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
-							{name}
-						</Text>
-
-						<ToolTip message={original.non_fungible_id}>
-							<Box className={styles.nftNameCellNameIdWrapper}>
-								<Text capitalizeFirstLetter size="xsmall" truncate weight="medium">
-									{getShortAddress(original.non_fungible_id, 10)}
-								</Text>
-							</Box>
-						</ToolTip>
-					</Box>
+				<Box display="flex" flexDirection="column">
+					<ToolTip message={name}>
+						<Box>
+							<Text size="small" color="strong" weight="medium" align="right" truncate>
+								{name}
+							</Text>
+						</Box>
+					</ToolTip>
+					<ToolTip message={original.non_fungible_id}>
+						<Box>
+							<Text capitalizeFirstLetter size="xsmall" truncate weight="medium">
+								{getShortAddress(original.non_fungible_id, 10)}
+							</Text>
+						</Box>
+					</ToolTip>
 				</Box>
 			</Box>
 		</Box>
