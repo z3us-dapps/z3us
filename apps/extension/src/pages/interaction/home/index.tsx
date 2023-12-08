@@ -122,11 +122,13 @@ export const Home: React.FC = () => {
 			<Box className={styles.interactionInnerWrapper}>
 				{!isCanceled && <Interaction interaction={interaction} />}
 				{isCanceled && (
-					<Box>
-						<DappDetails {...interaction?.metadata} />
-						<NetworkAlert {...interaction?.metadata} />
+					<>
+						<Box paddingTop="large">
+							<DappDetails {...interaction?.metadata} />
+							<NetworkAlert {...interaction?.metadata} />
+						</Box>
 						<Box className={styles.interactionCancelledWrapper}>
-							<Box>
+							<Box paddingBottom="large">
 								<Text size="small">{intl.formatMessage(messages.canceled)}</Text>
 							</Box>
 							<Box className={styles.interactionCancelledButtonWrapper}>
@@ -135,7 +137,7 @@ export const Home: React.FC = () => {
 								</Button>
 							</Box>
 						</Box>
-					</Box>
+					</>
 				)}
 			</Box>
 			<Box className={styles.interactionCloseButtonWrapper}>
