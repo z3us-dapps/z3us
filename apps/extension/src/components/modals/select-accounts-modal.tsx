@@ -1,6 +1,7 @@
 import clsx from 'clsx'
-import { useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useIsMounted } from 'usehooks-ts'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
@@ -8,6 +9,9 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Dialog } from 'ui/src/components/dialog'
 import { Form } from 'ui/src/components/form'
+import { FormContext } from 'ui/src/components/form/context'
+// import { FieldContext } from '../../field-wrapper/context'
+import { FieldContext } from 'ui/src/components/form/field-wrapper/context'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
@@ -15,6 +19,10 @@ import { PlusIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
+import type { ApprovedDapps } from 'ui/src/store/types'
+
+import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 
 import * as styles from './styles.css'
 
@@ -28,20 +36,24 @@ const messages = defineMessages({
 		defaultMessage: 'Please select valid account',
 	},
 	validation_accounts_required: {
-		id: 'r4g6hl',
-		defaultMessage: 'Please select minimum {number} accounts',
+		id: 'gzjHi6',
+		defaultMessage: 'Please select a minimum of {number} account(s)',
 	},
 	validation_accounts_exactly: {
 		id: 'VBE5Tu',
 		defaultMessage: 'Please select exactly {number} accounts',
+	},
+	form_button_share_all_account: {
+		id: 'rw4ys0',
+		defaultMessage: 'Share all accounts',
 	},
 	form_button_title: {
 		id: '8cueNe',
 		defaultMessage: 'Share accounts',
 	},
 	button_add_account: {
-		id: 'cU42T7',
-		defaultMessage: 'Add another account',
+		id: 'qJcduu',
+		defaultMessage: 'Add account',
 	},
 	close: {
 		id: '47FYwb',
@@ -57,18 +69,52 @@ const messages = defineMessages({
 	},
 })
 
-const initialValues = {
-	accounts: [],
+// move this function as it is used twice
+function getInitialAccounts(dappAddress: string, approvedDapps: ApprovedDapps): string[] {
+	const { accounts = [] } = approvedDapps[dappAddress] || {}
+	return accounts
+}
+
+const SelectAccountsShareAllButton: React.FC<{ interaction: WalletInteractionWithTabId }> = ({ interaction }) => {
+	const intl = useIntl()
+	const isMounted = useIsMounted()
+
+	const { onFieldChange } = useContext(FormContext)
+	const approvedDapps = useApprovedDapps()
+	const selectedAccounts = getInitialAccounts(interaction.metadata.dAppDefinitionAddress, approvedDapps)
+
+	useEffect(() => {
+		const interactionAccounts = selectedAccounts?.map(_address => ({ address: _address }))
+		if (interactionAccounts?.length > 0) {
+			onFieldChange('accounts', interactionAccounts)
+
+			// TODO: fix this
+			setTimeout(() => {
+				onFieldChange('accounts', interactionAccounts)
+			}, 0)
+		}
+	}, [selectedAccounts?.length, isMounted])
+
+	return (
+		<Box paddingTop="medium">
+			<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth leftIcon={<PlusIcon />}>
+				{intl.formatMessage(messages.form_button_share_all_account)}
+			</Button>
+		</Box>
+	)
 }
 
 export interface IProps {
 	required: number
 	exactly: boolean
+	interaction: WalletInteractionWithTabId
 	onConfirm: (addresses: string[]) => void
 	onCancel: () => void
 }
 
-const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, onCancel }) => {
+const initialValues = { accounts: [] }
+
+const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, interaction, onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const accountIndexes = useAccountIndexes()
 	const addressBook = useAddressBook()
@@ -97,15 +143,16 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 	}, [exactly, required])
 
 	const handleSubmit = async (values: typeof initialValues) => {
-		setValidation(undefined)
-		const result = validationSchema.safeParse(values)
-		if (result.success === false) {
-			setValidation(result.error)
-			return
-		}
-		onConfirm(values.accounts.map(({ address }) => address))
-		setIsOpen(false)
-		setValidation(undefined)
+		console.log('🚀 ~ file: select-accounts-modal.tsx:123 ~ handleSubmit ~ values:', values)
+		// setValidation(undefined)
+		// const result = validationSchema.safeParse(values)
+		// if (result.success === false) {
+		// 	setValidation(result.error)
+		// 	return
+		// }
+		// onConfirm(values.accounts.map(({ address }) => address))
+		// setIsOpen(false)
+		// setValidation(undefined)
 	}
 
 	const handleCancel = () => {
@@ -159,6 +206,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 							/>
 						</Box>
 					</FieldsGroup>
+					<SelectAccountsShareAllButton interaction={interaction} />
 					<Box paddingTop="medium">
 						<SubmitButton>
 							<Button fullWidth sizeVariant="xlarge">

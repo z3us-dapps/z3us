@@ -139,7 +139,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	const handleSelectAccounts = async () => {
 		const { numberOfAccounts } = request.ongoingAccounts || request.oneTimeAccounts || {}
 		setSelectedAccounts(
-			await selectAccounts(numberOfAccounts?.quantity || 1, numberOfAccounts?.quantifier === 'exactly'),
+			await selectAccounts(numberOfAccounts?.quantity || 1, numberOfAccounts?.quantifier === 'exactly', interaction),
 		)
 	}
 
