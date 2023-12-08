@@ -24,6 +24,7 @@ type Props<P = {}> = {
 type State<P = {}> = {
 	error: string
 	isLoading: boolean
+	isInit: boolean
 	values: FormData<P>
 }
 
@@ -55,12 +56,14 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 	const [state, setState] = useImmer<State<Props['initialValues']>>({
 		error: '',
 		isLoading: false,
+		isInit: false,
 		values: initialValues,
 	})
 
 	useEffect(() => {
 		setState(draft => {
 			draft.values = initialValues
+			draft.isInit = true
 		})
 	}, [initialValues])
 

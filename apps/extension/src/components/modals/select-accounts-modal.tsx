@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useIsMounted } from 'usehooks-ts'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
@@ -10,8 +9,6 @@ import { Button } from 'ui/src/components/button'
 import { Dialog } from 'ui/src/components/dialog'
 import { Form } from 'ui/src/components/form'
 import { FormContext } from 'ui/src/components/form/context'
-// import { FieldContext } from '../../field-wrapper/context'
-import { FieldContext } from 'ui/src/components/form/field-wrapper/context'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
@@ -69,7 +66,7 @@ const messages = defineMessages({
 	},
 })
 
-// move this function as it is used twice
+// TODO: move this function as it is used twice
 function getInitialAccounts(dappAddress: string, approvedDapps: ApprovedDapps): string[] {
 	const { accounts = [] } = approvedDapps[dappAddress] || {}
 	return accounts
@@ -77,27 +74,31 @@ function getInitialAccounts(dappAddress: string, approvedDapps: ApprovedDapps): 
 
 const SelectAccountsShareAllButton: React.FC<{ interaction: WalletInteractionWithTabId }> = ({ interaction }) => {
 	const intl = useIntl()
-	const isMounted = useIsMounted()
 
-	const { onFieldChange } = useContext(FormContext)
+	const { onFieldChange, isInit } = useContext(FormContext)
 	const approvedDapps = useApprovedDapps()
 	const selectedAccounts = getInitialAccounts(interaction.metadata.dAppDefinitionAddress, approvedDapps)
 
+	const handleShareAllAccounts = () => {
+		console.log(99, 'share em all')
+	}
+
 	useEffect(() => {
 		const interactionAccounts = selectedAccounts?.map(_address => ({ address: _address }))
-		if (interactionAccounts?.length > 0) {
+		if (interactionAccounts?.length > 0 && isInit) {
 			onFieldChange('accounts', interactionAccounts)
-
-			// TODO: fix this
-			setTimeout(() => {
-				onFieldChange('accounts', interactionAccounts)
-			}, 0)
 		}
-	}, [selectedAccounts?.length, isMounted])
+	}, [selectedAccounts?.length, isInit])
 
 	return (
 		<Box paddingTop="medium">
-			<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth leftIcon={<PlusIcon />}>
+			<Button
+				styleVariant="secondary"
+				sizeVariant="xlarge"
+				fullWidth
+				leftIcon={<PlusIcon />}
+				onClick={handleShareAllAccounts}
+			>
 				{intl.formatMessage(messages.form_button_share_all_account)}
 			</Button>
 		</Box>
