@@ -132,8 +132,6 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 		setIsAddPersonaFormVisible(false)
 	}
 
-	console.log('!hasPersonas ', !hasPersonas)
-
 	return (
 		<Dialog open={isOpen} onClose={handleCancel}>
 			<Box className={styles.modalContentWrapper}>
