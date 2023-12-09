@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -7,40 +7,37 @@ import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
-import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
+import { FieldsGroup } from 'ui/src/components/form/fields-group'
+import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
+import { CirclePlusIcon, TrashIcon } from 'ui/src/components/icons'
+import { Button } from 'ui/src/components/router-button'
+import { Tabs, TabsContent } from 'ui/src/components/tabs'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
-import { FEE_RATIO } from 'ui/src/constants/swap'
-import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
-import { useSwapPreview } from 'ui/src/hooks/queries/oci'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
-import { findMetadataValue } from 'ui/src/services/metadata'
-import type { SwapPreview } from 'ui/src/services/oci'
 
-import SwapFormFields from './components/swap-form-fields'
+import { FormFields as AstrolecentFormFields } from './components/astrolescent/form-fields'
+import { FormFields as OciFormFields } from './components/oci/form-fields'
 
 const messages = defineMessages({
-	fee_wallet: {
-		id: 'PyXtpD',
-		defaultMessage: 'Wallet fee',
-	},
-	fee_lp: {
-		id: 'OS5a2i',
-		defaultMessage: 'Pool fee',
-	},
-	price_impact: {
-		id: 'WBB92z',
-		defaultMessage: 'Price impact',
-	},
-	price_impact_info: {
-		id: 'MoWYiJ',
-		defaultMessage: `Price impact is the influence of user&apos;s individual trade over the market price of an underlying asset pair. It is directly correlated with the amount of liquidity in the pool. Price impact can be especially high for illiquid markets/pairs, and may cause a trader to lose a significant portion of their funds.`,
+	button_add_swap: {
+		id: 'Clukea',
+		defaultMessage: 'Add another swap',
 	},
 	validation_token_required: {
 		id: 'IXFNmv',
 		defaultMessage: 'Resource is required',
+	},
+	tab_oci: {
+		id: 'fmr4rE',
+		defaultMessage: 'Oci',
+	},
+	tab_astrolecent: {
+		id: 'CrAj8T',
+		defaultMessage: 'Astrolecent',
+	},
+	button_submit: {
+		id: 's8BnAC',
+		defaultMessage: 'Swap',
 	},
 	validation_token: {
 		id: 'gO3ocF',
@@ -58,6 +55,10 @@ const messages = defineMessages({
 		id: 'w2XWRt',
 		defaultMessage: 'Please select account',
 	},
+	validation_swaps: {
+		id: 'X54VY/',
+		defaultMessage: 'Add least one action is required',
+	},
 	error_toast: {
 		id: 'fjqZcw',
 		defaultMessage: 'Failed submitting transaction to the network',
@@ -72,42 +73,19 @@ const messages = defineMessages({
 	},
 })
 
+const OCI = 'oci'
+const ASTROLECENT = 'astrolecent'
+
 const init = {
-	account: '',
-	from: [{ address: '', amount: 0 }],
-	to: [{ address: '', amount: 0 }],
-}
-
-type SwapSettings = {
-	from: string
-	to: string
-	side: 'send' | 'receive'
-	amount: number
-	fee: number
-}
-
-function getSwapSettingsFromFormValues(old: typeof init, values: typeof init): SwapSettings {
-	const side = old.to[0].amount !== values.to[0].amount ? 'receive' : 'send'
-	const amount = side === 'send' ? values.from[0].amount : values.to[0].amount
-	const fee = amount * FEE_RATIO
-
-	return {
-		from: values.from[0].address,
-		to: values.to[0].address,
-		side,
-		amount: amount + fee,
-		fee,
-	}
-}
-
-function getFormValuesFromPreview(settings: SwapSettings, values: typeof init, preview: SwapPreview): typeof init {
-	const fromKey = settings.side === 'send' ? 'input' : 'output'
-	const toKey = settings.side === 'send' ? 'output' : 'input'
-	return {
-		account: values.account,
-		from: [{ address: preview[`${fromKey}_address`], amount: Number.parseFloat(preview[`${fromKey}_amount`].token) }],
-		to: [{ address: preview[`${toKey}_address`], amount: Number.parseFloat(preview[`${toKey}_amount`].token) }],
-	}
+	swaps: [
+		{
+			dex: 'oci',
+			manifest: '',
+			account: '',
+			from: [{ address: '', amount: 0 }],
+			to: [{ address: '', amount: 0 }],
+		},
+	],
 }
 
 export const Swap: React.FC = () => {
@@ -118,21 +96,7 @@ export const Swap: React.FC = () => {
 	const [searchParams] = useSearchParams()
 
 	const [formValues, setFormValues] = useState<typeof init>(init)
-	const [localValues, setLocalValues] = useState<typeof init>(init)
-	const [swap, setSwap] = useState<SwapSettings>(getSwapSettingsFromFormValues(formValues, formValues))
 	const [validation, setValidation] = useState<ZodError>()
-
-	const { data: preview, error: previewError } = useSwapPreview(swap.from, swap.to, swap.side, swap.amount)
-
-	const { data } = useEntityMetadata(swap.from)
-	const symbol = findMetadataValue('symbol', data)
-
-	useEffect(() => {
-		if (!preview) return
-		const newValues = getFormValuesFromPreview(swap, localValues, preview)
-		setLocalValues(newValues)
-		setFormValues(newValues)
-	}, [preview])
 
 	const validationSchema = useMemo(() => {
 		const tokenSchema = z.object({
@@ -145,23 +109,19 @@ export const Swap: React.FC = () => {
 		})
 
 		return z.object({
-			account: z.string().min(1, intl.formatMessage(messages.validation_account)),
-			from: z.array(tokenSchema).length(1),
-			to: z.array(tokenSchema).length(1),
+			swaps: z
+				.array(
+					z.object({
+						dex: z.literal('oci').or(z.literal('astrolecent')),
+						manifest: z.string().min(1),
+						account: z.string().min(1, intl.formatMessage(messages.validation_account)),
+						from: z.array(tokenSchema).length(1),
+						to: z.array(tokenSchema).length(1),
+					}),
+				)
+				.min(1, intl.formatMessage(messages.validation_swaps)),
 		})
 	}, [])
-
-	const handleChange = async (values: typeof init) => {
-		if (
-			localValues.from[0].address === values.from[0].address &&
-			localValues.from[0].amount === values.from[0].amount &&
-			localValues.to[0].address === values.to[0].address &&
-			localValues.to[0].amount === values.to[0].amount
-		)
-			return
-		setSwap(getSwapSettingsFromFormValues(localValues, values))
-		setLocalValues(values)
-	}
 
 	const handleSubmit = async (values: typeof init) => {
 		setValidation(undefined)
@@ -171,33 +131,7 @@ export const Swap: React.FC = () => {
 			return
 		}
 
-		const fromKey = swap.side === 'send' ? 'input' : 'output'
-		const transactionManifest = preview.swaps.reduce(
-			(manifest, s) => `
-		${manifest}
-			CALL_METHOD
-				Address("${values.account}")
-				"withdraw"
-				Address("${s[`${fromKey}_address`]}")
-				Decimal("${Number.parseFloat(s[`${fromKey}_amount`].token) * (1 + FEE_RATIO)}")
-			;
-			TAKE_ALL_FROM_WORKTOP
-				Address("${s[`${fromKey}_address`]}")
-				Bucket("bucket1")
-			;
-			CALL_METHOD
-				Address("${s.pool_address}")
-				"swap"
-				Bucket("bucket1")
-			;
-			CALL_METHOD
-				Address("${values.account}")
-				"deposit_batch"
-				Expression("ENTIRE_WORKTOP")
-			;
-		`,
-			'',
-		)
+		const transactionManifest = values.swaps.map(swap => swap.manifest).join('\n')
 
 		await sendTransaction({
 			version: 1,
@@ -223,41 +157,52 @@ export const Swap: React.FC = () => {
 
 	return (
 		<Box width="full">
-			<Form onSubmit={handleSubmit} onChange={handleChange} initialValues={formValues} errors={validation?.format()}>
-				<ValidationErrorMessage message={validation?.flatten().formErrors[0] || (previewError as any)?.message} />
-				<SwapFormFields />
-				{preview && (
-					<Box>
-						<AccountsTransactionInfo
-							leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
-							rightData={
-								<ToolTip message={intl.formatMessage(messages.price_impact_info)}>
-									<Box>
-										<Text size="small" color="strong">
-											{intl.formatNumber(Number.parseFloat(preview.price_impact), PERCENTAGE_STYLES)}
-										</Text>
-									</Box>
-								</ToolTip>
+			<Form onSubmit={handleSubmit} initialValues={formValues} errors={validation?.format()}>
+				<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
+				<FieldsGroup
+					name="swaps"
+					defaultKeys={1}
+					addTrigger={
+						<Button
+							styleVariant="secondary"
+							sizeVariant="large"
+							fullWidth
+							leftIcon={
+								<Box marginLeft="small">
+									<CirclePlusIcon />
+								</Box>
 							}
-						/>
-						<AccountsTransactionInfo
-							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
-							rightData={
-								<Text size="small" color="strong">
-									{intl.formatNumber(swap.fee, DECIMAL_STYLES)} {symbol}
-								</Text>
-							}
-						/>
-						<AccountsTransactionInfo
-							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_lp)}</Text>}
-							rightData={
-								<Text size="small" color="strong">
-									{intl.formatNumber(Number.parseFloat(preview.input_fee_lp.token), DECIMAL_STYLES)} {symbol}
-								</Text>
-							}
-						/>
-					</Box>
-				)}
+						>
+							{intl.formatMessage(messages.button_add_swap)}
+						</Button>
+					}
+					trashTrigger={
+						<Button styleVariant="ghost" sizeVariant="small" iconOnly>
+							<TrashIcon />
+						</Button>
+					}
+				>
+					<Tabs
+						list={[
+							{ label: intl.formatMessage(messages.tab_oci), value: OCI },
+							{ label: intl.formatMessage(messages.tab_astrolecent), value: ASTROLECENT },
+						]}
+						defaultValue={OCI}
+					>
+						<TabsContent value={OCI}>
+							<OciFormFields />
+						</TabsContent>
+						<TabsContent value={ASTROLECENT}>
+							<AstrolecentFormFields />
+						</TabsContent>
+					</Tabs>
+				</FieldsGroup>
+
+				<SubmitButton>
+					<Button sizeVariant="large" styleVariant="primary" fullWidth>
+						{intl.formatMessage(messages.button_submit)}
+					</Button>
+				</SubmitButton>
 			</Form>
 		</Box>
 	)

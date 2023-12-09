@@ -58,28 +58,26 @@ export class AstrolescentService {
 		url.searchParams.set('tokenOut', tokenOut)
 		url.searchParams.set('fromAddress', fromAddress)
 		switch (type) {
-			case 'receive':
+			case 'send':
 				url.searchParams.set('tokenInAmount', amount)
 				break
-			case 'send':
+			case 'receive':
 			default:
 				url.searchParams.set('tokenOutAmount', amount)
 				break
 		}
 		const path = url.toString()
 		const response = await fetch(path, this.options)
-		const data = await response.json()
-		if (data?.error) {
-			throw new Error(data.error.toString().trim())
-		}
 		if (response.status !== 200) {
-			const json = await response.json()
-			if (json.error) throw new Error(json.error)
-
-			throw new Error(`Invalid request: ${response.status} received`)
+			try {
+				const json = await response.json()
+				if (json.error) throw new Error(json.error)
+			} catch (_) {
+				throw new Error(`Invalid request: ${response.status} received`)
+			}
 		}
 
-		return data
+		return response.json()
 	}
 }
 

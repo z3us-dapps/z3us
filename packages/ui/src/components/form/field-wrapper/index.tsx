@@ -11,6 +11,7 @@ import { FieldContext } from './context'
 export interface IProps {
 	name: string
 	label?: ReactNode
+	hidden?: boolean
 	validate?: (value: any) => string
 }
 
@@ -19,7 +20,7 @@ type State = {
 	error: string
 }
 
-export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, children, name, label }) => {
+export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, children, name, label, hidden }) => {
 	const { values, errors, getFieldValue, onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
@@ -65,7 +66,7 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 	}
 
 	return (
-		<Box>
+		<Box display={hidden ? 'none' : 'block'}>
 			{label && (
 				<Box display="flex" paddingBottom="small" paddingTop="large">
 					{label}
