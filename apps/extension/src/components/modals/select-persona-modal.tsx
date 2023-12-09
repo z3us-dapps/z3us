@@ -10,6 +10,7 @@ import { Form } from 'ui/src/components/form'
 import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { Button } from 'ui/src/components/router-button'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
 
@@ -30,12 +31,12 @@ const messages = defineMessages({
 		defaultMessage: 'Select persona',
 	},
 	validation_persona: {
-		id: 'fkKPLv',
-		defaultMessage: 'Please select persona',
+		id: '0aU6aM',
+		defaultMessage: 'Please select persona to continue',
 	},
 	form_button_add_persona_title: {
-		id: 'UcOfEC',
-		defaultMessage: 'Add persona',
+		id: '+1jUUk',
+		defaultMessage: 'Create persona',
 	},
 	form_button_title: {
 		id: 'AyGauy',
@@ -47,12 +48,16 @@ const messages = defineMessages({
 	},
 
 	add_persona_modal_title: {
-		defaultMessage: 'Add new persona',
-		id: 'W8nxkL',
+		defaultMessage: 'New persona',
+		id: 'JsdfgN',
 	},
 	add_persona_modal_sub_title: {
-		defaultMessage: "Create a name for your new persona and click 'Add'.",
-		id: 'ItigsP',
+		defaultMessage: "Name your new persona and click 'Create'.",
+		id: 'GZgaIB',
+	},
+	no_personas_tool_tip: {
+		defaultMessage: "Click 'Create persona' to continue",
+		id: 'FaHqch',
 	},
 })
 
@@ -80,6 +85,8 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 			})),
 		[personaIndexes],
 	)
+
+	const hasPersonas = selectItems?.length > 0
 
 	const validationSchema = useMemo(
 		() =>
@@ -125,6 +132,8 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 		setIsAddPersonaFormVisible(false)
 	}
 
+	console.log('!hasPersonas ', !hasPersonas)
+
 	return (
 		<Dialog open={isOpen} onClose={handleCancel}>
 			<Box className={styles.modalContentWrapper}>
@@ -135,14 +144,19 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 					<Text size="small">{intl.formatMessage(messages.persona_modal_sub_title)}</Text>
 				</Box>
 				<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
-					<SelectField
-						ref={selectRef}
-						name="persona"
-						placeholder={intl.formatMessage(messages.persona_placeholder)}
-						sizeVariant="large"
-						data={selectItems}
-						fullWidth
-					/>
+					<ToolTip message={intl.formatMessage(messages.no_personas_tool_tip)} disabled={hasPersonas}>
+						<Box>
+							<SelectField
+								ref={selectRef}
+								name="persona"
+								placeholder={intl.formatMessage(messages.persona_placeholder)}
+								sizeVariant="large"
+								data={selectItems}
+								fullWidth
+								disabled={!hasPersonas}
+							/>
+						</Box>
+					</ToolTip>
 					<Box className={clsx(styles.modalContentFormButtonWrapper, styles.modalContentFormBorderWrapper)}>
 						<Button fullWidth sizeVariant="large" styleVariant="secondary" onClick={handleClickAddPersona}>
 							{intl.formatMessage(messages.form_button_add_persona_title)}
