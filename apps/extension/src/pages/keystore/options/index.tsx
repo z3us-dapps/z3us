@@ -35,7 +35,7 @@ const messages = defineMessages({
 		defaultMessage: 'Restore from extended private key',
 	},
 	raw_key: {
-		id: '4Q4DB3',
+		id: 'e83kXi',
 		defaultMessage: 'Restore from raw private key hex',
 	},
 	radix: {
