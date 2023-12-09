@@ -18,8 +18,8 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
 
-const FAQ_ITEMS = {
-	QUESTION_ONE: {
+const FAQ_ITEMS = [
+	{
 		question: 'How can I create a new wallet?',
 		answer: (
 			<Box>
@@ -30,7 +30,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_TWO: {
+	{
 		question: 'How can I restore my existing wallet?',
 		answer: (
 			<Box>
@@ -70,7 +70,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_THREE: {
+	{
 		question: 'hat happens to my Olympia wallets after I update the extension?',
 		answer: (
 			<Box>
@@ -83,7 +83,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_FOUR: {
+	{
 		question: "My Olympia wallet didn't have a password, but the Babylon wallet ",
 		answer: (
 			<Box>
@@ -93,7 +93,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_FIVE: {
+	{
 		question: 'My Olympia Ledger wallet was disappeared',
 		answer: (
 			<Box>
@@ -104,7 +104,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_SIX: {
+	{
 		question: 'How do I interact with dApps?',
 		answer: (
 			<Box>
@@ -115,7 +115,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_SEVEN: {
+	{
 		question: 'Do I need a connector extension?',
 		answer: (
 			<Box>
@@ -127,7 +127,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_EIGHT: {
+	{
 		question: 'Can I connect multiple Radix wallets from mobile phones to Z3US?',
 		answer: (
 			<Box>
@@ -140,7 +140,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_NINE: {
+	{
 		question: 'Do I have to connect Radix Mobile?',
 		answer: (
 			<Box>
@@ -151,7 +151,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_TEN: {
+	{
 		question: 'Connect button does not work, what do I do ?',
 		answer: (
 			<Box>
@@ -166,7 +166,7 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-	QUESTION_ELEVEN: {
+	{
 		question: 'Can I use both Connector extension and Z3US at the same time ?',
 		answer: (
 			<Box>
@@ -178,7 +178,18 @@ const FAQ_ITEMS = {
 			</Box>
 		),
 	},
-}
+	{
+		question: 'How can I create single login point for multiple seed and/or ledger wallets ?',
+		answer: (
+			<Box>
+				<Text size="large" color="strong">
+					In order to create single login point for multiple wallets, create your first wallet by simply following restore flow,
+					then repeat the process to add more wallets and combine then into a single login point.
+				</Text>
+			</Box>
+		),
+	},
+]
 
 export const FaqPage: React.FC = () => (
 	<Box className={clsx(styles.faqPageWrapper)}>
@@ -194,8 +205,9 @@ export const FaqPage: React.FC = () => (
 								</Text>
 							</Box>
 							<AccordionRoot type="single" collapsible>
-								{Object.entries(FAQ_ITEMS).map(([key, { question, answer }]) => (
-									<AccordionItem key={key} value={key}>
+								{FAQ_ITEMS.map(({ question, answer }, idx) => (
+									// eslint-disable-next-line react/no-array-index-key
+									<AccordionItem key={idx} value={`${idx}`}>
 										<AccordionHeader className={styles.faqAccordionHeader}>
 											<AccordionTrigger className={styles.faqAccordionTrigger}>
 												{question}
