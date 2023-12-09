@@ -1,6 +1,7 @@
 export enum DataType {
 	MNEMONIC = 'mnemonic',
 	PRIVATE_KEY = 'private_key',
+	RAW_PRIVATE_KEY = 'raw_private_key',
 	STRING = 'string',
 	COMBINED = 'combined',
 	NONE = 'none',

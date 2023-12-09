@@ -34,6 +34,10 @@ const messages = defineMessages({
 		id: '4Q4DB2',
 		defaultMessage: 'Restore from extended private key',
 	},
+	raw_key: {
+		id: 'e83kXi',
+		defaultMessage: 'Restore from raw private key hex',
+	},
 	radix: {
 		id: 'YFt45g',
 		defaultMessage: 'Connect Radix Mobile',
@@ -58,6 +62,10 @@ export const Home: React.FC = () => {
 
 	const handleRestoreExtendedPrivateKey = () => {
 		navigate('/keystore/new/restore/extended-key')
+	}
+
+	const handleRestoreRawPrivateKey = () => {
+		navigate('/keystore/new/restore/raw-key')
 	}
 
 	const handleConnectRadix = () => {
@@ -109,6 +117,11 @@ export const Home: React.FC = () => {
 					<ListItem onClick={handleRestoreExtendedPrivateKey} iconLeft={<KeyIcon />}>
 						<Text color="strong" weight="medium">
 							{intl.formatMessage(messages.key)}
+						</Text>
+					</ListItem>
+					<ListItem onClick={handleRestoreRawPrivateKey} iconLeft={<b>0x</b>}>
+						<Text color="strong" weight="medium">
+							{intl.formatMessage(messages.raw_key)}
 						</Text>
 					</ListItem>
 				</List>
