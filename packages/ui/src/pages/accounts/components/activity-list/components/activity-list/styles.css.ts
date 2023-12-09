@@ -74,14 +74,12 @@ export const activityItemInner = style([
 		color: 'borderDivider',
 		transition: 'fast',
 		border: 0,
-
 		paddingX: {
 			mobile: 'large',
 			tablet: 'none',
 		},
 	}),
 	{
-		height: '60px',
 		width: '100%',
 		'::before': {
 			content: '""',
@@ -130,7 +128,7 @@ export const activityItemInnerBtn = style([
 		cursor: 'pointer',
 	}),
 	{
-		paddingTop: '5px',
+		height: '60px',
 		selectors: {
 			'&:focus-visible': {
 				outline: 'none',

@@ -109,6 +109,7 @@ export const assetChartBtnWrapper = style([
 export const tag = style([
 	{
 		inlineSize: 'min-content',
+		whiteSpace: 'nowrap',
 	},
 ])
 

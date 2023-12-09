@@ -33,6 +33,7 @@ export const interactionCancelledWrapper = style([
 		gap: 'small',
 		flexGrow: 1,
 		justifyContent: 'space-between',
+		padding: 'large',
 	}),
 	{},
 ])

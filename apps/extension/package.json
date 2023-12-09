@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "2.0.19",
+	"version": "2.0.20",
 	"type": "module",
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
@@ -18,7 +18,8 @@
 		"lint": "yarn eslint && yarn check-types",
 		"test": "jest --maxWorkers=1  --detectOpenHandles --forceExit --passWithNoTests",
 		"intl:extract": "formatjs extract 'src/**/*.{ts,tsx}' '../../packages/ui/src/**/*.{ts,tsx}' --ignore='**/*.d.ts' --out-file src/locales/en.json --format simple --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
-		"intl:compile": "formatjs compile-folder --ast src/locales src/locales/compiled"
+		"intl:compile": "formatjs compile-folder --ast src/locales src/locales/compiled",
+		"intl:clean": "node src/helpers/intl-clean"
 	},
 	"dependencies": {
 		"@radix-ui/react-avatar": "^1.0.2",
