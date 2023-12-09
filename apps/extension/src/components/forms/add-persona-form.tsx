@@ -31,8 +31,8 @@ const messages = defineMessages({
 		defaultMessage: 'Name is required',
 	},
 	form_button_title: {
-		id: '2/2yg+',
-		defaultMessage: 'Add',
+		id: 'VzzYJk',
+		defaultMessage: 'Create',
 	},
 	error_toast: {
 		id: '2dcP1f',
