@@ -66,7 +66,6 @@ const messages = defineMessages({
 	},
 })
 
-// TODO: move this function as it is used twice
 function getInitialAccounts(dappAddress: string, approvedDapps: ApprovedDapps): string[] {
 	const { accounts = [] } = approvedDapps[dappAddress] || {}
 	return accounts
