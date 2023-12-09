@@ -50,12 +50,29 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	const { values, errors, onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
+	const valuesFieldLength = values?.[fieldName]?.length
 
 	const [state, setState] = useImmer<State>({
-		keys: Array.from({ length: values?.[fieldName]?.length || defaultKeys }, generateId),
+		keys: Array.from({ length: valuesFieldLength || defaultKeys }, generateId),
 		error: '',
 	})
 
+	useEffect(() => {
+		const hasKeys = state.keys.length > 0 && valuesFieldLength > 0
+		if (hasKeys && state.keys.length !== valuesFieldLength) {
+			setState(draft => {
+				draft.keys = Array.from({ length: values?.[fieldName]?.length || defaultKeys }, generateId)
+			})
+		}
+	}, [valuesFieldLength, state.keys.length])
+
+	useEffect(() => {
+		setState(draft => {
+			// eslint-disable-next-line no-underscore-dangle
+			const fieldErrors = get(errors, fieldName)?._errors || []
+			draft.error = fieldErrors.length > 0 ? fieldErrors[0] : ''
+		})
+	}, [errors])
 	useEffect(() => {
 		setState(draft => {
 			// eslint-disable-next-line no-underscore-dangle

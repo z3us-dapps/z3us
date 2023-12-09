@@ -75,12 +75,19 @@ function getInitialAccounts(dappAddress: string, approvedDapps: ApprovedDapps): 
 const SelectAccountsShareAllButton: React.FC<{ interaction: WalletInteractionWithTabId }> = ({ interaction }) => {
 	const intl = useIntl()
 
+	const accountIndexes = useAccountIndexes()
+
 	const { onFieldChange, isInit } = useContext(FormContext)
 	const approvedDapps = useApprovedDapps()
 	const selectedAccounts = getInitialAccounts(interaction.metadata.dAppDefinitionAddress, approvedDapps)
 
 	const handleShareAllAccounts = () => {
-		console.log(99, 'share em all')
+		const allAccounts = Object.keys(accountIndexes).map(address => ({
+			address,
+		}))
+
+		onFieldChange('accounts', allAccounts)
+		console.log(99, 'share em all', allAccounts)
 	}
 
 	useEffect(() => {
@@ -144,16 +151,15 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, interaction,
 	}, [exactly, required])
 
 	const handleSubmit = async (values: typeof initialValues) => {
-		console.log('🚀 ~ file: select-accounts-modal.tsx:123 ~ handleSubmit ~ values:', values)
-		// setValidation(undefined)
-		// const result = validationSchema.safeParse(values)
-		// if (result.success === false) {
-		// 	setValidation(result.error)
-		// 	return
-		// }
-		// onConfirm(values.accounts.map(({ address }) => address))
-		// setIsOpen(false)
-		// setValidation(undefined)
+		setValidation(undefined)
+		const result = validationSchema.safeParse(values)
+		if (result.success === false) {
+			setValidation(result.error)
+			return
+		}
+		onConfirm(values.accounts.map(({ address }) => address))
+		setIsOpen(false)
+		setValidation(undefined)
 	}
 
 	const handleCancel = () => {
