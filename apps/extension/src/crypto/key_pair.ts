@@ -60,6 +60,15 @@ export function getPrivateKey(data: Data, curve: CURVE, derivationPath: string):
 			}
 		case DataType.PRIVATE_KEY:
 			return deriveHDKey(hdkeyFromExtendedPrivateKey(secret), derivationPath)
+		case DataType.RAW_PRIVATE_KEY:
+			switch (curve) {
+				case CURVE.SECP256K1:
+					return new PrivateKey.Secp256k1(secret)
+				case CURVE.CURVE25519:
+					return new PrivateKey.Ed25519(secret)
+				default:
+					return null
+			}
 		default:
 			return null
 	}
