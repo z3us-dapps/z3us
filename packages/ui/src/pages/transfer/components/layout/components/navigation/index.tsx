@@ -36,6 +36,10 @@ const Navigation: React.FC<IProps> = props => {
 				title: intl.formatMessage(messages.home),
 				href: '/transfer',
 			},
+			{
+				title: intl.formatMessage(messages.swap),
+				href: '/transfer/swap',
+			},
 			// {
 			//   title: intl.formatMessage(messages.deploy),
 			//   href: '/transfer/deploy',
@@ -43,10 +47,6 @@ const Navigation: React.FC<IProps> = props => {
 			{
 				title: intl.formatMessage(messages.raw),
 				href: '/transfer/raw',
-			},
-			{
-				title: intl.formatMessage(messages.swap),
-				href: '/transfer/swap',
 			},
 		],
 		[intl, messages],
