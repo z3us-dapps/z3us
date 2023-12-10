@@ -20,7 +20,6 @@ import { ValidationErrorMessage } from 'ui/src/components/validation-error-messa
 import { FEE_RATIO } from 'ui/src/constants/swap'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSwapPreview, useTokens } from 'ui/src/hooks/queries/oci'
-import type { SwapPreview } from 'ui/src/services/oci'
 
 const messages = defineMessages({
 	fee_wallet: {
@@ -56,17 +55,9 @@ export const FormFields: React.FC = () => {
 	const from = useFieldValue(`${parentName}${parentName ? '.' : ''}from[0]`)
 	const to = useFieldValue(`${parentName}${parentName ? '.' : ''}to[0]`)
 
-	const [side, setSide] = useState<'send' | 'receive'>('send')
-	const swapAmount = useMemo(
-		() => (side === 'send' ? Number.parseFloat(from?.amount || '0') : Number.parseFloat(to?.amount || '0')),
-		[from, to],
-	)
-	const fee = useMemo(() => swapAmount * FEE_RATIO, [swapAmount])
-
 	const { data: tokens = {} } = useTokens()
 	const { data: feeResource } = useEntityMetadata(from?.address)
 	const { data: balanceData } = useBalances(account)
-	const { data: preview, error: previewError } = useSwapPreview(from?.address, to?.address, side, swapAmount)
 
 	const { fungibleBalances = [] } = balanceData || {}
 	const symbol = findMetadataValue('symbol', feeResource)
@@ -76,23 +67,29 @@ export const FormFields: React.FC = () => {
 		[balanceData, tokens],
 	)
 	const target = useMemo(() => Object.keys(tokens), [tokens])
+	const [side, setSide] = useState<'send' | 'receive'>('send')
+	const swapAmount = useMemo(
+		() => (side === 'send' ? Number.parseFloat(from?.amount || '0') : Number.parseFloat(to?.amount || '0')),
+		[side, from, to],
+	)
+	const fee = useMemo(() => swapAmount * FEE_RATIO, [swapAmount])
 
-	useEffect(() => {
-		onFieldChange(`${parentName}${parentName ? '.' : ''}dex`, 'oci')
-	}, [onFieldChange])
+	const { data: preview, error: previewError } = useSwapPreview(from?.address, to?.address, side, swapAmount)
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [inputRef?.current])
 
 	useEffect(() => {
+		onFieldChange(`${parentName}${parentName ? '.' : ''}dex`, 'oci')
+	}, [onFieldChange])
+
+	useEffect(() => {
 		if (!preview) return
 		const s = preview.input_address === from?.address ? 'send' : 'receive'
-		setSide(s)
-
-		const fromKey = side === 'send' ? 'input' : 'output'
+		const fromKey = s === 'send' ? 'input' : 'output'
 		if (s === 'send') {
-			const toKey = side === 'send' ? 'output' : 'input'
+			const toKey = s === 'send' ? 'output' : 'input'
 			onFieldChange(`${parentName}${parentName ? '.' : ''}to[0].amount`, preview[`${toKey}_amount`].token)
 		} else {
 			onFieldChange(
@@ -132,6 +129,14 @@ export const FormFields: React.FC = () => {
 		onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, transactionManifest)
 	}, [preview])
 
+	const handleFromAmountChange = () => {
+		setSide('send')
+	}
+
+	const handleToAmountChange = () => {
+		setSide('receive')
+	}
+
 	return (
 		<Box width="full">
 			<ValidationErrorMessage message={(previewError as any)?.message} />
@@ -140,10 +145,18 @@ export const FormFields: React.FC = () => {
 				<TextField name="manifest" hidden />
 				<AccountSelect placeholder={intl.formatMessage(messages.account_placeholder)} ref={inputRef} name="account" />
 				<FieldsGroup name="from" defaultKeys={1} ignoreTriggers>
-					<TokenAmountSelect balances={fungibleBalances} resourceAddresses={source} />
+					<TokenAmountSelect
+						balances={fungibleBalances}
+						resourceAddresses={source}
+						onAmountChange={handleFromAmountChange}
+					/>
 				</FieldsGroup>
 				<FieldsGroup name="to" defaultKeys={1} ignoreTriggers>
-					<TokenAmountSelect balances={fungibleBalances} resourceAddresses={target} />
+					<TokenAmountSelect
+						balances={fungibleBalances}
+						resourceAddresses={target}
+						onAmountChange={handleToAmountChange}
+					/>
 				</FieldsGroup>
 			</Box>
 
