@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { CARD_COLORS, CARD_IMAGES } from '../constants/account'
 import { type AddressBookEntry, KeystoreType } from '../store/types'
-import { useNetworkId } from './dapp/use-network-id'
+import { useNetworkId } from './dapp/use-network'
 import { useRdtState } from './rdt/use-rdt-state'
 import { useNoneSharedStore, useSharedStore } from './use-store'
 import { useZdtState } from './zdt/use-zdt'

@@ -7,18 +7,17 @@ import { type KnownAddresses, decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
+import { useEntitiesDetails } from 'ui/src/hooks/dapp/use-entity-details'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
+import { usePools } from 'ui/src/hooks/dapp/use-pools'
+import { useValidators } from 'ui/src/hooks/dapp/use-validators'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
 import { type Token, useTokens } from 'ui/src/hooks/queries/tokens'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { ResourceBalanceType } from 'ui/src/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/src/types'
-
-import { useEntitiesDetails } from './use-entity-details'
-import { useKnownAddresses } from './use-known-addresses'
-import { useNetworkId } from './use-network-id'
-import { usePools } from './use-pools'
-import { useValidators } from './use-validators'
 
 const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
 	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)

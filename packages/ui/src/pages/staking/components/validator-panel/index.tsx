@@ -15,7 +15,7 @@ import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 // import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
-import { config } from 'ui/src/constants/config'
+import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -73,6 +73,7 @@ const messages = defineMessages({
 export const ValidatorPanel = () => {
 	const intl = useIntl()
 	const isMobile = useIsMobileWidth()
+	const dashboardUrl = useDashboardUrl()
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	// START DEMO LOADING
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -222,7 +223,7 @@ export const ValidatorPanel = () => {
 									sizeVariant="small"
 									styleVariant="ghost"
 									iconOnly
-									to={`${config.defaultExplorerURL}/transaction/${transactionId}`}
+									to={`${dashboardUrl}/transaction/${transactionId}`}
 									target="_blank"
 								>
 									<ShareIcon />

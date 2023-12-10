@@ -1,8 +1,9 @@
 import type { PropsWithChildren } from 'react'
 import React, { useEffect, useState } from 'react'
 
-import { useKnownAddresses } from '../hooks/dapp/use-known-addresses'
-import { useNetworkId } from '../hooks/dapp/use-network-id'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
+
 import type { State } from './images'
 import { ImageContext, defaultState } from './images'
 

@@ -13,7 +13,7 @@ import type {
 } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Accounts, Keystore } from 'ui/src/store/types'

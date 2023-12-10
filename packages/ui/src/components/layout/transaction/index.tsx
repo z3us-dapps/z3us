@@ -29,10 +29,10 @@ import { TransactionStatusIcon } from 'ui/src/components/transaction-status-icon
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import Code from 'ui/src/components/typography/code'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { config } from 'ui/src/constants/config'
 import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
+import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { findMetadataValue } from 'ui/src/services/metadata'
@@ -219,6 +219,7 @@ export const Transaction = () => {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
+	const dashboardUrl = useDashboardUrl()
 	const { data: knownAddresses } = useKnownAddresses()
 	const accounts = useWalletAccounts()
 
@@ -269,7 +270,7 @@ export const Transaction = () => {
 						sizeVariant="small"
 						styleVariant="ghost"
 						iconOnly
-						to={`${config.defaultExplorerURL}/transaction/${transactionId}`}
+						to={`${dashboardUrl}/transaction/${transactionId}`}
 						target="_blank"
 					>
 						<ShareIcon />

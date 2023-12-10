@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { findMetadataValue } from 'ui/src/services/metadata'
 
 import { useEntitiesDetails } from './use-entity-details'
-import { useNetworkId } from './use-network-id'
+import { useNetworkId } from './use-network'
 
 const ZERO = decimal(0).value
 
