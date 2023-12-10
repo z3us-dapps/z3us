@@ -122,6 +122,7 @@ export const FormFields: React.FC = () => {
 				</FieldsGroup>
 				<FieldsGroup name="to" defaultKeys={1} ignoreTriggers>
 					<TokenAmountSelect
+						disabledAmount
 						balances={fungibleBalances}
 						resourceAddresses={target}
 						onAmountChange={handleToAmountChange}
