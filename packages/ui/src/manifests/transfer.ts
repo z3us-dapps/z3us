@@ -1,6 +1,8 @@
 import {
 	type ManifestBuilder,
+	ValueKind,
 	address,
+	array,
 	bucket,
 	decimal,
 	enumeration,
@@ -93,7 +95,10 @@ export const sendNftTokens = (manifest: ManifestBuilder, transfers: Array<SendNf
 		(group, [from, nft]) =>
 			Object.entries(nft).reduce((ids, [resource, idMap]) => {
 				Object.keys(idMap).forEach(id => {
-					ids = ids.callMethod(from, 'withdraw', [address(resource), nonFungibleLocalId(id)])
+					ids = ids.callMethod(from, 'withdraw_non_fungibles', [
+						address(resource),
+						array(ValueKind.NonFungibleLocalId, nonFungibleLocalId(id)),
+					])
 				})
 				return ids
 			}, group),
