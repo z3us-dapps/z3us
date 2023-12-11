@@ -181,7 +181,7 @@ const transformNonFungibleResourceItemResponse =
 		}
 
 		const ids = item.vaults.items.reduce((acc, curr) => {
-			acc.push(...curr.items)
+			acc.push(...(curr.items || []))
 			return acc
 		}, [])
 
