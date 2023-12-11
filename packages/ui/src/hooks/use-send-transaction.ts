@@ -1,6 +1,8 @@
 import type { SendTransactionInput, TransactionStatus } from '@radixdlt/radix-dapp-toolkit'
+import { useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 
+import { useNetworkId } from './dapp/use-network'
 import { useRdt } from './rdt/use-rdt'
 import { useSharedStore } from './use-store'
 
@@ -13,6 +15,8 @@ export type SendTransaction = (input: SendTransactionInput) => Promise<SendTrans
 
 export const useSendTransaction: () => SendTransaction = () => {
 	const rdt = useRdt()!
+	const queryClient = useQueryClient()
+	const networkId = useNetworkId()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
@@ -25,6 +29,9 @@ export const useSendTransaction: () => SendTransaction = () => {
 						reject(res.error)
 					} else {
 						resolve(res.value)
+						queryClient.invalidateQueries(['useBalances', networkId])
+						queryClient.invalidateQueries(['useAccountValues', networkId])
+						queryClient.invalidateQueries(['useAccountNftVaults', networkId])
 					}
 				})
 			}),
