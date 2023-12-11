@@ -52,7 +52,7 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
 
 	const [state, setState] = useImmer<State>({
-		keys: Array.from({ length: values?.[fieldName]?.length || defaultKeys }, generateId),
+		keys: Array.from({ length: get(values, fieldName)?.length || defaultKeys }, generateId),
 		error: '',
 	})
 
@@ -67,7 +67,8 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	const handleRemove = (key: string) => {
 		const idx = state.keys.findIndex(k => k === key)
 		if (idx > -1) {
-			const v = [...(values?.[fieldName] || [])]
+			const value = get(values, fieldName)
+			const v = [...(value || [])]
 			v.splice(idx, 1)
 			onFieldChange(fieldName, v)
 		}
