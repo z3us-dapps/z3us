@@ -1,7 +1,5 @@
 import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
-import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useSearchParams } from 'react-router-dom'
@@ -16,7 +14,7 @@ import { TokenPrice } from 'ui/src/components/token-price'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { TransactionStatusIcon } from 'ui/src/components/transaction-status-icon'
 import { Text } from 'ui/src/components/typography'
-import { animatePageVariants } from 'ui/src/constants/page'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransactions } from 'ui/src/hooks/dapp/use-transactions'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
@@ -30,38 +28,29 @@ const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref=
 const ItemContainer = props => <Box {...props} className={styles.activityItem} />
 
 const SkeletonRow = ({ index }: { index: number }) => (
-	<motion.div
-		initial="hidden"
-		animate="visible"
-		variants={animatePageVariants}
-		style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0' }}
+	<Box
+		width="full"
+		height="full"
+		display="flex"
+		gap="small"
+		flexDirection="column"
+		justifyContent="center"
+		style={{ height: '50px' }}
 	>
-		<Box
-			width="full"
-			height="full"
-			display="flex"
-			gap="small"
-			flexDirection="column"
-			justifyContent="center"
-			borderBottom={1}
-			borderStyle="solid"
-			borderColor="borderDivider"
-		>
-			<Box display="flex" alignItems="center" gap="medium">
-				<Box className={clsx(skeletonStyles.tokenListSkeleton, skeletonStyles.tokenListGridCircle)} />
-				<Box flexGrow={1} display="flex" flexDirection="column" gap="small">
-					<Box
-						className={skeletonStyles.tokenListSkeleton}
-						style={{ height: '12px', width: 2 % index === 0 ? '25%' : '35%' }}
-					/>
-					<Box
-						className={skeletonStyles.tokenListSkeleton}
-						style={{ height: '12px', width: 2 % index === 0 ? '35%' : '45%' }}
-					/>
-				</Box>
+		<Box display="flex" alignItems="center" gap="medium">
+			<Box className={clsx(skeletonStyles.tokenListSkeleton, skeletonStyles.tokenListGridCircle)} />
+			<Box flexGrow={1} display="flex" flexDirection="column" gap="small">
+				<Box
+					className={skeletonStyles.tokenListSkeleton}
+					style={{ height: '12px', width: 2 % index === 0 ? '25%' : '35%' }}
+				/>
+				<Box
+					className={skeletonStyles.tokenListSkeleton}
+					style={{ height: '12px', width: 2 % index === 0 ? '35%' : '45%' }}
+				/>
 			</Box>
 		</Box>
-	</motion.div>
+	</Box>
 )
 
 interface IRowProps {
@@ -119,69 +108,65 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 
 	return (
 		<Box className={styles.activityItemOuter}>
-			<AnimatePresence initial={false}>
-				{!transaction && <SkeletonRow index={index} />}
-				{transaction && (
-					<Box
-						onClick={handleClick}
-						className={clsx(styles.activityItemInner, (isSelected || isHovered) && styles.activityItemInnerSelected)}
+			{transaction ? (
+				<Box
+					onClick={handleClick}
+					className={clsx(styles.activityItemInner, (isSelected || isHovered) && styles.activityItemInnerSelected)}
+				>
+					<Link
+						to={`${location.pathname}?${searchParams}`}
+						underline="never"
+						className={styles.activityItemInnerBtn}
+						onMouseOver={handleMouseOver}
+						onMouseLeave={handleMouseLeave}
 					>
-						<Link
-							to={`${location.pathname}?${searchParams}`}
-							underline="never"
-							className={styles.activityItemInnerBtn}
-							onMouseOver={handleMouseOver}
-							onMouseLeave={handleMouseLeave}
-						>
-							<Box className={styles.activityItemStatusWrapper}>
-								<TransactionStatusIcon statusType={transaction.transaction_status} size="small" />
-							</Box>
-							<Box className={styles.activityItemTextWrapper}>
-								<Text weight="stronger" size="small" color="strong" truncate>
-									{getShortAddress(transaction.intent_hash)}
-								</Text>
-								<Text size="xsmall" truncate>
-									<TimeFromNow date={transaction.confirmed_at} />
-								</Text>
-							</Box>
-							{balanceChanges.length > 0 && (
-								<Box className={styles.activityItemTextEventsWrapper}>
-									<Box display="flex" className={styles.activityItemBalanceChangeWrapper}>
-										{balanceChanges.slice(0, DEFAULT_BALANCE_CHANGE_ITEMS).map(change => (
-											<TransactionIcon
-												key={`${change.entity_address}-${change.resource_address}`}
-												size={{ mobile: 'medium', tablet: 'medium' }}
-												address={change.resource_address}
-												transactionType={Number.parseFloat(change.amount) > 0 ? 'deposit' : 'withdraw'}
-											/>
-										))}
-										{balanceChanges.length > DEFAULT_BALANCE_CHANGE_ITEMS && (
-											<Box paddingLeft="medium">
-												<Text size="xxsmall" weight="medium">
-													+ {balanceChanges.length - DEFAULT_BALANCE_CHANGE_ITEMS}
-												</Text>
-											</Box>
-										)}
-									</Box>
-									<Box className={styles.activityItemTextPriceWrapper}>
-										<Text size="xsmall">
-											<TokenPrice
-												amount={transaction.fee_paid as any}
-												address={knownAddresses?.resourceAddresses.xrd}
-											/>
-										</Text>
-										<Text>&nbsp;&middot;&nbsp;</Text>
-										<Text size="xsmall">{`${intl.formatNumber(
-											Number.parseFloat(transaction.fee_paid) || 0,
-											DECIMAL_STYLES,
-										)} XRD`}</Text>
-									</Box>
+						<Box className={styles.activityItemStatusWrapper}>
+							<TransactionStatusIcon statusType={transaction.transaction_status} size="small" />
+						</Box>
+						<Box className={styles.activityItemTextWrapper}>
+							<Text weight="stronger" size="small" color="strong" truncate>
+								{getShortAddress(transaction.intent_hash)}
+							</Text>
+							<Text size="xsmall" truncate>
+								<TimeFromNow date={transaction.confirmed_at} />
+							</Text>
+						</Box>
+						{balanceChanges.length > 0 && (
+							<Box className={styles.activityItemTextEventsWrapper}>
+								<Box display="flex" className={styles.activityItemBalanceChangeWrapper}>
+									{balanceChanges.slice(0, DEFAULT_BALANCE_CHANGE_ITEMS).map(change => (
+										<TransactionIcon
+											key={`${change.entity_address}-${change.resource_address}`}
+											size={{ mobile: 'medium', tablet: 'medium' }}
+											address={change.resource_address}
+											transactionType={Number.parseFloat(change.amount) > 0 ? 'deposit' : 'withdraw'}
+										/>
+									))}
+									{balanceChanges.length > DEFAULT_BALANCE_CHANGE_ITEMS && (
+										<Box paddingLeft="medium">
+											<Text size="xxsmall" weight="medium">
+												+ {balanceChanges.length - DEFAULT_BALANCE_CHANGE_ITEMS}
+											</Text>
+										</Box>
+									)}
 								</Box>
-							)}
-						</Link>
-					</Box>
-				)}
-			</AnimatePresence>
+								<Box className={styles.activityItemTextPriceWrapper}>
+									<Text size="xsmall">
+										<TokenPrice amount={transaction.fee_paid as any} address={knownAddresses?.resourceAddresses.xrd} />
+									</Text>
+									<Text>&nbsp;&middot;&nbsp;</Text>
+									<Text size="xsmall">{`${intl.formatNumber(
+										Number.parseFloat(transaction.fee_paid) || 0,
+										DECIMAL_STYLES,
+									)} XRD`}</Text>
+								</Box>
+							</Box>
+						)}
+					</Link>
+				</Box>
+			) : (
+				<SkeletonRow index={index} />
+			)}
 		</Box>
 	)
 }
@@ -259,17 +244,28 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>((props, ref: R
 					{intl.formatMessage(messages.title)}
 				</Text>
 			</Box>
-			<Virtuoso
-				customScrollParent={scrollableNode}
-				totalCount={flattenWithLoading.length}
-				data={flattenWithLoading}
-				endReached={loadMore}
-				itemContent={renderItem}
-				components={{
-					List: ListContainer,
-					Item: ItemContainer,
-				}}
-			/>
+
+			{isFetching ? (
+				Array.from({ length: 6 }, (_, i) => (
+					<Box paddingX="large">
+						<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
+							<SkeletonRow index={i} />{' '}
+						</Box>
+					</Box>
+				))
+			) : (
+				<Virtuoso
+					customScrollParent={scrollableNode}
+					totalCount={flattenWithLoading.length}
+					data={flattenWithLoading}
+					endReached={loadMore}
+					itemContent={renderItem}
+					components={{
+						List: ListContainer,
+						Item: ItemContainer,
+					}}
+				/>
+			)}
 		</Box>
 	)
 })
