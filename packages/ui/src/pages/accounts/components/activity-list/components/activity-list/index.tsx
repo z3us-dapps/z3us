@@ -247,7 +247,7 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>((props, ref: R
 
 			{isFetching ? (
 				Array.from({ length: 6 }, (_, i) => (
-					<Box paddingX="large">
+					<Box key={i} paddingX="large">
 						<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
 							<SkeletonRow index={i} />{' '}
 						</Box>
