@@ -29,6 +29,7 @@ export function getSecret(data: Data): string {
 		case DataType.MNEMONIC:
 			return entropyToMnemonic(Buffer.from(data.secret, 'hex'), getWordList(data?.language ?? Language.ENGLISH))
 		case DataType.PRIVATE_KEY:
+		case DataType.RAW_PRIVATE_KEY:
 		case DataType.STRING:
 			return data.secret
 		case DataType.NONE:
@@ -58,6 +59,7 @@ export function secretToData(type: DataType, secret: string = '', language: Lang
 				language,
 			}
 		case DataType.PRIVATE_KEY:
+		case DataType.RAW_PRIVATE_KEY:
 		case DataType.STRING:
 			return {
 				type,

@@ -1,5 +1,6 @@
 import type {
-	FungibleResourcesCollectionItemVaultAggregated, // NonFungibleResourcesCollectionItemVaultAggregated,
+	FungibleResourcesCollectionItemVaultAggregated,
+	StateEntityDetailsResponseItem, // NonFungibleResourcesCollectionItemVaultAggregated,
 } from '@radixdlt/radix-dapp-toolkit'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
@@ -21,7 +22,7 @@ const collectResourceValidators = (
 	return container
 }
 
-const useAccountValidators = (accounts, at?: Date) => {
+const useAccountValidators = (accounts: StateEntityDetailsResponseItem[], at?: Date) => {
 	const addresses = useMemo(() => {
 		if (!accounts) return []
 		return accounts
@@ -32,10 +33,10 @@ const useAccountValidators = (accounts, at?: Date) => {
 	return useEntitiesDetails(addresses, undefined, undefined, at)
 }
 
-export const useValidators = (addresses: string[]) => {
+export const useValidators = (accountAddresses: string[]) => {
 	const networkId = useNetworkId()
 
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(addresses)
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
 
 	const [before, setBefore] = useState<Date>(new Date())
 	useEffect(() => {
@@ -91,7 +92,8 @@ export const useValidators = (addresses: string[]) => {
 		isLoadingValidatorClaims ||
 		isLoadingValidatorClaimsBefore ||
 		isLoadingPoolsBefore
-	const enabled = !isLoading && addresses.length > 0 && !!validators && !!validatorsBefore && !!units && !!unitsBefore
+	const enabled =
+		!isLoading && accountAddresses.length > 0 && !!validators && !!validatorsBefore && !!units && !!unitsBefore
 
 	const queryFn = () => {
 		const validatorsBeforeMap = validatorsBefore.reduce((map, validator) => {
@@ -191,7 +193,7 @@ export const useValidators = (addresses: string[]) => {
 	}
 
 	return useQuery({
-		queryKey: ['useValidators', networkId, addresses, before],
+		queryKey: ['useValidators', networkId, accountAddresses, before],
 		enabled,
 		queryFn,
 	})
