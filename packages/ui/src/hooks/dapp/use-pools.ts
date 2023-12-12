@@ -1,4 +1,7 @@
-import type { FungibleResourcesCollectionItemVaultAggregated } from '@radixdlt/radix-dapp-toolkit'
+import type {
+	FungibleResourcesCollectionItemVaultAggregated,
+	StateEntityDetailsResponseItem,
+} from '@radixdlt/radix-dapp-toolkit'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useState } from 'react'
@@ -16,7 +19,7 @@ const collectResourcePools = (container: string[], item: FungibleResourcesCollec
 	return container
 }
 
-const useAccountPools = (accounts, at?: Date) => {
+const useAccountPools = (accounts: StateEntityDetailsResponseItem[], at?: Date) => {
 	const addresses = useMemo(() => {
 		if (!accounts) return []
 		return accounts
@@ -27,10 +30,10 @@ const useAccountPools = (accounts, at?: Date) => {
 	return useEntitiesDetails(addresses, undefined, undefined, at)
 }
 
-export const usePools = (addresses: string[]) => {
+export const usePools = (accountAddresses: string[]) => {
 	const networkId = useNetworkId()
 
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(addresses)
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
 
 	const [before, setBefore] = useState<Date>(new Date())
 	useEffect(() => {
@@ -61,7 +64,8 @@ export const usePools = (addresses: string[]) => {
 
 	const isLoading =
 		isLoadingPools || isLoadingAccounts || isLoadingPoolUnits || isLoadingPoolUnitsBefore || isLoadingPoolsBefore
-	const enabled = !isLoading && addresses.length > 0 && !!pools && !!poolsBefore && !!poolUnits && !!poolUnitsBefore
+	const enabled =
+		!isLoading && accountAddresses.length > 0 && !!pools && !!poolsBefore && !!poolUnits && !!poolUnitsBefore
 
 	const queryFn = () => {
 		const poolsBeforeMap = poolsBefore.reduce((map, pool) => {
@@ -114,7 +118,7 @@ export const usePools = (addresses: string[]) => {
 	}
 
 	return useQuery({
-		queryKey: ['usePools', networkId, addresses, before],
+		queryKey: ['usePools', networkId, accountAddresses, before],
 		enabled,
 		queryFn,
 	})

@@ -1,4 +1,6 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query'
+
+import { splitArrayIntoChunks } from 'ui/src/utils/array-chunk'
 
 import { useAccountNftVaults } from './use-balances'
 import { useGatewayClient } from './use-gateway-client'
@@ -67,17 +69,26 @@ export const useNonFungiblesData = (collection: string, ids: string[]) => {
 	const networkId = useNetworkId()
 	const { state } = useGatewayClient()!
 
-	return useQuery({
-		queryKey: ['useNonFungiblesData', networkId, collection, ids],
+	const queries = splitArrayIntoChunks(ids, 20).map(chunk => ({
+		queryKey: ['useNonFungiblesData', networkId, collection, chunk],
 		queryFn: () =>
 			state.innerClient
 				.nonFungibleData({
 					stateNonFungibleDataRequest: {
 						resource_address: collection,
-						non_fungible_ids: ids,
+						non_fungible_ids: chunk,
 					},
 				})
 				.then(resp => resp.non_fungible_ids.map(d => ({ ...d, collection }))),
-		enabled: !!state && !!collection && ids.length > 0,
-	})
+		enabled: !!state && !!collection && chunk.length > 0,
+	}))
+
+	const results = useQueries({ queries })
+	return results.reduce(
+		(container, result) => ({
+			data: container.data.concat(result.data || []),
+			isLoading: container.isLoading || result.isLoading,
+		}),
+		{ data: [], isLoading: false },
+	)
 }
