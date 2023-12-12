@@ -86,7 +86,6 @@ const SelectAccountsShareAllButton: React.FC<{ interaction: WalletInteractionWit
 		}))
 
 		onFieldChange('accounts', allAccounts)
-		console.log(99, 'share em all', allAccounts)
 	}
 
 	useEffect(() => {
