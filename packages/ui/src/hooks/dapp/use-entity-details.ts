@@ -1,6 +1,8 @@
 import type { StateEntityDetailsOptIns, StateEntityDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
 import { ResourceAggregationLevel } from '@radixdlt/babylon-gateway-api-sdk'
-import { useQuery } from '@tanstack/react-query'
+import { useQueries } from '@tanstack/react-query'
+
+import { splitArrayIntoChunks } from 'ui/src/utils/array-chunk'
 
 import { defaultFungiblesOptIns, defaultNonFungiblesOptIns } from './use-entity-balances'
 import { useGatewayClient } from './use-gateway-client'
@@ -26,14 +28,14 @@ export const useEntitiesDetails = (
 	const networkId = useNetworkId()
 	const { state } = useGatewayClient()!
 
-	return useQuery({
-		queryKey: ['useEntitiesDetails', networkId, addresses, at],
+	const queries = splitArrayIntoChunks(addresses, 20).map(chunk => ({
+		queryKey: ['useEntitiesDetails', networkId, chunk, at],
 		queryFn: () =>
-			addresses.length > 0
+			chunk.length > 0
 				? state.innerClient
 						.stateEntityDetails({
 							stateEntityDetailsRequest: {
-								addresses,
+								addresses: chunk,
 								aggregation_level: aggregation,
 								opt_ins: optIns,
 								at_ledger_state: at
@@ -48,7 +50,16 @@ export const useEntitiesDetails = (
 		enabled: !!state,
 		staleTime: 30 * 1000,
 		refetchInterval: 30 * 1000,
-	})
+	}))
+
+	const results = useQueries({ queries })
+	return results.reduce(
+		(container, result) => ({
+			data: container.data.concat(result.data || []),
+			isLoading: container.isLoading || result.isLoading,
+		}),
+		{ data: [], isLoading: false },
+	)
 }
 
 export const useEntityDetails = (
@@ -57,6 +68,6 @@ export const useEntityDetails = (
 	optIns: StateEntityDetailsOptIns = defaultOptIns,
 	at?: Date,
 ) => {
-	const { data, ...rest } = useEntitiesDetails(address ? [address] : [], aggregation, optIns, at)
-	return { ...rest, data: (data?.[0] || null) as StateEntityDetailsResponseItem }
+	const { data = [], ...rest } = useEntitiesDetails(address ? [address] : [], aggregation, optIns, at)
+	return { ...rest, data: (data[0] || null) as StateEntityDetailsResponseItem }
 }
