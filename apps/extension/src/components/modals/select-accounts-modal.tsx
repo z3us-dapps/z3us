@@ -1,4 +1,6 @@
 import clsx from 'clsx'
+import { FieldContext } from 'packages/ui/src/components/form/field-wrapper/context'
+import { useFieldValue } from 'packages/ui/src/components/form/use-field-value'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
@@ -17,7 +19,6 @@ import { Text } from 'ui/src/components/typography'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
-import type { ApprovedDapps } from 'ui/src/store/types'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 
@@ -66,19 +67,10 @@ const messages = defineMessages({
 	},
 })
 
-function getInitialAccounts(dappAddress: string, approvedDapps: ApprovedDapps): string[] {
-	const { accounts = [] } = approvedDapps[dappAddress] || {}
-	return accounts
-}
-
-const SelectAccountsShareAllButton: React.FC<{ interaction: WalletInteractionWithTabId }> = ({ interaction }) => {
+const SelectAccountsShareAllButton: React.FC = () => {
 	const intl = useIntl()
-
 	const accountIndexes = useAccountIndexes()
-
-	const { onFieldChange, isInit } = useContext(FormContext)
-	const approvedDapps = useApprovedDapps()
-	const selectedAccounts = getInitialAccounts(interaction.metadata.dAppDefinitionAddress, approvedDapps)
+	const { onFieldChange } = useContext(FormContext)
 
 	const handleShareAllAccounts = () => {
 		const allAccounts = Object.keys(accountIndexes).map(address => ({
@@ -87,13 +79,6 @@ const SelectAccountsShareAllButton: React.FC<{ interaction: WalletInteractionWit
 
 		onFieldChange('accounts', allAccounts)
 	}
-
-	useEffect(() => {
-		const interactionAccounts = selectedAccounts?.map(_address => ({ address: _address }))
-		if (interactionAccounts?.length > 0 && isInit) {
-			onFieldChange('accounts', interactionAccounts)
-		}
-	}, [selectedAccounts?.length, isInit])
 
 	return (
 		<Box paddingTop="medium">
@@ -110,6 +95,72 @@ const SelectAccountsShareAllButton: React.FC<{ interaction: WalletInteractionWit
 	)
 }
 
+const AccountsSelect: React.FC<{ selectedAccountsMap: { [address: string]: boolean } }> = ({ selectedAccountsMap }) => {
+	const intl = useIntl()
+	const accountIndexes = useAccountIndexes()
+	const addressBook = useAddressBook()
+
+	const { name: parentName } = useContext(FieldContext)
+	const selected = useFieldValue(`${parentName ? `${parentName}.` : ''}address`)
+
+	const data = useMemo(
+		() =>
+			Object.keys(accountIndexes)
+				.filter(address => address === selected || !selectedAccountsMap[address])
+				.map(address => ({
+					id: address,
+					title: addressBook[address]?.name || address,
+				})),
+		[selectedAccountsMap, addressBook, accountIndexes],
+	)
+
+	return (
+		<Box>
+			<SelectField
+				name="address"
+				fullWidth
+				sizeVariant="large"
+				placeholder={intl.formatMessage(messages.accounts_placeholder)}
+				data={data}
+			/>
+		</Box>
+	)
+}
+
+const AccountsSelectGroup: React.FC = () => {
+	const intl = useIntl()
+
+	const { name: parentName } = useContext(FieldContext)
+	const selectedAccounts = useFieldValue(`${parentName ? `${parentName}.` : ''}accounts`)
+
+	const selectedAccountsMap = useMemo(
+		() => selectedAccounts.reduce((map, selected) => ({ ...map, [selected.address]: true }), {}),
+		[selectedAccounts],
+	)
+
+	return (
+		<FieldsGroup
+			name="accounts"
+			className={styles.formFieldModalGroupWrapper}
+			defaultKeys={1}
+			trashTrigger={
+				<Button styleVariant="ghost" sizeVariant="small" iconOnly>
+					<TrashIcon />
+				</Button>
+			}
+			addTrigger={
+				<Box className={clsx(styles.modalPersonaFormWrapper, styles.modalContentFormBorderWrapper)}>
+					<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth leftIcon={<PlusIcon />}>
+						{intl.formatMessage(messages.button_add_account)}
+					</Button>
+				</Box>
+			}
+		>
+			<AccountsSelect selectedAccountsMap={selectedAccountsMap} />
+		</FieldsGroup>
+	)
+}
+
 export interface IProps {
 	required: number
 	exactly: boolean
@@ -118,15 +169,24 @@ export interface IProps {
 	onCancel: () => void
 }
 
-const initialValues = { accounts: [] }
+const init = { accounts: [] }
 
 const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, interaction, onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const accountIndexes = useAccountIndexes()
-	const addressBook = useAddressBook()
+	const approvedDapps = useApprovedDapps()
 
+	const [initialValues, restFormValues] = useState<typeof init>(init)
 	const [validation, setValidation] = useState<ZodError>()
 	const [isOpen, setIsOpen] = useState<boolean>(true)
+
+	useEffect(() => {
+		const { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
+		accounts.filter(address => !!accountIndexes[address]).map(_address => ({ address: _address }))
+		restFormValues({
+			accounts: accounts.filter(address => !!accountIndexes[address]).map(_address => ({ address: _address })),
+		})
+	}, [accountIndexes, approvedDapps])
 
 	const validationSchema = useMemo(() => {
 		const accountSchema = z.object({
@@ -181,37 +241,8 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, interaction,
 					errors={validation?.format()}
 					className={styles.modalFormFieldWrapper}
 				>
-					<FieldsGroup
-						name="accounts"
-						className={styles.formFieldModalGroupWrapper}
-						defaultKeys={1}
-						trashTrigger={
-							<Button styleVariant="ghost" sizeVariant="small" iconOnly>
-								<TrashIcon />
-							</Button>
-						}
-						addTrigger={
-							<Box className={clsx(styles.modalPersonaFormWrapper, styles.modalContentFormBorderWrapper)}>
-								<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth leftIcon={<PlusIcon />}>
-									{intl.formatMessage(messages.button_add_account)}
-								</Button>
-							</Box>
-						}
-					>
-						<Box>
-							<SelectField
-								name="address"
-								fullWidth
-								sizeVariant="large"
-								placeholder={intl.formatMessage(messages.accounts_placeholder)}
-								data={Object.keys(accountIndexes).map(address => ({
-									id: address,
-									title: addressBook[address]?.name || address,
-								}))}
-							/>
-						</Box>
-					</FieldsGroup>
-					<SelectAccountsShareAllButton interaction={interaction} />
+					<AccountsSelectGroup />
+					<SelectAccountsShareAllButton />
 					<Box paddingTop="medium">
 						<SubmitButton>
 							<Button fullWidth sizeVariant="xlarge">

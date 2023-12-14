@@ -6,7 +6,8 @@ import type {
 	WalletUnauthorizedRequestItems,
 	WalletUnauthorizedRequestResponseItems,
 } from '@radixdlt/radix-dapp-toolkit'
-import { useMemo, useState } from 'react'
+import { useAccountIndexes } from 'packages/ui/src/hooks/use-account-indexes'
+import { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 import browser from 'webextension-polyfill'
@@ -93,11 +94,6 @@ function getInitialPersona(
 	return persona
 }
 
-function getInitialAccounts(dappAddress: string, approvedDapps: ApprovedDapps): string[] {
-	const { accounts = [] } = approvedDapps[dappAddress] || {}
-	return accounts
-}
-
 interface IProps {
 	interaction: WalletInteractionWithTabId
 }
@@ -110,6 +106,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	const selectAccounts = useSelectAccountsModal()
 	const getPersonaData = usePersonaDataModal()
 	const addressBook = useAddressBookWithAccounts()
+	const accountIndexes = useAccountIndexes()
 	const personaIndexes = usePersonaIndexes()
 	const approvedDapps = useApprovedDapps()
 
@@ -126,11 +123,19 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	const [selectedPersona, setSelectedPersona] = useState<string>(
 		getInitialPersona(interaction.metadata.dAppDefinitionAddress, approvedDapps, personaIndexes, request),
 	)
-	const [selectedAccounts, setSelectedAccounts] = useState<string[]>(
-		getInitialAccounts(interaction.metadata.dAppDefinitionAddress, approvedDapps),
-	)
+	const [selectedAccounts, setSelectedAccounts] = useState<string[]>([])
+
+	useEffect(() => {
+		const { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
+		accounts.filter(address => !!accountIndexes[address]).map(_address => ({ address: _address }))
+		setSelectedAccounts(accounts.filter(address => !!accountIndexes[address]))
+	}, [accountIndexes, approvedDapps])
 
 	const persona = useMemo(() => personaIndexes[selectedPersona], [personaIndexes, selectedPersona])
+	const accountsList = useMemo(
+		() => selectedAccounts.map(acc => addressBook[acc]?.name || getShortAddress(acc)),
+		[selectedAccounts, addressBook],
+	)
 
 	const handleSelectPersona = async () => {
 		setSelectedPersona(await selectPersona())
@@ -237,10 +242,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 							>
 								{intl.formatMessage(messages.select_accounts, {
 									isSelected: selectedAccounts.length > 0,
-									accountsList: intl.formatList(
-										selectedAccounts.map(acc => addressBook[acc]?.name || getShortAddress(acc)),
-										{ type: 'conjunction' },
-									),
+									accountsList: intl.formatList(accountsList, { type: 'conjunction' }),
 								})}
 							</Button>
 						</Box>
