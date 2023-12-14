@@ -10,7 +10,6 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Dialog } from 'ui/src/components/dialog'
 import { Form } from 'ui/src/components/form'
-import { FormContext } from 'ui/src/components/form/context'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
@@ -42,8 +41,8 @@ const messages = defineMessages({
 		defaultMessage: 'Please select exactly {number} accounts',
 	},
 	form_button_share_all_account: {
-		id: 'rw4ys0',
-		defaultMessage: 'Share all accounts',
+		id: 'cqbC7C',
+		defaultMessage: 'Add all accounts',
 	},
 	form_button_title: {
 		id: '8cueNe',
@@ -67,28 +66,18 @@ const messages = defineMessages({
 	},
 })
 
-const SelectAccountsShareAllButton: React.FC = () => {
+const SelectAccountsShareAllButton: React.FC<{ onClick: React.MouseEventHandler<HTMLButtonElement> }> = ({
+	onClick,
+}) => {
 	const intl = useIntl()
 	const accountIndexes = useAccountIndexes()
-	const { onFieldChange } = useContext(FormContext)
+	const selected = useFieldValue('accounts')
 
-	const handleShareAllAccounts = () => {
-		const allAccounts = Object.keys(accountIndexes).map(address => ({
-			address,
-		}))
-
-		onFieldChange('accounts', allAccounts)
-	}
+	if (selected.length >= Object.keys(accountIndexes).length) return null
 
 	return (
 		<Box paddingTop="medium">
-			<Button
-				styleVariant="secondary"
-				sizeVariant="xlarge"
-				fullWidth
-				leftIcon={<PlusIcon />}
-				onClick={handleShareAllAccounts}
-			>
+			<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth leftIcon={<PlusIcon />} onClick={onClick}>
 				{intl.formatMessage(messages.form_button_share_all_account)}
 			</Button>
 		</Box>
@@ -111,23 +100,21 @@ const AccountsSelect: React.FC<{ selectedAccountsMap: { [address: string]: boole
 					id: address,
 					title: addressBook[address]?.name || address,
 				})),
-		[selectedAccountsMap, addressBook, accountIndexes],
+		[selectedAccountsMap, selected, addressBook, accountIndexes],
 	)
 
 	return (
-		<Box>
-			<SelectField
-				name="address"
-				fullWidth
-				sizeVariant="large"
-				placeholder={intl.formatMessage(messages.accounts_placeholder)}
-				data={data}
-			/>
-		</Box>
+		<SelectField
+			name="address"
+			fullWidth
+			sizeVariant="large"
+			placeholder={intl.formatMessage(messages.accounts_placeholder)}
+			data={data}
+		/>
 	)
 }
 
-const AccountsSelectGroup: React.FC = () => {
+const AccountsSelectGroup: React.FC<{ defaultKeys: number; maxKeys: number }> = ({ defaultKeys, maxKeys }) => {
 	const intl = useIntl()
 
 	const { name: parentName } = useContext(FieldContext)
@@ -142,7 +129,8 @@ const AccountsSelectGroup: React.FC = () => {
 		<FieldsGroup
 			name="accounts"
 			className={styles.formFieldModalGroupWrapper}
-			defaultKeys={1}
+			defaultKeys={defaultKeys}
+			maxKeys={maxKeys}
 			trashTrigger={
 				<Button styleVariant="ghost" sizeVariant="small" iconOnly>
 					<TrashIcon />
@@ -208,7 +196,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, interaction,
 		})
 	}, [exactly, required])
 
-	const handleSubmit = async (values: typeof initialValues) => {
+	const handleSubmit = async (values: typeof init) => {
 		setValidation(undefined)
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {
@@ -226,6 +214,16 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, interaction,
 		setValidation(undefined)
 	}
 
+	const handleShareAllAccounts = () => {
+		const allAccounts = Object.keys(accountIndexes).map(address => ({
+			address,
+		}))
+
+		restFormValues({
+			accounts: allAccounts,
+		})
+	}
+
 	return (
 		<Dialog open={isOpen} onClose={handleCancel}>
 			<Box className={styles.modalContentWrapper}>
@@ -241,8 +239,8 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, interaction,
 					errors={validation?.format()}
 					className={styles.modalFormFieldWrapper}
 				>
-					<AccountsSelectGroup />
-					<SelectAccountsShareAllButton />
+					<AccountsSelectGroup maxKeys={Object.keys(accountIndexes).length} defaultKeys={exactly ? required : 1} />
+					<SelectAccountsShareAllButton onClick={handleShareAllAccounts} />
 					<Box paddingTop="medium">
 						<SubmitButton>
 							<Button fullWidth sizeVariant="xlarge">
