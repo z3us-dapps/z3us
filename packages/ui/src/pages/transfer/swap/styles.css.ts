@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 export const swapDropdownContentWrapper = style([
 	{
@@ -23,10 +20,20 @@ export const swapExchangeButtonWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
+		alignItems: 'center',
 		paddingBottom: {
 			mobile: 'medium',
 			tablet: 'large',
 		},
+	}),
+	{},
+])
+
+export const swapValidationWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		paddingBottom: 'medium',
 	}),
 	{},
 ])

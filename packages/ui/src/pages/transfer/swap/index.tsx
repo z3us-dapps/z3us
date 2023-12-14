@@ -195,7 +195,7 @@ export const Swap: React.FC = () => {
 			<Form onSubmit={handleSubmit} initialValues={formValues} errors={validation?.format()}>
 				<Box className={styles.swapExchangeButtonWrapper}>
 					<Box paddingRight="small">
-						<Text size="small">Exchange:</Text>
+						<Text size="medium">Exchange:</Text>
 					</Box>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
@@ -208,12 +208,12 @@ export const Swap: React.FC = () => {
 									plainButtonStyles.plainButtonHoverUnderlineWrapper,
 								)}
 							>
-								<Box paddingRight="small">
-									<ResourceImageIcon size="small" address={brandImages.OCI_SWAP} />
-								</Box>
-								<Text size="small" color="inherit">
+								<Text size="medium" color="inherit">
 									Ociswap
 								</Text>
+								<Box paddingLeft="small">
+									<ResourceImageIcon size="small" address={brandImages.OCI_SWAP} />
+								</Box>
 							</Box>
 						</DropdownMenuTrigger>
 						<DropdownMenuPortal>
@@ -239,8 +239,9 @@ export const Swap: React.FC = () => {
 						</DropdownMenuPortal>
 					</DropdownMenu>
 				</Box>
-
-				<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
+				<Box className={styles.swapValidationWrapper}>
+					<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
+				</Box>
 				<FieldsGroup
 					name="swaps"
 					defaultKeys={1}
