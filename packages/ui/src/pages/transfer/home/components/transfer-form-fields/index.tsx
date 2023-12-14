@@ -97,7 +97,6 @@ const messages = defineMessages({
 		id: 'nqRscq',
 		defaultMessage: 'NFTs',
 	},
-
 	button_submit: {
 		id: '9WRlF4',
 		defaultMessage: 'Send',

@@ -4,7 +4,7 @@ import { splitArrayIntoChunks } from 'ui/src/utils/array-chunk'
 
 import { useAccountNftVaults } from './use-balances'
 import { useGatewayClient } from './use-gateway-client'
-import { useNetworkId } from './use-network-id'
+import { useNetworkId } from './use-network'
 
 export const useNonFungibleIds = (resourceId: string, addresses: string[]) => {
 	const { state } = useGatewayClient()!

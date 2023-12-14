@@ -1,7 +1,7 @@
 import { useQueries, useQuery } from '@tanstack/react-query'
 
 import { useGatewayClient } from './use-gateway-client'
-import { useNetworkId } from './use-network-id'
+import { useNetworkId } from './use-network'
 
 export const useEntityMetadata = (address: string) => {
 	const networkId = useNetworkId()

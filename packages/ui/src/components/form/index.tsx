@@ -89,10 +89,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 			})
 	}
 
-	const handleGetFieldValue = (name: string) => {
-		const value = get(state.values, name)
-		return value
-	}
+	const handleGetFieldValue = (name: string) => get(state.values, name)
 
 	const handleFieldChange = (name: string, value?: any) => {
 		setState(draft => {

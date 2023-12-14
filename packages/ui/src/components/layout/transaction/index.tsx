@@ -8,6 +8,7 @@ import {
 	instanceOfTransactionFungibleFeeBalanceChanges,
 	instanceOfTransactionNonFungibleBalanceChanges,
 } from '@radixdlt/babylon-gateway-api-sdk'
+import { useZdtState } from 'packages/ui/src/hooks/zdt/use-zdt'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -16,7 +17,7 @@ import { AccountCardIcon } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { ShareIcon } from 'ui/src/components/icons'
+import { RadixIcon, Z3usIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { SlideOutDialog } from 'ui/src/components/layout/slide-out-dialog'
 import { Button } from 'ui/src/components/router-button'
@@ -29,10 +30,10 @@ import { TransactionStatusIcon } from 'ui/src/components/transaction-status-icon
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import Code from 'ui/src/components/typography/code'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { config } from 'ui/src/constants/config'
 import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
+import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { findMetadataValue } from 'ui/src/services/metadata'
@@ -106,9 +107,13 @@ const messages = defineMessages({
 		defaultMessage: 'Events',
 		id: 'ZvKSfJ',
 	},
-	explorer: {
-		id: 'YnOdQH',
-		defaultMessage: 'Open in explorer',
+	open_radix_dashboard: {
+		id: 'xxuT0a',
+		defaultMessage: 'Open in Radix Dashboard',
+	},
+	open_z3us: {
+		id: 'WAHvBA',
+		defaultMessage: 'Open in Z3US.com',
 	},
 })
 
@@ -219,8 +224,10 @@ export const Transaction = () => {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
+	const dashboardUrl = useDashboardUrl()
 	const { data: knownAddresses } = useKnownAddresses()
 	const accounts = useWalletAccounts()
+	const { isWallet } = useZdtState()
 
 	const [showAllEntities, setShowAllEntities] = useState<boolean>(false)
 	const [showAllBalanceChanges, setShowAllBalanceChanges] = useState<boolean>(false)
@@ -264,17 +271,32 @@ export const Transaction = () => {
 			open={isTransactionVisible}
 			onClose={navigateBack}
 			headerButtons={
-				<ToolTip message={intl.formatMessage(messages.explorer)}>
-					<Button
-						sizeVariant="small"
-						styleVariant="ghost"
-						iconOnly
-						to={`${config.defaultExplorerURL}/transaction/${transactionId}`}
-						target="_blank"
-					>
-						<ShareIcon />
-					</Button>
-				</ToolTip>
+				<Box>
+					<ToolTip message={intl.formatMessage(messages.open_radix_dashboard)}>
+						<Button
+							sizeVariant="small"
+							styleVariant="ghost"
+							iconOnly
+							to={`${dashboardUrl}/transaction/${transactionId}`}
+							target="_blank"
+						>
+							<RadixIcon />
+						</Button>
+					</ToolTip>
+					{isWallet && (
+						<ToolTip message={intl.formatMessage(messages.open_z3us)}>
+							<Button
+								sizeVariant="small"
+								styleVariant="ghost"
+								iconOnly
+								to={`https://z3us.com/#/accounts?query=${transactionId}`}
+								target="_blank"
+							>
+								<Z3usIcon />
+							</Button>
+						</ToolTip>
+					)}
+				</Box>
 			}
 		>
 			{isLoading ? (

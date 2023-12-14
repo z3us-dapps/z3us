@@ -16,13 +16,13 @@ import {
 	DropdownMenuPortal,
 	DropdownMenuTrigger,
 } from 'ui/src/components/dropdown-menu'
-import { DotsHorizontalCircleIcon, InformationIcon, TrashIcon } from 'ui/src/components/icons'
+import { DotsHorizontalCircleIcon, InformationIcon, ShareIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { CARD_COLORS } from 'ui/src/constants/account'
 import { CURRENCY_STYLES } from 'ui/src/constants/number'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useDashboardUrl, useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
@@ -46,6 +46,14 @@ const messages = defineMessages({
 	delete_account: {
 		defaultMessage: 'Delete account',
 		id: 'wyxJrL',
+	},
+	open_radix_dashboard: {
+		id: 'xxuT0a',
+		defaultMessage: 'Open in Radix Dashboard',
+	},
+	open_z3us: {
+		id: 'WAHvBA',
+		defaultMessage: 'Open in Z3US.com',
 	},
 	confirm: {
 		defaultMessage: 'Are you sure you want to delete account {address}?',
@@ -125,6 +133,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
 	const networkId = useNetworkId()
+	const dashboardUrl = useDashboardUrl()
 	const { isWallet, confirm } = useZdtState()
 	const accounts = useWalletAccounts()
 	const accountIndexes = useAccountIndexes()
@@ -158,6 +167,16 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		searchParams.delete('tx')
 		searchParams.set('query', `${address}`)
 		navigate(`${location.pathname}?${searchParams}`)
+	}
+
+	const handleShowInDashboard = event => {
+		event.stopPropagation()
+		window.open(`${dashboardUrl}/account/${address}`, '_blank', 'noreferrer')
+	}
+
+	const handleShowInZ3US = event => {
+		event.stopPropagation()
+		window.open(`https://z3us.com/#/accounts/${address}`, '_blank', 'noreferrer')
 	}
 
 	const handleClick = () => {
@@ -256,6 +275,28 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 										</Box>
 									</DropdownMenuItem>
 								)}
+								{isWallet && (
+									<DropdownMenuItem onSelect={handleShowInZ3US}>
+										<DropdownMenuLeftSlot>
+											<ShareIcon />
+										</DropdownMenuLeftSlot>
+										<Box display="flex" marginLeft="xsmall">
+											<Text size="xsmall" truncate>
+												{intl.formatMessage(messages.open_z3us)}
+											</Text>
+										</Box>
+									</DropdownMenuItem>
+								)}
+								<DropdownMenuItem onSelect={handleShowInDashboard}>
+									<DropdownMenuLeftSlot>
+										<ShareIcon />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="xsmall">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.open_radix_dashboard)}
+										</Text>
+									</Box>
+								</DropdownMenuItem>
 								<DropdownMenuArrow />
 							</DropdownMenuContent>
 						</DropdownMenuPortal>

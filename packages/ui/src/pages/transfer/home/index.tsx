@@ -8,7 +8,7 @@ import { z } from 'zod'
 
 import { Form } from 'ui/src/components/form'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
 import { sendFungibleTokens, sendNftTokens } from 'ui/src/manifests/transfer'
 

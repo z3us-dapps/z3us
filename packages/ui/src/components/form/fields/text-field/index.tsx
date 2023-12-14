@@ -39,10 +39,12 @@ interface IProps extends Omit<IInputProps, 'onChange' | 'value' | 'type' | 'labe
 	isPassword?: boolean
 }
 
-export const TextField = forwardRef<HTMLInputElement, IProps>(({ validate, name, label, isPassword, ...rest }, ref) => (
-	<FieldWrapper name={name} label={label} validate={validate}>
-		<TextInputAdapter {...rest} isPassword={isPassword} ref={ref} />
-	</FieldWrapper>
-))
+export const TextField = forwardRef<HTMLInputElement, IProps>(
+	({ validate, name, label, isPassword, hidden, ...rest }, ref) => (
+		<FieldWrapper name={name} label={label} validate={validate} hidden={hidden}>
+			<TextInputAdapter {...rest} isPassword={isPassword} hidden ref={ref} />
+		</FieldWrapper>
+	),
+)
 
 export default TextField

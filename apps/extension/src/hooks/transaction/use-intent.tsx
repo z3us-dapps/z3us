@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 
 import { buildAccountDerivationPath } from '@src/crypto/derivation_path'

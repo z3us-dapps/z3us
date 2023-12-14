@@ -6,7 +6,7 @@ import { splitArrayIntoChunks } from 'ui/src/utils/array-chunk'
 
 import { defaultFungiblesOptIns, defaultNonFungiblesOptIns } from './use-entity-balances'
 import { useGatewayClient } from './use-gateway-client'
-import { useNetworkId } from './use-network-id'
+import { useNetworkId } from './use-network'
 
 const defaultOptIns: StateEntityDetailsOptIns = {
 	ancestor_identities: true,

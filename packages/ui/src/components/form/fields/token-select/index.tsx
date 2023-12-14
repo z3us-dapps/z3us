@@ -12,14 +12,15 @@ import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 import { type ITokenSelectorDialogProps, TokenSelectorDialog } from './components/token-selector-dialog'
 import * as styles from './styles.css'
 
-interface IAdapterProps extends Omit<ITokenSelectorDialogProps, 'onTokenUpdate' | 'trigger'> {
+interface IAdapterProps extends Omit<ITokenSelectorDialogProps, 'onTokenUpdate' | 'trigger' | 'tokenAddress'> {
 	value?: string
 	onChange?: (value: string) => void
+	onInputChange?: (value: string) => void
 	hasError?: boolean
 }
 
 export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props, ref) => {
-	const { value, onChange, resourceAddresses, hasError, ...rest } = props
+	const { value, resourceAddresses, hasError, onChange, onInputChange, ...rest } = props
 
 	const selected = resourceAddresses.find(address => address === value)
 
@@ -28,11 +29,16 @@ export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props
 	const name = findMetadataValue('name', data)
 	const symbol = findMetadataValue('symbol', data)
 
+	const handleChange = (address: string) => {
+		if (onChange) onChange(address)
+		if (onInputChange) onInputChange(address)
+	}
+
 	return (
 		<TokenSelectorDialog
 			{...rest}
 			tokenAddress={value}
-			onTokenUpdate={onChange}
+			onTokenUpdate={handleChange}
 			trigger={
 				<Button
 					ref={ref}
@@ -58,14 +64,16 @@ export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props
 	)
 })
 
-interface IProps extends Omit<IAdapterProps, 'onValueChange' | 'value'>, WrapperProps {}
+interface IProps extends Omit<ITokenSelectorDialogProps, 'onTokenUpdate' | 'tokenAddress' | 'trigger'>, WrapperProps {
+	onChange?: (value: string) => void
+}
 
 export const TokenSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
-	const { validate, name, label, ...rest } = props
+	const { validate, name, label, onChange, ...rest } = props
 
 	return (
 		<FieldWrapper name={name} label={label} validate={validate}>
-			<SelectAdapter {...rest} ref={ref} />
+			<SelectAdapter {...rest} onInputChange={onChange} ref={ref} />
 		</FieldWrapper>
 	)
 })

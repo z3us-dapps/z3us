@@ -45,11 +45,23 @@ interface IProps extends Omit<WrapperProps, 'name'> {
 	resourceAddresses: string[]
 	amountKey?: string
 	resourceKey?: string
+	disabledAmount?: boolean
+	onAmountChange?: (value: string) => void
+	onTokenChange?: (value: string) => void
 }
 
 export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, ref) => {
 	const intl = useIntl()
-	const { resourceAddresses, balances, amountKey = 'amount', resourceKey = 'address', ...rest } = props
+	const {
+		resourceAddresses,
+		balances,
+		amountKey = 'amount',
+		resourceKey = 'address',
+		onAmountChange,
+		onTokenChange,
+		disabledAmount,
+		...rest
+	} = props
 	const { onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 
@@ -83,6 +95,7 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 		<Box disabled={resourceAddresses.length === 0} position="relative">
 			<NumberField
 				{...rest}
+				disabled={disabledAmount}
 				step={
 					details?.divisibility > 0
 						? `.${Array(details.divisibility - 1)
@@ -95,8 +108,9 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 				placeholder={intl.formatMessage(messages.amount_placeholder)}
 				sizeVariant="large"
 				validate={validateDivisibility}
+				onChange={onAmountChange}
 			/>
-			<TokenSelect name={resourceKey} resourceAddresses={resourceAddresses} />
+			<TokenSelect name={resourceKey} resourceAddresses={resourceAddresses} onChange={onTokenChange} />
 			<Box
 				display="flex"
 				justifyContent="space-between"
