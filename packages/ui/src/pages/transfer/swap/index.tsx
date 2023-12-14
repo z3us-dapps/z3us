@@ -6,17 +6,36 @@ import type { ZodError } from 'zod'
 import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
+import {
+	DropdownMenu,
+	DropdownMenuArrow,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLeftSlot,
+	DropdownMenuPortal,
+	DropdownMenuTrigger,
+} from 'ui/src/components/dropdown-menu'
 import { Form } from 'ui/src/components/form'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
-import { CirclePlusIcon, TrashIcon } from 'ui/src/components/icons'
+import {
+	CirclePlusIcon,
+	DotsHorizontalCircleIcon,
+	InformationIcon,
+	ShareIcon,
+	TrashIcon,
+} from 'ui/src/components/icons'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
+import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { brandImages } from 'ui/src/context/images-provider'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
 
 import { FormFields as AstrolecentFormFields } from './components/astrolescent/form-fields'
 import { FormFields as OciFormFields } from './components/oci/form-fields'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	button_add_swap: {
@@ -158,6 +177,56 @@ export const Swap: React.FC = () => {
 	return (
 		<Box width="full">
 			<Form onSubmit={handleSubmit} initialValues={formValues} errors={validation?.format()}>
+				<Box paddingBottom="large">
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button sizeVariant="medium" styleVariant="secondary">
+								<Box component="span" display="flex">
+									Exchange:
+								</Box>
+								<Box paddingX="small">
+									<ResourceImageIcon size={{ mobile: 'small', tablet: 'small' }} address={brandImages.OCI_SWAP} />
+								</Box>
+								<Box component="span" display="flex">
+									Ociswap
+								</Box>
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuPortal>
+							<DropdownMenuContent align="start" sideOffset={2} className={styles.accountDropdownContentWrapper}>
+								<DropdownMenuItem
+									onSelect={() => {
+										console.log(9)
+									}}
+								>
+									<DropdownMenuLeftSlot>
+										<ResourceImageIcon size={{ mobile: 'small', tablet: 'small' }} address={brandImages.OCI_SWAP} />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="small">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.tab_oci)}
+										</Text>
+									</Box>
+								</DropdownMenuItem>
+								<DropdownMenuItem
+									onSelect={() => {
+										console.log(9)
+									}}
+								>
+									<DropdownMenuLeftSlot>
+										<ResourceImageIcon size={{ mobile: 'small', tablet: 'small' }} address={brandImages.ASTROLESCENT} />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="small">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.tab_astrolecent)}
+										</Text>
+									</Box>
+								</DropdownMenuItem>
+								{/* <DropdownMenuArrow /> */}
+							</DropdownMenuContent>
+						</DropdownMenuPortal>
+					</DropdownMenu>
+				</Box>
 				<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
 				<FieldsGroup
 					name="swaps"

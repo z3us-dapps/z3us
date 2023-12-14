@@ -35,7 +35,6 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 
 			return {
 				tooltip: (symbol || '').toUpperCase() || name,
-
 				rounded: !isNFT,
 				imgSrc,
 				imgAlt: name || shortAddress,
