@@ -21,6 +21,8 @@ import { FEE_RATIO } from 'ui/src/constants/swap'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSwapPreview, useTokens } from 'ui/src/hooks/queries/oci'
 
+import * as styles from '../../styles.css'
+
 const messages = defineMessages({
 	fee_wallet: {
 		id: 'PyXtpD',
@@ -140,7 +142,7 @@ export const FormFields: React.FC = () => {
 	return (
 		<Box width="full">
 			<ValidationErrorMessage message={(previewError as any)?.message} />
-			<Box display="flex" flexDirection="column" gap="medium" alignItems="center" justifyContent="center">
+			<Box className={styles.swapFormFieldWrapper}>
 				<TextField name="dex" hidden />
 				<TextField name="manifest" hidden />
 				<AccountSelect placeholder={intl.formatMessage(messages.account_placeholder)} ref={inputRef} name="account" />
@@ -161,7 +163,7 @@ export const FormFields: React.FC = () => {
 			</Box>
 
 			{preview && (
-				<Box>
+				<Box width="full">
 					<AccountsTransactionInfo
 						leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
 						rightData={

@@ -1,9 +1,10 @@
+import clsx from 'clsx'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import type { ZodError } from 'zod'
-import { z } from 'zod'
+import { object, z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import {
@@ -27,7 +28,8 @@ import {
 } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
-import { Tabs, TabsContent } from 'ui/src/components/tabs'
+import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
+// import { Tabs, TabsContent } from 'ui/src/components/tabs'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { brandImages } from 'ui/src/context/images-provider'
@@ -117,6 +119,20 @@ export const Swap: React.FC = () => {
 	const [formValues, setFormValues] = useState<typeof init>(init)
 	const [validation, setValidation] = useState<ZodError>()
 
+	const exchangeInfo = useMemo(
+		() => ({
+			[OCI]: {
+				title: intl.formatMessage(messages.tab_oci),
+				image: brandImages.OCI_SWAP,
+			},
+			[ASTROLECENT]: {
+				title: intl.formatMessage(messages.tab_astrolecent),
+				image: brandImages.ASTROLESCENT,
+			},
+		}),
+		[],
+	)
+
 	const validationSchema = useMemo(() => {
 		const tokenSchema = z.object({
 			address: z
@@ -177,56 +193,53 @@ export const Swap: React.FC = () => {
 	return (
 		<Box width="full">
 			<Form onSubmit={handleSubmit} initialValues={formValues} errors={validation?.format()}>
-				<Box paddingBottom="large">
+				<Box className={styles.swapExchangeButtonWrapper}>
+					<Box paddingRight="small">
+						<Text size="small">Exchange:</Text>
+					</Box>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button sizeVariant="medium" styleVariant="secondary">
-								<Box component="span" display="flex">
-									Exchange:
+							<Box
+								component="button"
+								display="inline-flex"
+								alignItems="center"
+								className={clsx(
+									plainButtonStyles.plainButtonHoverWrapper,
+									plainButtonStyles.plainButtonHoverUnderlineWrapper,
+								)}
+							>
+								<Box paddingRight="small">
+									<ResourceImageIcon size="small" address={brandImages.OCI_SWAP} />
 								</Box>
-								<Box paddingX="small">
-									<ResourceImageIcon size={{ mobile: 'small', tablet: 'small' }} address={brandImages.OCI_SWAP} />
-								</Box>
-								<Box component="span" display="flex">
+								<Text size="small" color="inherit">
 									Ociswap
-								</Box>
-							</Button>
+								</Text>
+							</Box>
 						</DropdownMenuTrigger>
 						<DropdownMenuPortal>
-							<DropdownMenuContent align="start" sideOffset={2} className={styles.accountDropdownContentWrapper}>
-								<DropdownMenuItem
-									onSelect={() => {
-										console.log(9)
-									}}
-								>
-									<DropdownMenuLeftSlot>
-										<ResourceImageIcon size={{ mobile: 'small', tablet: 'small' }} address={brandImages.OCI_SWAP} />
-									</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="small">
-										<Text size="xsmall" truncate>
-											{intl.formatMessage(messages.tab_oci)}
-										</Text>
-									</Box>
-								</DropdownMenuItem>
-								<DropdownMenuItem
-									onSelect={() => {
-										console.log(9)
-									}}
-								>
-									<DropdownMenuLeftSlot>
-										<ResourceImageIcon size={{ mobile: 'small', tablet: 'small' }} address={brandImages.ASTROLESCENT} />
-									</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="small">
-										<Text size="xsmall" truncate>
-											{intl.formatMessage(messages.tab_astrolecent)}
-										</Text>
-									</Box>
-								</DropdownMenuItem>
-								{/* <DropdownMenuArrow /> */}
+							<DropdownMenuContent align="start" sideOffset={2} className={styles.swapDropdownContentWrapper}>
+								{Object.entries(exchangeInfo).map(([key, { title, image }]) => (
+									<DropdownMenuItem
+										key={key}
+										onSelect={() => {
+											console.log('key ', key)
+										}}
+									>
+										<DropdownMenuLeftSlot>
+											<ResourceImageIcon size="small" address={image} />
+										</DropdownMenuLeftSlot>
+										<Box display="flex" marginLeft="small">
+											<Text size="xsmall" truncate>
+												{title}
+											</Text>
+										</Box>
+									</DropdownMenuItem>
+								))}
 							</DropdownMenuContent>
 						</DropdownMenuPortal>
 					</DropdownMenu>
 				</Box>
+
 				<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
 				<FieldsGroup
 					name="swaps"
@@ -251,7 +264,9 @@ export const Swap: React.FC = () => {
 						</Button>
 					}
 				>
-					<Tabs
+					<OciFormFields />
+
+					{/* <Tabs
 						list={[
 							{ label: intl.formatMessage(messages.tab_oci), value: OCI },
 							{ label: intl.formatMessage(messages.tab_astrolecent), value: ASTROLECENT },
@@ -264,14 +279,16 @@ export const Swap: React.FC = () => {
 						<TabsContent value={ASTROLECENT}>
 							<AstrolecentFormFields />
 						</TabsContent>
-					</Tabs>
+					</Tabs> */}
 				</FieldsGroup>
 
-				<SubmitButton>
-					<Button sizeVariant="large" styleVariant="primary" fullWidth>
-						{intl.formatMessage(messages.button_submit)}
-					</Button>
-				</SubmitButton>
+				<Box className={styles.swapFromButtonWrapper}>
+					<SubmitButton>
+						<Button sizeVariant="large" styleVariant="primary" fullWidth>
+							{intl.formatMessage(messages.button_submit)}
+						</Button>
+					</SubmitButton>
+				</Box>
 			</Form>
 		</Box>
 	)
