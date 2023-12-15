@@ -170,33 +170,42 @@ export const Swap: React.FC = () => {
 
 	return (
 		<Box width="full">
-			<Form onSubmit={handleSubmit} initialValues={formValues} errors={validation?.format()}>
+			<Form
+				onSubmit={handleSubmit}
+				initialValues={formValues}
+				errors={validation?.format()}
+				className={styles.swapFormWrapper}
+			>
 				<Box className={styles.swapValidationWrapper}>
 					<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
 				</Box>
-
 				<FieldsGroup
 					name="swaps"
 					defaultKeys={1}
 					addTrigger={
-						<Button
-							styleVariant="secondary"
-							sizeVariant="large"
-							fullWidth
-							leftIcon={
-								<Box marginLeft="small">
-									<CirclePlusIcon />
-								</Box>
-							}
-						>
-							{intl.formatMessage(messages.button_add_swap)}
-						</Button>
+						<Box className={styles.swapAddFieldButtonWrapper}>
+							<Button
+								styleVariant="secondary"
+								sizeVariant="large"
+								fullWidth
+								leftIcon={
+									<Box marginLeft="small">
+										<CirclePlusIcon />
+									</Box>
+								}
+							>
+								{intl.formatMessage(messages.button_add_swap)}
+							</Button>
+						</Box>
 					}
 					trashTrigger={
-						<Button styleVariant="ghost" sizeVariant="small" iconOnly>
-							<TrashIcon />
-						</Button>
+						<Box>
+							<Button styleVariant="ghost" sizeVariant="small" iconOnly>
+								<TrashIcon />
+							</Button>
+						</Box>
 					}
+					className={styles.swapFieldGroupWrapper}
 				>
 					<Dex />
 				</FieldsGroup>
