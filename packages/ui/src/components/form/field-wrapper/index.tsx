@@ -42,7 +42,7 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 		setState(draft => {
 			draft.error = fieldErrors.length > 0 ? fieldErrors[0] : ''
 		})
-	}, [fieldErrors])
+	}, [fieldErrors.length])
 
 	const onChange = (value: any) => {
 		onFieldChange(fieldName, value)

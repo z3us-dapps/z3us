@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import type { PropsWithChildren } from 'react'
 import React, { useContext, useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -11,6 +10,7 @@ import { generateId } from 'ui/src/utils/generate-id'
 import { ValidationErrorMessage } from '../../validation-error-message'
 import { FormContext } from '../context'
 import { FieldContext } from '../field-wrapper/context'
+import { useFieldErrors } from '../use-field-errors'
 import { useFieldValue } from '../use-field-value'
 import { AddTrigger } from './add-trigger'
 import { GroupField } from './group-field'
@@ -52,11 +52,12 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 		maxKeys = undefined,
 		ignoreTriggers,
 	} = props
-	const { errors, onFieldChange } = useContext(FormContext)
+	const { onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
 
 	const value = useFieldValue(fieldName) || emptyValue
+	const fieldErrors = useFieldErrors(fieldName) || emptyValue
 
 	const [state, setState] = useImmer<State>({
 		keys: Array.from({ length: value.length || defaultKeys }, generateId),
@@ -74,11 +75,9 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 
 	useEffect(() => {
 		setState(draft => {
-			// eslint-disable-next-line no-underscore-dangle
-			const fieldErrors = get(errors, fieldName)?._errors || []
 			draft.error = fieldErrors.length > 0 ? fieldErrors[0] : ''
 		})
-	}, [errors])
+	}, [fieldErrors.length])
 
 	const handleRemove = (key: string) => {
 		const idx = state.keys.findIndex(k => k === key)
