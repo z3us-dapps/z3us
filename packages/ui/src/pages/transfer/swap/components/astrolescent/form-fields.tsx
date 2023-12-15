@@ -23,6 +23,8 @@ import { useSwapPreview, useTokens } from 'ui/src/hooks/queries/astrolescent'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { generateId } from 'ui/src/utils/generate-id'
 
+import * as styles from '../../styles.css'
+
 const messages = defineMessages({
 	fee_wallet: {
 		id: 'PyXtpD',
@@ -133,7 +135,7 @@ export const FormFields: React.FC = () => {
 	return (
 		<Box width="full">
 			<ValidationErrorMessage message={(previewError as any)?.message} />
-			<Box display="flex" flexDirection="column" gap="medium" alignItems="center" justifyContent="center">
+			<Box className={styles.swapFormFieldWrapper}>
 				<TextField name="dex" hidden />
 				<TextField name="manifest" hidden />
 				<AccountSelect placeholder={intl.formatMessage(messages.account_placeholder)} ref={inputRef} name="account" />
@@ -155,7 +157,7 @@ export const FormFields: React.FC = () => {
 			</Box>
 
 			{preview && (
-				<Box>
+				<Box width="full">
 					<AccountsTransactionInfo
 						leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
 						rightData={

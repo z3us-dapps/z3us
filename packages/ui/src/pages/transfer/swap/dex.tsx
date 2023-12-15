@@ -22,8 +22,8 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	dex: {
-		id: 'a7U+1J',
-		defaultMessage: 'Exchange:',
+		id: 'U8QBHO',
+		defaultMessage: 'Powered by',
 	},
 	tab_oci: {
 		id: 'eyMKyf',
@@ -58,7 +58,7 @@ export const Dex: React.FC = () => {
 	const [dex, setDex] = useState<keyof typeof exchangeInfo>(OCI)
 
 	return (
-		<Box>
+		<Box paddingBottom="small">
 			<Box className={styles.swapExchangeButtonWrapper}>
 				<Box paddingRight="small">
 					<Text size="medium">{intl.formatMessage(messages.dex)}</Text>
