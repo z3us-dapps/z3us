@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -8,13 +8,18 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Dialog } from 'ui/src/components/dialog'
 import { Form } from 'ui/src/components/form'
+import { FieldContext } from 'ui/src/components/form/field-wrapper/context'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
+import { useFieldValue } from 'ui/src/components/form/use-field-value'
 import { PlusIcon, TrashIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
+
+import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 
 import * as styles from './styles.css'
 
@@ -28,20 +33,24 @@ const messages = defineMessages({
 		defaultMessage: 'Please select valid account',
 	},
 	validation_accounts_required: {
-		id: 'r4g6hl',
-		defaultMessage: 'Please select minimum {number} accounts',
+		id: 'gzjHi6',
+		defaultMessage: 'Please select a minimum of {number} account(s)',
 	},
 	validation_accounts_exactly: {
 		id: 'VBE5Tu',
 		defaultMessage: 'Please select exactly {number} accounts',
+	},
+	form_button_share_all_account: {
+		id: 'cqbC7C',
+		defaultMessage: 'Add all accounts',
 	},
 	form_button_title: {
 		id: '8cueNe',
 		defaultMessage: 'Share accounts',
 	},
 	button_add_account: {
-		id: 'cU42T7',
-		defaultMessage: 'Add another account',
+		id: 'qJcduu',
+		defaultMessage: 'Add account',
 	},
 	close: {
 		id: '47FYwb',
@@ -57,24 +66,115 @@ const messages = defineMessages({
 	},
 })
 
-const initialValues = {
-	accounts: [],
+const SelectAccountsShareAllButton: React.FC<{ onClick: React.MouseEventHandler<HTMLButtonElement> }> = ({
+	onClick,
+}) => {
+	const intl = useIntl()
+	const accountIndexes = useAccountIndexes()
+	const selected = useFieldValue('accounts')
+
+	if (selected.length >= Object.keys(accountIndexes).length) return null
+
+	return (
+		<Box paddingTop="medium">
+			<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth leftIcon={<PlusIcon />} onClick={onClick}>
+				{intl.formatMessage(messages.form_button_share_all_account)}
+			</Button>
+		</Box>
+	)
+}
+
+const AccountsSelect: React.FC<{ selectedAccountsMap: { [address: string]: boolean } }> = ({ selectedAccountsMap }) => {
+	const intl = useIntl()
+	const accountIndexes = useAccountIndexes()
+	const addressBook = useAddressBook()
+
+	const { name: parentName } = useContext(FieldContext)
+	const selected = useFieldValue(`${parentName ? `${parentName}.` : ''}address`)
+
+	const data = useMemo(
+		() =>
+			Object.keys(accountIndexes)
+				.filter(address => address === selected || !selectedAccountsMap[address])
+				.map(address => ({
+					id: address,
+					title: addressBook[address]?.name || address,
+				})),
+		[selectedAccountsMap, selected, addressBook, accountIndexes],
+	)
+
+	return (
+		<SelectField
+			name="address"
+			fullWidth
+			sizeVariant="large"
+			placeholder={intl.formatMessage(messages.accounts_placeholder)}
+			data={data}
+		/>
+	)
+}
+
+const AccountsSelectGroup: React.FC<{ defaultKeys: number; maxKeys: number }> = ({ defaultKeys, maxKeys }) => {
+	const intl = useIntl()
+
+	const { name: parentName } = useContext(FieldContext)
+	const selectedAccounts = useFieldValue(`${parentName ? `${parentName}.` : ''}accounts`)
+
+	const selectedAccountsMap = useMemo(
+		() => selectedAccounts.reduce((map, selected) => ({ ...map, [selected.address]: true }), {}),
+		[selectedAccounts],
+	)
+
+	return (
+		<FieldsGroup
+			name="accounts"
+			className={styles.formFieldModalGroupWrapper}
+			defaultKeys={defaultKeys}
+			maxKeys={maxKeys}
+			trashTrigger={
+				<Button styleVariant="ghost" sizeVariant="small" iconOnly>
+					<TrashIcon />
+				</Button>
+			}
+			addTrigger={
+				<Box className={clsx(styles.modalPersonaFormWrapper, styles.modalContentFormBorderWrapper)}>
+					<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth leftIcon={<PlusIcon />}>
+						{intl.formatMessage(messages.button_add_account)}
+					</Button>
+				</Box>
+			}
+		>
+			<AccountsSelect selectedAccountsMap={selectedAccountsMap} />
+		</FieldsGroup>
+	)
 }
 
 export interface IProps {
 	required: number
 	exactly: boolean
+	interaction: WalletInteractionWithTabId
 	onConfirm: (addresses: string[]) => void
 	onCancel: () => void
 }
 
-const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, onCancel }) => {
+const init = { accounts: [] }
+
+const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, interaction, onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const accountIndexes = useAccountIndexes()
-	const addressBook = useAddressBook()
+	const approvedDapps = useApprovedDapps()
 
+	const [initialValues, restFormValues] = useState<typeof init>(init)
 	const [validation, setValidation] = useState<ZodError>()
 	const [isOpen, setIsOpen] = useState<boolean>(true)
+
+	useEffect(() => {
+		const { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
+		accounts.filter(address => !!accountIndexes[address]).map(_address => ({ address: _address }))
+		restFormValues({
+			accounts: accounts.filter(address => !!accountIndexes[address]).map(_address => ({ address: _address })),
+		})
+	}, [accountIndexes, approvedDapps])
 
 	const validationSchema = useMemo(() => {
 		const accountSchema = z.object({
@@ -96,7 +196,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 		})
 	}, [exactly, required])
 
-	const handleSubmit = async (values: typeof initialValues) => {
+	const handleSubmit = async (values: typeof init) => {
 		setValidation(undefined)
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {
@@ -114,6 +214,16 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 		setValidation(undefined)
 	}
 
+	const handleShareAllAccounts = () => {
+		const allAccounts = Object.keys(accountIndexes).map(address => ({
+			address,
+		}))
+
+		restFormValues({
+			accounts: allAccounts,
+		})
+	}
+
 	return (
 		<Dialog open={isOpen} onClose={handleCancel}>
 			<Box className={styles.modalContentWrapper}>
@@ -129,36 +239,8 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 					errors={validation?.format()}
 					className={styles.modalFormFieldWrapper}
 				>
-					<FieldsGroup
-						name="accounts"
-						className={styles.formFieldModalGroupWrapper}
-						defaultKeys={1}
-						trashTrigger={
-							<Button styleVariant="ghost" sizeVariant="small" iconOnly>
-								<TrashIcon />
-							</Button>
-						}
-						addTrigger={
-							<Box className={clsx(styles.modalPersonaFormWrapper, styles.modalContentFormBorderWrapper)}>
-								<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth leftIcon={<PlusIcon />}>
-									{intl.formatMessage(messages.button_add_account)}
-								</Button>
-							</Box>
-						}
-					>
-						<Box>
-							<SelectField
-								name="address"
-								fullWidth
-								sizeVariant="large"
-								placeholder={intl.formatMessage(messages.accounts_placeholder)}
-								data={Object.keys(accountIndexes).map(address => ({
-									id: address,
-									title: addressBook[address]?.name || address,
-								}))}
-							/>
-						</Box>
-					</FieldsGroup>
+					<AccountsSelectGroup maxKeys={Object.keys(accountIndexes).length} defaultKeys={exactly ? required : 1} />
+					<SelectAccountsShareAllButton onClick={handleShareAllAccounts} />
 					<Box paddingTop="medium">
 						<SubmitButton>
 							<Button fullWidth sizeVariant="xlarge">

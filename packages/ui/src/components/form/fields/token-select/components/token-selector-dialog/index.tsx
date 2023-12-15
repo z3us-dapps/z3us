@@ -23,8 +23,8 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
-import { config } from 'ui/src/constants/config'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
+import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
@@ -67,6 +67,7 @@ interface ISelectItemProps {
 }
 
 const SelectItem: React.FC<ISelectItemProps> = ({ selected, address, onSelect }) => {
+	const dashboardUrl = useDashboardUrl()
 	const { data } = useEntityMetadata(address)
 
 	const name = findMetadataValue('name', data)
@@ -102,7 +103,7 @@ const SelectItem: React.FC<ISelectItemProps> = ({ selected, address, onSelect })
 								leftIcon={<ShareIcon />}
 								styleVariant="tertiary"
 								sizeVariant="small"
-								to={`${config.defaultExplorerURL}/resource/${address}`}
+								to={`${dashboardUrl}/resource/${address}`}
 								target="_blank"
 							>
 								{getShortAddress(address)}

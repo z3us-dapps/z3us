@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import type { AddressBookEntry } from '../store/types'
-import { useNetworkId } from './dapp/use-network-id'
+import { useNetworkId } from './dapp/use-network'
 import { useWalletAccounts } from './use-accounts'
 import { useNoneSharedStore } from './use-store'
 

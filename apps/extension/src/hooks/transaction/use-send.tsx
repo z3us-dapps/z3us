@@ -2,7 +2,7 @@ import { type SendTransactionInput, TransactionStatus } from '@radixdlt/radix-da
 import { useCallback } from 'react'
 
 import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 
 import type { TransactionSettings } from '@src/types/transaction'
 

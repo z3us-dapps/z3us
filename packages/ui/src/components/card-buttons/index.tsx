@@ -1,13 +1,15 @@
 import clsx from 'clsx'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
+import { QrCode2Icon, RadixIcon, UpRight2Icon, Z3usIcon } from 'ui/src/components/icons'
 import { QrPopOver } from 'ui/src/components/qr-popover'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
+import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 
 import * as styles from './styles.css'
 
@@ -24,12 +26,22 @@ const messages = defineMessages({
 		id: 'hc47g1',
 		defaultMessage: 'Address QR code',
 	},
+	open_radix_dashboard: {
+		id: 'xxuT0a',
+		defaultMessage: 'Open in Radix Dashboard',
+	},
+	open_z3us: {
+		id: 'WAHvBA',
+		defaultMessage: 'Open in Z3US.com',
+	},
 })
 
-export const CardButtons: React.FC<IProps> = props => {
-	const { className } = props
+export const CardButtons: React.FC<IProps> = ({ className }) => {
+	const location = useLocation()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const intl = useIntl()
+	const dashboardUrl = useDashboardUrl()
+	const { isWallet } = useZdtState()
 
 	const qrValue = resourceId || accountId || '-'
 
@@ -60,6 +72,32 @@ export const CardButtons: React.FC<IProps> = props => {
 					</ToolTip>
 				</QrPopOver>
 			)}
+			{isWallet && (
+				<ToolTip message={intl.formatMessage(messages.open_z3us)}>
+					<Button
+						iconOnly
+						rounded
+						styleVariant="inverse"
+						sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+						to={`https://z3us.com/#${location.pathname}`}
+						target="_blank"
+					>
+						<Z3usIcon />
+					</Button>
+				</ToolTip>
+			)}
+			<ToolTip message={intl.formatMessage(messages.open_radix_dashboard)}>
+				<Button
+					iconOnly
+					rounded
+					styleVariant="inverse"
+					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+					to={rawNftId ? `${dashboardUrl}/nft/${resourceId}%3A${rawNftId}` : `${dashboardUrl}/resource/${resourceId}`}
+					target="_blank"
+				>
+					<RadixIcon />
+				</Button>
+			</ToolTip>
 		</Box>
 	)
 }

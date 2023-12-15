@@ -1,7 +1,7 @@
 import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { Persona } from 'ui/src/store/types'

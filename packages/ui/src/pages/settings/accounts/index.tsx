@@ -9,7 +9,7 @@ import { SelectAdapter as AccountSelect } from 'ui/src/components/form/fields/ac
 import { Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
 import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { AddressBookEntry } from 'ui/src/store/types'

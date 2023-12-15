@@ -3,7 +3,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 
 const messages = defineMessages({
 	invalid_network: {

@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import type { FormEvent, PropsWithChildren } from 'react'
@@ -89,11 +88,6 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 			})
 	}
 
-	const handleGetFieldValue = (name: string) => {
-		const value = get(state.values, name)
-		return value
-	}
-
 	const handleFieldChange = (name: string, value?: any) => {
 		setState(draft => {
 			const { values } = draft
@@ -110,7 +104,6 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 		() => ({
 			...state,
 			errors,
-			getFieldValue: handleGetFieldValue,
 			onFieldChange: handleFieldChange,
 		}),
 		[state.isLoading, state.values, errors],
