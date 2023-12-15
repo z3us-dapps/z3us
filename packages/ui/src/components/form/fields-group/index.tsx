@@ -38,6 +38,8 @@ type State = {
 	error: string
 }
 
+const emptyValue = []
+
 export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	const intl = useIntl()
 	const {
@@ -54,7 +56,7 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	const { name: parentName } = useContext(FieldContext)
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
 
-	const value = useFieldValue(fieldName)
+	const value = useFieldValue(fieldName) || emptyValue
 
 	const [state, setState] = useImmer<State>({
 		keys: Array.from({ length: value.length || defaultKeys }, generateId),
@@ -122,7 +124,7 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 				<ValidationErrorMessage message={state.error} />
 			</Box>
 			{!ignoreTriggers &&
-				(maxKeys === 0 || maxKeys > state.keys.length) &&
+				(!maxKeys || maxKeys > state.keys.length) &&
 				React.cloneElement(addTrigger, { onClick: handleAdd })}
 		</Box>
 	)

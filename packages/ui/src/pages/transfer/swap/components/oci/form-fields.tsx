@@ -84,7 +84,7 @@ export const FormFields: React.FC = () => {
 
 	useEffect(() => {
 		onFieldChange(`${parentName}${parentName ? '.' : ''}dex`, 'oci')
-	}, [onFieldChange])
+	}, [])
 
 	useEffect(() => {
 		if (!preview) return

@@ -40,7 +40,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 				imgAlt: name || shortAddress,
 				fallbackText: getStrPrefix(symbol || name || shortAddress, 3),
 			}
-		}, [data, images])
+		}, [address, data, images])
 
 		return (
 			<ToolTip side="top" message={tooltip} disabled={!toolTipEnabled || !tooltip}>
