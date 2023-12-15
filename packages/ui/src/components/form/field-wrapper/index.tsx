@@ -31,8 +31,6 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 		error: '',
 	})
 
-	useEffect(() => onFieldChange(fieldName, null), [])
-
 	useEffect(() => {
 		const error = validate ? validate(fieldValue) : ''
 		setState(draft => {
