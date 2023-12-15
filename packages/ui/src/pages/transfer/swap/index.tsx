@@ -1,4 +1,6 @@
-import React, { useMemo, useState } from 'react'
+import { useKnownAddresses } from 'packages/ui/src/hooks/dapp/use-known-addresses'
+import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network'
+import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -12,6 +14,7 @@ import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { CirclePlusIcon, TrashIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
 
 import { Dex } from './dex'
@@ -76,15 +79,37 @@ const init = {
 	],
 }
 
+const OCI_RESOURCE_ADDRESS = 'resource_rdx1t52pvtk5wfhltchwh3rkzls2x0r98fw9cjhpyrf3vsykhkuwrf7jg8'
+
 export const Swap: React.FC = () => {
 	const intl = useIntl()
 	const sendTransaction = useSendTransaction()
 	const location = useLocation()
 	const navigate = useNavigate()
+	const networkId = useNetworkId()
 	const [searchParams] = useSearchParams()
+	const accountIndexes = useAccountIndexes()
+	const { data: knownAddresses } = useKnownAddresses()
 
 	const [formValues, setFormValues] = useState<typeof init>(init)
 	const [validation, setValidation] = useState<ZodError>()
+
+	useEffect(() => {
+		if (!knownAddresses) return
+		const accountIds = Object.keys(accountIndexes)
+		if (accountIds.length === 0) return
+		setFormValues({
+			swaps: [
+				{
+					dex: 'oci',
+					manifest: '',
+					account: accountIds[0],
+					from: [{ address: knownAddresses.resourceAddresses.xrd, amount: 0 }],
+					to: [{ address: networkId === 1 ? OCI_RESOURCE_ADDRESS : '', amount: 0 }],
+				},
+			],
+		})
+	}, [networkId, accountIndexes, knownAddresses])
 
 	const validationSchema = useMemo(() => {
 		const tokenSchema = z.object({
