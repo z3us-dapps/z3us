@@ -176,7 +176,7 @@ export const FormFields: React.FC = () => {
 			</Box>
 
 			{preview && (
-				<Box width="full">
+				<Box className={styles.swapFormFeeWrapper}>
 					<AccountsTransactionInfo
 						leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
 						rightData={

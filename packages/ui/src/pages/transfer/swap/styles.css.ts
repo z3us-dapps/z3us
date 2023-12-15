@@ -79,6 +79,21 @@ export const swapAddFieldButtonWrapper = style([
 	{},
 ])
 
+export const swapFormFeeWrapper = style([
+	sprinkles({
+		border: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDividerSecondary',
+		paddingX: 'large',
+		paddingBottom: 'large',
+		paddingTop: 'small',
+		marginTop: 'large',
+		borderRadius: 'large',
+		background: 'backgroundPrimary',
+	}),
+	{},
+])
+
 globalStyle(`${swapFormWrapper}  ${swapFieldGroupWrapper}:first-child`, {
 	borderTop: 'none',
 	marginTop: '0',
