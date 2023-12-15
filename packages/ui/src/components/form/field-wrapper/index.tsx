@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import React, { type PropsWithChildren, type ReactNode, useContext, useEffect } from 'react'
 import { useImmer } from 'use-immer'
 
@@ -6,6 +5,8 @@ import { Box } from 'ui/src/components/box'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import { FormContext } from '../context'
+import { useFieldErrors } from '../use-field-errors'
+import { useFieldValue } from '../use-field-value'
 import { FieldContext } from './context'
 
 export interface IProps {
@@ -16,53 +17,37 @@ export interface IProps {
 }
 
 type State = {
-	value: any
 	error: string
 }
 
 export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, children, name, label, hidden }) => {
-	const { values, errors, getFieldValue, onFieldChange } = useContext(FormContext)
+	const { onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
+	const fieldValue = useFieldValue(fieldName)
+	const fieldErrors = useFieldErrors(fieldName)
 
 	const [state, setState] = useImmer<State>({
-		value: getFieldValue(fieldName),
 		error: '',
 	})
 
-	useEffect(
-		() => () => {
-			onFieldChange(fieldName, null)
-		},
-		[],
-	)
+	useEffect(() => onFieldChange(fieldName, null), [])
 
 	useEffect(() => {
-		setState(draft => {
-			draft.value = getFieldValue(fieldName)
-		})
-	}, [values])
-
-	useEffect(() => {
-		setState(draft => {
-			// eslint-disable-next-line no-underscore-dangle
-			const fieldErrors = get(errors, fieldName)?._errors || []
-			draft.error = fieldErrors.length > 0 ? fieldErrors[0] : ''
-		})
-	}, [errors])
-
-	useEffect(() => {
-		onFieldChange(fieldName, state.value)
-		const error = validate ? validate(state.value) : ''
+		const error = validate ? validate(fieldValue) : ''
 		setState(draft => {
 			draft.error = error
 		})
-	}, [state.value])
+	}, [fieldValue])
+
+	useEffect(() => {
+		setState(draft => {
+			draft.error = fieldErrors.length > 0 ? fieldErrors[0] : ''
+		})
+	}, [fieldErrors])
 
 	const onChange = (value: any) => {
-		setState(draft => {
-			draft.value = value
-		})
+		onFieldChange(fieldName, value)
 	}
 
 	return (
@@ -76,7 +61,7 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 				{React.Children.map(children, child =>
 					React.isValidElement(child)
 						? React.cloneElement(child, {
-								value: state.value,
+								value: fieldValue,
 								name: fieldName,
 								onChange,
 								hasError: !!state.error,
