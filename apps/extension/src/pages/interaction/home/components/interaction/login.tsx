@@ -6,7 +6,6 @@ import type {
 	WalletUnauthorizedRequestItems,
 	WalletUnauthorizedRequestResponseItems,
 } from '@radixdlt/radix-dapp-toolkit'
-import { useAccountIndexes } from 'packages/ui/src/hooks/use-account-indexes'
 import { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -18,6 +17,7 @@ import { UserCheck, WalletIcon } from 'ui/src/components/icons'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
 import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
 import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'

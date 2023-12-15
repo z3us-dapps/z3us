@@ -1,5 +1,3 @@
-import { useDashboardUrl } from 'packages/ui/src/hooks/dapp/use-network'
-import { useZdtState } from 'packages/ui/src/hooks/zdt/use-zdt'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -10,6 +8,8 @@ import { SlideOutDialog } from 'ui/src/components/layout/slide-out-dialog'
 import ResourceDetails from 'ui/src/components/resource/resource'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
+import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 
 const messages = defineMessages({
 	open_radix_dashboard: {

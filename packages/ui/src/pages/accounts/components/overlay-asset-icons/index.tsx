@@ -27,8 +27,6 @@ export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances }) 
 		navigate(`/accounts/${accountId || '-'}/${resourceType}s/${address}?${searchParams}`)
 	}
 
-	console.log('balances ', balances)
-
 	return (
 		<Box className={styles.overlayAssetIconsWrapper}>
 			<Box display="flex" alignItems="center">

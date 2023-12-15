@@ -1,8 +1,3 @@
-import { ToolTip } from 'packages/ui/src/components/tool-tip'
-import { Text } from 'packages/ui/src/components/typography'
-import { DECIMAL_STYLES, PERCENTAGE_STYLES } from 'packages/ui/src/constants/number'
-import { useEntityMetadata } from 'packages/ui/src/hooks/dapp/use-entity-metadata'
-import { findMetadataValue } from 'packages/ui/src/services/metadata'
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -15,10 +10,15 @@ import TextField from 'ui/src/components/form/fields/text-field'
 import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-field'
 import { useFieldValue } from 'ui/src/components/form/use-field-value'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { FEE_RATIO } from 'ui/src/constants/swap'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useSwapPreview, useTokens } from 'ui/src/hooks/queries/astrolescent'
+import { findMetadataValue } from 'ui/src/services/metadata'
 
 const messages = defineMessages({
 	fee_wallet: {
