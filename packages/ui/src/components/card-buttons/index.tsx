@@ -4,12 +4,13 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { QrCode2Icon, RadixIcon, UpRight2Icon, Z3usIcon } from 'ui/src/components/icons'
+import { ExternalLinkIcon, QrCode2Icon, RadixIcon, UpRight2Icon, Z3usIcon } from 'ui/src/components/icons'
 import { QrPopOver } from 'ui/src/components/qr-popover'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
+import { ExplorerMenu } from 'ui/src/pages/accounts/components/layout/components/explorer-menu'
 
 import * as styles from './styles.css'
 
@@ -72,32 +73,18 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 					</ToolTip>
 				</QrPopOver>
 			)}
-			{isWallet && (
-				<ToolTip message={intl.formatMessage(messages.open_z3us)}>
-					<Button
-						iconOnly
-						rounded
-						styleVariant="inverse"
-						sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-						to={`https://z3us.com/#${location.pathname}`}
-						target="_blank"
-					>
-						<Z3usIcon />
+
+			<ExplorerMenu
+				radixExplorerUrl={
+					rawNftId ? `${dashboardUrl}/nft/${resourceId}%3A${rawNftId}` : `${dashboardUrl}/resource/${resourceId}`
+				}
+				z3usExplorerUrl={`https://z3us.com/#${location.pathname}`}
+				trigger={
+					<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'medium', tablet: 'large' }}>
+						<ExternalLinkIcon />
 					</Button>
-				</ToolTip>
-			)}
-			<ToolTip message={intl.formatMessage(messages.open_radix_dashboard)}>
-				<Button
-					iconOnly
-					rounded
-					styleVariant="inverse"
-					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
-					to={rawNftId ? `${dashboardUrl}/nft/${resourceId}%3A${rawNftId}` : `${dashboardUrl}/resource/${resourceId}`}
-					target="_blank"
-				>
-					<RadixIcon />
-				</Button>
-			</ToolTip>
+				}
+			/>
 		</Box>
 	)
 }
