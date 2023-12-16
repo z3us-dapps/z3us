@@ -110,8 +110,9 @@ export const FormFields: React.FC = () => {
 			;
 			CALL_METHOD
 				Address("${DAPP_ADDRESS}")
-				"deposit"
+				"try_deposit_or_abort"
 				Bucket("fee_bucket${bucketId}")
+				Enum<0u8>()
 			;
 		`
 
