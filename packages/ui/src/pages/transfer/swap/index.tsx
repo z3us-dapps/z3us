@@ -50,8 +50,8 @@ const messages = defineMessages({
 		defaultMessage: 'Please select account',
 	},
 	validation_swaps: {
-		id: 'X54VY/',
-		defaultMessage: 'Add least one action is required',
+		id: 'WsQhkr',
+		defaultMessage: 'At least one action is required',
 	},
 	error_toast: {
 		id: 'fjqZcw',
