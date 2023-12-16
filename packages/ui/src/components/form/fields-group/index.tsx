@@ -5,15 +5,16 @@ import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { generateId } from 'ui/src/utils/generate-id'
 
-import { ValidationErrorMessage } from '../../validation-error-message'
 import { FormContext } from '../context'
 import { FieldContext } from '../field-wrapper/context'
 import { useFieldErrors } from '../use-field-errors'
 import { useFieldValue } from '../use-field-value'
 import { AddTrigger } from './add-trigger'
 import { GroupField } from './group-field'
+import * as styles from './styles.css'
 import { TrashTrigger } from './trash-trigger'
 
 const messages = defineMessages({
@@ -104,21 +105,23 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	}
 
 	return (
-		<Box>
-			{state.keys.map((key, idx) => (
-				<Box className={className} position="relative" key={key}>
-					<GroupField idx={idx} name={name}>
-						{React.Children.map(children, child => (React.isValidElement(child) ? React.cloneElement(child) : child))}
-					</GroupField>
-					{!ignoreTriggers && idx >= defaultKeys && (
-						<ToolTip message={intl.formatMessage(messages.remove)}>
-							{React.cloneElement(trashTrigger, {
-								onClick: () => handleRemove(key),
-							})}
-						</ToolTip>
-					)}
-				</Box>
-			))}
+		<Box display="flex" flexDirection="column" gap="xsmall">
+			<Box className={state.error ? styles.formFieldGroupWithError : undefined}>
+				{state.keys.map((key, idx) => (
+					<Box className={className} position="relative" key={key}>
+						<GroupField idx={idx} name={name}>
+							{React.Children.map(children, child => (React.isValidElement(child) ? React.cloneElement(child) : child))}
+						</GroupField>
+						{!ignoreTriggers && idx >= defaultKeys && (
+							<ToolTip message={intl.formatMessage(messages.remove)}>
+								{React.cloneElement(trashTrigger, {
+									onClick: () => handleRemove(key),
+								})}
+							</ToolTip>
+						)}
+					</Box>
+				))}
+			</Box>
 			<Box display="flex" justifyContent="space-between">
 				<ValidationErrorMessage message={state.error} />
 			</Box>
