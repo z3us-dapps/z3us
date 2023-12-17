@@ -7,7 +7,8 @@ import { KeystoreType } from 'ui/src/store/types'
 const popupURL = new URL(browser.runtime.getURL(''))
 
 export const isHandledByRadix = async (): Promise<boolean> => {
-	await sharedStore.persist.rehydrate()
+	// We do not rehydrate here as it makes page reload and forms are loosing loading state
+	// await sharedStore.persist.rehydrate()
 	const sharedState = sharedStore.getState()
 
 	const keystore = sharedState.keystores.find(k => k.id === sharedState.selectedKeystoreId)

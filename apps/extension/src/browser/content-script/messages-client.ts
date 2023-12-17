@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import type { ExtensionInteraction, WalletInteractionWithOrigin } from '@radixdlt/radix-connect-schemas'
 import browser from 'webextension-polyfill'
@@ -10,6 +11,7 @@ import { newMessage } from '@src/browser/messages/message'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
 
+import timeout, { reason } from '../messages/timeout'
 import { chromeDAppClient, logger, radixMessageHandler, sendRadixMessage } from './radix'
 import { isHandledByRadix } from './radix-connector'
 import { checkConnectButtonStatus } from './storage'
@@ -20,10 +22,20 @@ export type MessageClientType = ReturnType<typeof MessageClient>
 export const MessageClient = () => {
 	console.info(`⚡️Z3US⚡️: content-script message client initialized.`)
 
+	const responseHandlers: {
+		[key: string]: any
+	} = {}
+
 	let port = browser.runtime.connect({ name: PORT_NAME })
 
 	const onPortMessage = (message: ResponseMessage) => {
-		const { target, error } = message
+		const { messageId, target, error } = message
+
+		const handler = responseHandlers[messageId]
+		if (handler) {
+			handler(message)
+		}
+
 		if (error) {
 			console.error(`⚡️Z3US⚡️: content-script message client response error`, error)
 		} else {
@@ -50,6 +62,34 @@ export const MessageClient = () => {
 
 	port.onDisconnect.addListener(onPortDisconnect)
 	port.onMessage.addListener(onPortMessage)
+
+	const sendMessage = async (radixMsg: RadixMessage) => {
+		const msg = newMessage(
+			BackgroundMessageAction.BACKGROUND_RADIX,
+			MessageSource.RADIX,
+			MessageSource.BACKGROUND,
+			radixMsg,
+		)
+		const promise = new Promise<ResponseMessage>(resolve => {
+			responseHandlers[msg.messageId] = resolve
+		})
+
+		port.postMessage(msg)
+
+		try {
+			let response = await timeout(promise)
+			if (response?.error && response?.error === reason) {
+				// if timeout, might be because port reconnected, retry once
+				response = await timeout(promise)
+			}
+			if (response?.error) {
+				throw new Error(response.error)
+			}
+			return response.payload
+		} finally {
+			delete responseHandlers[msg.messageId]
+		}
+	}
 
 	const onWindowMessage = (event: MessageEvent<Message>) => {
 		if (event.source !== window) {
@@ -87,18 +127,12 @@ export const MessageClient = () => {
 
 	const handleWalletInteraction = async (walletInteraction: WalletInteractionWithOrigin) => {
 		const radixMsg = createRadixMessage.dAppRequest('contentScript', walletInteraction)
-		isHandledByRadix().then(enabled =>
-			enabled
-				? browser.runtime.sendMessage(radixMsg)
-				: port.postMessage(
-						newMessage(
-							BackgroundMessageAction.BACKGROUND_RADIX,
-							MessageSource.RADIX,
-							MessageSource.BACKGROUND,
-							radixMsg,
-						),
-				  ),
-		)
+		const enabled = await isHandledByRadix()
+		if (enabled) {
+			await browser.runtime.sendMessage(radixMsg)
+		} else {
+			await sendMessage(radixMsg)
+		}
 	}
 
 	const handleExtensionInteraction = async (extensionInteraction: ExtensionInteraction) => {
