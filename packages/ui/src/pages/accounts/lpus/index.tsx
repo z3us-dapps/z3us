@@ -68,7 +68,7 @@ const LPUs: React.FC = () => {
 		() => [
 			{
 				Header: intl.formatMessage(messages.pool),
-				accessor: 'pool',
+				accessor: 'address',
 				width: '40%',
 				Cell: ResourceNameCell,
 			},
