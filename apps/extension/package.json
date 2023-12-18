@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "2.0.21",
+	"version": "2.0.22",
 	"type": "module",
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
