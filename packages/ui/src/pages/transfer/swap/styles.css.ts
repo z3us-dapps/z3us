@@ -22,10 +22,7 @@ export const swapExchangeButtonWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		alignItems: 'center',
-		paddingBottom: {
-			mobile: 'medium',
-			tablet: 'large',
-		},
+		paddingBottom: 'medium',
 	}),
 	{},
 ])
@@ -44,6 +41,7 @@ export const swapFormFieldWrapper = style([
 		display: 'flex',
 		width: 'full',
 		flexDirection: 'column',
+		marginTop: 'small',
 		gap: {
 			mobile: 'large',
 			tablet: 'xlarge',
