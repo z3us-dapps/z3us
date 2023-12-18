@@ -69,12 +69,9 @@ export class AstrolescentService {
 		const path = url.toString()
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
-			try {
-				const json = await response.json()
-				if (json.error) throw new Error(json.error)
-			} catch (_) {
-				throw new Error(`Invalid request: ${response.status} received`)
-			}
+			const json = await response.json()
+			if (json.error) throw new Error(json.error)
+			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
 		return response.json()
