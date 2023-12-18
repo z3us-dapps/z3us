@@ -25,7 +25,7 @@ export const ValidatorNameCell: React.FC<IProps> = props => {
 		row: { original },
 	} = props
 
-	const { amount } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
+	const { amount, address } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
 	const { data, isLoading } = useEntityDetails(value)
 	const name = findMetadataValue('name', data?.metadata?.items)
@@ -37,7 +37,7 @@ export const ValidatorNameCell: React.FC<IProps> = props => {
 	return (
 		<Box className={styles.cellWrapper}>
 			<Box className={clsx(styles.cellContentWrapper, 'td-cell')}>
-				<ResourceImageIcon size={{ mobile: 'large', tablet: 'large' }} address={value} toolTipEnabled />
+				<ResourceImageIcon size={{ mobile: 'large', tablet: 'large' }} address={address} toolTipEnabled />
 				<Box display="flex" flexDirection="column">
 					<ToolTip side="top" message={name}>
 						<Box>

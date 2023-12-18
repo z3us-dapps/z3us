@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import type { Personas } from '../store/types'
-import { useNetworkId } from './dapp/use-network-id'
+import { useNetworkId } from './dapp/use-network'
 import { useNoneSharedStore } from './use-store'
 
 export const usePersonaIndexes = (): Personas => {

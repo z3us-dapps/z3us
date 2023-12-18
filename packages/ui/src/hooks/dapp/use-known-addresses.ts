@@ -1,7 +1,7 @@
 import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 
-import { useNetworkId } from './use-network-id'
+import { useNetworkId } from './use-network'
 
 export const useKnownAddresses = () => {
 	const networkId = useNetworkId()

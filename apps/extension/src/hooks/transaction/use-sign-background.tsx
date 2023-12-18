@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Text } from 'ui/src/components/typography'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 

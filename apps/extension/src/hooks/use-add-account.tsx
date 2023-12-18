@@ -1,7 +1,7 @@
 import { LTSRadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'

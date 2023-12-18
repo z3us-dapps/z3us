@@ -1,8 +1,9 @@
+import { get } from 'lodash'
 import { useContext, useMemo } from 'react'
 
 import { FormContext } from './context'
 
 export const useFieldValue = (name: string) => {
-	const { values, getFieldValue } = useContext(FormContext)
-	return useMemo(() => getFieldValue(name), [name, values])
+	const { values } = useContext(FormContext)
+	return useMemo(() => get(values, name), [name, JSON.stringify(values)])
 }

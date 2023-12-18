@@ -37,7 +37,7 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			applicationName: DAPP_NAME,
 			applicationVersion: DAPP_VERSION,
 			dAppDefinitionAddress: DAPP_ADDRESS,
-			logger: console as any,
+			// logger: console as any,
 			useCache: false,
 			providers: { storageClient },
 		}

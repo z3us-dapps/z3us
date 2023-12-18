@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import { Box } from 'ui/src/components/box'
 import { DialogAlert } from 'ui/src/components/dialog-alert'
 import { Text } from 'ui/src/components/typography'
-import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
