@@ -135,7 +135,6 @@ export const FormFields: React.FC = () => {
 
 	return (
 		<Box width="full">
-			<ValidationErrorMessage message={(previewError as any)?.message} />
 			<Box className={styles.swapFormFieldWrapper}>
 				<TextField name="dex" hidden />
 				<TextField name="manifest" hidden />
@@ -156,6 +155,8 @@ export const FormFields: React.FC = () => {
 					/>
 				</FieldsGroup>
 			</Box>
+
+			<ValidationErrorMessage message={(previewError as any)?.message} />
 
 			{preview && (
 				<Box width="full">
