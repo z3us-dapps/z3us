@@ -4,6 +4,7 @@ import browser from 'webextension-polyfill'
 import type { MessageTypes as BackgroundMessageTypes } from '@src/browser/background/message-handlers'
 import type { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { PORT_NAME } from '@src/browser/messages/constants'
+import { newMessage } from '@src/browser/messages/message'
 import timeout, { reason } from '@src/browser/messages/timeout'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
@@ -44,18 +45,12 @@ export const MessageClient = () => {
 		action: BackgroundMessageAction,
 		payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] = {},
 	) => {
-		const messageId = `${action}-${crypto.randomUUID()}`
+		const msg = newMessage(action, MessageSource.POPUP, MessageSource.BACKGROUND, payload)
 		const promise = new Promise<ResponseMessage>(resolve => {
-			responseHandlers[messageId] = resolve
+			responseHandlers[msg.messageId] = resolve
 		})
 
-		port.postMessage({
-			messageId,
-			target: MessageSource.BACKGROUND,
-			source: MessageSource.POPUP,
-			action,
-			payload,
-		} as Message)
+		port.postMessage(msg)
 
 		try {
 			let response = await timeout(promise)
@@ -68,7 +63,7 @@ export const MessageClient = () => {
 			}
 			return response.payload
 		} finally {
-			delete responseHandlers[messageId]
+			delete responseHandlers[msg.messageId]
 		}
 	}
 

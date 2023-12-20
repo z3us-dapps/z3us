@@ -8,12 +8,11 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
-import { ResourceNameCell } from 'ui/src/pages/accounts/components/table/resource-name-cell'
+import { PoolLiquidityCell } from 'ui/src/pages/accounts/components/table/pool-liquidity-cell'
+import { PoolNameCell } from 'ui/src/pages/accounts/components/table/pool-name-cell'
+import { ResourceValueCell } from 'ui/src/pages/accounts/components/table/resource-value-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 import type { ResourceBalanceKind } from 'ui/src/types'
-
-import { PoolLiquidityCell } from '../components/table/pool-liquidity-cell'
-import { ResourceValueCell } from '../components/table/resource-value-cell'
 
 const messages = defineMessages({
 	pool: {
@@ -70,7 +69,7 @@ const LPUs: React.FC = () => {
 				Header: intl.formatMessage(messages.pool),
 				accessor: 'pool',
 				width: '40%',
-				Cell: ResourceNameCell,
+				Cell: PoolNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.value),

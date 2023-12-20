@@ -152,10 +152,10 @@ export class OCIService {
 
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
-			try {
-				const json = await response.json()
-				if (json.error) throw new Error(json.error)
-			} catch (_) {
+			const json = await response.json()
+			if (json.error) {
+				throw new Error(json.error)
+			} else {
 				throw new Error(`Invalid request: ${response.status} received`)
 			}
 		}

@@ -61,8 +61,8 @@ const messages = defineMessages({
 		defaultMessage: 'Please select recipient',
 	},
 	validation_values_length: {
-		id: '8Dy6y8',
-		defaultMessage: 'At least one group is required',
+		id: 'ieuxQy',
+		defaultMessage: 'Section required',
 	},
 	error_toast: {
 		id: 'fjqZcw',
@@ -86,9 +86,7 @@ function getInitialValues(accountId: string, resourceId: string, rawNftId?: stri
 				actions: [
 					{
 						to: '',
-						resources: resourceId
-							? [{ address: resourceId, id: rawNftId ? decodeURIComponent(rawNftId) : '', amount: 0 }]
-							: [],
+						resources: [{ address: resourceId, id: rawNftId ? decodeURIComponent(rawNftId) : '', amount: 0 }],
 					},
 				],
 			},
@@ -137,7 +135,7 @@ export const Home: React.FC = () => {
 
 		const actionsSchema = z.object({
 			to: z.string().min(1, intl.formatMessage(messages.validation_to)),
-			resources: z.array(tokenOrNft),
+			resources: z.array(tokenOrNft).min(1, intl.formatMessage(messages.validation_values_length)),
 		})
 
 		return z.object({
@@ -145,7 +143,7 @@ export const Home: React.FC = () => {
 				.array(
 					z.object({
 						account: z.string().min(1, intl.formatMessage(messages.validation_from)),
-						actions: z.array(actionsSchema),
+						actions: z.array(actionsSchema).min(1, intl.formatMessage(messages.validation_values_length)),
 					}),
 				)
 				.min(1, intl.formatMessage(messages.validation_values_length)),
