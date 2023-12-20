@@ -1,8 +1,4 @@
 import clsx from 'clsx'
-import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
-import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
-import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
-import { findFieldValue, findMetadataValue } from 'ui/src/services/metadata'
 import React, { Suspense, useEffect, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { defineMessages, useIntl } from 'react-intl'
@@ -17,8 +13,12 @@ import MobileScrollArea from 'ui/src/components/scroll-area-radix/mobile'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
+import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
+import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
+import { findFieldValue, findMetadataValue } from 'ui/src/services/metadata'
 
 import { useResourceType } from '../../hooks/use-resource-type'
 import { ActivityList } from '../activity-list/components/activity-list'
@@ -128,7 +128,7 @@ const Layout: React.FC = () => {
 	const accounts = useWalletAccounts()
 	const resourceType = useResourceType()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
-	const nftId = decodeURIComponent(rawNftId)
+	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
 
 	const isNftCollection = useMatch('/accounts/:accountId/nfts/:resourceId')
 	const isNftCollectionOrList = !resourceId || !!isNftCollection
