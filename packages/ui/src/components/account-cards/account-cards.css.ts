@@ -221,6 +221,13 @@ export const cardAccountLarge = style([
 	{},
 ])
 
+export const cardAccountMenuLeftSlotWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
 globalStyle(`${cardAccountImageWrapper} img`, {
 	position: 'absolute',
 })

@@ -16,7 +16,7 @@ import {
 	DropdownMenuPortal,
 	DropdownMenuTrigger,
 } from 'ui/src/components/dropdown-menu'
-import { DotsHorizontalCircleIcon, InformationIcon, ShareIcon, TrashIcon } from 'ui/src/components/icons'
+import { DotsHorizontalCircleIcon, InformationIcon, RadixIcon, TrashIcon, Z3usIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { CARD_COLORS } from 'ui/src/constants/account'
@@ -257,7 +257,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 									<DropdownMenuLeftSlot>
 										<InformationIcon />
 									</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="xsmall">
+									<Box display="flex" marginLeft="small">
 										<Text size="xsmall" truncate>
 											{intl.formatMessage(messages.show_details)}
 										</Text>
@@ -268,35 +268,35 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 										<DropdownMenuLeftSlot>
 											<TrashIcon />
 										</DropdownMenuLeftSlot>
-										<Box display="flex" marginLeft="xsmall">
+										<Box display="flex" marginLeft="small">
 											<Text size="xsmall" truncate>
 												{intl.formatMessage(messages.delete_account)}
 											</Text>
 										</Box>
 									</DropdownMenuItem>
 								)}
+								<DropdownMenuItem onSelect={handleShowInDashboard}>
+									<DropdownMenuLeftSlot>
+										<RadixIcon />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="small">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.open_radix_dashboard)}
+										</Text>
+									</Box>
+								</DropdownMenuItem>
 								{isWallet && (
 									<DropdownMenuItem onSelect={handleShowInZ3US}>
 										<DropdownMenuLeftSlot>
-											<ShareIcon />
+											<Z3usIcon />
 										</DropdownMenuLeftSlot>
-										<Box display="flex" marginLeft="xsmall">
+										<Box display="flex" marginLeft="small">
 											<Text size="xsmall" truncate>
 												{intl.formatMessage(messages.open_z3us)}
 											</Text>
 										</Box>
 									</DropdownMenuItem>
 								)}
-								<DropdownMenuItem onSelect={handleShowInDashboard}>
-									<DropdownMenuLeftSlot>
-										<ShareIcon />
-									</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="xsmall">
-										<Text size="xsmall" truncate>
-											{intl.formatMessage(messages.open_radix_dashboard)}
-										</Text>
-									</Box>
-								</DropdownMenuItem>
 								<DropdownMenuArrow />
 							</DropdownMenuContent>
 						</DropdownMenuPortal>
