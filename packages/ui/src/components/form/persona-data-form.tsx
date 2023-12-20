@@ -149,7 +149,7 @@ const PersonaDataForm: React.FC<IProps> = ({ identityAddress, customValidationSc
 
 	useEffect(() => {
 		inputRef?.current?.focus()
-	}, [])
+	}, [inputRef?.current])
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		setValidation(undefined)

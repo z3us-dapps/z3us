@@ -98,11 +98,11 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 
 	useEffect(() => {
 		selectRef?.current?.focus()
-	}, [])
+	}, [selectRef?.current])
 
 	useEffect(() => {
 		if (isAddPersonaFormVisible) formRef?.current?.focus()
-	}, [isAddPersonaFormVisible])
+	}, [isAddPersonaFormVisible, formRef?.current])
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		setValidation(undefined)

@@ -32,7 +32,7 @@ export const DeployFormFields: React.FC = () => {
 
 	useEffect(() => {
 		inputRef?.current?.focus()
-	}, [])
+	}, [inputRef?.current])
 
 	return (
 		<Box>
