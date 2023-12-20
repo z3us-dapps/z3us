@@ -3,8 +3,7 @@ import { useMemo } from 'react'
 import type { Token as AstrolescentToken } from '../../services/astrolescent'
 import type { Token as OciToken } from '../../services/oci'
 import { useToken as useAstrolescentToken, useTokens as useAstrolescentTokens } from './astrolescent'
-
-// import { useToken as useOciToken, useTokens as useOciTokens } from './oci'
+import { useToken as useOciToken, useTokens as useOciTokens } from './oci'
 
 export type Token = {
 	address: string
@@ -51,7 +50,6 @@ function transformAstrolescentToken(token: AstrolescentToken): Token {
 	}
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function transformOciToken(token: OciToken): Token {
 	const tokenPriceNow = parseFloat(token.price?.xrd.now) || 0
 	const tokenPrice24h = parseFloat(token.price?.xrd['24h']) || 0
@@ -85,60 +83,37 @@ function transformOciToken(token: OciToken): Token {
 }
 
 export const useTokens = () => {
-	// const { data: astrolescentTokens, isLoading: isLoadingAstrolescent } = useAstrolescentTokens()
-	// const { data: ociTokens, isLoading: isLoadingOci } = useOciTokens()
+	const { data: astrolescentTokens, isLoading: isLoadingAstrolescent } = useAstrolescentTokens()
+	const { data: ociTokens, isLoading: isLoadingOci } = useOciTokens()
 
-	// return useMemo(() => {
-	// 	const at = Object.values(astrolescentTokens || {}).reduce(
-	// 		(container, token) => ({ ...container, [token.address]: transformAstrolescentToken(token) }),
-	// 		{},
-	// 	)
+	return useMemo(() => {
+		const at = Object.values(astrolescentTokens || {}).reduce(
+			(container, token) => ({ ...container, [token.address]: transformAstrolescentToken(token) }),
+			{},
+		)
 
-	// 	const oc = Object.values(ociTokens || {}).reduce(
-	// 		(container, token) => ({ ...container, [token.address]: transformOciToken(token) }),
-	// 		{},
-	// 	)
+		const oc = Object.values(ociTokens || {}).reduce(
+			(container, token) => ({ ...container, [token.address]: transformOciToken(token) }),
+			{},
+		)
 
-	// 	return {
-	// 		isLoading: isLoadingAstrolescent || isLoadingOci,
-	// 		data: { ...oc, ...at },
-	// 	}
-	// }, [astrolescentTokens, isLoadingAstrolescent, ociTokens, isLoadingOci])
-
-	const { data, isLoading } = useAstrolescentTokens()
-
-	return useMemo(
-		() => ({
-			data: Object.values(data || {}).reduce(
-				(container, token) => ({ ...container, [token.address]: transformAstrolescentToken(token) }),
-				{},
-			),
-			isLoading,
-		}),
-		[data, isLoading],
-	)
+		return {
+			isLoading: isLoadingAstrolescent || isLoadingOci,
+			data: { ...oc, ...at },
+		}
+	}, [astrolescentTokens, isLoadingAstrolescent, ociTokens, isLoadingOci])
 }
 
 export const useToken = (address: string) => {
-	// const { data: astrolescentToken, isLoading: isLoadingAstrolescent } = useAstrolescentToken(address)
-	// const { data: ociToken, isLoading: isLoadingOci } = useOciToken(address)
+	const { data: astrolescentToken, isLoading: isLoadingAstrolescent } = useAstrolescentToken(address)
+	const { data: ociToken, isLoading: isLoadingOci } = useOciToken(address)
 
-	// return useMemo(() => {
-	// 	const at = astrolescentToken ? transformAstrolescentToken(astrolescentToken) : null
-	// 	const ot = ociToken ? transformOciToken(ociToken) : null
-	// 	return {
-	// 		data: at || ot,
-	// 		isLoading: isLoadingOci,
-	// 	}
-	// }, [astrolescentToken, isLoadingAstrolescent, ociToken, isLoadingOci])
-
-	const { data, isLoading } = useAstrolescentToken(address)
-
-	return useMemo(
-		() => ({
-			data: data ? transformAstrolescentToken(data) : null,
-			isLoading,
-		}),
-		[data, isLoading],
-	)
+	return useMemo(() => {
+		const at = astrolescentToken ? transformAstrolescentToken(astrolescentToken) : null
+		const ot = ociToken ? transformOciToken(ociToken) : null
+		return {
+			data: at || ot,
+			isLoading: isLoadingOci,
+		}
+	}, [astrolescentToken, isLoadingAstrolescent, ociToken, isLoadingOci])
 }
