@@ -40,7 +40,7 @@ const NFTs: React.FC = () => {
 	const [searchParams] = useSearchParams()
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
-	const nftId = decodeURIComponent(rawNftId)
+	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
 	const selectedAccounts = useSelectedAccounts()
 
 	const { isFetching, data: idsData, fetchNextPage, hasNextPage } = useNonFungibleIds(resourceId, selectedAccounts)

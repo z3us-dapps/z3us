@@ -74,7 +74,7 @@ const SignModal: React.FC<IProps> = ({
 
 	useEffect(() => {
 		inputRef?.current?.focus()
-	}, [])
+	}, [inputRef?.current])
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		try {

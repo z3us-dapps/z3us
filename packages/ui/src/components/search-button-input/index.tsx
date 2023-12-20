@@ -85,7 +85,7 @@ export const SearchButtonInput: React.FC<IProps> = props => {
 
 	useEffect(() => {
 		inputRef?.current?.focus()
-	}, [isSearchVisible])
+	}, [isSearchVisible, inputRef?.current])
 
 	return (
 		<Box className={clsx(styles.searchWrapper, className)}>

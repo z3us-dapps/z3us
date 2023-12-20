@@ -25,7 +25,7 @@ interface IProps {
 export const NftItemBreadcrumb: React.FC<IProps> = ({ isLast }) => {
 	const intl = useIntl()
 	const { accountId, resourceId, nftId: rawNftId } = useParams()
-	const nftId = decodeURIComponent(rawNftId)
+	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
 	const { data } = useNonFungibleData(resourceId, nftId)
 
 	const dataJson = data?.data.programmatic_json as any

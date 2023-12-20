@@ -35,7 +35,7 @@ const messages = defineMessages({
 const Nft: React.FC = () => {
 	const intl = useIntl()
 	const { resourceId, nftId: rawNftId } = useParams()
-	const nftId = decodeURIComponent(rawNftId)
+	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
 
 	const { data, isLoading } = useNonFungibleData(resourceId, nftId)
 	const dataJson = data?.data.programmatic_json as any
