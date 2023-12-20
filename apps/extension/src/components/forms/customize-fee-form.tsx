@@ -62,7 +62,7 @@ const CustomizeFeeForm: React.FC<IProps> = ({ settings, onSubmit }) => {
 
 	useEffect(() => {
 		inputRef?.current?.focus()
-	}, [])
+	}, [inputRef?.current])
 
 	const handleSubmit = async (values: Values) => {
 		setValidation(undefined)

@@ -44,7 +44,7 @@ export const WalletSecretForm: React.FC<IProps> = ({ combinedKeystoreId, onUnloc
 
 	useEffect(() => {
 		inputRef?.current?.focus()
-	}, [])
+	}, [inputRef?.current])
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		try {

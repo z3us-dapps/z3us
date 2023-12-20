@@ -1,3 +1,4 @@
+import { ToolTip } from 'packages/ui/src/components/tool-tip'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
@@ -7,12 +8,14 @@ import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
+import { ArrowUpIcon } from 'ui/src/components/icons'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { Z3usLogoLarge, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
+import useKeyLock from '@src/hooks/use-key-lock'
 import { useMessageClient } from '@src/hooks/use-message-client'
 
 import * as styles from './styles.css'
@@ -38,6 +41,10 @@ const messages = defineMessages({
 		defaultMessage: 'Add wallet...',
 		id: 'VLEYHl',
 	},
+	caps_lock: {
+		defaultMessage: 'Caps lock is on',
+		id: 'UuMbWw',
+	},
 })
 
 const initialValues = {
@@ -53,6 +60,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
 	const client = useMessageClient()
+	const hasCapsLock = useKeyLock('CapsLock')
 
 	const { keystore, keystores, selectKeystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -64,7 +72,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 
 	useEffect(() => {
 		inputRef?.current?.focus()
-	}, [])
+	}, [inputRef?.current])
 
 	const selectItems = useMemo(() => {
 		const items = keystores.map(({ id, name }) => ({ id, title: name }))
@@ -120,7 +128,20 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 							<Text color="strong" weight="medium">
 								{intl.formatMessage(messages.password_placeholder)}
 							</Text>
-							<TextField ref={inputRef} isPassword name="password" sizeVariant="large" styleVariant="secondary" />
+							<TextField
+								ref={inputRef}
+								isPassword
+								name="password"
+								sizeVariant="large"
+								styleVariant="secondary"
+								rightIcon={
+									hasCapsLock ? (
+										<ToolTip message={intl.formatMessage(messages.caps_lock)}>
+											<ArrowUpIcon />
+										</ToolTip>
+									) : null
+								}
+							/>
 						</Box>
 						<Box className={styles.unlockValidationWrapper}>
 							<ValidationErrorMessage message={error} />
