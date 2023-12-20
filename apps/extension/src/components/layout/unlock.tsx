@@ -8,7 +8,7 @@ import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
-import { ArrowUpIcon } from 'ui/src/components/icons'
+import { TextUppercaseIcon } from 'ui/src/components/icons'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
@@ -137,7 +137,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 								rightIcon={
 									hasCapsLock ? (
 										<ToolTip message={intl.formatMessage(messages.caps_lock)}>
-											<ArrowUpIcon />
+											<TextUppercaseIcon className={styles.unlockCapsIconWrapper} />
 										</ToolTip>
 									) : null
 								}
