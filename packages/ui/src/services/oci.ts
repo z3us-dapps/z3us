@@ -113,7 +113,7 @@ export type UdfHistory = {
 }
 
 export class OCIService {
-	private baseURL: string = 'https:/api.ociswap.com'
+	private baseURL: string = 'https://api.ociswap.com'
 
 	private options: RequestInit = {
 		method: 'GET',
