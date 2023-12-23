@@ -11,8 +11,8 @@ const content = {
 		return res
 	}),
 	background: {
+		persistent: true,
 		scripts: ['service-worker-loader.js'],
-		type: 'module',
 	},
 	browser_specific_settings: {
 		gecko: {

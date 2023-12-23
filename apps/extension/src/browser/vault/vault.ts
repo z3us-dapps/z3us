@@ -135,6 +135,29 @@ export class Vault {
 		}
 	}
 
+	private lockOnTimer = async () => {
+		await sharedStore.persist.rehydrate()
+		const { selectedKeystoreId } = sharedStore.getState()
+
+		const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
+		await noneSharedStore.persist.rehydrate()
+		const { walletUnlockTimeoutInMinutes } = noneSharedStore.getState()
+
+		if (this.wallet?.keystore.id !== selectedKeystoreId) {
+			// eslint-disable-next-line no-console
+			console.error(
+				`Vault.lockOnTimer memory keystore ${this.wallet?.keystore.id} !== selected keystore ${selectedKeystoreId}`,
+			)
+		} else if (walletUnlockTimeoutInMinutes > 0) {
+			const release = await this.mutex.acquire()
+			try {
+				await this.clearState()
+			} finally {
+				release()
+			}
+		}
+	}
+
 	private clearState = async () => {
 		if (this.wallet?.timer) {
 			clearTimeout(this.wallet.timer)
@@ -157,8 +180,8 @@ export class Vault {
 				if (this.wallet?.timer) {
 					clearTimeout(this.wallet.timer)
 				}
-				if (this.wallet && walletUnlockTimeoutInMinutes > 0) {
-					this.wallet.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
+				if (walletUnlockTimeoutInMinutes > 0) {
+					this.wallet.timer = setTimeout(this.lockOnTimer, walletUnlockTimeoutInMinutes * 60 * 1000)
 				}
 			} catch (error) {
 				await this.lock()
