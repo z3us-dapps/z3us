@@ -5,7 +5,7 @@ import browser from 'webextension-polyfill'
 import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
 import type { State } from 'ui/src/context/dapp-status'
 
-import { checkContentScript, showConnected, showDisconnected } from '@src/browser/content-script/status'
+import { checkContentScript } from '@src/browser/content-script/status'
 
 import { useIsUnlocked } from './use-is-unlocked'
 
@@ -49,12 +49,6 @@ export const useDappStatus = () => {
 						draft.canConnectToTab =
 							tabURL?.hostname && !isPopupPage(tabURL) && (isSecureHost(tabURL) || isLocalhost(tabURL))
 					})
-
-					if (isConnected) {
-						showConnected()
-					} else {
-						showDisconnected()
-					}
 				})
 			})
 		}
