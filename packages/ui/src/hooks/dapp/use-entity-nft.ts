@@ -6,6 +6,24 @@ import { useAccountNftVaults } from './use-balances'
 import { useGatewayClient } from './use-gateway-client'
 import { useNetworkId } from './use-network'
 
+export const useNonFungibleCollection = (resourceId: string) => {
+	const { state } = useGatewayClient()!
+	const networkId = useNetworkId()
+
+	return useInfiniteQuery({
+		queryKey: ['useNonFungibleCollection', networkId, resourceId],
+		queryFn: async ({ pageParam: cursor }) =>
+			state.innerClient.nonFungibleIds({
+				stateNonFungibleIdsRequest: {
+					resource_address: resourceId,
+					cursor,
+				},
+			}),
+		getNextPageParam: lastPage => lastPage.non_fungible_ids.next_cursor,
+		enabled: !!resourceId && !!state,
+	})
+}
+
 export const useNonFungibleIds = (resourceId: string, addresses: string[]) => {
 	const { state } = useGatewayClient()!
 	const networkId = useNetworkId()

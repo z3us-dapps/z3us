@@ -4,6 +4,7 @@ import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom'
 import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
 import AppLayout from 'ui/src/components/layout'
 import accountsRoute from 'ui/src/pages/accounts/router'
+import airdropRoute from 'ui/src/pages/airdrop/router'
 import noMatchRoute from 'ui/src/pages/no-match/router'
 import settingsRoute from 'ui/src/pages/settings/router'
 import stakingRoute from 'ui/src/pages/staking/router'
@@ -42,7 +43,7 @@ export const router = createHashRouter([
 			},
 			{
 				element: <AppLayout />,
-				children: [accountsRoute, patchedSettingsRoute, stakingRoute, transferRoute],
+				children: [accountsRoute, patchedSettingsRoute, stakingRoute, transferRoute, airdropRoute],
 			},
 			keystoreRoute,
 			interactionRoute,
