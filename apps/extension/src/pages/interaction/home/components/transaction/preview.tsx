@@ -35,6 +35,7 @@ import {
 	signatureCost,
 } from '@src/types/transaction'
 
+import { FEE_PADDING_MARGIN } from './consts'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -137,7 +138,7 @@ function aggregateConsecutiveChanges(
 
 function getFeePaddingAmount(receipt: TransactionReceipt, walletCost: number): number {
 	return (
-		0.15 *
+		FEE_PADDING_MARGIN *
 		(Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) +
 			Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) +
 			Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost) +

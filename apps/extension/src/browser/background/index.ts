@@ -8,7 +8,7 @@ import { MessageClient } from '@src/browser/background/message-client'
 import '@src/browser/background/notifications'
 import '@src/browser/background/omnibox'
 import { handleStorageChange } from '@src/browser/background/storage'
-import { getTabRemovedHandler, getTabUpdatedHandler, handleTabActivated } from '@src/browser/background/tabs'
+import { getTabRemovedHandler, getTabUpdatedHandler } from '@src/browser/background/tabs'
 import watch from '@src/browser/background/watcher'
 import { addInjectContentScript } from '@src/browser/content-script/context-menu'
 import { addDevTools } from '@src/browser/dev-tools/context-menu'
@@ -27,7 +27,6 @@ browser.runtime.onStartup.addListener(() => logger.debug('onStartup'))
 browser.runtime.onConnect.addListener(messageHandler.onPort)
 browser.runtime.onMessage.addListener(messageHandler.onMessage)
 browser.storage.onChanged.addListener(handleStorageChange)
-browser.tabs.onActivated.addListener(handleTabActivated)
 browser.tabs.onUpdated.addListener(handleTabUpdated)
 browser.tabs.onRemoved.addListener(handleTabRemoved)
 

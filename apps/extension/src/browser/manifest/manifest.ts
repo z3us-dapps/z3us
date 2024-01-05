@@ -3,9 +3,8 @@ import { defineManifest } from '@crxjs/vite-plugin'
 
 import { version } from '../../../package.json'
 import matches from './content_matches.json'
-import hosts from './host_permissions.json'
+import host_permissions from './host_permissions.json'
 
-const protocols = ['https://*/*']
 const [major, minor, patch] = version.replace(/[^\d.-]+/g, '').split(/[.-]/)
 const permissions = [
 	'storage',
@@ -16,14 +15,6 @@ const permissions = [
 	'scripting',
 	'contextMenus',
 ]
-
-let hostPermissions = hosts.concat([])
-let contentScriptsMatches = matches.concat([])
-if (process.env.NODE_ENV === 'development') {
-	protocols.push('http://*/*')
-	hostPermissions = hosts.concat(protocols)
-	contentScriptsMatches = matches.concat(protocols)
-}
 
 const manifest: ManifestV3Export = {
 	manifest_version: 3,
@@ -60,7 +51,7 @@ const manifest: ManifestV3Export = {
 		'128': 'favicon-128x128.png',
 	},
 	permissions,
-	host_permissions: hostPermissions,
+	host_permissions,
 	background: {
 		service_worker: 'src/browser/background.ts',
 		type: 'module',
@@ -68,7 +59,7 @@ const manifest: ManifestV3Export = {
 	content_scripts: [
 		{
 			js: ['src/browser/content-script.ts'],
-			matches: contentScriptsMatches,
+			matches,
 			run_at: 'document_idle',
 			all_frames: true,
 		},
@@ -76,17 +67,6 @@ const manifest: ManifestV3Export = {
 	content_security_policy: {
 		extension_pages: "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';",
 	},
-	// web_accessible_resources: [
-	// 	{
-	// 		matches: protocols,
-	// 		resources: [
-	// 			'src/pages/app/dark.html',
-	// 			'src/pages/app/light.html',
-	// 			'src/pages/app/system.html',
-	// 			'assets/*',
-	// 		],
-	// 	},
-	// ],
 }
 
 export default defineManifest(manifest)
