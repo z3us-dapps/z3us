@@ -4971,10 +4971,15 @@
   resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.2.0.tgz#d29746306322ead187ef353075eb2f6ad80d106f"
   integrity sha512-9pMSwNkbVN+0+y3+zcuUTOO9PGrTB7/tv0TFtRildg29YW94nR6jC9A+SLEy7ovUzPYOrjJfAv72oJOHXyfS9g==
 
-"@radixdlt/connect-button@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-1.0.1.tgz#daf2744678dcd53e37f9b9e0aeab3749da9ecc3a"
-  integrity sha512-zKwQkIWW59iajQGhOBXB+x8H0iV/fx7+6/befmUwy+SpsKZ9dgQJz0q2wibaJkk1GES7+4IeziK32a7FB/RgUw==
+"@radixdlt/babylon-gateway-api-sdk@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.2.4.tgz#74b7bbfcbbc2511bbee5ce6300897f7057e405c8"
+  integrity sha512-u5p7yyLXgJIp355HXY03nQWjoC6977qfuEu5pXGuEoR8erBMgsntL57do6FwxEpyNQxljJihfjqCQWRM4xRRbQ==
+
+"@radixdlt/connect-button@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-1.0.3.tgz#02fafdb77c9e662fc88be27ec05da32d0da2d6e5"
+  integrity sha512-cQbl7wtxpc1yshgdpN3p4937iJ8SFkKp6vbktNeqjzO6IML8G6QwkeaU5gPTx58EvVh7ePnqFhfuYOlpZTlAtg==
   dependencies:
     lit "^2.7.5"
 
@@ -5042,13 +5047,13 @@
     tslog "4.8.0"
     zod "^3.22.4"
 
-"@radixdlt/radix-dapp-toolkit@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-1.4.0.tgz#c2062343c540bffeda4638aea1f621bf1f87c3ab"
-  integrity sha512-88R+wgA0Y4cihlqEHKzwUxWsi5V51gsmIgIkx5GoBtCzyCB4yJDPk1joTlnfAZqczgSm1FGpv4X9s9ouRjowcQ==
+"@radixdlt/radix-dapp-toolkit@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-1.4.1.tgz#f38a6ed7912ed0cefd86b5d1190279567435b7e1"
+  integrity sha512-Tsp3DMqYHJOIO7US2MKs3ha4BOrAjIXu+2JyRtuV3hRcrMPtv3ty1KMYq3gX4E8EYEeUvThUbgLTcraz9n4e4A==
   dependencies:
     "@radixdlt/babylon-gateway-api-sdk" "^1.2.0"
-    "@radixdlt/connect-button" "^1.0.1"
+    "@radixdlt/connect-button" "^1.0.3"
     "@radixdlt/wallet-sdk" "1.0.1"
     immer "^10.0.2"
     lodash.isequal "^4.5.0"
