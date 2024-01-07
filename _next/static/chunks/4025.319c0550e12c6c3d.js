@@ -1,4 +1,4 @@
-"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[7722],{27722:function(t,e,i){i.r(e),i.d(e,{ConnectButton:function(){return il},RadixButtonMode:function(){return et},RadixButtonStatus:function(){return t6}});/**
+"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[4025],{34025:function(t,e,i){i.r(e),i.d(e,{ConnectButton:function(){return il},RadixButtonMode:function(){return et},RadixButtonStatus:function(){return t6}});/**
  * @license
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -698,9 +698,7 @@
         width: 16px;
         height: 16px;
       }
-    `],eE([tV({type:String,reflect:!0})],eO.prototype,"mode",2),eE([tV({type:String})],eO.prototype,"href",2),eE([tV({type:String})],eO.prototype,"displayText",2),eO=eE([tX("radix-link")],eO);let eZ=t=>t?`${t.slice(0,4)}...${t.slice(t.length-6,t.length)}`:"";var eP=Object.defineProperty,eG=Object.getOwnPropertyDescriptor,eU=(t,e,i,o)=>{for(var r,n=o>1?void 0:o?eG(e,i):e,s=t.length-1;s>=0;s--)(r=t[s])&&(n=(o?r(e,i,n):r(n))||n);return o&&n&&eP(e,i,n),n};let eH=class extends tB{constructor(){super(...arguments),this.mode=et.light,this.address="",this.label="",this.appearanceId=0}formatAccountLabel(t){return t.length>14?`${t.slice(0,12).trimEnd()}...`:t}render(){return tC` <span class="label"
-        >${this.formatAccountLabel(this.label)}</span
-      >
+    `],eE([tV({type:String,reflect:!0})],eO.prototype,"mode",2),eE([tV({type:String})],eO.prototype,"href",2),eE([tV({type:String})],eO.prototype,"displayText",2),eO=eE([tX("radix-link")],eO);let eZ=t=>t?`${t.slice(0,4)}...${t.slice(t.length-6,t.length)}`:"";var eP=Object.defineProperty,eG=Object.getOwnPropertyDescriptor,eU=(t,e,i,o)=>{for(var r,n=o>1?void 0:o?eG(e,i):e,s=t.length-1;s>=0;s--)(r=t[s])&&(n=(o?r(e,i,n):r(n))||n);return o&&n&&eP(e,i,n),n};let eH=class extends tB{constructor(){super(...arguments),this.mode=et.light,this.address="",this.label="",this.appearanceId=0}render(){return tC` <span class="label">${this.label}</span>
       <a
         class="address"
         target="_blank"
@@ -728,6 +726,10 @@
       .label {
         font-weight: 600;
         color: var(--color-light);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-right: 10px;
       }
 
       a {
@@ -1114,7 +1116,6 @@
     width: 100%;
     margin-bottom: 0;
     position: relative;
-    padding-bottom: 10px;
     -webkit-mask-image: linear-gradient(180deg, black 90%, transparent 100%);
     mask-image: linear-gradient(180deg, black 90%, transparent 95%);
   }
@@ -1146,6 +1147,7 @@
       .content {
         max-height: 193px;
         overflow-x: hidden;
+        padding-bottom: 19px;
       }
       .buttons {
         display: grid;
@@ -1217,7 +1219,11 @@
         text-align: center;
         font-size: 12px;
       }
-    `],ii([tV({type:String,reflect:!0})],io.prototype,"mode",2),ii([tV({type:Array})],io.prototype,"requestItems",2),ii([tV({type:String})],io.prototype,"dAppName",2),ii([tV({type:String})],io.prototype,"loggedInTimestamp",2),io=ii([tX("radix-requests-page")],io);var ir=Object.defineProperty,is=Object.getOwnPropertyDescriptor,ia=(t,e,i,o)=>{for(var r,n=o>1?void 0:o?is(e,i):e,s=t.length-1;s>=0;s--)(r=t[s])&&(n=(o?r(e,i,n):r(n))||n);return o&&n&&ir(e,i,n),n};let il=class extends tB{constructor(){super(),this.theme="radix-blue",this.dAppName="",this.personaLabel="",this.connected=!1,this.status=t6.default,this.loggedInTimestamp="",this.showPopoverMenu=!1,this.requestItems=[],this.accounts=[],this.personaData=[],this.isMobile=!1,this.isWalletLinked=!1,this.isExtensionAvailable=!1,this.fullWidth=!1,this.activeTab="sharing",this.mode="light",this.avatarUrl="",this.compact=!1,this.windowClickEventHandler=t=>{this.showPopoverMenu&&(this.contains(t.target)||(this.showPopoverMenu=!1))},document.addEventListener("click",this.windowClickEventHandler)}get hasSharedData(){return!!(this.accounts.length||this.personaData.length)}connectedCallback(){super.connectedCallback(),this.dispatchEvent(new CustomEvent("onRender",{bubbles:!0,composed:!0}))}disconnectedCallback(){document.removeEventListener("click",this.windowClickEventHandler),this.dispatchEvent(new CustomEvent("onDestroy",{bubbles:!0,composed:!0}))}togglePopoverMenu(){this.showPopoverMenu=!this.showPopoverMenu,this.showPopoverMenu&&this.dispatchEvent(new CustomEvent("onShowPopoverMenu",{bubbles:!0,composed:!0}))}closePopover(){this.showPopoverMenu=!1}connectButtonTemplate(){let t=this.connected?this.personaLabel:"Connect";return tC` <radix-button
+
+      .content {
+        padding-bottom: 25px;
+      }
+    `],ii([tV({type:String,reflect:!0})],io.prototype,"mode",2),ii([tV({type:Array})],io.prototype,"requestItems",2),ii([tV({type:String})],io.prototype,"dAppName",2),ii([tV({type:String})],io.prototype,"loggedInTimestamp",2),io=ii([tX("radix-requests-page")],io);var ir=Object.defineProperty,is=Object.getOwnPropertyDescriptor,ia=(t,e,i,o)=>{for(var r,n=o>1?void 0:o?is(e,i):e,s=t.length-1;s>=0;s--)(r=t[s])&&(n=(o?r(e,i,n):r(n))||n);return o&&n&&ir(e,i,n),n};let il=class extends tB{constructor(){super(),this.theme="radix-blue",this.dAppName="",this.personaLabel="",this.connected=!1,this.status=t6.default,this.loggedInTimestamp="",this.showPopoverMenu=!1,this.requestItems=[],this.accounts=[],this.personaData=[],this.isMobile=!1,this.isWalletLinked=!1,this.isExtensionAvailable=!1,this.fullWidth=!1,this.activeTab="sharing",this.mode="light",this.avatarUrl="",this.compact=!1,this.windowClickEventHandler=t=>{this.showPopoverMenu&&(this.contains(t.target)||(this.showPopoverMenu=!1))},document.addEventListener("click",this.windowClickEventHandler)}get hasSharedData(){return!!(this.accounts.length||this.personaData.length)}connectedCallback(){super.connectedCallback(),this.dispatchEvent(new CustomEvent("onRender",{bubbles:!0,composed:!0}))}disconnectedCallback(){document.removeEventListener("click",this.windowClickEventHandler),this.dispatchEvent(new CustomEvent("onDestroy",{bubbles:!0,composed:!0}))}togglePopoverMenu(){this.showPopoverMenu=!this.showPopoverMenu,this.showPopoverMenu&&this.dispatchEvent(new CustomEvent("onShowPopover",{bubbles:!0,composed:!0}))}closePopover(){this.showPopoverMenu=!1}connectButtonTemplate(){let t=this.connected?this.personaLabel:"Connect";return tC` <radix-button
       status=${this.status}
       theme=${this.theme}
       ?connected=${this.connected}
