@@ -16,8 +16,8 @@ import {
 import * as alertStyles from 'ui/src/components/dialog-alert/dialog-alert.css'
 import * as dialogStyles from 'ui/src/components/dialog/styles.css'
 import { Form } from 'ui/src/components/form'
+import PasswordField from 'ui/src/components/form/fields/password-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
-import TextField from 'ui/src/components/form/fields/text-field'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
@@ -128,9 +128,8 @@ const SignModal: React.FC<IProps> = ({
 					<Form onSubmit={handleSubmit} initialValues={initialValues} className={styles.signAlertDialogFormWrapper}>
 						<ValidationErrorMessage message={error} />
 						{!ignorePassword && (
-							<TextField
+							<PasswordField
 								ref={inputRef}
-								isPassword
 								name="password"
 								placeholder={intl.formatMessage(messages.password_placeholder)}
 								sizeVariant="medium"

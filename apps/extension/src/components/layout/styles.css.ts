@@ -108,10 +108,3 @@ export const unlockValidationWrapper = style([
 	}),
 	{},
 ])
-
-export const unlockCapsIconWrapper = style([
-	sprinkles({
-		color: 'colorNeutral',
-	}),
-	{},
-])
