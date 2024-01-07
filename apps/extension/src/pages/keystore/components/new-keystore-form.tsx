@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
+import PasswordField from 'ui/src/components/form/fields/password-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useSharedStore } from 'ui/src/hooks/use-store'
@@ -63,6 +64,7 @@ interface IProps {
 export const NewKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNext }) => {
 	const intl = useIntl()
 	const client = useMessageClient()
+
 	const { addKeystore } = useSharedStore(state => ({
 		addKeystore: state.addKeystoreAction,
 	}))
@@ -120,14 +122,12 @@ export const NewKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, onNe
 		<Form onSubmit={handleSubmit} initialValues={initialValues} errors={validation?.format()}>
 			<Box display="flex" flexDirection="column" gap="medium">
 				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
-				<TextField
-					isPassword
+				<PasswordField
 					name="password"
 					placeholder={intl.formatMessage(messages.password_placeholder)}
 					sizeVariant="large"
 				/>
-				<TextField
-					isPassword
+				<PasswordField
 					name="confirmPassword"
 					placeholder={intl.formatMessage(messages.confirm_password_placeholder)}
 					sizeVariant="large"

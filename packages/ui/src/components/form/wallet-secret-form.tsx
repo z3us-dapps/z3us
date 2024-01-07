@@ -3,12 +3,12 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
+import PasswordField from 'ui/src/components/form/fields/password-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
-import TextField from 'ui/src/components/form/fields/text-field'
 import { Button } from 'ui/src/components/router-button'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 
-import { useZdtState } from '../../hooks/zdt/use-zdt'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -62,9 +62,8 @@ export const WalletSecretForm: React.FC<IProps> = ({ combinedKeystoreId, onUnloc
 		<Form onSubmit={handleSubmit} initialValues={initialValues}>
 			<ValidationErrorMessage message={error} />
 			<Box className={styles.formInputWrapper}>
-				<TextField
+				<PasswordField
 					ref={inputRef}
-					isPassword
 					name="password"
 					placeholder={intl.formatMessage(messages.password_placeholder)}
 					sizeVariant="medium"

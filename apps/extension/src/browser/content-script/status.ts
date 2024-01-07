@@ -6,18 +6,7 @@ import contentScript from '@src/browser/content-script?script'
 import { newMessage } from '@src/browser/messages/message'
 import { MessageSource } from '@src/browser/messages/types'
 
-import { STATUS_ICONS } from './constants'
 import { MessageAction } from './types'
-
-export const setIcon = async (path: string) => {
-	await chrome?.action?.setIcon({ path })
-	await browser?.action?.setIcon({ path })
-	await browser.browserAction?.setIcon({ path })
-}
-
-export const showConnected = async () => setIcon(STATUS_ICONS.ON)
-
-export const showDisconnected = async () => setIcon(STATUS_ICONS.OFF)
 
 export const checkContentScript = async (tabId: number): Promise<boolean> => {
 	if (!tabId) {
@@ -61,19 +50,7 @@ export const handleContentScriptInject = async (tabId: number) => {
 			target: { tabId, allFrames: true },
 			files: [contentScript],
 		})
-		await showConnected()
 	} catch (error) {
 		console.error(`handleContentScriptInject: ${error}`)
-	}
-}
-
-export const handleCheckContentScript = async (tabId: number) => {
-	const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
-	if (tab?.id !== tabId) return
-
-	if ((await checkContentScript(tab.id)) === true) {
-		await showConnected()
-	} else {
-		await showDisconnected()
 	}
 }

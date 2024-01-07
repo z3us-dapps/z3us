@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
+import PasswordField from 'ui/src/components/form/fields/password-field'
 import SelectField from 'ui/src/components/form/fields/select-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import TextField from 'ui/src/components/form/fields/text-field'
@@ -186,8 +187,7 @@ export const CombineKeystoreForm: React.FC<IProps> = ({ keystoreType, onSubmit, 
 					data={selectItems}
 				/>
 				<TextField name="name" placeholder={intl.formatMessage(messages.name_placeholder)} sizeVariant="large" />
-				<TextField
-					isPassword
+				<PasswordField
 					name="password"
 					placeholder={intl.formatMessage(messages.password_placeholder)}
 					sizeVariant="large"

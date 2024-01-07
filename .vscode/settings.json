@@ -39,6 +39,7 @@
 		"treeshake",
 		"tsup",
 		"unoptimized",
+		"Unstake",
 		"usehooks",
 		"useImmer",
 		"webextension",
