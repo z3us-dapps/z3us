@@ -4,14 +4,15 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { ExternalLinkIcon, QrCode2Icon, RadixIcon, UpRight2Icon, Z3usIcon } from 'ui/src/components/icons'
+import { ExternalLinkIcon, InformationIcon, QrCode2Icon, StakingIcon, UpRight2Icon } from 'ui/src/components/icons'
 import { QrPopOver } from 'ui/src/components/qr-popover'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
-import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { ExplorerMenu } from 'ui/src/pages/accounts/components/layout/components/explorer-menu'
 
+import { useEntityDetails } from '../../hooks/dapp/use-entity-details'
+import { findMetadataValue } from '../../services/metadata'
 import * as styles from './styles.css'
 
 interface IProps {
@@ -23,17 +24,13 @@ const messages = defineMessages({
 		id: '9WRlF4',
 		defaultMessage: 'Send',
 	},
+	staking: {
+		id: 'SajJ1U',
+		defaultMessage: 'Stake / Unstake',
+	},
 	address: {
 		id: 'hc47g1',
 		defaultMessage: 'Address QR code',
-	},
-	open_radix_dashboard: {
-		id: 'xxuT0a',
-		defaultMessage: 'Open in Radix Dashboard',
-	},
-	open_z3us: {
-		id: 'WAHvBA',
-		defaultMessage: 'Open in Z3US.com',
 	},
 })
 
@@ -42,7 +39,10 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const intl = useIntl()
 	const dashboardUrl = useDashboardUrl()
-	const { isWallet } = useZdtState()
+
+	const { data } = useEntityDetails(resourceId)
+	const validator = findMetadataValue('validator', data?.metadata?.items)
+	const infoUrl = findMetadataValue('info_url', data?.metadata?.items)
 
 	const qrValue = resourceId || accountId || '-'
 
@@ -64,6 +64,7 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>
+
 			{qrValue !== '-' && (
 				<QrPopOver address={qrValue}>
 					<ToolTip message={intl.formatMessage(messages.address)}>
@@ -72,6 +73,36 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 						</Button>
 					</ToolTip>
 				</QrPopOver>
+			)}
+
+			{validator && (
+				<ToolTip message={intl.formatMessage(messages.staking)}>
+					<Button
+						iconOnly
+						rounded
+						styleVariant="inverse"
+						sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+						to={`${dashboardUrl}/network-staking/${validator}`}
+						target="_blank"
+					>
+						<StakingIcon />
+					</Button>
+				</ToolTip>
+			)}
+
+			{infoUrl && (
+				<ToolTip message={intl.formatMessage(messages.staking)}>
+					<Button
+						iconOnly
+						rounded
+						styleVariant="inverse"
+						sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+						to={infoUrl}
+						target="_blank"
+					>
+						<InformationIcon />
+					</Button>
+				</ToolTip>
 			)}
 
 			<ExplorerMenu
