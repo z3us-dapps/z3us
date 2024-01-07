@@ -13,7 +13,6 @@ import {
 import { RadixIcon, Z3usIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Text from 'ui/src/components/typography/text'
-import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 
 import * as styles from './styles.css'
