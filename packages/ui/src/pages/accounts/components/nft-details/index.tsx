@@ -18,7 +18,7 @@ const NftDetails: React.FC = () => {
 
 	if (!data) return null
 
-	return <BaseNftDetails nft={data} />
+	return <BaseNftDetails nft={data} withCardButtons />
 }
 
 export default NftDetails

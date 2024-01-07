@@ -39,7 +39,7 @@ export const PageWrapper: React.FC<IProps> = ({ collection, ids, selected, hover
 	if (!data) return null
 
 	return (
-		<Box display="flex" flexDirection="column">
+		<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
 			{data.map(nft => (
 				<Box
 					onClick={() => handleClick(nft)}
@@ -47,8 +47,8 @@ export const PageWrapper: React.FC<IProps> = ({ collection, ids, selected, hover
 					border={1}
 					borderStyle="solid"
 					borderColor="backgroundPrimary"
-					// style={{ maxHeight: '100px', maxWidth: '100px' }}
-					// overflow="hidden"
+					style={{ maxHeight: '300px', maxWidth: '300px' }}
+					overflow="clip"
 				>
 					<Link
 						to={`${location.pathname}?${searchParams}`}

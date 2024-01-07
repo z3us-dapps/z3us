@@ -32,9 +32,10 @@ const messages = defineMessages({
 
 interface IProps {
 	nft: StateNonFungibleDetailsResponseItem & { collection: string }
+	withCardButtons?: boolean
 }
 
-const Nft: React.FC<IProps> = ({ nft }) => {
+const Nft: React.FC<IProps> = ({ nft, withCardButtons }) => {
 	const intl = useIntl()
 
 	const dataJson = nft.data.programmatic_json as any
@@ -69,9 +70,11 @@ const Nft: React.FC<IProps> = ({ nft }) => {
 					{description && <Text size="small">{description}</Text>}
 				</Box>
 
-				<Box display="flex" paddingTop="large" gap="large" position="relative">
-					<CardButtons />
-				</Box>
+				{withCardButtons && (
+					<Box display="flex" paddingTop="large" gap="large" position="relative">
+						<CardButtons />
+					</Box>
+				)}
 
 				<Box className={styles.tokenSummaryWrapper}>
 					{fields.length > 0 && (
