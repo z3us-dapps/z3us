@@ -42,12 +42,13 @@ export const PageWrapper: React.FC<IProps> = ({ collection, ids, selected, hover
 		<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
 			{data.map(nft => (
 				<Box
+					key={nft.non_fungible_id}
 					onClick={() => handleClick(nft)}
 					disabled={nft.non_fungible_id === selected || nft.non_fungible_id === hovered}
 					border={1}
 					borderStyle="solid"
 					borderColor="backgroundPrimary"
-					style={{ maxHeight: '300px', maxWidth: '300px' }}
+					style={{ maxWidth: '300px' }}
 					overflow="clip"
 				>
 					<Link

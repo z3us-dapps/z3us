@@ -13,7 +13,7 @@ interface IProps extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgS
 }
 
 export const NftImageIcon = forwardRef<HTMLElement, IProps>(
-	({ id, address, toolTipEnabled = false, size, ...props }, ref: React.Ref<HTMLElement | null>) => {
+	({ id, address, toolTipEnabled = false, ...props }, ref: React.Ref<HTMLElement | null>) => {
 		const { data } = useNonFungibleData(address, id)
 
 		const dataJson = data?.data.programmatic_json as any
@@ -24,12 +24,11 @@ export const NftImageIcon = forwardRef<HTMLElement, IProps>(
 			<ToolTip side="top" message={name} disabled={!toolTipEnabled}>
 				<span>
 					<ImageIcon
+						{...props}
 						imgSrc={imageSrc ? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageSrc}` : ''}
 						imgAlt={name}
 						fallbackText={getShortAddress(id, 2)}
 						rounded={false}
-						size={size}
-						{...props}
 						ref={ref}
 					/>
 				</span>

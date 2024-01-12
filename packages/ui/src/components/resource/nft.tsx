@@ -48,7 +48,7 @@ const Nft: React.FC<IProps> = ({ nft, withCardButtons }) => {
 	)
 
 	return (
-		<Box flexShrink={0}>
+		<Box>
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.nftIconWrapper}>
 					<NftImageIcon

@@ -4,6 +4,7 @@ import { darkMode, sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
 
 export const defaultLink = style({
+	maxWidth: '100%',
 	textDecoration: 'none',
 	textUnderlinePosition: 'under',
 	textDecorationThickness: 'from-font',
