@@ -15,6 +15,7 @@ export const useNonFungibleCollection = (resourceId: string) => {
 		queryFn: async ({ pageParam: lastPage }) =>
 			state.innerClient.nonFungibleIds({
 				stateNonFungibleIdsRequest: {
+					limit_per_page: 5,
 					resource_address: resourceId,
 					cursor: lastPage?.non_fungible_ids.next_cursor || null,
 					at_ledger_state: lastPage?.non_fungible_ids.next_cursor
@@ -46,6 +47,7 @@ export const useNonFungibleIds = (resourceId: string, addresses: string[]) => {
 									address: account,
 									resource_address: resource,
 									vault_address: vault,
+									limit_per_page: 5,
 									cursor: pageParam?.[idx].next_cursor || null,
 									at_ledger_state: pageParam?.[idx].next_cursor ? pageParam?.[idx].ledger_state : null,
 								},
