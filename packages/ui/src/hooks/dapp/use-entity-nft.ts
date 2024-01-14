@@ -49,7 +49,11 @@ export const useNonFungibleIds = (resourceId: string, addresses: string[]) => {
 									vault_address: vault,
 									limit_per_page: 5,
 									cursor: pageParam?.[idx].next_cursor || null,
-									at_ledger_state: pageParam?.[idx].next_cursor ? pageParam?.[idx].ledger_state : null,
+									at_ledger_state: pageParam?.[idx].next_cursor
+										? {
+												state_version: pageParam?.[idx].ledger_state.state_version,
+										  }
+										: null,
 								},
 						  }),
 				),
