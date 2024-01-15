@@ -116,22 +116,16 @@ const transformFungibleResourceItemResponse =
 			const v = validatorsMap[validator]
 
 			const fraction = decimal(amount).value.div(v.validatorUnitTotalSupply)
-			const totalValueNow = fraction
-				.mul(v.resourceAmounts[knownAddresses.resourceAddresses.xrd])
-				.mul(decimal(tokens[knownAddresses.resourceAddresses.xrd]?.price.usd.now).value)
+			const xrdValueNow = fraction.mul(v.resourceAmounts[knownAddresses.resourceAddresses.xrd])
+			const totalValueNow = xrdValueNow.mul(decimal(tokens[knownAddresses.resourceAddresses.xrd]?.price.usd.now).value)
 
 			const fractionBefore = decimal(amount).value.div(v.validatorUnitTotalSupply)
-			const totalValueBefore = fractionBefore
-				.mul(v.resourceAmountsBefore[knownAddresses.resourceAddresses.xrd])
-				.mul(decimal(tokens[knownAddresses.resourceAddresses.xrd]?.price.usd['24h']).value)
+			const xrdValueBefore = fractionBefore.mul(v.resourceAmountsBefore[knownAddresses.resourceAddresses.xrd])
+			const totalValueBefore = xrdValueBefore.mul(
+				decimal(tokens[knownAddresses.resourceAddresses.xrd]?.price.usd['24h']).value,
+			)
 
-			xrdValue = Object.keys(v.resourceAmounts)
-				.reduce(
-					(sum, resource) =>
-						sum.add(fraction.mul(v.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.xrd.now || 0).value)),
-					DECIMAL_ZERO,
-				)
-				.toNumber()
+			xrdValue = xrdValueNow.toNumber()
 			xrdValue = Number.isFinite(xrdValue) ? xrdValue : 0
 
 			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
