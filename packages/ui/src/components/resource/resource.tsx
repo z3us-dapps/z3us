@@ -148,7 +148,7 @@ export const ResourceValue: React.FC<IValueProps> = ({ resourceId }) => {
 						  })} XRD`}
 				</Text>
 				<RedGreenText size="large" change={token?.price.usd.change || 0}>
-					{`(${intl.formatNumber(token?.price.usd.change || 0, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES })})`}
+					{`(${intl.formatNumber(token?.price.usd.change || 0, PERCENTAGE_STYLES)})`}
 				</RedGreenText>
 			</Box>
 		</>

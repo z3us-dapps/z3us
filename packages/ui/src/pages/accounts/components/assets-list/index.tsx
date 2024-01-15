@@ -119,7 +119,7 @@ export const AssetsList: React.FC = () => {
 									truncate
 									className={styles.assetsListBalancesText}
 								>
-									{intl.formatNumber(rows[path].change, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES })}
+									{intl.formatNumber(rows[path].change, PERCENTAGE_STYLES)}
 								</RedGreenText>
 							)}
 						</Box>

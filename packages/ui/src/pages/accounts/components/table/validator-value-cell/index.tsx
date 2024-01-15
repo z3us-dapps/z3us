@@ -94,7 +94,7 @@ export const ValidatorValueCell: React.FC<IProps> = props => {
 						weight="medium"
 						align="right"
 					>
-						{tokenChange && intl.formatNumber(tokenChange, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES })}
+						{tokenChange && intl.formatNumber(tokenChange, PERCENTAGE_STYLES)}
 					</RedGreenText>
 				</Box>
 			</Box>

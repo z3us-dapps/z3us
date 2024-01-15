@@ -11,6 +11,7 @@ export const CURRENCY_STYLES: FormatNumberOptions = {
 }
 
 export const PERCENTAGE_STYLES: FormatNumberOptions = {
+	signDisplay: 'exceptZero',
 	style: 'percent',
 	maximumFractionDigits: 2,
 }
