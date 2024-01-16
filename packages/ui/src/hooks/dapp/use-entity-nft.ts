@@ -63,7 +63,7 @@ export const useNonFungibleIds = (resourceId: string, addresses: string[]) => {
 				(accumulator, response) => {
 					accumulator.items.push(...response.items)
 					accumulator.pageParams.push({
-						next_cursor: response.next_cursor,
+						next_cursor: response.next_cursor || null,
 						ledger_state: response.ledger_state,
 					})
 					return accumulator

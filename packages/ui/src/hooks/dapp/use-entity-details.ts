@@ -53,11 +53,7 @@ export const useEntitiesDetails = (
 								addresses: chunk,
 								aggregation_level: aggregation,
 								opt_ins: optIns,
-								at_ledger_state: at
-									? {
-											timestamp: at,
-									  }
-									: null,
+								at_ledger_state: at ? { timestamp: at } : null,
 							},
 						})
 						.then(resp => resp.items)
