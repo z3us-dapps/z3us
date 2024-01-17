@@ -34,7 +34,7 @@ export const AccountTotalValue: React.FC = () => {
 							onClick={handleToggleValue}
 							className={clsx(styles.totalValueWrapper, plainButtonStyles.plainButtonHoverWrapper)}
 						>
-							<Text weight="medium" size="xxxlarge" color="strong" truncate>
+							<Text weight="strong" size="xxxlarge" color="strong" truncate>
 								{format === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
 							</Text>
 						</Box>

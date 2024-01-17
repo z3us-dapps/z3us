@@ -15,8 +15,6 @@ globalStyle('*, *::before, *::after', {
 	boxSizing: 'border-box',
 	margin: 0,
 	padding: 0,
-	WebkitFontSmoothing: 'antialiased',
-	MozOsxFontSmoothing: 'grayscale',
 })
 
 globalStyle('::selection', {
@@ -25,9 +23,14 @@ globalStyle('::selection', {
 })
 
 globalStyle('body', {
-	textRendering: 'optimizeLegibility',
 	fontFamily: vars.fonts.body,
 	background: vars.color.backgroundPrimary,
+	textRendering: 'optimizeLegibility',
+	WebkitFontSmoothing: 'antialiased',
+	WebkitTextSizeAdjust: '100%',
+	MozOsxFontSmoothing: 'grayscale',
+	fontSynthesis: 'none',
+	fontSmooth: 'always',
 })
 
 globalStyle(`body.${darkMode}`, {
