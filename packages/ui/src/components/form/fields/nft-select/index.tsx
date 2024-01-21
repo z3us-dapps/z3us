@@ -43,11 +43,16 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 	const { fromAccount, resourceKey = 'address', itemKey = 'id', ...rest } = props
 	const { name: parentName } = useContext(FieldContext)
 
-	const { data: balanceData, isLoading } = useBalances(fromAccount)
+	const { data: balanceData, isLoading } = useBalances([fromAccount])
 	const { nonFungibleBalances = [] } = balanceData || {}
 	const resource = useFieldValue(`${parentName ? `${parentName}.` : ''}${resourceKey}`)
 
-	const { data: idsData, isFetching, hasNextPage, fetchNextPage } = useNonFungibleIds(resource, [fromAccount])
+	const {
+		data: idsData,
+		isFetching,
+		hasNextPage,
+		fetchNextPage,
+	} = useNonFungibleIds(resource, [fromAccount], balanceData.at)
 
 	const nonFungiblesCollection = useMemo(
 		() => nonFungibleBalances.map(collection => ({ id: collection.address, title: collection.name })),

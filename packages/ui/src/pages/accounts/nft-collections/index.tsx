@@ -38,7 +38,7 @@ const NftCollections: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const selectedAccounts = useSelectedAccounts()
 
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
+	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
 	const { nftsBalances = [] } = balanceData || {}
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.NON_FUNGIBLE] }) => {

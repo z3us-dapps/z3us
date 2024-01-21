@@ -49,7 +49,7 @@ const Tokens: React.FC = () => {
 	const [searchParams] = useSearchParams()
 	const selectedAccounts = useSelectedAccounts()
 
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
+	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
 	const { tokensBalances = [] } = balanceData || {}
 
 	const selectedRowIds = useMemo(() => {

@@ -17,7 +17,7 @@ export const useTotalBalance = () => {
 
 	const selectedAccounts = useSelectedAccounts()
 
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
+	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
 	const {
 		totalXrdValue = 0,
 		totalValue = 0,

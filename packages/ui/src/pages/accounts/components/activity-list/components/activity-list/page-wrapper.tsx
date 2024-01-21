@@ -76,7 +76,7 @@ const BalanceChanges: React.FC<{ transaction: CommittedTransactionInfo }> = ({ t
 }
 
 interface IPageProps {
-	transactions?: CommittedTransactionInfo[]
+	transactions: CommittedTransactionInfo[]
 	selected: string
 	hovered: string
 	setHovered: (_: string) => void
@@ -102,36 +102,40 @@ export const PageWrapper: React.FC<IPageProps> = ({ transactions, selected, hove
 		searchParams.delete('tx')
 	}
 
-	return transactions.map(tx => (
-		<Box className={styles.activityItemOuter}>
-			<Box
-				onClick={() => handleClick(tx.intent_hash)}
-				className={clsx(
-					styles.activityItemInner,
-					(selected === tx.intent_hash || hovered === tx.intent_hash) && styles.activityItemInnerSelected,
-				)}
-			>
-				<Link
-					to={`${location.pathname}?${searchParams}`}
-					underline="never"
-					className={styles.activityItemInnerBtn}
-					onMouseOver={() => handleMouseOver(tx.intent_hash)}
-					onMouseLeave={handleMouseLeave}
-				>
-					<Box className={styles.activityItemStatusWrapper}>
-						<TransactionStatusIcon statusType={tx.transaction_status} size="small" />
+	return (
+		<>
+			{transactions.map(tx => (
+				<Box className={styles.activityItemOuter}>
+					<Box
+						onClick={() => handleClick(tx.intent_hash)}
+						className={clsx(
+							styles.activityItemInner,
+							(selected === tx.intent_hash || hovered === tx.intent_hash) && styles.activityItemInnerSelected,
+						)}
+					>
+						<Link
+							to={`${location.pathname}?${searchParams}`}
+							underline="never"
+							className={styles.activityItemInnerBtn}
+							onMouseOver={() => handleMouseOver(tx.intent_hash)}
+							onMouseLeave={handleMouseLeave}
+						>
+							<Box className={styles.activityItemStatusWrapper}>
+								<TransactionStatusIcon statusType={tx.transaction_status} size="small" />
+							</Box>
+							<Box className={styles.activityItemTextWrapper}>
+								<Text weight="stronger" size="small" color="strong" truncate>
+									{getShortAddress(tx.intent_hash)}
+								</Text>
+								<Text size="xsmall" truncate>
+									<TimeFromNow date={tx.confirmed_at} />
+								</Text>
+							</Box>
+							<BalanceChanges transaction={tx} />
+						</Link>
 					</Box>
-					<Box className={styles.activityItemTextWrapper}>
-						<Text weight="stronger" size="small" color="strong" truncate>
-							{getShortAddress(tx.intent_hash)}
-						</Text>
-						<Text size="xsmall" truncate>
-							<TimeFromNow date={tx.confirmed_at} />
-						</Text>
-					</Box>
-					<BalanceChanges transaction={tx} />
-				</Link>
-			</Box>
-		</Box>
-	))
+				</Box>
+			))}
+		</>
+	)
 }

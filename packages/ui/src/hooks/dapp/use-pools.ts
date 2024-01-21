@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useState } from 'react'
 
 import { findMetadataValue } from 'ui/src/services/metadata'
+import { formatDateTime } from 'ui/src/utils/date'
 
 import { useEntitiesDetails } from './use-entity-details'
 import { useNetworkId } from './use-network'
@@ -19,7 +20,7 @@ const collectResourcePools = (container: string[], item: FungibleResourcesCollec
 	return container
 }
 
-const useAccountPools = (accounts: StateEntityDetailsResponseItem[], at?: Date) => {
+const useAccountPools = (accounts: StateEntityDetailsResponseItem[], at: Date) => {
 	const addresses = useMemo(() => {
 		if (!accounts) return []
 		return accounts
@@ -30,26 +31,31 @@ const useAccountPools = (accounts: StateEntityDetailsResponseItem[], at?: Date) 
 	return useEntitiesDetails(addresses, undefined, undefined, at)
 }
 
-export const usePools = (accountAddresses: string[]) => {
+export const usePools = (accountAddresses: string[], at: Date) => {
 	const networkId = useNetworkId()
 
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(
+		accountAddresses,
+		undefined,
+		undefined,
+		at,
+	)
 
-	const [before, setBefore] = useState<Date>(new Date())
+	const [before, setBefore] = useState<Date>(at)
 	useEffect(() => {
-		before.setDate(before.getDate() - 1)
+		before.setUTCDate(before.getUTCDate() - 1)
 		before.setHours(0, 0, 0, 0)
 		setBefore(before)
-	}, [])
+	}, [formatDateTime(at)])
 
-	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts)
+	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts, at)
 	const { data: poolsBefore, isLoading: isLoadingPoolsBefore } = useAccountPools(accounts, before)
 
 	const poolResources = useMemo(
 		() => pools?.map(pool => pool.details.state.pool_unit_resource_address).filter(a => !!a) || [],
 		[pools],
 	)
-	const { data: poolUnits, isLoading: isLoadingPoolUnits } = useEntitiesDetails(poolResources)
+	const { data: poolUnits, isLoading: isLoadingPoolUnits } = useEntitiesDetails(poolResources, undefined, undefined, at)
 
 	const poolResourcesBefore = useMemo(
 		() => poolsBefore?.map(pool => pool.details.state.pool_unit_resource_address).filter(a => !!a) || [],
@@ -118,7 +124,7 @@ export const usePools = (accountAddresses: string[]) => {
 	}
 
 	return useQuery({
-		queryKey: ['usePools', networkId, accountAddresses, before],
+		queryKey: ['usePools', networkId, accountAddresses, formatDateTime(at)],
 		enabled,
 		queryFn,
 	})

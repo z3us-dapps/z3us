@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useState } from 'react'
 
 import { findMetadataValue } from 'ui/src/services/metadata'
+import { formatDateTime } from 'ui/src/utils/date'
 
 import { useEntitiesDetails } from './use-entity-details'
 import { useNetworkId } from './use-network'
@@ -22,7 +23,7 @@ const collectResourceValidators = (
 	return container
 }
 
-const useAccountValidators = (accounts: StateEntityDetailsResponseItem[], at?: Date) => {
+const useAccountValidators = (accounts: StateEntityDetailsResponseItem[], at: Date) => {
 	const addresses = useMemo(() => {
 		if (!accounts) return []
 		return accounts
@@ -33,26 +34,36 @@ const useAccountValidators = (accounts: StateEntityDetailsResponseItem[], at?: D
 	return useEntitiesDetails(addresses, undefined, undefined, at)
 }
 
-export const useValidators = (accountAddresses: string[]) => {
+export const useValidators = (accountAddresses: string[], at: Date) => {
 	const networkId = useNetworkId()
 
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(
+		accountAddresses,
+		undefined,
+		undefined,
+		at,
+	)
 
-	const [before, setBefore] = useState<Date>(new Date())
+	const [before, setBefore] = useState<Date>(at)
 	useEffect(() => {
-		before.setDate(before.getDate() - 1)
+		before.setUTCDate(before.getUTCDate() - 1)
 		before.setHours(0, 0, 0, 0)
 		setBefore(before)
-	}, [])
+	}, [formatDateTime(at)])
 
-	const { data: validators, isLoading: isLoadingValidators } = useAccountValidators(accounts)
+	const { data: validators, isLoading: isLoadingValidators } = useAccountValidators(accounts, at)
 	const { data: validatorsBefore, isLoading: isLoadingPoolsBefore } = useAccountValidators(accounts, before)
 
 	const validatorResources = useMemo(
 		() => validators?.map(validator => validator.details.state.stake_unit_resource_address).filter(a => !!a) || [],
 		[validators],
 	)
-	const { data: units, isLoading: isLoadingValidatorUnits } = useEntitiesDetails(validatorResources)
+	const { data: units, isLoading: isLoadingValidatorUnits } = useEntitiesDetails(
+		validatorResources,
+		undefined,
+		undefined,
+		at,
+	)
 
 	const validatorResourcesBefore = useMemo(
 		() =>
@@ -70,7 +81,12 @@ export const useValidators = (accountAddresses: string[]) => {
 		() => validators?.map(validator => validator.details.state.claim_token_resource_address).filter(a => !!a) || [],
 		[validators],
 	)
-	const { data: claims, isLoading: isLoadingValidatorClaims } = useEntitiesDetails(validatorNFT)
+	const { data: claims, isLoading: isLoadingValidatorClaims } = useEntitiesDetails(
+		validatorNFT,
+		undefined,
+		undefined,
+		at,
+	)
 
 	const validatorNFTBefore = useMemo(
 		() =>
@@ -193,7 +209,7 @@ export const useValidators = (accountAddresses: string[]) => {
 	}
 
 	return useQuery({
-		queryKey: ['useValidators', networkId, accountAddresses, before],
+		queryKey: ['useValidators', networkId, accountAddresses, formatDateTime(at)],
 		enabled,
 		queryFn,
 	})

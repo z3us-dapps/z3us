@@ -144,7 +144,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		currency: state.currency,
 		removeAccount: state.removeAccountAction,
 	}))
-	const { data: balanceData } = useBalances(address)
+	const { data: balanceData } = useBalances([address])
 	const { totalValue = 0 } = balanceData || {}
 
 	const account = accounts[address]

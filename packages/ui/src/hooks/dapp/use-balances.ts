@@ -18,6 +18,7 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { ResourceBalanceType } from 'ui/src/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/src/types'
+import { formatDateTime } from 'ui/src/utils/date'
 
 const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
 	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)
@@ -200,6 +201,8 @@ const transformNonFungibleResourceItemResponse =
 	}
 
 type Balances = {
+	at: Date
+
 	balances: ResourceBalanceKind[]
 	totalValue: number
 	totalChange: number
@@ -236,7 +239,7 @@ type Balances = {
 	poolUnitsXrdValue: number
 }
 
-export const useBalances = (...addresses: string[]) => {
+export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const networkId = useNetworkId()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -245,11 +248,16 @@ export const useBalances = (...addresses: string[]) => {
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
 
 	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
-	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, at)
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
-	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
-	const { data: validators, isLoading: isLoadingValidators } = useValidators(accountAddresses)
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(
+		accountAddresses,
+		undefined,
+		undefined,
+		at,
+	)
+	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses, at)
+	const { data: validators, isLoading: isLoadingValidators } = useValidators(accountAddresses, at)
 
 	const isLoading =
 		isLoadingKnownAddresses ||
@@ -294,6 +302,7 @@ export const useBalances = (...addresses: string[]) => {
 			)
 
 			return {
+				at,
 				balances,
 				totalValue,
 				totalChange,
@@ -309,7 +318,7 @@ export const useBalances = (...addresses: string[]) => {
 	})
 }
 
-export const useAccountValues = (...addresses: string[]) => {
+export const useAccountValues = (addresses: string[], at: Date) => {
 	const networkId = useNetworkId()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -318,11 +327,16 @@ export const useAccountValues = (...addresses: string[]) => {
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
 
 	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
-	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, at)
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
-	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
-	const { data: validators, isLoading: isLoadingValidators } = useValidators(accountAddresses)
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(
+		accountAddresses,
+		undefined,
+		undefined,
+		at,
+	)
+	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses, at)
+	const { data: validators, isLoading: isLoadingValidators } = useValidators(accountAddresses, at)
 
 	const isLoading =
 		isLoadingKnownAddresses ||
@@ -334,7 +348,7 @@ export const useAccountValues = (...addresses: string[]) => {
 	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
-		queryKey: ['useAccountValues', networkId, currency, accountAddresses],
+		queryKey: ['useAccountValues', networkId, currency, accountAddresses, formatDateTime(at)],
 		enabled,
 		queryFn: () =>
 			accounts.reduce(
@@ -354,14 +368,14 @@ export const useAccountValues = (...addresses: string[]) => {
 
 type AccountNfts = { resource: string; vault: string; account: string }
 
-export const useAccountNftVaults = (resource: string, addresses: string[]) => {
+export const useAccountNftVaults = (resource: string, addresses: string[], at: Date) => {
 	const networkId = useNetworkId()
 
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
-	const { data: accounts = [], isLoading } = useEntitiesDetails(accountAddresses)
+	const { data: accounts = [], isLoading } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
 
 	return useQuery({
-		queryKey: ['useAccountNftVaults', networkId, resource, accountAddresses],
+		queryKey: ['useAccountNftVaults', networkId, resource, accountAddresses, formatDateTime(at)],
 		enabled: !!resource && !isLoading && accountAddresses.length > 0 && accounts.length > 0,
 		queryFn: () =>
 			accounts.reduce((result: Array<AccountNfts>, account) => {

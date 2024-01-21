@@ -62,16 +62,16 @@ export const useUsfHistory = (address: string, timeFrame: TimeFrames) =>
 			const now = new Date()
 			switch (timeFrame) {
 				case TimeFrames.WEEK:
-					from.setDate(from.getDate() - 7)
+					from.setUTCDate(from.getUTCDate() - 7)
 					break
 				case TimeFrames.MONTH:
-					from.setMonth(from.getMonth() - 1)
+					from.setUTCMonth(from.getUTCMonth() - 1)
 					break
 				case TimeFrames.THREE_MONTHS:
-					from.setMonth(from.getMonth() - 3)
+					from.setUTCMonth(from.getUTCMonth() - 3)
 					break
 				case TimeFrames.SIX_MONTHS:
-					from.setMonth(from.getMonth() - 6)
+					from.setUTCMonth(from.getUTCMonth() - 6)
 					break
 				case TimeFrames.YEAR:
 					from.setUTCFullYear(from.getUTCFullYear() - 1)
@@ -80,7 +80,7 @@ export const useUsfHistory = (address: string, timeFrame: TimeFrames) =>
 					from.setUTCFullYear(from.getUTCFullYear() - 5)
 					break
 				default:
-					from.setMonth(from.getMonth() - 3)
+					from.setUTCMonth(from.getMonth() - 3)
 			}
 
 			return oci.getUdfHistory(address, '1D', Math.round(from.getTime() / 1000), Math.round(now.getTime() / 1000))

@@ -41,7 +41,7 @@ export const AssetsList: React.FC = () => {
 		currency: state.currency,
 	}))
 
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
+	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
 	const {
 		nftsBalances = [],
 		nftsChange = 0,

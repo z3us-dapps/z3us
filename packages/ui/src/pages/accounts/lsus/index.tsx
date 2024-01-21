@@ -51,7 +51,7 @@ const LSUs: React.FC = () => {
 	const [searchParams] = useSearchParams()
 	const selectedAccounts = useSelectedAccounts()
 
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
+	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
 	const { liquidityPoolTokensBalances = [] } = balanceData || {}
 
 	const selectedRowIds = useMemo(() => {

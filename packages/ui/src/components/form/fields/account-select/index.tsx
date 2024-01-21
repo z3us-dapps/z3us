@@ -21,7 +21,7 @@ interface ISelectItemProps {
 }
 
 const SelectItem: React.FC<ISelectItemProps> = ({ id, title }) => {
-	const { data: balanceData } = useBalances(id)
+	const { data: balanceData } = useBalances([id])
 	const { fungibleBalances = [] } = balanceData || {}
 
 	const { data: knownAddresses } = useKnownAddresses()

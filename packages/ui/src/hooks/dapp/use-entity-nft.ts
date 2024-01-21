@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query'
 
 import { splitArrayIntoChunks } from 'ui/src/utils/array-chunk'
+import { formatDateTime } from 'ui/src/utils/date'
 
 import { useAccountNftVaults } from './use-balances'
 import { useGatewayClient } from './use-gateway-client'
@@ -30,13 +31,13 @@ export const useNonFungibleCollection = (resourceId: string) => {
 	})
 }
 
-export const useNonFungibleIds = (resourceId: string, addresses: string[]) => {
+export const useNonFungibleIds = (resourceId: string, addresses: string[], at: Date = new Date()) => {
 	const { state } = useGatewayClient()!
 	const networkId = useNetworkId()
-	const { data: vaults = [], isLoading } = useAccountNftVaults(resourceId, addresses)
+	const { data: vaults = [], isLoading } = useAccountNftVaults(resourceId, addresses, at)
 
 	return useInfiniteQuery({
-		queryKey: ['useNonFungibleIds', networkId, resourceId, addresses],
+		queryKey: ['useNonFungibleIds', networkId, resourceId, addresses, formatDateTime(at)],
 		queryFn: async ({ pageParam }) => {
 			const responses = await Promise.all(
 				vaults.map(({ account, vault, resource }, idx) =>

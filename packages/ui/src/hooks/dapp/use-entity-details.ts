@@ -3,6 +3,7 @@ import { ResourceAggregationLevel } from '@radixdlt/babylon-gateway-api-sdk'
 import { useQueries } from '@tanstack/react-query'
 
 import { splitArrayIntoChunks } from 'ui/src/utils/array-chunk'
+import { formatDateTime } from 'ui/src/utils/date'
 
 import { useGatewayClient } from './use-gateway-client'
 import { useNetworkId } from './use-network'
@@ -44,7 +45,7 @@ export const useEntitiesDetails = (
 	const { state } = useGatewayClient()!
 
 	const queries = splitArrayIntoChunks(addresses, 20).map(chunk => ({
-		queryKey: ['useEntitiesDetails', networkId, chunk, at],
+		queryKey: ['useEntitiesDetails', networkId, formatDateTime(at), chunk],
 		queryFn: () =>
 			chunk.length > 0
 				? state.innerClient

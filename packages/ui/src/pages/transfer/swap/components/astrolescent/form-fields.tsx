@@ -61,7 +61,7 @@ export const FormFields: React.FC = () => {
 
 	const { data: tokens = {} } = useTokens()
 	const { data: feeResource } = useEntityDetails(to?.address)
-	const { data: balanceData } = useBalances(account)
+	const { data: balanceData } = useBalances([account])
 
 	const { fungibleBalances = [] } = balanceData || {}
 	const symbol = findMetadataValue('symbol', feeResource?.metadata?.items)
