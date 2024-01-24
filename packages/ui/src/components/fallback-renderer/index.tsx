@@ -35,7 +35,7 @@ export const FallbackRenderer: React.FC<IProps> = ({ error }) => {
 
 	return (
 		<LayoutCenterCard>
-			<Text size="large" color="strong">
+			<Text size="large" color="strong" weight="strong">
 				{intl.formatMessage(messages.title)}
 			</Text>
 			<Box paddingTop="large">
