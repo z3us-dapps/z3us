@@ -105,7 +105,7 @@ export const PageWrapper: React.FC<IPageProps> = ({ transactions, selected, hove
 	return (
 		<>
 			{transactions.map(tx => (
-				<Box className={styles.activityItemOuter}>
+				<Box className={styles.activityItemOuter} key={tx.intent_hash}>
 					<Box
 						onClick={() => handleClick(tx.intent_hash)}
 						className={clsx(
