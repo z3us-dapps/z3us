@@ -35,17 +35,17 @@ export const FallbackRenderer: React.FC<IProps> = ({ error }) => {
 
 	return (
 		<LayoutCenterCard>
-			<Text size="large" color="strong">
+			<Text size="large" color="strong" weight="strong">
 				{intl.formatMessage(messages.title)}
 			</Text>
 			<Box paddingTop="large">
 				<Text size="xsmall">
-					<pre>{error.message}</pre>
+					<pre className={styles.fallbackLoadingPreWrapper}>{error.message}</pre>
 				</Text>
 			</Box>
 			<Box marginTop="large">
 				<Button fullWidth styleVariant="primary" sizeVariant="xlarge" onClick={handleButtonClick}>
-					{intl.formatMessage(messages.title)}
+					{intl.formatMessage(messages.reload)}
 				</Button>
 			</Box>
 		</LayoutCenterCard>
