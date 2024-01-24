@@ -45,7 +45,7 @@ export const FallbackRenderer: React.FC<IProps> = ({ error }) => {
 			</Box>
 			<Box marginTop="large">
 				<Button fullWidth styleVariant="primary" sizeVariant="xlarge" onClick={handleButtonClick}>
-					{intl.formatMessage(messages.title)}
+					{intl.formatMessage(messages.reload)}
 				</Button>
 			</Box>
 		</LayoutCenterCard>
