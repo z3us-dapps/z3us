@@ -14,3 +14,9 @@ export const fallbackLoadingWrapper = style([
 	}),
 	{},
 ])
+
+export const fallbackLoadingPreWrapper = style([
+	{
+		whiteSpace: 'break-spaces',
+	},
+])

@@ -40,7 +40,7 @@ export const FallbackRenderer: React.FC<IProps> = ({ error }) => {
 			</Text>
 			<Box paddingTop="large">
 				<Text size="xsmall">
-					<pre>{error.message}</pre>
+					<pre className={styles.fallbackLoadingPreWrapper}>{error.message}</pre>
 				</Text>
 			</Box>
 			<Box marginTop="large">
