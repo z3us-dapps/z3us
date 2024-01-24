@@ -53,7 +53,7 @@ export const BalancePieChart: React.FC = () => {
 		if (['lsus', 'lp-tokens'].includes(resourceType)) return liquidityPoolTokensBalances
 		if (['lpus', 'pool-units'].includes(resourceType)) return poolUnitsBalances
 		return balances
-	}, [balances, resourceType])
+	}, [resourceType, nonFungibleBalances, tokensBalances, liquidityPoolTokensBalances, poolUnitsBalances])
 
 	const data = useMemo(
 		() =>
@@ -64,7 +64,7 @@ export const BalancePieChart: React.FC = () => {
 						name: accounts[address].name || getShortAddress(address),
 						value: accountValues[address],
 				  }))
-				: balances.map((resource, index) => ({
+				: selectedBalances.map((resource, index) => ({
 						address: resource.address,
 						index,
 						name:
@@ -73,7 +73,7 @@ export const BalancePieChart: React.FC = () => {
 							intl.formatMessage(messages.unknown),
 						value: resource.value,
 				  })),
-		[isAllAccounts, selectedBalances],
+		[isAllAccounts, accounts, accountValues, selectedBalances],
 	)
 
 	return (
