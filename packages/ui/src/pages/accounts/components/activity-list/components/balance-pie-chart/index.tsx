@@ -35,7 +35,10 @@ export const BalancePieChart: React.FC = () => {
 
 	const selectedAccounts = useSelectedAccounts()
 	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
-	const { data: accountValues = {} } = useAccountValues(selectedAccounts, balanceData.at)
+	const { data: accountValues = {} } = useAccountValues(
+		selectedAccounts,
+		balanceData.at ? new Date(balanceData.at) : undefined,
+	)
 	const {
 		balances = [],
 		tokensBalances = [],

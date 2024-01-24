@@ -52,7 +52,7 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 		isFetching,
 		hasNextPage,
 		fetchNextPage,
-	} = useNonFungibleIds(resource, [fromAccount], balanceData.at)
+	} = useNonFungibleIds(resource, [fromAccount], balanceData.at ? new Date(balanceData.at) : undefined)
 
 	const nonFungiblesCollection = useMemo(
 		() => nonFungibleBalances.map(collection => ({ id: collection.address, title: collection.name })),
