@@ -77,7 +77,7 @@ export const BalancePieChart: React.FC = () => {
 					intl.formatMessage(messages.unknown),
 				value: resource.value,
 			})),
-		[isAllAccounts, accounts, accountValues, selectedBalances],
+		[selectedBalances],
 	)
 
 	return (
