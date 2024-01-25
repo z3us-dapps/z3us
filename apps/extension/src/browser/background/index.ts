@@ -41,7 +41,7 @@ browser.contextMenus.removeAll().then(() => {
 // keepAlive from offscreen page
 globalThis.onmessage = e => {
 	// eslint-disable-next-line no-console
-	console.info('Keep alive', e)
+	console.debug('Keep alive', e)
 }
 
 createOffscreen()
