@@ -318,7 +318,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	})
 }
 
-export const useAccountValues = (addresses: string[], at: Date) => {
+export const useAccountValues = (addresses: string[], at: Date = new Date()) => {
 	const networkId = useNetworkId()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
