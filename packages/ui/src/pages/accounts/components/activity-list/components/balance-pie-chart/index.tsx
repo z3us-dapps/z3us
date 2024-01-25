@@ -55,24 +55,28 @@ export const BalancePieChart: React.FC = () => {
 		return balances
 	}, [resourceType, nonFungibleBalances, tokensBalances, liquidityPoolTokensBalances, poolUnitsBalances])
 
-	const data = useMemo(
+	const accountsData = useMemo(
 		() =>
-			isAllAccounts
-				? Object.keys(accounts).map((address, index) => ({
-						address,
-						index,
-						name: accounts[address].name || getShortAddress(address),
-						value: accountValues[address],
-				  }))
-				: selectedBalances.map((resource, index) => ({
-						address: resource.address,
-						index,
-						name:
-							(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol ||
-							resource.name ||
-							intl.formatMessage(messages.unknown),
-						value: resource.value,
-				  })),
+			Object.keys(accounts).map((address, index) => ({
+				address,
+				index,
+				name: accounts[address].name || getShortAddress(address),
+				value: accountValues[address],
+			})),
+		[accounts, accountValues],
+	)
+
+	const balancesData = useMemo(
+		() =>
+			selectedBalances.map((resource, index) => ({
+				address: resource.address,
+				index,
+				name:
+					(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol ||
+					resource.name ||
+					intl.formatMessage(messages.unknown),
+				value: resource.value,
+			})),
 		[isAllAccounts, accounts, accountValues, selectedBalances],
 	)
 
@@ -100,7 +104,7 @@ export const BalancePieChart: React.FC = () => {
 							variants={animatePageVariants}
 						>
 							<Box className={styles.pieChartWrapper}>
-								<Chart data={data} />
+								<Chart data={isAllAccounts && !resourceType ? accountsData : balancesData} />
 							</Box>
 						</motion.div>
 					)}
