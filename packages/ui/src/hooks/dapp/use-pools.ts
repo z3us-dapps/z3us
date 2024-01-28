@@ -1,131 +1,89 @@
+import type { StateEntityDetailsResponseItemDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import type {
 	FungibleResourcesCollectionItemVaultAggregated,
 	StateEntityDetailsResponseItem,
 } from '@radixdlt/radix-dapp-toolkit'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import { findMetadataValue } from 'ui/src/services/metadata'
-import { formatDateTime } from 'ui/src/utils/date'
 
 import { useEntitiesDetails } from './use-entity-details'
-import { useNetworkId } from './use-network'
 
 const ZERO = decimal(0).value
 
-const collectResourcePools = (container: string[], item: FungibleResourcesCollectionItemVaultAggregated): string[] => {
+const collectResourcePoolAddresses = (
+	container: string[],
+	item: FungibleResourcesCollectionItemVaultAggregated,
+): string[] => {
 	const pool = findMetadataValue('pool', item.explicit_metadata?.items)
 	if (pool && pool.startsWith('pool_')) container.push(pool)
 	return container
 }
 
-const useAccountPools = (accounts: StateEntityDetailsResponseItem[], at: Date) => {
-	const addresses = useMemo(() => {
-		if (!accounts) return []
-		return accounts
-			.map(({ fungible_resources }) => fungible_resources.items.reduce(collectResourcePools, []))
-			.reduce((a, b) => a.concat(b), [])
-			.filter((value, index, array) => array.indexOf(value) === index)
-	}, [accounts])
-	return useEntitiesDetails(addresses, undefined, undefined, at)
+const collectAccountPoolAddresses = (accounts: StateEntityDetailsResponseItem[]) => () => {
+	if (!accounts) return []
+	return accounts
+		.map(({ fungible_resources }) => fungible_resources.items.reduce(collectResourcePoolAddresses, []))
+		.reduce((a, b) => a.concat(b), [])
+		.filter((value, index, array) => array.indexOf(value) === index)
 }
 
-export const usePools = (accountAddresses: string[], at: Date) => {
-	const networkId = useNetworkId()
+const collectUnitResourceAddresses = (pools: StateEntityDetailsResponseItem[]) => () =>
+	pools
+		?.map(
+			pool =>
+				((pool.details as Extract<StateEntityDetailsResponseItemDetails, { type: 'Component' }>).state as any)
+					.pool_unit_resource_address,
+		)
+		.filter(a => !!a) || []
 
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(
-		accountAddresses,
-		undefined,
-		undefined,
-		at,
-	)
+export const usePools = (accounts: StateEntityDetailsResponseItem[], at: Date) => {
+	const addresses = useMemo(collectAccountPoolAddresses(accounts), [accounts])
+	const { data: pools } = useEntitiesDetails(addresses, undefined, undefined, at)
 
-	const [before, setBefore] = useState<Date>(at)
-	useEffect(() => {
-		before.setUTCDate(before.getUTCDate() - 1)
-		before.setHours(0, 0, 0, 0)
-		setBefore(before)
-	}, [formatDateTime(at)])
+	const resourceAddresses = useMemo(collectUnitResourceAddresses(pools), [pools])
+	const { data: units } = useEntitiesDetails(resourceAddresses, undefined, undefined, at)
 
-	const { data: pools, isLoading: isLoadingPools } = useAccountPools(accounts, at)
-	const { data: poolsBefore, isLoading: isLoadingPoolsBefore } = useAccountPools(accounts, before)
+	return useMemo(() => {
+		const unitsSupply = units.reduce((m, unit) => {
+			m[unit.address] = unit.details.total_supply
+			return m
+		}, {})
 
-	const poolResources = useMemo(
-		() => pools?.map(pool => pool.details.state.pool_unit_resource_address).filter(a => !!a) || [],
-		[pools],
-	)
-	const { data: poolUnits, isLoading: isLoadingPoolUnits } = useEntitiesDetails(poolResources, undefined, undefined, at)
+		return pools.reduce((map, pool) => {
+			const resourceAmounts = pool.fungible_resources.items.reduce(
+				(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
+					m[resource_address] = vaults.items
+						.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
+						.add(m[resource_address] || 0)
 
-	const poolResourcesBefore = useMemo(
-		() => poolsBefore?.map(pool => pool.details.state.pool_unit_resource_address).filter(a => !!a) || [],
-		[poolsBefore],
-	)
-	const { data: poolUnitsBefore, isLoading: isLoadingPoolUnitsBefore } = useEntitiesDetails(
-		poolResourcesBefore,
-		undefined,
-		undefined,
-		before,
-	)
+					return m
+				},
+				{},
+			)
 
-	const isLoading =
-		isLoadingPools || isLoadingAccounts || isLoadingPoolUnits || isLoadingPoolUnitsBefore || isLoadingPoolsBefore
-	const enabled =
-		!isLoading && accountAddresses.length > 0 && !!pools && !!poolsBefore && !!poolUnits && !!poolUnitsBefore
-
-	const queryFn = () => {
-		const poolsBeforeMap = poolsBefore.reduce((map, pool) => {
+			pool.resourceAmounts = resourceAmounts || {}
+			pool.unitTotalSupply = unitsSupply[pool.details.state.pool_unit_resource_address] || '0'
 			map[pool.address] = pool
 			return map
 		}, {})
+	}, [pools, units])
+}
 
-		const poolUnitsSupply = poolUnits.reduce((m, unit) => {
-			m[unit.address] = unit.details.total_supply
-			return m
-		}, {})
+export const usePoolsCompare = (accounts: StateEntityDetailsResponseItem[], at: Date, before: Date) => {
+	const pools = usePools(accounts, at)
+	const poolsBefore = usePools(accounts, before)
 
-		const poolUnitsSupplyBefore = poolUnitsBefore.reduce((m, unit) => {
-			m[unit.address] = unit.details.total_supply
-			return m
-		}, {})
-
-		return (
-			pools.reduce((map, pool) => {
-				const resourceAmounts = pool.fungible_resources.items.reduce(
-					(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
-						m[resource_address] = vaults.items
-							.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
-							.add(m[resource_address] || 0)
-
-						return m
-					},
-					{},
-				)
-				const resourceAmountsBefore = poolsBeforeMap[pool.address]?.fungible_resources.items.reduce(
-					(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
-						m[resource_address] = vaults.items
-							.reduce((sum, { amount: vaultAmount }) => sum.add(decimal(vaultAmount).value), ZERO)
-							.add(m[resource_address] || 0)
-
-						return m
-					},
-					{},
-				)
-
-				pool.resourceAmounts = resourceAmounts || {}
-				pool.poolUnitTotalSupply = poolUnitsSupply[pool.details.state.pool_unit_resource_address] || '0'
-				pool.resourceAmountsBefore = resourceAmountsBefore || {}
-				pool.poolUnitTotalSupplyBefore = poolUnitsSupplyBefore[pool.details.state.pool_unit_resource_address] || '0'
-
-				map[pool.address] = pool
+	return useMemo(
+		() =>
+			Object.keys(pools || {}).reduce((map, address) => {
+				map[address] = {
+					at: pools[address],
+					before: poolsBefore[address] || undefined,
+				}
 				return map
-			}, {}) || {}
-		)
-	}
-
-	return useQuery({
-		queryKey: ['usePools', networkId, accountAddresses, formatDateTime(at)],
-		enabled,
-		queryFn,
-	})
+			}, {}),
+		[pools, poolsBefore],
+	)
 }

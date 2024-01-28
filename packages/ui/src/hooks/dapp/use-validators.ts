@@ -1,20 +1,19 @@
 import type {
 	FungibleResourcesCollectionItemVaultAggregated,
-	StateEntityDetailsResponseItem, // NonFungibleResourcesCollectionItemVaultAggregated,
+	NonFungibleResourcesCollectionItemVaultAggregated,
+	StateEntityDetailsResponseItem,
+	StateEntityDetailsResponseItemDetails,
 } from '@radixdlt/radix-dapp-toolkit'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import { findMetadataValue } from 'ui/src/services/metadata'
-import { formatDateTime } from 'ui/src/utils/date'
 
 import { useEntitiesDetails } from './use-entity-details'
-import { useNetworkId } from './use-network'
 
 const ZERO = decimal(0).value
 
-const collectResourceValidators = (
+const collectResourceValidatorAddresses = (
 	container: string[],
 	item: FungibleResourcesCollectionItemVaultAggregated,
 ): string[] => {
@@ -23,106 +22,44 @@ const collectResourceValidators = (
 	return container
 }
 
-const useAccountValidators = (accounts: StateEntityDetailsResponseItem[], at: Date) => {
-	const addresses = useMemo(() => {
-		if (!accounts) return []
-		return accounts
-			.map(({ fungible_resources }) => fungible_resources.items.reduce(collectResourceValidators, []))
-			.reduce((a, b) => a.concat(b), [])
-			.filter((value, index, array) => array.indexOf(value) === index)
-	}, [accounts])
-	return useEntitiesDetails(addresses, undefined, undefined, at)
+const collectAccountValidatorAddresses = (accounts: StateEntityDetailsResponseItem[]) => () => {
+	if (!accounts) return []
+	return accounts
+		.map(({ fungible_resources }) => fungible_resources.items.reduce(collectResourceValidatorAddresses, []))
+		.reduce((a, b) => a.concat(b), [])
+		.filter((value, index, array) => array.indexOf(value) === index)
 }
 
-export const useValidators = (accountAddresses: string[], at: Date) => {
-	const networkId = useNetworkId()
+const collectStakeResourceAddresses = (validators: StateEntityDetailsResponseItem[]) => () =>
+	validators
+		?.map(
+			validator =>
+				((validator.details as Extract<StateEntityDetailsResponseItemDetails, { type: 'Component' }>).state as any)
+					.stake_unit_resource_address,
+		)
+		.filter(a => !!a) || []
 
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(
-		accountAddresses,
-		undefined,
-		undefined,
-		at,
-	)
+const collectClaimResourceAddresses = (validators: StateEntityDetailsResponseItem[]) => () =>
+	validators
+		?.map(
+			validator =>
+				((validator.details as Extract<StateEntityDetailsResponseItemDetails, { type: 'Component' }>).state as any)
+					.claim_token_resource_address,
+		)
+		.filter(a => !!a) || []
 
-	const [before, setBefore] = useState<Date>(at)
-	useEffect(() => {
-		before.setUTCDate(before.getUTCDate() - 1)
-		before.setHours(0, 0, 0, 0)
-		setBefore(before)
-	}, [formatDateTime(at)])
+export const useValidators = (accounts: StateEntityDetailsResponseItem[], at: Date) => {
+	const addresses = useMemo(collectAccountValidatorAddresses(accounts), [accounts])
+	const { data: validators } = useEntitiesDetails(addresses, undefined, undefined, at)
 
-	const { data: validators, isLoading: isLoadingValidators } = useAccountValidators(accounts, at)
-	const { data: validatorsBefore, isLoading: isLoadingPoolsBefore } = useAccountValidators(accounts, before)
+	const stakeResourceAddresses = useMemo(collectStakeResourceAddresses(validators), [validators])
+	const { data: units } = useEntitiesDetails(stakeResourceAddresses, undefined, undefined, at)
 
-	const validatorResources = useMemo(
-		() => validators?.map(validator => validator.details.state.stake_unit_resource_address).filter(a => !!a) || [],
-		[validators],
-	)
-	const { data: units, isLoading: isLoadingValidatorUnits } = useEntitiesDetails(
-		validatorResources,
-		undefined,
-		undefined,
-		at,
-	)
+	const claimResourceAddresses = useMemo(collectClaimResourceAddresses(validators), [validators])
+	const { data: claims } = useEntitiesDetails(claimResourceAddresses, undefined, undefined, at)
 
-	const validatorResourcesBefore = useMemo(
-		() =>
-			validatorsBefore?.map(validator => validator.details.state.stake_unit_resource_address).filter(a => !!a) || [],
-		[validatorsBefore],
-	)
-	const { data: unitsBefore, isLoading: isLoadingValidatorUnitsBefore } = useEntitiesDetails(
-		validatorResourcesBefore,
-		undefined,
-		undefined,
-		before,
-	)
-
-	const validatorNFT = useMemo(
-		() => validators?.map(validator => validator.details.state.claim_token_resource_address).filter(a => !!a) || [],
-		[validators],
-	)
-	const { data: claims, isLoading: isLoadingValidatorClaims } = useEntitiesDetails(
-		validatorNFT,
-		undefined,
-		undefined,
-		at,
-	)
-
-	const validatorNFTBefore = useMemo(
-		() =>
-			validatorsBefore?.map(validator => validator.details.state.claim_token_resource_address).filter(a => !!a) || [],
-		[validatorsBefore],
-	)
-	const { data: claimsBefore, isLoading: isLoadingValidatorClaimsBefore } = useEntitiesDetails(
-		validatorNFTBefore,
-		undefined,
-		undefined,
-		before,
-	)
-
-	const isLoading =
-		isLoadingValidators ||
-		isLoadingAccounts ||
-		isLoadingValidatorUnits ||
-		isLoadingValidatorUnitsBefore ||
-		isLoadingValidatorClaims ||
-		isLoadingValidatorClaimsBefore ||
-		isLoadingPoolsBefore
-	const enabled =
-		!isLoading && accountAddresses.length > 0 && !!validators && !!validatorsBefore && !!units && !!unitsBefore
-
-	const queryFn = () => {
-		const validatorsBeforeMap = validatorsBefore.reduce((map, validator) => {
-			map[validator.address] = validator
-			return map
-		}, {})
-
+	return useMemo(() => {
 		const unitsSupply = units.reduce((m, unit) => {
-			m[unit.address] = unit.details.total_supply
-			return m
-		}, {})
-
-		const unitsSupplyBefore = unitsBefore.reduce((m, unit) => {
 			m[unit.address] = unit.details.total_supply
 			return m
 		}, {})
@@ -132,85 +69,59 @@ export const useValidators = (accountAddresses: string[], at: Date) => {
 			return m
 		}, {})
 
-		const claimsSupplyBefore = claimsBefore.reduce((m, claim) => {
-			m[claim.address] = claim.details.total_supply
-			return m
+		return validators.reduce((map, validator) => {
+			const resourceAmounts = validator.fungible_resources.items.reduce(
+				(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
+					m[resource_address] = vaults.items
+						.reduce(
+							(sum, { amount: vaultAmount, vault_address }) =>
+								vault_address === (validator.details as any).state.stake_xrd_vault.entity_address
+									? sum.add(decimal(vaultAmount).value)
+									: sum,
+							ZERO,
+						)
+						.add(m[resource_address] || 0)
+
+					return m
+				},
+				{},
+			)
+
+			const resourceClaims = validator.non_fungible_resources.items.reduce(
+				(m, { resource_address, vaults }: NonFungibleResourcesCollectionItemVaultAggregated) => {
+					m[resource_address] = vaults.items
+						.reduce((sum, { total_count }) => sum.add(decimal(total_count).value), ZERO)
+						.add(m[resource_address] || 0)
+
+					return m
+				},
+				{},
+			)
+
+			validator.resourceAmounts = resourceAmounts || {}
+			validator.unitTotalSupply = unitsSupply[validator.details.state.stake_unit_resource_address] || '0'
+			validator.claimTotalSupply = claimsSupply[validator.details.state.claim_token_resource_address] || '0'
+			validator.resourceClaims = resourceClaims
+
+			map[validator.address] = validator
+			return map
 		}, {})
+	}, [validators, units])
+}
 
-		return (
-			validators.reduce((map, validator) => {
-				const resourceAmounts = validator.fungible_resources.items.reduce(
-					(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
-						m[resource_address] = vaults.items
-							.reduce(
-								(sum, { amount: vaultAmount, vault_address }) =>
-									vault_address === (validator.details as any).state.stake_xrd_vault.entity_address
-										? sum.add(decimal(vaultAmount).value)
-										: sum,
-								ZERO,
-							)
-							.add(m[resource_address] || 0)
+export const useValidatorsCompare = (accounts: StateEntityDetailsResponseItem[], at: Date, before: Date) => {
+	const validators = useValidators(accounts, at)
+	const validatorsBefore = useValidators(accounts, before)
 
-						return m
-					},
-					{},
-				)
-				const resourceAmountsBefore = validatorsBeforeMap[validator.address]?.fungible_resources.items.reduce(
-					(m, { resource_address, vaults }: FungibleResourcesCollectionItemVaultAggregated) => {
-						m[resource_address] = vaults.items
-							.reduce(
-								(sum, { amount: vaultAmount, vault_address }) =>
-									vault_address === (validator.details as any).state.stake_xrd_vault.entity_address
-										? sum.add(decimal(vaultAmount).value)
-										: sum,
-								ZERO,
-							)
-							.add(m[resource_address] || 0)
-
-						return m
-					},
-					{},
-				)
-
-				// const resourceClaims = validator.non_fungible_resources.items.reduce(
-				// 	(m, { resource_address, vaults }: NonFungibleResourcesCollectionItemVaultAggregated) => {
-				// 		m[resource_address] = vaults.items
-				// 			.reduce((sum, { total_count }) => sum.add(decimal(total_count).value), ZERO)
-				// 			.add(m[resource_address] || 0)
-
-				// 		return m
-				// 	},
-				// 	{},
-				// )
-				// const resourceClaimsBefore = validatorsBeforeMap[validator.address]?.non_fungible_resources.items.reduce(
-				// 	(m, { resource_address, vaults }: NonFungibleResourcesCollectionItemVaultAggregated) => {
-				// 		m[resource_address] = vaults.items
-				// 			.reduce((sum, { total_count }) => sum.add(decimal(total_count).value), ZERO)
-				// 			.add(m[resource_address] || 0)
-
-				// 		return m
-				// 	},
-				// 	{},
-				// )
-
-				validator.resourceAmounts = resourceAmounts || {}
-				validator.resourceAmountsBefore = resourceAmountsBefore || {}
-				validator.validatorUnitTotalSupply = unitsSupply[validator.details.state.stake_unit_resource_address] || '0'
-				validator.validatorUnitTotalSupplyBefore =
-					unitsSupplyBefore[validator.details.state.stake_unit_resource_address] || '0'
-				validator.validatorClaimTotalSupply = claimsSupply[validator.details.state.claim_token_resource_address] || '0'
-				validator.validatorClaimTotalSupplyBefore =
-					claimsSupplyBefore[validator.details.state.claim_token_resource_address] || '0'
-
-				map[validator.address] = validator
+	return useMemo(
+		() =>
+			Object.keys(validators || {}).reduce((map, address) => {
+				map[address] = {
+					at: validators[address],
+					before: validatorsBefore[address] || undefined,
+				}
 				return map
-			}, {}) || {}
-		)
-	}
-
-	return useQuery({
-		queryKey: ['useValidators', networkId, accountAddresses, formatDateTime(at)],
-		enabled,
-		queryFn,
-	})
+			}, {}),
+		[validators, validatorsBefore],
+	)
 }

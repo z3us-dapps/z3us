@@ -4,10 +4,12 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { Input } from 'ui/src/components/input'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
 import * as styles from '../components/table/styles.css'
@@ -50,9 +52,9 @@ const LSUs: React.FC = () => {
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
 	const selectedAccounts = useSelectedAccounts()
+	const [compareDate, setCompareDate] = useCompareWithDate()
 
-	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
-	const { liquidityPoolTokensBalances = [] } = balanceData || {}
+	const { liquidityPoolTokensBalances = [] } = useBalances(selectedAccounts)
 
 	const selectedRowIds = useMemo(() => {
 		const idx = liquidityPoolTokensBalances.findIndex(b => b.address === resourceId)
@@ -99,8 +101,26 @@ const LSUs: React.FC = () => {
 		[],
 	)
 
+	const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const evt = event.nativeEvent as InputEvent
+		if (evt.isComposing) {
+			return
+		}
+
+		if (event.target.value) {
+			setCompareDate(new Date(event.target.value))
+		} else {
+			setCompareDate(undefined)
+		}
+	}
+
 	return (
 		<Box className={clsx(styles.tableWrapper, styles.tableLsusWrapper)}>
+			<Input
+				value={compareDate ? compareDate.toISOString().split('T')[0] : undefined}
+				type="date"
+				onChange={handleDateChange}
+			/>
 			<TableWithEmptyState
 				emptyStateTitle={intl.formatMessage(messages.empty_title)}
 				emptyStateSubTitle={intl.formatMessage(messages.empty_subtitle)}
@@ -111,11 +131,8 @@ const LSUs: React.FC = () => {
 				columns={columns}
 				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
-				loading={isLoading}
 				selectedRowIds={selectedRowIds}
 				stickyShadowTop
-				// loadMore={loadMore}
-				// onEndReached={onEndReached}
 			/>
 		</Box>
 	)

@@ -3,6 +3,7 @@ import { RouterProvider, createHashRouter } from 'react-router-dom'
 
 import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
 import AppLayout from 'ui/src/components/layout'
+import { CompareWithDateProvider } from 'ui/src/context/compare-with-date-provider'
 import { DappStatusContext, defaultState as defaultDappState } from 'ui/src/context/dapp-status'
 import { ImageProvider } from 'ui/src/context/images-provider'
 import { ModalsProvider } from 'ui/src/context/modals-provider'
@@ -51,7 +52,9 @@ const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
 						<RdtProvider>
 							<ZdtContext.Provider value={defaultZdtState}>
 								<ImageProvider>
-									<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+									<CompareWithDateProvider>
+										<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+									</CompareWithDateProvider>
 								</ImageProvider>
 							</ZdtContext.Provider>
 						</RdtProvider>

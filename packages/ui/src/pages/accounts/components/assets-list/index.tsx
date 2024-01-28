@@ -41,7 +41,6 @@ export const AssetsList: React.FC = () => {
 		currency: state.currency,
 	}))
 
-	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
 	const {
 		nftsBalances = [],
 		nftsChange = 0,
@@ -55,7 +54,7 @@ export const AssetsList: React.FC = () => {
 		poolUnitsBalances = [],
 		poolUnitsValue = 0,
 		poolUnitsChange = 0,
-	} = balanceData || {}
+	} = useBalances(selectedAccounts)
 
 	const rows = {
 		tokens: {
@@ -83,8 +82,6 @@ export const AssetsList: React.FC = () => {
 			title: intl.formatMessage(messages.lpus),
 		},
 	}
-
-	if (isLoading) return <FallbackLoading />
 
 	return (
 		<Box className={styles.assetsList}>

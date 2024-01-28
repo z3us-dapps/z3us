@@ -45,8 +45,7 @@ const LPUs: React.FC = () => {
 	const [searchParams] = useSearchParams()
 	const selectedAccounts = useSelectedAccounts()
 
-	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
-	const { poolUnitsBalances = [] } = balanceData || {}
+	const { poolUnitsBalances = [] } = useBalances(selectedAccounts)
 
 	const selectedRowIds = useMemo(() => {
 		const idx = poolUnitsBalances.findIndex(b => b.address === resourceId)
@@ -99,11 +98,8 @@ const LPUs: React.FC = () => {
 				columns={columns}
 				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
-				loading={isLoading}
 				selectedRowIds={selectedRowIds}
 				stickyShadowTop
-				// loadMore={loadMore}
-				// onEndReached={onEndReached}
 			/>
 		</Box>
 	)

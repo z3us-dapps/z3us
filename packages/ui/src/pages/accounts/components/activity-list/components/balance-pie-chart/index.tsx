@@ -4,7 +4,6 @@ import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
 import { useAccountValues, useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
@@ -34,18 +33,14 @@ export const BalancePieChart: React.FC = () => {
 	const accounts = useWalletAccounts()
 
 	const selectedAccounts = useSelectedAccounts()
-	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
-	const { data: accountValues = {} } = useAccountValues(
-		selectedAccounts,
-		balanceData?.at ? new Date(balanceData.at) : undefined,
-	)
 	const {
 		balances = [],
 		tokensBalances = [],
 		liquidityPoolTokensBalances = [],
 		poolUnitsBalances = [],
 		nonFungibleBalances = [],
-	} = balanceData || {}
+	} = useBalances(selectedAccounts)
+	const accountValues = useAccountValues(selectedAccounts)
 
 	const selectedBalances = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleBalances
@@ -84,30 +79,16 @@ export const BalancePieChart: React.FC = () => {
 		<Box className={clsx(styles.allChartWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
 			<Box className={styles.allChartInnerWrapper}>
 				<AnimatePresence initial={false}>
-					{isLoading && (
-						<motion.div
-							className={clsx(styles.motionWrapper, styles.chartLoadingWrapper)}
-							initial="hidden"
-							animate="visible"
-							variants={animatePageVariants}
-						>
-							<Z3usLoading message={intl.formatMessage(messages.loading)} />
-						</motion.div>
-					)}
-				</AnimatePresence>
-				<AnimatePresence initial={false}>
-					{!isLoading && (
-						<motion.div
-							className={styles.motionWrapper}
-							initial="hidden"
-							animate="visible"
-							variants={animatePageVariants}
-						>
-							<Box className={styles.pieChartWrapper}>
-								<Chart data={isAllAccounts && !resourceType ? accountsData : balancesData} />
-							</Box>
-						</motion.div>
-					)}
+					<motion.div
+						className={styles.motionWrapper}
+						initial="hidden"
+						animate="visible"
+						variants={animatePageVariants}
+					>
+						<Box className={styles.pieChartWrapper}>
+							<Chart data={isAllAccounts && !resourceType ? accountsData : balancesData} />
+						</Box>
+					</motion.div>
 				</AnimatePresence>
 			</Box>
 		</Box>

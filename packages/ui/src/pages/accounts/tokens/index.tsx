@@ -49,8 +49,7 @@ const Tokens: React.FC = () => {
 	const [searchParams] = useSearchParams()
 	const selectedAccounts = useSelectedAccounts()
 
-	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
-	const { tokensBalances = [] } = balanceData || {}
+	const { tokensBalances = [] } = useBalances(selectedAccounts)
 
 	const selectedRowIds = useMemo(() => {
 		const idx = tokensBalances.findIndex(b => b.address === resourceId)
@@ -97,11 +96,8 @@ const Tokens: React.FC = () => {
 				columns={columns}
 				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
-				loading={isLoading}
 				selectedRowIds={selectedRowIds}
 				stickyShadowTop
-				// loadMore={loadMore}
-				// onEndReached={onEndReached}
 			/>
 		</Box>
 	)

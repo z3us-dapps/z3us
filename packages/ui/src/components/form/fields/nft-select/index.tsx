@@ -43,16 +43,10 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 	const { fromAccount, resourceKey = 'address', itemKey = 'id', ...rest } = props
 	const { name: parentName } = useContext(FieldContext)
 
-	const { data: balanceData, isLoading } = useBalances([fromAccount])
-	const { nonFungibleBalances = [] } = balanceData || {}
+	const { nonFungibleBalances = [] } = useBalances([fromAccount])
 	const resource = useFieldValue(`${parentName ? `${parentName}.` : ''}${resourceKey}`)
 
-	const {
-		data: idsData,
-		isFetching,
-		hasNextPage,
-		fetchNextPage,
-	} = useNonFungibleIds(resource, [fromAccount], balanceData?.at ? new Date(balanceData.at) : undefined)
+	const { data: idsData, isFetching, hasNextPage, fetchNextPage } = useNonFungibleIds(resource, [fromAccount])
 
 	const nonFungiblesCollection = useMemo(
 		() => nonFungibleBalances.map(collection => ({ id: collection.address, title: collection.name })),
@@ -78,7 +72,7 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 	}, [isFetching, fetchNextPage, hasNextPage])
 
 	return (
-		<Box disabled={!fromAccount || isLoading || isFetching} className={styles.nftSelectWrapper}>
+		<Box disabled={!fromAccount || isFetching} className={styles.nftSelectWrapper}>
 			<ToolTip
 				message={intl.formatMessage(messages.nonFungiblesCollectionToolTip)}
 				disabled={hasNonFungiblesCollection}

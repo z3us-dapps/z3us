@@ -17,7 +17,6 @@ export const useTotalBalance = () => {
 
 	const selectedAccounts = useSelectedAccounts()
 
-	const { data: balanceData, isLoading } = useBalances(selectedAccounts)
 	const {
 		totalXrdValue = 0,
 		totalValue = 0,
@@ -34,7 +33,7 @@ export const useTotalBalance = () => {
 		poolUnitsXrdValue = 0,
 		poolUnitsValue = 0,
 		poolUnitsChange = 0,
-	} = balanceData || {}
+	} = useBalances(selectedAccounts)
 
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue
@@ -68,7 +67,6 @@ export const useTotalBalance = () => {
 	])
 
 	return {
-		isLoading,
 		xrdValue,
 		value,
 		change,
