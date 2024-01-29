@@ -65,6 +65,10 @@ export const activityItemOuter = style([
 	{},
 ])
 
+globalStyle(`${activityWrapper} > div > div > div > div > ${activityItemOuter}:first-child`, {
+	borderTop: 'none',
+})
+
 export const activityItemInner = style([
 	sprinkles({
 		position: 'relative',
@@ -113,10 +117,6 @@ export const activityItemInner = style([
 		},
 	}),
 ])
-
-globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activityItemOuter}`, {
-	borderTop: 'none',
-})
 
 export const activityItemInnerBtn = style([
 	sprinkles({
