@@ -1,4 +1,5 @@
 import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
+import { table } from 'console'
 import React, { useCallback, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
@@ -7,10 +8,12 @@ import { Virtuoso } from 'react-virtuoso'
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
+import * as tableStyles from 'ui/src/components/table/table.css'
 import { useNonFungibleIds, useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { NftNameCell } from 'ui/src/pages/accounts/components/table/nft-name-cell'
-import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
+
+import * as styles from './styles.css'
 
 // const messages = defineMessages({
 // 	collection: {
@@ -140,6 +143,9 @@ import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 // 	)
 // }
 
+const TABLE_SIZE_VARIANT = 'large'
+const TABLE_STYLE_VARIANT = 'primary'
+
 interface IPageProps {
 	accountId: string
 	collection: string
@@ -158,18 +164,40 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids, selected }) =>
 	}
 
 	return (
-		<>
-			{data.map(nft => (
-				<Box
-					key={nft.non_fungible_id}
-					onClick={() => handleSelect(nft)}
-					disabled={nft.non_fungible_id === selected}
-					overflow="clip"
-				>
-					<NftNameCell value={nft.data} row={{ original: nft }} />
-				</Box>
-			))}
-		</>
+		<table
+			className={tableStyles.tableRecipe({
+				sizeVariant: TABLE_SIZE_VARIANT,
+				styleVariant: TABLE_STYLE_VARIANT,
+			})}
+		>
+			<tbody>
+				{data.map(nft => (
+					<tr
+						className={tableStyles.tableTrRecipe({
+							sizeVariant: TABLE_SIZE_VARIANT,
+							styleVariant: TABLE_STYLE_VARIANT,
+							isRowSelectable: true,
+						})}
+					>
+						<td
+							className={tableStyles.tableTdRecipe({
+								sizeVariant: TABLE_SIZE_VARIANT,
+								styleVariant: TABLE_STYLE_VARIANT,
+							})}
+						>
+							<Box
+								key={nft.non_fungible_id}
+								onClick={() => handleSelect(nft)}
+								disabled={nft.non_fungible_id === selected}
+								overflow="clip"
+							>
+								<NftNameCell value={nft.data} row={{ original: nft }} />
+							</Box>
+						</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
 	)
 }
 
