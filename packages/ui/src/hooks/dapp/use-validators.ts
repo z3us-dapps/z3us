@@ -1,6 +1,5 @@
 import type {
 	FungibleResourcesCollectionItemVaultAggregated,
-	NonFungibleResourcesCollectionItemVaultAggregated,
 	StateEntityDetailsResponseItem,
 	StateEntityDetailsResponseItemDetails,
 } from '@radixdlt/radix-dapp-toolkit'
@@ -39,15 +38,6 @@ const collectStakeResourceAddresses = (validators: StateEntityDetailsResponseIte
 		)
 		.filter(a => !!a) || []
 
-const collectClaimResourceAddresses = (validators: StateEntityDetailsResponseItem[]) => () =>
-	validators
-		?.map(
-			validator =>
-				((validator.details as Extract<StateEntityDetailsResponseItemDetails, { type: 'Component' }>).state as any)
-					.claim_token_resource_address,
-		)
-		.filter(a => !!a) || []
-
 export const useValidators = (accounts: StateEntityDetailsResponseItem[], at: Date) => {
 	const addresses = useMemo(collectAccountValidatorAddresses(accounts), [accounts])
 	const { data: validators } = useEntitiesDetails(addresses, undefined, undefined, at)
@@ -55,17 +45,9 @@ export const useValidators = (accounts: StateEntityDetailsResponseItem[], at: Da
 	const stakeResourceAddresses = useMemo(collectStakeResourceAddresses(validators), [validators])
 	const { data: units } = useEntitiesDetails(stakeResourceAddresses, undefined, undefined, at)
 
-	const claimResourceAddresses = useMemo(collectClaimResourceAddresses(validators), [validators])
-	const { data: claims } = useEntitiesDetails(claimResourceAddresses, undefined, undefined, at)
-
 	return useMemo(() => {
 		const unitsSupply = units.reduce((m, unit) => {
 			m[unit.address] = unit.details.total_supply
-			return m
-		}, {})
-
-		const claimsSupply = claims.reduce((m, claim) => {
-			m[claim.address] = claim.details.total_supply
 			return m
 		}, {})
 
@@ -87,21 +69,8 @@ export const useValidators = (accounts: StateEntityDetailsResponseItem[], at: Da
 				{},
 			)
 
-			const resourceClaims = validator.non_fungible_resources.items.reduce(
-				(m, { resource_address, vaults }: NonFungibleResourcesCollectionItemVaultAggregated) => {
-					m[resource_address] = vaults.items
-						.reduce((sum, { total_count }) => sum.add(decimal(total_count).value), ZERO)
-						.add(m[resource_address] || 0)
-
-					return m
-				},
-				{},
-			)
-
 			validator.resourceAmounts = resourceAmounts || {}
 			validator.unitTotalSupply = unitsSupply[validator.details.state.stake_unit_resource_address] || '0'
-			validator.claimTotalSupply = claimsSupply[validator.details.state.claim_token_resource_address] || '0'
-			validator.resourceClaims = resourceClaims
 
 			map[validator.address] = validator
 			return map

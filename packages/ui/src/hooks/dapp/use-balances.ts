@@ -47,7 +47,6 @@ type PoolDetails = StateEntityDetailsResponseItem & {
 type ValidatorDetails = StateEntityDetailsResponseItem & {
 	resourceAmounts: { [key: string]: typeof DECIMAL_ZERO }
 	unitTotalSupply: string
-	claimTotalSupply: string
 }
 
 const transformFungibleResourceItemResponse =
