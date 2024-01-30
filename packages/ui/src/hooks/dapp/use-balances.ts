@@ -171,6 +171,8 @@ const transformNonFungibleResourceItemResponse =
 			return container
 		}
 
+		// @TODO: this works for now but at some point we need pagination here
+		// since current ids are only from page 1
 		const ids = item.vaults.items.reduce((acc, curr) => {
 			acc.push(...(curr.items || []))
 			return acc
