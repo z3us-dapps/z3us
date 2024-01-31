@@ -1,6 +1,7 @@
 import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useCallback } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import type { TableComponents, TableProps } from 'react-virtuoso'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
@@ -33,41 +34,49 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids, selected }) =>
 	}
 
 	return (
-		<table
-			className={tableStyles.tableRecipe({
-				sizeVariant: TABLE_SIZE_VARIANT,
-				styleVariant: TABLE_STYLE_VARIANT,
-			})}
-		>
-			<tbody>
-				{data.map(nft => (
-					<tr
-						className={tableStyles.tableTrRecipe({
+		<>
+			{data.map(nft => (
+				<tr
+					className={tableStyles.tableTrRecipe({
+						sizeVariant: TABLE_SIZE_VARIANT,
+						styleVariant: TABLE_STYLE_VARIANT,
+						isRowSelectable: true,
+					})}
+				>
+					<td
+						className={tableStyles.tableTdRecipe({
 							sizeVariant: TABLE_SIZE_VARIANT,
 							styleVariant: TABLE_STYLE_VARIANT,
-							isRowSelectable: true,
 						})}
 					>
-						<td
-							className={tableStyles.tableTdRecipe({
-								sizeVariant: TABLE_SIZE_VARIANT,
-								styleVariant: TABLE_STYLE_VARIANT,
-							})}
+						<Box
+							key={nft.non_fungible_id}
+							onClick={() => handleSelect(nft)}
+							disabled={nft.non_fungible_id === selected}
+							overflow="clip"
 						>
-							<Box
-								key={nft.non_fungible_id}
-								onClick={() => handleSelect(nft)}
-								disabled={nft.non_fungible_id === selected}
-								overflow="clip"
-							>
-								<NftNameCell value={nft.data} row={{ original: nft }} />
-							</Box>
-						</td>
-					</tr>
-				))}
-			</tbody>
-		</table>
+							<NftNameCell value={nft.data} row={{ original: nft }} />
+						</Box>
+					</td>
+				</tr>
+			))}
+		</>
 	)
+}
+
+const Table: React.FC<TableProps> = ({ style, ...tableProps }) => (
+	<table
+		{...tableProps}
+		className={tableStyles.tableRecipe({
+			sizeVariant: TABLE_SIZE_VARIANT,
+			styleVariant: TABLE_STYLE_VARIANT,
+		})}
+		style={{ ...style }}
+	/>
+)
+
+const tableComponents: TableComponents = {
+	Table,
 }
 
 const NFTs: React.FC = () => {
@@ -100,6 +109,7 @@ const NFTs: React.FC = () => {
 				data={data?.pages}
 				endReached={loadMore}
 				itemContent={renderItem}
+				components={tableComponents}
 			/>
 		</Box>
 	)
