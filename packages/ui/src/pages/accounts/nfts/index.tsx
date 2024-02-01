@@ -1,4 +1,5 @@
 import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
+import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import type { TableComponents, TableProps } from 'react-virtuoso'
@@ -20,12 +21,13 @@ interface IPageProps {
 	accountId: string
 	collection: string
 	ids: string[]
-	selected: string
 }
 
-const Page: React.FC<IPageProps> = ({ accountId, collection, ids, selected }) => {
+const Page: React.FC<IPageProps> = ({ accountId, collection, ids }) => {
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
+	const { nftId: rawNftId } = useParams()
+	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
 
 	const { data = [] } = useNonFungiblesData(collection, ids)
 
@@ -38,11 +40,14 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids, selected }) =>
 			{data.map(nft => (
 				<tr
 					key={nft.non_fungible_id}
-					className={tableStyles.tableTrRecipe({
-						sizeVariant: TABLE_SIZE_VARIANT,
-						styleVariant: TABLE_STYLE_VARIANT,
-						isRowSelectable: true,
-					})}
+					className={clsx(
+						tableStyles.tableTrRecipe({
+							sizeVariant: TABLE_SIZE_VARIANT,
+							styleVariant: TABLE_STYLE_VARIANT,
+							isRowSelectable: true,
+						}),
+						nft.non_fungible_id === nftId ? 'tr-selected' : '',
+					)}
 				>
 					<td
 						className={tableStyles.tableTdRecipe({
@@ -50,7 +55,7 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids, selected }) =>
 							styleVariant: TABLE_STYLE_VARIANT,
 						})}
 					>
-						<Box onClick={() => handleSelect(nft)} disabled={nft.non_fungible_id === selected} overflow="clip">
+						<Box onClick={() => handleSelect(nft)} overflow="clip">
 							<NftNameCell value={nft.data} row={{ original: nft }} />
 						</Box>
 					</td>
@@ -71,18 +76,18 @@ const Table: React.FC<TableProps> = ({ style, ...tableProps }) => (
 	/>
 )
 
-// eslint-disable-next-line react/jsx-no-useless-fragment
-const TableRow: TableComponents['TableRow'] = props => <React.Fragment {...props} />
+const TableRow: TableComponents['TableRow'] = props => <tbody {...props} />
+const TableBody: TableComponents['TableBody'] = React.forwardRef(({ children }) => children)
 
 const tableComponents: TableComponents = {
 	Table,
 	TableRow,
+	TableBody,
 }
 
 const NFTs: React.FC = () => {
 	const { scrollableNode } = useScroll()
-	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
-	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
+	const { accountId = '-', resourceId } = useParams()
 	const selectedAccounts = useSelectedAccounts()
 
 	const { data, isFetching, fetchNextPage, hasNextPage } = useNonFungibleIds(resourceId, selectedAccounts)
@@ -95,9 +100,7 @@ const NFTs: React.FC = () => {
 	}, [isFetching, fetchNextPage, hasNextPage])
 
 	const renderItem = useCallback(
-		(index: number, page) => (
-			<Page key={index} accountId={accountId} collection={resourceId} ids={page.items} selected={nftId} />
-		),
+		(index: number, page) => <Page key={index} accountId={accountId} collection={resourceId} ids={page?.items || []} />,
 		[resourceId],
 	)
 
