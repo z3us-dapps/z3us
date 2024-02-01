@@ -9,7 +9,7 @@ import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { findMetadataValue } from 'ui/src/services/metadata'
 
-import { PERCENTAGE_STYLES } from '../../constants/number'
+import { DECIMAL_STYLES } from '../../constants/number'
 import { getShortAddress } from '../../utils/string-utils'
 import type { TImageSizes } from '../image-icon'
 
@@ -51,7 +51,7 @@ export const ResourceSnippet: React.FC<IProps> = ({ address, change, reversed, s
 					<ToolTip message={change}>
 						<Box>
 							<RedGreenText align={reversed ? 'right' : 'left'} color="strong" size="xsmall" truncate change={change}>
-								{intl.formatNumber(change, PERCENTAGE_STYLES)}
+								{intl.formatNumber(change, { signDisplay: 'exceptZero', ...DECIMAL_STYLES })}
 							</RedGreenText>
 						</Box>
 					</ToolTip>

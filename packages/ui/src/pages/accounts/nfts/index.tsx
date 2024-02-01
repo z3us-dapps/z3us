@@ -2,7 +2,7 @@ import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gate
 import React, { useCallback } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import type { TableComponents, TableProps } from 'react-virtuoso'
-import { Virtuoso } from 'react-virtuoso'
+import { TableVirtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
@@ -37,6 +37,7 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids, selected }) =>
 		<>
 			{data.map(nft => (
 				<tr
+					key={nft.non_fungible_id}
 					className={tableStyles.tableTrRecipe({
 						sizeVariant: TABLE_SIZE_VARIANT,
 						styleVariant: TABLE_STYLE_VARIANT,
@@ -49,12 +50,7 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids, selected }) =>
 							styleVariant: TABLE_STYLE_VARIANT,
 						})}
 					>
-						<Box
-							key={nft.non_fungible_id}
-							onClick={() => handleSelect(nft)}
-							disabled={nft.non_fungible_id === selected}
-							overflow="clip"
-						>
+						<Box onClick={() => handleSelect(nft)} disabled={nft.non_fungible_id === selected} overflow="clip">
 							<NftNameCell value={nft.data} row={{ original: nft }} />
 						</Box>
 					</td>
@@ -75,8 +71,12 @@ const Table: React.FC<TableProps> = ({ style, ...tableProps }) => (
 	/>
 )
 
+// eslint-disable-next-line react/jsx-no-useless-fragment
+const TableRow: TableComponents['TableRow'] = props => <React.Fragment {...props} />
+
 const tableComponents: TableComponents = {
 	Table,
+	TableRow,
 }
 
 const NFTs: React.FC = () => {
@@ -103,7 +103,7 @@ const NFTs: React.FC = () => {
 
 	return (
 		<Box className={styles.tableWrapper}>
-			<Virtuoso
+			<TableVirtuoso
 				customScrollParent={scrollableNode}
 				totalCount={data?.pages.length}
 				data={data?.pages}
