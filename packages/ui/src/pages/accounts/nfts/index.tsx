@@ -77,7 +77,7 @@ const Table: React.FC<TableProps> = ({ style, ...tableProps }) => (
 )
 
 const TableRow: TableComponents['TableRow'] = props => <tbody {...props} />
-const TableBody: TableComponents['TableBody'] = React.forwardRef(({ children }) => React.Children.only(children))
+const TableBody: TableComponents['TableBody'] = React.forwardRef(({ children }) => <>{React.Children.only(children)}</>)
 
 const tableComponents: TableComponents = {
 	Table,
