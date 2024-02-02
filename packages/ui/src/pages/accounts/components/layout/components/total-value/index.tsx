@@ -2,7 +2,6 @@ import clsx from 'clsx'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
-import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText } from 'ui/src/components/typography'
@@ -12,16 +11,12 @@ import { useTotalBalance } from 'ui/src/hooks/dapp/use-total-balance'
 import * as styles from './styles.css'
 
 export const AccountTotalValue: React.FC = () => {
-	const { isLoading, formattedXrdValue, formattedValue, formattedChange, value, xrdValue, change } = useTotalBalance()
+	const { formattedXrdValue, formattedValue, formattedChange, value, xrdValue, change } = useTotalBalance()
 
 	const [format, setFormat] = useState<'currency' | 'xrd'>('currency')
 
 	const handleToggleValue = () => {
 		setFormat(format === 'currency' ? 'xrd' : 'currency')
-	}
-
-	if (isLoading) {
-		return <FallbackLoading />
 	}
 
 	return (

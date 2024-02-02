@@ -3,7 +3,6 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { CURRENCY_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
