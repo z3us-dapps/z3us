@@ -2,7 +2,7 @@ import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gate
 import clsx from 'clsx'
 import React, { useCallback } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import type { TableComponents, TableProps } from 'react-virtuoso'
+import type { ItemProps, TableBodyProps, TableComponents, TableProps } from 'react-virtuoso'
 import { TableVirtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
@@ -76,8 +76,9 @@ const Table: React.FC<TableProps> = ({ style, ...tableProps }) => (
 	/>
 )
 
-const TableRow: TableComponents['TableRow'] = props => <tbody {...props} />
-const TableBody: TableComponents['TableBody'] = React.forwardRef(({ children }) => <>{React.Children.only(children)}</>)
+const TableRow: React.FC<ItemProps<unknown>> = props => <tbody {...props} />
+// eslint-disable-next-line react/jsx-no-useless-fragment, react/jsx-fragments
+const TableBody: React.FC<TableBodyProps> = ({ children }) => <>{children}</>
 
 const tableComponents: TableComponents = {
 	Table,
