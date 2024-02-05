@@ -245,3 +245,17 @@ export const indicatorCircle = style([
 		height: '36px',
 	},
 ])
+
+export const activityTokenPriceTextWrapper = style([
+	sprinkles({
+		display: 'block',
+		position: 'relative',
+	}),
+	{
+		height: '16px',
+	},
+])
+
+globalStyle(`${activityTokenPriceTextWrapper} svg`, {
+	marginTop: '-8px',
+})

@@ -62,9 +62,11 @@ const BalanceChanges: React.FC<{ transaction: CommittedTransactionInfo }> = ({ t
 				)}
 			</Box>
 			<Box className={styles.activityItemTextPriceWrapper}>
-				<Text size="xsmall">
-					<TokenPrice amount={transaction.fee_paid as any} address={knownAddresses?.resourceAddresses.xrd} />
-				</Text>
+				<Box className={styles.activityTokenPriceTextWrapper}>
+					<Text size="xsmall">
+						<TokenPrice amount={transaction.fee_paid as any} address={knownAddresses?.resourceAddresses.xrd} />
+					</Text>
+				</Box>
 				<Text>&nbsp;&middot;&nbsp;</Text>
 				<Text size="xsmall">{`${intl.formatNumber(
 					Number.parseFloat(transaction.fee_paid) || 0,
