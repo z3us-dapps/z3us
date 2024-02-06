@@ -52,11 +52,11 @@ type ValidatorDetails = StateEntityDetailsResponseItem & {
 const transformFungibleResourceItemResponse =
 	(
 		knownAddresses: KnownAddresses,
-		xrdPrice: number,
-		xrdPriceBefore: number,
-		tokens: { [key: string]: Token },
-		validatorsMap: { [key: string]: { at: ValidatorDetails; before?: ValidatorDetails } },
-		poolsMap: { [key: string]: { at: PoolDetails; before?: PoolDetails } },
+		xrdPrice: number = 0,
+		xrdPriceBefore: number = 0,
+		tokens: { [key: string]: Token } = {},
+		validatorsMap: { [key: string]: { at: ValidatorDetails; before?: ValidatorDetails } } = {},
+		poolsMap: { [key: string]: { at: PoolDetails; before?: PoolDetails } } = {},
 	) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
 		const metadata = item.explicit_metadata?.items
@@ -84,7 +84,11 @@ const transformFungibleResourceItemResponse =
 			const fraction = decimal(amount).value.div(p.at.unitTotalSupply)
 			const totalValueNow = Object.keys(p.at.resourceAmounts).reduce(
 				(sum, resource) =>
-					sum.add(fraction.mul(p.at.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.usd.now).value)),
+					sum.add(
+						fraction
+							.mul(p.at.resourceAmounts[resource] || '0')
+							.mul(decimal(tokens[resource]?.price.usd.now).value || '0'),
+					),
 				DECIMAL_ZERO,
 			)
 
@@ -94,7 +98,7 @@ const transformFungibleResourceItemResponse =
 					sum.add(
 						fractionBefore
 							.mul(p.before?.resourceAmounts?.[resource] || '0')
-							.mul(decimal(tokens[resource]?.price.usd['24h']).value),
+							.mul(decimal(tokens[resource]?.price.usd['24h']).value || '0'),
 					),
 				DECIMAL_ZERO,
 			)
@@ -265,7 +269,12 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { data: knownAddresses } = useKnownAddresses()
 	const { data: tokens } = useTokens()
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
+
+	console.log(9999, xrdPrice)
+
 	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
+
+	console.log(8888, xrdPriceBefore)
 
 	return useMemo((): Balances => {
 		let fungible: ResourceBalances = {}
