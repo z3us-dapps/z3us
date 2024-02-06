@@ -131,7 +131,7 @@ const transformFungibleResourceItemResponse =
 
 			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
 		} else {
-			const token = tokens?.[item.resource_address]
+			const token = tokens[item.resource_address]
 			change = token?.price.usd.change || 0
 			xrdValue = amount.toNumber() * (token?.price.xrd.now || 0)
 		}
@@ -269,12 +269,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { data: knownAddresses } = useKnownAddresses()
 	const { data: tokens } = useTokens()
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
-
-	console.log(9999, xrdPrice)
-
 	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
-
-	console.log(8888, xrdPriceBefore)
 
 	return useMemo((): Balances => {
 		let fungible: ResourceBalances = {}
