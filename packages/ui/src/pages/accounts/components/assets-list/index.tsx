@@ -6,8 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { CURRENCY_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { OverlayAssetIcons } from '../overlay-asset-icons'
@@ -35,7 +34,6 @@ const messages = defineMessages({
 export const AssetsList: React.FC = () => {
 	const intl = useIntl()
 	const { accountId = '-' } = useParams()
-	const selectedAccounts = useSelectedAccounts()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -53,7 +51,7 @@ export const AssetsList: React.FC = () => {
 		poolUnitsBalances = [],
 		poolUnitsValue = 0,
 		poolUnitsChange = 0,
-	} = useBalances(selectedAccounts)
+	} = useSelectedAccountsBalances()
 
 	const rows = {
 		tokens: {

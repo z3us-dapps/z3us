@@ -7,8 +7,7 @@ import { Box } from 'ui/src/components/box'
 import { Input } from 'ui/src/components/input'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
 import type { ResourceBalanceKind } from 'ui/src/types'
 
@@ -51,10 +50,9 @@ const LSUs: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
-	const selectedAccounts = useSelectedAccounts()
 	const [compareDate, setCompareDate] = useCompareWithDate()
 
-	const { liquidityPoolTokensBalances = [] } = useBalances(selectedAccounts)
+	const { liquidityPoolTokensBalances = [] } = useSelectedAccountsBalances()
 
 	const selectedRowIds = useMemo(() => {
 		const idx = liquidityPoolTokensBalances.findIndex(b => b.address === resourceId)

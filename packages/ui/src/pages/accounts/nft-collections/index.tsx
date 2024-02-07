@@ -5,8 +5,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { ResourceNameCell } from 'ui/src/pages/accounts/components/table/resource-name-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
@@ -36,9 +35,8 @@ const NftCollections: React.FC = () => {
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
 	const { scrollableNode, isScrolledTop } = useScroll()
-	const selectedAccounts = useSelectedAccounts()
 
-	const { nftsBalances = [] } = useBalances(selectedAccounts)
+	const { nftsBalances = [] } = useSelectedAccountsBalances()
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.NON_FUNGIBLE] }) => {
 		const { original } = row

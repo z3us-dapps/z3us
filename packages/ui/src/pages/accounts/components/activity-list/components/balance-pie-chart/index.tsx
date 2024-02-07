@@ -5,8 +5,9 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { animatePageVariants } from 'ui/src/constants/page'
-import { useAccountValues, useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useAccountValues } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
@@ -39,7 +40,7 @@ export const BalancePieChart: React.FC = () => {
 		liquidityPoolTokensBalances = [],
 		poolUnitsBalances = [],
 		nonFungibleBalances = [],
-	} = useBalances(selectedAccounts)
+	} = useSelectedAccountsBalances()
 	const accountValues = useAccountValues(selectedAccounts)
 
 	const selectedBalances = useMemo(() => {

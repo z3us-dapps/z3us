@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
 import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 
@@ -14,8 +13,6 @@ export const useTotalBalance = () => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
-
-	const selectedAccounts = useSelectedAccounts()
 
 	const {
 		totalXrdValue = 0,
@@ -33,7 +30,7 @@ export const useTotalBalance = () => {
 		poolUnitsXrdValue = 0,
 		poolUnitsValue = 0,
 		poolUnitsChange = 0,
-	} = useBalances(selectedAccounts)
+	} = useSelectedAccountsBalances()
 
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue

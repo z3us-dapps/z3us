@@ -6,8 +6,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
 import { ResourceNameCell } from '../components/table/resource-name-cell'
@@ -47,9 +46,8 @@ const Tokens: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
-	const selectedAccounts = useSelectedAccounts()
 
-	const { tokensBalances = [] } = useBalances(selectedAccounts)
+	const { tokensBalances = [] } = useSelectedAccountsBalances()
 
 	const selectedRowIds = useMemo(() => {
 		const idx = tokensBalances.findIndex(b => b.address === resourceId)
