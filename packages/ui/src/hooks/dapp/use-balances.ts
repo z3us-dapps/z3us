@@ -5,9 +5,8 @@ import type {
 } from '@radixdlt/radix-dapp-toolkit'
 import { type KnownAddresses, decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
-import { BalancesContext } from 'ui/src/context/balances/context'
 import { useEntitiesDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
@@ -20,10 +19,7 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { ResourceBalanceType } from 'ui/src/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/src/types'
-import type { Balances } from 'ui/src/types/balances'
 import { formatDateTime } from 'ui/src/utils/date'
-
-export const useSelectedAccountsBalances = () => useContext(BalancesContext)!
 
 const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
 	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)
@@ -90,8 +86,8 @@ const transformFungibleResourceItemResponse =
 				(sum, resource) =>
 					sum.add(
 						fraction
-							.mul(p.at.resourceAmounts[resource] || 0)
-							.mul(decimal(tokens[resource]?.price.usd.now || '0').value),
+							.mul(p.at.resourceAmounts[resource] || '0')
+							.mul(decimal(tokens[resource]?.price.usd.now).value || '0'),
 					),
 				DECIMAL_ZERO,
 			)
@@ -101,8 +97,8 @@ const transformFungibleResourceItemResponse =
 				(sum, resource) =>
 					sum.add(
 						fractionBefore
-							.mul(p.before?.resourceAmounts?.[resource] || 0)
-							.mul(decimal(tokens[resource]?.price.usd['24h'] || '0').value),
+							.mul(p.before?.resourceAmounts?.[resource] || '0')
+							.mul(decimal(tokens[resource]?.price.usd['24h']).value || '0'),
 					),
 				DECIMAL_ZERO,
 			)
@@ -135,7 +131,7 @@ const transformFungibleResourceItemResponse =
 
 			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
 		} else {
-			const token = tokens[item.resource_address]
+			const token = tokens?.[item.resource_address]
 			change = token?.price.usd.change || 0
 			xrdValue = amount.toNumber() * (token?.price.xrd.now || 0)
 		}
@@ -206,6 +202,43 @@ const transformNonFungibleResourceItemResponse =
 		return container
 	}
 
+type Balances = {
+	balances: ResourceBalanceKind[]
+	totalValue: number
+	totalChange: number
+	totalXrdValue: number
+
+	fungibleBalances: ResourceBalanceKind[]
+	fungibleValue: number
+	fungibleChange: number
+	fungibleXrdValue: number
+
+	nonFungibleBalances: ResourceBalanceKind[]
+	nonFungibleValue: number
+	nonFungibleChange: number
+	nonFungibleXrdValue: number
+
+	tokensBalances: ResourceBalanceKind[]
+	tokensValue: number
+	tokensChange: number
+	tokensXrdChange: number
+
+	nftsBalances: ResourceBalanceKind[]
+	nftsValue: number
+	nftsChange: number
+	nftsXrdValue: number
+
+	liquidityPoolTokensBalances: ResourceBalanceKind[]
+	liquidityPoolTokensValue: number
+	liquidityPoolTokensChange: number
+	liquidityPoolTokensXrdValue: number
+
+	poolUnitsBalances: ResourceBalanceKind[]
+	poolUnitsValue: number
+	poolUnitsChange: number
+	poolUnitsXrdValue: number
+}
+
 const useBeforeDate = (at: Date): Date => {
 	const [compareDate] = useCompareWithDate()
 	const [before, setBefore] = useState<Date>(at)
@@ -236,6 +269,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { data: knownAddresses } = useKnownAddresses()
 	const { data: tokens } = useTokens()
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
+
 	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
 
 	return useMemo((): Balances => {
