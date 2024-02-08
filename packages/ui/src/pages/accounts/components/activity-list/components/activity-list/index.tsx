@@ -55,19 +55,29 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 			}
 		}, [isTransactionVisible, selected])
 
-		const renderItem = useCallback(
-			(index: number, page: { items: CommittedTransactionInfo[] }) => (
+		const renderItem = useCallback((index: number, page: { items: CommittedTransactionInfo[] }) => {
+			const uniqueTransactionIds = new Set()
+
+			const uniqueTransactions = page.items.filter(transaction => {
+				if (uniqueTransactionIds.has(transaction.intent_hash)) {
+					return false
+				}
+
+				uniqueTransactionIds.add(transaction.intent_hash)
+				return true
+			})
+
+			return (
 				<PageWrapper
 					key={index}
-					transactions={page.items}
+					transactions={uniqueTransactions}
 					selected={selected}
 					setSelected={setSelected}
 					hovered={hovered}
 					setHovered={setHovered}
 				/>
-			),
-			[],
-		)
+			)
+		}, [])
 
 		return (
 			<Box ref={ref} className={clsx(styles.activityWrapper, className)} style={{ minHeight: '100px' }}>
