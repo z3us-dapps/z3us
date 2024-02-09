@@ -114,11 +114,13 @@ const LSUs: React.FC = () => {
 
 	return (
 		<Box className={clsx(styles.tableWrapper, styles.tableLsusWrapper)}>
-			<Input
-				value={compareDate ? compareDate.toISOString().split('T')[0] : undefined}
-				type="date"
-				onChange={handleDateChange}
-			/>
+			{(import.meta as any).env.MODE === 'development' && (
+				<Input
+					value={compareDate ? compareDate.toISOString().split('T')[0] : undefined}
+					type="date"
+					onChange={handleDateChange}
+				/>
+			)}
 			<TableWithEmptyState
 				emptyStateTitle={intl.formatMessage(messages.empty_title)}
 				emptyStateSubTitle={intl.formatMessage(messages.empty_subtitle)}

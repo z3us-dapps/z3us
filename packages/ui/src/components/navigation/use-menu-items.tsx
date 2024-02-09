@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
-import { CoinsIcon, Home2Icon, Settings2Icon, SwitchHorizontal } from 'ui/src/components/icons'
+import { Home2Icon, Settings2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 
 const messages = defineMessages({
 	accounts: {
@@ -34,7 +34,7 @@ export const useMenuItems = () => {
 			{ text: intl.formatMessage(messages.accounts), href: '/accounts', icon: <Home2Icon /> },
 			{ text: intl.formatMessage(messages.transfer), href: '/transfer', icon: <SwitchHorizontal /> },
 			// { text: intl.formatMessage(messages.staking), href: '/staking', icon: <StakingIcon /> },
-			{ text: intl.formatMessage(messages.airdrop), href: '/airdrop', icon: <CoinsIcon /> },
+			// { text: intl.formatMessage(messages.airdrop), href: '/airdrop', icon: <CoinsIcon /> },
 			{ text: intl.formatMessage(messages.settings), href: '/settings', icon: <Settings2Icon /> },
 		],
 		[intl],
