@@ -79,7 +79,6 @@
   "BVfFiI": "チャレンジに署名する",
   "BY343C": "変更",
   "BiqE0f": "personが正常に削除されました",
-  "COpeCU": "このアカウントにNFTは見つかりませんでした",
   "CRZQfm": "アドレス帳へのエントリ",
   "CV+lHE": "NFTコレクションはありません",
   "CyAOW2": "Radix Mobileにエクスポート",
@@ -283,7 +282,6 @@
   "pQOchI": "選択されたアカウント",
   "pSQ1UK": "ID タイプ",
   "paDdcH": "リソース アドレス",
-  "phAZoj": "コレクション",
   "psAdnA": "生のトランザクション マニフェストを入力します。",
   "q7eony": "{hasDisplayName,select,true {{displayName}} other {NFT} }",
   "qJcduu": "アカウントを追加",
@@ -407,5 +405,8 @@
   "gzjHi6": "少なくとも {number} 個のアカウントを選択してください",
   "ieuxQy": "セクションは必須です",
   "xxuT0a": "Radix ダッシュボードで開く",
-  "UuMbWw": "Caps Lock がオンになっています"
+  "UuMbWw": "Caps Lock がオンになっています",
+  "4xswnp": "わかりました。",
+  "gRjgWW": "Radix コネクタが検出されました",
+  "mBsQ59": "Radix Connect ボタンで Z3US を使用したい場合は、Radix Connector 拡張機能を無効にする必要があります。両方を同時に有効にすると、ボタンの相互作用で競合が発生します。"
 }
