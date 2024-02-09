@@ -13,7 +13,6 @@ import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 import { ZdtContext, defaultState as defaultZdtState } from 'ui/src/context/zdt'
 import accountsRoute from 'ui/src/pages/accounts/router'
-import airdropRoute from 'ui/src/pages/airdrop/router'
 import noMatchRoute from 'ui/src/pages/no-match/router'
 import settingsRoute from 'ui/src/pages/settings/router'
 import stakingRoute from 'ui/src/pages/staking/router'
@@ -35,7 +34,7 @@ export const router = createHashRouter([
 			// },
 			{
 				element: <AppLayout />,
-				children: [accountsRoute, settingsRoute, stakingRoute, transferRoute, airdropRoute],
+				children: [accountsRoute, settingsRoute, stakingRoute, transferRoute],
 			},
 		],
 	},
