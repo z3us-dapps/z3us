@@ -36,6 +36,10 @@ const messages = defineMessages({
 		id: '4xswnp',
 		defaultMessage: 'I understand.',
 	},
+	cancel_button_text: {
+		id: 'rbrahO',
+		defaultMessage: 'Close',
+	},
 })
 
 const radixConnectorExtensionId = 'bfeplaecgkoeckiidkgkmlllfbaeplgm'
@@ -95,6 +99,7 @@ const Layout: React.FC = () => {
 					</Box>
 				}
 				confirmButtonText={intl.formatMessage(messages.button_text)}
+				cancelButtonText={intl.formatMessage(messages.cancel_button_text)}
 				onConfirm={handleConfirm}
 				onCancel={handleConfirm}
 				confirmButtonStyleVariant="primary"
