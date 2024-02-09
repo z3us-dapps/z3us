@@ -8,6 +8,7 @@ import host_permissions from './host_permissions.json'
 const [major, minor, patch] = version.replace(/[^\d.-]+/g, '').split(/[.-]/)
 const permissions = [
 	'storage',
+	'management',
 	'offscreen',
 	'unlimitedStorage',
 	'notifications',
