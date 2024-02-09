@@ -217,7 +217,7 @@ const useBeforeDate = (at: Date): Date => {
 			before.setHours(0, 0, 0, 0)
 			setBefore(before)
 		}
-	}, [formatDateTime(at)])
+	}, [formatDateTime(at), formatDateTime(compareDate)])
 
 	return before
 }

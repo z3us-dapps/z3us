@@ -37,11 +37,11 @@ ReactDOM.createRoot(container).render(
 										<RdtProvider>
 											<ZdtProvider>
 												<ImageProvider>
-													<BalancesProvider>
-														<CompareWithDateProvider>
+													<CompareWithDateProvider>
+														<BalancesProvider>
 															<App />
-														</CompareWithDateProvider>
-													</BalancesProvider>
+														</BalancesProvider>
+													</CompareWithDateProvider>
 												</ImageProvider>
 											</ZdtProvider>
 										</RdtProvider>

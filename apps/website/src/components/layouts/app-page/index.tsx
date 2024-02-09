@@ -53,11 +53,11 @@ const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
 						<RdtProvider>
 							<ZdtContext.Provider value={defaultZdtState}>
 								<ImageProvider>
-									<BalancesProvider>
-										<CompareWithDateProvider>
+									<CompareWithDateProvider>
+										<BalancesProvider>
 											<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
-										</CompareWithDateProvider>
-									</BalancesProvider>
+										</BalancesProvider>
+									</CompareWithDateProvider>
 								</ImageProvider>
 							</ZdtContext.Provider>
 						</RdtProvider>
