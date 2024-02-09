@@ -1,29 +1,60 @@
 import { useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query'
 
 import { splitArrayIntoChunks } from 'ui/src/utils/array-chunk'
+import { formatDateTime } from 'ui/src/utils/date'
 
 import { useAccountNftVaults } from './use-balances'
 import { useGatewayClient } from './use-gateway-client'
 import { useNetworkId } from './use-network'
 
-export const useNonFungibleIds = (resourceId: string, addresses: string[]) => {
+export const useNonFungibleCollection = (resourceId: string) => {
 	const { state } = useGatewayClient()!
 	const networkId = useNetworkId()
-	const { data: vaults = [], isLoading } = useAccountNftVaults(resourceId, addresses)
 
 	return useInfiniteQuery({
-		queryKey: ['useNonFungibleIds', networkId, resourceId, addresses],
+		queryKey: ['useNonFungibleCollection', networkId, resourceId],
+		queryFn: async ({ pageParam: lastPage }) =>
+			state.innerClient.nonFungibleIds({
+				stateNonFungibleIdsRequest: {
+					limit_per_page: 5,
+					resource_address: resourceId,
+					cursor: lastPage?.non_fungible_ids.next_cursor || null,
+					at_ledger_state: lastPage?.non_fungible_ids.next_cursor
+						? {
+								state_version: lastPage.ledger_state.state_version,
+						  }
+						: null,
+				},
+			}),
+		getNextPageParam: lastPage => (lastPage.non_fungible_ids.next_cursor ? lastPage : undefined),
+		enabled: !!resourceId && !!state,
+	})
+}
+
+export const useNonFungibleIds = (resourceId: string, addresses: string[], at: Date = new Date()) => {
+	const { state } = useGatewayClient()!
+	const networkId = useNetworkId()
+	const { data: vaults = [], isLoading } = useAccountNftVaults(resourceId, addresses, at)
+
+	return useInfiniteQuery({
+		queryKey: ['useNonFungibleIds', networkId, resourceId, addresses, formatDateTime(at)],
 		queryFn: async ({ pageParam }) => {
 			const responses = await Promise.all(
 				vaults.map(({ account, vault, resource }, idx) =>
-					pageParam?.[idx] === null
-						? { items: [], next_cursor: null }
+					pageParam?.[idx].next_cursor === null
+						? { items: [], next_cursor: null, ledger_state: null }
 						: state.innerClient.entityNonFungibleIdsPage({
 								stateEntityNonFungibleIdsPageRequest: {
 									address: account,
 									resource_address: resource,
 									vault_address: vault,
-									cursor: pageParam?.[idx],
+									limit_per_page: 5,
+									cursor: pageParam?.[idx].next_cursor || null,
+									at_ledger_state: pageParam?.[idx].next_cursor
+										? {
+												state_version: pageParam?.[idx].ledger_state.state_version,
+										  }
+										: null,
 								},
 						  }),
 				),
@@ -32,16 +63,21 @@ export const useNonFungibleIds = (resourceId: string, addresses: string[]) => {
 			const aggregatedResult = responses.reduce(
 				(accumulator, response) => {
 					accumulator.items.push(...response.items)
-					accumulator.next_cursors.push(response.next_cursor || null)
+					accumulator.pageParams.push({
+						next_cursor: response.next_cursor || null,
+						ledger_state: response.ledger_state,
+					})
 					return accumulator
 				},
-				{ items: [], next_cursors: [] },
+				{ items: [], pageParams: [] },
 			)
 
 			return aggregatedResult
 		},
 		getNextPageParam: lastPage =>
-			lastPage.next_cursors?.filter(cursor => cursor !== null).length > 0 ? lastPage.next_cursors : undefined,
+			lastPage.pageParams?.filter(({ next_cursor }) => next_cursor !== null).length > 0
+				? lastPage.pageParams
+				: undefined,
 		enabled: !!resourceId && !!state && !isLoading && vaults.length > 0,
 	})
 }

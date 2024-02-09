@@ -25,6 +25,7 @@ import { BackButton } from 'ui/src/pages/accounts/components/layout/components/m
 import { KeystoreType } from 'ui/src/store/types'
 
 import { AccountViewDropdown } from '../account-view-dropdown'
+import { useMenuItems } from '../use-menu-items'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -35,22 +36,6 @@ const messages = defineMessages({
 	add_account: {
 		defaultMessage: 'Add account',
 		id: 'qJcduu',
-	},
-	accounts: {
-		id: 'FvanT6',
-		defaultMessage: 'Accounts',
-	},
-	transfer: {
-		id: 'DtYelJ',
-		defaultMessage: 'Transfer',
-	},
-	staking: {
-		id: '+14VoL',
-		defaultMessage: 'Staking',
-	},
-	settings: {
-		id: 'D3idYv',
-		defaultMessage: 'Settings',
 	},
 	searchToolTip: {
 		defaultMessage: 'Search for a transaction ID, or an address for an account, or a resource',
@@ -89,16 +74,11 @@ const Z3USLogoLink = () => {
 	)
 }
 const HeaderLavaMenu = () => {
-	const intl = useIntl()
+	const items = useMenuItems()
 	return (
 		<Box component="ul" className={styles.lavaNavigationMenu}>
 			<LayoutGroup id="accounts-menu">
-				{[
-					{ text: intl.formatMessage(messages.accounts), href: '/accounts' },
-					{ text: intl.formatMessage(messages.transfer), href: '/transfer' },
-					// { text: intl.formatMessage(messages.staking), href: '/staking' },
-					{ text: intl.formatMessage(messages.settings), href: '/settings' },
-				].map(({ text, href }) => (
+				{items.map(({ text, href }) => (
 					<Box key={href} component="li">
 						<NavLink to={href} underline="never">
 							{({ isActive }) => <PillNavigation text={text} matchActiveFn={() => isActive} />}

@@ -5,19 +5,25 @@ import type {
 } from '@radixdlt/radix-dapp-toolkit'
 import { type KnownAddresses, decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 
+import { BalancesContext } from 'ui/src/context/balances/context'
 import { useEntitiesDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
-import { usePools } from 'ui/src/hooks/dapp/use-pools'
-import { useValidators } from 'ui/src/hooks/dapp/use-validators'
+import { usePools, usePoolsCompare } from 'ui/src/hooks/dapp/use-pools'
+import { useValidators, useValidatorsCompare } from 'ui/src/hooks/dapp/use-validators'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
 import { type Token, useTokens } from 'ui/src/hooks/queries/tokens'
+import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
 import { ResourceBalanceType } from 'ui/src/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/src/types'
+import type { Balances } from 'ui/src/types/balances'
+import { formatDateTime } from 'ui/src/utils/date'
+
+export const useSelectedAccountsBalances = () => useContext(BalancesContext)!
 
 const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
 	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)
@@ -37,29 +43,24 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 
 const DECIMAL_ZERO = decimal(0).value
 
-type PoolDetails = {
+type PoolDetails = StateEntityDetailsResponseItem & {
 	resourceAmounts: { [key: string]: typeof DECIMAL_ZERO }
-	poolUnitTotalSupply: string
-	resourceAmountsBefore: { [key: string]: typeof DECIMAL_ZERO }
-	poolUnitTotalSupplyBefore: string
+	unitTotalSupply: string
 }
 
-type ValidatorDetails = {
+type ValidatorDetails = StateEntityDetailsResponseItem & {
 	resourceAmounts: { [key: string]: typeof DECIMAL_ZERO }
-	resourceAmountsBefore: { [key: string]: typeof DECIMAL_ZERO }
-	validatorUnitTotalSupply: string
-	validatorUnitTotalSupplyBefore: string
-	validatorClaimTotalSupply: string
-	validatorClaimTotalSupplyBefore: string
+	unitTotalSupply: string
 }
 
 const transformFungibleResourceItemResponse =
 	(
 		knownAddresses: KnownAddresses,
-		xrdPrice: number,
-		tokens: { [key: string]: Token },
-		validatorsMap: { [key: string]: StateEntityDetailsResponseItem & ValidatorDetails },
-		poolsMap: { [key: string]: StateEntityDetailsResponseItem & PoolDetails },
+		xrdPrice: number = 0,
+		xrdPriceBefore: number = 0,
+		tokens: { [key: string]: Token } = {},
+		validatorsMap: { [key: string]: { at: ValidatorDetails; before?: ValidatorDetails } } = {},
+		poolsMap: { [key: string]: { at: PoolDetails; before?: PoolDetails } } = {},
 	) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
 		const metadata = item.explicit_metadata?.items
@@ -84,28 +85,34 @@ const transformFungibleResourceItemResponse =
 		if (pool && poolsMap[pool]) {
 			const p = poolsMap[pool]
 
-			const fraction = decimal(amount).value.div(p.poolUnitTotalSupply)
-			const totalValueNow = Object.keys(p.resourceAmounts).reduce(
-				(sum, resource) =>
-					sum.add(fraction.mul(p.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.usd.now).value)),
-				DECIMAL_ZERO,
-			)
-
-			const fractionBefore = decimal(amount).value.div(p.poolUnitTotalSupply)
-			const totalValueBefore = Object.keys(p.resourceAmountsBefore).reduce(
+			const fraction = decimal(amount).value.div(p.at.unitTotalSupply)
+			const totalValueNow = Object.keys(p.at.resourceAmounts).reduce(
 				(sum, resource) =>
 					sum.add(
-						fractionBefore
-							.mul(p.resourceAmountsBefore[resource])
-							.mul(decimal(tokens[resource]?.price.usd['24h']).value),
+						fraction
+							.mul(p.at.resourceAmounts[resource] || 0)
+							.mul(decimal(tokens[resource]?.price.usd.now || '0').value),
 					),
 				DECIMAL_ZERO,
 			)
 
-			xrdValue = Object.keys(p.resourceAmounts)
+			const fractionBefore = decimal(amount).value.div(p.at.unitTotalSupply)
+			const totalValueBefore = Object.keys(p.before?.resourceAmounts || {}).reduce(
+				(sum, resource) =>
+					sum.add(
+						fractionBefore
+							.mul(p.before?.resourceAmounts?.[resource] || 0)
+							.mul(decimal(tokens[resource]?.price.usd['24h'] || '0').value),
+					),
+				DECIMAL_ZERO,
+			)
+
+			xrdValue = Object.keys(p.at.resourceAmounts)
 				.reduce(
 					(sum, resource) =>
-						sum.add(fraction.mul(p.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.xrd.now || 0).value)),
+						sum.add(
+							fraction.mul(p.at.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.xrd.now || 0).value),
+						),
 					DECIMAL_ZERO,
 				)
 				.toNumber()
@@ -115,28 +122,20 @@ const transformFungibleResourceItemResponse =
 		} else if (validator && validatorsMap[validator]) {
 			const v = validatorsMap[validator]
 
-			const fraction = decimal(amount).value.div(v.validatorUnitTotalSupply)
-			const totalValueNow = fraction
-				.mul(v.resourceAmounts[knownAddresses.resourceAddresses.xrd])
-				.mul(decimal(tokens[knownAddresses.resourceAddresses.xrd]?.price.usd.now).value)
+			const fraction = decimal(amount).value.div(v.at.unitTotalSupply)
+			const xrdValueNow = fraction.mul(v.at.resourceAmounts[knownAddresses.resourceAddresses.xrd])
+			const totalValueNow = xrdValueNow.mul(decimal(xrdPrice).value)
 
-			const fractionBefore = decimal(amount).value.div(v.validatorUnitTotalSupply)
-			const totalValueBefore = fractionBefore
-				.mul(v.resourceAmountsBefore[knownAddresses.resourceAddresses.xrd])
-				.mul(decimal(tokens[knownAddresses.resourceAddresses.xrd]?.price.usd['24h']).value)
+			const fractionBefore = decimal(amount).value.div(v.at.unitTotalSupply)
+			const xrdValueBefore = fractionBefore.mul(v.before?.resourceAmounts[knownAddresses.resourceAddresses.xrd] || 0)
+			const totalValueBefore = xrdValueBefore.mul(decimal(xrdPriceBefore).value)
 
-			xrdValue = Object.keys(v.resourceAmounts)
-				.reduce(
-					(sum, resource) =>
-						sum.add(fraction.mul(v.resourceAmounts[resource]).mul(decimal(tokens[resource]?.price.xrd.now || 0).value)),
-					DECIMAL_ZERO,
-				)
-				.toNumber()
+			xrdValue = xrdValueNow.toNumber()
 			xrdValue = Number.isFinite(xrdValue) ? xrdValue : 0
 
 			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
 		} else {
-			const token = tokens?.[item.resource_address]
+			const token = tokens[item.resource_address]
 			change = token?.price.usd.change || 0
 			xrdValue = amount.toNumber() * (token?.price.xrd.now || 0)
 		}
@@ -180,6 +179,8 @@ const transformNonFungibleResourceItemResponse =
 			return container
 		}
 
+		// @TODO: this works for now but at some point we need pagination here
+		// since current ids are only from page 1
 		const ids = item.vaults.items.reduce((acc, curr) => {
 			acc.push(...(curr.items || []))
 			return acc
@@ -205,169 +206,142 @@ const transformNonFungibleResourceItemResponse =
 		return container
 	}
 
-type Balances = {
-	balances: ResourceBalanceKind[]
-	totalValue: number
-	totalChange: number
-	totalXrdValue: number
+const useBeforeDate = (at: Date): Date => {
+	const [compareDate] = useCompareWithDate()
+	const [before, setBefore] = useState<Date>(at)
+	useEffect(() => {
+		if (compareDate) {
+			setBefore(new Date(compareDate.toUTCString()))
+		} else {
+			before.setUTCDate(at.getUTCDate() - 1)
+			before.setHours(0, 0, 0, 0)
+			setBefore(before)
+		}
+	}, [formatDateTime(at), formatDateTime(compareDate)])
 
-	fungibleBalances: ResourceBalanceKind[]
-	fungibleValue: number
-	fungibleChange: number
-	fungibleXrdValue: number
-
-	nonFungibleBalances: ResourceBalanceKind[]
-	nonFungibleValue: number
-	nonFungibleChange: number
-	nonFungibleXrdValue: number
-
-	tokensBalances: ResourceBalanceKind[]
-	tokensValue: number
-	tokensChange: number
-	tokensXrdChange: number
-
-	nftsBalances: ResourceBalanceKind[]
-	nftsValue: number
-	nftsChange: number
-	nftsXrdValue: number
-
-	liquidityPoolTokensBalances: ResourceBalanceKind[]
-	liquidityPoolTokensValue: number
-	liquidityPoolTokensChange: number
-	liquidityPoolTokensXrdValue: number
-
-	poolUnitsBalances: ResourceBalanceKind[]
-	poolUnitsValue: number
-	poolUnitsChange: number
-	poolUnitsXrdValue: number
+	return before
 }
 
-export const useBalances = (...addresses: string[]) => {
-	const networkId = useNetworkId()
+export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 
+	const before = useBeforeDate(at)
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
 
-	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
-	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
-	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
-	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
-	const { data: validators, isLoading: isLoadingValidators } = useValidators(accountAddresses)
+	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
+	const pools = usePoolsCompare(accounts, at, before)
+	const validators = useValidatorsCompare(accounts, at, before)
+	const { data: knownAddresses } = useKnownAddresses()
+	const { data: tokens } = useTokens()
+	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
+	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
 
-	const isLoading =
-		isLoadingKnownAddresses ||
-		isLoadingXrdPrice ||
-		isLoadingTokens ||
-		isLoadingAccounts ||
-		isLoadingPools ||
-		isLoadingValidators
-	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
-
-	return useQuery({
-		queryKey: ['useBalances', networkId, currency, accountAddresses, pools?.length],
-		enabled,
-		queryFn: (): Balances => {
-			let fungible: ResourceBalances = {}
-			let nonFungible: ResourceBalances = {}
-			accounts.forEach(({ fungible_resources, non_fungible_resources }) => {
-				fungible = fungible_resources.items.reduce(
-					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, validators, pools),
-					fungible,
-				)
-				nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse(), nonFungible)
-			})
-
-			const fungibleTokens = Object.values(fungible)
-			const nonFungibleTokens = Object.values(nonFungible)
-			const balances = [...fungibleTokens, ...nonFungibleTokens]
-
-			const otherTokens = fungibleTokens.filter(balance => !balance.validator && !balance.pool)
-			const otherNFTs = nonFungibleTokens.filter(balance => !balance.validator && !balance.pool)
-			const lpTokens = balances.filter(balance => !!balance.validator)
-			const poolUnits = balances.filter(balance => !!balance.pool)
-
-			const fungibleBalances = transformBalances(fungibleTokens, 'fungible')
-			const nonFungibleBalances = transformBalances(nonFungibleTokens, 'nonFungible')
-
-			const totalValue = (fungibleBalances.fungibleValue as number) + (nonFungibleBalances.nonFungibleValue as number)
-			const totalChange = balances.reduce(
-				(change, balance) =>
-					change + balance.change / (totalValue === 0 ? 1 : totalValue / (balance.value === 0 ? 1 : balance.value)),
-				0,
+	return useMemo((): Balances => {
+		let fungible: ResourceBalances = {}
+		let nonFungible: ResourceBalances = {}
+		accounts.forEach(({ fungible_resources, non_fungible_resources }) => {
+			fungible = fungible_resources.items.reduce(
+				transformFungibleResourceItemResponse(knownAddresses, xrdPrice, xrdPriceBefore, tokens, validators, pools),
+				fungible,
 			)
+			nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse(), nonFungible)
+		})
 
-			return {
-				balances,
-				totalValue,
-				totalChange,
-				totalXrdValue: fungibleBalances.fungibleXrdValue,
-				...fungibleBalances,
-				...nonFungibleBalances,
-				...transformBalances(otherTokens, 'tokens'),
-				...transformBalances(otherNFTs, 'nfts'),
-				...transformBalances(lpTokens, 'liquidityPoolTokens'),
-				...transformBalances(poolUnits, 'poolUnits'),
-			} as Balances
-		},
-	})
+		const fungibleTokens = Object.values(fungible)
+		const nonFungibleTokens = Object.values(nonFungible)
+		const balances = [...fungibleTokens, ...nonFungibleTokens]
+
+		const otherTokens = fungibleTokens.filter(balance => !balance.validator && !balance.pool)
+		const otherNFTs = nonFungibleTokens.filter(balance => !balance.validator && !balance.pool)
+		const lpTokens = balances.filter(balance => !!balance.validator)
+		const poolUnits = balances.filter(balance => !!balance.pool)
+
+		const fungibleBalances = transformBalances(fungibleTokens, 'fungible')
+		const nonFungibleBalances = transformBalances(nonFungibleTokens, 'nonFungible')
+
+		const totalValue = (fungibleBalances.fungibleValue as number) + (nonFungibleBalances.nonFungibleValue as number)
+		const totalChange = balances.reduce(
+			(change, balance) =>
+				change + balance.change / (totalValue === 0 ? 1 : totalValue / (balance.value === 0 ? 1 : balance.value)),
+			0,
+		)
+
+		return {
+			balances,
+			totalValue,
+			totalChange,
+			totalXrdValue: fungibleBalances.fungibleXrdValue,
+			...fungibleBalances,
+			...nonFungibleBalances,
+			...transformBalances(otherTokens, 'tokens'),
+			...transformBalances(otherNFTs, 'nfts'),
+			...transformBalances(lpTokens, 'liquidityPoolTokens'),
+			...transformBalances(poolUnits, 'poolUnits'),
+		} as Balances
+	}, [knownAddresses, xrdPrice, xrdPriceBefore, tokens, accounts, pools, validators])
 }
 
-export const useAccountValues = (...addresses: string[]) => {
-	const networkId = useNetworkId()
+export const useAccountValues = (addresses: string[], at: Date = new Date()) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
 
-	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
-	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
-	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(accountAddresses)
-	const { data: pools, isLoading: isLoadingPools } = usePools(accountAddresses)
-	const { data: validators, isLoading: isLoadingValidators } = useValidators(accountAddresses)
+	const { data: knownAddresses } = useKnownAddresses()
+	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
+	const { data: tokens } = useTokens()
+	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
+	const pools = usePools(accounts, at)
+	const validators = useValidators(accounts, at)
 
-	const isLoading =
-		isLoadingKnownAddresses ||
-		isLoadingXrdPrice ||
-		isLoadingTokens ||
-		isLoadingAccounts ||
-		isLoadingPools ||
-		isLoadingValidators
-	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
-
-	return useQuery({
-		queryKey: ['useAccountValues', networkId, currency, accountAddresses],
-		enabled,
-		queryFn: () =>
+	return useMemo(
+		() =>
 			accounts.reduce(
 				(container, account) => ({
 					...container,
 					[account.address]: Object.values(
 						account.fungible_resources.items.reduce(
-							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens, validators, pools),
+							transformFungibleResourceItemResponse(
+								knownAddresses,
+								xrdPrice,
+								0,
+								tokens,
+								Object.keys(validators || {}).reduce((map, address) => {
+									map[address] = {
+										at: validators[address],
+									}
+									return map
+								}, {}),
+								Object.keys(pools || {}).reduce((map, address) => {
+									map[address] = {
+										at: pools[address],
+									}
+									return map
+								}, {}),
+							),
 							{},
 						),
 					).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),
 				}),
 				{},
 			),
-	})
+		[accounts, knownAddresses, xrdPrice, tokens, validators, pools],
+	)
 }
 
 type AccountNfts = { resource: string; vault: string; account: string }
 
-export const useAccountNftVaults = (resource: string, addresses: string[]) => {
+export const useAccountNftVaults = (resource: string, addresses: string[], at: Date) => {
 	const networkId = useNetworkId()
 
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
-	const { data: accounts = [], isLoading } = useEntitiesDetails(accountAddresses)
+	const { data: accounts = [], isLoading } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
 
 	return useQuery({
-		queryKey: ['useAccountNftVaults', networkId, resource, accountAddresses],
+		queryKey: ['useAccountNftVaults', networkId, resource, accountAddresses, formatDateTime(at)],
 		enabled: !!resource && !isLoading && accountAddresses.length > 0 && accounts.length > 0,
 		queryFn: () =>
 			accounts.reduce((result: Array<AccountNfts>, account) => {

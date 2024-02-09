@@ -4,9 +4,8 @@ import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
-import { useAccountValues, useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useAccountValues, useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
@@ -34,15 +33,14 @@ export const BalancePieChart: React.FC = () => {
 	const accounts = useWalletAccounts()
 
 	const selectedAccounts = useSelectedAccounts()
-	const { data: accountValues = {} } = useAccountValues(...selectedAccounts)
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
 		balances = [],
 		tokensBalances = [],
 		liquidityPoolTokensBalances = [],
 		poolUnitsBalances = [],
 		nonFungibleBalances = [],
-	} = balanceData || {}
+	} = useSelectedAccountsBalances()
+	const accountValues = useAccountValues(selectedAccounts)
 
 	const selectedBalances = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleBalances
@@ -50,57 +48,47 @@ export const BalancePieChart: React.FC = () => {
 		if (['lsus', 'lp-tokens'].includes(resourceType)) return liquidityPoolTokensBalances
 		if (['lpus', 'pool-units'].includes(resourceType)) return poolUnitsBalances
 		return balances
-	}, [balances, resourceType])
+	}, [resourceType, nonFungibleBalances, tokensBalances, liquidityPoolTokensBalances, poolUnitsBalances])
 
-	const data = useMemo(
+	const accountsData = useMemo(
 		() =>
-			isAllAccounts
-				? Object.keys(accounts).map((address, index) => ({
-						address,
-						index,
-						name: accounts[address].name || getShortAddress(address),
-						value: accountValues[address],
-				  }))
-				: balances.map((resource, index) => ({
-						address: resource.address,
-						index,
-						name:
-							(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol ||
-							resource.name ||
-							intl.formatMessage(messages.unknown),
-						value: resource.value,
-				  })),
-		[isAllAccounts, selectedBalances],
+			Object.keys(accounts).map((address, index) => ({
+				address,
+				index,
+				name: accounts[address].name || getShortAddress(address),
+				value: accountValues[address],
+			})),
+		[accounts, accountValues],
+	)
+
+	const balancesData = useMemo(
+		() =>
+			selectedBalances.map((resource, index) => ({
+				address: resource.address,
+				index,
+				name:
+					(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol ||
+					resource.name ||
+					intl.formatMessage(messages.unknown),
+				value: resource.value,
+			})),
+		[selectedBalances],
 	)
 
 	return (
 		<Box className={clsx(styles.allChartWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
 			<Box className={styles.allChartInnerWrapper}>
 				<AnimatePresence initial={false}>
-					{isLoading && (
-						<motion.div
-							className={clsx(styles.motionWrapper, styles.chartLoadingWrapper)}
-							initial="hidden"
-							animate="visible"
-							variants={animatePageVariants}
-						>
-							<Z3usLoading message={intl.formatMessage(messages.loading)} />
-						</motion.div>
-					)}
-				</AnimatePresence>
-				<AnimatePresence initial={false}>
-					{!isLoading && (
-						<motion.div
-							className={styles.motionWrapper}
-							initial="hidden"
-							animate="visible"
-							variants={animatePageVariants}
-						>
-							<Box className={styles.pieChartWrapper}>
-								<Chart data={data} />
-							</Box>
-						</motion.div>
-					)}
+					<motion.div
+						className={styles.motionWrapper}
+						initial="hidden"
+						animate="visible"
+						variants={animatePageVariants}
+					>
+						<Box className={styles.pieChartWrapper}>
+							<Chart data={isAllAccounts && !resourceType ? accountsData : balancesData} />
+						</Box>
+					</motion.div>
 				</AnimatePresence>
 			</Box>
 		</Box>

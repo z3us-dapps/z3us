@@ -144,8 +144,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		currency: state.currency,
 		removeAccount: state.removeAccountAction,
 	}))
-	const { data: balanceData } = useBalances(address)
-	const { totalValue = 0 } = balanceData || {}
+	const { totalValue = 0 } = useBalances([address])
 
 	const account = accounts[address]
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA

@@ -18,7 +18,7 @@ const LPUs = lazy(() => import('./lpus'))
 
 const ActivityList = lazy(() => import('./components/activity-list'))
 const ResourceDetails = lazy(() => import('./components/resource-details'))
-const NftDetails = lazy(() => import('ui/src/components/resource/nft'))
+const NftDetails = lazy(() => import('./components/nft-details'))
 
 const route = {
 	path: 'accounts',

@@ -144,7 +144,7 @@ export const Table: React.FC<ITableProps> = props => {
 				/>
 			)),
 		}),
-		[data, columns, loading, loadMore, JSON.stringify(state?.sortBy || {})],
+		[loading, loadMore, JSON.stringify(state?.sortBy || {})],
 	)
 
 	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect

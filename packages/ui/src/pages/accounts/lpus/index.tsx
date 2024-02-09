@@ -6,8 +6,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { PoolLiquidityCell } from 'ui/src/pages/accounts/components/table/pool-liquidity-cell'
 import { PoolNameCell } from 'ui/src/pages/accounts/components/table/pool-name-cell'
 import { ResourceValueCell } from 'ui/src/pages/accounts/components/table/resource-value-cell'
@@ -43,10 +42,8 @@ const LPUs: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
-	const selectedAccounts = useSelectedAccounts()
 
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
-	const { poolUnitsBalances = [] } = balanceData || {}
+	const { poolUnitsBalances = [] } = useSelectedAccountsBalances()
 
 	const selectedRowIds = useMemo(() => {
 		const idx = poolUnitsBalances.findIndex(b => b.address === resourceId)
@@ -99,11 +96,8 @@ const LPUs: React.FC = () => {
 				columns={columns}
 				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
-				loading={isLoading}
 				selectedRowIds={selectedRowIds}
 				stickyShadowTop
-				// loadMore={loadMore}
-				// onEndReached={onEndReached}
 			/>
 		</Box>
 	)
