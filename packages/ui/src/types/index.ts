@@ -26,7 +26,9 @@ export type ResourceBalance = {
 		url?: string
 		imageUrl?: string
 		validator?: string
+		validatorName?: string
 		pool?: string
+		poolName?: string
 	}
 	[ResourceBalanceType.NON_FUNGIBLE]: {
 		type: ResourceBalanceType.NON_FUNGIBLE
@@ -44,7 +46,9 @@ export type ResourceBalance = {
 		url?: string
 		imageUrl?: string
 		validator?: string
+		validatorName?: string
 		pool?: string
+		poolName?: string
 	}
 }
 
