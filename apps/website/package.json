@@ -22,7 +22,6 @@
 		"clsx": "^1.2.1",
 		"concurrently": "^8.2.0",
 		"contentlayer": "^0.3.3",
-		"framer-motion": "10.15.1",
 		"immer": "^10.0.2",
 		"next": "13.4.7",
 		"next-contentlayer": "^0.3.3",

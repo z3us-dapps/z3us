@@ -8,7 +8,6 @@ import { useWindowSize } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
-import MotionBox from 'ui/src/components/motion-box'
 import MobileScrollArea from 'ui/src/components/scroll-area-radix/mobile'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
@@ -168,7 +167,7 @@ const Layout: React.FC = () => {
 	}, [resourceType, accountId, resource, nft])
 
 	return (
-		<MotionBox>
+		<Box>
 			<Box className={panelViewStyles.panelViewOuterWrapper}>
 				<MobileBackground />
 				<MobileScrollArea
@@ -183,7 +182,7 @@ const Layout: React.FC = () => {
 					/>
 				</MobileScrollArea>
 			</Box>
-		</MotionBox>
+		</Box>
 	)
 }
 

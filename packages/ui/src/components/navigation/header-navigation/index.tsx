@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { LayoutGroup } from 'framer-motion'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
@@ -77,15 +76,13 @@ const HeaderLavaMenu = () => {
 	const items = useMenuItems()
 	return (
 		<Box component="ul" className={styles.lavaNavigationMenu}>
-			<LayoutGroup id="accounts-menu">
-				{items.map(({ text, href }) => (
-					<Box key={href} component="li">
-						<NavLink to={href} underline="never">
-							{({ isActive }) => <PillNavigation text={text} matchActiveFn={() => isActive} />}
-						</NavLink>
-					</Box>
-				))}
-			</LayoutGroup>
+			{items.map(({ text, href }) => (
+				<Box key={href} component="li">
+					<NavLink to={href} underline="never">
+						{({ isActive }) => <PillNavigation text={text} matchActiveFn={() => isActive} />}
+					</NavLink>
+				</Box>
+			))}
 		</Box>
 	)
 }

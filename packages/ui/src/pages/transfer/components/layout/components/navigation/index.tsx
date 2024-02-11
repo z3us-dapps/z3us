@@ -52,7 +52,7 @@ const Navigation: React.FC<IProps> = props => {
 		[intl, messages],
 	)
 
-	return <PageMenu id="transfer-menu" menu={menu} title={title} />
+	return <PageMenu menu={menu} title={title} />
 }
 
 export default Navigation

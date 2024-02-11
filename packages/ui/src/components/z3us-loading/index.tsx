@@ -1,51 +1,17 @@
-/* eslint-disable */
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './z3us-loading.css'
 
-const ELLIPSIS_DURATION = 1.2
-
 export const EllipsisAnimation = () => (
-	<AnimatePresence initial>
-		<motion.span className={styles.ellipsisWrapper}>
-			<motion.span
-				animate={{ opacity: [0, 1, 0] }}
-				transition={{
-					duration: ELLIPSIS_DURATION,
-					delay: 0,
-					repeat: Infinity,
-					ease: 'linear',
-				}}
-				className={styles.ellipsisElement}
-			/>
-			<motion.span
-				animate={{ opacity: [0, 1, 0] }}
-				transition={{
-					duration: ELLIPSIS_DURATION,
-					delay: 0.2,
-					repeat: Infinity,
-					ease: 'linear',
-				}}
-				className={styles.ellipsisElement}
-			/>
-
-			<motion.span
-				animate={{ opacity: [0, 1, 0] }}
-				transition={{
-					duration: ELLIPSIS_DURATION,
-					delay: 0.2,
-					repeat: Infinity,
-					ease: 'linear',
-				}}
-				className={styles.ellipsisElement}
-			/>
-		</motion.span>
-	</AnimatePresence>
+	<Box component="span" className={styles.ellipsisWrapper}>
+		<Box component="span" className={styles.ellipsisElement} />
+		<Box component="span" className={styles.ellipsisElement} />
+		<Box component="span" className={styles.ellipsisElement} />
+	</Box>
 )
 
 interface IZ3usLoadingRequiredProps {}
@@ -64,10 +30,6 @@ const defaultProps: IZ3usLoadingOptionalProps = {
 
 export const Z3usLoading: React.FC<IZ3usLoadingProps> = props => {
 	const { className, message } = props
-
-	const [currentPath, setCurrentPath] = useState<string>('')
-
-	const handleScroll = (e: Event) => {}
 
 	return (
 		<Box className={clsx(styles.loaderWrapper, className)}>

@@ -1,10 +1,8 @@
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import { animatePageVariants } from 'ui/src/constants/page'
 import { useAccountValues, useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
@@ -78,18 +76,11 @@ export const BalancePieChart: React.FC = () => {
 	return (
 		<Box className={clsx(styles.allChartWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
 			<Box className={styles.allChartInnerWrapper}>
-				<AnimatePresence initial={false}>
-					<motion.div
-						className={styles.motionWrapper}
-						initial="hidden"
-						animate="visible"
-						variants={animatePageVariants}
-					>
-						<Box className={styles.pieChartWrapper}>
-							<Chart data={isAllAccounts && !resourceType ? accountsData : balancesData} />
-						</Box>
-					</motion.div>
-				</AnimatePresence>
+				<Box className={styles.motionWrapper}>
+					<Box className={styles.pieChartWrapper}>
+						<Chart data={isAllAccounts && !resourceType ? accountsData : balancesData} />
+					</Box>
+				</Box>
 			</Box>
 		</Box>
 	)

@@ -1,6 +1,5 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import clsx, { type ClassValue } from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
 import type { ForwardedRef } from 'react'
 import React, { forwardRef, useState } from 'react'
 
@@ -60,25 +59,11 @@ export const Checkbox = forwardRef<HTMLElement, ICheckboxProps>((props, ref: For
 			{...rest}
 		>
 			<Box color={tickColor} width="full" height="full">
-				<AnimatePresence initial={false}>
-					{animate && (
-						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="CheckIcon">
-							<motion.path
-								initial={{ pathLength: 0 }}
-								animate={{ pathLength: 1 }}
-								exit={{ pathLength: 0 }}
-								transition={{
-									type: 'tween',
-									duration: 0.2,
-									ease: animate ? 'easeOut' : 'easeIn',
-								}}
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M7.75 12.75L10 15.25L16.25 8.75"
-							/>
-						</svg>
-					)}
-				</AnimatePresence>
+				{animate && (
+					<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="CheckIcon">
+						<path strokeLinecap="round" strokeLinejoin="round" d="M7.75 12.75L10 15.25L16.25 8.75" />
+					</svg>
+				)}
 			</Box>
 		</CheckboxRoot>
 	)
