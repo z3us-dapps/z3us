@@ -16,10 +16,6 @@ const messages = defineMessages({
 		id: '+14VoL',
 		defaultMessage: 'Staking',
 	},
-	airdrop: {
-		id: 'UCBwbC',
-		defaultMessage: 'Airdrop',
-	},
 	settings: {
 		id: 'D3idYv',
 		defaultMessage: 'Settings',
@@ -34,7 +30,6 @@ export const useMenuItems = () => {
 			{ text: intl.formatMessage(messages.accounts), href: '/accounts', icon: <Home2Icon /> },
 			{ text: intl.formatMessage(messages.transfer), href: '/transfer', icon: <SwitchHorizontal /> },
 			// { text: intl.formatMessage(messages.staking), href: '/staking', icon: <StakingIcon /> },
-			// { text: intl.formatMessage(messages.airdrop), href: '/airdrop', icon: <CoinsIcon /> },
 			{ text: intl.formatMessage(messages.settings), href: '/settings', icon: <Settings2Icon /> },
 		],
 		[intl],

@@ -171,7 +171,7 @@ const FAQ_ITEMS = [
 		answer: (
 			<Box>
 				<Text size="large" color="strong">
-					No, if you wish to user Connector Extension you should disable Z3US connector extension features in the
+					No, if you wish to use Connector Extension you should disable Z3US connector extension features in the
 					settings. Having both enabled at the same time will result in a race condition for Connect Button
 					interactions.
 				</Text>
@@ -183,8 +183,8 @@ const FAQ_ITEMS = [
 		answer: (
 			<Box>
 				<Text size="large" color="strong">
-					In order to create single login point for multiple wallets, create your first wallet by simply following restore flow,
-					then repeat the process to add more wallets and combine then into a single login point.
+					In order to create single login point for multiple wallets, create your first wallet by simply following
+					restore flow, then repeat the process to add more wallets and combine then into a single login point.
 				</Text>
 			</Box>
 		),

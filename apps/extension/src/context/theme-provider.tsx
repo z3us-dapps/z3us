@@ -44,8 +44,6 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	useEffect(() => {
 		const element = window.document.body
-		document.documentElement.style.setProperty('--font-sans', '"Inter"')
-		document.documentElement.style.setProperty('--font-mono', '"Fira Mono"')
 
 		let resolvedTheme: Theme
 		switch (theme) {
@@ -92,5 +90,17 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		[theme, autoThemeIsDark],
 	)
 
-	return <ThemeContext.Provider value={ctx}>{children}</ThemeContext.Provider>
+	return (
+		<ThemeContext.Provider value={ctx}>
+			<style suppressHydrationWarning>
+				{`
+					:root {
+						--font-sans: '"Inter"';
+						--font-mono: '"Fira Mono"';
+					}
+				`}
+			</style>
+			{children}
+		</ThemeContext.Provider>
+	)
 }
