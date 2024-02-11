@@ -79,7 +79,6 @@
   "BVfFiI": "Firmar desafío",
   "BY343C": "Cambiar",
   "BiqE0f": "Persona eliminada correctamente",
-  "COpeCU": "No se encontraron NFT en esta cuenta",
   "CRZQfm": "Entrada en la libreta de direcciones",
   "CV+lHE": "No tiene colecciones NFT",
   "CyAOW2": "Exportar a Radix Mobile",
@@ -283,7 +282,6 @@
   "pQOchI": "Cuentas seleccionadas",
   "pSQ1UK": "Tipo de identificación",
   "paDdcH": "Dirección de recurso",
-  "phAZoj": "Colección",
   "psAdnA": "Introduce un manifiesto de transacción sin procesar",
   "q7eony": "{hasDisplayName,select,true {{displayName}} other {NFT} }",
   "qJcduu": "Añadir cuenta",
@@ -407,5 +405,8 @@
   "gzjHi6": "Por favor seleccione un mínimo de {number} cuenta(s)",
   "ieuxQy": "Sección requerida",
   "xxuT0a": "Abrir en Radix Dashboard",
-  "UuMbWw": "El bloqueo de mayúsculas está activado"
+  "UuMbWw": "El bloqueo de mayúsculas está activado",
+  "4xswnp": "Entiendo.",
+  "gRjgWW": "Conector Radix detectado",
+  "mBsQ59": "Si desea utilizar Z3US con el botón Radix Connect, debe desactivar la extensión Radix Connector. Habilitar ambas al mismo tiempo provocará una carrera en las interacciones de los botones."
 }
