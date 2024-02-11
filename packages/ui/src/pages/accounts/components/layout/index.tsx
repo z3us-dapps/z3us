@@ -167,21 +167,19 @@ const Layout: React.FC = () => {
 	}, [resourceType, accountId, resource, nft])
 
 	return (
-		<Box>
-			<Box className={panelViewStyles.panelViewOuterWrapper}>
-				<MobileBackground />
-				<MobileScrollArea
-					className={panelViewStyles.panelViewMobileScrollWrapper}
-					showTopScrollShadow={isMobile}
-					disabled={!isMobile}
-				>
-					<ScrollContent
-						isMobile={isMobile}
-						isNftCollectionOrList={isNftCollectionOrList}
-						isNftCollection={!!isNftCollection}
-					/>
-				</MobileScrollArea>
-			</Box>
+		<Box className={panelViewStyles.panelViewOuterWrapper}>
+			<MobileBackground />
+			<MobileScrollArea
+				className={panelViewStyles.panelViewMobileScrollWrapper}
+				showTopScrollShadow={isMobile}
+				disabled={!isMobile}
+			>
+				<ScrollContent
+					isMobile={isMobile}
+					isNftCollectionOrList={isNftCollectionOrList}
+					isNftCollection={!!isNftCollection}
+				/>
+			</MobileScrollArea>
 		</Box>
 	)
 }
