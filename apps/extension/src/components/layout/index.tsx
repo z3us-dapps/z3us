@@ -28,13 +28,13 @@ const messages = defineMessages({
 		defaultMessage: 'Radix Connector Extension detected',
 	},
 	description: {
-		id: 'mBsQ59',
+		id: '/APLYY',
 		defaultMessage:
-			'If you wish to use Z3US with connect button you should disable Radix Connector Extension. Having both enabled at the same time will result in a race condition for Connect Button interactions.',
+			'If you wish to use Z3US with the Radix connect button, please disable the Radix Connector Extension. Having both enabled at the same time will cause issues with Dapp interactions.',
 	},
 	button_text: {
-		id: '4xswnp',
-		defaultMessage: 'I understand.',
+		id: 'jwimQJ',
+		defaultMessage: 'Ok',
 	},
 	cancel_button_text: {
 		id: 'rbrahO',
