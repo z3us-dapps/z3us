@@ -67,6 +67,8 @@ export const BalancePieChart: React.FC = () => {
 				address: resource.address,
 				index,
 				name:
+					(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).validatorName ||
+					(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).poolName ||
 					(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol ||
 					resource.name ||
 					intl.formatMessage(messages.unknown),

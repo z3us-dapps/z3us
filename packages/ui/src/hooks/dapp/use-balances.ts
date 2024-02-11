@@ -80,6 +80,8 @@ const transformFungibleResourceItemResponse =
 			return container
 		}
 
+		let poolName = ''
+		let validatorName = ''
 		let change = 0
 		let xrdValue = 0
 		if (pool && poolsMap[pool]) {
@@ -107,6 +109,7 @@ const transformFungibleResourceItemResponse =
 				DECIMAL_ZERO,
 			)
 
+			poolName = findMetadataValue('name', p.at.explicit_metadata.items)
 			xrdValue = Object.keys(p.at.resourceAmounts)
 				.reduce(
 					(sum, resource) =>
@@ -117,7 +120,6 @@ const transformFungibleResourceItemResponse =
 				)
 				.toNumber()
 			xrdValue = Number.isFinite(xrdValue) ? xrdValue : 0
-
 			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
 		} else if (validator && validatorsMap[validator]) {
 			const v = validatorsMap[validator]
@@ -130,9 +132,9 @@ const transformFungibleResourceItemResponse =
 			const xrdValueBefore = fractionBefore.mul(v.before?.resourceAmounts[knownAddresses.resourceAddresses.xrd] || 0)
 			const totalValueBefore = xrdValueBefore.mul(decimal(xrdPriceBefore).value)
 
+			validatorName = findMetadataValue('name', v.at.explicit_metadata.items)
 			xrdValue = xrdValueNow.toNumber()
 			xrdValue = Number.isFinite(xrdValue) ? xrdValue : 0
-
 			change = totalValueBefore.gt(0) ? totalValueNow.sub(totalValueBefore).div(totalValueBefore).toNumber() : 0
 		} else {
 			const token = tokens[item.resource_address]
@@ -154,14 +156,19 @@ const transformFungibleResourceItemResponse =
 			change: Number.isFinite(change) ? change : 0,
 			symbol,
 			validator: validator?.startsWith('validator_') ? validator : undefined,
+			validatorName,
 			pool: pool?.startsWith('pool_') ? pool : undefined,
+			poolName,
 		}
 
 		return container
 	}
 
 const transformNonFungibleResourceItemResponse =
-	() =>
+	(
+		validatorsMap: { [key: string]: { at: ValidatorDetails; before?: ValidatorDetails } } = {},
+		poolsMap: { [key: string]: { at: PoolDetails; before?: PoolDetails } } = {},
+	) =>
 	(container: ResourceBalances, item: NonFungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
 		const metadata = item.explicit_metadata?.items
 		const name = findMetadataValue('name', metadata)
@@ -186,6 +193,18 @@ const transformNonFungibleResourceItemResponse =
 			return acc
 		}, [])
 
+		let poolName = ''
+		let validatorName = ''
+		if (pool && poolsMap[pool]) {
+			const p = poolsMap[pool]
+
+			poolName = findMetadataValue('name', p.at.explicit_metadata.items)
+		} else if (validator && validatorsMap[validator]) {
+			const v = validatorsMap[validator]
+
+			validatorName = findMetadataValue('name', v.at.explicit_metadata.items)
+		}
+
 		container[item.resource_address] = {
 			type: ResourceBalanceType.NON_FUNGIBLE,
 			address: item.resource_address,
@@ -200,7 +219,9 @@ const transformNonFungibleResourceItemResponse =
 			change: 0,
 			xrdValue: 0,
 			validator: validator?.startsWith('validator_') ? validator : undefined,
+			validatorName,
 			pool: pool?.startsWith('pool_') ? pool : undefined,
+			poolName,
 		}
 
 		return container
@@ -246,7 +267,10 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 				transformFungibleResourceItemResponse(knownAddresses, xrdPrice, xrdPriceBefore, tokens, validators, pools),
 				fungible,
 			)
-			nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse(), nonFungible)
+			nonFungible = non_fungible_resources.items.reduce(
+				transformNonFungibleResourceItemResponse(validators, pools),
+				nonFungible,
+			)
 		})
 
 		const fungibleTokens = Object.values(fungible)
