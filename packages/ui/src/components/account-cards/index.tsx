@@ -120,7 +120,6 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const {
 		address,
 		isAllAccount = false,
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		visible = true,
 		showCopyAddressButton = true,
 		showAccountOptions = true,
@@ -188,6 +187,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			key={address}
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
+				opacity: visible ? 1 : 0,
 				...(account?.cardColor ? { backgroundImage: `${CARD_COLORS[account?.cardColor]}` } : {}),
 			}}
 		>
