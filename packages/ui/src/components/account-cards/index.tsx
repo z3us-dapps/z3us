@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import type { ClassValue } from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -184,23 +183,13 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	}
 
 	return (
-		<motion.li
+		<Box
 			key={address}
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
+				opacity: visible ? 1 : 0,
 				...(account?.cardColor ? { backgroundImage: `${CARD_COLORS[account?.cardColor]}` } : {}),
 			}}
-			variants={{
-				visible: {
-					opacity: 1,
-					transition: { ease: 'easeOut', duration: 0.3 },
-				},
-				notVisible: {
-					opacity: 0,
-					transition: { ease: 'easeOut', duration: 0.3 },
-				},
-			}}
-			animate={visible ? 'visible' : 'notVisible'}
 		>
 			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
 				<AccountCardImage address={address} size="large" />
@@ -303,7 +292,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				</Box>
 			)}
 			<Box className={styles.cardAccountShine} />
-		</motion.li>
+		</Box>
 	)
 }
 
@@ -329,30 +318,17 @@ export const AccountCards: React.FC<IAccountCardsProps> = props => {
 	} = props
 
 	return (
-		<AnimatePresence initial={false}>
-			<motion.ul
-				key="cards"
-				initial={{ opacity: 0, y: 0 }}
-				animate={{
-					opacity: 1,
-					y: 0,
-					x: 0,
-				}}
-				exit={{ opacity: 0, y: 0 }}
-				transition={{ duration: 0.3 }}
-				className={clsx(styles.cardWrapperAll, isCardShadowVisible && styles.cardShadow, className)}
-			>
-				{accounts.map(({ address }, cardIndex: number) => (
-					<AccountCard
-						key={address}
-						address={address}
-						isAllAccount={isAllAccount}
-						visible={selectedCardIndex === cardIndex}
-						showCopyAddressButton={showCopyAddressButton}
-						enableClick={enableClick}
-					/>
-				))}
-			</motion.ul>
-		</AnimatePresence>
+		<Box className={clsx(styles.cardWrapperAll, isCardShadowVisible && styles.cardShadow, className)}>
+			{accounts.map(({ address }, cardIndex: number) => (
+				<AccountCard
+					key={address}
+					address={address}
+					isAllAccount={isAllAccount}
+					visible={selectedCardIndex === cardIndex}
+					showCopyAddressButton={showCopyAddressButton}
+					enableClick={enableClick}
+				/>
+			))}
+		</Box>
 	)
 }

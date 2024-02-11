@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -17,40 +16,19 @@ import * as styles from './styles.css'
 const CopyIconAnimation = ({ animate, tickColor }: { animate: boolean; tickColor: TThemeColorKey }) => (
 	<Box className={styles.copiedAnimationWrapper}>
 		<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
-			<AnimatePresence initial={false}>
-				{animate && (
-					<Box color={tickColor} zIndex={1}>
-						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-							<motion.path
-								initial={{ pathLength: 0 }}
-								animate={{ pathLength: 1 }}
-								exit={{ pathLength: 0 }}
-								transition={{
-									type: 'tween',
-									duration: 0.3,
-									ease: animate ? 'easeOut' : 'easeIn',
-								}}
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M7.75 12.75L10 15.25L16.25 8.75"
-							/>
-						</svg>
-					</Box>
-				)}
-			</AnimatePresence>
-			<AnimatePresence initial={false}>
-				{!animate && (
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1, transition: { delay: 0.3, duration: 0.3 } }}
-						exit={{ opacity: 0, transition: { delay: 0, duration: 0.1 } }}
-					>
-						<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
-							<CopyIcon />
-						</Box>
-					</motion.div>
-				)}
-			</AnimatePresence>
+			{animate && (
+				<Box color={tickColor} zIndex={1}>
+					<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+						<path strokeLinecap="round" strokeLinejoin="round" d="M7.75 12.75L10 15.25L16.25 8.75" />
+					</svg>
+				</Box>
+			)}
+
+			{!animate && (
+				<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
+					<CopyIcon />
+				</Box>
+			)}
 		</Box>
 	</Box>
 )

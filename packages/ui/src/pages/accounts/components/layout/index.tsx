@@ -8,7 +8,6 @@ import { useWindowSize } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
-import MotionBox from 'ui/src/components/motion-box'
 import MobileScrollArea from 'ui/src/components/scroll-area-radix/mobile'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
@@ -168,22 +167,20 @@ const Layout: React.FC = () => {
 	}, [resourceType, accountId, resource, nft])
 
 	return (
-		<MotionBox>
-			<Box className={panelViewStyles.panelViewOuterWrapper}>
-				<MobileBackground />
-				<MobileScrollArea
-					className={panelViewStyles.panelViewMobileScrollWrapper}
-					showTopScrollShadow={isMobile}
-					disabled={!isMobile}
-				>
-					<ScrollContent
-						isMobile={isMobile}
-						isNftCollectionOrList={isNftCollectionOrList}
-						isNftCollection={!!isNftCollection}
-					/>
-				</MobileScrollArea>
-			</Box>
-		</MotionBox>
+		<Box className={panelViewStyles.panelViewOuterWrapper}>
+			<MobileBackground />
+			<MobileScrollArea
+				className={panelViewStyles.panelViewMobileScrollWrapper}
+				showTopScrollShadow={isMobile}
+				disabled={!isMobile}
+			>
+				<ScrollContent
+					isMobile={isMobile}
+					isNftCollectionOrList={isNftCollectionOrList}
+					isNftCollection={!!isNftCollection}
+				/>
+			</MobileScrollArea>
+		</Box>
 	)
 }
 

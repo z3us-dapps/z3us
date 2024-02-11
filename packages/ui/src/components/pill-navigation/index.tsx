@@ -1,5 +1,4 @@
 import clsx, { type ClassValue } from 'clsx'
-import { motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation, useMatch } from 'react-router-dom'
 
@@ -27,7 +26,7 @@ export const PillNavigation = forwardRef<HTMLAnchorElement, IPillProps>((props, 
 
 	return (
 		<Box ref={ref} className={clsx(styles.pillNavigationLink, className)}>
-			{selected ? <motion.span layoutId="underline" className={styles.pillNavigationActive} /> : null}
+			{selected ? <Box component="span" className={styles.pillNavigationActive} /> : null}
 			<Text
 				size="medium"
 				weight="medium"

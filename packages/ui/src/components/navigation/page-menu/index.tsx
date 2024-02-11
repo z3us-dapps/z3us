@@ -1,4 +1,3 @@
-import { LayoutGroup } from 'framer-motion'
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useMeasure from 'react-use-measure'
@@ -25,13 +24,12 @@ type TMenuItem = {
 }
 
 interface IProps {
-	id: string
 	menu: TMenuItem[]
 	title: string | React.ReactElement
 }
 
 export const PageMenu: React.FC<IProps> = props => {
-	const { id, menu, title } = props
+	const { menu, title } = props
 
 	const navigate = useNavigate()
 	const location = useLocation()
@@ -42,15 +40,13 @@ export const PageMenu: React.FC<IProps> = props => {
 		<Box component="nav" className={styles.navigationWrapper}>
 			<Box className={styles.tabletMenuWrapper}>
 				<Box component="ul">
-					<LayoutGroup id={id}>
-						{menu.map(({ title: _title, href }) => (
-							<Box key={href} component="li">
-								<NavLink to={href} underline="never" end>
-									{({ isActive }) => <PillNavigation text={_title} matchActiveFn={() => isActive} />}
-								</NavLink>
-							</Box>
-						))}
-					</LayoutGroup>
+					{menu.map(({ title: _title, href }) => (
+						<Box key={href} component="li">
+							<NavLink to={href} underline="never" end>
+								{({ isActive }) => <PillNavigation text={_title} matchActiveFn={() => isActive} />}
+							</NavLink>
+						</Box>
+					))}
 				</Box>
 			</Box>
 			<Box className={styles.mobileMenuWrapper}>
