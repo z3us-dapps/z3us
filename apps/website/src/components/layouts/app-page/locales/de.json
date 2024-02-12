@@ -406,7 +406,7 @@
   "ieuxQy": "Abschnitt erforderlich",
   "xxuT0a": "Im Radix-Dashboard öffnen",
   "UuMbWw": "Feststelltaste ist aktiviert",
-  "4xswnp": "Ich verstehe.",
   "gRjgWW": "Radix-Connector erkannt",
-  "mBsQ59": "Wenn Sie Z3US mit der Radix Connect-Taste verwenden möchten, sollten Sie die Radix Connector-Erweiterung deaktivieren. Wenn Sie beide gleichzeitig aktivieren, führt dies zu einem Wettlauf bei den Tasteninteraktionen."
+  "jwimQJ": "Ok",
+  "/APLYY": "Wenn Sie Z3US mit der Radix-Verbindungsschaltfläche verwenden möchten, deaktivieren Sie bitte die Radix-Connector-Erweiterung. Wenn beide gleichzeitig aktiviert sind, führt dies zu Problemen mit Dapp-Interaktionen."
 }

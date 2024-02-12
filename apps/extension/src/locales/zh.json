@@ -406,7 +406,7 @@
   "ieuxQy": "必填部分",
   "xxuT0a": "在 Radix 仪表板中打开",
   "UuMbWw": "大写锁定已打开",
-  "4xswnp": "我明白了。",
   "gRjgWW": "检测到基数连接器",
-  "mBsQ59": "如果您想将 Z3US 与 Radix Connect 按钮一起使用，您应该禁用 Radix Connector 扩展。同时启用两者将导致按钮交互中的竞争。"
+  "jwimQJ": "好的",
+  "/APLYY": "如果您希望通过 Radix 连接按钮使用 Z3US，请禁用 Radix 连接器扩展。同时启用两者将导致 Dapp 交互出现问题。"
 }

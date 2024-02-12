@@ -405,5 +405,7 @@
   "gzjHi6": "Por favor selecione no mínimo {number} conta(s)",
   "ieuxQy": "Seção necessária",
   "xxuT0a": "Abrir no painel Radix",
-  "UuMbWw": "Caps lock ativado"
+  "UuMbWw": "Caps lock ativado",
+  "jwimQJ": "Ok",
+  "/APLYY": "Se você deseja usar Z3US com o botão de conexão Radix, desative a extensão do conector Radix. Ter ambos ativados ao mesmo tempo causará problemas com interações Dapp."
 }
