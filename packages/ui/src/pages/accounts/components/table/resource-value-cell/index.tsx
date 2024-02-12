@@ -38,7 +38,7 @@ export const ResourceValueCell: React.FC<IProps> = props => {
 				<Box display="flex" flexDirection="column">
 					<ToolTip message={value}>
 						<Box>
-							<Text size="small" color="strong" weight="medium" align="right" truncate>
+							<Text size="small" color="strong" weight="medium" align="left" truncate>
 								{intl.formatNumber(value, { currency, ...CURRENCY_STYLES })}
 							</Text>
 						</Box>
