@@ -65,20 +65,26 @@ export const Table: React.FC<ITableProps> = props => {
 	const initialSort = useMemo(() => {
 		if (sort || !columns?.length) return sort
 		return [{ id: columns[0].accessor, desc: true }]
-	}, [sort])
+	}, [sort, columns])
+
+	const [initialState, setInitialState] = useState<any>({
+		sortBy: initialSort,
+		selectedRowIds,
+	})
 
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, toggleAllRowsSelected, state } = useTable(
 		{
 			columns,
 			data,
-			initialState: {
-				sortBy: initialSort,
-				selectedRowIds,
-			},
+			initialState,
 		},
 		useSortBy,
 		useRowSelect,
 	)
+
+	useEffect(() => {
+		if (state) setInitialState(state)
+	}, [state])
 
 	const handleDeselectAllRows = () => {
 		toggleAllRowsSelected(false)
