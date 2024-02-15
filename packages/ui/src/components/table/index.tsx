@@ -121,6 +121,7 @@ export const Table: React.FC<ITableProps> = props => {
 				const index = tableRowProps['data-index']
 				const row = rows[index]
 				const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
+
 				return (
 					<tr
 						onClick={e => {
@@ -150,7 +151,7 @@ export const Table: React.FC<ITableProps> = props => {
 				/>
 			)),
 		}),
-		[loading, loadMore, JSON.stringify(state?.sortBy || {})],
+		[loading, loadMore, JSON.stringify(state?.sortBy || {}), JSON.stringify(selectedRowIds || {})],
 	)
 
 	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect
