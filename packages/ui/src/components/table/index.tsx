@@ -100,58 +100,56 @@ export const Table: React.FC<ITableProps> = props => {
 		onEndReached()
 	}
 
-	const memoizedComponents = useMemo(
-		() => ({
-			Table: ({ style, ...tableProps }) => (
-				<table
-					{...getTableProps()}
-					{...tableProps}
-					className={styles.tableRecipe({
-						sizeVariant,
-						styleVariant,
-					})}
-					style={{ ...style }}
+	const memoizedComponents: TableComponents = {
+		Table: ({ style, ...tableProps }) => (
+			<table
+				{...getTableProps()}
+				{...tableProps}
+				className={styles.tableRecipe({
+					sizeVariant,
+					styleVariant,
+				})}
+				style={{ ...style }}
+			/>
+		),
+		TableBody: React.forwardRef((tableBodyProps, ref) => (
+			<tbody {...getTableBodyProps()} {...tableBodyProps} ref={ref} />
+		)),
+		TableRow: tableRowProps => {
+			// eslint-disable-next-line react/destructuring-assignment
+			const index = tableRowProps['data-index']
+			const row = rows[index]
+			const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
+
+			return (
+				<tr
+					onClick={e => {
+						handleDeselectAllRows()
+						onRowSelected(row)
+						if (rowSelectedProps) rowSelectedProps.onChange(e)
+					}}
+					className={clsx(
+						styles.tableTrRecipe({
+							sizeVariant,
+							styleVariant,
+							isRowSelectable: !!onRowSelected,
+						}),
+						!loading && rowSelectedProps?.checked && 'tr-selected',
+					)}
+					{...tableRowProps}
+					{...(row?.getRowProps ? row?.getRowProps() : {})}
 				/>
-			),
-			TableBody: React.forwardRef((tableBodyProps, ref) => (
-				<tbody {...getTableBodyProps()} {...tableBodyProps} ref={ref} />
-			)),
-			TableRow: tableRowProps => {
-				// eslint-disable-next-line react/destructuring-assignment
-				const index = tableRowProps['data-index']
-				const row = rows[index]
-				const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
-				return (
-					<tr
-						onClick={e => {
-							handleDeselectAllRows()
-							onRowSelected(row)
-							if (rowSelectedProps) rowSelectedProps.onChange(e)
-						}}
-						className={clsx(
-							styles.tableTrRecipe({
-								sizeVariant,
-								styleVariant,
-								isRowSelectable: !!onRowSelected,
-							}),
-							!loading && rowSelectedProps?.checked && 'tr-selected',
-						)}
-						{...tableRowProps}
-						{...(row?.getRowProps ? row?.getRowProps() : {})}
-					/>
-				)
-			},
-			TableFoot: React.forwardRef((tableBodyProps, ref) => (
-				<tfoot
-					className={clsx(styles.tFootWrapper, loadMore && styles.tFootWrapperVisible)}
-					{...getTableBodyProps()}
-					{...tableBodyProps}
-					ref={ref}
-				/>
-			)),
-		}),
-		[loading, loadMore, JSON.stringify(state?.sortBy || {})],
-	)
+			)
+		},
+		TableFoot: React.forwardRef((tableBodyProps, ref) => (
+			<tfoot
+				className={clsx(styles.tFootWrapper, loadMore && styles.tFootWrapperVisible)}
+				{...getTableBodyProps()}
+				{...tableBodyProps}
+				ref={ref}
+			/>
+		)),
+	}
 
 	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect
 
@@ -178,7 +176,7 @@ export const Table: React.FC<ITableProps> = props => {
 				overscan={{ main: overscan, reverse: overscan }}
 				totalCount={rows.length}
 				customScrollParent={scrollableNode}
-				components={memoizedComponents as TableComponents}
+				components={memoizedComponents}
 				endReached={handleEndReached}
 				fixedHeaderContent={() =>
 					headerGroups.map(headerGroup => (
