@@ -4,6 +4,7 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import { Box } from 'ui/src/components/box'
 import { type TThemeColorKey } from 'ui/src/components/system/theme.css'
 import { Text } from 'ui/src/components/typography'
+import { brandImages } from 'ui/src/context/images-provider'
 
 import * as styles from './image-icon.css'
 
@@ -46,6 +47,7 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 
 	const [isPrimaryLoaded, setIsPrimaryLoaded] = useState<boolean>(false)
 	const [show, setShow] = useState<'primary' | 'fallback'>(imgSrc ? 'primary' : 'fallback')
+	const [localImgSrc, setLocalImgSrc] = useState<string>(imgSrc)
 
 	const sizeVariantMobile = typeof size === 'object' ? size.mobile : size
 	const sizeVariantTablet = typeof size === 'object' ? size.tablet : undefined
@@ -62,6 +64,7 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 
 	const onError = () => {
 		setShow('fallback')
+		setLocalImgSrc('/images/token-images/token-placeholder.png')
 	}
 
 	const onLoad = () => {
@@ -80,9 +83,10 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 			)}
 		>
 			<Box className={styles.imageAvatarRootWrapper}>
+				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
 					className={styles.imageAvatarImageWrapper({ rounded, hidden: show !== 'primary' })}
-					src={imgSrc}
+					src={localImgSrc}
 					alt={imgAlt}
 					onLoad={onLoad}
 					onError={onError}
