@@ -22,6 +22,17 @@ const messageHandler = MessageClient(logger)
 const handleTabRemoved = getTabRemovedHandler(messageHandler)
 const handleTabUpdated = getTabUpdatedHandler(messageHandler)
 
+globalThis.onerror = err => {
+	// eslint-disable-next-line no-console
+	console.error('Unhandled error:', err)
+}
+
+// keepAlive from offscreen page
+globalThis.onmessage = e => {
+	// eslint-disable-next-line no-console
+	console.debug('Keep alive', e)
+}
+
 browser.runtime.onInstalled.addListener(handleInstall)
 browser.runtime.onStartup.addListener(() => logger.debug('onStartup'))
 browser.runtime.onConnect.addListener(messageHandler.onPort)
@@ -37,12 +48,6 @@ browser.contextMenus.removeAll().then(() => {
 	addLedger()
 	addDevTools()
 })
-
-// keepAlive from offscreen page
-globalThis.onmessage = e => {
-	// eslint-disable-next-line no-console
-	console.debug('Keep alive', e)
-}
 
 createOffscreen()
 watch()
