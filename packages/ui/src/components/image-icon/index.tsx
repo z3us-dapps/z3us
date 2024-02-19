@@ -1,6 +1,5 @@
-import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { type TThemeColorKey } from 'ui/src/components/system/theme.css'
@@ -24,8 +23,8 @@ export interface IImageIconProps {
 	imgSrc: string
 	imgAlt: string
 	fallbackText: string
-	className?: ClassValue
 	imgFallbackDelay?: number
+	className?: ClassValue
 	size?: TImageSizes
 	backgroundColor?: TThemeColorKey
 	color?: TThemeColorKey
@@ -36,17 +35,39 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 	const {
 		className,
 		imgSrc,
+		fallbackText,
 		imgFallbackDelay = 600,
 		imgAlt,
 		size = 'medium',
 		color = 'colorNeutral',
 		backgroundColor = 'backgroundPrimary',
 		rounded = true,
-		fallbackText,
 	} = props
+
+	const [isPrimaryLoaded, setIsPrimaryLoaded] = useState<boolean>(false)
+	const [show, setShow] = useState<'primary' | 'fallback'>('primary')
 
 	const sizeVariantMobile = typeof size === 'object' ? size.mobile : size
 	const sizeVariantTablet = typeof size === 'object' ? size.tablet : undefined
+
+	useEffect(() => {
+		const fallbackTimer = setTimeout(() => {
+			if (!isPrimaryLoaded) {
+				setShow('fallback')
+			}
+		}, imgFallbackDelay)
+
+		return () => clearTimeout(fallbackTimer)
+	}, [isPrimaryLoaded, fallbackText, imgFallbackDelay])
+
+	const onError = () => {
+		setShow('fallback')
+	}
+
+	const onLoad = () => {
+		setShow('primary')
+		setIsPrimaryLoaded(true)
+	}
 
 	return (
 		<Box
@@ -58,18 +79,29 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 				className,
 			)}
 		>
-			<AvatarPrimitive.Root className={styles.imageAvatarRootWrapper}>
-				<AvatarPrimitive.Image className={styles.imageAvatarImageWrapper({ rounded })} src={imgSrc} alt={imgAlt} />
-				<AvatarPrimitive.Fallback delayMs={imgFallbackDelay} className={styles.imageAvatarFallbackWrapper}>
+			<Box className={styles.imageAvatarRootWrapper}>
+				<img
+					className={styles.imageAvatarImageWrapper({ rounded, hidden: show !== 'primary' })}
+					src={imgSrc}
+					alt={imgAlt}
+					onLoad={onLoad}
+					onError={onError}
+				/>
+				<Box
+					className={styles.imageAvatarFallbackWrapper({
+						hidden: show !== 'fallback',
+					})}
+				>
 					<Text
-						className={clsx(
-							styles.imageFallbackTextWrapper({ size: sizeVariantMobile, sizeTablet: sizeVariantTablet }),
-						)}
+						className={styles.imageFallbackTextWrapper({
+							size: sizeVariantMobile,
+							sizeTablet: sizeVariantTablet,
+						})}
 					>
 						{fallbackText}
 					</Text>
-				</AvatarPrimitive.Fallback>
-			</AvatarPrimitive.Root>
+				</Box>
+			</Box>
 		</Box>
 	)
 })

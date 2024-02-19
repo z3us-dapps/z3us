@@ -112,20 +112,37 @@ export const imageAvatarImageWrapper = recipe({
 				borderRadius: 'full',
 			}),
 		},
+		hidden: {
+			true: sprinkles({
+				display: 'none',
+			}),
+		},
 	},
 	defaultVariants: {
 		rounded: true,
+		hidden: false,
 	},
 })
 
-export const imageAvatarFallbackWrapper = style([
-	sprinkles({
+export const imageAvatarFallbackWrapper = recipe({
+	base: sprinkles({
 		borderRadius: 'full',
 		width: 'full',
 		height: 'full',
-		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
 	}),
-	{},
-])
+	variants: {
+		hidden: {
+			true: sprinkles({
+				display: 'none',
+			}),
+			false: sprinkles({
+				display: 'flex',
+			}),
+		},
+	},
+	defaultVariants: {
+		hidden: true,
+	},
+})
