@@ -45,7 +45,7 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 	} = props
 
 	const [isPrimaryLoaded, setIsPrimaryLoaded] = useState<boolean>(false)
-	const [show, setShow] = useState<'primary' | 'fallback'>('primary')
+	const [show, setShow] = useState<'primary' | 'fallback'>(imgSrc ? 'primary' : 'fallback')
 
 	const sizeVariantMobile = typeof size === 'object' ? size.mobile : size
 	const sizeVariantTablet = typeof size === 'object' ? size.tablet : undefined
