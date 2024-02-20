@@ -4949,20 +4949,10 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
-"@radixdlt/babylon-gateway-api-sdk@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.1.tgz#7f4bc0648af8aa4b74d5c3cb6f8a574d100b8a46"
-  integrity sha512-WLfw+NuoFC04SgGKpGvkrFp67BdzCbKwklFmNjTqX9l/A0dUN820Xggf1BZ8jRUDUJI20V+fAsTTvT7ltYMJIQ==
-
-"@radixdlt/babylon-gateway-api-sdk@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.2.0.tgz#d29746306322ead187ef353075eb2f6ad80d106f"
-  integrity sha512-9pMSwNkbVN+0+y3+zcuUTOO9PGrTB7/tv0TFtRildg29YW94nR6jC9A+SLEy7ovUzPYOrjJfAv72oJOHXyfS9g==
-
-"@radixdlt/babylon-gateway-api-sdk@^1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.2.4.tgz#74b7bbfcbbc2511bbee5ce6300897f7057e405c8"
-  integrity sha512-u5p7yyLXgJIp355HXY03nQWjoC6977qfuEu5pXGuEoR8erBMgsntL57do6FwxEpyNQxljJihfjqCQWRM4xRRbQ==
+"@radixdlt/babylon-gateway-api-sdk@^1.2.7", "@radixdlt/babylon-gateway-api-sdk@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.4.0.tgz#678f3373fd85fcf4dc6f569aa429c70cda4d5819"
+  integrity sha512-G+ZxiN/bqIwoPFjBAKsh7EKTZy0ZhGJVdbKobg26Sfen84GuvPK95ROYlhZCvnfC9mNgdFQIJVNkpwmNMoAbJg==
 
 "@radixdlt/connect-button@^1.0.3":
   version "1.0.3"
@@ -4971,17 +4961,17 @@
   dependencies:
     lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.3.2":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.3.6":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#30e3fdf407a214056a88997dd59814546c721c03"
+  resolved "https://github.com/radixdlt/connector-extension#d96dba77f8e302d7a0234d1d464e5cac6978cd1a"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
     "@ledgerhq/hw-transport-webhid" "^6.27.19"
     "@mui/material" "^5.14.0"
-    "@radixdlt/babylon-gateway-api-sdk" "^1.0.1"
+    "@radixdlt/babylon-gateway-api-sdk" "^1.2.7"
     "@radixdlt/radix-connect-schemas" "^1.2.0"
-    "@radixdlt/radix-connect-webrtc" "^1.0.3"
+    "@radixdlt/radix-connect-webrtc" "^1.2.1"
     "@stitches/react" "^1.2.8"
     "@types/blake2b" "^2.1.0"
     bech32 "^2.0.0"
@@ -5018,10 +5008,10 @@
     neverthrow "^6.0.0"
     zod "^3.22.2"
 
-"@radixdlt/radix-connect-webrtc@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-connect-webrtc/-/radix-connect-webrtc-1.0.3.tgz#6b89ecf44380d1f64f5e7af64106f8e3b03da604"
-  integrity sha512-abCE0lKdXy3pUDNj3LkGQr4k41T9UtwuxsGNQIQk2Z9kJIT8DEsZEir1ZyzcP345lgkiKCHoV76voJNLsWwPJQ==
+"@radixdlt/radix-connect-webrtc@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-connect-webrtc/-/radix-connect-webrtc-1.2.1.tgz#19f9b9735964a79a0062085f2b5e28e6da782ade"
+  integrity sha512-zSX6p96FQCdcsZLiYcCNLgGIHuDEvdcNTVQNKd1HjW6/0/jt/rWBu48OlgGPbMZ8srmMx9fIFTDtYRBDPkzi9w==
   dependencies:
     "@radixdlt/radix-connect-schemas" "^0.1.0"
     blake2b "^2.1.4"
@@ -5035,12 +5025,12 @@
     tslog "4.8.0"
     zod "^3.22.4"
 
-"@radixdlt/radix-dapp-toolkit@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-1.4.1.tgz#f38a6ed7912ed0cefd86b5d1190279567435b7e1"
-  integrity sha512-Tsp3DMqYHJOIO7US2MKs3ha4BOrAjIXu+2JyRtuV3hRcrMPtv3ty1KMYq3gX4E8EYEeUvThUbgLTcraz9n4e4A==
+"@radixdlt/radix-dapp-toolkit@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-1.4.3.tgz#2a35f8b90ddf9a270b9b68f1c41ff71e4e634772"
+  integrity sha512-nzR9giFGlQ6paNDuUpCXYkUq5UyI39sS7NknTrX9QYU9suoXHsvUhAkXJ6yq6AEUMOLQC2xwYhmRbG1R/MCKBg==
   dependencies:
-    "@radixdlt/babylon-gateway-api-sdk" "^1.2.0"
+    "@radixdlt/babylon-gateway-api-sdk" "^1.2.7"
     "@radixdlt/connect-button" "^1.0.3"
     "@radixdlt/wallet-sdk" "1.0.1"
     immer "^10.0.2"
