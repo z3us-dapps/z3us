@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
@@ -64,6 +64,7 @@ const messages = defineMessages({
 
 const General: React.FC = () => {
 	const intl = useIntl()
+	const inputRef = useRef(null)
 	const navigate = useNavigate()
 	const { isWallet, removeSecret, confirm } = useZdtState()
 
@@ -72,11 +73,14 @@ const General: React.FC = () => {
 		changeKeystoreName: state.changeKeystoreNameAction,
 	}))
 
+	useEffect(() => {
+		inputRef?.current?.focus()
+	}, [inputRef?.current])
+
 	const handleWalletNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const evt = event.nativeEvent as InputEvent
-		if (evt.isComposing) {
-			return
-		}
+		if (evt.isComposing) return
+		if (!keystore) return
 
 		changeKeystoreName(keystore.id, event.target.value)
 	}
@@ -105,7 +109,15 @@ const General: React.FC = () => {
 						</Box>
 					</>
 				}
-				rightCol={<Input value={keystore.name} elementType="input" type="url" onChange={handleWalletNameChange} />}
+				rightCol={
+					<Input
+						ref={inputRef}
+						value={keystore?.name}
+						elementType="input"
+						type="url"
+						onChange={handleWalletNameChange}
+					/>
+				}
 			/>
 			{isWallet && keystore?.type === KeystoreType.LOCAL && (
 				<SettingsBlock

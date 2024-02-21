@@ -1,3 +1,6 @@
+/* eslint-disable no-nested-ternary */
+
+/* eslint-disable react/no-array-index-key */
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
 import { type Instruction, type Intent } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
@@ -22,7 +25,6 @@ import { useCustomizeFeeModal } from '@src/hooks/modal/use-customize-fee-modal'
 import { usePreview } from '@src/hooks/transaction/use-preview'
 import { summaryFromInstructions } from '@src/radix/manifest'
 import {
-	type ResourceChanges,
 	type Summary,
 	type TransactionMeta,
 	type TransactionReceipt,
@@ -95,45 +97,86 @@ const messages = defineMessages({
 		id: '7BSUnP',
 		defaultMessage: 'Depositing',
 	},
+	stake: {
+		id: 'dOtWXt',
+		defaultMessage: 'Staking/Unstaking',
+	},
+	usage: {
+		id: '6bKmjV',
+		defaultMessage: 'Using',
+	},
 	message: {
 		id: 'T7Ry38',
 		defaultMessage: 'Message',
 	},
 })
 
-function aggregateConsecutiveChanges(
-	resourceChanges: TransactionPreviewResponse['resource_changes'],
-): State['flatChanges'] {
-	if (resourceChanges.length === 0) {
-		return []
+interface Change {
+	account: string
+	resource: string
+	amount: number
+}
+
+interface AccountChange {
+	account: string
+	changes: Array<{ resource: string; amount: number }>
+}
+
+interface AggregatedChange {
+	type: string
+	changes: AccountChange[]
+}
+
+function getType(account: string, amount: number): string {
+	if (account.startsWith('account_')) {
+		return amount > 0 ? 'deposit' : 'withdraw'
 	}
+	if (account.startsWith('validator_')) {
+		return 'stake'
+	}
+	// Add additional conditions for different types here if needed
+	return 'usage'
+}
 
-	const changes: State['flatChanges'] = []
-	resourceChanges.map((group: any) =>
-		group.resource_changes?.map((change: any) =>
-			changes.push({
-				account: change.component_entity.entity_address,
-				resource: change.resource_address,
-				amount: parseFloat(change.amount) || 0,
-			}),
-		),
-	)
+function aggregateChanges(resourceChanges: TransactionPreviewResponse['resource_changes']): AggregatedChange[] {
+	const changes: Change[] = []
+	resourceChanges
+		.filter((change: any) => change.amount !== 0)
+		.map((group: any) =>
+			group.resource_changes?.map((change: any) =>
+				changes.push({
+					account: change.component_entity.entity_address,
+					resource: change.resource_address,
+					amount: parseFloat(change.amount) || 0,
+				}),
+			),
+		)
 
-	const aggregatedData: State['flatChanges'] = [changes[0]]
+	return changes.reduce<AggregatedChange[]>((aggregatedChanges, change) => {
+		const { account, resource, amount } = change
+		const type = getType(account, amount)
 
-	// eslint-disable-next-line no-plusplus
-	for (let i = 1; i < changes.length; i++) {
-		const currentItem = changes[i]
-		const previousItem = aggregatedData[aggregatedData.length - 1]
-
-		if (currentItem.account === previousItem.account && currentItem.resource === previousItem.resource) {
-			previousItem.amount += currentItem.amount
-		} else {
-			aggregatedData.push(currentItem)
+		let currentAggregatedChange = aggregatedChanges.find(item => item.type === type)
+		if (!currentAggregatedChange) {
+			currentAggregatedChange = { type, changes: [] }
+			aggregatedChanges.push(currentAggregatedChange)
 		}
-	}
 
-	return aggregatedData
+		let currentAccountChange = currentAggregatedChange.changes.find(accChange => accChange.account === account)
+		if (!currentAccountChange) {
+			currentAccountChange = { account, changes: [] }
+			currentAggregatedChange.changes.push(currentAccountChange)
+		}
+
+		const lastChange = currentAccountChange.changes[currentAccountChange.changes.length - 1]
+		if (!lastChange || lastChange.resource !== resource) {
+			currentAccountChange.changes.push({ resource, amount })
+		} else {
+			lastChange.amount += amount
+		}
+
+		return aggregatedChanges
+	}, [])
 }
 
 function getFeePaddingAmount(receipt: TransactionReceipt, walletCost: number): number {
@@ -207,7 +250,7 @@ interface IProps {
 
 type State = {
 	preview?: TransactionPreviewResponse
-	flatChanges?: ResourceChanges
+	aggregatedChanges?: AggregatedChange[]
 	summary?: Summary
 	currency: 'currency' | 'xrd'
 	walletExecutionCost: number
@@ -247,7 +290,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 		buildPreview(intent, settings).then(preview => {
 			setState(draft => {
 				draft.preview = preview
-				draft.flatChanges = aggregateConsecutiveChanges(preview.resource_changes).filter(change => change.amount !== 0)
+				draft.aggregatedChanges = aggregateChanges(preview.resource_changes)
 			})
 			onStatusChange((preview?.receipt as TransactionReceipt).status)
 		})
@@ -259,9 +302,6 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 		if (state.walletExecutionCost === 0) return
 		if (settings.padding !== 0) return
 
-		setState(draft => {
-			draft.walletExecutionCost = walletExecutionCost(meta)
-		})
 		const padding = getFeePaddingAmount(receipt, state.walletExecutionCost + settings.padding)
 		const lockAmount = getFeeToLockAmount(receipt, padding, state.walletExecutionCost)
 		onSettingsChange({
@@ -269,7 +309,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 			padding,
 			lockAmount,
 		})
-	}, [receipt])
+	}, [settings.padding, state.hasManualSettings, state.walletExecutionCost, receipt])
 
 	const handleToggleValue = () => {
 		setState(draft => {
@@ -289,23 +329,6 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 			})
 		})
 	}
-
-	// useEffect(() => {
-	// 	if (!state.preview) return
-
-	// 	RadixEngineToolkit.Instructions.convert(intent.manifest.instructions, intent.header.networkId, 'String').then(
-	// 		converted =>
-	// 			rawRadixEngineToolkit
-	// 				.then(ret =>
-	// 					ret.executionAnalyze({
-	// 						instructions: converted as SerializableInstructions,
-	// 						network_id: `${intent.header.networkId}`,
-	// 						preview_receipt: state.preview.encoded_receipt,
-	// 					}),
-	// 				)
-	// 				.then(console.log),
-	// 	)
-	// }, [state.preview])
 
 	if (!state.preview) return <FallbackLoading />
 
@@ -335,25 +358,26 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 				</Box>
 			)}
 
-			{state.flatChanges.map((change, index) => (
-				// eslint-disable-next-line react/no-array-index-key
-				<Box key={`${index}${change.account}${change.resource}`} className={styles.transactionPreviewBlockWrapper}>
+			{state.aggregatedChanges.map((data, index) => (
+				<Box key={`${index}${data.type}`} className={styles.transactionPreviewBlockWrapper}>
 					<Text color="strong" size="xsmall" weight="strong">
-						{change.amount < 0 ? intl.formatMessage(messages.withdraw) : intl.formatMessage(messages.deposit)}
+						{intl.formatMessage(messages[data.type])}
 					</Text>
-					<Box className={styles.transactionPreviewBlock}>
-						<Box
-							display="flex"
-							alignItems="center"
-							width="full"
-							gap="medium"
-							flexGrow={1}
-							justifyContent="space-between"
-						>
-							<AccountSnippet address={change.account} />
-							<ResourceSnippet address={change.resource} change={change.amount} reversed />
+					{data.changes.map(accountChange => (
+						<Box key={`${data.type}${accountChange.account}`} className={styles.transactionPreviewBlock}>
+							<AccountSnippet address={accountChange.account} />
+							{accountChange.changes.map(resourceChange =>
+								resourceChange.amount === 0 ? null : (
+									<ResourceSnippet
+										key={`${data.type}${accountChange.account}${resourceChange.resource}`}
+										address={resourceChange.resource}
+										change={resourceChange.amount}
+										reversed
+									/>
+								),
+							)}
 						</Box>
-					</Box>
+					))}
 				</Box>
 			))}
 
