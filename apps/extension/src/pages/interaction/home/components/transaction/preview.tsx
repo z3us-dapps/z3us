@@ -366,16 +366,17 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 					{data.changes.map(accountChange => (
 						<Box key={`${data.type}${accountChange.account}`} className={styles.transactionPreviewBlock}>
 							<AccountSnippet address={accountChange.account} />
-							{accountChange.changes.map(resourceChange =>
-								resourceChange.amount === 0 ? null : (
-									<ResourceSnippet
-										key={`${data.type}${accountChange.account}${resourceChange.resource}`}
-										address={resourceChange.resource}
-										change={resourceChange.amount}
-										reversed
-									/>
-								),
-							)}
+							{data.type !== 'usage' &&
+								accountChange.changes.map(resourceChange =>
+									resourceChange.amount === 0 ? null : (
+										<ResourceSnippet
+											key={`${data.type}${accountChange.account}${resourceChange.resource}`}
+											address={resourceChange.resource}
+											change={resourceChange.amount}
+											reversed
+										/>
+									),
+								)}
 						</Box>
 					))}
 				</Box>
