@@ -4,7 +4,7 @@
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
 import { type Instruction, type Intent } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
@@ -37,7 +37,7 @@ import {
 	signatureCost,
 } from '@src/types/transaction'
 
-import { FEE_PADDING_MARGIN } from './consts'
+import { FEE_PADDING_MARGIN, FEE_PADDING_MARGIN_INCREMENT, MAX_PADDING_CALCULATION_RETRY } from './constants'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -179,9 +179,10 @@ function aggregateChanges(resourceChanges: TransactionPreviewResponse['resource_
 	}, [])
 }
 
-function getFeePaddingAmount(receipt: TransactionReceipt, walletCost: number): number {
+function getFeePaddingAmount(paddingCalculation: number, receipt: TransactionReceipt, walletCost: number): number {
 	return (
 		FEE_PADDING_MARGIN *
+		(1 + paddingCalculation * FEE_PADDING_MARGIN_INCREMENT) *
 		(Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) +
 			Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) +
 			Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost) +
@@ -249,13 +250,14 @@ interface IProps {
 }
 
 type State = {
+	isLoading: boolean
 	preview?: TransactionPreviewResponse
 	aggregatedChanges?: AggregatedChange[]
 	summary?: Summary
 	currency: 'currency' | 'xrd'
 	walletExecutionCost: number
-	isLoading: boolean
 	hasManualSettings: boolean
+	paddingCalculationRetry: number
 }
 
 export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsChange, onStatusChange }) => {
@@ -269,12 +271,14 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 
 	const [state, setState] = useImmer<State>({
+		isLoading: true,
 		currency: 'xrd',
 		walletExecutionCost: 0,
-		isLoading: false,
 		hasManualSettings: false,
+		paddingCalculationRetry: 0,
 	})
-	const receipt = state.preview?.receipt as TransactionReceipt
+
+	const receipt = useMemo(() => state.preview?.receipt as TransactionReceipt, [state.preview])
 
 	useEffect(() => {
 		setState(draft => {
@@ -288,28 +292,40 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 		})
 
 		buildPreview(intent, settings).then(preview => {
+			const newReceipt = preview.receipt as TransactionReceipt
 			setState(draft => {
+				if (
+					newReceipt?.error_message &&
+					state.paddingCalculationRetry < MAX_PADDING_CALCULATION_RETRY &&
+					['FeeReserveError', 'InsufficientBalance'].every(substring => newReceipt?.error_message.includes(substring))
+				) {
+					// SystemModuleError(CostingError(FeeReserveError(InsufficientBalance { required: 0.0050005, remaining: 0.0033562161779997 })))
+					draft.paddingCalculationRetry += 1
+					draft.isLoading = true
+				} else {
+					draft.isLoading = false
+				}
 				draft.preview = preview
 				draft.aggregatedChanges = aggregateChanges(preview.resource_changes)
 			})
-			onStatusChange((preview?.receipt as TransactionReceipt).status)
+			onStatusChange(newReceipt.status)
 		})
 	}, [intent])
 
 	useEffect(() => {
+		if (!state.isLoading) return
 		if (!receipt) return
 		if (state.hasManualSettings) return
 		if (state.walletExecutionCost === 0) return
-		if (settings.padding !== 0) return
 
-		const padding = getFeePaddingAmount(receipt, state.walletExecutionCost + settings.padding)
+		const padding = getFeePaddingAmount(state.paddingCalculationRetry, receipt, state.walletExecutionCost)
 		const lockAmount = getFeeToLockAmount(receipt, padding, state.walletExecutionCost)
 		onSettingsChange({
 			...settings,
 			padding,
 			lockAmount,
 		})
-	}, [settings.padding, state.hasManualSettings, state.walletExecutionCost, receipt])
+	}, [state.isLoading, state.hasManualSettings, state.paddingCalculationRetry, state.walletExecutionCost, receipt])
 
 	const handleToggleValue = () => {
 		setState(draft => {
@@ -330,7 +346,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 		})
 	}
 
-	if (!state.preview) return <FallbackLoading />
+	if (state.isLoading) return <FallbackLoading />
 
 	return (
 		<Box className={styles.transactionPreviewWrapper}>
