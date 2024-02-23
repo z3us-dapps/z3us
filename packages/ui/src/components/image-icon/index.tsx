@@ -1,5 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { type TThemeColorKey } from 'ui/src/components/system/theme.css'
@@ -29,8 +29,6 @@ export interface IImageIconProps {
 	onImgError?: () => void
 }
 
-const TOKEN_PLACEHOLDER_IMAGE: string = '/images/token-images/token-placeholder.png'
-
 export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: React.Ref<HTMLElement | null>) => {
 	const {
 		className,
@@ -43,13 +41,10 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 		onImgError = () => {},
 	} = props
 
-	const [localImgSrc, setLocalImgSrc] = useState<string>(imgSrc)
-
 	const sizeVariantMobile = typeof size === 'object' ? size.mobile : size
 	const sizeVariantTablet = typeof size === 'object' ? size.tablet : undefined
 
 	const onError = () => {
-		setLocalImgSrc(TOKEN_PLACEHOLDER_IMAGE)
 		onImgError()
 	}
 
@@ -64,8 +59,10 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 			)}
 		>
 			<Box className={styles.imageAvatarRootWrapper}>
-				{/* eslint-disable-next-line @next/next/no-img-element */}
-				<img className={styles.imageAvatarImageWrapper({ rounded })} src={localImgSrc} alt={imgAlt} onError={onError} />
+				{imgSrc && (
+					// eslint-disable-next-line @next/next/no-img-element
+					<img className={styles.imageAvatarImageWrapper({ rounded })} src={imgSrc} alt={imgAlt} onError={onError} />
+				)}
 			</Box>
 		</Box>
 	)
