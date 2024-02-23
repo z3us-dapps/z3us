@@ -111,7 +111,7 @@ export const transactionPreviewBlock = style([
 		display: 'flex',
 		flexDirection: 'column',
 		gap: 'medium',
-		padding: 'medium',
+		padding: 'small',
 		border: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDividerSecondary',
