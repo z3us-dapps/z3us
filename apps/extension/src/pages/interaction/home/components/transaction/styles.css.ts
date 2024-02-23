@@ -108,7 +108,9 @@ export const transactionPreviewLinSeparator = style([
 
 export const transactionPreviewBlock = style([
 	sprinkles({
-		display: 'block',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'medium',
 		padding: 'medium',
 		border: 1,
 		borderStyle: 'solid',

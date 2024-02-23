@@ -399,7 +399,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 			))}
 
 			{state.summary?.proofs?.length > 0 &&
-				state.summary?.proofs.map((proof, idx) => (
+				state.summary?.proofs?.map((proof, idx) => (
 					// eslint-disable-next-line react/no-array-index-key
 					<Box key={`${idx}`} className={styles.transactionPreviewBlockWrapper}>
 						<Text color="strong" size="xsmall" weight="strong">
