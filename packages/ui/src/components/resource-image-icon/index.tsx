@@ -8,6 +8,8 @@ import { findMetadataValue } from 'ui/src/services/metadata'
 import { getStrPrefix } from 'ui/src/utils/get-str-prefix'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
+const TOKEN_PLACEHOLDER_IMAGE: string = '/images/token-images/token-placeholder.png'
+
 export interface IResourceImageIconProps
 	extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc' | 'rounded'> {
 	address: string
@@ -19,7 +21,7 @@ const defaultNftImage = '/images/token-images/nft-placeholder.svg'
 export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps>(
 	({ address, toolTipEnabled = false, size, ...props }, ref: React.Ref<HTMLElement | null>) => {
 		const { data } = useEntityDetails(address)
-		const { images } = useImages()
+		const { images, setImages } = useImages()
 
 		const { tooltip, ...computedProps } = useMemo(() => {
 			const shortAddress = getShortAddress(address)
@@ -41,10 +43,17 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 			}
 		}, [address, data, images])
 
+		const handleImageError = (): void => {
+			const knownImagesMap = new Map([[address, TOKEN_PLACEHOLDER_IMAGE]])
+			const newMap = new Map([...images, ...knownImagesMap])
+
+			setImages(newMap)
+		}
+
 		return (
 			<ToolTip side="top" message={tooltip} disabled={!toolTipEnabled || !tooltip}>
 				<span>
-					<ImageIcon size={size} ref={ref} address={address} {...props} {...computedProps} />
+					<ImageIcon size={size} ref={ref} onImgError={handleImageError} {...props} {...computedProps} />
 				</span>
 			</ToolTip>
 		)
