@@ -19,14 +19,13 @@ const defaultNftImage = '/images/token-images/nft-placeholder.svg'
 export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps>(
 	({ address, toolTipEnabled = false, size, ...props }, ref: React.Ref<HTMLElement | null>) => {
 		const { data } = useEntityDetails(address)
-		const images = useImages()
+		const { images } = useImages()
 
 		const { tooltip, ...computedProps } = useMemo(() => {
 			const shortAddress = getShortAddress(address)
 			const name = findMetadataValue('name', data?.metadata?.items)
 			const symbol = findMetadataValue('symbol', data?.metadata?.items)
 			const imageUrl = findMetadataValue('icon_url', data?.metadata?.items)
-
 			const isNFT = data?.details?.type === 'NonFungibleResource'
 
 			let imgSrc = images.get(address)
@@ -45,7 +44,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 		return (
 			<ToolTip side="top" message={tooltip} disabled={!toolTipEnabled || !tooltip}>
 				<span>
-					<ImageIcon size={size} ref={ref} {...props} {...computedProps} />
+					<ImageIcon size={size} ref={ref} address={address} {...props} {...computedProps} />
 				</span>
 			</ToolTip>
 		)
