@@ -17,6 +17,7 @@ import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { DAPP_ADDRESS } from 'ui/src/constants/dapp'
 import { CURRENCY_STYLES, DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -129,6 +130,7 @@ interface AggregatedChange {
 
 function getType(account: string, amount: number): string {
 	if (account.startsWith('account_')) {
+		if (account === DAPP_ADDRESS) return 'usage'
 		return amount > 0 ? 'deposit' : 'withdraw'
 	}
 	if (account.startsWith('validator_')) {
