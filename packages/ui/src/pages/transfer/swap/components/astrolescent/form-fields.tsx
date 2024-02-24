@@ -47,6 +47,10 @@ const messages = defineMessages({
 		defaultMessage: 'Select account',
 		id: '0+6+jP',
 	},
+	swap_lading_error: {
+		defaultMessage: 'Swap preview is loading...',
+		id: 'dgs4z4',
+	},
 })
 
 export const FormFields: React.FC = () => {
@@ -90,6 +94,11 @@ export const FormFields: React.FC = () => {
 	useEffect(() => {
 		onFieldChange(`${parentName}${parentName ? '.' : ''}dex`, 'astrolecent')
 	}, [onFieldChange])
+
+	useEffect(() => {
+		if (!isFetching) return
+		onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, '')
+	}, [isFetching])
 
 	useEffect(() => {
 		if (!preview) return
@@ -162,7 +171,7 @@ export const FormFields: React.FC = () => {
 			<ValidationErrorMessage message={(previewError as any)?.message} />
 
 			{(isFetching || preview) && (
-				<Box width="full">
+				<Box className={styles.swapFormFeeWrapper}>
 					{isFetching && <FallbackLoading />}
 					{!isFetching && preview && (
 						<>
