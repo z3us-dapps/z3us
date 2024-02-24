@@ -56,42 +56,6 @@ export const imageWrapper = recipe({
 	},
 })
 
-export const imageFallbackTextWrapper = recipe({
-	base: {
-		flexShrink: 0,
-		textTransform: 'uppercase',
-	},
-	variants: {
-		size: {
-			small: { fontSize: '9px', lineHeight: '9px', fontWeight: '500' },
-			medium: { fontSize: '10px', lineHeight: '10px', fontWeight: '500' },
-			large: { fontSize: '11px', lineHeight: '11px', fontWeight: '500' },
-			xlarge: { fontSize: '12px', lineHeight: '12px', fontWeight: '500' },
-			xxlarge: { fontSize: '13px', lineHeight: '13px', fontWeight: '500' },
-		},
-		sizeTablet: {
-			small: responsiveStyle({
-				tablet: { fontSize: '9px', lineHeight: '9px', fontWeight: '500' },
-			}),
-			medium: responsiveStyle({
-				tablet: { fontSize: '10px', lineHeight: '10px', fontWeight: '500' },
-			}),
-			large: responsiveStyle({
-				tablet: { fontSize: '11px', lineHeight: '11px', fontWeight: '500' },
-			}),
-			xlarge: responsiveStyle({
-				tablet: { fontSize: '12px', lineHeight: '12px', fontWeight: '500' },
-			}),
-			xxlarge: responsiveStyle({
-				tablet: { fontSize: '13px', lineHeight: '13px', fontWeight: '500' },
-			}),
-		},
-	},
-	defaultVariants: {
-		size: 'medium',
-	},
-})
-
 export const imageAvatarRootWrapper = style([
 	sprinkles({
 		borderRadius: 'full',
@@ -117,15 +81,3 @@ export const imageAvatarImageWrapper = recipe({
 		rounded: true,
 	},
 })
-
-export const imageAvatarFallbackWrapper = style([
-	sprinkles({
-		borderRadius: 'full',
-		width: 'full',
-		height: 'full',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-	}),
-	{},
-])

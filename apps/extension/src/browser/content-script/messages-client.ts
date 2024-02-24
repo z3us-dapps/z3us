@@ -4,18 +4,23 @@ import { createMessage as createRadixMessage } from '@radixdlt/connector-extensi
 import type { ExtensionInteraction, WalletInteractionWithOrigin } from '@radixdlt/radix-connect-schemas'
 import browser from 'webextension-polyfill'
 
+import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
+
 import { openAppPopup } from '@src/browser/app/popup'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { PORT_NAME } from '@src/browser/messages/constants'
 import { newMessage } from '@src/browser/messages/message'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
+import { addOriginToMetadata } from '@src/radix/metadata'
 
 import timeout, { reason } from '../messages/timeout'
 import { chromeDAppClient, logger, radixMessageHandler, sendRadixMessage } from './radix'
 import { isHandledByRadix } from './radix-connector'
 import { checkConnectButtonStatus } from './storage'
 import { MessageAction } from './types'
+
+const popupURL = new URL(browser.runtime.getURL(''))
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 
@@ -120,6 +125,9 @@ export const MessageClient = () => {
 				sendRadixMessage(message.payload, message.fromTabId)
 				return undefined
 			default:
+				if (message.data?.metadata?.origin === DAPP_ORIGIN && window.location.origin === popupURL.origin) {
+					message.data.metadata.origin = popupURL.origin
+				}
 				radixMessageHandler.onMessage(message)
 				return undefined
 		}
@@ -129,7 +137,7 @@ export const MessageClient = () => {
 		const radixMsg = createRadixMessage.dAppRequest('contentScript', walletInteraction)
 		const enabled = await isHandledByRadix()
 		if (enabled) {
-			await browser.runtime.sendMessage(radixMsg)
+			await browser.runtime.sendMessage(addOriginToMetadata(radixMsg))
 		} else {
 			await sendMessage(radixMsg)
 		}

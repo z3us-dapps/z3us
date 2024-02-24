@@ -72,7 +72,7 @@ export const Table: React.FC<ITableProps> = props => {
 		selectedRowIds,
 	})
 
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, toggleAllRowsSelected, state } = useTable(
+	const { headerGroups, rows, prepareRow, toggleAllRowsSelected, state } = useTable(
 		{
 			columns,
 			data,
@@ -100,56 +100,55 @@ export const Table: React.FC<ITableProps> = props => {
 		onEndReached()
 	}
 
-	const memoizedComponents: TableComponents = {
-		Table: ({ style, ...tableProps }) => (
-			<table
-				{...getTableProps()}
-				{...tableProps}
-				className={styles.tableRecipe({
-					sizeVariant,
-					styleVariant,
-				})}
-				style={{ ...style }}
-			/>
-		),
-		TableBody: React.forwardRef((tableBodyProps, ref) => (
-			<tbody {...getTableBodyProps()} {...tableBodyProps} ref={ref} />
-		)),
-		TableRow: tableRowProps => {
-			// eslint-disable-next-line react/destructuring-assignment
-			const index = tableRowProps['data-index']
-			const row = rows[index]
-			const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
-
-			return (
-				<tr
-					onClick={e => {
-						handleDeselectAllRows()
-						onRowSelected(row)
-						if (rowSelectedProps) rowSelectedProps.onChange(e)
-					}}
-					className={clsx(
-						styles.tableTrRecipe({
-							sizeVariant,
-							styleVariant,
-							isRowSelectable: !!onRowSelected,
-						}),
-						!loading && rowSelectedProps?.checked && 'tr-selected',
-					)}
-					{...tableRowProps}
-					{...(row?.getRowProps ? row?.getRowProps() : {})}
+	const memoizedComponents: TableComponents = useMemo(
+		() => ({
+			Table: ({ style, ...tableProps }) => (
+				<table
+					{...tableProps}
+					className={styles.tableRecipe({
+						sizeVariant,
+						styleVariant,
+					})}
+					style={{ ...style }}
 				/>
-			)
-		},
-		TableFoot: React.forwardRef((tableBodyProps, ref) => (
-			<tfoot
-				className={clsx(styles.tFootWrapper, loadMore && styles.tFootWrapperVisible)}
-				{...getTableBodyProps()}
-				{...tableBodyProps}
-				ref={ref}
-			/>
-		)),
-	}
+			),
+			TableBody: React.forwardRef((tableBodyProps, ref) => <tbody {...tableBodyProps} ref={ref} />),
+			TableRow: tableRowProps => {
+				// eslint-disable-next-line react/destructuring-assignment
+				const index = tableRowProps['data-index']
+				const row = rows[index]
+				const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
+
+				return (
+					<tr
+						onClick={e => {
+							handleDeselectAllRows()
+							onRowSelected(row)
+							if (rowSelectedProps) rowSelectedProps.onChange(e)
+						}}
+						className={clsx(
+							styles.tableTrRecipe({
+								sizeVariant,
+								styleVariant,
+								isRowSelectable: !!onRowSelected,
+							}),
+							!loading && rowSelectedProps?.checked && 'tr-selected',
+						)}
+						{...tableRowProps}
+						{...(row?.getRowProps ? row?.getRowProps() : {})}
+					/>
+				)
+			},
+			TableFoot: React.forwardRef((tableBodyProps, ref) => (
+				<tfoot
+					className={clsx(styles.tFootWrapper, loadMore && styles.tFootWrapperVisible)}
+					{...tableBodyProps}
+					ref={ref}
+				/>
+			)),
+		}),
+		[loading, loadMore, sizeVariant, styleVariant, onRowSelected, rows],
+	)
 
 	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect
 

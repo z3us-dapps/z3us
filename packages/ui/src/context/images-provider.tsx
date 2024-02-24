@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 
-import type { State } from './images'
-import { ImageContext, defaultState } from './images'
+import type { TImages } from './images'
+import { ImageContext } from './images'
 
 export const brandImages = {
 	RADIX: 'radix',
@@ -23,7 +23,9 @@ export const ImageProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const networkId = useNetworkId()
 	const { data: knownAddresses } = useKnownAddresses()
 
-	const [images, setImages] = useState<State>(defaultState)
+	const [images, setImages] = useState<TImages>(new Map())
+
+	const value = React.useMemo(() => ({ images, setImages }), [images, setImages])
 
 	useEffect(() => {
 		if (knownAddresses) {
@@ -38,5 +40,6 @@ export const ImageProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		}
 	}, [networkId, knownAddresses])
 
-	return <ImageContext.Provider value={images}>{children}</ImageContext.Provider>
+	// return <ImageContext.Provider value={{ images, updateImages }}>{children}</ImageContext.Provider>
+	return <ImageContext.Provider value={value}>{children}</ImageContext.Provider>
 }
