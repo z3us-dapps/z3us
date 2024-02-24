@@ -1,3 +1,4 @@
+import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import { logger as utilsLogger } from '@radixdlt/connector-extension/src/utils/logger'
 import browser from 'webextension-polyfill'
 
@@ -22,6 +23,17 @@ const messageHandler = MessageClient(logger)
 const handleTabRemoved = getTabRemovedHandler(messageHandler)
 const handleTabUpdated = getTabUpdatedHandler(messageHandler)
 
+globalThis.onerror = err => {
+	// eslint-disable-next-line no-console
+	console.error('Unhandled error:', err)
+}
+
+// keepAlive from offscreen page
+globalThis.onmessage = e => {
+	// eslint-disable-next-line no-console
+	console.debug('Keep alive', e)
+}
+
 browser.runtime.onInstalled.addListener(handleInstall)
 browser.runtime.onStartup.addListener(() => logger.debug('onStartup'))
 browser.runtime.onConnect.addListener(messageHandler.onPort)
@@ -30,6 +42,11 @@ browser.storage.onChanged.addListener(handleStorageChange)
 browser.tabs.onUpdated.addListener(handleTabUpdated)
 browser.tabs.onRemoved.addListener(handleTabRemoved)
 
+browser.idle.onStateChanged.addListener(state => {
+	logger.debug('💻 onStateChanged:', state)
+	if (state === 'active') browser.runtime.sendMessage(createRadixMessage.restartConnector())
+})
+
 browser.contextMenus.removeAll().then(() => {
 	addInjectContentScript()
 	addDashboard()
@@ -37,12 +54,6 @@ browser.contextMenus.removeAll().then(() => {
 	addLedger()
 	addDevTools()
 })
-
-// keepAlive from offscreen page
-globalThis.onmessage = e => {
-	// eslint-disable-next-line no-console
-	console.info('Keep alive', e)
-}
 
 createOffscreen()
 watch()

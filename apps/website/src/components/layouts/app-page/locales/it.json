@@ -79,7 +79,6 @@
   "BVfFiI": "Firma la sfida",
   "BY343C": "Modifica",
   "BiqE0f": "Persona eliminata con successo",
-  "COpeCU": "Nessun NFT trovato in questo conto",
   "CRZQfm": "Voce nel libro degli indirizzi",
   "CV+lHE": "Non hai raccolte NFT",
   "CyAOW2": "Esporta su Radix Mobile",
@@ -283,7 +282,6 @@
   "pQOchI": "Account selezionati",
   "pSQ1UK": "Tipo di identificazione",
   "paDdcH": "Indirizzo della risorsa",
-  "phAZoj": "Raccolta",
   "psAdnA": "Inserisci un manifesto di transazione raw",
   "q7eony": "{hasDisplayName,select,true {{displayName}} other {NFT} }",
   "qJcduu": "Aggiungi account",
@@ -407,5 +405,8 @@
   "gzjHi6": "Seleziona un minimo di {number} account",
   "ieuxQy": "Sezione richiesta",
   "xxuT0a": "Apri in Radix Dashboard",
-  "UuMbWw": "Il blocco maiuscole è attivo"
+  "UuMbWw": "Il blocco maiuscole è attivo",
+  "gRjgWW": "Connettore Radix rilevato",
+  "jwimQJ": "Ok",
+  "/APLYY": "Se desideri utilizzare Z3US con il pulsante Radix Connect, disabilita l'estensione Radix Connector. Avere entrambi abilitati contemporaneamente causerà problemi con le interazioni Dapp."
 }

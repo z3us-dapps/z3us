@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
 import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 
@@ -15,9 +14,6 @@ export const useTotalBalance = () => {
 		currency: state.currency,
 	}))
 
-	const selectedAccounts = useSelectedAccounts()
-
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
 		totalXrdValue = 0,
 		totalValue = 0,
@@ -34,7 +30,7 @@ export const useTotalBalance = () => {
 		poolUnitsXrdValue = 0,
 		poolUnitsValue = 0,
 		poolUnitsChange = 0,
-	} = balanceData || {}
+	} = useSelectedAccountsBalances()
 
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue
@@ -68,12 +64,11 @@ export const useTotalBalance = () => {
 	])
 
 	return {
-		isLoading,
 		xrdValue,
 		value,
 		change,
-		formattedXrdValue: intl.formatNumber(xrdValue, { maximumSignificantDigits: 3, ...DECIMAL_STYLES }),
+		formattedXrdValue: intl.formatNumber(xrdValue, DECIMAL_STYLES),
 		formattedValue: intl.formatNumber(value, { currency, ...CURRENCY_STYLES }),
-		formattedChange: intl.formatNumber(change, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES }),
+		formattedChange: intl.formatNumber(change, PERCENTAGE_STYLES),
 	}
 }

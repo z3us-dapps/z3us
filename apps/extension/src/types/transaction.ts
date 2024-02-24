@@ -36,8 +36,6 @@ export type TransactionReceipt = {
 	error_message: string
 }
 
-export type ResourceChanges = Array<{ account: string; resource: string; amount: number }>
-
 export type Proof = { resourceAddress: string; ids?: string[]; amount?: number }
 
 export type Summary = { proofs: Proof[] }

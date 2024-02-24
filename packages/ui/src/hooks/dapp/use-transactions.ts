@@ -52,15 +52,21 @@ export const useTransactions = (addresses: string[]) => {
 		queryFn: async ({ pageParam }) => {
 			const responses = await Promise.all(
 				addresses.map((address, idx) =>
-					pageParam?.[idx] === null
-						? { items: [], next_cursor: null }
+					pageParam?.[idx].next_cursor === null
+						? { items: [], next_cursor: null, ledger_state: null }
 						: stream.innerClient.streamTransactions({
 								streamTransactionsRequest: {
-									cursor: pageParam?.[idx],
-									affected_global_entities_filter: [address],
 									opt_ins: {
 										balance_changes: true,
 									},
+									affected_global_entities_filter: [address],
+									limit_per_page: 5,
+									cursor: pageParam?.[idx].next_cursor || null,
+									at_ledger_state: pageParam?.[idx].next_cursor
+										? {
+												state_version: pageParam?.[idx].ledger_state.state_version,
+										  }
+										: null,
 								},
 						  }),
 				),
@@ -69,17 +75,21 @@ export const useTransactions = (addresses: string[]) => {
 			const aggregatedResult = responses.reduce(
 				(accumulator, response) => {
 					accumulator.items.push(...response.items)
-					accumulator.next_cursors.push(response.next_cursor || null)
+					accumulator.pageParams.push({
+						next_cursor: response.next_cursor || null,
+						ledger_state: response.ledger_state,
+					})
 					return accumulator
 				},
-				{ items: [], next_cursors: [] },
+				{ items: [], pageParams: [] },
 			)
 
 			return aggregatedResult
 		},
 		getNextPageParam: lastPage =>
-			lastPage.next_cursors?.filter(cursor => cursor !== null).length > 0 ? lastPage.next_cursors : undefined,
-		// getPreviousPageParam: firstPage => firstPage.previous_cursor,
+			lastPage.pageParams?.filter(({ next_cursor }) => next_cursor !== null).length > 0
+				? lastPage.pageParams
+				: undefined,
 		enabled: !!stream,
 	})
 

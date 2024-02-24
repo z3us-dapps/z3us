@@ -1,6 +1,6 @@
 import { useIntl } from 'react-intl'
 
-import { FallbackLoading } from 'ui/src/components/fallback-renderer'
+import { LoadingBarsIcon } from 'ui/src/components/icons'
 import { CURRENCY_STYLES } from 'ui/src/constants/number'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
 import { useToken } from 'ui/src/hooks/queries/tokens'
@@ -23,7 +23,7 @@ export const TokenPrice: React.FC<IProps> = ({ amount, address, currency }) => {
 	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDPriceOnDay(inCurrency, new Date())
 	const { data: token, isLoading: isLoadingToken } = useToken(address)
 
-	if (isLoadingToken || isLoadingPrice) return <FallbackLoading />
+	if (isLoadingToken || isLoadingPrice) return <LoadingBarsIcon />
 
 	const value = (amount || 0) * (token?.price.xrd.now || 0) * (xrdPrice || 0)
 

@@ -2,6 +2,8 @@ import { enableMapSet } from 'immer'
 import React from 'react'
 import * as ReactDOM from 'react-dom/client'
 
+import { BalancesProvider } from 'ui/src/context/balances/provider'
+import { CompareWithDateProvider } from 'ui/src/context/compare-with-date-provider'
 import { ImageProvider } from 'ui/src/context/images-provider'
 import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
@@ -35,7 +37,11 @@ ReactDOM.createRoot(container).render(
 										<RdtProvider>
 											<ZdtProvider>
 												<ImageProvider>
-													<App />
+													<CompareWithDateProvider>
+														<BalancesProvider>
+															<App />
+														</BalancesProvider>
+													</CompareWithDateProvider>
 												</ImageProvider>
 											</ZdtProvider>
 										</RdtProvider>

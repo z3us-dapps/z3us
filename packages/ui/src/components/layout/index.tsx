@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion'
 import React, { Suspense, useEffect, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useOutlet } from 'react-router-dom'
@@ -27,11 +26,9 @@ const Layout: React.FC = () => {
 		<Box className={styles.layoutWrapper}>
 			<HeaderNav />
 			<Box className={styles.layoutRouteWrapper}>
-				<AnimatePresence initial={false}>
-					<Suspense key={key} fallback={<FallbackLoading />}>
-						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-					</Suspense>
-				</AnimatePresence>
+				<Suspense key={key} fallback={<FallbackLoading />}>
+					<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+				</Suspense>
 			</Box>
 			<MobileFooterNavigation />
 			<Transaction />

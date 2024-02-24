@@ -79,7 +79,6 @@
   "BVfFiI": "Podpisz wyzwanie",
   "BY343C": "Zmień",
   "BiqE0f": "Persona została pomyślnie usunięta",
-  "COpeCU": "Nie znaleziono żadnych NFT na tym koncie",
   "CRZQfm": "Wpis w książce adresowej",
   "CV+lHE": "Nie masz żadnych kolekcji NFT",
   "CyAOW2": "Eksportuj do Radix Mobile",
@@ -283,7 +282,6 @@
   "pQOchI": "Wybrane konta",
   "pSQ1UK": "Typ identyfikatora",
   "paDdcH": "Adres zasobu",
-  "phAZoj": "Kolekcja",
   "psAdnA": "Wprowadź manifest transakcji surowej",
   "q7eony": "{hasDisplayName, select, true {{displayName}} other {NFT} }",
   "qJcduu": "Dodaj konto",
@@ -407,5 +405,8 @@
   "gzjHi6": "Proszę wybrać co najmniej {number} kont",
   "ieuxQy": "Wymagana sekcja",
   "xxuT0a": "Otwórz w panelu kontrolnym Radix",
-  "UuMbWw": "Caps Lock jest włączony"
+  "UuMbWw": "Caps Lock jest włączony",
+  "gRjgWW": "Wykryto Radix Connector",
+  "jwimQJ": "OK",
+  "/APLYY": "Jeśli chcesz używać Z3US z przyciskiem Radix Connect, wyłącz rozszerzenie Radix Connector. Włączenie obu w tym samym czasie spowoduje problemy z interakcjami dApp."
 }

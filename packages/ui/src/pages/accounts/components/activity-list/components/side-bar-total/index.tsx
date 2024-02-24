@@ -21,16 +21,12 @@ export const SideBarTotal: React.FC = () => {
 	const intl = useIntl()
 	const isAllAccounts = useIsAllAccounts()
 
-	const { isLoading, formattedXrdValue, formattedValue, formattedChange, value, xrdValue, change } = useTotalBalance()
+	const { formattedXrdValue, formattedValue, formattedChange, value, xrdValue, change } = useTotalBalance()
 
 	const [format, setFormat] = useState<'currency' | 'xrd'>('currency')
 
 	const handleToggleValue = () => {
 		setFormat(format === 'currency' ? 'xrd' : 'currency')
-	}
-
-	if (isLoading) {
-		return null
 	}
 
 	return (

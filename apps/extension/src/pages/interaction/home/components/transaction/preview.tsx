@@ -1,7 +1,10 @@
+/* eslint-disable no-nested-ternary */
+
+/* eslint-disable react/no-array-index-key */
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
 import { type Instruction, type Intent } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
@@ -22,7 +25,6 @@ import { useCustomizeFeeModal } from '@src/hooks/modal/use-customize-fee-modal'
 import { usePreview } from '@src/hooks/transaction/use-preview'
 import { summaryFromInstructions } from '@src/radix/manifest'
 import {
-	type ResourceChanges,
 	type Summary,
 	type TransactionMeta,
 	type TransactionReceipt,
@@ -35,7 +37,7 @@ import {
 	signatureCost,
 } from '@src/types/transaction'
 
-import { FEE_PADDING_MARGIN } from './consts'
+import { FEE_PADDING_MARGIN, FEE_PADDING_MARGIN_INCREMENT, MAX_PADDING_CALCULATION_RETRY } from './constants'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -95,50 +97,92 @@ const messages = defineMessages({
 		id: '7BSUnP',
 		defaultMessage: 'Depositing',
 	},
+	stake: {
+		id: 'dOtWXt',
+		defaultMessage: 'Staking/Unstaking',
+	},
+	usage: {
+		id: '6bKmjV',
+		defaultMessage: 'Using',
+	},
 	message: {
 		id: 'T7Ry38',
 		defaultMessage: 'Message',
 	},
 })
 
-function aggregateConsecutiveChanges(
-	resourceChanges: TransactionPreviewResponse['resource_changes'],
-): State['flatChanges'] {
-	if (resourceChanges.length === 0) {
-		return []
-	}
-
-	const changes: State['flatChanges'] = []
-	resourceChanges.map((group: any) =>
-		group.resource_changes?.map((change: any) =>
-			changes.push({
-				account: change.component_entity.entity_address,
-				resource: change.resource_address,
-				amount: parseFloat(change.amount) || 0,
-			}),
-		),
-	)
-
-	const aggregatedData: State['flatChanges'] = [changes[0]]
-
-	// eslint-disable-next-line no-plusplus
-	for (let i = 1; i < changes.length; i++) {
-		const currentItem = changes[i]
-		const previousItem = aggregatedData[aggregatedData.length - 1]
-
-		if (currentItem.account === previousItem.account && currentItem.resource === previousItem.resource) {
-			previousItem.amount += currentItem.amount
-		} else {
-			aggregatedData.push(currentItem)
-		}
-	}
-
-	return aggregatedData
+interface Change {
+	account: string
+	resource: string
+	amount: number
 }
 
-function getFeePaddingAmount(receipt: TransactionReceipt, walletCost: number): number {
+interface AccountChange {
+	account: string
+	changes: Array<{ resource: string; amount: number }>
+}
+
+interface AggregatedChange {
+	type: string
+	changes: AccountChange[]
+}
+
+function getType(account: string, amount: number): string {
+	if (account.startsWith('account_')) {
+		return amount > 0 ? 'deposit' : 'withdraw'
+	}
+	if (account.startsWith('validator_')) {
+		return 'stake'
+	}
+	// Add additional conditions for different types here if needed
+	return 'usage'
+}
+
+function aggregateChanges(resourceChanges: TransactionPreviewResponse['resource_changes']): AggregatedChange[] {
+	const changes: Change[] = []
+	resourceChanges
+		.filter((change: any) => change.amount !== 0)
+		.map((group: any) =>
+			group.resource_changes?.map((change: any) =>
+				changes.push({
+					account: change.component_entity.entity_address,
+					resource: change.resource_address,
+					amount: parseFloat(change.amount) || 0,
+				}),
+			),
+		)
+
+	return changes.reduce<AggregatedChange[]>((aggregatedChanges, change) => {
+		const { account, resource, amount } = change
+		const type = getType(account, amount)
+
+		let currentAggregatedChange = aggregatedChanges.find(item => item.type === type)
+		if (!currentAggregatedChange) {
+			currentAggregatedChange = { type, changes: [] }
+			aggregatedChanges.push(currentAggregatedChange)
+		}
+
+		let currentAccountChange = currentAggregatedChange.changes.find(accChange => accChange.account === account)
+		if (!currentAccountChange) {
+			currentAccountChange = { account, changes: [] }
+			currentAggregatedChange.changes.push(currentAccountChange)
+		}
+
+		const lastChange = currentAccountChange.changes[currentAccountChange.changes.length - 1]
+		if (!lastChange || lastChange.resource !== resource) {
+			currentAccountChange.changes.push({ resource, amount })
+		} else {
+			lastChange.amount += amount
+		}
+
+		return aggregatedChanges
+	}, [])
+}
+
+function getFeePaddingAmount(paddingCalculation: number, receipt: TransactionReceipt, walletCost: number): number {
 	return (
 		FEE_PADDING_MARGIN *
+		(1 + paddingCalculation * FEE_PADDING_MARGIN_INCREMENT) *
 		(Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) +
 			Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) +
 			Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost) +
@@ -206,13 +250,14 @@ interface IProps {
 }
 
 type State = {
+	isLoading: boolean
 	preview?: TransactionPreviewResponse
-	flatChanges?: ResourceChanges
+	aggregatedChanges?: AggregatedChange[]
 	summary?: Summary
 	currency: 'currency' | 'xrd'
 	walletExecutionCost: number
-	isLoading: boolean
 	hasManualSettings: boolean
+	paddingCalculationRetry: number
 }
 
 export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsChange, onStatusChange }) => {
@@ -226,12 +271,14 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 
 	const [state, setState] = useImmer<State>({
+		isLoading: true,
 		currency: 'xrd',
 		walletExecutionCost: 0,
-		isLoading: false,
 		hasManualSettings: false,
+		paddingCalculationRetry: 0,
 	})
-	const receipt = state.preview?.receipt as TransactionReceipt
+
+	const receipt = useMemo(() => state.preview?.receipt as TransactionReceipt, [state.preview])
 
 	useEffect(() => {
 		setState(draft => {
@@ -245,31 +292,40 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 		})
 
 		buildPreview(intent, settings).then(preview => {
+			const newReceipt = preview.receipt as TransactionReceipt
 			setState(draft => {
+				if (
+					newReceipt?.error_message &&
+					state.paddingCalculationRetry < MAX_PADDING_CALCULATION_RETRY &&
+					['FeeReserveError', 'InsufficientBalance'].every(substring => newReceipt?.error_message.includes(substring))
+				) {
+					// SystemModuleError(CostingError(FeeReserveError(InsufficientBalance { required: 0.0050005, remaining: 0.0033562161779997 })))
+					draft.paddingCalculationRetry += 1
+					draft.isLoading = true
+				} else {
+					draft.isLoading = false
+				}
 				draft.preview = preview
-				draft.flatChanges = aggregateConsecutiveChanges(preview.resource_changes).filter(change => change.amount !== 0)
+				draft.aggregatedChanges = aggregateChanges(preview.resource_changes)
 			})
-			onStatusChange((preview?.receipt as TransactionReceipt).status)
+			onStatusChange(newReceipt.status)
 		})
 	}, [intent])
 
 	useEffect(() => {
+		if (!state.isLoading) return
 		if (!receipt) return
 		if (state.hasManualSettings) return
 		if (state.walletExecutionCost === 0) return
-		if (settings.padding !== 0) return
 
-		setState(draft => {
-			draft.walletExecutionCost = walletExecutionCost(meta)
-		})
-		const padding = getFeePaddingAmount(receipt, state.walletExecutionCost + settings.padding)
+		const padding = getFeePaddingAmount(state.paddingCalculationRetry, receipt, state.walletExecutionCost)
 		const lockAmount = getFeeToLockAmount(receipt, padding, state.walletExecutionCost)
 		onSettingsChange({
 			...settings,
 			padding,
 			lockAmount,
 		})
-	}, [receipt])
+	}, [state.isLoading, state.hasManualSettings, state.paddingCalculationRetry, state.walletExecutionCost, receipt])
 
 	const handleToggleValue = () => {
 		setState(draft => {
@@ -290,24 +346,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 		})
 	}
 
-	// useEffect(() => {
-	// 	if (!state.preview) return
-
-	// 	RadixEngineToolkit.Instructions.convert(intent.manifest.instructions, intent.header.networkId, 'String').then(
-	// 		converted =>
-	// 			rawRadixEngineToolkit
-	// 				.then(ret =>
-	// 					ret.executionAnalyze({
-	// 						instructions: converted as SerializableInstructions,
-	// 						network_id: `${intent.header.networkId}`,
-	// 						preview_receipt: state.preview.encoded_receipt,
-	// 					}),
-	// 				)
-	// 				.then(console.log),
-	// 	)
-	// }, [state.preview])
-
-	if (!state.preview) return <FallbackLoading />
+	if (state.isLoading) return <FallbackLoading />
 
 	return (
 		<Box className={styles.transactionPreviewWrapper}>
@@ -335,30 +374,32 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 				</Box>
 			)}
 
-			{state.flatChanges.map((change, index) => (
-				// eslint-disable-next-line react/no-array-index-key
-				<Box key={`${index}${change.account}${change.resource}`} className={styles.transactionPreviewBlockWrapper}>
+			{state.aggregatedChanges.map((data, index) => (
+				<Box key={`${index}${data.type}`} className={styles.transactionPreviewBlockWrapper}>
 					<Text color="strong" size="xsmall" weight="strong">
-						{change.amount < 0 ? intl.formatMessage(messages.withdraw) : intl.formatMessage(messages.deposit)}
+						{intl.formatMessage(messages[data.type])}
 					</Text>
-					<Box className={styles.transactionPreviewBlock}>
-						<Box
-							display="flex"
-							alignItems="center"
-							width="full"
-							gap="medium"
-							flexGrow={1}
-							justifyContent="space-between"
-						>
-							<AccountSnippet address={change.account} />
-							<ResourceSnippet address={change.resource} change={change.amount} reversed />
+					{data.changes.map(accountChange => (
+						<Box key={`${data.type}${accountChange.account}`} className={styles.transactionPreviewBlock}>
+							<AccountSnippet address={accountChange.account} />
+							{data.type !== 'usage' &&
+								accountChange.changes.map(resourceChange =>
+									resourceChange.amount === 0 ? null : (
+										<ResourceSnippet
+											key={`${data.type}${accountChange.account}${resourceChange.resource}`}
+											address={resourceChange.resource}
+											change={resourceChange.amount}
+											reversed
+										/>
+									),
+								)}
 						</Box>
-					</Box>
+					))}
 				</Box>
 			))}
 
 			{state.summary?.proofs?.length > 0 &&
-				state.summary?.proofs.map((proof, idx) => (
+				state.summary?.proofs?.map((proof, idx) => (
 					// eslint-disable-next-line react/no-array-index-key
 					<Box key={`${idx}`} className={styles.transactionPreviewBlockWrapper}>
 						<Text color="strong" size="xsmall" weight="strong">

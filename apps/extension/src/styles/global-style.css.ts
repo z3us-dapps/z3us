@@ -21,9 +21,14 @@ globalStyle('::selection', {
 })
 
 globalStyle('body', {
-	textRendering: 'optimizeLegibility',
 	fontFamily: vars.fonts.body,
 	background: vars.color.backgroundPrimary,
+	textRendering: 'optimizeLegibility',
+	WebkitFontSmoothing: 'antialiased',
+	WebkitTextSizeAdjust: '100%',
+	MozOsxFontSmoothing: 'grayscale',
+	fontSynthesis: 'none',
+	fontSmooth: 'always',
 })
 
 globalStyle(`body.${darkMode}`, {

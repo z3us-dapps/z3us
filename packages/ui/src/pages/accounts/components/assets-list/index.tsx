@@ -3,12 +3,10 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { CURRENCY_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { OverlayAssetIcons } from '../overlay-asset-icons'
@@ -36,12 +34,10 @@ const messages = defineMessages({
 export const AssetsList: React.FC = () => {
 	const intl = useIntl()
 	const { accountId = '-' } = useParams()
-	const selectedAccounts = useSelectedAccounts()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
 		nftsBalances = [],
 		nftsChange = 0,
@@ -55,7 +51,7 @@ export const AssetsList: React.FC = () => {
 		poolUnitsBalances = [],
 		poolUnitsValue = 0,
 		poolUnitsChange = 0,
-	} = balanceData || {}
+	} = useSelectedAccountsBalances()
 
 	const rows = {
 		tokens: {
@@ -83,8 +79,6 @@ export const AssetsList: React.FC = () => {
 			title: intl.formatMessage(messages.lpus),
 		},
 	}
-
-	if (isLoading) return <FallbackLoading />
 
 	return (
 		<Box className={styles.assetsList}>
@@ -119,7 +113,7 @@ export const AssetsList: React.FC = () => {
 									truncate
 									className={styles.assetsListBalancesText}
 								>
-									{intl.formatNumber(rows[path].change, { signDisplay: 'exceptZero', ...PERCENTAGE_STYLES })}
+									{intl.formatNumber(rows[path].change, PERCENTAGE_STYLES)}
 								</RedGreenText>
 							)}
 						</Box>

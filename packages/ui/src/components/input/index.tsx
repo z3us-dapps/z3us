@@ -13,7 +13,7 @@ export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
 export interface IInputProps
 	extends Omit<HTMLProps<HTMLInputElement>, 'onChange' | 'onFocus' | 'onBlur' | 'onKeyDown'> {
-	value?: string | number
+	value?: string | number | undefined
 	onClick?: () => void
 	disabled?: boolean
 	rounded?: boolean

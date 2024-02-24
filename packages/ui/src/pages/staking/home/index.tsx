@@ -30,11 +30,9 @@ const Home: React.FC = () => {
 					data={items}
 					columns={columns}
 					isScrolledTop={isScrolledTop}
-					// loading
 					loading={loading}
 					loadMore={loadMore}
 					onRowSelected={onRowSelected}
-					// onEndReached={onEndReached}
 				/>
 			</Box>
 		</Box>

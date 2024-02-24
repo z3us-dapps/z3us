@@ -12,5 +12,5 @@ export const DesktopNavigation: React.FC<IProps> = props => {
 	const { title } = props
 	const menuItems = useMenuItems()
 
-	return <PageMenu id="settings-menu" menu={menuItems} title={title} />
+	return <PageMenu menu={menuItems} title={title} />
 }

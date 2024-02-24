@@ -8,12 +8,14 @@ import host_permissions from './host_permissions.json'
 const [major, minor, patch] = version.replace(/[^\d.-]+/g, '').split(/[.-]/)
 const permissions = [
 	'storage',
+	'management',
 	'offscreen',
 	'unlimitedStorage',
 	'notifications',
 	'activeTab',
 	'scripting',
 	'contextMenus',
+	'idle',
 ]
 
 const manifest: ManifestV3Export = {

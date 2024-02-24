@@ -65,20 +65,26 @@ export const Table: React.FC<ITableProps> = props => {
 	const initialSort = useMemo(() => {
 		if (sort || !columns?.length) return sort
 		return [{ id: columns[0].accessor, desc: true }]
-	}, [sort])
+	}, [sort, columns])
+
+	const [initialState, setInitialState] = useState<any>({
+		sortBy: initialSort,
+		selectedRowIds,
+	})
 
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, toggleAllRowsSelected, state } = useTable(
 		{
 			columns,
 			data,
-			initialState: {
-				sortBy: initialSort,
-				selectedRowIds,
-			},
+			initialState,
 		},
 		useSortBy,
 		useRowSelect,
 	)
+
+	useEffect(() => {
+		if (state) setInitialState(state)
+	}, [state])
 
 	const handleDeselectAllRows = () => {
 		toggleAllRowsSelected(false)
@@ -94,7 +100,7 @@ export const Table: React.FC<ITableProps> = props => {
 		onEndReached()
 	}
 
-	const memoizedComponents = useMemo(
+	const memoizedComponents: TableComponents = useMemo(
 		() => ({
 			Table: ({ style, ...tableProps }) => (
 				<table
@@ -115,6 +121,7 @@ export const Table: React.FC<ITableProps> = props => {
 				const index = tableRowProps['data-index']
 				const row = rows[index]
 				const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
+
 				return (
 					<tr
 						onClick={e => {
@@ -144,7 +151,7 @@ export const Table: React.FC<ITableProps> = props => {
 				/>
 			)),
 		}),
-		[data, columns, loading, loadMore, JSON.stringify(state?.sortBy || {})],
+		[loading, loadMore, sizeVariant, styleVariant, onRowSelected, getTableProps, getTableBodyProps, rows],
 	)
 
 	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect
@@ -172,7 +179,7 @@ export const Table: React.FC<ITableProps> = props => {
 				overscan={{ main: overscan, reverse: overscan }}
 				totalCount={rows.length}
 				customScrollParent={scrollableNode}
-				components={memoizedComponents as TableComponents}
+				components={memoizedComponents}
 				endReached={handleEndReached}
 				fixedHeaderContent={() =>
 					headerGroups.map(headerGroup => (

@@ -4,7 +4,6 @@ import { useLocation, useOutlet } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
-import MotionBox from 'ui/src/components/motion-box'
 import MobileScrollArea from 'ui/src/components/scroll-area-radix/mobile'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
@@ -40,7 +39,7 @@ const ScrollContent: React.FC = () => {
 }
 
 const Layout: React.FC = () => (
-	<MotionBox>
+	<Box>
 		<Box className={panelViewStyles.panelViewOuterWrapper}>
 			<MobileScrollArea className={panelViewStyles.panelViewMobileScrollWrapper}>
 				<Box className={panelViewStyles.panelViewWrapper}>
@@ -49,7 +48,7 @@ const Layout: React.FC = () => (
 			</MobileScrollArea>
 		</Box>
 		<ValidatorPanel />
-	</MotionBox>
+	</Box>
 )
 
 export default Layout

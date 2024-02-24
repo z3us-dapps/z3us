@@ -1,8 +1,8 @@
 import { useQueries, useQuery } from '@tanstack/react-query'
 
 import { CoinGeckoService } from 'ui/src/services/coingecko'
-
-import { TimeFrames } from '../../types'
+import { TimeFrames } from 'ui/src/types'
+import { formatDate } from 'ui/src/utils/date'
 
 const service = new CoinGeckoService()
 
@@ -47,7 +47,7 @@ export const useSupportedCurrencies = () =>
 export const getXRDPriceOnDayQueryKey = (currency: string, date: Date) => [
 	'useXRDPriceOnDay',
 	currency,
-	`${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`,
+	formatDate(date),
 ]
 
 export const useXRDPriceOnDay = (currency: string, date: Date) =>
