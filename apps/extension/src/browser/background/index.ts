@@ -1,3 +1,4 @@
+import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import { logger as utilsLogger } from '@radixdlt/connector-extension/src/utils/logger'
 import browser from 'webextension-polyfill'
 
@@ -40,6 +41,11 @@ browser.runtime.onMessage.addListener(messageHandler.onMessage)
 browser.storage.onChanged.addListener(handleStorageChange)
 browser.tabs.onUpdated.addListener(handleTabUpdated)
 browser.tabs.onRemoved.addListener(handleTabRemoved)
+
+browser.idle.onStateChanged.addListener(state => {
+	logger.debug('💻 onStateChanged:', state)
+	if (state === 'active') browser.runtime.sendMessage(createRadixMessage.restartConnector())
+})
 
 browser.contextMenus.removeAll().then(() => {
 	addInjectContentScript()

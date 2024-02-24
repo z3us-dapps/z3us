@@ -15,6 +15,7 @@ const permissions = [
 	'activeTab',
 	'scripting',
 	'contextMenus',
+	'idle',
 ]
 
 const manifest: ManifestV3Export = {
