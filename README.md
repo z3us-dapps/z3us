@@ -30,6 +30,18 @@ To build all apps and packages, run the following command:
 yarn build
 ```
 
+#### Errors
+
+- `error An unexpected error occurred: "could not find a copy of esbuild to link`
+
+Remove node modules and run
+
+```sh
+node -p "process.arch"
+yarn
+yarn build
+```
+
 ## 📜 [License](LICENSE)
 
 Copyright (c) [Z3US](https://github.com/orgs/z3us-dapps/people?query=role%3Aowner).
