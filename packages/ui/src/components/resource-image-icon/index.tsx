@@ -8,6 +8,8 @@ import { findMetadataValue } from 'ui/src/services/metadata'
 import { getStrPrefix } from 'ui/src/utils/get-str-prefix'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
+const TOKEN_PLACEHOLDER_IMAGE: string = '/images/token-images/token-placeholder.png'
+
 export interface IResourceImageIconProps
 	extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc' | 'rounded'> {
 	address: string
@@ -19,14 +21,13 @@ const defaultNftImage = '/images/token-images/nft-placeholder.svg'
 export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps>(
 	({ address, toolTipEnabled = false, size, ...props }, ref: React.Ref<HTMLElement | null>) => {
 		const { data } = useEntityDetails(address)
-		const images = useImages()
+		const { images, setImages } = useImages()
 
 		const { tooltip, ...computedProps } = useMemo(() => {
 			const shortAddress = getShortAddress(address)
 			const name = findMetadataValue('name', data?.metadata?.items)
 			const symbol = findMetadataValue('symbol', data?.metadata?.items)
 			const imageUrl = findMetadataValue('icon_url', data?.metadata?.items)
-
 			const isNFT = data?.details?.type === 'NonFungibleResource'
 
 			let imgSrc = images.get(address)
@@ -42,10 +43,17 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 			}
 		}, [address, data, images])
 
+		const handleImageError = (): void => {
+			const knownImagesMap = new Map([[address, TOKEN_PLACEHOLDER_IMAGE]])
+			const newMap = new Map([...images, ...knownImagesMap])
+
+			setImages(newMap)
+		}
+
 		return (
 			<ToolTip side="top" message={tooltip} disabled={!toolTipEnabled || !tooltip}>
 				<span>
-					<ImageIcon size={size} ref={ref} {...props} {...computedProps} />
+					<ImageIcon size={size} ref={ref} onImgError={handleImageError} {...props} {...computedProps} />
 				</span>
 			</ToolTip>
 		)

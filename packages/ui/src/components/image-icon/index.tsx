@@ -1,10 +1,8 @@
-import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { type TThemeColorKey } from 'ui/src/components/system/theme.css'
-import { Text } from 'ui/src/components/typography'
 
 import * as styles from './image-icon.css'
 
@@ -23,30 +21,32 @@ export type TImageSizes =
 export interface IImageIconProps {
 	imgSrc: string
 	imgAlt: string
-	fallbackText: string
 	className?: ClassValue
-	imgFallbackDelay?: number
 	size?: TImageSizes
 	backgroundColor?: TThemeColorKey
 	color?: TThemeColorKey
 	rounded?: boolean
+	onImgError?: () => void
 }
 
 export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: React.Ref<HTMLElement | null>) => {
 	const {
 		className,
 		imgSrc,
-		imgFallbackDelay = 600,
 		imgAlt,
 		size = 'medium',
 		color = 'colorNeutral',
 		backgroundColor = 'backgroundPrimary',
 		rounded = true,
-		fallbackText,
+		onImgError = () => {},
 	} = props
 
 	const sizeVariantMobile = typeof size === 'object' ? size.mobile : size
 	const sizeVariantTablet = typeof size === 'object' ? size.tablet : undefined
+
+	const onError = () => {
+		onImgError()
+	}
 
 	return (
 		<Box
@@ -58,18 +58,12 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 				className,
 			)}
 		>
-			<AvatarPrimitive.Root className={styles.imageAvatarRootWrapper}>
-				<AvatarPrimitive.Image className={styles.imageAvatarImageWrapper({ rounded })} src={imgSrc} alt={imgAlt} />
-				<AvatarPrimitive.Fallback delayMs={imgFallbackDelay} className={styles.imageAvatarFallbackWrapper}>
-					<Text
-						className={clsx(
-							styles.imageFallbackTextWrapper({ size: sizeVariantMobile, sizeTablet: sizeVariantTablet }),
-						)}
-					>
-						{fallbackText}
-					</Text>
-				</AvatarPrimitive.Fallback>
-			</AvatarPrimitive.Root>
+			<Box className={styles.imageAvatarRootWrapper}>
+				{imgSrc && (
+					// eslint-disable-next-line @next/next/no-img-element
+					<img className={styles.imageAvatarImageWrapper({ rounded })} src={imgSrc} alt={imgAlt} onError={onError} />
+				)}
+			</Box>
 		</Box>
 	)
 })

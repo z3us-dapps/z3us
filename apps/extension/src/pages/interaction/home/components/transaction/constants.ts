@@ -1,0 +1,3 @@
+export const FEE_PADDING_MARGIN = 0.2
+export const FEE_PADDING_MARGIN_INCREMENT = 0.1
+export const MAX_PADDING_CALCULATION_RETRY = 5
