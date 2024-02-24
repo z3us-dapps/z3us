@@ -72,7 +72,7 @@ export const Table: React.FC<ITableProps> = props => {
 		selectedRowIds,
 	})
 
-	const { headerGroups, rows, prepareRow, toggleAllRowsSelected, state } = useTable(
+	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, toggleAllRowsSelected, state } = useTable(
 		{
 			columns,
 			data,
@@ -104,6 +104,7 @@ export const Table: React.FC<ITableProps> = props => {
 		() => ({
 			Table: ({ style, ...tableProps }) => (
 				<table
+					{...getTableProps()}
 					{...tableProps}
 					className={styles.tableRecipe({
 						sizeVariant,
@@ -112,7 +113,9 @@ export const Table: React.FC<ITableProps> = props => {
 					style={{ ...style }}
 				/>
 			),
-			TableBody: React.forwardRef((tableBodyProps, ref) => <tbody {...tableBodyProps} ref={ref} />),
+			TableBody: React.forwardRef((tableBodyProps, ref) => (
+				<tbody {...getTableBodyProps()} {...tableBodyProps} ref={ref} />
+			)),
 			TableRow: tableRowProps => {
 				// eslint-disable-next-line react/destructuring-assignment
 				const index = tableRowProps['data-index']
@@ -142,12 +145,13 @@ export const Table: React.FC<ITableProps> = props => {
 			TableFoot: React.forwardRef((tableBodyProps, ref) => (
 				<tfoot
 					className={clsx(styles.tFootWrapper, loadMore && styles.tFootWrapperVisible)}
+					{...getTableBodyProps()}
 					{...tableBodyProps}
 					ref={ref}
 				/>
 			)),
 		}),
-		[loading, loadMore, sizeVariant, styleVariant, onRowSelected, rows],
+		[loading, loadMore, sizeVariant, styleVariant, onRowSelected, getTableProps, getTableBodyProps, rows],
 	)
 
 	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect

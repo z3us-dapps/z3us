@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { FormContext } from 'ui/src/components/form/context'
 import { FieldContext } from 'ui/src/components/form/field-wrapper/context'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
@@ -76,7 +77,11 @@ export const FormFields: React.FC = () => {
 	)
 	const fee = useMemo(() => Number.parseFloat(to?.amount || '0') * FEE_RATIO, [to?.amount])
 
-	const { data: preview, error: previewError } = useSwapPreview(account, from?.address, to?.address, side, swapAmount)
+	const {
+		data: preview,
+		error: previewError,
+		isFetching,
+	} = useSwapPreview(account, from?.address, to?.address, side, swapAmount)
 
 	useEffect(() => {
 		inputRef?.current?.focus()
@@ -156,36 +161,41 @@ export const FormFields: React.FC = () => {
 
 			<ValidationErrorMessage message={(previewError as any)?.message} />
 
-			{preview && (
+			{(isFetching || preview) && (
 				<Box width="full">
-					<AccountsTransactionInfo
-						leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
-						rightData={
-							<ToolTip message={intl.formatMessage(messages.price_impact_info)}>
-								<Box>
+					{isFetching && <FallbackLoading />}
+					{!isFetching && preview && (
+						<>
+							<AccountsTransactionInfo
+								leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
+								rightData={
+									<ToolTip message={intl.formatMessage(messages.price_impact_info)}>
+										<Box>
+											<Text size="small" color="strong">
+												{intl.formatNumber(preview.priceImpact, PERCENTAGE_STYLES)}
+											</Text>
+										</Box>
+									</ToolTip>
+								}
+							/>
+							<AccountsTransactionInfo
+								leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
+								rightData={
 									<Text size="small" color="strong">
-										{intl.formatNumber(preview.priceImpact, PERCENTAGE_STYLES)}
+										{intl.formatNumber(fee, DECIMAL_STYLES)} {symbol}
 									</Text>
-								</Box>
-							</ToolTip>
-						}
-					/>
-					<AccountsTransactionInfo
-						leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
-						rightData={
-							<Text size="small" color="strong">
-								{intl.formatNumber(fee, DECIMAL_STYLES)} {symbol}
-							</Text>
-						}
-					/>
-					<AccountsTransactionInfo
-						leftTitle={<Text size="small">{intl.formatMessage(messages.fee_lp)}</Text>}
-						rightData={
-							<Text size="small" color="strong">
-								{intl.formatNumber(preview.swapFee, DECIMAL_STYLES)} {symbol}
-							</Text>
-						}
-					/>
+								}
+							/>
+							<AccountsTransactionInfo
+								leftTitle={<Text size="small">{intl.formatMessage(messages.fee_lp)}</Text>}
+								rightData={
+									<Text size="small" color="strong">
+										{intl.formatNumber(preview.swapFee, DECIMAL_STYLES)} {symbol}
+									</Text>
+								}
+							/>
+						</>
+					)}
 				</Box>
 			)}
 		</Box>

@@ -16,7 +16,6 @@ import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
-import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { AddAccountDialog } from 'ui/src/pages/accounts/components/layout/components/add-account-dialog'
@@ -76,10 +75,10 @@ const HeaderLavaMenu = () => {
 	const items = useMenuItems()
 	return (
 		<Box component="ul" className={styles.lavaNavigationMenu}>
-			{items.map(({ text, href }) => (
+			{items.map(({ text, href, end, matchActiveFn }) => (
 				<Box key={href} component="li">
-					<NavLink to={href} underline="never">
-						{({ isActive }) => <PillNavigation text={text} matchActiveFn={() => isActive} />}
+					<NavLink to={href} underline="never" end={end}>
+						{state => <PillNavigation text={text} matchActiveFn={matchActiveFn(state)} />}
 					</NavLink>
 				</Box>
 			))}
@@ -261,21 +260,9 @@ const HeaderNavInner = () => {
 }
 
 export const HeaderNav: React.FC = () => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const dappStatus = useDappStatus()
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const isDappStatusConnected = false
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
-
-	// if (keystore?.type === KeystoreType.RADIX_WALLET && !isDappStatusConnected) {
-	// 	return (
-	// 		<Box>
-	// 			<ConnectButton />
-	// 		</Box>
-	// 	)
-	// }
 
 	return (
 		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
