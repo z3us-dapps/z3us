@@ -93,6 +93,11 @@ export const FormFields: React.FC = () => {
 	}, [])
 
 	useEffect(() => {
+		if (!isFetching) return
+		onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, '')
+	}, [isFetching])
+
+	useEffect(() => {
 		if (!preview) return
 		const s = preview.input_address === from?.address ? 'send' : 'receive'
 		const fromKey = s === 'send' ? 'input' : 'output'
