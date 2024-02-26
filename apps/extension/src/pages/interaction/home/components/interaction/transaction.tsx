@@ -83,8 +83,14 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 		meta: {
 			needSignaturesFrom: [],
 			isNotarySignatory: false,
-			tokenGuaranteesCount: 0,
-			nftGuaranteesCount: 0,
+			summary: {
+				tokenGuaranteesCount: 0,
+				nftGuaranteesCount: 0,
+				proofs: [],
+				guarantees: [],
+				needSignatureFrom: {},
+				predictedDepositIndexes: {},
+			},
 		},
 		previewStatus: '',
 	})

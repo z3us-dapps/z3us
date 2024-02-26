@@ -1,6 +1,12 @@
 import type { SendTransactionInput } from '@radixdlt/radix-dapp-toolkit'
 import { Convert, InstructionsKind, RadixEngineToolkit, generateRandomNonce } from '@radixdlt/radix-engine-toolkit'
-import type { Intent, Message, TransactionHeader, TransactionManifest } from '@radixdlt/radix-engine-toolkit'
+import type {
+	Instruction,
+	Intent,
+	Message,
+	TransactionHeader,
+	TransactionManifest,
+} from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -11,12 +17,8 @@ import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { buildAccountDerivationPath } from '@src/crypto/derivation_path'
 import { deriveEd25519, ed25519FromSeed } from '@src/crypto/key_pair'
 import { createMnemonic } from '@src/crypto/secret'
-import {
-	appendAssertWorktopContainsFungibles,
-	appendLockFeeInstruction,
-	countNftGuarantees,
-	countTokenGuarantees,
-} from '@src/radix/transaction'
+import { summaryFromInstructions } from '@src/radix/manifest'
+import { appendAssertWorktopContainsFungibles, appendLockFeeInstruction } from '@src/radix/transaction'
 import type { TransactionMeta, TransactionSettings } from '@src/types/transaction'
 
 const messages = defineMessages({
@@ -57,14 +59,14 @@ export const useIntent = () => {
 		)
 
 		const extractAddresses = await RadixEngineToolkit.Instructions.extractAddresses(instructions, networkId)
-		const needSignaturesFrom = [
+		const walletAddresses = [
 			...extractAddresses.GlobalVirtualEd25519Account,
 			...extractAddresses.GlobalVirtualSecp256k1Account,
 			...(settings.feePayer ? [settings.feePayer] : []),
 		]
 			.filter((value, index, array) => array.indexOf(value) === index) // unique
 			.filter(value => !!accountIndexes[value])
-		if (needSignaturesFrom.length === 0) {
+		if (walletAddresses.length === 0) {
 			throw new Error(intl.formatMessage(messages.empty_signatures_error))
 		}
 
@@ -84,7 +86,7 @@ export const useIntent = () => {
 
 		const feePayer =
 			settings.feePayer ||
-			needSignaturesFrom.sort((x, y) => input.transactionManifest.indexOf(x) - input.transactionManifest.indexOf(y))[0]
+			walletAddresses.sort((x, y) => input.transactionManifest.indexOf(x) - input.transactionManifest.indexOf(y))[0]
 
 		let offset = 0
 		Object.values(settings.guarantees).forEach(guarantee => {
@@ -107,11 +109,12 @@ export const useIntent = () => {
 		}
 
 		const intent: Intent = { header, manifest, message: input.message ? plainTextMessage(input.message) : noMessage }
+		const summary = summaryFromInstructions(instructions.value as Instruction[])
+
 		const meta: TransactionMeta = {
 			isNotarySignatory: header.notaryIsSignatory,
-			needSignaturesFrom,
-			nftGuaranteesCount: countNftGuarantees(instructions),
-			tokenGuaranteesCount: countTokenGuarantees(instructions),
+			needSignaturesFrom: walletAddresses.filter(address => summary.needSignatureFrom[address]),
+			summary,
 		}
 
 		const transactionManifest = await RadixEngineToolkit.Instructions.convert(

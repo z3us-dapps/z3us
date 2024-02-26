@@ -17,6 +17,7 @@ export const resolveManifestAddress = (address: ManifestAddress): Extract<Manife
 }
 
 // https://docs.radixdlt.com/docs/specifications
+// https://docs.radixdlt.com/docs/account
 // https://github.com/radixdlt/typescript-radix-engine-toolkit/blob/main/src/lts/toolkit.ts#L108
 export const summaryFromInstructions = (instructions: Instruction[]): Summary => {
 	let bucketId = 0
@@ -24,6 +25,9 @@ export const summaryFromInstructions = (instructions: Instruction[]): Summary =>
 	const proofs: Proof[] = []
 	const guarantees: Guarantee[] = []
 	const predictedDepositIndexes: { [key: number]: boolean } = {}
+	const needSignatureFrom: { [key: string]: boolean } = {}
+	let nftGuaranteesCount = 0
+	let tokenGuaranteesCount = 0
 
 	let isPredicted = false
 
@@ -37,14 +41,60 @@ export const summaryFromInstructions = (instructions: Instruction[]): Summary =>
 			case 'TakeAllFromWorktop':
 				isPredicted = true
 				break
+			case 'CreateProofFromAuthZoneOfAmount':
+				proofs.push({
+					resourceAddress: instruction.resourceAddress,
+					amount: instruction.amount.toNumber(),
+				})
+				break
+			case 'CreateProofFromAuthZoneOfNonFungibles':
+				proofs.push({
+					resourceAddress: instruction.resourceAddress,
+					ids: instruction.ids,
+				})
+				break
+			case 'CreateProofFromAuthZoneOfAll':
+				proofs.push({
+					resourceAddress: instruction.resourceAddress,
+				})
+				break
+			case 'CreateProofFromBucketOfAmount':
+				const [resourceInBucket] = bucketResources[instruction.bucketId]
+				proofs.push({
+					resourceAddress: resourceInBucket,
+					amount: instruction.amount.toNumber(),
+				})
+				break
+			case 'CreateProofFromBucketOfNonFungibles':
+				const [nftInBucket] = bucketResources[instruction.bucketId]
+				proofs.push({
+					resourceAddress: nftInBucket,
+					ids: instruction.ids,
+				})
+				break
+			case 'CreateProofFromBucketOfAll':
+				const [resourceAddressFromBucket] = bucketResources[instruction.bucketId]
+				proofs.push({
+					resourceAddress: resourceAddressFromBucket,
+				})
+				break
+			case 'AssertWorktopContains':
+				tokenGuaranteesCount += 1
+				guarantees.push({
+					index,
+					resourceAddress: instruction.resourceAddress,
+					amount: instruction.amount.toNumber(),
+				})
+				break
+			case 'AssertWorktopContainsAny':
+				tokenGuaranteesCount += 1
+				break
+			case 'AssertWorktopContainsNonFungibles':
+				nftGuaranteesCount += 1
+				break
 			case 'CallMethod':
 				switch (instruction.methodName) {
 					case 'create_proof_of_amount':
-						// CALL_METHOD
-						// Address("[your_account_address]")
-						// "create_proof_of_amount"
-						// Address("[badge_address]")
-						// Decimal("1");
 						const [resourceAddressValue, amountValue] = destructManifestValueTuple(instruction.args)
 						const resourceAddress = resolveManifestAddress(
 							castValue<'Address'>(resourceAddressValue, 'Address').value,
@@ -54,15 +104,9 @@ export const summaryFromInstructions = (instructions: Instruction[]): Summary =>
 							resourceAddress,
 							amount: amount.toNumber(),
 						})
+						needSignatureFrom[instruction.address.value] = true
 						break
 					case 'create_proof_of_non_fungibles':
-						// CALL_METHOD
-						// Address("account_rdx16860vss2kr5m6kez28swulaphnjtx4afmqk3r9llgevhwqglg20jwv")
-						// "create_proof_of_non_fungibles"
-						// Address("resource_rdx1nfyg2f68jw7hfdlg5hzvd8ylsa7e0kjl68t5t62v3ttamtejc9wlxa")
-						// Array<NonFungibleLocalId>(
-						// 	NonFungibleLocalId("<Member_1312>")
-						// )
 						const [nftAddressValue, nftIdsValue] = destructManifestValueTuple(instruction.args)
 						const nftAddress = resolveManifestAddress(castValue<'Address'>(nftAddressValue, 'Address').value).value
 						const ids = castValue<'Array'>(nftIdsValue, 'Array').elements
@@ -70,89 +114,43 @@ export const summaryFromInstructions = (instructions: Instruction[]): Summary =>
 							resourceAddress: nftAddress,
 							ids: ids.map((id: Extract<Value, { kind: 'NonFungibleLocalId' }>) => id.value),
 						})
+						needSignatureFrom[instruction.address.value] = true
 						break
 					case 'deposit':
 						const [bucketValue] = destructManifestValueTuple(instruction.args)
 						const bucket = castValue<'Bucket'>(bucketValue, 'Bucket').value
 						delete bucketResources[bucket]
 						predictedDepositIndexes[index] = isPredicted
+						needSignatureFrom[instruction.address.value] = true
 						break
 					case 'deposit_batch':
+					case 'withdraw':
+					case 'withdraw_non_fungibles':
+					case 'lock_fee_and_withdraw':
+					case 'lock_fee_and_withdraw_non_fungibles':
+						needSignatureFrom[instruction.address.value] = true
 						predictedDepositIndexes[index] = true
+						break
+					case 'lock_fee':
+					case 'lock_contingent_fee':
+					case 'burn':
+					case 'burn_non_fungibles':
+					case 'set_default_deposit_rule':
+					case 'set_resource_preference':
+					case 'remove_resource_preference':
+					case 'add_authorized_depositor':
+					case 'remove_authorized_depositor':
+					case 'securify':
+					case 'try_deposit_or_refund':
+						needSignatureFrom[instruction.address.value] = true
 						break
 					default:
 						break
 				}
 				break
-			case 'CreateProofFromAuthZoneOfAmount':
-				// CREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT
-				// 	Address("foo")
-				// 	Decimal("1.0")
-				// 	Proof("proof");
-				proofs.push({
-					resourceAddress: instruction.resourceAddress,
-					amount: instruction.amount.toNumber(),
-				})
-				break
-			case 'CreateProofFromAuthZoneOfNonFungibles':
-				// CREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES
-				// 	Address("${non_fungible_resource_address}")
-				// 	Array<NonFungibleLocalId>(NonFungibleLocalId("#123#"))
-				// 	Proof("proof");
-				proofs.push({
-					resourceAddress: instruction.resourceAddress,
-					ids: instruction.ids,
-				})
-				break
-			case 'CreateProofFromAuthZoneOfAll':
-				// CREATE_PROOF_FROM_AUTH_ZONE_OF_ALL
-				// 	Address("foo")
-				// 	Proof("proof");
-				proofs.push({
-					resourceAddress: instruction.resourceAddress,
-				})
-				break
-			case 'CreateProofFromBucketOfAmount':
-				// CREATE_PROOF_FROM_BUCKET_OF_AMOUNT
-				// 	Bucket("bucket")
-				// 	Decimal("1.0")
-				// 	Proof("proof")
-				const [resourceInBucket] = bucketResources[instruction.bucketId]
-				proofs.push({
-					resourceAddress: resourceInBucket,
-					amount: instruction.amount.toNumber(),
-				})
-				break
-			case 'CreateProofFromBucketOfNonFungibles':
-				// CREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES
-				// 	Bucket("some_xrd")
-				// 	Array<NonFungibleLocalId>(NonFungibleLocalId("#123#"))
-				// 	Proof("proof1b");
-				const [nftInBucket] = bucketResources[instruction.bucketId]
-				proofs.push({
-					resourceAddress: nftInBucket,
-					ids: instruction.ids,
-				})
-				break
-			case 'CreateProofFromBucketOfAll':
-				// CREATE_PROOF_FROM_BUCKET_OF_ALL
-				// 	Bucket("bucket")
-				// 	Proof("proof");
-				const [resourceAddress] = bucketResources[instruction.bucketId]
-				proofs.push({
-					resourceAddress,
-				})
-				break
-			case 'AssertWorktopContains':
-				guarantees.push({
-					index,
-					resourceAddress: instruction.resourceAddress,
-					amount: instruction.amount.toNumber(),
-				})
-				break
 			default:
 				break
 		}
 	})
-	return { proofs, guarantees, predictedDepositIndexes }
+	return { proofs, guarantees, predictedDepositIndexes, tokenGuaranteesCount, nftGuaranteesCount, needSignatureFrom }
 }

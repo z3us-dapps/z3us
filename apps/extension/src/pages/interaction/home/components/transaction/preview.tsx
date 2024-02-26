@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-array-index-key */
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
-import { type Instruction, type Intent } from '@radixdlt/radix-engine-toolkit'
+import { type Intent } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
 import React, { useEffect, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -25,7 +25,6 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useCustomizeFeeModal } from '@src/hooks/modal/use-customize-fee-modal'
 import { useCustomizeGuaranteesFeeModal } from '@src/hooks/modal/use-customize-guarantee-modal'
 import { usePreview } from '@src/hooks/transaction/use-preview'
-import { summaryFromInstructions } from '@src/radix/manifest'
 import {
 	fungibleGuaranteeInstructionCost,
 	lockFeeInstructionCost,
@@ -37,7 +36,6 @@ import {
 import type {
 	AggregatedChange,
 	Change,
-	Summary,
 	TransactionMeta,
 	TransactionReceipt,
 	TransactionSettings,
@@ -181,8 +179,8 @@ function getFeePaddingAmount(paddingCalculation: number, receipt: TransactionRec
 function walletExecutionCost(meta: TransactionMeta): number {
 	return (
 		lockFeeInstructionCost +
-		meta.tokenGuaranteesCount * fungibleGuaranteeInstructionCost +
-		meta.nftGuaranteesCount * nonFungibleGuaranteeInstructionCost +
+		meta.summary.tokenGuaranteesCount * fungibleGuaranteeInstructionCost +
+		meta.summary.nftGuaranteesCount * nonFungibleGuaranteeInstructionCost +
 		meta.needSignaturesFrom.length * signatureCost +
 		(meta.isNotarySignatory ? notarizingCostWhenNotaryIsSignatory : notarizingCost)
 	)
@@ -241,7 +239,6 @@ type State = {
 	isLoading: boolean
 	preview?: TransactionPreviewResponse
 	aggregatedChanges?: AggregatedChange[]
-	summary?: Summary
 	currency: 'currency' | 'xrd'
 	walletExecutionCost: number
 	hasManualSettings: boolean
@@ -275,12 +272,6 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 	}, [meta])
 
 	useEffect(() => {
-		setState(draft => {
-			draft.summary = summaryFromInstructions(intent.manifest.instructions.value as Instruction[])
-		})
-	}, [intent.manifest.instructions.value])
-
-	useEffect(() => {
 		buildPreview(intent, settings).then(preview => {
 			const newReceipt = preview.receipt as TransactionReceipt
 			setState(draft => {
@@ -301,16 +292,6 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 			onStatusChange(newReceipt.status)
 		})
 	}, [intent])
-
-	useEffect(() => {
-		if (JSON.stringify(state.summary?.guarantees || []) === JSON.stringify(settings.guarantees)) {
-			return
-		}
-		onSettingsChange({
-			...settings,
-			guarantees: state.summary?.guarantees || [],
-		})
-	}, [state.summary])
 
 	useEffect(() => {
 		if (!state.isLoading) return
@@ -347,9 +328,10 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 	}
 
 	const handleCustomizeGuarantees = (change: Change) => {
-		customizeGuarantees(state.summary, change).then(newSummary =>
-			setState(draft => {
-				draft.summary = newSummary
+		customizeGuarantees(meta.summary, change).then(newSummary =>
+			onSettingsChange({
+				...settings,
+				guarantees: newSummary.guarantees,
 			}),
 		)
 	}
@@ -402,7 +384,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 												key={`${idx}${resourceChange.resource}`}
 											>
 												<ResourceSnippet address={resourceChange.resource} change={resourceChange.amount} reversed />
-												{state.summary?.predictedDepositIndexes[resourceChange.index] && (
+												{meta.summary.predictedDepositIndexes[resourceChange.index] && (
 													<CustomizeGuaranteeTrigger change={resourceChange} onClick={handleCustomizeGuarantees} />
 												)}
 											</Box>
@@ -426,24 +408,23 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 				</Box>
 			))}
 
-			{state.summary?.proofs?.length > 0 &&
-				state.summary?.proofs?.map((proof, idx) => (
-					// eslint-disable-next-line react/no-array-index-key
-					<Box key={`${idx}`} className={styles.transactionPreviewBlockWrapper}>
-						<Text color="strong" size="xsmall" weight="strong">
-							{intl.formatMessage(messages.proof)}
-						</Text>
-						<Box className={styles.transactionPreviewBlock}>
-							<Box display="flex" alignItems="center" width="full" gap="medium">
-								<Box alignItems="center" display="flex" flexGrow={1} justifyContent="space-between" gap="small">
-									<Box display="flex" flexDirection="column" gap="xsmall">
-										<ResourceSnippet address={proof.resourceAddress} />
-									</Box>
+			{meta.summary.proofs.map((proof, idx) => (
+				// eslint-disable-next-line react/no-array-index-key
+				<Box key={`${idx}`} className={styles.transactionPreviewBlockWrapper}>
+					<Text color="strong" size="xsmall" weight="strong">
+						{intl.formatMessage(messages.proof)}
+					</Text>
+					<Box className={styles.transactionPreviewBlock}>
+						<Box display="flex" alignItems="center" width="full" gap="medium">
+							<Box alignItems="center" display="flex" flexGrow={1} justifyContent="space-between" gap="small">
+								<Box display="flex" flexDirection="column" gap="xsmall">
+									<ResourceSnippet address={proof.resourceAddress} />
 								</Box>
 							</Box>
 						</Box>
 					</Box>
-				))}
+				</Box>
+			))}
 
 			<Box className={styles.transactionPreviewBlockWrapper}>
 				<Box display="flex" position="relative" width="full">

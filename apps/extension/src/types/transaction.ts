@@ -18,8 +18,7 @@ export type TransactionSettings = {
 export type TransactionMeta = {
 	needSignaturesFrom: string[]
 	isNotarySignatory: boolean
-	tokenGuaranteesCount: number
-	nftGuaranteesCount: number
+	summary: Summary
 }
 
 export type TransactionReceipt = {
@@ -41,7 +40,14 @@ export type TransactionReceipt = {
 
 export type Proof = { resourceAddress: string; ids?: string[]; amount?: number }
 
-export type Summary = { proofs: Proof[]; guarantees: Guarantee[]; predictedDepositIndexes: { [key: number]: boolean } }
+export type Summary = {
+	proofs: Proof[]
+	nftGuaranteesCount: number
+	tokenGuaranteesCount: number
+	guarantees: Guarantee[]
+	predictedDepositIndexes: { [key: number]: boolean }
+	needSignatureFrom: { [key: string]: boolean }
+}
 
 export interface Change {
 	index: number
