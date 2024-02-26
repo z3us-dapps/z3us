@@ -50,6 +50,7 @@ interface IProps {
 }
 
 type State = {
+	trigger: number
 	input: WalletTransactionItems['send']
 	settings: TransactionSettings
 	meta: TransactionMeta
@@ -71,11 +72,13 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 	const sign = useSign()
 
 	const [state, setState] = useImmer<State>({
+		trigger: new Date().getTime(),
 		input: (interaction.items as WalletTransactionItems).send,
 		settings: {
 			tipPercentage: 0,
 			padding: 0,
 			lockAmount: 1,
+			guarantees: [],
 		},
 		meta: {
 			needSignaturesFrom: [],
@@ -101,12 +104,14 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 				) {
 					authorizedAccounts.add(state.settings.feePayer)
 				}
+
 				setState(draft => {
 					draft.error = ''
 					draft.intent = response.intent
 					draft.notary = response.notary
 					draft.meta = response.meta
 					draft.isDappApproved = response.meta.needSignaturesFrom.every(account => authorizedAccounts.has(account))
+					draft.input.transactionManifest = response.transactionManifest
 				})
 			})
 			.catch(err => {
@@ -114,11 +119,12 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					draft.error = err.message
 				})
 			})
-	}, [state.input, state.settings])
+	}, [state.trigger])
 
 	useEffect(() => {
 		if (!state.settings.feePayer && state.meta.needSignaturesFrom.length > 0) {
 			setState(draft => {
+				draft.trigger = new Date().getTime()
 				draft.settings = { ...draft.settings, feePayer: state.meta.needSignaturesFrom[0] }
 			})
 		}
@@ -168,12 +174,14 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 
 	const handleManifestChange = (transactionManifest: string) => {
 		setState(draft => {
+			draft.trigger = new Date().getTime()
 			draft.input = { ...draft.input, transactionManifest }
 		})
 	}
 
 	const handleSettingsChange = (settings: TransactionSettings) => {
 		setState(draft => {
+			draft.trigger = new Date().getTime()
 			draft.settings = settings
 		})
 	}

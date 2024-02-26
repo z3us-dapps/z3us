@@ -7,7 +7,7 @@ import {
 	destructManifestValueTuple,
 } from '@radixdlt/radix-engine-toolkit'
 
-import type { Proof, Summary } from '@src/types/transaction'
+import type { Guarantee, Proof, Summary } from '@src/types/transaction'
 
 export const resolveManifestAddress = (address: ManifestAddress): Extract<ManifestAddress, { kind: 'Static' }> => {
 	if (address.kind === 'Static') {
@@ -22,12 +22,20 @@ export const summaryFromInstructions = (instructions: Instruction[]): Summary =>
 	let bucketId = 0
 	const bucketResources: Record<string, string> = {}
 	const proofs: Proof[] = []
+	const guarantees: Guarantee[] = []
+	const predictedDepositIndexes: { [key: number]: boolean } = {}
 
-	instructions.forEach(instruction => {
+	let isPredicted = false
+
+	instructions.forEach((instruction, index) => {
 		switch (instruction.kind) {
 			case 'TakeFromWorktop':
 			case 'TakeNonFungiblesFromWorktop':
+				isPredicted = false
 				bucketResources[bucketId++] = instruction.resourceAddress
+				break
+			case 'TakeAllFromWorktop':
+				isPredicted = true
 				break
 			case 'CallMethod':
 				switch (instruction.methodName) {
@@ -67,6 +75,10 @@ export const summaryFromInstructions = (instructions: Instruction[]): Summary =>
 						const [bucketValue] = destructManifestValueTuple(instruction.args)
 						const bucket = castValue<'Bucket'>(bucketValue, 'Bucket').value
 						delete bucketResources[bucket]
+						predictedDepositIndexes[index] = isPredicted
+						break
+					case 'deposit_batch':
+						predictedDepositIndexes[index] = true
 						break
 					default:
 						break
@@ -131,9 +143,16 @@ export const summaryFromInstructions = (instructions: Instruction[]): Summary =>
 					resourceAddress,
 				})
 				break
+			case 'AssertWorktopContains':
+				guarantees.push({
+					index,
+					resourceAddress: instruction.resourceAddress,
+					amount: instruction.amount.toNumber(),
+				})
+				break
 			default:
 				break
 		}
 	})
-	return { proofs }
+	return { proofs, guarantees, predictedDepositIndexes }
 }

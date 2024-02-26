@@ -25,10 +25,10 @@ export const useCustomizeFeeModal = () => {
 			const id = generateId()
 			const handleConfirm = (newSettings: Values) => {
 				resolve({
+					...settings,
 					feePayer: newSettings.feePayer,
 					tipPercentage: Number.parseFloat(newSettings.tipPercentage) || 0,
 					padding: Number.parseFloat(newSettings.padding) || 0,
-					lockAmount: settings.lockAmount,
 				})
 				removeModal(id)
 			}
