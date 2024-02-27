@@ -16,8 +16,8 @@ const messages = defineMessages({
 		id: 'UoIf5k',
 	},
 	modal_sub_title: {
-		defaultMessage: 'Adjust guaranteed amount',
-		id: 'FaPJHo',
+		defaultMessage: 'Protect yourself by setting guaranteed minimums for estimated deposits',
+		id: 'fKIHr5',
 	},
 })
 
