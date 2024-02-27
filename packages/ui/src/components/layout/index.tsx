@@ -5,6 +5,7 @@ import { useLocation, useOutlet } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { HeaderNav, MobileFooterNavigation } from 'ui/src/components/navigation'
+import { BalancesProvider } from 'ui/src/context/balances/provider'
 import { useTextDirection } from 'ui/src/hooks/use-text-direction'
 
 import { QueryResult } from './query-result'
@@ -23,17 +24,19 @@ const Layout: React.FC = () => {
 	}, [dir])
 
 	return (
-		<Box className={styles.layoutWrapper}>
-			<HeaderNav />
-			<Box className={styles.layoutRouteWrapper}>
-				<Suspense key={key} fallback={<FallbackLoading />}>
-					<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-				</Suspense>
+		<BalancesProvider>
+			<Box className={styles.layoutWrapper}>
+				<HeaderNav />
+				<Box className={styles.layoutRouteWrapper}>
+					<Suspense key={key} fallback={<FallbackLoading />}>
+						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+					</Suspense>
+				</Box>
+				<MobileFooterNavigation />
+				<Transaction />
+				<QueryResult />
 			</Box>
-			<MobileFooterNavigation />
-			<Transaction />
-			<QueryResult />
-		</Box>
+		</BalancesProvider>
 	)
 }
 

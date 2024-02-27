@@ -259,7 +259,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
 	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
 
-	return useMemo((): Balances => {
+	// return useMemo((): Balances => {
 		let fungible: ResourceBalances = {}
 		let nonFungible: ResourceBalances = {}
 		accounts.forEach(({ fungible_resources, non_fungible_resources }) => {
@@ -304,7 +304,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 			...transformBalances(lpTokens, 'liquidityPoolTokens'),
 			...transformBalances(poolUnits, 'poolUnits'),
 		} as Balances
-	}, [knownAddresses, xrdPrice, xrdPriceBefore, tokens, accounts, pools, validators])
+	// }, [knownAddresses, xrdPrice, xrdPriceBefore, tokens, accounts, pools, validators])
 }
 
 export const useAccountValues = (addresses: string[], at: Date = new Date()) => {
