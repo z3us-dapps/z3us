@@ -32,11 +32,11 @@ export const Manifest: React.FC<IProps> = ({ intent, onChange }) => {
 	const [state, setState] = useImmer<State>({ manifest: '', error: '' })
 
 	useEffect(() => {
-		RadixEngineToolkit.Instructions.convert(intent.manifest.instructions, intent.header.networkId, 'String').then(
-			converted =>
-				setState(draft => {
-					draft.manifest = converted.value as string
-				}),
+		const { instructions } = intent.manifest
+		RadixEngineToolkit.Instructions.convert(instructions, intent.header.networkId, 'String').then(converted =>
+			setState(draft => {
+				draft.manifest = converted.value as string
+			}),
 		)
 	}, [intent])
 
