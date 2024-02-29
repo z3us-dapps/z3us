@@ -82,6 +82,11 @@ const messages = defineMessages({
 		id: 'zlB8/W',
 		defaultMessage: 'Deny all third-party deposits',
 	},
+	third_party_deposits_deny_all_warning: {
+		id: 'RuLRPQ',
+		defaultMessage:
+			'This account will not be able to receive "air drops" or be used by a trusted contact to assist with account recovery.',
+	},
 	error_toast: {
 		id: 'fjqZcw',
 		defaultMessage: 'Failed submitting transaction to the network',
@@ -323,6 +328,11 @@ const Accounts: React.FC = () => {
 										<Text size="xxsmall">{intl.formatMessage(messages.third_party_deposits_deny_all_description)}</Text>
 									</Box>
 								</Button>
+								{currentRule === DefaultDepositRule.Reject && (
+									<Text size="xxsmall" color="red">
+										{intl.formatMessage(messages.third_party_deposits_deny_all_warning)}
+									</Text>
+								)}
 							</Box>
 						</Box>
 					</Box>
