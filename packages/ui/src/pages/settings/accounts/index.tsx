@@ -11,6 +11,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { SelectAdapter as AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { Input } from 'ui/src/components/input'
+import { Radio, RadioGroup } from 'ui/src/components/radio-group'
 import { Text } from 'ui/src/components/typography'
 import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
@@ -170,9 +171,9 @@ const Accounts: React.FC = () => {
 		await sendTransaction({
 			version: 1,
 			transactionManifest: `
-			CALL_METHOD 
-				Address("${data.address}") 
-				"set_default_deposit_rule" 
+			CALL_METHOD
+				Address("${data.address}")
+				"set_default_deposit_rule"
 				Enum<DefaultDepositRule::${newRule}>();
 		`,
 		})
@@ -281,53 +282,50 @@ const Accounts: React.FC = () => {
 							<Text size="small" weight="medium" color="strong">
 								{intl.formatMessage(messages.third_party_deposits)}
 							</Text>
-							<Box display="flex" gap="small" flexDirection="column" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-								<Button
-									active={currentRule === DefaultDepositRule.Accept}
-									onClick={() => handleThirdPartyDeposits(DefaultDepositRule.Accept)}
-									disabled={!currentRule}
-									styleVariant="avatar"
-									sizeVariant="medium"
-								>
-									<Box width="full" height="full" borderRadius="full">
-										<Text size="small" weight="medium" color="strong">
-											{intl.formatMessage(messages.third_party_deposits_accept_all_title)}
-										</Text>
-										<Text size="xxsmall">
-											{intl.formatMessage(messages.third_party_deposits_accept_all_description)}
-										</Text>
-									</Box>
-								</Button>
-								<Button
-									active={currentRule === DefaultDepositRule.AllowExisting}
-									onClick={() => handleThirdPartyDeposits(DefaultDepositRule.AllowExisting)}
-									disabled={!currentRule}
-									styleVariant="avatar"
-									sizeVariant="medium"
-								>
-									<Box width="full" height="full" borderRadius="full">
-										<Text size="small" weight="medium" color="strong">
-											{intl.formatMessage(messages.third_party_deposits_accept_known_title)}
-										</Text>
-										<Text size="xxsmall">
-											{intl.formatMessage(messages.third_party_deposits_accept_known_description)}
-										</Text>
-									</Box>
-								</Button>
-								<Button
-									active={currentRule === DefaultDepositRule.Reject}
-									onClick={() => handleThirdPartyDeposits(DefaultDepositRule.Reject)}
-									disabled={!currentRule}
-									styleVariant="avatar"
-									sizeVariant="medium"
-								>
-									<Box width="full" height="full" borderRadius="full">
-										<Text size="small" weight="medium" color="strong">
-											{intl.formatMessage(messages.third_party_deposits_deny_all_title)}
-										</Text>
-										<Text size="xxsmall">{intl.formatMessage(messages.third_party_deposits_deny_all_description)}</Text>
-									</Box>
-								</Button>
+
+							{currentRule && (
+								<Box display="flex" gap="small" flexDirection="column" flexWrap="wrap" flexGrow={0} flexShrink={0}>
+									<RadioGroup
+										defaultValue={currentRule}
+										aria-label="update account deposits"
+										onValueChange={handleThirdPartyDeposits}
+									>
+										<Box display="flex" flexDirection="column" gap="medium">
+											<Radio value={DefaultDepositRule.Accept} id={DefaultDepositRule.Accept}>
+												<Box width="full" height="full" borderRadius="full">
+													<Text size="small" weight="medium" color="strong">
+														{intl.formatMessage(messages.third_party_deposits_accept_all_title)}
+													</Text>
+													<Text size="xxsmall">
+														{intl.formatMessage(messages.third_party_deposits_accept_all_description)}
+													</Text>
+												</Box>
+											</Radio>
+											<Radio value={DefaultDepositRule.AllowExisting} id={DefaultDepositRule.AllowExisting}>
+												<Box width="full" height="full" borderRadius="full">
+													<Text size="small" weight="medium" color="strong">
+														{intl.formatMessage(messages.third_party_deposits_accept_known_title)}
+													</Text>
+													<Text size="xxsmall">
+														{intl.formatMessage(messages.third_party_deposits_accept_known_description)}
+													</Text>
+												</Box>
+											</Radio>
+											<Radio value={DefaultDepositRule.Reject} id={DefaultDepositRule.Reject}>
+												<Box width="full" height="full" borderRadius="full">
+													<Text size="small" weight="medium" color="strong">
+														{intl.formatMessage(messages.third_party_deposits_deny_all_title)}
+													</Text>
+													<Text size="xxsmall">
+														{intl.formatMessage(messages.third_party_deposits_deny_all_description)}
+													</Text>
+												</Box>
+											</Radio>
+										</Box>
+									</RadioGroup>
+								</Box>
+							)}
+							<Box>
 								{currentRule === DefaultDepositRule.Reject && (
 									<Text size="xxsmall" color="red">
 										{intl.formatMessage(messages.third_party_deposits_deny_all_warning)}
