@@ -411,5 +411,20 @@
   "/APLYY": "Se desideri utilizzare Z3US con il pulsante Radix Connect, disabilita l'estensione Radix Connector. Avere entrambi abilitati contemporaneamente causerà problemi con le interazioni Dapp.",
   "6bKmjV": "Utilizzo",
   "dOtWXt": "Puntata/Instabile",
-  "dgs4z4": "L'anteprima dello scambio è in corso di caricamento..."
+  "dgs4z4": "L'anteprima dello scambio è in corso di caricamento...",
+  "4jkBhr": "Consenti a terze parti di depositare solo i beni già detenuti da questo conto",
+  "93MRNX": "Depositi di terzi",
+  "9t1iiv": "Configura",
+  "RuLRPQ": "Questo account non potrà ricevere \"lanci aerei\" o essere utilizzato da un contatto fidato per assistere nel recupero dell'account.",
+  "ThFgDX": "Previsto",
+  "UoIf5k": "Personalizza la garanzia",
+  "Zj8bMq": "Garantito",
+  "deE3OR": "Accetta solo quelli conosciuti",
+  "fKIHr5": "Proteggiti impostando minimi garantiti per i depositi stimati",
+  "lEE/wF": "Regola %",
+  "wLLWDX": "Accetta tutti i depositi",
+  "xbqYy7": "Personalizza garanzie",
+  "yc2VjA": "Nega tutto",
+  "z0CNtW": "Consenti a terze parti di depositare qualsiasi risorsa",
+  "zlB8/W": "Nega tutti i depositi di terze parti"
 }

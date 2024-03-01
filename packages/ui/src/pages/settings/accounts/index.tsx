@@ -11,6 +11,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { SelectAdapter as AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { Input } from 'ui/src/components/input'
+import { Radio, RadioGroup } from 'ui/src/components/radio-group'
 import { Text } from 'ui/src/components/typography'
 import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
@@ -112,7 +113,7 @@ const Accounts: React.FC = () => {
 	const sendTransaction = useSendTransaction()
 	const accountsAsArray = Object.values(accounts)
 
-	const [currentRule, setRule] = useState<DefaultDepositRule | undefined>()
+	const [currentRule, setRule] = useState<DefaultDepositRule>(DefaultDepositRule.Accept)
 	const [selectedAccount, setSelectedAccount] = useState<AddressBookEntry | undefined>()
 
 	const { data } = useEntityDetails(selectedAccount?.address)
@@ -165,19 +166,18 @@ const Accounts: React.FC = () => {
 
 	// https://github.com/radixdlt/radixdlt-scrypto/blob/develop/transaction/examples/account/deposit_modes.rtm
 	const handleThirdPartyDeposits = async (newRule: DefaultDepositRule) => {
-		setRule(undefined)
+		setRule(newRule)
 
 		await sendTransaction({
 			version: 1,
 			transactionManifest: `
-			CALL_METHOD 
-				Address("${data.address}") 
-				"set_default_deposit_rule" 
+			CALL_METHOD
+				Address("${data.address}")
+				"set_default_deposit_rule"
 				Enum<DefaultDepositRule::${newRule}>();
 		`,
 		})
 			.then(value => {
-				setRule(newRule)
 				queryClient.invalidateQueries({ queryKey: ['useEntitiesDetails', networkId, [data.address]] })
 				toast.success(intl.formatMessage(messages.success_toast), {
 					description: value.status,
@@ -281,53 +281,48 @@ const Accounts: React.FC = () => {
 							<Text size="small" weight="medium" color="strong">
 								{intl.formatMessage(messages.third_party_deposits)}
 							</Text>
+
 							<Box display="flex" gap="small" flexDirection="column" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-								<Button
-									active={currentRule === DefaultDepositRule.Accept}
-									onClick={() => handleThirdPartyDeposits(DefaultDepositRule.Accept)}
-									disabled={!currentRule}
-									styleVariant="avatar"
-									sizeVariant="medium"
+								<RadioGroup
+									value={currentRule}
+									aria-label="update account deposits"
+									onValueChange={handleThirdPartyDeposits}
 								>
-									<Box width="full" height="full" borderRadius="full">
-										<Text size="small" weight="medium" color="strong">
-											{intl.formatMessage(messages.third_party_deposits_accept_all_title)}
-										</Text>
-										<Text size="xxsmall">
-											{intl.formatMessage(messages.third_party_deposits_accept_all_description)}
-										</Text>
+									<Box display="flex" flexDirection="column" gap="medium">
+										<Radio value={DefaultDepositRule.Accept} id={DefaultDepositRule.Accept}>
+											<Box width="full" height="full" borderRadius="full">
+												<Text size="small" weight="medium" color="strong">
+													{intl.formatMessage(messages.third_party_deposits_accept_all_title)}
+												</Text>
+												<Text size="xxsmall">
+													{intl.formatMessage(messages.third_party_deposits_accept_all_description)}
+												</Text>
+											</Box>
+										</Radio>
+										<Radio value={DefaultDepositRule.AllowExisting} id={DefaultDepositRule.AllowExisting}>
+											<Box width="full" height="full" borderRadius="full">
+												<Text size="small" weight="medium" color="strong">
+													{intl.formatMessage(messages.third_party_deposits_accept_known_title)}
+												</Text>
+												<Text size="xxsmall">
+													{intl.formatMessage(messages.third_party_deposits_accept_known_description)}
+												</Text>
+											</Box>
+										</Radio>
+										<Radio value={DefaultDepositRule.Reject} id={DefaultDepositRule.Reject}>
+											<Box width="full" height="full" borderRadius="full">
+												<Text size="small" weight="medium" color="strong">
+													{intl.formatMessage(messages.third_party_deposits_deny_all_title)}
+												</Text>
+												<Text size="xxsmall">
+													{intl.formatMessage(messages.third_party_deposits_deny_all_description)}
+												</Text>
+											</Box>
+										</Radio>
 									</Box>
-								</Button>
-								<Button
-									active={currentRule === DefaultDepositRule.AllowExisting}
-									onClick={() => handleThirdPartyDeposits(DefaultDepositRule.AllowExisting)}
-									disabled={!currentRule}
-									styleVariant="avatar"
-									sizeVariant="medium"
-								>
-									<Box width="full" height="full" borderRadius="full">
-										<Text size="small" weight="medium" color="strong">
-											{intl.formatMessage(messages.third_party_deposits_accept_known_title)}
-										</Text>
-										<Text size="xxsmall">
-											{intl.formatMessage(messages.third_party_deposits_accept_known_description)}
-										</Text>
-									</Box>
-								</Button>
-								<Button
-									active={currentRule === DefaultDepositRule.Reject}
-									onClick={() => handleThirdPartyDeposits(DefaultDepositRule.Reject)}
-									disabled={!currentRule}
-									styleVariant="avatar"
-									sizeVariant="medium"
-								>
-									<Box width="full" height="full" borderRadius="full">
-										<Text size="small" weight="medium" color="strong">
-											{intl.formatMessage(messages.third_party_deposits_deny_all_title)}
-										</Text>
-										<Text size="xxsmall">{intl.formatMessage(messages.third_party_deposits_deny_all_description)}</Text>
-									</Box>
-								</Button>
+								</RadioGroup>
+							</Box>
+							<Box>
 								{currentRule === DefaultDepositRule.Reject && (
 									<Text size="xxsmall" color="red">
 										{intl.formatMessage(messages.third_party_deposits_deny_all_warning)}
