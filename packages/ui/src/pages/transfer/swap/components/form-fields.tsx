@@ -1,4 +1,3 @@
-import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -8,6 +7,7 @@ import { FormContext } from 'ui/src/components/form/context'
 import { FieldContext } from 'ui/src/components/form/field-wrapper/context'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import { AccountSelect } from 'ui/src/components/form/fields/account-select'
+import SelectField from 'ui/src/components/form/fields/select-field'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-field'
 import { useFieldValue } from 'ui/src/components/form/use-field-value'
@@ -15,16 +15,16 @@ import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transa
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { DAPP_ADDRESS } from 'ui/src/constants/dapp'
 import { DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
-import { FEE_RATIO } from 'ui/src/constants/swap'
+import { DEX_ASTROLECENT, DEX_OCI, FEE_RATIO } from 'ui/src/constants/swap'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
-import { useSwapPreview, useTokens } from 'ui/src/hooks/queries/oci'
+import { useTokens } from 'ui/src/hooks/queries/astrolescent'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import { generateId } from 'ui/src/utils/generate-id'
 
-import * as styles from '../../styles.css'
+import { useAstrolecent } from '../hooks/use-astrolecent'
+import { useOci } from '../hooks/use-oci'
+import * as styles from '../styles.css'
 
 const messages = defineMessages({
 	fee_wallet: {
@@ -47,15 +47,46 @@ const messages = defineMessages({
 		defaultMessage: 'Select account',
 		id: '0+6+jP',
 	},
+	swap_lading_error: {
+		defaultMessage: 'Swap preview is loading...',
+		id: 'dgs4z4',
+	},
+	dex: {
+		id: 'ifOb7y',
+		defaultMessage: 'Dex',
+	},
+	dex_oci: {
+		id: 'eyMKyf',
+		defaultMessage: 'OCI',
+	},
+	dex_astrolecent: {
+		id: 'CrAj8T',
+		defaultMessage: 'Astrolecent',
+	},
 })
 
 export const FormFields: React.FC = () => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
+	const supportedDexes = useMemo(
+		() => [
+			{
+				id: DEX_OCI,
+				title: intl.formatMessage(messages.dex_oci),
+			},
+			{
+				id: DEX_ASTROLECENT,
+				title: intl.formatMessage(messages.dex_astrolecent),
+			},
+		],
+		[],
+	)
+
 	const { onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 
+	const dex = useFieldValue(`${parentName ? `${parentName}.` : ''}dex`)
 	const account = useFieldValue(`${parentName ? `${parentName}.` : ''}account`) || ''
 	const from = useFieldValue(`${parentName}${parentName ? '.' : ''}from[0]`)
 	const to = useFieldValue(`${parentName}${parentName ? '.' : ''}to[0]`)
@@ -63,7 +94,6 @@ export const FormFields: React.FC = () => {
 	const { data: tokens = {} } = useTokens()
 	const { data: feeResource } = useEntityDetails(to?.address)
 	const { fungibleBalances = [] } = useBalances([account])
-
 	const symbol = findMetadataValue('symbol', feeResource?.metadata?.items)
 
 	const source = useMemo(
@@ -78,81 +108,39 @@ export const FormFields: React.FC = () => {
 	)
 	const fee = useMemo(() => Number.parseFloat(to?.amount || '0') * FEE_RATIO, [to?.amount])
 
-	const {
-		data: preview,
-		error: previewError,
-		isFetching,
-	} = useSwapPreview(from?.address, to?.address, side, swapAmount)
+	const oci = useOci(dex, account, from?.address, to?.address, side, swapAmount)
+	const astrolecent = useAstrolecent(dex, account, from?.address, to?.address, side, swapAmount)
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [inputRef?.current])
 
 	useEffect(() => {
-		onFieldChange(`${parentName}${parentName ? '.' : ''}dex`, 'oci')
-	}, [])
+		if (dex) return
+		onFieldChange(`${parentName}${parentName ? '.' : ''}dex`, DEX_OCI)
+	}, [dex])
 
-	useEffect(() => {
-		if (!isFetching) return
-		onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, '')
-	}, [isFetching])
-
-	useEffect(() => {
-		if (!preview) return
-		const s = preview.input_address === from?.address ? 'send' : 'receive'
-		const fromKey = s === 'send' ? 'input' : 'output'
-		const toKey = s === 'send' ? 'output' : 'input'
-		if (s === 'send') {
-			onFieldChange(
-				`${parentName}${parentName ? '.' : ''}to[0].amount`,
-				(Number.parseFloat(preview[`${toKey}_amount`].token) * (1 - FEE_RATIO)).toString(),
-			)
-		} else {
-			onFieldChange(`${parentName}${parentName ? '.' : ''}from[0].amount`, preview[`${fromKey}_amount`].token)
+	const {
+		error,
+		isFetching,
+		priceImpact = 0,
+		swapFee = 0,
+	} = useMemo(() => {
+		switch (dex) {
+			case DEX_OCI:
+				return oci
+			case DEX_ASTROLECENT:
+				return astrolecent
+			default:
+				return oci
 		}
+	}, [dex, oci, astrolecent])
 
-		const { divisibility } = feeResource.details as StateEntityDetailsResponseFungibleResourceDetails
-		const bucketId = generateId()
-		const transactionManifest = preview.swaps.reduce(
-			(manifest, swap) => `
-		${manifest}
-			CALL_METHOD
-				Address("${account}")
-				"withdraw"
-				Address("${swap[`${fromKey}_address`]}")
-				Decimal("${swap[`${fromKey}_amount`].token}")
-			;
-			TAKE_ALL_FROM_WORKTOP
-				Address("${swap[`${fromKey}_address`]}")
-				Bucket("bucket${bucketId}")
-			;
-			CALL_METHOD
-				Address("${swap.pool_address}")
-				"swap"
-				Bucket("bucket${bucketId}")
-			;
-			TAKE_FROM_WORKTOP
-				Address("${swap[`${toKey}_address`]}")
-				Decimal("${(Number.parseFloat(swap[`${toKey}_amount`].token) * FEE_RATIO).toFixed(divisibility)}")
-				Bucket("fee_bucket${bucketId}")
-			;
-			CALL_METHOD
-				Address("${DAPP_ADDRESS}")
-				"try_deposit_or_abort"
-				Bucket("fee_bucket${bucketId}")
-				Enum<0u8>()
-			;
-			CALL_METHOD
-				Address("${account}")
-				"deposit_batch"
-				Expression("ENTIRE_WORKTOP")
-			;
-		`,
-			'',
-		)
-
-		onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, transactionManifest)
-	}, [preview])
+	useEffect(() => {
+		if (isFetching) {
+			onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, '')
+		}
+	}, [isFetching])
 
 	const handleFromAmountChange = () => {
 		setSide('send')
@@ -166,6 +154,14 @@ export const FormFields: React.FC = () => {
 		<Box width="full">
 			<Box className={styles.swapFormFieldWrapper}>
 				<TextField name="dex" hidden />
+				<SelectField
+					name="dex"
+					placeholder={intl.formatMessage(messages.dex)}
+					sizeVariant="large"
+					data={supportedDexes}
+					fullWidth
+					disabled={isFetching}
+				/>
 				<TextField name="manifest" hidden />
 				<AccountSelect placeholder={intl.formatMessage(messages.account_placeholder)} ref={inputRef} name="account" />
 				<FieldsGroup name="from" defaultKeys={1} ignoreTriggers>
@@ -177,6 +173,7 @@ export const FormFields: React.FC = () => {
 				</FieldsGroup>
 				<FieldsGroup name="to" defaultKeys={1} ignoreTriggers>
 					<TokenAmountSelect
+						disabledAmount
 						balances={fungibleBalances}
 						resourceAddresses={target}
 						onAmountChange={handleToAmountChange}
@@ -184,45 +181,43 @@ export const FormFields: React.FC = () => {
 				</FieldsGroup>
 			</Box>
 
-			<ValidationErrorMessage message={(previewError as any)?.message} />
+			<ValidationErrorMessage message={(error as any)?.message} />
 
-			{(isFetching || preview) && (
-				<Box className={styles.swapFormFeeWrapper}>
-					{isFetching && <FallbackLoading />}
-					{!isFetching && preview && (
-						<>
-							<AccountsTransactionInfo
-								leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
-								rightData={
-									<ToolTip message={intl.formatMessage(messages.price_impact_info)}>
-										<Box>
-											<Text size="small" color="strong">
-												{intl.formatNumber(Number.parseFloat(preview.price_impact), PERCENTAGE_STYLES)}
-											</Text>
-										</Box>
-									</ToolTip>
-								}
-							/>
-							<AccountsTransactionInfo
-								leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
-								rightData={
-									<Text size="small" color="strong">
-										{intl.formatNumber(fee, DECIMAL_STYLES)} {symbol}
-									</Text>
-								}
-							/>
-							<AccountsTransactionInfo
-								leftTitle={<Text size="small">{intl.formatMessage(messages.fee_lp)}</Text>}
-								rightData={
-									<Text size="small" color="strong">
-										{intl.formatNumber(Number.parseFloat(preview.input_fee_lp.token), DECIMAL_STYLES)} {symbol}
-									</Text>
-								}
-							/>
-						</>
-					)}
-				</Box>
-			)}
+			<Box className={styles.swapFormFeeWrapper}>
+				{isFetching && <FallbackLoading />}
+				{!isFetching && (
+					<>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
+							rightData={
+								<ToolTip message={intl.formatMessage(messages.price_impact_info)}>
+									<Box>
+										<Text size="small" color="strong">
+											{intl.formatNumber(priceImpact, PERCENTAGE_STYLES)}
+										</Text>
+									</Box>
+								</ToolTip>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
+							rightData={
+								<Text size="small" color="strong">
+									{intl.formatNumber(fee, DECIMAL_STYLES)} {symbol}
+								</Text>
+							}
+						/>
+						<AccountsTransactionInfo
+							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_lp)}</Text>}
+							rightData={
+								<Text size="small" color="strong">
+									{intl.formatNumber(swapFee, DECIMAL_STYLES)} {symbol}
+								</Text>
+							}
+						/>
+					</>
+				)}
+			</Box>
 		</Box>
 	)
 }
