@@ -411,5 +411,20 @@
   "/APLYY": "Si desea utilizar Z3US con el botón de conexión de Radix, desactive la extensión del conector Radix. Tener ambos habilitados al mismo tiempo causará problemas con las interacciones de Dapp.",
   "6bKmjV": "Usando",
   "dOtWXt": "Apostar/Desarmar",
-  "dgs4z4": "La vista previa de intercambio se está cargando..."
+  "dgs4z4": "La vista previa de intercambio se está cargando...",
+  "4jkBhr": "Permitir que terceros depositen sólo los activos que esta cuenta ya posee",
+  "93MRNX": "Depósitos de terceros",
+  "9t1iiv": "Configurar",
+  "RuLRPQ": "Esta cuenta no podrá recibir \"airdrops\" ni ser utilizada por un contacto de confianza para ayudar con la recuperación de la cuenta.",
+  "ThFgDX": "Predicho",
+  "UoIf5k": "Personalizar garantía",
+  "Zj8bMq": "Garantizado",
+  "deE3OR": "Solo aceptar lo conocido",
+  "fKIHr5": "Protégete estableciendo mínimos garantizados para los depósitos estimados",
+  "lEE/wF": "Ajustar %",
+  "wLLWDX": "Aceptar todos los depósitos",
+  "xbqYy7": "Personalizar Garantías",
+  "yc2VjA": "Denegar todo",
+  "z0CNtW": "Permitir que terceros depositen cualquier activo",
+  "zlB8/W": "Denegar todos los depósitos de terceros"
 }

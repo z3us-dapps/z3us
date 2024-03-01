@@ -411,5 +411,20 @@
   "/APLYY": "Si vous souhaitez utiliser Z3US avec le bouton de connexion Radix, veuillez désactiver l'extension du connecteur Radix. L'activation des deux en même temps entraînera des problèmes avec les interactions Dapp.",
   "6bKmjV": "Utilisation",
   "dOtWXt": "Jalonnement/Désimplantation",
-  "dgs4z4": "L'aperçu du swap est en cours de chargement..."
+  "dgs4z4": "L'aperçu du swap est en cours de chargement...",
+  "4jkBhr": "Autoriser les tiers à déposer uniquement les actifs que ce compte détient déjà",
+  "93MRNX": "Dépôts de tiers",
+  "9t1iiv": "Configurer",
+  "RuLRPQ": "Ce compte ne pourra pas recevoir de \"largages aériens\" ni être utilisé par un contact de confiance pour aider à la récupération du compte.",
+  "ThFgDX": "Prédit",
+  "UoIf5k": "Personnaliser la garantie",
+  "Zj8bMq": "Garanti",
+  "deE3OR": "N'accepter que les informations connues",
+  "fKIHr5": "Protégez-vous en fixant des minimums garantis pour les dépôts estimés",
+  "lEE/wF": "Ajuster %",
+  "wLLWDX": "Accepter tous les dépôts",
+  "xbqYy7": "Personnaliser les garanties",
+  "yc2VjA": "Tout refuser",
+  "z0CNtW": "Autoriser les tiers à déposer n'importe quel actif",
+  "zlB8/W": "Refuser tous les dépôts de tiers"
 }
