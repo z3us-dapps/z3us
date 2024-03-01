@@ -23,6 +23,7 @@ export const radioGroupItemWrapper = style([
 		textAlign: 'left',
 		borderRadius: 'full',
 		background: 'backgroundPrimary',
+		flexShrink: 0,
 	}),
 	{
 		width: '25px',
@@ -41,8 +42,8 @@ export const radioGroupIndicationWrapper = style([
 		background: 'purple400',
 	}),
 	{
-		width: '18px',
-		height: '18px',
+		width: '15px',
+		height: '15px',
 		border: 'none',
 		outline: 'none',
 	},
