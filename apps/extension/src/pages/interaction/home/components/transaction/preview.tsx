@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-array-index-key */
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
-import { type Instruction, type Intent } from '@radixdlt/radix-engine-toolkit'
+import { type Intent } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
 import React, { useEffect, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -23,13 +23,9 @@ import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { useCustomizeFeeModal } from '@src/hooks/modal/use-customize-fee-modal'
+import { useCustomizeGuaranteesFeeModal } from '@src/hooks/modal/use-customize-guarantee-modal'
 import { usePreview } from '@src/hooks/transaction/use-preview'
-import { summaryFromInstructions } from '@src/radix/manifest'
 import {
-	type Summary,
-	type TransactionMeta,
-	type TransactionReceipt,
-	type TransactionSettings,
 	fungibleGuaranteeInstructionCost,
 	lockFeeInstructionCost,
 	nonFungibleGuaranteeInstructionCost,
@@ -37,8 +33,16 @@ import {
 	notarizingCostWhenNotaryIsSignatory,
 	signatureCost,
 } from '@src/types/transaction'
+import type {
+	AggregatedChange,
+	Change,
+	TransactionMeta,
+	TransactionReceipt,
+	TransactionSettings,
+} from '@src/types/transaction'
 
 import { FEE_PADDING_MARGIN, FEE_PADDING_MARGIN_INCREMENT, MAX_PADDING_CALCULATION_RETRY } from './constants'
+import { CustomizeGuaranteeTrigger } from './customize-guarantee-trigger'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -112,22 +116,6 @@ const messages = defineMessages({
 	},
 })
 
-interface Change {
-	account: string
-	resource: string
-	amount: number
-}
-
-interface AccountChange {
-	account: string
-	changes: Array<{ resource: string; amount: number }>
-}
-
-interface AggregatedChange {
-	type: string
-	changes: AccountChange[]
-}
-
 function getType(account: string, amount: number): string {
 	if (account.startsWith('account_')) {
 		if (account === DAPP_ADDRESS) return 'usage'
@@ -150,12 +138,13 @@ function aggregateChanges(resourceChanges: TransactionPreviewResponse['resource_
 					account: change.component_entity.entity_address,
 					resource: change.resource_address,
 					amount: parseFloat(change.amount) || 0,
+					index: group.index,
 				}),
 			),
 		)
 
 	return changes.reduce<AggregatedChange[]>((aggregatedChanges, change) => {
-		const { account, resource, amount } = change
+		const { account, amount } = change
 		const type = getType(account, amount)
 
 		let currentAggregatedChange = aggregatedChanges.find(item => item.type === type)
@@ -170,12 +159,7 @@ function aggregateChanges(resourceChanges: TransactionPreviewResponse['resource_
 			currentAggregatedChange.changes.push(currentAccountChange)
 		}
 
-		const lastChange = currentAccountChange.changes[currentAccountChange.changes.length - 1]
-		if (!lastChange || lastChange.resource !== resource) {
-			currentAccountChange.changes.push({ resource, amount })
-		} else {
-			lastChange.amount += amount
-		}
+		currentAccountChange.changes.push(change)
 
 		return aggregatedChanges
 	}, [])
@@ -195,8 +179,8 @@ function getFeePaddingAmount(paddingCalculation: number, receipt: TransactionRec
 function walletExecutionCost(meta: TransactionMeta): number {
 	return (
 		lockFeeInstructionCost +
-		meta.tokenGuaranteesCount * fungibleGuaranteeInstructionCost +
-		meta.nftGuaranteesCount * nonFungibleGuaranteeInstructionCost +
+		meta.summary.tokenGuaranteesCount * fungibleGuaranteeInstructionCost +
+		meta.summary.nftGuaranteesCount * nonFungibleGuaranteeInstructionCost +
 		meta.needSignaturesFrom.length * signatureCost +
 		(meta.isNotarySignatory ? notarizingCostWhenNotaryIsSignatory : notarizingCost)
 	)
@@ -255,7 +239,6 @@ type State = {
 	isLoading: boolean
 	preview?: TransactionPreviewResponse
 	aggregatedChanges?: AggregatedChange[]
-	summary?: Summary
 	currency: 'currency' | 'xrd'
 	walletExecutionCost: number
 	hasManualSettings: boolean
@@ -265,8 +248,8 @@ type State = {
 export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsChange, onStatusChange }) => {
 	const intl = useIntl()
 	const buildPreview = usePreview()
-
 	const customize = useCustomizeFeeModal()
+	const customizeGuarantees = useCustomizeGuaranteesFeeModal()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -289,10 +272,6 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 	}, [meta])
 
 	useEffect(() => {
-		setState(draft => {
-			draft.summary = summaryFromInstructions(intent.manifest.instructions.value as Instruction[])
-		})
-
 		buildPreview(intent, settings).then(preview => {
 			const newReceipt = preview.receipt as TransactionReceipt
 			setState(draft => {
@@ -348,6 +327,15 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 		})
 	}
 
+	const handleCustomizeGuarantees = (change: Change) => {
+		customizeGuarantees(meta.summary, change).then(newSummary =>
+			onSettingsChange({
+				...settings,
+				guarantees: newSummary.guarantees,
+			}),
+		)
+	}
+
 	if (state.isLoading) return <FallbackLoading />
 
 	return (
@@ -384,40 +372,59 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 					{data.changes.map(accountChange => (
 						<Box key={`${data.type}${accountChange.account}`} className={styles.transactionPreviewBlock}>
 							<AccountSnippet address={accountChange.account} />
-							{data.type !== 'usage' &&
-								accountChange.changes.map(resourceChange =>
-									resourceChange.amount === 0 ? null : (
-										<ResourceSnippet
-											key={`${data.type}${accountChange.account}${resourceChange.resource}`}
-											address={resourceChange.resource}
-											change={resourceChange.amount}
-											reversed
-										/>
-									),
-								)}
+							{accountChange.changes.map((resourceChange, idx) => {
+								switch (data.type) {
+									case 'deposit':
+										return (
+											<Box
+												display="flex"
+												flexDirection="column"
+												gap="small"
+												alignItems="flex-end"
+												key={`${idx}${resourceChange.resource}`}
+											>
+												<ResourceSnippet address={resourceChange.resource} change={resourceChange.amount} reversed />
+												{meta.summary.predictedDepositIndexes[resourceChange.index] && (
+													<CustomizeGuaranteeTrigger change={resourceChange} onClick={handleCustomizeGuarantees} />
+												)}
+											</Box>
+										)
+									case 'usage':
+									case 'stake':
+										return null
+									default:
+										return (
+											<ResourceSnippet
+												key={`${idx}${resourceChange.resource}`}
+												address={resourceChange.resource}
+												change={resourceChange.amount}
+												reversed
+											/>
+										)
+								}
+							})}
 						</Box>
 					))}
 				</Box>
 			))}
 
-			{state.summary?.proofs?.length > 0 &&
-				state.summary?.proofs?.map((proof, idx) => (
-					// eslint-disable-next-line react/no-array-index-key
-					<Box key={`${idx}`} className={styles.transactionPreviewBlockWrapper}>
-						<Text color="strong" size="xsmall" weight="strong">
-							{intl.formatMessage(messages.proof)}
-						</Text>
-						<Box className={styles.transactionPreviewBlock}>
-							<Box display="flex" alignItems="center" width="full" gap="medium">
-								<Box alignItems="center" display="flex" flexGrow={1} justifyContent="space-between" gap="small">
-									<Box display="flex" flexDirection="column" gap="xsmall">
-										<ResourceSnippet address={proof.resourceAddress} />
-									</Box>
+			{meta.summary.proofs.map((proof, idx) => (
+				// eslint-disable-next-line react/no-array-index-key
+				<Box key={`${idx}`} className={styles.transactionPreviewBlockWrapper}>
+					<Text color="strong" size="xsmall" weight="strong">
+						{intl.formatMessage(messages.proof)}
+					</Text>
+					<Box className={styles.transactionPreviewBlock}>
+						<Box display="flex" alignItems="center" width="full" gap="medium">
+							<Box alignItems="center" display="flex" flexGrow={1} justifyContent="space-between" gap="small">
+								<Box display="flex" flexDirection="column" gap="xsmall">
+									<ResourceSnippet address={proof.resourceAddress} />
 								</Box>
 							</Box>
 						</Box>
 					</Box>
-				))}
+				</Box>
+			))}
 
 			<Box className={styles.transactionPreviewBlockWrapper}>
 				<Box display="flex" position="relative" width="full">
@@ -435,7 +442,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 								plainButtonStyles.plainButtonHoverUnderlineWrapper,
 							)}
 						>
-							<Text color="inherit" size="xsmall" truncate>
+							<Text color="inherit" size="xsmall">
 								{intl.formatMessage(messages.customize_fee_button_title)}
 							</Text>
 						</Box>
@@ -450,7 +457,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 								plainButtonStyles.plainButtonHoverUnderlineWrapper,
 							)}
 						>
-							<Text color="inherit" size="xsmall" truncate>
+							<Text color="inherit" size="xsmall">
 								{intl.formatMessage(messages.change_currency_tooltip)}
 							</Text>
 						</Box>

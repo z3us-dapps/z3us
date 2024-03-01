@@ -45,7 +45,7 @@ export const useEntitiesDetails = (
 	const { state } = useGatewayClient()!
 
 	const queries = splitArrayIntoChunks(addresses, 20).map(chunk => ({
-		queryKey: ['useEntitiesDetails', networkId, formatDateTime(at), chunk],
+		queryKey: ['useEntitiesDetails', networkId, chunk, formatDateTime(at)],
 		queryFn: () =>
 			chunk.length > 0
 				? state.innerClient

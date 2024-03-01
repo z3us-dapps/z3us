@@ -5,18 +5,20 @@ export const signatureCost = Number.parseFloat('0.01109974758')
 export const notarizingCost = Number.parseFloat('0.0081393944')
 export const notarizingCostWhenNotaryIsSignatory = Number.parseFloat('0.0084273944')
 
+export type Guarantee = { index: number; resourceAddress: string; ids?: string[]; amount?: number }
+
 export type TransactionSettings = {
 	feePayer?: string
 	tipPercentage: number
 	padding: number
 	lockAmount: number
+	guarantees: Guarantee[]
 }
 
 export type TransactionMeta = {
 	needSignaturesFrom: string[]
 	isNotarySignatory: boolean
-	tokenGuaranteesCount: number
-	nftGuaranteesCount: number
+	summary: Summary
 }
 
 export type TransactionReceipt = {
@@ -38,4 +40,28 @@ export type TransactionReceipt = {
 
 export type Proof = { resourceAddress: string; ids?: string[]; amount?: number }
 
-export type Summary = { proofs: Proof[] }
+export type Summary = {
+	proofs: Proof[]
+	nftGuaranteesCount: number
+	tokenGuaranteesCount: number
+	guarantees: Guarantee[]
+	predictedDepositIndexes: { [key: number]: boolean }
+	needSignatureFrom: { [key: string]: boolean }
+}
+
+export interface Change {
+	index: number
+	account: string
+	resource: string
+	amount: number
+}
+
+export interface AccountChange {
+	account: string
+	changes: Array<Change>
+}
+
+export interface AggregatedChange {
+	type: string
+	changes: AccountChange[]
+}
