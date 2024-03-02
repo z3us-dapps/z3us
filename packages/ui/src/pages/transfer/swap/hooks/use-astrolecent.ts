@@ -1,43 +1,31 @@
 import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
-import { useContext, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-import { FormContext } from 'ui/src/components/form/context'
-import { FieldContext } from 'ui/src/components/form/field-wrapper/context'
 import { DAPP_ADDRESS } from 'ui/src/constants/dapp'
 import { DEX_ASTROLECENT, FEE_RATIO } from 'ui/src/constants/swap'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useSwapPreview } from 'ui/src/hooks/queries/astrolescent'
 import { generateId } from 'ui/src/utils/generate-id'
 
-export const useAstrolecent = (
-	dex: string,
-	account: string,
-	from: string,
-	to: string,
-	side: 'send' | 'receive',
-	amount: number,
-) => {
-	const { onFieldChange } = useContext(FormContext)
-	const { name: parentName } = useContext(FieldContext)
+export const useAstrolecent = (account: string, from: string, to: string, side: 'send' | 'receive', amount: number) => {
 	const { data: feeResource } = useEntityDetails(to)
+
+	const [isLoading, setIsLoading] = useState<boolean>(amount > 0)
+	const [manifest, setManifest] = useState<string>('')
+	const [sendAmount, setSendAmount] = useState<number>(0)
+	const [receiveAmount, setReceiveAmount] = useState<number>(0)
 
 	const { data: preview, error, isFetching } = useSwapPreview(account, from, to, side, amount)
 
-	useEffect(() => {
-		if (dex !== DEX_ASTROLECENT) return
-		if (!feeResource) return
-		if (!preview) return
-
+	const calculateSwap = ({ divisibility }: StateEntityDetailsResponseFungibleResourceDetails) => {
 		if (side === 'send') {
-			onFieldChange(
-				`${parentName}${parentName ? '.' : ''}to[0].amount`,
-				(preview.outputTokens * (1 - FEE_RATIO)).toString(),
-			)
+			setSendAmount(amount)
+			setReceiveAmount(preview.outputTokens * (1 - FEE_RATIO))
 		} else {
-			onFieldChange(`${parentName}${parentName ? '.' : ''}from[0].amount`, preview.inputTokens.toString())
+			setSendAmount(preview.inputTokens)
+			setReceiveAmount(amount)
 		}
 
-		const { divisibility } = feeResource.details as StateEntityDetailsResponseFungibleResourceDetails
 		const bucketId = generateId()
 		const feeInstructions = `
 			TAKE_FROM_WORKTOP
@@ -59,8 +47,34 @@ export const useAstrolecent = (
 			idx,
 		)}\n${feeInstructions}\n${preview.manifest.substring(idx)}`
 
-		onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, transactionManifest)
-	}, [dex, account, from, preview, feeResource])
+		setManifest(transactionManifest)
+	}
 
-	return { error, isFetching, allowsReceive: false, priceImpact: preview?.priceImpact, swapFee: preview?.swapFee }
+	useEffect(() => {
+		if (isFetching) {
+			setIsLoading(true)
+			return
+		}
+		if (!feeResource) return
+		setManifest('')
+		if (preview) {
+			calculateSwap(feeResource.details as StateEntityDetailsResponseFungibleResourceDetails)
+			setIsLoading(false)
+		} else if (error) {
+			setIsLoading(false)
+		}
+	}, [account, to, feeResource, isFetching, preview, error])
+
+	return {
+		dex: DEX_ASTROLECENT,
+		allowsReceive: false,
+		isLoading,
+		error,
+		manifest,
+		sendAmount,
+		receiveAmount,
+		price: receiveAmount > 0 ? sendAmount / receiveAmount : 0,
+		priceImpact: preview?.priceImpact,
+		swapFee: preview?.swapFee,
+	}
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -12,11 +13,13 @@ import TextField from 'ui/src/components/form/fields/text-field'
 import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-field'
 import { useFieldValue } from 'ui/src/components/form/use-field-value'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
+import { RedGreenText, Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { DEX_ASTROLECENT, DEX_OCI, FEE_RATIO } from 'ui/src/constants/swap'
+import { brandImages } from 'ui/src/context/images-provider'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useTokens } from 'ui/src/hooks/queries/astrolescent'
@@ -25,6 +28,11 @@ import { findMetadataValue } from 'ui/src/services/metadata'
 import { useAstrolecent } from '../hooks/use-astrolecent'
 import { useOci } from '../hooks/use-oci'
 import * as styles from '../styles.css'
+
+const imgMap = {
+	[DEX_OCI]: brandImages.OCI_SWAP,
+	[DEX_ASTROLECENT]: brandImages.ASTROLESCENT,
+}
 
 const messages = defineMessages({
 	fee_wallet: {
@@ -69,20 +77,6 @@ export const FormFields: React.FC = () => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
-	const supportedDexes = useMemo(
-		() => [
-			{
-				id: DEX_OCI,
-				title: intl.formatMessage(messages.dex_oci),
-			},
-			{
-				id: DEX_ASTROLECENT,
-				title: intl.formatMessage(messages.dex_astrolecent),
-			},
-		],
-		[],
-	)
-
 	const { onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 
@@ -108,39 +102,88 @@ export const FormFields: React.FC = () => {
 	)
 	const fee = useMemo(() => Number.parseFloat(to?.amount || '0') * FEE_RATIO, [to?.amount])
 
-	const oci = useOci(dex, account, from?.address, to?.address, side, swapAmount)
-	const astrolecent = useAstrolecent(dex, account, from?.address, to?.address, side, swapAmount)
+	const oci = useOci(account, from?.address, to?.address, side, swapAmount)
+	const astrolecent = useAstrolecent(account, from?.address, to?.address, side, swapAmount)
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [inputRef?.current])
 
+	const supportedDexes = useMemo(() => {
+		const dexMap = {
+			[DEX_OCI]: oci,
+			[DEX_ASTROLECENT]: astrolecent,
+		}
+		const dexIds = Object.keys(dexMap).sort((a, b) => dexMap[a].price - dexMap[b].price)
+		return dexIds.map((id, idx) => ({
+			id,
+			title: (
+				<Box display="flex" justifyContent="space-between" alignItems="center" gap="small">
+					<Box paddingLeft="small" display="flex" alignItems="center" gap="small">
+						<ResourceImageIcon size="small" address={imgMap[id]} />
+						<Text>{intl.formatMessage(messages[`dex_${id}`])}</Text>
+					</Box>
+					{idx > 0 && (
+						<RedGreenText size="large" change={idx === 0 ? 1 : -1}>
+							{intl.formatNumber((dexMap[dexIds[0]].price - dexMap[id].price) / dexMap[id].price, PERCENTAGE_STYLES)}
+						</RedGreenText>
+					)}
+				</Box>
+			),
+		}))
+	}, [oci, astrolecent])
+
 	useEffect(() => {
 		if (dex) return
-		onFieldChange(`${parentName}${parentName ? '.' : ''}dex`, DEX_OCI)
-	}, [dex])
+		if (oci.manifest === '') return
+		if (astrolecent.manifest === '') return
 
-	const {
-		error,
-		isFetching,
-		priceImpact = 0,
-		swapFee = 0,
-	} = useMemo(() => {
+		if (oci.error) {
+			onFieldChange(`${parentName}${parentName ? '.' : ''}dex`, DEX_ASTROLECENT)
+		} else if (astrolecent.error) {
+			onFieldChange(`${parentName}${parentName ? '.' : ''}dex`, DEX_OCI)
+		} else {
+			onFieldChange(
+				`${parentName}${parentName ? '.' : ''}dex`,
+				oci.price > astrolecent.price ? DEX_ASTROLECENT : DEX_OCI,
+			)
+		}
+	}, [
+		oci.manifest,
+		oci.error,
+		oci.sendAmount,
+		oci.receiveAmount,
+		astrolecent.manifest,
+		astrolecent.error,
+		astrolecent.sendAmount,
+		astrolecent.receiveAmount,
+	])
+
+	const preview = useMemo(() => {
 		switch (dex) {
 			case DEX_OCI:
 				return oci
 			case DEX_ASTROLECENT:
 				return astrolecent
 			default:
-				return oci
+				return null
 		}
 	}, [dex, oci, astrolecent])
 
 	useEffect(() => {
-		if (isFetching) {
-			onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, '')
-		}
-	}, [isFetching])
+		if (!preview) return
+		onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, preview.manifest)
+	}, [preview?.manifest])
+
+	useEffect(() => {
+		if (!preview) return
+		onFieldChange(`${parentName}${parentName ? '.' : ''}from[0].amount`, preview.sendAmount.toString())
+	}, [preview?.sendAmount])
+
+	useEffect(() => {
+		if (!preview) return
+		onFieldChange(`${parentName}${parentName ? '.' : ''}to[0].amount`, preview.receiveAmount.toString())
+	}, [preview?.receiveAmount])
 
 	const handleFromAmountChange = () => {
 		setSide('send')
@@ -150,19 +193,20 @@ export const FormFields: React.FC = () => {
 		setSide('receive')
 	}
 
+	const isLoading = preview ? preview.isLoading : oci.isLoading || astrolecent.isLoading
+
 	return (
 		<Box width="full">
 			<Box className={styles.swapFormFieldWrapper}>
-				<TextField name="dex" hidden />
+				<TextField name="manifest" hidden />
 				<SelectField
 					name="dex"
 					placeholder={intl.formatMessage(messages.dex)}
 					sizeVariant="large"
 					data={supportedDexes}
 					fullWidth
-					disabled={isFetching}
+					disabled={oci.isLoading || astrolecent.isLoading}
 				/>
-				<TextField name="manifest" hidden />
 				<AccountSelect placeholder={intl.formatMessage(messages.account_placeholder)} ref={inputRef} name="account" />
 				<FieldsGroup name="from" defaultKeys={1} ignoreTriggers>
 					<TokenAmountSelect
@@ -173,51 +217,54 @@ export const FormFields: React.FC = () => {
 				</FieldsGroup>
 				<FieldsGroup name="to" defaultKeys={1} ignoreTriggers>
 					<TokenAmountSelect
-						disabledAmount
+						disabledAmount={preview?.allowsReceive === false}
 						balances={fungibleBalances}
 						resourceAddresses={target}
 						onAmountChange={handleToAmountChange}
 					/>
 				</FieldsGroup>
 			</Box>
-
-			<ValidationErrorMessage message={(error as any)?.message} />
-
-			<Box className={styles.swapFormFeeWrapper}>
-				{isFetching && <FallbackLoading />}
-				{!isFetching && (
-					<>
-						<AccountsTransactionInfo
-							leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
-							rightData={
-								<ToolTip message={intl.formatMessage(messages.price_impact_info)}>
-									<Box>
+			<ValidationErrorMessage message={(preview?.error as any)?.message} />
+			{(isLoading || preview) && (
+				<Box className={styles.swapFormFeeWrapper}>
+					{isLoading ? (
+						<FallbackLoading />
+					) : (
+						preview && (
+							<>
+								<AccountsTransactionInfo
+									leftTitle={<Text size="small">{intl.formatMessage(messages.price_impact)}</Text>}
+									rightData={
+										<ToolTip message={intl.formatMessage(messages.price_impact_info)}>
+											<Box>
+												<Text size="small" color="strong">
+													{intl.formatNumber(preview.priceImpact, PERCENTAGE_STYLES)}
+												</Text>
+											</Box>
+										</ToolTip>
+									}
+								/>
+								<AccountsTransactionInfo
+									leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
+									rightData={
 										<Text size="small" color="strong">
-											{intl.formatNumber(priceImpact, PERCENTAGE_STYLES)}
+											{intl.formatNumber(fee, DECIMAL_STYLES)} {symbol}
 										</Text>
-									</Box>
-								</ToolTip>
-							}
-						/>
-						<AccountsTransactionInfo
-							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_wallet)}</Text>}
-							rightData={
-								<Text size="small" color="strong">
-									{intl.formatNumber(fee, DECIMAL_STYLES)} {symbol}
-								</Text>
-							}
-						/>
-						<AccountsTransactionInfo
-							leftTitle={<Text size="small">{intl.formatMessage(messages.fee_lp)}</Text>}
-							rightData={
-								<Text size="small" color="strong">
-									{intl.formatNumber(swapFee, DECIMAL_STYLES)} {symbol}
-								</Text>
-							}
-						/>
-					</>
-				)}
-			</Box>
+									}
+								/>
+								<AccountsTransactionInfo
+									leftTitle={<Text size="small">{intl.formatMessage(messages.fee_lp)}</Text>}
+									rightData={
+										<Text size="small" color="strong">
+											{intl.formatNumber(preview.swapFee, DECIMAL_STYLES)} {symbol}
+										</Text>
+									}
+								/>
+							</>
+						)
+					)}
+				</Box>
+			)}
 		</Box>
 	)
 }

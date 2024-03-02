@@ -1,48 +1,37 @@
 import type { StateEntityDetailsResponseFungibleResourceDetails } from '@radixdlt/babylon-gateway-api-sdk'
-import { useContext, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-import { FormContext } from 'ui/src/components/form/context'
-import { FieldContext } from 'ui/src/components/form/field-wrapper/context'
 import { DAPP_ADDRESS } from 'ui/src/constants/dapp'
 import { DEX_OCI, FEE_RATIO } from 'ui/src/constants/swap'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useSwapPreview } from 'ui/src/hooks/queries/oci'
 import { generateId } from 'ui/src/utils/generate-id'
 
-export const useOci = (
-	dex: string,
-	account: string,
-	from: string,
-	to: string,
-	side: 'send' | 'receive',
-	amount: number,
-) => {
-	const { onFieldChange } = useContext(FormContext)
-	const { name: parentName } = useContext(FieldContext)
+export const useOci = (account: string, from: string, to: string, side: 'send' | 'receive', amount: number) => {
 	const { data: feeResource } = useEntityDetails(to)
 	const { data: preview, error, isFetching } = useSwapPreview(from, to, side, amount)
 
-	useEffect(() => {
-		if (dex !== DEX_OCI) return
-		if (!feeResource) return
-		if (!preview) return
+	const [isLoading, setIsLoading] = useState<boolean>(amount > 0)
+	const [manifest, setManifest] = useState<string>('')
+	const [sendAmount, setSendAmount] = useState<number>(0)
+	const [receiveAmount, setReceiveAmount] = useState<number>(0)
+
+	const calculateSwap = ({ divisibility }: StateEntityDetailsResponseFungibleResourceDetails) => {
 		const s = preview.input_address === from ? 'send' : 'receive'
 		const fromKey = s === 'send' ? 'input' : 'output'
 		const toKey = s === 'send' ? 'output' : 'input'
 		if (s === 'send') {
-			onFieldChange(
-				`${parentName}${parentName ? '.' : ''}to[0].amount`,
-				(Number.parseFloat(preview[`${toKey}_amount`].token) * (1 - FEE_RATIO)).toString(),
-			)
+			setSendAmount(amount)
+			setReceiveAmount(Number.parseFloat(preview[`${toKey}_amount`].token) * (1 - FEE_RATIO))
 		} else {
-			onFieldChange(`${parentName}${parentName ? '.' : ''}from[0].amount`, preview[`${fromKey}_amount`].token)
+			setSendAmount(Number.parseFloat(preview[`${fromKey}_amount`].token))
+			setReceiveAmount(amount)
 		}
 
-		const { divisibility } = feeResource.details as StateEntityDetailsResponseFungibleResourceDetails
 		const bucketId = generateId()
 		const transactionManifest = preview.swaps.reduce(
-			(manifest, swap) => `
-		${manifest}
+			(currentManifest, swap) => `
+		${currentManifest}
 			CALL_METHOD
 				Address("${account}")
 				"withdraw"
@@ -78,13 +67,33 @@ export const useOci = (
 			'',
 		)
 
-		onFieldChange(`${parentName}${parentName ? '.' : ''}manifest`, transactionManifest)
-	}, [dex, account, from, preview, feeResource])
+		setManifest(transactionManifest)
+	}
+
+	useEffect(() => {
+		if (isFetching) {
+			setIsLoading(true)
+			return
+		}
+		if (!feeResource) return
+		setManifest('')
+		if (preview) {
+			calculateSwap(feeResource.details as StateEntityDetailsResponseFungibleResourceDetails)
+			setIsLoading(false)
+		} else if (error) {
+			setIsLoading(false)
+		}
+	}, [account, from, feeResource, isFetching, preview, error])
 
 	return {
-		error,
-		isFetching,
+		dex: DEX_OCI,
 		allowsReceive: true,
+		isLoading,
+		error,
+		manifest,
+		sendAmount,
+		receiveAmount,
+		price: receiveAmount > 0 ? sendAmount / receiveAmount : 0,
 		priceImpact: preview ? Number.parseFloat(preview.price_impact) : undefined,
 		swapFee: preview ? Number.parseFloat(preview.input_fee_lp.token) : undefined,
 	}

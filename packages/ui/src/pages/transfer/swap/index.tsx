@@ -71,7 +71,7 @@ const messages = defineMessages({
 const init = {
 	swaps: [
 		{
-			dex: DEX_OCI,
+			dex: '',
 			manifest: '',
 			account: '',
 			from: [{ address: '', amount: 0 }],
@@ -100,7 +100,7 @@ export const Swap: React.FC = () => {
 		setFormValues({
 			swaps: [
 				{
-					dex: DEX_OCI,
+					dex: '',
 					manifest: '',
 					account: accountIds[0],
 					from: [{ address: knownAddresses.resourceAddresses.xrd, amount: 0 }],
