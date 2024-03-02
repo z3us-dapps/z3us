@@ -94,7 +94,7 @@ export const useOci = (account: string, from: string, to: string, side: 'send' |
 		sendAmount,
 		receiveAmount,
 		price: receiveAmount > 0 ? sendAmount / receiveAmount : 0,
-		priceImpact: preview ? Number.parseFloat(preview.price_impact) : undefined,
-		swapFee: preview ? Number.parseFloat(preview.input_fee_lp.token) : undefined,
+		priceImpact: preview ? Number.parseFloat(preview.price_impact) : 0,
+		swapFee: preview ? Number.parseFloat(preview.input_fee_lp.token) : 0,
 	}
 }

@@ -123,7 +123,7 @@ export const FormFields: React.FC = () => {
 						<ResourceImageIcon size="small" address={imgMap[id]} />
 						<Text>{intl.formatMessage(messages[`dex_${id}`])}</Text>
 					</Box>
-					{idx > 0 && (
+					{idx > 0 && dexMap[id].price > 0 && (
 						<RedGreenText size="large" change={idx === 0 ? 1 : -1}>
 							{intl.formatNumber((dexMap[dexIds[0]].price - dexMap[id].price) / dexMap[id].price, PERCENTAGE_STYLES)}
 						</RedGreenText>

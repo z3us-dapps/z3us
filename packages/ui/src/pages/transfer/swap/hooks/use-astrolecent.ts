@@ -74,7 +74,7 @@ export const useAstrolecent = (account: string, from: string, to: string, side: 
 		sendAmount,
 		receiveAmount,
 		price: receiveAmount > 0 ? sendAmount / receiveAmount : 0,
-		priceImpact: preview?.priceImpact,
-		swapFee: preview?.swapFee,
+		priceImpact: preview?.priceImpact || 0,
+		swapFee: preview?.swapFee || 0,
 	}
 }
