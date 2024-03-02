@@ -13,6 +13,7 @@ export const useSwapPreview = (account: string, from: string, to: string, side: 
 			staleTime: 30 * 1000,
 			refetchInterval: 30 * 1000,
 			retry: false,
+			keepPreviousData: false,
 		},
 	)
 

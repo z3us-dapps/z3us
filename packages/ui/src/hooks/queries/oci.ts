@@ -13,6 +13,7 @@ export const useSwapPreview = (from: string, to: string, side: 'send' | 'receive
 			staleTime: 30 * 1000,
 			refetchInterval: 30 * 1000,
 			retry: false,
+			keepPreviousData: false,
 		},
 	)
 
