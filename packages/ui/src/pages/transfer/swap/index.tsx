@@ -12,12 +12,13 @@ import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { CirclePlusIcon, TrashIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { DEX_ASTROLECENT, DEX_OCI, OCI_RESOURCE_ADDRESS } from 'ui/src/constants/swap'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
 
-import { Dex } from './dex'
+import FormFields from './components/form-fields'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -70,7 +71,7 @@ const messages = defineMessages({
 const init = {
 	swaps: [
 		{
-			dex: 'oci',
+			dex: '',
 			manifest: '',
 			account: '',
 			from: [{ address: '', amount: 0 }],
@@ -78,8 +79,6 @@ const init = {
 		},
 	],
 }
-
-const OCI_RESOURCE_ADDRESS = 'resource_rdx1t52pvtk5wfhltchwh3rkzls2x0r98fw9cjhpyrf3vsykhkuwrf7jg8'
 
 export const Swap: React.FC = () => {
 	const intl = useIntl()
@@ -101,7 +100,7 @@ export const Swap: React.FC = () => {
 		setFormValues({
 			swaps: [
 				{
-					dex: 'oci',
+					dex: '',
 					manifest: '',
 					account: accountIds[0],
 					from: [{ address: knownAddresses.resourceAddresses.xrd, amount: 0 }],
@@ -125,7 +124,7 @@ export const Swap: React.FC = () => {
 			swaps: z
 				.array(
 					z.object({
-						dex: z.literal('oci').or(z.literal('astrolecent')),
+						dex: z.literal(DEX_OCI).or(z.literal(DEX_ASTROLECENT)),
 						manifest: z.string().min(1),
 						account: z.string().min(1, intl.formatMessage(messages.validation_account)),
 						from: z.array(tokenSchema).length(1),
@@ -207,7 +206,9 @@ export const Swap: React.FC = () => {
 					}
 					className={styles.swapFieldGroupWrapper}
 				>
-					<Dex />
+					<Box paddingBottom="small">
+						<FormFields />
+					</Box>
 				</FieldsGroup>
 
 				<Box className={styles.swapFromButtonWrapper}>

@@ -103,7 +103,7 @@ export interface ISelectSimpleProps {
 	value?: string
 	placeholder?: string
 	onValueChange?: (value: string) => void
-	data: { id: string; title: string }[]
+	data: { id: string; title: React.ReactNode }[]
 	trigger?: React.ReactNode
 	selectAriaLabel?: string
 	width?: number
@@ -167,7 +167,7 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 								disabled={disabled}
 								className={clsx(fullWidth && styles.selectFullWidthButton)}
 							>
-								<span style={{ overflow: 'hidden' }}>
+								<span style={{ overflow: 'hidden', width: '100%' }}>
 									<SelectValue aria-label={value} placeholder={placeholder} />
 								</span>
 							</Button>
@@ -187,9 +187,13 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 					<SelectGroup>
 						{data.map(({ id, title }) => (
 							<SelectItem key={id} value={id}>
-								<Text truncate size="small" color="strong" capitalizeFirstLetter={capitalizeFirstLetter}>
-									{title}
-								</Text>
+								{typeof title !== 'string' ? (
+									title
+								) : (
+									<Text truncate size="small" color="strong" capitalizeFirstLetter={capitalizeFirstLetter}>
+										{title}
+									</Text>
+								)}
 							</SelectItem>
 						))}
 					</SelectGroup>
