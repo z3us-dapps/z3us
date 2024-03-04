@@ -230,45 +230,8 @@ export const cardAccountMenuLeftSlotWrapper = style([
 
 globalStyle(`${cardAccountImageWrapper} img`, {
 	position: 'absolute',
-})
-
-// CARDS
-globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.angel img`, {
-	position: 'absolute',
-	bottom: 0,
-	right: '-20px',
-	maxWidth: '100%',
-	width: '266px',
-	height: 'auto',
-	opacity: '0.5',
-})
-
-globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.apple-hermes img`, {
-	position: 'absolute',
-	bottom: 0,
-	right: '-20px',
-	maxWidth: '100%',
-	width: 'auto',
-	height: '100%',
-	opacity: '0.7',
-})
-
-globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.athens img`, {
-	position: 'absolute',
-	top: 0,
-	right: '0px',
-	maxWidth: '110%',
-	width: '110%',
-	height: 'auto',
-})
-
-globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.man img`, {
-	position: 'absolute',
-	bottom: 0,
-	top: 'unset',
-	right: '-20px',
-	maxWidth: '100%',
 	width: '100%',
-	height: 'auto',
-	opacity: '0.7',
+	height: '100%',
+	opacity: '0.5',
+	objectFit: 'cover'
 })

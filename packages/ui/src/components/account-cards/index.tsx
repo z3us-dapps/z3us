@@ -95,7 +95,6 @@ export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 				styles.cardAccountImageWrapper,
 				colorClassName,
 				cardColor,
-				'angel', // @TODO: fix
 				isSizeLarge && styles.cardAccountLarge,
 				className,
 			)}
