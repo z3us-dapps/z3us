@@ -81,7 +81,7 @@ export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 
 	const { data } = useNonFungibleData(skin?.collection, skin?.non_fungible_id)
 
-	const dataJson = data?.data.programmatic_json as any
+	const dataJson = data?.data?.programmatic_json as any
 	const name = findFieldValue('name', dataJson?.fields)
 	const imageSrc = findFieldValue('key_image_url', dataJson?.fields)
 

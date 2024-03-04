@@ -16,7 +16,7 @@ export const NftImageIcon = forwardRef<HTMLElement, IProps>(
 	({ id, address, toolTipEnabled = false, width = 'auto', ...props }, ref: React.Ref<HTMLElement | null>) => {
 		const { data } = useNonFungibleData(address, id)
 
-		const dataJson = data?.data.programmatic_json as any
+		const dataJson = data?.data?.programmatic_json as any
 		const name = findFieldValue('name', dataJson?.fields) || id
 		const imageSrc = findFieldValue('key_image_url', dataJson?.fields)
 
