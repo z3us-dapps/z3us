@@ -30,7 +30,7 @@ import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import { useNonFungibleData } from '../../hooks/dapp/use-entity-nft'
+import { useNonFungibleData, useNonFungibleLocation } from '../../hooks/dapp/use-entity-nft'
 import { findFieldValue } from '../../services/metadata'
 import { CopyAddressButton } from '../copy-address-button'
 import * as styles from './account-cards.css'
@@ -72,6 +72,13 @@ export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 	const { address, className, size = 'small' } = props
 
 	const { skin, cardColor, colorClassName } = useAccountCardSettings(address)
+	const { data: location } = useNonFungibleLocation(skin?.collection, skin?.non_fungible_id)
+	const { nonFungibleBalances = [] } = useBalances([address])
+
+	const collection = nonFungibleBalances.find(nft => nft.address === location?.resource_address)
+	const vault = collection?.vaults.find(v => v === location?.non_fungible_ids?.[0]?.owning_vault_address)
+	const holdsNFT = Boolean(vault)
+
 	const { data } = useNonFungibleData(skin?.collection, skin?.non_fungible_id)
 
 	const dataJson = data?.data.programmatic_json as any
@@ -80,7 +87,7 @@ export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 
 	const isSizeLarge = size === 'large'
 
-	if (!skin) return null
+	if (!skin || !holdsNFT) return null
 
 	return (
 		<Box
