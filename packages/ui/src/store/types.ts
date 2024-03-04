@@ -2,13 +2,18 @@ import type { languages } from 'ui/src/constants/intl'
 
 export type AddressBook = { [networkId: number]: { [key: string]: AddressBookEntry } }
 
+export type AccountSkin = {
+	collection: string
+	non_fungible_id: string
+}
+
 export type AddressBookEntry = {
 	name: string
 	address: string
 	dateAdded: number
 	dateUpdated: number
-	cardImage?: string
 	cardColor?: string
+	skin?: AccountSkin
 }
 
 export enum KeystoreType {

@@ -35,9 +35,10 @@ export const useNonFungibleIds = (resourceId: string, addresses: string[], at: D
 	const { state } = useGatewayClient()!
 	const networkId = useNetworkId()
 	const { data: vaults = [], isLoading } = useAccountNftVaults(resourceId, addresses, at)
+	const vaultAddresses = vaults.map(vault => vault.vault)
 
 	return useInfiniteQuery({
-		queryKey: ['useNonFungibleIds', networkId, resourceId, addresses, formatDateTime(at)],
+		queryKey: ['useNonFungibleIds', networkId, resourceId, addresses, vaultAddresses, formatDateTime(at)],
 		queryFn: async ({ pageParam }) => {
 			const responses = await Promise.all(
 				vaults.map(({ account, vault, resource }, idx) =>
@@ -127,4 +128,21 @@ export const useNonFungiblesData = (collection: string, ids: string[]) => {
 		}),
 		{ data: [], isLoading: false },
 	)
+}
+
+export const useNonFungibleLocation = (collection: string, id: string) => {
+	const networkId = useNetworkId()
+	const { state } = useGatewayClient()!
+
+	return useQuery({
+		queryKey: ['useNonFungibleLocation', networkId, collection, id],
+		queryFn: () =>
+			state.innerClient.nonFungibleLocation({
+				stateNonFungibleLocationRequest: {
+					resource_address: collection,
+					non_fungible_ids: [id],
+				},
+			}),
+		enabled: !!state && !!collection && !!id,
+	})
 }

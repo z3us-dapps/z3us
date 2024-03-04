@@ -1,19 +1,22 @@
 import { DefaultDepositRule } from '@radixdlt/radix-engine-toolkit'
 import { useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
+import { SubmitButton } from 'packages/ui/src/components/form/fields/submit-button'
+import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { AccountCards } from 'ui/src/components/account-cards'
-import { Avatar } from 'ui/src/components/avatar'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { Form } from 'ui/src/components/form'
 import { SelectAdapter as AccountSelect } from 'ui/src/components/form/fields/account-select'
+import { NftSelect } from 'ui/src/components/form/fields/nft-select'
 import { Input } from 'ui/src/components/input'
 import { Radio, RadioGroup } from 'ui/src/components/radio-group'
 import { Text } from 'ui/src/components/typography'
-import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
+import { CARD_COLORS } from 'ui/src/constants/account'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
@@ -51,9 +54,9 @@ const messages = defineMessages({
 		id: 'zXIZtJ',
 		defaultMessage: 'Account color',
 	},
-	account_image: {
-		id: 'yWx/0A',
-		defaultMessage: 'Account image',
+	account_skin: {
+		id: 'MPmFMu',
+		defaultMessage: 'Account skin',
 	},
 	third_party_deposits: {
 		id: '93MRNX',
@@ -100,6 +103,10 @@ const messages = defineMessages({
 		id: 'K7AkdL',
 		defaultMessage: 'Show',
 	},
+	select_skin: {
+		id: 'GZsTiw',
+		defaultMessage: 'Select skin',
+	},
 })
 
 const Accounts: React.FC = () => {
@@ -115,8 +122,10 @@ const Accounts: React.FC = () => {
 
 	const [currentRule, setRule] = useState<DefaultDepositRule>(DefaultDepositRule.Accept)
 	const [selectedAccount, setSelectedAccount] = useState<AddressBookEntry | undefined>()
+	const [isSettingSkin, setIsSettingSkin] = useState<boolean>(false)
 
 	const { data } = useEntityDetails(selectedAccount?.address)
+	const { nonFungibleBalances = [] } = useBalances([selectedAccount?.address])
 
 	const { setAddressBookEntry } = useNoneSharedStore(state => ({
 		setAddressBookEntry: state.setAddressBookEntryAction,
@@ -135,6 +144,22 @@ const Accounts: React.FC = () => {
 		setRule(rule)
 	}, [(data?.details as any)?.state.default_deposit_rule])
 
+	const skinInitialValues = useMemo(
+		() => ({
+			address: selectedAccount?.skin?.collection,
+			id: selectedAccount?.skin?.non_fungible_id,
+		}),
+		[selectedAccount],
+	)
+
+	const handleSubmit = async values => {
+		setIsSettingSkin(true)
+		const entry = { ...selectedAccount, skin: { collection: values.address, non_fungible_id: values.id } }
+		setAddressBookEntry(networkId, selectedAccount.address, entry)
+		setSelectedAccount(entry)
+		setIsSettingSkin(false)
+	}
+
 	const handleSelectAccount = (address: string) => {
 		setSelectedAccount(accountsAsArray.find(a => a.address === address))
 	}
@@ -142,13 +167,6 @@ const Accounts: React.FC = () => {
 	const handleSelectColor = (value: string) => {
 		if (!selectedAccount) return
 		const entry = { ...selectedAccount, cardColor: value }
-		setAddressBookEntry(networkId, selectedAccount.address, entry)
-		setSelectedAccount(entry)
-	}
-
-	const handleSelectCard = (value: string) => {
-		if (!selectedAccount) return
-		const entry = { ...selectedAccount, cardImage: value }
 		setAddressBookEntry(networkId, selectedAccount.address, entry)
 		setSelectedAccount(entry)
 	}
@@ -253,28 +271,19 @@ const Accounts: React.FC = () => {
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Text size="small" weight="medium" color="strong">
-								{intl.formatMessage(messages.account_image)}
+								{intl.formatMessage(messages.account_skin)}
 							</Text>
 							<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-								{Object.entries(CARD_IMAGES).map(([a, image]) => (
-									<Button
-										key={a}
-										active={a === selectedAccount?.cardImage}
-										styleVariant="avatar"
-										sizeVariant="medium"
-										iconOnly
-										onClick={() => handleSelectCard(a)}
-									>
-										<Avatar
-											styleVariant="square"
-											sizeVariant="medium"
-											src={`/images/account-images/${image}`}
-											alt="img"
-											fallback="card image"
-											className={accountsStyles.accountsAvatarImgWrapper}
-										/>
-									</Button>
-								))}
+								{nonFungibleBalances.length > 0 && (
+									<Form onSubmit={handleSubmit} initialValues={skinInitialValues}>
+										<NftSelect fromAccount={selectedAccount?.address} />
+										<SubmitButton>
+											<Button sizeVariant="large" disabled={!selectedAccount} loading={isSettingSkin}>
+												{intl.formatMessage(messages.select_skin)}
+											</Button>
+										</SubmitButton>
+									</Form>
+								)}
 							</Box>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">

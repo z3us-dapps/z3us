@@ -30,6 +30,8 @@ import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
+import { useNonFungibleData } from '../../hooks/dapp/use-entity-nft'
+import { findFieldValue } from '../../services/metadata'
 import { CopyAddressButton } from '../copy-address-button'
 import * as styles from './account-cards.css'
 
@@ -69,22 +71,30 @@ interface IAccountCardImageProps {
 export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
 	const { address, className, size = 'small' } = props
 
-	const { cardImage, imgClassName, cardColor, colorClassName } = useAccountCardSettings(address)
+	const { skin, cardColor, colorClassName } = useAccountCardSettings(address)
+	const { data } = useNonFungibleData(skin?.collection, skin?.non_fungible_id)
+
+	const dataJson = data?.data.programmatic_json as any
+	const name = findFieldValue('name', dataJson?.fields)
+	const imageSrc = findFieldValue('key_image_url', dataJson?.fields)
 
 	const isSizeLarge = size === 'large'
+
+	if (!skin) return null
 
 	return (
 		<Box
 			className={clsx(
 				styles.cardAccountImageWrapper,
 				colorClassName,
-				imgClassName,
+				cardColor,
+				'angel', // @TODO: fix
 				isSizeLarge && styles.cardAccountLarge,
 				className,
 			)}
 		>
 			{/* eslint-disable-next-line @next/next/no-img-element */}
-			<img src={`/images/account-images/${cardImage}`} alt={`${cardImage}-${cardColor}`} />
+			<img src={imageSrc} alt={name} />
 		</Box>
 	)
 }

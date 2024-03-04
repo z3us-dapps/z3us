@@ -82,8 +82,6 @@ export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref)
 			data={Object.values(accounts).map(_account => ({
 				id: _account.address,
 				title: _account.name,
-				cardColor: _account.cardColor,
-				cardImage: _account.cardImage,
 			}))}
 			itemContentRenderer={renderItem}
 			trigger={

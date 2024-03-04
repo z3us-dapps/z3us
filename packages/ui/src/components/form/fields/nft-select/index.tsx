@@ -1,14 +1,15 @@
 import React, { forwardRef, useContext, useEffect, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
+import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
+import { type IProps as WrapperProps } from 'ui/src/components/form/field-wrapper'
+import { FieldContext } from 'ui/src/components/form/field-wrapper/context'
+import { useFieldValue } from 'ui/src/components/form/use-field-value'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNonFungibleIds } from 'ui/src/hooks/dapp/use-entity-nft'
 
-import { Box } from '../../../box'
-import { type IProps as WrapperProps } from '../../field-wrapper'
-import { FieldContext } from '../../field-wrapper/context'
-import { useFieldValue } from '../../use-field-value'
 import SelectField from '../select-field'
 import * as styles from './styles.css'
 
@@ -35,12 +36,13 @@ interface IProps extends Omit<WrapperProps, 'name'> {
 	fromAccount?: string
 	resourceKey?: string
 	itemKey?: string
+	onSelect?: (collection: string, non_fungible_id: string) => void
 }
 
 export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 	const intl = useIntl()
 
-	const { fromAccount, resourceKey = 'address', itemKey = 'id', ...rest } = props
+	const { fromAccount, resourceKey = 'address', itemKey = 'id', onSelect, ...rest } = props
 	const { name: parentName } = useContext(FieldContext)
 
 	const { nonFungibleBalances = [] } = useBalances([fromAccount])
@@ -71,6 +73,10 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 		}
 	}, [isFetching, fetchNextPage, hasNextPage])
 
+	const handleItemSelect = (non_fungible_id: string) => {
+		if (onSelect) onSelect(resource, non_fungible_id)
+	}
+
 	return (
 		<Box disabled={!fromAccount || isFetching} className={styles.nftSelectWrapper}>
 			<ToolTip
@@ -89,18 +95,25 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 					/>
 				</span>
 			</ToolTip>
-			<ToolTip message={intl.formatMessage(messages.nonFungiblesToolTip)} disabled={hasNonFungibles}>
-				<span>
-					<SelectField
-						{...rest}
-						name={itemKey}
-						placeholder={intl.formatMessage(messages.item)}
-						data={nonFungibles}
-						disabled={!hasNonFungibles}
-						fullWidth
-					/>
-				</span>
-			</ToolTip>
+			{resource && (
+				<ToolTip message={intl.formatMessage(messages.nonFungiblesToolTip)} disabled={hasNonFungibles}>
+					<span>
+						{isFetching ? (
+							<FallbackLoading />
+						) : (
+							<SelectField
+								{...rest}
+								name={itemKey}
+								placeholder={intl.formatMessage(messages.item)}
+								data={nonFungibles}
+								disabled={!hasNonFungibles}
+								fullWidth
+								onSelect={handleItemSelect}
+							/>
+						)}
+					</span>
+				</ToolTip>
+			)}
 		</Box>
 	)
 })
