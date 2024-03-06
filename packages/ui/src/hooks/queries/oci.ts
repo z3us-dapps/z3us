@@ -43,15 +43,17 @@ const getFetchTokensQueryFn = async (cursor: number = 0, container: Token[] = []
 	}
 }
 
-export const useTokens = () =>
-	useQuery(['oci', 'useTokens'], async (): Promise<{ [key: string]: Token }> => {
-		try {
-			const allTokens = await getFetchTokensQueryFn()
-			return allTokens.reduce((container, token) => ({ ...container, [token.address]: token }), {})
-		} catch (error: any) {
-			return {}
-		}
-	})
+export const tokensQuery = {
+	queryKey: ['oci', 'useTokens'],
+	queryFn: async (): Promise<{ [key: string]: Token }> => {
+		const allTokens = await getFetchTokensQueryFn()
+		return allTokens.reduce((container, token) => ({ ...container, [token.address]: token }), {})
+	},
+	staleTime: 3 * 24 * 60 * 60 * 1000, // cache for 3 day
+	refetchInterval: 15 * 60 * 1000, // automatically refetch every minute
+}
+
+export const useTokens = () => useQuery(tokensQuery)
 
 export const useUsfConfig = () => useQuery(['oci', 'useUsfConfig'], oci.getUdfConfig)
 

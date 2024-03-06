@@ -4,6 +4,7 @@ import type {
 	StateEntityDetailsResponseItemDetails,
 } from '@radixdlt/radix-dapp-toolkit'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 import { findMetadataValue } from 'ui/src/services/metadata'
@@ -45,7 +46,7 @@ export const useValidators = (accounts: StateEntityDetailsResponseItem[], at: Da
 	const stakeResourceAddresses = useMemo(collectStakeResourceAddresses(validators), [validators])
 	const { data: units } = useEntitiesDetails(stakeResourceAddresses, undefined, undefined, at)
 
-	return useMemo(() => {
+	const queryFn = () => {
 		const unitsSupply = units.reduce((m, unit) => {
 			m[unit.address] = unit.details.total_supply
 			return m
@@ -75,22 +76,14 @@ export const useValidators = (accounts: StateEntityDetailsResponseItem[], at: Da
 			map[validator.address] = validator
 			return map
 		}, {})
-	}, [validators, units])
-}
+	}
 
-export const useValidatorsCompare = (accounts: StateEntityDetailsResponseItem[], at: Date, before: Date) => {
-	const validators = useValidators(accounts, at)
-	const validatorsBefore = useValidators(accounts, before)
-
-	return useMemo(
-		() =>
-			Object.keys(validators || {}).reduce((map, address) => {
-				map[address] = {
-					at: validators[address],
-					before: validatorsBefore[address] || undefined,
-				}
-				return map
-			}, {}),
-		[validators, validatorsBefore],
-	)
+	return useQuery({
+		queryKey: ['useValidators', validators, units],
+		queryFn,
+		staleTime: 30 * 1000,
+		refetchInterval: 30 * 1000,
+		refetchOnMount: true,
+		enabled: !!validators && !!units,
+	})
 }

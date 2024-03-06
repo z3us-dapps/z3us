@@ -7,12 +7,12 @@ import { type KnownAddresses, decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 import { useContext, useEffect, useMemo, useState } from 'react'
 
-import { BalancesContext } from 'ui/src/context/balances/context'
+import { BalancesContext, emptyState } from 'ui/src/context/balances/context'
 import { useEntitiesDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
-import { usePools, usePoolsCompare } from 'ui/src/hooks/dapp/use-pools'
-import { useValidators, useValidatorsCompare } from 'ui/src/hooks/dapp/use-validators'
+import { usePools } from 'ui/src/hooks/dapp/use-pools'
+import { useValidators } from 'ui/src/hooks/dapp/use-validators'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
 import { type Token, useTokens } from 'ui/src/hooks/queries/tokens'
 import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
@@ -252,14 +252,33 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
 
 	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
-	const pools = usePoolsCompare(accounts, at, before)
-	const validators = useValidatorsCompare(accounts, at, before)
+
+	const { data: validatorsAt } = useValidators(accounts, at)
+	const { data: validatorsBefore } = useValidators(accounts, before)
+	const { data: poolsAt } = usePools(accounts, at)
+	const { data: poolsBefore } = usePools(accounts, before)
 	const { data: knownAddresses } = useKnownAddresses()
 	const { data: tokens } = useTokens()
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
 	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
 
-	return useMemo((): Balances => {
+	const queryFn = (): Balances => {
+		const validators = Object.keys(validatorsAt || {}).reduce((map, address) => {
+			map[address] = {
+				at: validatorsAt[address],
+				before: validatorsBefore[address] || undefined,
+			}
+			return map
+		}, {})
+
+		const pools = Object.keys(poolsAt || {}).reduce((map, address) => {
+			map[address] = {
+				at: poolsAt[address],
+				before: poolsBefore[address] || undefined,
+			}
+			return map
+		}, {})
+
 		let fungible: ResourceBalances = {}
 		let nonFungible: ResourceBalances = {}
 		accounts.forEach(({ fungible_resources, non_fungible_resources }) => {
@@ -304,7 +323,28 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 			...transformBalances(lpTokens, 'liquidityPoolTokens'),
 			...transformBalances(poolUnits, 'poolUnits'),
 		} as Balances
-	}, [knownAddresses, xrdPrice, xrdPriceBefore, tokens, accounts, pools, validators])
+	}
+
+	const result = useQuery({
+		queryKey: [
+			'useBalances',
+			knownAddresses,
+			xrdPrice,
+			xrdPriceBefore,
+			tokens,
+			accounts,
+			poolsAt,
+			poolsBefore,
+			validatorsAt,
+			validatorsBefore,
+		],
+		queryFn,
+		staleTime: 30 * 1000,
+		refetchInterval: 30 * 1000,
+		refetchOnMount: true,
+		enabled: !!knownAddresses && !!accounts && !!tokens && !!xrdPrice && !!xrdPriceBefore,
+	})
+	return result.data || emptyState
 }
 
 export const useAccountValues = (addresses: string[], at: Date = new Date()) => {
@@ -318,42 +358,47 @@ export const useAccountValues = (addresses: string[], at: Date = new Date()) => 
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
 	const { data: tokens } = useTokens()
 	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
-	const pools = usePools(accounts, at)
-	const validators = useValidators(accounts, at)
+	const { data: pools } = usePools(accounts, at)
+	const { data: validators } = useValidators(accounts, at)
 
-	return useMemo(
-		() =>
-			accounts.reduce(
-				(container, account) => ({
-					...container,
-					[account.address]: Object.values(
-						account.fungible_resources.items.reduce(
-							transformFungibleResourceItemResponse(
-								knownAddresses,
-								xrdPrice,
-								0,
-								tokens,
-								Object.keys(validators || {}).reduce((map, address) => {
-									map[address] = {
-										at: validators[address],
-									}
-									return map
-								}, {}),
-								Object.keys(pools || {}).reduce((map, address) => {
-									map[address] = {
-										at: pools[address],
-									}
-									return map
-								}, {}),
-							),
-							{},
-						),
-					).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),
-				}),
-				{},
-			),
-		[accounts, knownAddresses, xrdPrice, tokens, validators, pools],
-	)
+	const queryFn = () => {
+		const validatorsMap = Object.keys(validators || {}).reduce((map, address) => {
+			map[address] = {
+				at: validators[address],
+			}
+			return map
+		}, {})
+
+		const poolsMap = Object.keys(pools || {}).reduce((map, address) => {
+			map[address] = {
+				at: pools[address],
+			}
+			return map
+		}, {})
+
+		return accounts.reduce(
+			(container, account) => ({
+				...container,
+				[account.address]: Object.values(
+					account.fungible_resources.items.reduce(
+						transformFungibleResourceItemResponse(knownAddresses, xrdPrice, 0, tokens, validatorsMap, poolsMap),
+						{},
+					),
+				).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),
+			}),
+			{},
+		)
+	}
+
+	const result = useQuery({
+		queryKey: ['useAccountValues', knownAddresses, xrdPrice, accounts, tokens, pools, validators],
+		queryFn,
+		staleTime: 30 * 1000,
+		refetchInterval: 30 * 1000,
+		refetchOnMount: true,
+		enabled: !!knownAddresses && !!accounts && !!tokens && !!xrdPrice,
+	})
+	return result.data || {}
 }
 
 type AccountNfts = { resource: string; vault: string; account: string }

@@ -4,6 +4,7 @@ import type {
 	StateEntityDetailsResponseItem,
 } from '@radixdlt/radix-dapp-toolkit'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 import { findMetadataValue } from 'ui/src/services/metadata'
@@ -45,7 +46,7 @@ export const usePools = (accounts: StateEntityDetailsResponseItem[], at: Date) =
 	const resourceAddresses = useMemo(collectUnitResourceAddresses(pools), [pools])
 	const { data: units } = useEntitiesDetails(resourceAddresses, undefined, undefined, at)
 
-	return useMemo(() => {
+	const queryFn = () => {
 		const unitsSupply = units.reduce((m, unit) => {
 			m[unit.address] = unit.details.total_supply
 			return m
@@ -68,22 +69,14 @@ export const usePools = (accounts: StateEntityDetailsResponseItem[], at: Date) =
 			map[pool.address] = pool
 			return map
 		}, {})
-	}, [pools, units])
-}
+	}
 
-export const usePoolsCompare = (accounts: StateEntityDetailsResponseItem[], at: Date, before: Date) => {
-	const pools = usePools(accounts, at)
-	const poolsBefore = usePools(accounts, before)
-
-	return useMemo(
-		() =>
-			Object.keys(pools || {}).reduce((map, address) => {
-				map[address] = {
-					at: pools[address],
-					before: poolsBefore[address] || undefined,
-				}
-				return map
-			}, {}),
-		[pools, poolsBefore],
-	)
+	return useQuery({
+		queryKey: ['usePools', pools, units],
+		queryFn,
+		staleTime: 30 * 1000,
+		refetchInterval: 30 * 1000,
+		refetchOnMount: true,
+		enabled: !!pools && !!units,
+	})
 }
