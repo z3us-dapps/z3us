@@ -81,9 +81,6 @@ export const useValidators = (accounts: StateEntityDetailsResponseItem[], at: Da
 	return useQuery({
 		queryKey: ['useValidators', validators, units],
 		queryFn,
-		staleTime: 30 * 1000,
-		refetchInterval: 30 * 1000,
-		refetchOnMount: true,
 		enabled: !!validators && !!units,
 	})
 }

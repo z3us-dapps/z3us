@@ -339,9 +339,6 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 			validatorsBefore,
 		],
 		queryFn,
-		staleTime: 30 * 1000,
-		refetchInterval: 30 * 1000,
-		refetchOnMount: true,
 		enabled: !!knownAddresses && !!accounts && !!tokens && !!xrdPrice && !!xrdPriceBefore,
 	})
 	return result.data || emptyState
@@ -393,9 +390,6 @@ export const useAccountValues = (addresses: string[], at: Date = new Date()) => 
 	const result = useQuery({
 		queryKey: ['useAccountValues', knownAddresses, xrdPrice, accounts, tokens, pools, validators],
 		queryFn,
-		staleTime: 30 * 1000,
-		refetchInterval: 30 * 1000,
-		refetchOnMount: true,
 		enabled: !!knownAddresses && !!accounts && !!tokens && !!xrdPrice,
 	})
 	return result.data || {}

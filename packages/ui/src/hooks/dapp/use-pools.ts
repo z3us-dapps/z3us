@@ -74,9 +74,6 @@ export const usePools = (accounts: StateEntityDetailsResponseItem[], at: Date) =
 	return useQuery({
 		queryKey: ['usePools', pools, units],
 		queryFn,
-		staleTime: 30 * 1000,
-		refetchInterval: 30 * 1000,
-		refetchOnMount: true,
 		enabled: !!pools && !!units,
 	})
 }

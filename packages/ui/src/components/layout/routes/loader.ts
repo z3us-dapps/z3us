@@ -9,9 +9,9 @@ export const loader =
 	(queryClient: QueryClient) =>
 	async ({ request }) => {
 		await Promise.all([
-			queryClient.prefetchQuery(knownAddressesQuery(config.defaultNetworkId)),
-			queryClient.prefetchQuery(astrolescentTokensQuery),
-			queryClient.prefetchQuery(ociTokensQuery),
+			// queryClient.prefetchQuery(knownAddressesQuery(config.defaultNetworkId)),
+			// queryClient.prefetchQuery(astrolescentTokensQuery),
+			// queryClient.prefetchQuery(ociTokensQuery),
 		])
 		return request
 	}

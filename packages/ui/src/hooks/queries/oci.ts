@@ -10,7 +10,6 @@ export const useSwapPreview = (from: string, to: string, side: 'send' | 'receive
 		async (): Promise<SwapPreview> => oci.previewSwap(from, to, side, amount),
 		{
 			enabled: !!from && !!to && amount > 0,
-			staleTime: 30 * 1000,
 			refetchInterval: 30 * 1000,
 			retry: false,
 			keepPreviousData: false,
@@ -50,7 +49,6 @@ export const tokensQuery = {
 		return allTokens.reduce((container, token) => ({ ...container, [token.address]: token }), {})
 	},
 	staleTime: 3 * 24 * 60 * 60 * 1000, // cache for 3 day
-	refetchInterval: 15 * 60 * 1000, // automatically refetch every minute
 }
 
 export const useTokens = () => useQuery(tokensQuery)
