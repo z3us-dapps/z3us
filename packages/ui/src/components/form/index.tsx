@@ -16,7 +16,7 @@ type Props<P = {}> = {
 	initialValues: P
 	errors?: FormErrors<P>
 	className?: string
-	onSubmit: (values: P) => Promise<void>
+	onSubmit?: (values: P) => Promise<void>
 	onChange?: (values: P) => Promise<void>
 }
 
@@ -73,19 +73,20 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 			draft.isLoading = true
 		})
 
-		onSubmit(state.values)
-			.catch(error => {
-				// eslint-disable-next-line no-console
-				console.error(error)
-				setState(draft => {
-					draft.error = intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message })
+		if (onSubmit)
+			onSubmit(state.values)
+				.catch(error => {
+					// eslint-disable-next-line no-console
+					console.error(error)
+					setState(draft => {
+						draft.error = intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message })
+					})
 				})
-			})
-			.finally(() => {
-				setState(draft => {
-					draft.isLoading = false
+				.finally(() => {
+					setState(draft => {
+						draft.isLoading = false
+					})
 				})
-			})
 	}
 
 	const handleFieldChange = (name: string, value?: any) => {

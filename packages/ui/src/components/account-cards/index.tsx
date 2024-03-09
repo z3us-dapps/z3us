@@ -21,19 +21,20 @@ import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { CARD_COLORS } from 'ui/src/constants/account'
 import { CURRENCY_STYLES } from 'ui/src/constants/number'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
+import { useHoldsNft } from 'ui/src/hooks/dapp/use-holds-nft'
 import { useDashboardUrl, useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
+import { findFieldValue } from 'ui/src/services/metadata'
 import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import { useNonFungibleData, useNonFungibleLocation } from '../../hooks/dapp/use-entity-nft'
-import { findFieldValue } from '../../services/metadata'
 import { CopyAddressButton } from '../copy-address-button'
-import * as styles from './account-cards.css'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	legacy: {
@@ -65,42 +66,25 @@ const messages = defineMessages({
 interface IAccountCardImageProps {
 	address: string
 	className?: string
-	size?: 'small' | 'large'
 }
 
 export const AccountCardImage: React.FC<IAccountCardImageProps> = props => {
-	const { address, className, size = 'small' } = props
+	const { address, className } = props
 
 	const { skin, cardColor, colorClassName } = useAccountCardSettings(address)
-	const { data: location } = useNonFungibleLocation(skin?.collection, skin?.non_fungible_id)
-	const { nonFungibleBalances = [] } = useBalances([address])
-
-	const collection = nonFungibleBalances.find(nft => nft.address === location?.resource_address)
-	const vault = collection?.vaults.find(v => v === location?.non_fungible_ids?.[0]?.owning_vault_address)
-	const holdsNFT = Boolean(vault)
-
 	const { data } = useNonFungibleData(skin?.collection, skin?.non_fungible_id)
+	const holdsNFT = useHoldsNft(address, skin?.collection, skin?.non_fungible_id)
 
 	const dataJson = data?.data?.programmatic_json as any
 	const name = findFieldValue('name', dataJson?.fields)
 	const imageSrc = findFieldValue('key_image_url', dataJson?.fields)
 
-	const isSizeLarge = size === 'large'
-
-	if (!skin || !holdsNFT) return null
+	if (!skin || holdsNFT === false) return null
 
 	return (
-		<Box
-			className={clsx(
-				styles.cardAccountImageWrapper,
-				colorClassName,
-				cardColor,
-				isSizeLarge && styles.cardAccountLarge,
-				className,
-			)}
-		>
+		<Box className={clsx(styles.cardAccountImageWrapper, colorClassName, cardColor, className)}>
 			{/* eslint-disable-next-line @next/next/no-img-element */}
-			<img src={imageSrc} alt={name} />
+			<img src={imageSrc} alt={name} style={skin.styles} />
 		</Box>
 	)
 }
@@ -208,7 +192,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			}}
 		>
 			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
-				<AccountCardImage address={address} size="large" />
+				<AccountCardImage address={address} />
 				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small" position="relative">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>

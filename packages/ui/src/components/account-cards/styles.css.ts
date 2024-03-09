@@ -201,29 +201,24 @@ globalStyle(`${accountCardIconWrapper} img`, {
 	opacity: '0.6',
 })
 
+export const cardAccountMenuLeftSlotWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
 export const cardAccountImageWrapper = style([
 	sprinkles({
 		position: 'absolute',
 		top: 0,
 		right: 0,
-		pointerEvents: 'none',
+		display: 'flex',
+		justifyContent: 'center',
 		width: 'full',
 		height: 'full',
 		maxWidth: 'full',
-	}),
-	{},
-])
-
-export const cardAccountLarge = style([
-	sprinkles({
-		position: 'absolute',
-	}),
-	{},
-])
-
-export const cardAccountMenuLeftSlotWrapper = style([
-	sprinkles({
-		position: 'relative',
+		pointerEvents: 'none',
 	}),
 	{},
 ])
@@ -232,6 +227,4 @@ globalStyle(`${cardAccountImageWrapper} img`, {
 	position: 'absolute',
 	width: '100%',
 	height: '100%',
-	opacity: '0.5',
-	objectFit: 'cover'
 })

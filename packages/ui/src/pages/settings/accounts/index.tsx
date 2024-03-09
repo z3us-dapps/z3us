@@ -1,7 +1,8 @@
 import { DefaultDepositRule } from '@radixdlt/radix-engine-toolkit'
 import { useQueryClient } from '@tanstack/react-query'
-import { SubmitButton } from 'packages/ui/src/components/form/fields/submit-button'
+import { SelectSimple } from 'packages/ui/src/components/select'
 import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import type { CSSProperties } from 'react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -103,9 +104,25 @@ const messages = defineMessages({
 		id: 'K7AkdL',
 		defaultMessage: 'Show',
 	},
-	select_skin: {
-		id: 'GZsTiw',
-		defaultMessage: 'Select skin',
+	object_fit_cover: {
+		id: '9pWpUc',
+		defaultMessage: 'cover',
+	},
+	object_fit_contain: {
+		id: 'uFMS8x',
+		defaultMessage: 'contain',
+	},
+	object_fit_fill: {
+		id: 'om4lTl',
+		defaultMessage: 'fill',
+	},
+	account_skin_object_fit: {
+		id: 'N2HbmZ',
+		defaultMessage: 'Fit',
+	},
+	account_skin_opacity: {
+		id: 'PHutSR',
+		defaultMessage: 'Opacity',
 	},
 })
 
@@ -122,7 +139,6 @@ const Accounts: React.FC = () => {
 
 	const [currentRule, setRule] = useState<DefaultDepositRule>(DefaultDepositRule.Accept)
 	const [selectedAccount, setSelectedAccount] = useState<AddressBookEntry | undefined>()
-	const [isSettingSkin, setIsSettingSkin] = useState<boolean>(false)
 
 	const { data } = useEntityDetails(selectedAccount?.address)
 	const { nonFungibleBalances = [] } = useBalances([selectedAccount?.address])
@@ -152,16 +168,41 @@ const Accounts: React.FC = () => {
 		[selectedAccount],
 	)
 
-	const handleSubmit = async values => {
-		setIsSettingSkin(true)
-		const entry = { ...selectedAccount, skin: { collection: values.address, non_fungible_id: values.id } }
-		setAddressBookEntry(networkId, selectedAccount.address, entry)
-		setSelectedAccount(entry)
-		setIsSettingSkin(false)
-	}
-
 	const handleSelectAccount = (address: string) => {
 		setSelectedAccount(accountsAsArray.find(a => a.address === address))
+	}
+
+	const handleSkinSelect = (collection, non_fungible_id) => {
+		const entry = {
+			...selectedAccount,
+			skin: {
+				collection,
+				non_fungible_id,
+				objectFit: selectedAccount.skin?.styles?.objectFit || 'cover',
+				opacity: selectedAccount.skin?.styles?.opacity || '1',
+			},
+		}
+		setAddressBookEntry(networkId, selectedAccount.address, entry)
+		setSelectedAccount(entry)
+	}
+
+	const handleChangeSkinOpacity = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (!selectedAccount) return
+		const evt = event.nativeEvent as InputEvent
+		if (evt.isComposing) return
+		selectedAccount.skin = {
+			...selectedAccount.skin,
+			styles: { ...(selectedAccount.skin?.styles || {}), opacity: event.target.value },
+		}
+		setAddressBookEntry(networkId, selectedAccount.address, selectedAccount)
+		setSelectedAccount(selectedAccount)
+	}
+
+	const handleChangeSkinFit = (objectFit: CSSProperties['objectFit']) => {
+		if (!selectedAccount) return
+		selectedAccount.skin = { ...selectedAccount.skin, styles: { ...(selectedAccount.skin?.styles || {}), objectFit } }
+		setAddressBookEntry(networkId, selectedAccount.address, selectedAccount)
+		setSelectedAccount(selectedAccount)
 	}
 
 	const handleSelectColor = (value: string) => {
@@ -273,18 +314,44 @@ const Accounts: React.FC = () => {
 							<Text size="small" weight="medium" color="strong">
 								{intl.formatMessage(messages.account_skin)}
 							</Text>
-							<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-								{nonFungibleBalances.length > 0 && (
-									<Form onSubmit={handleSubmit} initialValues={skinInitialValues}>
-										<NftSelect fromAccount={selectedAccount?.address} />
-										<SubmitButton>
-											<Button sizeVariant="large" disabled={!selectedAccount} loading={isSettingSkin}>
-												{intl.formatMessage(messages.select_skin)}
-											</Button>
-										</SubmitButton>
-									</Form>
-								)}
-							</Box>
+							{nonFungibleBalances.length > 0 && (
+								<Form initialValues={skinInitialValues}>
+									<NftSelect fromAccount={selectedAccount?.address} onSelect={handleSkinSelect} />
+
+									{selectedAccount?.skin?.collection && selectedAccount?.skin?.non_fungible_id && (
+										<>
+											<Box display="flex" flexDirection="column" gap="small" marginTop="small">
+												<Text size="small" weight="medium" color="strong">
+													{intl.formatMessage(messages.account_skin_object_fit)}
+												</Text>
+												<SelectSimple
+													value={selectedAccount?.skin?.styles?.objectFit}
+													dropDownWidth={150}
+													onValueChange={handleChangeSkinFit}
+													data={[
+														{ id: 'cover', title: intl.formatMessage(messages.object_fit_cover) },
+														{ id: 'contain', title: intl.formatMessage(messages.object_fit_contain) },
+														{ id: 'fill', title: intl.formatMessage(messages.object_fit_fill) },
+													]}
+												/>
+											</Box>
+											<Box display="flex" flexDirection="column" gap="small" marginTop="small">
+												<Text size="small" weight="medium" color="strong">
+													{intl.formatMessage(messages.account_skin_opacity)}
+												</Text>
+												<Input
+													value={selectedAccount?.skin?.styles?.opacity}
+													type="range"
+													min="0"
+													max="1"
+													step="0.1"
+													onChange={handleChangeSkinOpacity}
+												/>
+											</Box>
+										</>
+									)}
+								</Form>
+							)}
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Text size="small" weight="medium" color="strong">
