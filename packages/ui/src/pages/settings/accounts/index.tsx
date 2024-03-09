@@ -1,5 +1,6 @@
 import { DefaultDepositRule } from '@radixdlt/radix-engine-toolkit'
 import { useQueryClient } from '@tanstack/react-query'
+import { Close2Icon } from 'packages/ui/src/components/icons'
 import { SelectSimple } from 'packages/ui/src/components/select'
 import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import type { CSSProperties } from 'react'
@@ -28,7 +29,7 @@ import type { AddressBookEntry } from 'ui/src/store/types'
 import { SettingsBlock } from '../components/settings-block'
 import { SettingsTitle } from '../components/settings-title'
 import { SettingsWrapper } from '../components/settings-wrapper'
-import * as accountsStyles from './styles.css'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	title: {
@@ -124,6 +125,10 @@ const messages = defineMessages({
 		id: 'PHutSR',
 		defaultMessage: 'Opacity',
 	},
+	clear_skin: {
+		id: '/GCoTA',
+		defaultMessage: 'Clear',
+	},
 })
 
 const Accounts: React.FC = () => {
@@ -162,10 +167,10 @@ const Accounts: React.FC = () => {
 
 	const skinInitialValues = useMemo(
 		() => ({
-			address: selectedAccount?.skin?.collection,
-			id: selectedAccount?.skin?.non_fungible_id,
+			address: selectedAccount?.skin?.collection || '',
+			id: selectedAccount?.skin?.non_fungible_id || '',
 		}),
-		[selectedAccount],
+		[selectedAccount?.skin?.collection, selectedAccount?.skin?.non_fungible_id],
 	)
 
 	const handleSelectAccount = (address: string) => {
@@ -173,17 +178,27 @@ const Accounts: React.FC = () => {
 	}
 
 	const handleSkinSelect = (collection, non_fungible_id) => {
+		if (!selectedAccount) return
 		const entry = {
 			...selectedAccount,
 			skin: {
 				collection,
 				non_fungible_id,
-				objectFit: selectedAccount.skin?.styles?.objectFit || 'cover',
-				opacity: selectedAccount.skin?.styles?.opacity || '1',
+				styles: {
+					objectFit: selectedAccount.skin?.styles?.objectFit || 'cover',
+					opacity: selectedAccount.skin?.styles?.opacity || '1',
+				},
 			},
 		}
 		setAddressBookEntry(networkId, selectedAccount.address, entry)
 		setSelectedAccount(entry)
+	}
+
+	const handleClearSkin = () => {
+		if (!selectedAccount) return
+		delete selectedAccount.skin
+		setAddressBookEntry(networkId, selectedAccount.address, selectedAccount)
+		setSelectedAccount(selectedAccount)
 	}
 
 	const handleChangeSkinOpacity = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -275,7 +290,7 @@ const Accounts: React.FC = () => {
 				rightCol={
 					<Box display="flex" flexDirection="column" gap="large">
 						<AccountSelect value={selectedAccount?.address} onChange={handleSelectAccount} />
-						<Box className={accountsStyles.accountsCardWrapper}>
+						<Box className={styles.accountsCardWrapper}>
 							<AccountCards
 								accounts={accountsAsArray}
 								selectedCardIndex={accountsAsArray.findIndex(a => a.address === selectedAccount?.address)}
@@ -311,9 +326,21 @@ const Accounts: React.FC = () => {
 							</Box>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
-							<Text size="small" weight="medium" color="strong">
-								{intl.formatMessage(messages.account_skin)}
-							</Text>
+							<Box className={styles.skinSelectWrapper}>
+								<Text size="small" weight="medium" color="strong">
+									{intl.formatMessage(messages.account_skin)}
+								</Text>
+								<Box className={styles.skinClearButtonWrapper}>
+									<Button
+										sizeVariant="small"
+										styleVariant="secondary"
+										onClick={handleClearSkin}
+										leftIcon={<Close2Icon />}
+									>
+										{intl.formatMessage(messages.clear_skin)}
+									</Button>
+								</Box>
+							</Box>
 							{nonFungibleBalances.length > 0 && (
 								<Form initialValues={skinInitialValues}>
 									<NftSelect fromAccount={selectedAccount?.address} onSelect={handleSkinSelect} />
