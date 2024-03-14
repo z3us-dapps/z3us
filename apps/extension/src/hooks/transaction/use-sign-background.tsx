@@ -1,4 +1,4 @@
-import type { Intent, SignatureWithPublicKey } from '@radixdlt/radix-engine-toolkit'
+import type { Intent } from '@radixdlt/radix-engine-toolkit'
 import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -8,6 +8,7 @@ import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
+import type { SignatureWithPublicKeyJSON } from '@src/crypto/signature'
 import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useMessageClient } from '@src/hooks/use-message-client'
 
@@ -34,7 +35,7 @@ export const useSignTransactionWithBackground = () => {
 		selectedKeystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
 
-	const sign = async (intent: Intent, needSignaturesFrom: string[]): Promise<SignatureWithPublicKey[]> => {
+	const sign = async (intent: Intent, needSignaturesFrom: string[]): Promise<SignatureWithPublicKeyJSON[]> => {
 		const password = await confirm({ content: <Content /> })
 		const intentHash = await RadixEngineToolkit.Intent.intentHash(intent)
 		return Promise.all(

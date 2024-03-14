@@ -146,7 +146,7 @@ async function signToSignatureWithPublicKey(message: Message): Promise<Signature
 	const data = getCombineData(walletData.data, combinedKeystoreId)
 	const privateKey: PrivateKey = getPrivateKey(data, curve, derivationPath)
 	const signature = privateKey.signToSignatureWithPublicKey(Convert.HexString.toUint8Array(toSign))
-	return signatureWithPublicKeyToJSON(signature)
+	return signatureWithPublicKeyToJSON(signature, privateKey.publicKeyBytes())
 }
 
 export interface GetSecretMessage {

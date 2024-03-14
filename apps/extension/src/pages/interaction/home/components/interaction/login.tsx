@@ -193,7 +193,7 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 				}),
 			)
 		} finally {
-			window.close()
+			// window.close()
 		}
 	}
 
