@@ -1,4 +1,4 @@
-import type { PublicKey, Signature, SignatureWithPublicKey } from '@radixdlt/radix-engine-toolkit'
+import type { PublicKey, Signature } from '@radixdlt/radix-engine-toolkit'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
 import { useCallback, useContext, useMemo } from 'react'
 
@@ -9,7 +9,8 @@ import type { MessageTypes as BackgroundMessageTypes } from '@src/browser/backgr
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { ClientContext } from '@src/context/message-client-provider'
 import { publicKeyFromJSON } from '@src/crypto/key_pair'
-import { signatureFromJSON, signatureWithPublicKeyFromJSON } from '@src/crypto/signature'
+import type { SignatureWithPublicKeyJSON } from '@src/crypto/signature'
+import { signatureFromJSON } from '@src/crypto/signature'
 import type { Data } from '@src/types/vault'
 
 export const useMessageClient = () => {
@@ -107,7 +108,7 @@ export const useMessageClient = () => {
 				password: string,
 				data: Uint8Array,
 				combinedKeystoreId: string,
-			): Promise<SignatureWithPublicKey | null> =>
+			): Promise<SignatureWithPublicKeyJSON | null> =>
 				sendMessageToBackgroundAndUpdateTrigger(BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY, {
 					keystore,
 					curve,
@@ -115,7 +116,7 @@ export const useMessageClient = () => {
 					password,
 					toSign: Convert.Uint8Array.toHexString(data),
 					combinedKeystoreId,
-				}).then(resp => signatureWithPublicKeyFromJSON(resp || {})),
+				}),
 		}),
 		[sendMessageToBackgroundAndUpdateTrigger, sendMessageToBackground],
 	)

@@ -9,7 +9,7 @@ import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Accounts, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
-import { getDAppDataToSign, proofCurve, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
+import { getDAppDataToSign, proofCurve } from '@src/crypto/signature'
 import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useMessageClient } from '@src/hooks/use-message-client'
 
@@ -60,7 +60,7 @@ export const useAccountsData = () => {
 					const password = await confirm({ content: intl.formatMessage(messages.account_challenge) })
 					return Promise.all<AccountProof>(
 						needSignaturesFrom.map(async address => {
-							const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
+							const { signature, publicKey, curve } = await client.signToSignatureWithPublicKey(
 								selectedKeystore,
 								accountIndexes[address].curve,
 								accountIndexes[address].derivationPath,
@@ -68,14 +68,13 @@ export const useAccountsData = () => {
 								getDAppDataToSign(challenge, metadata.origin, metadata.dAppDefinitionAddress),
 								accountIndexes[address].combinedKeystoreId,
 							)
-							const signature = signatureWithPublicKeyToJSON(signatureWithPublicKey)
 
 							return {
 								accountAddress: address,
 								proof: {
-									signature: signature.signature,
-									publicKey: signature.publicKey,
-									curve: proofCurve(signature.curve),
+									signature,
+									publicKey,
+									curve: proofCurve(curve),
 								},
 							}
 						}),
