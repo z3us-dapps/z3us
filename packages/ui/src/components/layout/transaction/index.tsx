@@ -382,7 +382,7 @@ export const Transaction = () => {
 									.map(entity_address => (
 										<Box key={entity_address} className={styles.balanceChangeItem}>
 											<Box className={styles.balanceChangeItemHeader}>
-												<ToolTip message={data?.transaction.intent_hash}>
+												<ToolTip message={entity_address}>
 													<Box display="flex" alignItems="center" gap="small">
 														{accounts[entity_address] && (
 															<Box flexShrink={0}>
