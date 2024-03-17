@@ -32,10 +32,13 @@ export type SignatureWithPublicKeyJSON = {
 	curve: Curve
 }
 
-export function signatureWithPublicKeyToJSON(signature: SignatureWithPublicKey): SignatureWithPublicKeyJSON {
+export function signatureWithPublicKeyToJSON(
+	signature: SignatureWithPublicKey,
+	pk?: Uint8Array,
+): SignatureWithPublicKeyJSON {
 	return {
 		signature: Convert.Uint8Array.toHexString(signature.signature),
-		publicKey: signature.publicKey ? Convert.Uint8Array.toHexString(signature.publicKey) : '',
+		publicKey: Convert.Uint8Array.toHexString(signature.publicKey || pk || new Uint8Array()),
 		curve: signature.curve,
 	}
 }

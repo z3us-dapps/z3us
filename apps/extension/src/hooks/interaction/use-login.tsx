@@ -15,7 +15,7 @@ import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Keystore, Persona } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
-import { getDAppDataToSign, proofCurve, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
+import { getDAppDataToSign, proofCurve } from '@src/crypto/signature'
 
 import { usePasswordModal } from '../modal/use-password-modal'
 import { useLedgerClient } from '../use-ledger-client'
@@ -56,7 +56,7 @@ export const useLogin = () => {
 						title: intl.formatMessage(messages.persona_challenge_title),
 						content: intl.formatMessage(messages.persona_challenge, { label: persona.label }),
 					})
-					const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
+					const { signature, publicKey, curve } = await client.signToSignatureWithPublicKey(
 						selectedKeystore,
 						persona.curve,
 						persona.derivationPath,
@@ -64,11 +64,10 @@ export const useLogin = () => {
 						getDAppDataToSign(challenge, metadata.origin, metadata.dAppDefinitionAddress),
 						persona.combinedKeystoreId,
 					)
-					const signature = signatureWithPublicKeyToJSON(signatureWithPublicKey)
 					return {
-						signature: signature.signature,
-						publicKey: signature.publicKey,
-						curve: proofCurve(signature.curve),
+						signature,
+						publicKey,
+						curve: proofCurve(curve),
 					}
 				case KeystoreType.HARDWARE:
 					const [ledgerSignature] = await ledger.signChallenge(keystore, [persona], challenge, metadata)
