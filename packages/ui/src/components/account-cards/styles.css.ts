@@ -176,55 +176,9 @@ export const accountDropdownContentWrapper = style([
 	},
 ])
 
-export const accountCardIconWrapper = style([
-	sprinkles({
-		position: 'relative',
-		borderRadius: 'medium',
-		border: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
-		flexShrink: 0,
-		overflow: 'hidden',
-	}),
-	{
-		width: '40px',
-		backgroundSize: 'cover',
-		aspectRatio: '8 / 6',
-	},
-])
-
-globalStyle(`${accountCardIconWrapper} img`, {
-	position: 'absolute',
-	top: '0',
-	left: '0',
-	width: '120%',
-	opacity: '0.6',
-})
-
 export const cardAccountMenuLeftSlotWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
 	{},
 ])
-
-export const cardAccountImageWrapper = style([
-	sprinkles({
-		position: 'absolute',
-		top: 0,
-		right: 0,
-		display: 'flex',
-		justifyContent: 'center',
-		width: 'full',
-		height: 'full',
-		maxWidth: 'full',
-		pointerEvents: 'none',
-	}),
-	{},
-])
-
-globalStyle(`${cardAccountImageWrapper} img`, {
-	position: 'absolute',
-	width: '100%',
-	height: '100%',
-})

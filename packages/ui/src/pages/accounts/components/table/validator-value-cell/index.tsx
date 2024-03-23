@@ -68,8 +68,8 @@ export const ValidatorValueCell: React.FC<IProps> = props => {
 
 	const tokenChange = useMemo(() => {
 		if (type === ResourceBalanceType.FUNGIBLE) return change
-		return xrdAmount.mul(token.price.usd.change).toNumber()
-	}, [change, xrdAmount, token])
+		return token.price.usd.change
+	}, [change, token])
 
 	if (isLoading || isLoadingResource || isLoadingToken || isLoadingKnownAddresses || isLoadingPrice)
 		return <FallbackLoading />

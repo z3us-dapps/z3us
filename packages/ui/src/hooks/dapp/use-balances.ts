@@ -244,6 +244,7 @@ const useBeforeDate = (at: Date): Date => {
 }
 
 export const useBalances = (addresses: string[], at: Date = new Date()) => {
+	const networkId = useNetworkId()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -328,6 +329,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const result = useQuery({
 		queryKey: [
 			'useBalances',
+			networkId,
 			knownAddresses,
 			xrdPrice,
 			xrdPriceBefore,
@@ -345,6 +347,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 }
 
 export const useAccountValues = (addresses: string[], at: Date = new Date()) => {
+	const networkId = useNetworkId()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -388,7 +391,7 @@ export const useAccountValues = (addresses: string[], at: Date = new Date()) => 
 	}
 
 	const result = useQuery({
-		queryKey: ['useAccountValues', knownAddresses, xrdPrice, accounts, tokens, pools, validators],
+		queryKey: ['useAccountValues', networkId, knownAddresses, xrdPrice, accounts, tokens, pools, validators],
 		queryFn,
 		enabled: !!knownAddresses && !!accounts && !!tokens && !!xrdPrice,
 	})

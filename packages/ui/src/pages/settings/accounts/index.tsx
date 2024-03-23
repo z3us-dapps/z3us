@@ -294,7 +294,6 @@ const Accounts: React.FC = () => {
 							<AccountCards
 								accounts={accountsAsArray}
 								selectedCardIndex={accountsAsArray.findIndex(a => a.address === selectedAccount?.address)}
-								isCardShadowVisible={false}
 							/>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
