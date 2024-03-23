@@ -61,7 +61,6 @@ export const useEntitiesDetails = (
 				: [],
 		enabled: !!state,
 		staleTime: 30 * 1000,
-		refetchInterval: 30 * 1000,
 	}))
 
 	const results = useQueries({ queries })

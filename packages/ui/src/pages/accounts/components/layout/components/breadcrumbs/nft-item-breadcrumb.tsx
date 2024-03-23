@@ -28,7 +28,7 @@ export const NftItemBreadcrumb: React.FC<IProps> = ({ isLast }) => {
 	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
 	const { data } = useNonFungibleData(resourceId, nftId)
 
-	const dataJson = data?.data.programmatic_json as any
+	const dataJson = data?.data?.programmatic_json as any
 	const name = findFieldValue('name', dataJson?.fields)
 
 	const [displayName, setDisplayName] = useState<string>('')

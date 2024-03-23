@@ -176,99 +176,9 @@ export const accountDropdownContentWrapper = style([
 	},
 ])
 
-export const accountCardIconWrapper = style([
-	sprinkles({
-		position: 'relative',
-		borderRadius: 'medium',
-		border: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
-		flexShrink: 0,
-		overflow: 'hidden',
-	}),
-	{
-		width: '40px',
-		backgroundSize: 'cover',
-		aspectRatio: '8 / 6',
-	},
-])
-
-globalStyle(`${accountCardIconWrapper} img`, {
-	position: 'absolute',
-	top: '0',
-	left: '0',
-	width: '120%',
-	opacity: '0.6',
-})
-
-export const cardAccountImageWrapper = style([
-	sprinkles({
-		position: 'absolute',
-		top: 0,
-		right: 0,
-		pointerEvents: 'none',
-		width: 'full',
-		height: 'full',
-		maxWidth: 'full',
-	}),
-	{},
-])
-
-export const cardAccountLarge = style([
-	sprinkles({
-		position: 'absolute',
-	}),
-	{},
-])
-
 export const cardAccountMenuLeftSlotWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
 	{},
 ])
-
-globalStyle(`${cardAccountImageWrapper} img`, {
-	position: 'absolute',
-})
-
-// CARDS
-globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.angel img`, {
-	position: 'absolute',
-	bottom: 0,
-	right: '-20px',
-	maxWidth: '100%',
-	width: '266px',
-	height: 'auto',
-	opacity: '0.5',
-})
-
-globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.apple-hermes img`, {
-	position: 'absolute',
-	bottom: 0,
-	right: '-20px',
-	maxWidth: '100%',
-	width: 'auto',
-	height: '100%',
-	opacity: '0.7',
-})
-
-globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.athens img`, {
-	position: 'absolute',
-	top: 0,
-	right: '0px',
-	maxWidth: '110%',
-	width: '110%',
-	height: 'auto',
-})
-
-globalStyle(`${cardAccountImageWrapper}${cardAccountLarge}.man img`, {
-	position: 'absolute',
-	bottom: 0,
-	top: 'unset',
-	right: '-20px',
-	maxWidth: '100%',
-	width: '100%',
-	height: 'auto',
-	opacity: '0.7',
-})

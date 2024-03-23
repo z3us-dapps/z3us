@@ -2,7 +2,7 @@ import { createContext } from 'react'
 
 import type { Balances } from 'ui/src/types/balances'
 
-const emptyState: Balances = {
+export const emptyState: Balances = {
 	balances: [],
 	totalValue: 0,
 	totalChange: 0,
