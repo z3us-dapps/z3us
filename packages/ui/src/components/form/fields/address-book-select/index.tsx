@@ -6,6 +6,7 @@ import { type IInputProps } from 'ui/src/components/input'
 import { SearchableInput } from 'ui/src/components/searchable-input'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { useDomainResolution } from 'ui/src/hooks/rns/use-domain-resolution'
 import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
@@ -31,22 +32,36 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 		...rest
 	} = props
 
+	const strValue = useMemo(() => (value ? (value as string) : ''), [value])
+	const addressBook = useAddressBookWithAccounts()
+	const { data } = useDomainResolution(strValue, 'receiver', '*')
+
+	const allEntries = useMemo(() => {
+		if (data) {
+			return [
+				{
+					id: data,
+					account: getShortAddress(data, 8),
+					alias: strValue,
+				},
+			]
+		}
+
+		return Object.values(addressBook)
+			.filter(entry => entry.address !== exclude)
+			.map(entry => ({
+				id: entry.address,
+				account: getShortAddress(entry.address, 8),
+				alias: entry.name,
+			}))
+	}, [data, addressBook])
+
+	const knownAddress = addressBook[strValue]?.name
+	const toName = knownAddress || getShortAddress(strValue, 8)
+
 	const handleChange = (_value: string) => {
 		onChange(_value)
 	}
-
-	const addressBook = useAddressBookWithAccounts()
-	const allEntries = Object.values(addressBook)
-		.filter(entry => entry.address !== exclude)
-		.map(entry => ({
-			id: entry.address,
-			account: getShortAddress(entry.address, 8),
-			alias: entry.name,
-		}))
-
-	const strValue = useMemo(() => (value ? (value as string) : ''), [value])
-	const knownAddress = addressBook[strValue]?.name
-	const toName = knownAddress || getShortAddress(strValue, 8)
 
 	return (
 		<>
