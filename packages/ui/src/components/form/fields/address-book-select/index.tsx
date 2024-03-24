@@ -36,7 +36,7 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 
 	const strValue = useMemo(() => (value ? (value as string) : ''), [value])
 	const addressBook = useAddressBookWithAccounts()
-	const { data: domainResolution } = useDomainResolution(strValue, 'receiver', '*')
+	const { data: domainResolution } = useDomainResolution(strValue, 'receivers', '*')
 	const { data: domainDetails } = useDomainDetails(strValue)
 
 	const allEntries = useMemo(() => {
