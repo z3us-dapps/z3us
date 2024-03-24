@@ -1,3 +1,4 @@
+import { useDomainDetails } from 'packages/ui/src/hooks/rns/use-domain-details'
 import React, { forwardRef, useMemo } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -34,14 +35,15 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 
 	const strValue = useMemo(() => (value ? (value as string) : ''), [value])
 	const addressBook = useAddressBookWithAccounts()
-	const { data } = useDomainResolution(strValue, 'receiver', '*')
+	const { data: domainResolution } = useDomainResolution(strValue, 'receiver', '*')
+	const { data: domainDetails } = useDomainDetails(strValue)
 
 	const allEntries = useMemo(() => {
-		if (data) {
+		if (domainResolution) {
 			return [
 				{
-					id: data,
-					account: getShortAddress(data, 8),
+					id: domainResolution,
+					account: getShortAddress(domainResolution, 8),
 					alias: strValue,
 				},
 			]
@@ -54,10 +56,11 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 				account: getShortAddress(entry.address, 8),
 				alias: entry.name,
 			}))
-	}, [data, addressBook])
+	}, [domainResolution, addressBook])
 
-	const knownAddress = addressBook[strValue]?.name
-	const toName = knownAddress || getShortAddress(strValue, 8)
+	const domainName = useMemo(() => (domainDetails as any)?.name || '', [domainDetails])
+	const knownAddress = useMemo(() => addressBook[strValue]?.name, [strValue, addressBook])
+	const toName = knownAddress || domainName || getShortAddress(strValue, 8)
 
 	const handleChange = (_value: string) => {
 		onChange(_value)
