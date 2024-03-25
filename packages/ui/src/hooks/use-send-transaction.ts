@@ -32,6 +32,7 @@ export const useSendTransaction: () => SendTransaction = () => {
 						queryClient.invalidateQueries(['useBalances', networkId])
 						queryClient.invalidateQueries(['useAccountValues', networkId])
 						queryClient.invalidateQueries(['useAccountNftVaults', networkId])
+						queryClient.invalidateQueries(['useTransactions', networkId])
 					}
 				})
 			}),
