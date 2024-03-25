@@ -140,7 +140,6 @@ const Accounts: React.FC = () => {
 	const networkId = useNetworkId()
 	const accounts = useWalletAccounts()
 	const sendTransaction = useSendTransaction()
-	const accountsAsArray = Object.values(accounts)
 
 	const [currentRule, setRule] = useState<DefaultDepositRule>(DefaultDepositRule.Accept)
 	const [selectedAccount, setSelectedAccount] = useState<AddressBookEntry | undefined>()
@@ -154,6 +153,7 @@ const Accounts: React.FC = () => {
 
 	useEffect(() => {
 		if (selectedAccount) return
+		const accountsAsArray = Object.values(accounts)
 		if (accountsAsArray.length > 0) {
 			setSelectedAccount(accountsAsArray[0])
 		}
@@ -174,7 +174,7 @@ const Accounts: React.FC = () => {
 	)
 
 	const handleSelectAccount = (address: string) => {
-		setSelectedAccount(accountsAsArray.find(a => a.address === address))
+		setSelectedAccount(Object.values(accounts).find(a => a.address === address))
 	}
 
 	const handleSkinSelect = (collection, non_fungible_id) => {
@@ -196,9 +196,12 @@ const Accounts: React.FC = () => {
 
 	const handleClearSkin = () => {
 		if (!selectedAccount) return
-		delete selectedAccount.skin
-		setAddressBookEntry(networkId, selectedAccount.address, selectedAccount)
-		setSelectedAccount(selectedAccount)
+		const entry = {
+			...selectedAccount,
+			skin: undefined,
+		}
+		setAddressBookEntry(networkId, entry.address, entry)
+		setSelectedAccount(entry)
 	}
 
 	const handleChangeSkinOpacity = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -291,10 +294,7 @@ const Accounts: React.FC = () => {
 					<Box display="flex" flexDirection="column" gap="large">
 						<AccountSelect value={selectedAccount?.address} onChange={handleSelectAccount} />
 						<Box className={styles.accountsCardWrapper}>
-							<AccountCards
-								accounts={accountsAsArray}
-								selectedCardIndex={accountsAsArray.findIndex(a => a.address === selectedAccount?.address)}
-							/>
+							<AccountCards accounts={selectedAccount ? [selectedAccount] : []} />
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Text size="small" weight="medium" color="strong">
@@ -343,7 +343,6 @@ const Accounts: React.FC = () => {
 							{nonFungibleBalances.length > 0 && (
 								<Form initialValues={skinInitialValues}>
 									<NftSelect fromAccount={selectedAccount?.address} onSelect={handleSkinSelect} />
-
 									{selectedAccount?.skin?.collection && selectedAccount?.skin?.non_fungible_id && (
 										<>
 											<Box display="flex" flexDirection="column" gap="small" marginTop="small">

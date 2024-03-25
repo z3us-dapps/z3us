@@ -246,19 +246,19 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 }
 
 interface IAccountCardsProps {
-	className?: ClassValue
+	accounts: AddressBookEntry[]
+	selectedCardIndex?: number
+	showCopyAddressButton?: boolean
 	isAllAccount?: boolean
 	enableClick?: boolean
-	showCopyAddressButton?: boolean
-	accounts: AddressBookEntry[]
-	selectedCardIndex: number
+	className?: ClassValue
 }
 
 export const AccountCards: React.FC<IAccountCardsProps> = props => {
 	const {
+		accounts,
 		className,
 		isAllAccount = false,
-		accounts,
 		selectedCardIndex = 0,
 		showCopyAddressButton = false,
 		enableClick = false,
