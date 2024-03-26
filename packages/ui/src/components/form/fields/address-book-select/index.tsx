@@ -1,3 +1,4 @@
+import { useDomainDiscovery } from 'packages/ui/src/hooks/rns/use-domain-discovery'
 import React, { forwardRef, useMemo } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -6,7 +7,6 @@ import { type IInputProps } from 'ui/src/components/input'
 import { SearchableInput } from 'ui/src/components/searchable-input'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
-import { useDomainDetails } from 'ui/src/hooks/rns/use-domain-details'
 import { useDomainResolution } from 'ui/src/hooks/rns/use-domain-resolution'
 import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
 import { isValidAddress } from 'ui/src/utils/radix'
@@ -37,7 +37,7 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 	const strValue = useMemo(() => (value ? (value as string) : ''), [value])
 	const addressBook = useAddressBookWithAccounts()
 	const { data: domainResolution } = useDomainResolution(strValue, 'receivers', '*')
-	const { data: domainDetails } = useDomainDetails(strValue)
+	const { data: domainDiscovery } = useDomainDiscovery(strValue)
 
 	const allEntries = useMemo(() => {
 		if (domainResolution) {
@@ -59,7 +59,7 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 			}))
 	}, [domainResolution, addressBook])
 
-	const domainName = useMemo(() => (domainDetails as any)?.name || '', [domainDetails])
+	const domainName = useMemo(() => domainDiscovery?.[0]?.name || '', [domainDiscovery])
 	const knownAddress = useMemo(() => addressBook[strValue]?.name, [strValue, addressBook])
 	const toName = useMemo(
 		() => knownAddress || domainName || (isValidAddress(strValue) ? getShortAddress(strValue, 8) : strValue),
