@@ -168,7 +168,9 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 								className={clsx(fullWidth && styles.selectFullWidthButton)}
 							>
 								<span style={{ overflow: 'hidden', width: '100%' }}>
-									<SelectValue aria-label={value} placeholder={placeholder} />
+									<Text truncate size="small" color="strong" capitalizeFirstLetter={capitalizeFirstLetter}>
+										<SelectValue aria-label={value} placeholder={placeholder} />
+									</Text>
 								</span>
 							</Button>
 						</Box>
@@ -185,13 +187,11 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 					}}
 				>
 					<SelectGroup>
-						{data
-							?.filter(item => item.id)
-							.map(({ id, title }) => (
-								<SelectItem key={id} value={id}>
-									{title}
-								</SelectItem>
-							))}
+						{data.map(({ id, title }) => (
+							<SelectItem key={id} value={id}>
+								{title}
+							</SelectItem>
+						))}
 					</SelectGroup>
 				</SelectContent>
 			</SelectRoot>
