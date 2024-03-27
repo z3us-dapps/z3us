@@ -23,10 +23,12 @@ interface IAccountDropdownProps {
 	sizeVariant?: TSizeVariant
 }
 
+const emptyKnownAddresses = {}
+
 export const AccountDropdown: React.FC<IAccountDropdownProps> = props => {
 	const {
 		account,
-		knownAddresses = {},
+		knownAddresses = emptyKnownAddresses,
 		accounts,
 		onUpdateAccount,
 		styleVariant = 'tertiary',
