@@ -44,6 +44,8 @@ export const selectMenuItem = style([
 		alignItems: 'center',
 	}),
 	{
+		fontSize: '13px',
+		lineHeight: '13px',
 		outline: 'none',
 		height: '36px',
 		maxWidth: '100%',

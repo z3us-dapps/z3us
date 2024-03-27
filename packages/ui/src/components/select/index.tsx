@@ -185,17 +185,13 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 					}}
 				>
 					<SelectGroup>
-						{data.map(({ id, title }) => (
-							<SelectItem key={id} value={id}>
-								{typeof title !== 'string' ? (
-									title
-								) : (
-									<Text truncate size="small" color="strong" capitalizeFirstLetter={capitalizeFirstLetter}>
-										{title}
-									</Text>
-								)}
-							</SelectItem>
-						))}
+						{data
+							?.filter(item => item.id)
+							.map(({ id, title }) => (
+								<SelectItem key={id} value={id}>
+									{title}
+								</SelectItem>
+							))}
 					</SelectGroup>
 				</SelectContent>
 			</SelectRoot>
