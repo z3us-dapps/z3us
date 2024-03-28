@@ -5,7 +5,7 @@ import type {
 	StateNonFungibleDetailsResponseItem,
 } from '@radixdlt/babylon-gateway-api-sdk'
 import type { KnownAddresses } from '@radixdlt/radix-engine-toolkit'
-import { decimal } from '@radixdlt/radix-engine-toolkit'
+import { decimal, u64 } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { useIntl } from 'react-intl'
@@ -40,13 +40,23 @@ export const getStakedAmount = (data: StateEntityDetailsResponseItem, knownAddre
 			ZERO,
 		) || ZERO
 
-export const getUnStakeAmount = (items: Array<StateNonFungibleDetailsResponseItem>) =>
+export const getClaimAmount = (items: Array<StateNonFungibleDetailsResponseItem>) =>
 	items?.reduce((total, { data }) => {
 		const dataJson = data?.programmatic_json as any
 		const amount = findFieldValue('claim_amount', dataJson?.fields)
 
 		return total.add(amount || 0)
 	}, ZERO) || ZERO
+
+export const getClaimEpoch = (items: Array<StateNonFungibleDetailsResponseItem>): bigint | undefined => {
+	for (let i = 0; i < items.length; i += 1) {
+		const item = items[i]
+		const dataJson = item.data?.programmatic_json as any
+		const amount = findFieldValue('claim_epoch', dataJson?.fields)
+		if (amount !== undefined) return u64(amount).value
+	}
+	return undefined
+}
 
 interface IProps {
 	row?: { original: ResourceBalanceKind }
@@ -73,7 +83,7 @@ export const ValidatorLiquidityCell: React.FC<IProps> = props => {
 				.value.div((tokenData?.details as StateEntityDetailsResponseFungibleResourceDetails)?.total_supply || 0)
 				.mul(stakedAmount)
 		}
-		return getUnStakeAmount(nfts)
+		return getClaimAmount(nfts)
 	}, [type, amount, data, tokenData, knownAddresses, nfts])
 
 	if (isLoading || isLoadingResource || isLoadingKnownAddresses) return <FallbackLoading />
