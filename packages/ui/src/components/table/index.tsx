@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import clsx, { type ClassValue } from 'clsx'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import useMeasure from 'react-use-measure'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
@@ -38,6 +38,9 @@ interface ITableProps {
 	onRowSelected?: (row: any) => void
 }
 
+const defaultSelectedRowIds = {}
+const emptyFunction = () => {}
+
 export const Table: React.FC<ITableProps> = props => {
 	const {
 		scrollableNode,
@@ -47,7 +50,7 @@ export const Table: React.FC<ITableProps> = props => {
 		styleVariant = 'primary',
 		data,
 		columns,
-		selectedRowIds = {},
+		selectedRowIds = defaultSelectedRowIds,
 		loading = false,
 		loadMore = false,
 		stickyShadowTop = false,
@@ -55,8 +58,8 @@ export const Table: React.FC<ITableProps> = props => {
 		sort,
 		headerProps,
 		cellProps,
-		onEndReached = () => {},
-		onRowSelected = () => {},
+		onEndReached = emptyFunction,
+		onRowSelected = emptyFunction,
 	} = props
 
 	const [measureRef, { top: tableTop }] = useMeasure()
@@ -91,7 +94,7 @@ export const Table: React.FC<ITableProps> = props => {
 	}
 
 	useEffect(() => {
-		if (Object.keys(selectedRowIds || {}).length === 0) {
+		if (Object.keys(selectedRowIds).length === 0) {
 			handleDeselectAllRows()
 		}
 	}, [selectedRowIds])
@@ -154,7 +157,10 @@ export const Table: React.FC<ITableProps> = props => {
 		[loading, loadMore, sizeVariant, styleVariant, onRowSelected, getTableProps, getTableBodyProps, rows],
 	)
 
-	const scrollableNodeBounding = (scrollableNode?.getBoundingClientRect() || {}) as DOMRect
+	const scrollableNodeBounding = useMemo(
+		() => (scrollableNode?.getBoundingClientRect() || {}) as DOMRect,
+		[scrollableNode],
+	)
 
 	useEffect(() => {
 		const updateStickyTop = tableTop - (scrollableNodeBounding?.top ?? 0)
@@ -162,6 +168,89 @@ export const Table: React.FC<ITableProps> = props => {
 			setStickyTop(updateStickyTop)
 		}
 	}, [scrollableNodeBounding?.top, tableTop, stickyTop])
+
+	const renderItem = useCallback(
+		(index: number) => {
+			const row = rows[index]
+			prepareRow(row)
+			return row.cells.map(cell => (
+				<td
+					className={clsx(
+						styles.tableTdRecipe({
+							sizeVariant,
+							styleVariant,
+						}),
+						cell.column.className,
+					)}
+					{...cell.getCellProps()}
+				>
+					{cell.render('Cell', cellProps)}
+				</td>
+			))
+		},
+		[rows, prepareRow, cellProps],
+	)
+
+	const renderHeader = useCallback(
+		() =>
+			headerGroups.map(headerGroup => (
+				<tr {...headerGroup.getHeaderGroupProps()}>
+					{headerGroup.headers.map(column => (
+						<th
+							className={clsx(
+								styles.tableThRecipe({
+									sizeVariant,
+									styleVariant,
+									loading,
+								}),
+								column.className,
+							)}
+							{...column.getHeaderProps(column.getSortByToggleProps())}
+							style={{
+								width: column.width,
+							}}
+						>
+							<Box position="relative" component="span" display="inline-flex" alignItems="center" gap="xsmall">
+								<Box component="span" className={styles.tableHeaderTruncateWrapper}>
+									{column.render('Header', headerProps)}
+								</Box>
+								<Box component="span" className={styles.tableIconWrapper}>
+									{/* eslint-disable-next-line no-nested-ternary */}
+									{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
+								</Box>
+							</Box>
+						</th>
+					))}
+				</tr>
+			)),
+		[headerGroups, headerProps],
+	)
+
+	const renderFooter = useCallback(
+		() =>
+			headerGroups.map(headerGroup => (
+				<tr {...headerGroup.getHeaderGroupProps()}>
+					{headerGroup.headers.map((column, columnIndex) => (
+						<th
+							className={column.className}
+							{...column.getHeaderProps(column.getSortByToggleProps())}
+							style={{
+								width: column.width,
+							}}
+						>
+							{columnIndex === 0 ? (
+								<Box color="colorNeutral" className={styles.footerLoadingIconWrapper}>
+									<LoadingBarsIcon />
+								</Box>
+							) : (
+								<Box className={styles.footerLoadingDefaultWrapper}>&nbsp;</Box>
+							)}
+						</th>
+					))}
+				</tr>
+			)),
+		[headerGroups],
+	)
 
 	return (
 		<Box
@@ -181,79 +270,9 @@ export const Table: React.FC<ITableProps> = props => {
 				customScrollParent={scrollableNode}
 				components={memoizedComponents}
 				endReached={handleEndReached}
-				fixedHeaderContent={() =>
-					headerGroups.map(headerGroup => (
-						<tr {...headerGroup.getHeaderGroupProps()}>
-							{headerGroup.headers.map(column => (
-								<th
-									className={clsx(
-										styles.tableThRecipe({
-											sizeVariant,
-											styleVariant,
-											loading,
-										}),
-										column.className,
-									)}
-									{...column.getHeaderProps(column.getSortByToggleProps())}
-									style={{
-										width: column.width,
-									}}
-								>
-									<Box position="relative" component="span" display="inline-flex" alignItems="center" gap="xsmall">
-										<Box component="span" className={styles.tableHeaderTruncateWrapper}>
-											{column.render('Header', headerProps)}
-										</Box>
-										<Box component="span" className={styles.tableIconWrapper}>
-											{/* eslint-disable-next-line no-nested-ternary */}
-											{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
-										</Box>
-									</Box>
-								</th>
-							))}
-						</tr>
-					))
-				}
-				fixedFooterContent={() =>
-					headerGroups.map(headerGroup => (
-						<tr {...headerGroup.getHeaderGroupProps()}>
-							{headerGroup.headers.map((column, columnIndex) => (
-								<th
-									className={column.className}
-									{...column.getHeaderProps(column.getSortByToggleProps())}
-									style={{
-										width: column.width,
-									}}
-								>
-									{columnIndex === 0 ? (
-										<Box color="colorNeutral" className={styles.footerLoadingIconWrapper}>
-											<LoadingBarsIcon />
-										</Box>
-									) : (
-										<Box className={styles.footerLoadingDefaultWrapper}>&nbsp;</Box>
-									)}
-								</th>
-							))}
-						</tr>
-					))
-				}
-				itemContent={index => {
-					const row = rows[index]
-					prepareRow(row)
-					return row.cells.map(cell => (
-						<td
-							className={clsx(
-								styles.tableTdRecipe({
-									sizeVariant,
-									styleVariant,
-								}),
-								cell.column.className,
-							)}
-							{...cell.getCellProps()}
-						>
-							{cell.render('Cell', cellProps)}
-						</td>
-					))
-				}}
+				fixedHeaderContent={renderHeader}
+				fixedFooterContent={renderFooter}
+				itemContent={renderItem}
 			/>
 		</Box>
 	)
@@ -267,11 +286,12 @@ interface ITableWithEmptyStateProps extends ITableProps {
 export const TableWithEmptyState: React.FC<ITableWithEmptyStateProps> = props => {
 	const { emptyStateTitle, emptyStateSubTitle, data, ...rest } = props
 
-	return data?.length === 0 ? (
-		<Box className={styles.tableEmptyStateWrapper}>
-			<EmptyState title={emptyStateTitle} subTitle={emptyStateSubTitle} />
-		</Box>
-	) : (
-		<Table styleVariant="primary" sizeVariant="large" data={data} {...rest} />
-	)
+	if (data?.length === 0)
+		return (
+			<Box className={styles.tableEmptyStateWrapper}>
+				<EmptyState title={emptyStateTitle} subTitle={emptyStateSubTitle} />
+			</Box>
+		)
+
+	return <Table styleVariant="primary" sizeVariant="large" data={data} {...rest} />
 }

@@ -10,7 +10,6 @@ export const useSwapPreview = (from: string, to: string, side: 'send' | 'receive
 		async (): Promise<SwapPreview> => oci.previewSwap(from, to, side, amount),
 		{
 			enabled: !!from && !!to && amount > 0,
-			staleTime: 30 * 1000,
 			refetchInterval: 30 * 1000,
 			retry: false,
 			keepPreviousData: false,
@@ -43,15 +42,16 @@ const getFetchTokensQueryFn = async (cursor: number = 0, container: Token[] = []
 	}
 }
 
-export const useTokens = () =>
-	useQuery(['oci', 'useTokens'], async (): Promise<{ [key: string]: Token }> => {
-		try {
-			const allTokens = await getFetchTokensQueryFn()
-			return allTokens.reduce((container, token) => ({ ...container, [token.address]: token }), {})
-		} catch (error: any) {
-			return {}
-		}
-	})
+export const tokensQuery = {
+	queryKey: ['oci', 'useTokens'],
+	queryFn: async (): Promise<{ [key: string]: Token }> => {
+		const allTokens = await getFetchTokensQueryFn()
+		return allTokens.reduce((container, token) => ({ ...container, [token.address]: token }), {})
+	},
+	staleTime: 3 * 24 * 60 * 60 * 1000, // cache for 3 day
+}
+
+export const useTokens = () => useQuery(tokensQuery)
 
 export const useUsfConfig = () => useQuery(['oci', 'useUsfConfig'], oci.getUdfConfig)
 

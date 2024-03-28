@@ -42,8 +42,14 @@ export const selectMenuItem = style([
 	sprinkles({
 		...(sharedItemStyles as Sprinkles),
 		alignItems: 'center',
+		textAlign: 'left',
 	}),
 	{
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		fontSize: '14px',
+		lineHeight: '16px',
 		outline: 'none',
 		height: '36px',
 		maxWidth: '100%',

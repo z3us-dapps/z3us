@@ -1,19 +1,24 @@
 import { DefaultDepositRule } from '@radixdlt/radix-engine-toolkit'
 import { useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
+import type { CSSProperties } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { AccountCards } from 'ui/src/components/account-cards'
-import { Avatar } from 'ui/src/components/avatar'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { Form } from 'ui/src/components/form'
 import { SelectAdapter as AccountSelect } from 'ui/src/components/form/fields/account-select'
+import { NftSelect } from 'ui/src/components/form/fields/nft-select'
+import { Close2Icon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
 import { Radio, RadioGroup } from 'ui/src/components/radio-group'
+import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
-import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
+import { CARD_COLORS } from 'ui/src/constants/account'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
@@ -24,7 +29,7 @@ import type { AddressBookEntry } from 'ui/src/store/types'
 import { SettingsBlock } from '../components/settings-block'
 import { SettingsTitle } from '../components/settings-title'
 import { SettingsWrapper } from '../components/settings-wrapper'
-import * as accountsStyles from './styles.css'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	title: {
@@ -51,9 +56,9 @@ const messages = defineMessages({
 		id: 'zXIZtJ',
 		defaultMessage: 'Account color',
 	},
-	account_image: {
-		id: 'yWx/0A',
-		defaultMessage: 'Account image',
+	account_skin: {
+		id: 'MPmFMu',
+		defaultMessage: 'Account skin',
 	},
 	third_party_deposits: {
 		id: '93MRNX',
@@ -100,6 +105,30 @@ const messages = defineMessages({
 		id: 'K7AkdL',
 		defaultMessage: 'Show',
 	},
+	object_fit_cover: {
+		id: '9pWpUc',
+		defaultMessage: 'cover',
+	},
+	object_fit_contain: {
+		id: 'uFMS8x',
+		defaultMessage: 'contain',
+	},
+	object_fit_fill: {
+		id: 'om4lTl',
+		defaultMessage: 'fill',
+	},
+	account_skin_object_fit: {
+		id: 'N2HbmZ',
+		defaultMessage: 'Fit',
+	},
+	account_skin_opacity: {
+		id: 'PHutSR',
+		defaultMessage: 'Opacity',
+	},
+	clear_skin: {
+		id: '/GCoTA',
+		defaultMessage: 'Clear',
+	},
 })
 
 const Accounts: React.FC = () => {
@@ -111,12 +140,12 @@ const Accounts: React.FC = () => {
 	const networkId = useNetworkId()
 	const accounts = useWalletAccounts()
 	const sendTransaction = useSendTransaction()
-	const accountsAsArray = Object.values(accounts)
 
 	const [currentRule, setRule] = useState<DefaultDepositRule>(DefaultDepositRule.Accept)
 	const [selectedAccount, setSelectedAccount] = useState<AddressBookEntry | undefined>()
 
 	const { data } = useEntityDetails(selectedAccount?.address)
+	const { nonFungibleBalances = [] } = useBalances([selectedAccount?.address])
 
 	const { setAddressBookEntry } = useNoneSharedStore(state => ({
 		setAddressBookEntry: state.setAddressBookEntryAction,
@@ -124,6 +153,7 @@ const Accounts: React.FC = () => {
 
 	useEffect(() => {
 		if (selectedAccount) return
+		const accountsAsArray = Object.values(accounts)
 		if (accountsAsArray.length > 0) {
 			setSelectedAccount(accountsAsArray[0])
 		}
@@ -135,20 +165,67 @@ const Accounts: React.FC = () => {
 		setRule(rule)
 	}, [(data?.details as any)?.state.default_deposit_rule])
 
+	const skinInitialValues = useMemo(
+		() => ({
+			address: selectedAccount?.skin?.collection || '',
+			id: selectedAccount?.skin?.non_fungible_id || '',
+		}),
+		[selectedAccount?.skin?.collection, selectedAccount?.skin?.non_fungible_id],
+	)
+
 	const handleSelectAccount = (address: string) => {
-		setSelectedAccount(accountsAsArray.find(a => a.address === address))
+		setSelectedAccount(Object.values(accounts).find(a => a.address === address))
+	}
+
+	const handleSkinSelect = (collection, non_fungible_id) => {
+		if (!selectedAccount) return
+		const entry = {
+			...selectedAccount,
+			skin: {
+				collection,
+				non_fungible_id,
+				styles: {
+					objectFit: selectedAccount.skin?.styles?.objectFit || 'cover',
+					opacity: selectedAccount.skin?.styles?.opacity || '1',
+				},
+			},
+		}
+		setAddressBookEntry(networkId, selectedAccount.address, entry)
+		setSelectedAccount(entry)
+	}
+
+	const handleClearSkin = () => {
+		if (!selectedAccount) return
+		const entry = {
+			...selectedAccount,
+			skin: undefined,
+		}
+		setAddressBookEntry(networkId, entry.address, entry)
+		setSelectedAccount(entry)
+	}
+
+	const handleChangeSkinOpacity = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (!selectedAccount) return
+		const evt = event.nativeEvent as InputEvent
+		if (evt.isComposing) return
+		selectedAccount.skin = {
+			...selectedAccount.skin,
+			styles: { ...(selectedAccount.skin?.styles || {}), opacity: event.target.value },
+		}
+		setAddressBookEntry(networkId, selectedAccount.address, selectedAccount)
+		setSelectedAccount(selectedAccount)
+	}
+
+	const handleChangeSkinFit = (objectFit: CSSProperties['objectFit']) => {
+		if (!selectedAccount) return
+		selectedAccount.skin = { ...selectedAccount.skin, styles: { ...(selectedAccount.skin?.styles || {}), objectFit } }
+		setAddressBookEntry(networkId, selectedAccount.address, selectedAccount)
+		setSelectedAccount(selectedAccount)
 	}
 
 	const handleSelectColor = (value: string) => {
 		if (!selectedAccount) return
 		const entry = { ...selectedAccount, cardColor: value }
-		setAddressBookEntry(networkId, selectedAccount.address, entry)
-		setSelectedAccount(entry)
-	}
-
-	const handleSelectCard = (value: string) => {
-		if (!selectedAccount) return
-		const entry = { ...selectedAccount, cardImage: value }
 		setAddressBookEntry(networkId, selectedAccount.address, entry)
 		setSelectedAccount(entry)
 	}
@@ -216,12 +293,8 @@ const Accounts: React.FC = () => {
 				rightCol={
 					<Box display="flex" flexDirection="column" gap="large">
 						<AccountSelect value={selectedAccount?.address} onChange={handleSelectAccount} />
-						<Box className={accountsStyles.accountsCardWrapper}>
-							<AccountCards
-								accounts={accountsAsArray}
-								selectedCardIndex={accountsAsArray.findIndex(a => a.address === selectedAccount?.address)}
-								isCardShadowVisible={false}
-							/>
+						<Box className={styles.accountsCardWrapper}>
+							<AccountCards accounts={selectedAccount ? [selectedAccount] : []} />
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Text size="small" weight="medium" color="strong">
@@ -252,30 +325,58 @@ const Accounts: React.FC = () => {
 							</Box>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
-							<Text size="small" weight="medium" color="strong">
-								{intl.formatMessage(messages.account_image)}
-							</Text>
-							<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-								{Object.entries(CARD_IMAGES).map(([a, image]) => (
+							<Box className={styles.skinSelectWrapper}>
+								<Text size="small" weight="medium" color="strong">
+									{intl.formatMessage(messages.account_skin)}
+								</Text>
+								<Box className={styles.skinClearButtonWrapper}>
 									<Button
-										key={a}
-										active={a === selectedAccount?.cardImage}
-										styleVariant="avatar"
-										sizeVariant="medium"
-										iconOnly
-										onClick={() => handleSelectCard(a)}
+										sizeVariant="small"
+										styleVariant="secondary"
+										onClick={handleClearSkin}
+										leftIcon={<Close2Icon />}
 									>
-										<Avatar
-											styleVariant="square"
-											sizeVariant="medium"
-											src={`/images/account-images/${image}`}
-											alt="img"
-											fallback="card image"
-											className={accountsStyles.accountsAvatarImgWrapper}
-										/>
+										{intl.formatMessage(messages.clear_skin)}
 									</Button>
-								))}
+								</Box>
 							</Box>
+							{nonFungibleBalances.length > 0 && (
+								<Form initialValues={skinInitialValues}>
+									<NftSelect fromAccount={selectedAccount?.address} onSelect={handleSkinSelect} />
+									{selectedAccount?.skin?.collection && selectedAccount?.skin?.non_fungible_id && (
+										<>
+											<Box display="flex" flexDirection="column" gap="small" marginTop="small">
+												<Text size="small" weight="medium" color="strong">
+													{intl.formatMessage(messages.account_skin_object_fit)}
+												</Text>
+												<SelectSimple
+													value={selectedAccount?.skin?.styles?.objectFit}
+													dropDownWidth={150}
+													onValueChange={handleChangeSkinFit}
+													data={[
+														{ id: 'cover', title: intl.formatMessage(messages.object_fit_cover) },
+														{ id: 'contain', title: intl.formatMessage(messages.object_fit_contain) },
+														{ id: 'fill', title: intl.formatMessage(messages.object_fit_fill) },
+													]}
+												/>
+											</Box>
+											<Box display="flex" flexDirection="column" gap="small" marginTop="small">
+												<Text size="small" weight="medium" color="strong">
+													{intl.formatMessage(messages.account_skin_opacity)}
+												</Text>
+												<Input
+													value={selectedAccount?.skin?.styles?.opacity}
+													type="range"
+													min="0"
+													max="1"
+													step="0.1"
+													onChange={handleChangeSkinOpacity}
+												/>
+											</Box>
+										</>
+									)}
+								</Form>
+							)}
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Text size="small" weight="medium" color="strong">

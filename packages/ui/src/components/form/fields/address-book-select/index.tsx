@@ -1,3 +1,4 @@
+import { useDomainDiscovery } from 'packages/ui/src/hooks/rns/use-domain-discovery'
 import React, { forwardRef, useMemo } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -6,7 +7,9 @@ import { type IInputProps } from 'ui/src/components/input'
 import { SearchableInput } from 'ui/src/components/searchable-input'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { useDomainResolution } from 'ui/src/hooks/rns/use-domain-resolution'
 import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
+import { isValidAddress } from 'ui/src/utils/radix'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
@@ -31,22 +34,41 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 		...rest
 	} = props
 
+	const strValue = useMemo(() => (value ? (value as string) : ''), [value])
+	const addressBook = useAddressBookWithAccounts()
+	const { data: domainResolution } = useDomainResolution(strValue, 'receivers', '*')
+	const { data: domainDiscovery } = useDomainDiscovery(strValue)
+
+	const allEntries = useMemo(() => {
+		if (domainResolution) {
+			return [
+				{
+					id: domainResolution,
+					account: getShortAddress(domainResolution, 8),
+					alias: strValue,
+				},
+			]
+		}
+
+		return Object.values(addressBook)
+			.filter(entry => entry.address !== exclude)
+			.map(entry => ({
+				id: entry.address,
+				account: getShortAddress(entry.address, 8),
+				alias: entry.name,
+			}))
+	}, [domainResolution, addressBook])
+
+	const domainName = useMemo(() => domainDiscovery?.[0]?.name || '', [domainDiscovery])
+	const knownAddress = useMemo(() => addressBook[strValue]?.name, [strValue, addressBook])
+	const toName = useMemo(
+		() => knownAddress || domainName || (isValidAddress(strValue) ? getShortAddress(strValue, 8) : strValue),
+		[strValue, knownAddress, domainName],
+	)
+
 	const handleChange = (_value: string) => {
 		onChange(_value)
 	}
-
-	const addressBook = useAddressBookWithAccounts()
-	const allEntries = Object.values(addressBook)
-		.filter(entry => entry.address !== exclude)
-		.map(entry => ({
-			id: entry.address,
-			account: getShortAddress(entry.address, 8),
-			alias: entry.name,
-		}))
-
-	const strValue = useMemo(() => (value ? (value as string) : ''), [value])
-	const knownAddress = addressBook[strValue]?.name
-	const toName = knownAddress || getShortAddress(strValue, 8)
 
 	return (
 		<>

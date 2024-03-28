@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { CARD_COLORS, CARD_IMAGES } from '../constants/account'
+import { CARD_COLORS } from '../constants/account'
 import { type AddressBookEntry, KeystoreType } from '../store/types'
 import { useNetworkId } from './dapp/use-network'
 import { useRdtState } from './rdt/use-rdt-state'
@@ -48,7 +48,6 @@ export const useWalletAccounts = (): { [key: string]: AddressBookEntry } => {
 		(ac, account, idx) => ({
 			...ac,
 			[account.address]: {
-				cardImage: Object.keys(CARD_IMAGES)[idx % Object.keys(CARD_IMAGES).length],
 				cardColor: Object.keys(CARD_COLORS)[idx % Object.keys(CARD_COLORS).length],
 				dateAdded: Date.now(),
 				dateUpdated: Date.now(),

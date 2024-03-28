@@ -22,3 +22,22 @@ export const accountsAvatarImgWrapper = style([
 		opacity: '0.5',
 	},
 ])
+
+export const skinSelectWrapper = style([
+	sprinkles({
+		display: 'flex',
+		gap: 'small',
+		alignItems: 'center',
+		paddingBottom: 'medium',
+	}),
+	{},
+])
+
+export const skinClearButtonWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexGrow: 1,
+		justifyContent: 'flex-end',
+	}),
+	{},
+])

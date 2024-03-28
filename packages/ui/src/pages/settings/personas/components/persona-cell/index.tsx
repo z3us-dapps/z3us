@@ -22,12 +22,20 @@ const messages = defineMessages({
 
 interface IProps {
 	row: { original: Persona }
-	onDelete: () => void
-	onEdit: () => void
+	onEdit: (address: string) => void
+	onDelete: (address: string) => void
 }
 
 export const PersonaCell: React.FC<IProps> = ({ row, onDelete, onEdit }) => {
 	const intl = useIntl()
+
+	const handleEdit = () => {
+		onEdit(row.original.identityAddress)
+	}
+
+	const handleDelete = () => {
+		onDelete(row.original.identityAddress)
+	}
 
 	return (
 		<Box key={row.original.identityAddress} className={styles.addressTableCellWrapper}>
@@ -39,10 +47,10 @@ export const PersonaCell: React.FC<IProps> = ({ row, onDelete, onEdit }) => {
 					{row.original.identityAddress}
 				</Text>
 			</Box>
-			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<TrashIcon />} onClick={onDelete}>
+			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<TrashIcon />} onClick={handleDelete}>
 				{intl.formatMessage(messages.delete)}
 			</Button>
-			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<EditIcon />} onClick={onEdit}>
+			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<EditIcon />} onClick={handleEdit}>
 				{intl.formatMessage(messages.edit)}
 			</Button>
 		</Box>

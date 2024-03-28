@@ -4,13 +4,7 @@ import {
 	RadixEngineToolkit,
 	rawRadixEngineToolkit,
 } from '@radixdlt/radix-engine-toolkit'
-import type {
-	CompiledNotarizedTransaction,
-	Intent,
-	PrivateKey,
-	SignatureWithPublicKey,
-	SignedIntent,
-} from '@radixdlt/radix-engine-toolkit'
+import type { CompiledNotarizedTransaction, Intent, PrivateKey, SignedIntent } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
@@ -18,6 +12,8 @@ import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Accounts, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
+
+import { type SignatureWithPublicKeyJSON, signatureWithPublicKeyFromJSON } from '@src/crypto/signature'
 
 import { useSignTransactionWithBackground } from './use-sign-background'
 import { useSignTransactionWithLedger } from './use-sign-ledger'
@@ -43,7 +39,7 @@ export const useSign = () => {
 	}))
 
 	const sign = useCallback(
-		async (keystore: Keystore, intent: Intent, needSignaturesFrom: string[]): Promise<SignatureWithPublicKey[]> => {
+		async (keystore: Keystore, intent: Intent, needSignaturesFrom: string[]): Promise<SignatureWithPublicKeyJSON[]> => {
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL:
 					return signBackground(intent, needSignaturesFrom)
@@ -74,7 +70,11 @@ export const useSign = () => {
 			intent: Intent,
 			needSignaturesFrom: string[],
 		): Promise<CompiledNotarizedTransaction> => {
-			const signedIntent: SignedIntent = { intent, intentSignatures: await sign(keystore, intent, needSignaturesFrom) }
+			const signatures = await sign(keystore, intent, needSignaturesFrom)
+			const signedIntent: SignedIntent = {
+				intent,
+				intentSignatures: signatures.map(s => signatureWithPublicKeyFromJSON(s)),
+			}
 			const intentHash = await RadixEngineToolkit.Intent.intentHash(intent)
 			const signedIntentHash = await RadixEngineToolkit.SignedIntent.signedIntentHash(signedIntent)
 			const compiledSignedIntent = await RadixEngineToolkit.SignedIntent.compile(signedIntent)

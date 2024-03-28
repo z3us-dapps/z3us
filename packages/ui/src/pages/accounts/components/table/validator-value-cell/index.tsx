@@ -19,7 +19,7 @@ import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'
 import { ResourceBalanceType } from 'ui/src/types'
 
 import * as styles from '../styles.css'
-import { getStakedAmount, getUnStakeAmount } from '../validator-liquidity-cell'
+import { getClaimAmount, getStakedAmount } from '../validator-liquidity-cell'
 
 interface IProps {
 	row?: { original: ResourceBalanceKind }
@@ -58,7 +58,7 @@ export const ValidatorValueCell: React.FC<IProps> = props => {
 				.value.div((tokenData?.details as StateEntityDetailsResponseFungibleResourceDetails)?.total_supply || 0)
 				.mul(stakedAmount)
 		}
-		return getUnStakeAmount(nfts)
+		return getClaimAmount(nfts)
 	}, [type, amount, data, tokenData, knownAddresses, nfts])
 
 	const tokenPrice = useMemo(() => {
@@ -68,8 +68,8 @@ export const ValidatorValueCell: React.FC<IProps> = props => {
 
 	const tokenChange = useMemo(() => {
 		if (type === ResourceBalanceType.FUNGIBLE) return change
-		return xrdAmount.mul(token.price.usd.change).toNumber()
-	}, [change, xrdAmount, token])
+		return token.price.usd.change
+	}, [change, token])
 
 	if (isLoading || isLoadingResource || isLoadingToken || isLoadingKnownAddresses || isLoadingPrice)
 		return <FallbackLoading />
