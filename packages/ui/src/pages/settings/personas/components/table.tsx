@@ -14,21 +14,6 @@ const messages = defineMessages({
 	},
 })
 
-interface CellProps {
-	row: { original: Persona }
-	onEdit: (address: string) => void
-	onDelete: (address: string) => void
-}
-
-const Cell: React.FC<CellProps> = ({ row, onEdit, onDelete }: CellProps) => (
-	<PersonaCell
-		row={row}
-		key={row.original.identityAddress}
-		onEdit={() => onEdit(row.original.identityAddress)}
-		onDelete={() => onDelete(row.original.identityAddress)}
-	/>
-)
-
 interface IProps {
 	data: Persona[]
 	onEdit: (address: string) => void
@@ -45,11 +30,13 @@ export const Table: React.FC<IProps> = ({ data, onEdit, onDelete }) => {
 				Header: intl.formatMessage(messages.header),
 				accessor: 'name',
 				width: 'auto',
-				Cell,
+				Cell: PersonaCell,
 			},
 		],
-		[onEdit, onDelete],
+		[],
 	)
+
+	const cellProps = useMemo(() => ({ onEdit, onDelete }), [onEdit, onDelete])
 
 	return (
 		<BaseTable
@@ -58,7 +45,7 @@ export const Table: React.FC<IProps> = ({ data, onEdit, onDelete }) => {
 			scrollableNode={scrollableNode}
 			data={data}
 			columns={columns}
-			cellProps={{ onEdit, onDelete }}
+			cellProps={cellProps}
 		/>
 	)
 }

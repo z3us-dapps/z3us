@@ -42,10 +42,12 @@ const rootFieldCtx = {
 	onChange: () => {},
 }
 
+const emptyErrors = {}
+
 export const Form: React.FC<PropsWithChildren<Props>> = ({
 	children,
 	initialValues,
-	errors = {},
+	errors = emptyErrors,
 	onSubmit,
 	onChange,
 	...rest

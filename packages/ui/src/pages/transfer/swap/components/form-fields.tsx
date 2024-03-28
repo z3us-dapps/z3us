@@ -85,16 +85,16 @@ export const FormFields: React.FC = () => {
 	const from = useFieldValue(`${parentName}${parentName ? '.' : ''}from[0]`)
 	const to = useFieldValue(`${parentName}${parentName ? '.' : ''}to[0]`)
 
-	const { data: tokens = {} } = useTokens()
+	const { data: tokens } = useTokens()
 	const { data: feeResource } = useEntityDetails(to?.address)
 	const { fungibleBalances = [] } = useBalances([account])
 	const symbol = findMetadataValue('symbol', feeResource?.metadata?.items)
 
 	const source = useMemo(
-		() => fungibleBalances.filter(b => !!tokens[b.address]).map(b => b.address),
+		() => fungibleBalances.filter(b => !!tokens?.[b.address]).map(b => b.address),
 		[fungibleBalances, tokens],
 	)
-	const target = useMemo(() => Object.keys(tokens), [tokens])
+	const target = useMemo(() => Object.keys(tokens || {}), [tokens])
 	const [side, setSide] = useState<'send' | 'receive'>('send')
 	const swapAmount = useMemo(
 		() => (side === 'send' ? Number.parseFloat(from?.amount || '0') : Number.parseFloat(to?.amount || '0')),

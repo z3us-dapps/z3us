@@ -5081,6 +5081,16 @@
     tslog "^4.8.2"
     zod "^3.21.4"
 
+"@radixnameservice/rns-sdk@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@radixnameservice/rns-sdk/-/rns-sdk-1.0.3.tgz#c658939aaead2ad98e7ee4b9728bf10d233724c3"
+  integrity sha512-irTTSngJe+ZT8q43x5fy0/DrNiKJJGJ3owNHusk2EgENWf4fgIBzSm/nZcEREeORU62U2NoENgLz2gaYSybGgw==
+  dependencies:
+    "@radixdlt/babylon-gateway-api-sdk" "^1.4.0"
+    "@radixdlt/radix-engine-toolkit" "^1.0.3"
+    buffer "^6.0.3"
+    crypto-js "^4.2.0"
+
 "@remix-run/router@1.7.2":
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.7.2.tgz#cba1cf0a04bc04cb66027c51fa600e9cbc388bc8"
@@ -9469,6 +9479,11 @@ crypto-browserify@^3.12.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
     randomfill "^1.0.3"
+
+crypto-js@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 crypto-random-string@^2.0.0:
   version "2.0.0"
