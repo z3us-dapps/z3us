@@ -10,10 +10,7 @@ export const accountsCardWrapper = style([
 		width: 'full',
 		gap: 'large',
 	}),
-	{
-		maxWidth: '340px',
-		maxHeight: '190px',
-	},
+	{},
 ])
 
 export const accountsAvatarImgWrapper = style([
