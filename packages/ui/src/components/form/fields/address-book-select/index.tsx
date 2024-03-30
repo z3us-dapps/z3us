@@ -1,4 +1,3 @@
-import { useDomainDiscovery } from 'packages/ui/src/hooks/rns/use-domain-discovery'
 import React, { forwardRef, useMemo } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -7,6 +6,7 @@ import { type IInputProps } from 'ui/src/components/input'
 import { SearchableInput } from 'ui/src/components/searchable-input'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { useDomainDiscovery } from 'ui/src/hooks/rns/use-domain-discovery'
 import { useDomainResolution } from 'ui/src/hooks/rns/use-domain-resolution'
 import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
 import { isValidAddress } from 'ui/src/utils/radix'

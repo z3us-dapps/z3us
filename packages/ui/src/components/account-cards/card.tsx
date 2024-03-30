@@ -61,8 +61,7 @@ const messages = defineMessages({
 
 interface IAccountCardProps {
 	address: string
-	isAllAccount?: boolean
-	visible?: boolean
+	isAllAccount?: Boolean
 	showCopyAddressButton?: boolean
 	showAccountOptions?: boolean
 	enableClick?: boolean
@@ -73,7 +72,6 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const {
 		address,
 		isAllAccount = false,
-		visible = true,
 		showCopyAddressButton = true,
 		showAccountOptions = true,
 		enableClick = false,
@@ -138,7 +136,6 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		<Box
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
-				opacity: visible ? 1 : 0,
 				backgroundImage: `${cardColor}`,
 			}}
 		>
@@ -247,8 +244,8 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 
 interface IAccountCardsProps {
 	accounts: AddressBookEntry[]
-	selectedCardIndex?: number
 	showCopyAddressButton?: boolean
+	showAccountOptions?: boolean
 	isAllAccount?: boolean
 	enableClick?: boolean
 	className?: ClassValue
@@ -259,22 +256,28 @@ export const AccountCards: React.FC<IAccountCardsProps> = props => {
 		accounts,
 		className,
 		isAllAccount = false,
-		selectedCardIndex = 0,
 		showCopyAddressButton = false,
+		showAccountOptions = false,
 		enableClick = false,
 	} = props
 
 	return (
 		<Box className={clsx(styles.cardWrapperAll, className)}>
-			{accounts.map(({ address }, cardIndex: number) => (
-				<AccountCard
-					key={address}
-					address={address}
-					isAllAccount={isAllAccount}
-					visible={selectedCardIndex === cardIndex}
-					showCopyAddressButton={showCopyAddressButton}
-					enableClick={enableClick}
-				/>
+			{accounts.map(({ address }, index) => (
+				<Box
+					style={{
+						paddingTop: index === 0 ? undefined : `45px`,
+					}}
+				>
+					<AccountCard
+						key={address}
+						address={address}
+						isAllAccount={isAllAccount}
+						showCopyAddressButton={showCopyAddressButton}
+						showAccountOptions={showAccountOptions}
+						enableClick={enableClick}
+					/>
+				</Box>
 			))}
 		</Box>
 	)

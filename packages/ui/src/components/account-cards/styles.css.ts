@@ -6,6 +6,7 @@ import { vars } from 'ui/src/components/system/theme.css'
 
 export const cardWrapperAll = style([
 	sprinkles({
+		display: 'contents',
 		position: 'relative',
 		borderRadius: 'xlarge',
 		overflow: 'hidden',

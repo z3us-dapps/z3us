@@ -6,7 +6,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { AccountCards } from 'ui/src/components/account-cards'
+import { AccountCard } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
@@ -294,7 +294,9 @@ const Accounts: React.FC = () => {
 					<Box display="flex" flexDirection="column" gap="large">
 						<AccountSelect value={selectedAccount?.address} onChange={handleSelectAccount} />
 						<Box className={styles.accountsCardWrapper}>
-							<AccountCards accounts={selectedAccount ? [selectedAccount] : []} />
+							<Box className={styles.cardWrapper}>
+								<AccountCard address={selectedAccount?.address} showAccountOptions={false} />
+							</Box>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Text size="small" weight="medium" color="strong">
