@@ -1,11 +1,11 @@
 import clsx from 'clsx'
-import { TimeFromNow } from 'packages/ui/src/components/time-from-now'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
+import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { DECIMAL_STYLES } from 'ui/src/constants/number'

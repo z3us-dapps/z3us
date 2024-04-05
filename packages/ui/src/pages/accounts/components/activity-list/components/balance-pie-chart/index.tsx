@@ -4,7 +4,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { useAccountValues, useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
@@ -29,8 +29,7 @@ export const BalancePieChart: React.FC = () => {
 	const resourceType = useResourceType()
 	const isAllAccounts = useIsAllAccounts()
 	const accounts = useWalletAccounts()
-
-	const selectedAccounts = useSelectedAccounts()
+	const accountValues = useAccountValues()
 	const {
 		balances = [],
 		tokensBalances = [],
@@ -38,7 +37,6 @@ export const BalancePieChart: React.FC = () => {
 		poolUnitsBalances = [],
 		nonFungibleBalances = [],
 	} = useSelectedAccountsBalances()
-	const accountValues = useAccountValues(selectedAccounts)
 
 	const selectedBalances = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleBalances

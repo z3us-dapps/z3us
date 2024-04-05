@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import type { ClassValue } from 'clsx'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -25,7 +24,7 @@ import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
 import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
-import { type AddressBookEntry, KeystoreType, SCHEME } from 'ui/src/store/types'
+import { KeystoreType, SCHEME } from 'ui/src/store/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { CopyAddressButton } from '../copy-address-button'
@@ -61,8 +60,7 @@ const messages = defineMessages({
 
 interface IAccountCardProps {
 	address: string
-	isAllAccount?: boolean
-	visible?: boolean
+	isAllAccount?: Boolean
 	showCopyAddressButton?: boolean
 	showAccountOptions?: boolean
 	enableClick?: boolean
@@ -73,7 +71,6 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const {
 		address,
 		isAllAccount = false,
-		visible = true,
 		showCopyAddressButton = true,
 		showAccountOptions = true,
 		enableClick = false,
@@ -138,7 +135,6 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		<Box
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
-				opacity: visible ? 1 : 0,
 				backgroundImage: `${cardColor}`,
 			}}
 		>
@@ -241,41 +237,6 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				</Box>
 			)}
 			<Box className={styles.cardAccountShine} />
-		</Box>
-	)
-}
-
-interface IAccountCardsProps {
-	accounts: AddressBookEntry[]
-	selectedCardIndex?: number
-	showCopyAddressButton?: boolean
-	isAllAccount?: boolean
-	enableClick?: boolean
-	className?: ClassValue
-}
-
-export const AccountCards: React.FC<IAccountCardsProps> = props => {
-	const {
-		accounts,
-		className,
-		isAllAccount = false,
-		selectedCardIndex = 0,
-		showCopyAddressButton = false,
-		enableClick = false,
-	} = props
-
-	return (
-		<Box className={clsx(styles.cardWrapperAll, className)}>
-			{accounts.map(({ address }, cardIndex: number) => (
-				<AccountCard
-					key={address}
-					address={address}
-					isAllAccount={isAllAccount}
-					visible={selectedCardIndex === cardIndex}
-					showCopyAddressButton={showCopyAddressButton}
-					enableClick={enableClick}
-				/>
-			))}
 		</Box>
 	)
 }

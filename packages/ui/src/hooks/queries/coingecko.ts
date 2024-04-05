@@ -44,19 +44,13 @@ export const getSupportedCurrenciesQueryKey = () => ['useSupportedCurrencies']
 export const useSupportedCurrencies = () =>
 	useQuery(getSupportedCurrenciesQueryKey(), async (): Promise<string[]> => service.getSupportedCurrencies())
 
-export const getXRDPriceOnDayQueryKey = (currency: string, date: Date) => [
-	'useXRDPriceOnDay',
-	currency,
-	formatDate(date),
-]
-
-export const xrdPriceOnDayQuery = (currency: string, date: Date) => ({
+export const coinPriceOnDayQuery = (currency: string, date: Date) => ({
 	queryKey: ['useXRDPriceOnDay', currency, formatDate(date)],
-	queryFn: () => service.getXRDPriceOnDay(date, currency),
-	staleTime: Infinity,
+	queryFn: () => service.getCoinPriceOnDay(date, currency),
+	staleTime: 1000 * 60 * 60, // 1 hour
 })
 
-export const useXRDPriceOnDay = (currency: string, date: Date) => useQuery(xrdPriceOnDayQuery(currency, date))
+export const useXRDPriceOnDay = (currency: string, date: Date) => useQuery(coinPriceOnDayQuery(currency, date))
 
 export const useXRDPrices = (currency: string, dates: Array<Date>) =>
-	useQueries({ queries: dates.map(date => xrdPriceOnDayQuery(currency, date)) })
+	useQueries({ queries: dates.map(date => coinPriceOnDayQuery(currency, date)) })
