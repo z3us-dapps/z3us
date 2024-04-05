@@ -113,7 +113,7 @@ export const useToken = (address: string) => {
 		const ot = ociToken ? transformOciToken(ociToken) : null
 		return {
 			data: at || ot,
-			isLoading: isLoadingOci,
+			isLoading: isLoadingAstrolescent || isLoadingOci,
 		}
 	}, [astrolescentToken, isLoadingAstrolescent, ociToken, isLoadingOci])
 }

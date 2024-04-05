@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const accountsCardWrapper = style([
 	sprinkles({
@@ -10,10 +11,7 @@ export const accountsCardWrapper = style([
 		width: 'full',
 		gap: 'large',
 	}),
-	{
-		maxWidth: '340px',
-		maxHeight: '190px',
-	},
+	{},
 ])
 
 export const accountsAvatarImgWrapper = style([
@@ -40,4 +38,23 @@ export const skinClearButtonWrapper = style([
 		justifyContent: 'flex-end',
 	}),
 	{},
+])
+
+export const cardWrapper = style([
+	sprinkles({
+		position: 'relative',
+		borderRadius: 'xlarge',
+		overflow: 'hidden',
+	}),
+	{
+		aspectRatio: '8 / 5',
+	},
+	responsiveStyle({
+		mobile: {
+			width: '100%',
+		},
+		desktop: {
+			width: '100%',
+		},
+	}),
 ])

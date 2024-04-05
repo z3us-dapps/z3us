@@ -23,6 +23,8 @@ import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/
 import type { Balances } from 'ui/src/types/balances'
 import { formatDateTime } from 'ui/src/utils/date'
 
+import { useSelectedAccounts } from '../use-accounts'
+
 export const useSelectedAccountsBalances = () => useContext(BalancesContext)!
 
 const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
@@ -253,7 +255,6 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
 
 	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
-
 	const { data: validatorsAt } = useValidators(accounts, at)
 	const { data: validatorsBefore } = useValidators(accounts, before)
 	const { data: poolsAt } = usePools(accounts, at)
@@ -264,18 +265,18 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
 
 	const queryFn = (): Balances => {
-		const validators = Object.keys(validatorsAt || {}).reduce((map, address) => {
-			map[address] = {
-				at: validatorsAt[address],
-				before: validatorsBefore[address] || undefined,
+		const validators = Object.keys(validatorsAt || {}).reduce((map, addr) => {
+			map[addr] = {
+				at: validatorsAt[addr],
+				before: validatorsBefore[addr] || undefined,
 			}
 			return map
 		}, {})
 
-		const pools = Object.keys(poolsAt || {}).reduce((map, address) => {
-			map[address] = {
-				at: poolsAt[address],
-				before: poolsBefore[address] || undefined,
+		const pools = Object.keys(poolsAt || {}).reduce((map, addr) => {
+			map[addr] = {
+				at: poolsAt[addr],
+				before: poolsBefore[addr] || undefined,
 			}
 			return map
 		}, {})
@@ -330,30 +331,29 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 		queryKey: [
 			'useBalances',
 			networkId,
+			accountAddresses,
 			knownAddresses,
 			xrdPrice,
 			xrdPriceBefore,
-			tokens,
-			accounts,
-			poolsAt,
-			poolsBefore,
 			validatorsAt,
 			validatorsBefore,
+			poolsAt,
+			poolsBefore,
+			tokens,
 		],
 		queryFn,
-		enabled: !!knownAddresses && !!accounts && !!tokens && !!xrdPrice && !!xrdPriceBefore,
+		enabled: accountAddresses.length > 0,
 	})
 	return result.data || emptyState
 }
 
-export const useAccountValues = (addresses: string[], at: Date = new Date()) => {
+export const useAccountValues = (at: Date = new Date()) => {
 	const networkId = useNetworkId()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 
-	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
-
+	const accountAddresses = useSelectedAccounts()
 	const { data: knownAddresses } = useKnownAddresses()
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
 	const { data: tokens } = useTokens()
@@ -362,16 +362,16 @@ export const useAccountValues = (addresses: string[], at: Date = new Date()) => 
 	const { data: validators } = useValidators(accounts, at)
 
 	const queryFn = () => {
-		const validatorsMap = Object.keys(validators || {}).reduce((map, address) => {
-			map[address] = {
-				at: validators[address],
+		const validatorsMap = Object.keys(validators || {}).reduce((map, addr) => {
+			map[addr] = {
+				at: validators[addr],
 			}
 			return map
 		}, {})
 
-		const poolsMap = Object.keys(pools || {}).reduce((map, address) => {
-			map[address] = {
-				at: pools[address],
+		const poolsMap = Object.keys(pools || {}).reduce((map, addr) => {
+			map[addr] = {
+				at: pools[addr],
 			}
 			return map
 		}, {})

@@ -1,27 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
-
-export const cardWrapperAll = style([
-	sprinkles({
-		position: 'relative',
-		borderRadius: 'xlarge',
-		overflow: 'hidden',
-	}),
-	{
-		aspectRatio: '8 / 5',
-	},
-	responsiveStyle({
-		mobile: {
-			width: '100%',
-		},
-		desktop: {
-			width: '100%',
-		},
-	}),
-])
 
 export const card = style([
 	sprinkles({

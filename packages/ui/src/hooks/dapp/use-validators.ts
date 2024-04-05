@@ -81,6 +81,6 @@ export const useValidators = (accounts: StateEntityDetailsResponseItem[], at: Da
 	return useQuery({
 		queryKey: ['useValidators', validators, units],
 		queryFn,
-		enabled: !!validators && !!units,
+		enabled: addresses?.length > 0,
 	})
 }

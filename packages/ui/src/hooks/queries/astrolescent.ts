@@ -19,7 +19,7 @@ export const useSwapPreview = (account: string, from: string, to: string, side: 
 export const tokensQuery = {
 	queryKey: ['astrolescent', 'useTokens'],
 	queryFn: astrolescent.getTokens,
-	staleTime: 3 * 24 * 60 * 60 * 1000, // cache for 3 day
+	staleTime: 1 * 60 * 60 * 1000, // cache for 1 hour
 }
 
 export const useTokens = () => useQuery(tokensQuery)
