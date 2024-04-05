@@ -48,7 +48,7 @@ export const tokensQuery = {
 		const allTokens = await getFetchTokensQueryFn()
 		return allTokens.reduce((container, token) => ({ ...container, [token.address]: token }), {})
 	},
-	staleTime: 3 * 24 * 60 * 60 * 1000, // cache for 3 day
+	staleTime: 1 * 60 * 60 * 1000, // cache for 1 hour
 }
 
 export const useTokens = () => useQuery(tokensQuery)

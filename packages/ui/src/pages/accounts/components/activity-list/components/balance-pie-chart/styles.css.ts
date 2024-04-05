@@ -5,10 +5,6 @@ import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const allChartWrapper = style([
 	sprinkles({
-		display: {
-			mobile: 'none',
-			tablet: 'flex',
-		},
 		position: 'relative',
 		paddingTop: {
 			mobile: 'none',

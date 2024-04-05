@@ -5091,6 +5091,16 @@
     buffer "^6.0.3"
     crypto-js "^4.2.0"
 
+"@radixnameservice/rns-sdk@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@radixnameservice/rns-sdk/-/rns-sdk-1.0.4.tgz#b68890694a26dec307db67b165dd27d650c99d6d"
+  integrity sha512-lMb1xa5h9PG2vCHj9C+Ds1gw8dqdZPNXuDNm/0pf3cuTXC6JRtey7/hkqNBUlx4NFU/cwXnqTLkNqgrc/SRX8g==
+  dependencies:
+    "@radixdlt/babylon-gateway-api-sdk" "^1.4.0"
+    "@radixdlt/radix-engine-toolkit" "^1.0.3"
+    buffer "^6.0.3"
+    crypto-js "^4.2.0"
+
 "@remix-run/router@1.7.2":
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.7.2.tgz#cba1cf0a04bc04cb66027c51fa600e9cbc388bc8"

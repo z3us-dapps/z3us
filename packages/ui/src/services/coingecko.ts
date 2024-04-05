@@ -163,7 +163,7 @@ export class CoinGeckoService {
 		return data || []
 	}
 
-	getXRDPriceOnDay = async (date: Date, currency: string, coin: string = 'radix'): Promise<number | null> => {
+	getCoinPriceOnDay = async (date: Date, currency: string, coin: string = 'radix'): Promise<number | null> => {
 		const url = new URL(`${this.baseURL}/${this.apiVersion}/coins/${coin}/history`)
 		url.searchParams.set('date', `${date.getUTCDate()}-${date.getUTCMonth() + 1}-${date.getUTCFullYear()}`)
 		const path = url.toString()
@@ -179,7 +179,7 @@ export class CoinGeckoService {
 		}
 		if (!data?.market_data) {
 			date.setUTCDate(date.getUTCDate() - 1)
-			return this.getXRDPriceOnDay(date, currency, coin)
+			return this.getCoinPriceOnDay(date, currency, coin)
 		}
 		return data?.market_data?.current_price[currency.toLocaleLowerCase()] || null
 	}

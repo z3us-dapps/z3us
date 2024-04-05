@@ -44,33 +44,38 @@ export const useEntitiesDetails = (
 	const networkId = useNetworkId()
 	const { state } = useGatewayClient()!
 
+	const queryFn = (chunk: string[]) =>
+		state.innerClient
+			.stateEntityDetails({
+				stateEntityDetailsRequest: {
+					addresses: chunk,
+					aggregation_level: aggregation,
+					opt_ins: optIns,
+					at_ledger_state: at ? { timestamp: at } : null,
+				},
+			})
+			.then(resp => resp.items)
+
 	const queries = splitArrayIntoChunks(addresses, 20).map(chunk => ({
-		queryKey: ['useEntitiesDetails', networkId, chunk, formatDateTime(at)],
-		queryFn: () =>
-			chunk.length > 0
-				? state.innerClient
-						.stateEntityDetails({
-							stateEntityDetailsRequest: {
-								addresses: chunk,
-								aggregation_level: aggregation,
-								opt_ins: optIns,
-								at_ledger_state: at ? { timestamp: at } : null,
-							},
-						})
-						.then(resp => resp.items)
-				: [],
-		enabled: !!state,
+		queryKey: ['useEntitiesDetails', networkId, aggregation, optIns, chunk, formatDateTime(at)],
+		queryFn: () => queryFn(chunk),
+		enabled: !!state && chunk.length > 0,
 		staleTime: 30 * 1000,
 	}))
 
 	const results = useQueries({ queries })
-	return results.reduce(
+
+	const combinedResult = results.reduce(
 		(container, result) => ({
 			data: container.data.concat(result.data || []),
 			isLoading: container.isLoading || result.isLoading,
+			error: container.error || result.error,
+			status: container.status || result.status,
 		}),
-		{ data: [], isLoading: false },
+		{ data: [], isLoading: false, error: null, status: 'idle' },
 	)
+
+	return combinedResult
 }
 
 export const useEntityDetails = (

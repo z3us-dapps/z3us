@@ -5,10 +5,7 @@ import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const mobileHomeBalanceWrapper = style([
 	sprinkles({
-		display: {
-			mobile: 'none',
-			tablet: 'flex',
-		},
+		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
 	}),
