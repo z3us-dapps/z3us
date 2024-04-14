@@ -2,7 +2,7 @@ import { useIntl } from 'react-intl'
 
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 import { CURRENCY_STYLES } from 'ui/src/constants/number'
-import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
+import { useXRDCurrentPrice } from 'ui/src/hooks/queries/coingecko'
 import { useToken } from 'ui/src/hooks/queries/tokens'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
@@ -20,7 +20,7 @@ export const TokenPrice: React.FC<IProps> = ({ amount, address, currency }) => {
 
 	const inCurrency = currency || defaultCurrency
 
-	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDPriceOnDay(inCurrency, new Date())
+	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDCurrentPrice(inCurrency)
 	const { data: token, isLoading: isLoadingToken } = useToken(address)
 
 	if (isLoadingToken || isLoadingPrice) return <LoadingBarsIcon />

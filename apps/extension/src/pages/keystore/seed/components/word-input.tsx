@@ -21,7 +21,7 @@ export const WordInput = forwardRef<HTMLInputElement, IProps>((props, ref: React
 		if (evt.isComposing) {
 			return
 		}
-		onChange(index, event.target.value)
+		onChange(index, event.target.value.trim())
 	}
 
 	const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {

@@ -19,7 +19,7 @@ import { RedGreenText, Text } from 'ui/src/components/typography'
 import { CURRENCY_STYLES, DECIMAL_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
-import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
+import { useMarketChart, useXRDCurrentPrice } from 'ui/src/hooks/queries/coingecko'
 import { useUsfHistory } from 'ui/src/hooks/queries/oci'
 import { useToken } from 'ui/src/hooks/queries/tokens'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -120,7 +120,7 @@ export const ResourceValue: React.FC<IValueProps> = ({ resourceId }) => {
 		currency: state.currency,
 	}))
 
-	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: xrdPrice } = useXRDCurrentPrice(currency)
 	const { data: token } = useToken(resourceId)
 
 	const [format, setFormat] = useState<'currency' | 'xrd'>('currency')
@@ -170,7 +170,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 
 	const { data, isLoading } = useEntityDetails(resourceId)
 	const { data: knownAddresses } = useKnownAddresses()
-	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: xrdPrice } = useXRDCurrentPrice(currency)
 
 	const DetailsComponent = Details[data?.details?.type]
 	const name = findMetadataValue('name', data?.metadata?.items)
