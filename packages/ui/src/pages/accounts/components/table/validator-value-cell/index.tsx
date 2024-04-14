@@ -12,7 +12,7 @@ import { CURRENCY_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
-import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
+import { useXRDCurrentPrice } from 'ui/src/hooks/queries/coingecko'
 import { useToken } from 'ui/src/hooks/queries/tokens'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ResourceBalance, ResourceBalanceKind } from 'ui/src/types'
@@ -47,7 +47,7 @@ export const ValidatorValueCell: React.FC<IProps> = props => {
 	const { data, isLoading } = useEntityDetails(validator)
 	const { data: tokenData, isLoading: isLoadingResource } = useEntityDetails(address)
 	const { data: nfts = [] } = useNonFungiblesData(address, ids || [])
-	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDCurrentPrice(currency)
 	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
 	const { data: token, isLoading: isLoadingToken } = useToken(knownAddresses?.resourceAddresses.xrd)
 

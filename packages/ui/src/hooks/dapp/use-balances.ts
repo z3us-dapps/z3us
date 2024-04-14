@@ -13,7 +13,7 @@ import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { usePools } from 'ui/src/hooks/dapp/use-pools'
 import { useValidators } from 'ui/src/hooks/dapp/use-validators'
-import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
+import { useXRDPriceOnDay, useXRDPriceOnDayOrCurrent } from 'ui/src/hooks/queries/coingecko'
 import { type Token, useTokens } from 'ui/src/hooks/queries/tokens'
 import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -261,7 +261,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { data: poolsBefore } = usePools(accounts, before)
 	const { data: knownAddresses } = useKnownAddresses()
 	const { data: tokens } = useTokens()
-	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
+	const { data: xrdPrice } = useXRDPriceOnDayOrCurrent(currency, at)
 	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
 
 	const queryFn = (): Balances => {
@@ -355,7 +355,7 @@ export const useAccountValues = (at: Date = new Date()) => {
 
 	const accountAddresses = useSelectedAccounts()
 	const { data: knownAddresses } = useKnownAddresses()
-	const { data: xrdPrice } = useXRDPriceOnDay(currency, at)
+	const { data: xrdPrice } = useXRDPriceOnDayOrCurrent(currency, at)
 	const { data: tokens } = useTokens()
 	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
 	const { data: pools } = usePools(accounts, at)

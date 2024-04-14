@@ -19,7 +19,7 @@ import { RedGreenText, Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { DAPP_ADDRESS } from 'ui/src/constants/dapp'
 import { CURRENCY_STYLES, DECIMAL_STYLES } from 'ui/src/constants/number'
-import { useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
+import { useXRDCurrentPrice } from 'ui/src/hooks/queries/coingecko'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { useCustomizeFeeModal } from '@src/hooks/modal/use-customize-fee-modal'
@@ -253,7 +253,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
-	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: xrdPrice } = useXRDCurrentPrice(currency)
 
 	const [state, setState] = useImmer<State>({
 		isLoading: true,
