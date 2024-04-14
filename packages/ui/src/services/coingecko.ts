@@ -177,9 +177,21 @@ export class CoinGeckoService {
 		if (data?.id !== coin) {
 			return null
 		}
-		if (!data?.market_data) {
-			date.setUTCDate(date.getUTCDate() - 1)
-			return this.getCoinPriceOnDay(date, currency, coin)
+		return data?.market_data?.current_price[currency.toLocaleLowerCase()] || null
+	}
+
+	getCoinData = async (currency: string, coin: string = 'radix'): Promise<number | null> => {
+		const url = new URL(`${this.baseURL}/${this.apiVersion}/coins/${coin}`)
+		const path = url.toString()
+
+		const response = await fetch(path, this.options)
+		if (response.status !== 200) {
+			throw new Error(`Invalid request: ${response.status} received`)
+		}
+
+		const data = await response.json()
+		if (data?.id !== coin) {
+			return null
 		}
 		return data?.market_data?.current_price[currency.toLocaleLowerCase()] || null
 	}

@@ -45,7 +45,8 @@ export const sendFungibleTokens = (
 	manifest = Object.entries(amountsByTokenByAccount).reduce(
 		(group, [from, tokens]) =>
 			Object.entries(tokens).reduce(
-				(amounts, [resource, amount]) => amounts.callMethod(from, 'withdraw', [address(resource), decimal(amount)]),
+				(amounts, [resource, amount]) =>
+					amounts.callMethod(from.trim(), 'withdraw', [address(resource.trim()), decimal(amount)]),
 				group,
 			),
 		manifest,
@@ -56,8 +57,11 @@ export const sendFungibleTokens = (
 		(group, { tokens, to }) =>
 			tokens.reduce(
 				(amounts, { resource, amount }) =>
-					amounts.takeFromWorktop(resource, decimal(amount).value, (builder: ManifestBuilder, bucketId: number) =>
-						builder.callMethod(to, 'try_deposit_or_abort', [bucket(bucketId), NONE]),
+					amounts.takeFromWorktop(
+						resource.trim(),
+						decimal(amount).value,
+						(builder: ManifestBuilder, bucketId: number) =>
+							builder.callMethod(to.trim(), 'try_deposit_or_abort', [bucket(bucketId), NONE]),
 					),
 				group,
 			),
@@ -95,9 +99,9 @@ export const sendNftTokens = (manifest: ManifestBuilder, transfers: Array<SendNf
 		(group, [from, nft]) =>
 			Object.entries(nft).reduce((ids, [resource, idMap]) => {
 				Object.keys(idMap).forEach(id => {
-					ids = ids.callMethod(from, 'withdraw_non_fungibles', [
-						address(resource),
-						array(ValueKind.NonFungibleLocalId, nonFungibleLocalId(id)),
+					ids = ids.callMethod(from.trim(), 'withdraw_non_fungibles', [
+						address(resource.trim()),
+						array(ValueKind.NonFungibleLocalId, nonFungibleLocalId(id.trim())),
 					])
 				})
 				return ids
@@ -110,8 +114,8 @@ export const sendNftTokens = (manifest: ManifestBuilder, transfers: Array<SendNf
 		(group, { nfts, to }) =>
 			nfts.reduce(
 				(amounts, { resource, ids }) =>
-					amounts.takeNonFungiblesFromWorktop(resource, ids, (builder: ManifestBuilder, bucketId: number) =>
-						builder.callMethod(to, 'try_deposit_or_abort', [bucket(bucketId), NONE]),
+					amounts.takeNonFungiblesFromWorktop(resource.trim(), ids, (builder: ManifestBuilder, bucketId: number) =>
+						builder.callMethod(to.trim(), 'try_deposit_or_abort', [bucket(bucketId), NONE]),
 					),
 				group,
 			),

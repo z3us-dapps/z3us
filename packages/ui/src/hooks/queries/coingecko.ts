@@ -1,4 +1,4 @@
-import { useQueries, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { CoinGeckoService } from 'ui/src/services/coingecko'
 import { TimeFrames } from 'ui/src/types'
@@ -47,10 +47,15 @@ export const useSupportedCurrencies = () =>
 export const coinPriceOnDayQuery = (currency: string, date: Date) => ({
 	queryKey: ['useXRDPriceOnDay', currency, formatDate(date)],
 	queryFn: () => service.getCoinPriceOnDay(date, currency),
-	staleTime: 1000 * 60 * 60, // 1 hour
+	staleTime: Infinity,
+})
+
+export const currentCoinPriceQuery = (currency: string) => ({
+	queryKey: ['useXRDCurrentPrice', currency],
+	queryFn: () => service.getCoinData(currency),
+	staleTime: 1000 * 60 * 5, // 5 minutes
 })
 
 export const useXRDPriceOnDay = (currency: string, date: Date) => useQuery(coinPriceOnDayQuery(currency, date))
 
-export const useXRDPrices = (currency: string, dates: Array<Date>) =>
-	useQueries({ queries: dates.map(date => coinPriceOnDayQuery(currency, date)) })
+export const useXRDCurrentPrice = (currency: string) => useQuery(currentCoinPriceQuery(currency))
