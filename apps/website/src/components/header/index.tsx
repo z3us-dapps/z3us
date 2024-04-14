@@ -29,6 +29,9 @@ export const Header = () => {
 					</NextLink>
 					<Box className={styles.landingPageHeaderMenuWrapper}>
 						<Box className={styles.headerTextLinks}>
+							<NextLink href="/skins" underline="hover" weight="medium" size="small">
+								Skins
+							</NextLink>
 							<NextLink href="/faq" underline="hover" weight="medium" size="small">
 								FAQ
 							</NextLink>

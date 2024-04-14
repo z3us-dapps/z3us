@@ -36,6 +36,10 @@ export const Footer: React.FC<IProps> = props => {
 
 	const pageLinks = (
 		<>
+			<NextLink size="small" href="/skins" underline="hover" color={textColor}>
+				Skins
+			</NextLink>
+			<Box>&middot;</Box>
 			<NextLink size="small" href="/privacy" underline="hover" color={textColor}>
 				Privacy
 			</NextLink>
