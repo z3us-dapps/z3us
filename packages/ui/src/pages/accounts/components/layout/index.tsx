@@ -6,6 +6,7 @@ import { useLocation, useMatch, useMatches, useOutlet, useParams } from 'react-r
 import useMeasure from 'react-use-measure'
 import { useWindowSize } from 'usehooks-ts'
 
+import { ActivityList } from 'ui/src/components/activity-list'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import MobileScrollArea from 'ui/src/components/scroll-area-radix/mobile'
@@ -20,7 +21,6 @@ import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activ
 import { findFieldValue, findMetadataValue } from 'ui/src/services/metadata'
 
 import { useResourceType } from '../../hooks/use-resource-type'
-import { ActivityList } from '../activity-list/components/activity-list'
 import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileBackground } from './components/mobile/background'
 import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
