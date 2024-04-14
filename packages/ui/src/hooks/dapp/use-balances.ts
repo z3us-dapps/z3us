@@ -13,7 +13,7 @@ import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { usePools } from 'ui/src/hooks/dapp/use-pools'
 import { useValidators } from 'ui/src/hooks/dapp/use-validators'
-import { useXRDPriceOnDay, useXRDPriceOnDayOrCurrent } from 'ui/src/hooks/queries/coingecko'
+import { useXRDCurrentPrice, useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
 import { type Token, useTokens } from 'ui/src/hooks/queries/tokens'
 import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -21,7 +21,7 @@ import { findMetadataValue } from 'ui/src/services/metadata'
 import { ResourceBalanceType } from 'ui/src/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalances } from 'ui/src/types'
 import type { Balances } from 'ui/src/types/balances'
-import { formatDateTime } from 'ui/src/utils/date'
+import { formatDate, formatDateTime } from 'ui/src/utils/date'
 
 import { useSelectedAccounts } from '../use-accounts'
 
@@ -261,8 +261,11 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { data: poolsBefore } = usePools(accounts, before)
 	const { data: knownAddresses } = useKnownAddresses()
 	const { data: tokens } = useTokens()
-	const { data: xrdPrice } = useXRDPriceOnDayOrCurrent(currency, at)
+
+	const { data: xrdPriceNow } = useXRDCurrentPrice(currency)
+	const { data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
 	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
+	const xrdPrice = formatDate(at) === formatDate(new Date()) ? xrdPriceNow : xrdPriceAt
 
 	const queryFn = (): Balances => {
 		const validators = Object.keys(validatorsAt || {}).reduce((map, addr) => {
@@ -355,7 +358,11 @@ export const useAccountValues = (at: Date = new Date()) => {
 
 	const accountAddresses = useSelectedAccounts()
 	const { data: knownAddresses } = useKnownAddresses()
-	const { data: xrdPrice } = useXRDPriceOnDayOrCurrent(currency, at)
+
+	const { data: xrdPriceNow } = useXRDCurrentPrice(currency)
+	const { data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
+	const xrdPrice = formatDate(at) === formatDate(new Date()) ? xrdPriceNow : xrdPriceAt
+
 	const { data: tokens } = useTokens()
 	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
 	const { data: pools } = usePools(accounts, at)
