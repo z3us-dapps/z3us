@@ -2,9 +2,9 @@ import { style } from '@vanilla-extract/css'
 import type { RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { vars } from 'ui/src/components/system/theme.css'
+import { vars } from 'ui/src/theme/theme.css'
 
-import { sprinkles } from '../system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const baseSprinkles = sprinkles({
 	width: 'full',

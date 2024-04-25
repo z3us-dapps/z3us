@@ -1,7 +1,7 @@
 import React, { type PropsWithChildren, useEffect, useMemo, useState } from 'react'
 import browser from 'webextension-polyfill'
 
-import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
+import { darkThemeClass, lightThemeClass } from 'ui/src/theme/theme.css'
 import type { State as ThemeState } from 'ui/src/context/theme'
 import { ThemeContext } from 'ui/src/context/theme'
 import { Theme } from 'ui/src/types'

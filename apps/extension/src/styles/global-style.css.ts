@@ -1,7 +1,7 @@
 import { globalStyle } from '@vanilla-extract/css'
 
-import { darkMode } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { darkMode } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 globalStyle('html, body', {
 	margin: 0,

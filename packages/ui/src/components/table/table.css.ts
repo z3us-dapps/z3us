@@ -1,10 +1,10 @@
 import { createVar, globalStyle, style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
 
-import { breakpoints, recipeResponsiveGlobalStyle, responsiveStyle } from '../system/theme-utils'
-import { vars } from '../system/theme.css'
+import { breakpoints, recipeResponsiveGlobalStyle, responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 const LIGHT_SHADOW = '0px 13px 13px -14px rgba(0, 0, 0, 0.4)'
 const DARK_SHADOW = '0px 13px 13px -14px rgba(0, 0, 0, 0.4)'

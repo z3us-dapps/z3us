@@ -1,7 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from '../system/sprinkles.css'
-import { vars } from '../system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const scrollAreaStyledWrapper = style([
 	sprinkles({

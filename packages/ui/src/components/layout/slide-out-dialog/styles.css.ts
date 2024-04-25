@@ -1,9 +1,9 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
 import { fadeIn, fadeOut } from 'ui/src/components/dropdown-menu/styles.css'
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { breakpoints, responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { breakpoints, responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const transactionSlideIn = keyframes({
 	'0%': { transform: 'translateX(100%)' },

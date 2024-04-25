@@ -3,7 +3,7 @@ import { Meta } from '@/components/meta'
 import { allDocs } from 'contentlayer/generated'
 import React, { useEffect } from 'react'
 
-import { darkThemeClass } from 'ui/src/components/system/theme.css'
+import { darkThemeClass } from 'ui/src/theme/theme.css'
 
 interface DocPageProps {
 	params: {

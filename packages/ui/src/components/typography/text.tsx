@@ -3,8 +3,8 @@ import type { ElementType, ForwardedRef, ReactNode } from 'react'
 import React, { forwardRef } from 'react'
 
 import { Box } from '../box'
-import type { Sprinkles } from '../system/sprinkles.css'
-import { sprinkles } from '../system/sprinkles.css'
+import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import * as styles from './typography.css'
 
 const colorMap = {

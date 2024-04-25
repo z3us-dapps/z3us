@@ -1,8 +1,8 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
-import type { Sprinkles } from '../system/sprinkles.css'
-import { sprinkles } from '../system/sprinkles.css'
-import { responsiveStyle } from '../system/theme-utils'
+import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const fadeIn = keyframes({
 	'0%': { opacity: '0' },

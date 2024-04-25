@@ -298,10 +298,18 @@ export const sharedThemeValues = {
 		},
 	},
 	transition: {
+		none: 'none',
+		spin: 'spin 1s linear infinite',
+		move: 'move 2s ease-in-out infinite',
 		slow: 'transform .3s ease, opacity .3s ease, background .3s ease, color .3s ease, border .3s ease, box-shadow .3s ease',
 		slowall: 'all 300ms ease',
 		fast: 'transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, border .15s ease, box-shadow .15s ease',
 		fastall: 'all 150ms ease',
+	},
+	animation: {
+		none: 'none',
+		spin: 'spin 1s linear infinite',
+		move: 'move 2s ease-in-out infinite',
 	},
 }
 

@@ -7,9 +7,9 @@ import {
 	sharedPopoverBgSprinkles,
 	sharedPopoverBgStyles,
 } from '../dropdown-menu/styles.css'
-import type { Sprinkles } from '../system/sprinkles.css'
-import { sprinkles } from '../system/sprinkles.css'
-import { responsiveStyle } from '../system/theme-utils'
+import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const dialogOverlay = style([
 	sprinkles({

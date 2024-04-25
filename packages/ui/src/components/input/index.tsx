@@ -3,7 +3,7 @@ import type { HTMLProps, KeyboardEvent } from 'react'
 import React, { forwardRef } from 'react'
 
 import { Box } from '../box'
-import { element } from '../system/reset.css'
+import { element } from 'ui/src/theme/reset.css'
 import * as styles from './input.css'
 
 export type TSizeVariant = 'small' | 'medium' | 'large'

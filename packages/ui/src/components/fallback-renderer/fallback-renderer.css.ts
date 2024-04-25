@@ -1,12 +1,13 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const fallbackLoadingWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		placeItems: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
 		padding: 'large',
 		height: 'full',
 		width: 'full',
