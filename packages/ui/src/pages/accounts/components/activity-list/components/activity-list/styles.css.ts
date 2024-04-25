@@ -14,19 +14,12 @@ export const activityWrapper = style([
 			tablet: 'flex',
 		},
 		flexDirection: 'column',
-		marginTop: {
-			tablet: 'small',
-		},
 		paddingTop: {
 			tablet: 'small',
 		},
 		paddingBottom: {
 			tablet: 'small',
 		},
-	}),
-	{},
-	responsiveStyle({
-		tablet: { borderTop: '1px solid', borderColor: vars.color.borderDivider },
 	}),
 ])
 

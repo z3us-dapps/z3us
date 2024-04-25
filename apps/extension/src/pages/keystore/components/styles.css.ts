@@ -36,7 +36,7 @@ export const keystoreOuterWrapper = style([
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: 'vh100',
+		height: '100vh',
 		width: 'full',
 	}),
 	{},

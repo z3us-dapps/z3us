@@ -215,7 +215,7 @@ export const mobileSlideOutDialogContent = style([
 		boxShadow: 'shadowPanel',
 		overflow: 'hidden',
 		color: 'colorNeutral',
-		height: 'vh100',
+		height: '100vh',
 		left: 0,
 		top: 0,
 	}),

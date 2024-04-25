@@ -1,10 +1,11 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const cardButtonsWrapper = style([
 	sprinkles({
-		display: 'none',
 		alignItems: 'center',
 		justifyContent: 'center',
 		width: 'full',
@@ -12,11 +13,7 @@ export const cardButtonsWrapper = style([
 			tablet: 'medium',
 		},
 	}),
-	{},
-])
-
-export const cardButtonsWrapperVisible = style([
-	{
-		display: 'flex',
-	},
+	responsiveStyle({
+		tablet: { borderBottom: '1px solid', borderColor: vars.color.borderDivider },
+	}),
 ])

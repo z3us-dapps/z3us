@@ -11,7 +11,7 @@ export const unlockOuterWrapper = style([
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: 'vh100',
+		height: '100vh',
 		width: 'full',
 	}),
 	{},

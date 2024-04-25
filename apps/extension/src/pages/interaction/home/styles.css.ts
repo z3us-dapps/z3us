@@ -5,8 +5,8 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 export const interactionWrapper = style([
 	sprinkles({
 		position: 'relative',
-		height: 'vh100',
-		width: 'vw100',
+		height: '100vh',
+		width: '100vw',
 		background: 'backgroundSecondary',
 	}),
 	{},

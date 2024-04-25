@@ -11,10 +11,7 @@ export const mobileHiddenWrapper = style([
 
 export const mobileCardWrapper = style([
 	sprinkles({
-		display: {
-			mobile: 'flex',
-			tablet: 'none',
-		},
+		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
 	}),

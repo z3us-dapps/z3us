@@ -72,7 +72,7 @@ export const validatorContentSlideOutDialogContent = style([
 		boxShadow: 'shadowPanel',
 		overflow: 'hidden',
 		color: 'colorNeutral',
-		height: 'vh100',
+		height: '100vh',
 		right: 0,
 		top: 0,
 	}),

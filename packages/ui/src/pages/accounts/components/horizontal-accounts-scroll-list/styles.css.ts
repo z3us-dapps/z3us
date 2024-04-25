@@ -16,16 +16,18 @@ export const accountsAddAccountButton = style([
 export const accountsHorizontalWrapper = style([
 	sprinkles({
 		position: 'relative',
-		display: {
-			mobile: 'none',
-			tablet: 'block',
-		},
 		borderBottom: 1,
 		borderBottomStyle: 'solid',
 		borderColor: 'borderDivider',
+		overflowX: 'scroll',
 	}),
 	{
 		height: '228px',
+		msOverflowStyle: 'none' /* IE and Edge */,
+		scrollbarWidth: 'none' /* Firefox */,
+		'::-webkit-scrollbar': {
+			display: 'none',
+		},
 	},
 ])
 
@@ -36,7 +38,6 @@ export const accountsHorizontalAbsoluteWrapper = style([
 		top: 0,
 		left: 0,
 	}),
-	{},
 ])
 
 export const accountsHorizontalCardsWrapper = style([

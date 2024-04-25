@@ -8,8 +8,8 @@ export const layoutWrapper = style([
 	sprinkles({
 		color: 'colorNeutral',
 		position: 'relative',
-		height: 'vh100',
-		width: 'vw100',
+		height: '100vh',
+		width: '100vw',
 		overflow: 'clip',
 	}),
 	{},
@@ -22,7 +22,7 @@ export const layoutWrapper = style([
 export const layoutRouteWrapper = style([
 	sprinkles({
 		position: 'relative',
-		width: 'vw100',
+		width: '100vw',
 	}),
 	{},
 	responsiveStyle({

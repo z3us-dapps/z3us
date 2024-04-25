@@ -1,7 +1,6 @@
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
-import useMeasure from 'react-use-measure'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -9,9 +8,11 @@ import { Text } from 'ui/src/components/typography'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 
+import { ActivityList } from '../components/activity-list/components/activity-list'
 import { AssetsList } from '../components/assets-list'
 import { HomeScrollShadow } from '../components/home-scroll-shadow'
 import { HorizontalAccountsScrollList } from '../components/horizontal-accounts-scroll-list'
+import { useIsActivitiesVisible } from '../hooks/use-is-activities-visible'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -26,13 +27,15 @@ const Home: React.FC = () => {
 	const { accountId = '-' } = useParams()
 	const accounts = useWalletAccounts()
 	const isAllAccounts = useIsAllAccounts()
-	const [wrapperRef, { width: horizontalScrollWidth }] = useMeasure()
+	const isActivitiesVisible = useIsActivitiesVisible()
 	const accountName = accounts?.[accountId]?.name
 
 	return (
-		<Box ref={wrapperRef} className={styles.assetsHomeWrapper}>
-			<HomeScrollShadow />
-			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
+		<Box className={styles.assetsHomeWrapper}>
+			<Box display={['none', 'block']}>
+				<HomeScrollShadow />
+				<HorizontalAccountsScrollList />
+			</Box>
 			<Box className={styles.homeAssetsTitleWrapper}>
 				{isAllAccounts ? (
 					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium" truncate>
@@ -47,7 +50,12 @@ const Home: React.FC = () => {
 					</>
 				)}
 			</Box>
-			<AssetsList />
+			<Box height="full" display={['block', 'none']}>
+				{isActivitiesVisible ? <ActivityList className={styles.activityList} /> : <AssetsList />}
+			</Box>
+			<Box height="full" display={['none', 'block']}>
+				<AssetsList />
+			</Box>
 		</Box>
 	)
 }

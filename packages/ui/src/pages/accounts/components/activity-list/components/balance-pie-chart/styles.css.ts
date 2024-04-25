@@ -2,6 +2,7 @@ import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const allChartWrapper = style([
 	sprinkles({
@@ -19,7 +20,9 @@ export const allChartWrapper = style([
 			tablet: 'none',
 		},
 	}),
-	{},
+	responsiveStyle({
+		tablet: { borderBottom: '1px solid', borderColor: vars.color.borderDivider },
+	}),
 ])
 
 export const allChartInnerWrapper = style([
@@ -76,12 +79,5 @@ export const pieChartWrapper = style([
 			width: '100%',
 			aspectRatio: 'unset',
 		},
-	}),
-])
-
-export const mobileHiddenWrapper = style([
-	responsiveStyle({
-		mobile: { display: 'none' },
-		tablet: { display: 'flex' },
 	}),
 ])

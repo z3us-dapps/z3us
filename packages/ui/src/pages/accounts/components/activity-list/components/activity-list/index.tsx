@@ -80,7 +80,7 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 		}, [])
 
 		return (
-			<Box ref={ref} className={clsx(styles.activityWrapper, className)} style={{ minHeight: '100px' }}>
+			<Box ref={ref} height="full" className={clsx(styles.activityWrapper, className)}>
 				<Box className={styles.activityTitleText}>
 					<Text color="strong" size="xlarge" weight="strong">
 						{intl.formatMessage(messages.title)}
