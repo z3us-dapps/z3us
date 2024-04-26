@@ -1,6 +1,6 @@
-import { globalKeyframes, globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const containerWrapper = style([
 	sprinkles({
@@ -14,14 +14,11 @@ export const containerWrapper = style([
 			desktop: 'xxlarge',
 		},
 	}),
-	{},
 ])
 
 export const containerInnerWrapper = style([
 	sprinkles({
 		position: 'relative',
-		maxWidth: 'xxlarge',
 		width: 'full',
 	}),
-	{},
 ])

@@ -18,11 +18,12 @@ export const activityList = style([
 
 export const assetsHomeWrapper = style([
 	sprinkles({
+		overflowY: 'scroll',
 		display: 'flex',
 		flexDirection: 'column',
 		background: 'backgroundSecondary',
+		height: 'full',
 	}),
-	{},
 ])
 
 export const homeAssetsTitleWrapper = style([
