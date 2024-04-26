@@ -100,6 +100,7 @@ export const sharedThemeValues = {
 		xxxxlarge: px(32 * grid),
 	},
 	width: {
+		0: '0',
 		none: '0',
 		half: '50%',
 		full: '100%',
