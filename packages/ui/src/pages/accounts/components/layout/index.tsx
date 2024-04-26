@@ -1,7 +1,7 @@
-import React, { Suspense, useEffect, useMemo } from 'react'
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useMatch, useMatches, useOutlet, useParams } from 'react-router-dom'
+import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
@@ -55,11 +55,13 @@ const Layout: React.FC = () => {
 	const [sidebar] = sidebars.reverse()
 	const key = useMemo(() => location.pathname.split('/')[2] || '-', [location.pathname])
 
-	const isNftCollection = useMatch('/accounts/:accountId/nfts/:resourceId')
-	const isNftCollectionOrList = !resourceId || !!isNftCollection
-
 	const { data: resource } = useEntityDetails(resourceId)
 	const { data: nft } = useNonFungibleData(resourceId, nftId)
+
+	const mainRef = useRef<HTMLElement>()
+	const rightRef = useRef<HTMLElement>()
+	const leftRef = useRef<HTMLElement>()
+	const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
 	useEffect(() => {
 		const parts = []
@@ -92,20 +94,34 @@ const Layout: React.FC = () => {
 		}
 	}, [resourceType, accountId, resource, nft])
 
+	useEffect(() => {
+		setIsExpanded(rightRef.current?.offsetTop > 0)
+	}, [rightRef.current])
+
+	const handleClick = () => {
+		if (isExpanded) {
+			mainRef.current?.scrollTo({ behavior: 'smooth', top: 0 })
+			setIsExpanded(false)
+		} else {
+			leftRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+			setIsExpanded(true)
+		}
+	}
+
 	return (
-		<Box className={styles.main}>
+		<Box className={styles.main} ref={mainRef}>
 			<MobileBackground />
-			<Box className={styles.panelRight}>
+			<Box className={styles.panelRight} ref={rightRef}>
 				<Suspense key={location.pathname} fallback={<FallbackLoading />}>
 					<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
 				</Suspense>
 			</Box>
-			<Box className={styles.panelLeft}>
+			<Box className={styles.panelLeft} ref={leftRef}>
 				<Box className={styles.accountsStickyWrapper}>
 					<Breadcrumbs />
 					<AccountTotalValue />
 				</Box>
-				{isNftCollectionOrList && <MobileScrollingButtons />}
+				<MobileScrollingButtons resourceId={resourceId} isExpanded={isExpanded} onClick={handleClick} />
 				<Suspense key={key} fallback={<FallbackLoading />}>
 					<ErrorBoundary fallbackRender={FallbackRenderer}>
 						<Box className={styles.outletWrapper}>{outlet}</Box>

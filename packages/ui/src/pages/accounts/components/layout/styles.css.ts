@@ -104,14 +104,13 @@ export const panelLeft = style([
 		mobile: {
 			background: vars.color.backgroundSecondary,
 			position: 'sticky',
-			top: '30vh',
 			width: '100%',
 			zIndex: 1,
+			minHeight: '100vh',
 		},
 		tablet: {
 			position: 'relative',
 			top: 'unset',
-			height: 'unset',
 			width: '60%',
 			maxHeight: 'calc(100vh - 112px)',
 			borderRadius: vars.border.radius.xlarge,
@@ -152,7 +151,7 @@ export const panelRight = style([
 			position: 'sticky',
 			top: 0,
 			width: '100%',
-			height: '50vh',
+			maxHeight: '50vh',
 		},
 		tablet: {
 			position: 'relative',

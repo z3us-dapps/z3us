@@ -16,9 +16,6 @@ export const accountsAddAccountButton = style([
 export const accountsHorizontalWrapper = style([
 	sprinkles({
 		position: 'relative',
-		borderBottom: 1,
-		borderBottomStyle: 'solid',
-		borderColor: 'borderDivider',
 		overflowX: 'scroll',
 	}),
 	{
