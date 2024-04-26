@@ -17,6 +17,7 @@ export const accountsHorizontalWrapper = style([
 	sprinkles({
 		position: 'relative',
 		overflowX: 'scroll',
+		marginTop: 'medium',
 	}),
 	{
 		height: '228px',
