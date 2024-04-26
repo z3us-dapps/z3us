@@ -112,6 +112,7 @@ export const panelLeft = style([
 			position: 'relative',
 			top: 'unset',
 			width: '60%',
+			minHeight: 'unset',
 			maxHeight: 'calc(100vh - 112px)',
 			borderRadius: vars.border.radius.xlarge,
 			background: vars.color.backgroundSecondary,
