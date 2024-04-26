@@ -46,10 +46,6 @@ export const main = style([
 			tablet: 'large',
 			desktop: 'xlarge',
 		},
-		paddingX: {
-			tablet: 'large',
-			desktop: 'xxlarge',
-		},
 		paddingTop: {
 			tablet: 'large',
 			desktop: 'xlarge',
@@ -57,7 +53,6 @@ export const main = style([
 		height: 'full',
 	}),
 	{
-		margin: '0 auto',
 		msOverflowStyle: 'none' /* IE and Edge */,
 		scrollbarWidth: 'none' /* Firefox */,
 		'::-webkit-scrollbar': {
@@ -99,7 +94,7 @@ export const panelLeft = style([
 			overflowY: 'hidden',
 			position: 'relative',
 			top: 'unset',
-			width: '60%',
+			width: '100%',
 			minHeight: 'unset',
 			maxHeight: 'calc(100vh - 112px)',
 			borderRadius: vars.border.radius.xlarge,
@@ -141,13 +136,14 @@ export const panelRight = style([
 			top: 0,
 			width: '100%',
 			maxHeight: '50vh',
+			maxWidth: 'unset',
 		},
 		tablet: {
 			position: 'relative',
 			top: 'unset',
-			width: '40%',
 			height: '100vh',
 			maxHeight: 'calc(100vh - 112px)',
+			maxWidth: '392px',
 			borderRadius: vars.border.radius.xlarge,
 			background: vars.color.backgroundSecondary,
 			boxShadow: vars.color.shadowPanel,

@@ -20,5 +20,6 @@ export const containerInnerWrapper = style([
 	sprinkles({
 		position: 'relative',
 		width: 'full',
+		maxWidth: '1344px',
 	}),
 ])

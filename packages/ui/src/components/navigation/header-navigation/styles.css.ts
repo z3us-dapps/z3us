@@ -92,7 +92,7 @@ export const headerInnerNavWrapper = style([
 			mobile: 'xsmall',
 			tablet: 'small',
 		},
-		paddingRight: {
+		paddingX: {
 			mobile: 'xxsmall',
 			tablet: 'medium',
 		},

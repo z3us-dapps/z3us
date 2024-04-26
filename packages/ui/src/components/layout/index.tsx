@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React, { Suspense, useEffect, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useOutlet } from 'react-router-dom'
@@ -5,6 +6,7 @@ import { useLocation, useOutlet } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { HeaderNav, MobileFooterNavigation } from 'ui/src/components/navigation'
+import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import { BalancesProvider } from 'ui/src/context/balances/provider'
 import { RnsProvider } from 'ui/src/context/rns-provider'
 import { useTextDirection } from 'ui/src/hooks/use-text-direction'
@@ -29,10 +31,12 @@ const Layout: React.FC = () => {
 			<BalancesProvider>
 				<Box className={styles.layoutWrapper}>
 					<HeaderNav />
-					<Box className={styles.layoutRouteWrapper}>
-						<Suspense key={key} fallback={<FallbackLoading />}>
-							<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-						</Suspense>
+					<Box height="full" className={clsx(containerStyles.containerWrapper)}>
+						<Box height="full" className={clsx(containerStyles.containerInnerWrapper)}>
+							<Suspense key={key} fallback={<FallbackLoading />}>
+								<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+							</Suspense>
+						</Box>
 					</Box>
 					<MobileFooterNavigation />
 					<Transaction />
