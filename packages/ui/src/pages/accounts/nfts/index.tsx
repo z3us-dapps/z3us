@@ -11,8 +11,7 @@ import * as tableStyles from 'ui/src/components/table/table.css'
 import { useNonFungibleIds, useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { NftNameCell } from 'ui/src/pages/accounts/components/table/nft-name-cell'
-
-import * as styles from './styles.css'
+import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 
 const TABLE_SIZE_VARIANT = 'large'
 const TABLE_STYLE_VARIANT = 'primary'

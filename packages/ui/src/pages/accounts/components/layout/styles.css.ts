@@ -29,17 +29,6 @@ export const accountsStickyWrapper = style([
 	{},
 ])
 
-export const outletWrapper = style([
-	responsiveStyle({
-		mobile: {
-			minHeight: '380px',
-		},
-		tablet: {
-			minHeight: '600px',
-		},
-	}),
-])
-
 export const main = style([
 	sprinkles({
 		position: 'relative',
@@ -78,9 +67,6 @@ export const main = style([
 ])
 
 export const panelLeft = style([
-	sprinkles({
-		overflowY: 'scroll',
-	}),
 	{
 		msOverflowStyle: 'none' /* IE and Edge */,
 		scrollbarWidth: 'none' /* Firefox */,
@@ -102,6 +88,7 @@ export const panelLeft = style([
 	},
 	responsiveStyle({
 		mobile: {
+			overflowY: 'scroll',
 			background: vars.color.backgroundSecondary,
 			position: 'sticky',
 			width: '100%',
@@ -109,6 +96,7 @@ export const panelLeft = style([
 			minHeight: '100vh',
 		},
 		tablet: {
+			overflowY: 'hidden',
 			position: 'relative',
 			top: 'unset',
 			width: '60%',

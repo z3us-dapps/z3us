@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useMatch, useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ChevronDown3Icon } from 'ui/src/components/icons'
@@ -67,25 +67,20 @@ const TabTitle: React.FC = () => {
 }
 
 interface IProps {
-	resourceId: string
 	isExpanded: boolean
 	onClick: () => void
 }
 
-export const MobileScrollingButtons: React.FC<IProps> = ({ resourceId, isExpanded, onClick }) => {
+export const MobileScrollingButtons: React.FC<IProps> = ({ isExpanded, onClick }) => {
 	const intl = useIntl()
 	const location = useLocation()
 	const [searchParams] = useSearchParams()
 	const isActivitiesVisible = useIsActivitiesVisible()
-	const isNftCollection = useMatch('/accounts/:accountId/nfts/:resourceId')
-	const isNftCollectionOrList = !resourceId || !!isNftCollection
 
 	const queryWithActs = new URLSearchParams(searchParams)
 	queryWithActs.set('acts', `true`)
 	const queryWithoutActs = new URLSearchParams(searchParams)
 	queryWithoutActs.delete('acts')
-
-	if (!isNftCollectionOrList) return null
 
 	return (
 		<Box

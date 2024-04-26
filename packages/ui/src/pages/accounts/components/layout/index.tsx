@@ -121,10 +121,10 @@ const Layout: React.FC = () => {
 					<Breadcrumbs />
 					<AccountTotalValue />
 				</Box>
-				<MobileScrollingButtons resourceId={resourceId} isExpanded={isExpanded} onClick={handleClick} />
+				<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
 				<Suspense key={key} fallback={<FallbackLoading />}>
 					<ErrorBoundary fallbackRender={FallbackRenderer}>
-						<Box className={styles.outletWrapper}>{outlet}</Box>
+						<Box height="full">{outlet}</Box>
 					</ErrorBoundary>
 				</Suspense>
 			</Box>

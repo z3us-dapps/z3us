@@ -1,15 +1,12 @@
-import { createVar, globalStyle, style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
-
 import { breakpoints, recipeResponsiveGlobalStyle, responsiveStyle } from 'ui/src/theme/theme-utils'
 import { vars } from 'ui/src/theme/theme.css'
 
 const LIGHT_SHADOW = '0px 13px 13px -14px rgba(0, 0, 0, 0.4)'
 const DARK_SHADOW = '0px 13px 13px -14px rgba(0, 0, 0, 0.4)'
-
-export const stickyTop = createVar()
 
 export const tableWrapper = style([
 	sprinkles({
@@ -62,7 +59,6 @@ export const tableRootTopStickyPosition = style([
 ])
 
 globalStyle(`${tableRootTopStickyPosition} thead`, {
-	top: `${stickyTop} !important`,
 	display: 'none',
 	'@media': {
 		[`screen and (min-width: ${breakpoints.tablet}px)`]: {
