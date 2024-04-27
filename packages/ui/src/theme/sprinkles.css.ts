@@ -71,6 +71,9 @@ const decorationStyles = defineProperties({
 		transition: vars.transition,
 		animation: vars.animation,
 	},
+	shorthands: {
+		borderStyle: ['borderTopStyle', 'borderBottomStyle', 'borderLeftStyle', 'borderRightStyle'],
+	},
 })
 
 const colorProperties = [
@@ -236,7 +239,7 @@ const layoutStyles = defineProperties({
 		...mapTo(['mx', 'marginX'], ['marginLeft', 'marginRight']),
 		...mapTo(['my', 'marginY'], ['marginTop', 'marginBottom']),
 		inset: ['top', 'bottom', 'left', 'right'],
-		b: ['border'],
+		...mapTo(['b', 'border'], ['borderTop', 'borderBottom', 'borderLeft', 'borderRight']),
 		bb: ['borderBottom'],
 		bt: ['borderTop'],
 		bl: ['borderLeft'],
