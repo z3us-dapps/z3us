@@ -105,17 +105,6 @@ export const sharedThemeValues = {
 		xxxxlarge: px(32 * grid),
 	},
 	size: {
-		0: '0',
-		none: '0',
-		half: '50%',
-		full: '100%',
-		auto: 'auto',
-		'25vw': '25vw',
-		'50vw': '50vw',
-		'100vw': '100vw',
-		'25vh': '25vh',
-		'50vh': '50vh',
-		'100vh': '100vh',
 		xxsmall: px(240),
 		xsmall: px(480),
 		small: px(600),
@@ -125,8 +114,8 @@ export const sharedThemeValues = {
 		xxlarge: px(1220),
 		xxxlarge: px(2444),
 		xxxxlarge: px(3200),
-		'392px': '392px',
-		'1344px': '1344px',
+		'392px': px(392),
+		'1344px': px(1344),
 	},
 	text: {
 		code: {

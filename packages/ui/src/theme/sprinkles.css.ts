@@ -32,8 +32,6 @@ function mapAndTransformTo<Key extends string, Value>(keys: readonly Key[], cb: 
 	return Object.fromEntries(keys.map(key => [key, cb(key)])) as Record<Key, Value>
 }
 
-const borderStyleProperties = ['borderTopStyle', 'borderBottomStyle', 'borderLeftStyle', 'borderRightStyle'] as const
-
 const borderRadiusProperties = [
 	'borderRadius',
 	'borderTopLeftRadius',
@@ -47,10 +45,9 @@ const decorationStyles = defineProperties({
 		flexShrink: [0, 1],
 		flexGrow: [0, 1],
 		zIndex: [-1, 0, 1, 2],
-		...mapTo(borderStyleProperties, ['none', 'solid', 'dashed', 'dotted', 'double']),
 		...mapTo(borderRadiusProperties, vars.border.radius),
-		borderCollapse: ['collapse'],
 		borderWidth: vars.border.width,
+		borderCollapse: ['collapse'],
 		cursor: ['auto', 'pointer', 'default', 'none'],
 		textDecoration: ['none', 'underline', 'overline', 'line-through'],
 		opacity: [0, 0.25, 0.5, 0.75, 1],
@@ -62,9 +59,6 @@ const decorationStyles = defineProperties({
 		...mapTo(['placeItems', 'placeSelf'], ['auto', 'start', 'end', 'center', 'stretch']),
 		transition: vars.transition,
 		animation: vars.animation,
-	},
-	shorthands: {
-		borderStyle: ['borderTopStyle', 'borderBottomStyle', 'borderLeftStyle', 'borderRightStyle'],
 	},
 })
 
@@ -89,7 +83,6 @@ const colorStyles = defineProperties({
 		active: { selector: '&:active:not(:disabled)' },
 		focusNotVisible: { selector: '&:focus:not(:visible)' },
 		focusVisible: { selector: '&:focus-visible' },
-		focusWithin: { selector: '&:focus-within' },
 	},
 	defaultCondition: 'lightMode',
 	properties: {
@@ -121,11 +114,14 @@ const spaceProperties = [
 	'height',
 	'minHeight',
 	'maxHeight',
+	'width',
 ] as const
 
-const sizeProperties = ['width', 'minWidth', 'maxWidth'] as const
+const sizeProperties = ['minWidth', 'maxWidth'] as const
 
 const borderProperties = ['borderLeft', 'borderRight', 'borderTop', 'borderBottom'] as const
+
+const borderStyleProperties = ['borderTopStyle', 'borderBottomStyle', 'borderLeftStyle', 'borderRightStyle'] as const
 
 const layoutStyles = defineProperties({
 	conditions: {
@@ -162,7 +158,7 @@ const layoutStyles = defineProperties({
 		scrollbarGutter: ['stable'],
 		aspectRatio: ['1'],
 		...mapTo(spaceProperties, vars.spacing),
-		...mapTo(sizeProperties, vars.size),
+		...mapTo(sizeProperties, { ...vars.spacing, ...vars.size }),
 		...mapAndTransformTo(['overflow', 'overflowX', 'overflowY'], key => ({
 			auto: 'auto',
 			clip: 'clip',
@@ -212,6 +208,7 @@ const layoutStyles = defineProperties({
 			'bottom right',
 		],
 		...mapTo(borderProperties, [0, 1]),
+		...mapTo(borderStyleProperties, ['none', 'solid', 'dashed', 'dotted', 'double']),
 	},
 	shorthands: {
 		...mapTo(['p', 'padding'], ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight']),
@@ -235,6 +232,7 @@ const layoutStyles = defineProperties({
 		br: ['borderRight'],
 		...mapTo(['bx', 'borderX'], ['borderLeft', 'borderRight']),
 		...mapTo(['by', 'borderY'], ['borderTop', 'borderBottom']),
+		borderStyle: ['borderTopStyle', 'borderBottomStyle', 'borderLeftStyle', 'borderRightStyle'],
 		inset: ['top', 'bottom', 'left', 'right'],
 		o: ['overflow'],
 		ox: ['overflowX'],
