@@ -82,6 +82,7 @@ export const sharedThemeValues = {
 	grid: px(grid),
 	spacing: {
 		0: '0',
+		unset: 'unset',
 		none: '0',
 		half: '50%',
 		full: '100%',

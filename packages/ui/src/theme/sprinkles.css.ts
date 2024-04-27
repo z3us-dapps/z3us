@@ -32,69 +32,6 @@ function mapAndTransformTo<Key extends string, Value>(keys: readonly Key[], cb: 
 	return Object.fromEntries(keys.map(key => [key, cb(key)])) as Record<Key, Value>
 }
 
-const borderRadiusProperties = [
-	'borderRadius',
-	'borderTopLeftRadius',
-	'borderTopRightRadius',
-	'borderBottomLeftRadius',
-	'borderBottomRightRadius',
-] as const
-
-const decorationStyles = defineProperties({
-	properties: {
-		flexShrink: [0, 1],
-		flexGrow: [0, 1],
-		zIndex: [-1, 0, 1, 2],
-		...mapTo(borderRadiusProperties, vars.border.radius),
-		borderWidth: vars.border.width,
-		borderCollapse: ['collapse'],
-		cursor: ['auto', 'pointer', 'default', 'none'],
-		textDecoration: ['none', 'underline', 'overline', 'line-through'],
-		opacity: [0, 0.25, 0.5, 0.75, 1],
-		textShadow: ['none', '1px 1px 1px rgba(0,0,0,0.5)', '2px 2px 2px rgba(0,0,0,0.5)'],
-		filter: ['none', 'grayscale(100%)', 'brightness(50%)', 'contrast(200%)', 'blur(5px)'],
-		textFillColor: ['auto', 'currentColor', 'red', 'green', 'blue'],
-		backdropFilter: ['none', 'blur(5px)', 'brightness(50%)', 'contrast(200%)'],
-		placeContent: ['normal', 'start', 'end', 'center', 'space-between', 'space-around'],
-		...mapTo(['placeItems', 'placeSelf'], ['auto', 'start', 'end', 'center', 'stretch']),
-		transition: vars.transition,
-		animation: vars.animation,
-	},
-})
-
-const colorProperties = [
-	'color',
-	'borderColor',
-	'backgroundColor',
-	'background',
-	'boxShadow',
-	'fill',
-	'stroke',
-	'outlineColor',
-] as const
-
-const colorStyles = defineProperties({
-	conditions: {
-		lightMode: {},
-		// darkMode: { '@media': '(prefers-color-scheme: dark)' },
-		darkMode: { selector: `.${darkMode} &` },
-		hover: { selector: '&:hover' },
-		focus: { selector: '&:focus' },
-		active: { selector: '&:active:not(:disabled)' },
-		focusNotVisible: { selector: '&:focus:not(:visible)' },
-		focusVisible: { selector: '&:focus-visible' },
-	},
-	defaultCondition: 'lightMode',
-	properties: {
-		...mapTo(colorProperties, {
-			...vars.color,
-			none: 'none',
-			currentColor: 'currentColor',
-			transparent: 'transparent',
-		}),
-	},
-})
-
 const spaceProperties = [
 	'left',
 	'top',
@@ -122,6 +59,25 @@ const sizeProperties = ['minWidth', 'maxWidth'] as const
 const borderProperties = ['borderLeft', 'borderRight', 'borderTop', 'borderBottom'] as const
 
 const borderStyleProperties = ['borderTopStyle', 'borderBottomStyle', 'borderLeftStyle', 'borderRightStyle'] as const
+
+const borderRadiusProperties = [
+	'borderRadius',
+	'borderTopLeftRadius',
+	'borderTopRightRadius',
+	'borderBottomLeftRadius',
+	'borderBottomRightRadius',
+] as const
+
+const colorProperties = [
+	'color',
+	'borderColor',
+	'backgroundColor',
+	'background',
+	'boxShadow',
+	'fill',
+	'stroke',
+	'outlineColor',
+] as const
 
 const layoutStyles = defineProperties({
 	conditions: {
@@ -237,6 +193,50 @@ const layoutStyles = defineProperties({
 		o: ['overflow'],
 		ox: ['overflowX'],
 		oy: ['overflowY'],
+	},
+})
+
+const decorationStyles = defineProperties({
+	properties: {
+		flexShrink: [0, 1],
+		flexGrow: [0, 1],
+		zIndex: [-1, 0, 1, 2],
+		...mapTo(borderRadiusProperties, vars.border.radius),
+		borderWidth: vars.border.width,
+		borderCollapse: ['collapse'],
+		cursor: ['auto', 'pointer', 'default', 'none'],
+		textDecoration: ['none', 'underline', 'overline', 'line-through'],
+		opacity: [0, 0.25, 0.5, 0.75, 1],
+		textShadow: ['none', '1px 1px 1px rgba(0,0,0,0.5)', '2px 2px 2px rgba(0,0,0,0.5)'],
+		filter: ['none', 'grayscale(100%)', 'brightness(50%)', 'contrast(200%)', 'blur(5px)'],
+		textFillColor: ['auto', 'currentColor', 'red', 'green', 'blue'],
+		backdropFilter: ['none', 'blur(5px)', 'brightness(50%)', 'contrast(200%)'],
+		placeContent: ['normal', 'start', 'end', 'center', 'space-between', 'space-around'],
+		...mapTo(['placeItems', 'placeSelf'], ['auto', 'start', 'end', 'center', 'stretch']),
+		transition: vars.transition,
+		animation: vars.animation,
+	},
+})
+
+const colorStyles = defineProperties({
+	conditions: {
+		lightMode: {},
+		// darkMode: { '@media': '(prefers-color-scheme: dark)' },
+		darkMode: { selector: `.${darkMode} &` },
+		hover: { selector: '&:hover' },
+		focus: { selector: '&:focus' },
+		active: { selector: '&:active:not(:disabled)' },
+		focusNotVisible: { selector: '&:focus:not(:visible)' },
+		focusVisible: { selector: '&:focus-visible' },
+	},
+	defaultCondition: 'lightMode',
+	properties: {
+		...mapTo(colorProperties, {
+			...vars.color,
+			none: 'none',
+			currentColor: 'currentColor',
+			transparent: 'transparent',
+		}),
 	},
 })
 

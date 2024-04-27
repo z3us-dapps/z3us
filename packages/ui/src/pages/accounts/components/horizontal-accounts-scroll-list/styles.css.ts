@@ -20,6 +20,7 @@ export const accountsHorizontalWrapper = style([
 		overflow: 'scroll',
 		marginTop: 'medium',
 		width: 'full',
+		height: ['full', 'half', 'unset'],
 	}),
 	responsiveStyle({
 		mobile: {

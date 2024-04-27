@@ -18,7 +18,7 @@ const Sidebar: React.FC = () => (
 		<SideBarTotal />
 		<SideBarAccountCard />
 		<AccountButtons />
-		<Box display={['block', 'none']}>
+		<Box display={['block', 'none']} height="full">
 			<HomeScrollShadow />
 			<HorizontalAccountsScrollList />
 		</Box>

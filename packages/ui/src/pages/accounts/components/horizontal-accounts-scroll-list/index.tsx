@@ -43,9 +43,8 @@ export const HorizontalAccountsScrollList: React.FC = () => {
 			<Box className={styles.accountsHorizontalAbsoluteWrapper}>
 				<Box className={styles.accountsHorizontalCardsWrapper}>
 					{Object.values(accounts).map(({ address }) => (
-						<Box className={styles.card}>
+						<Box className={styles.card} key={address}>
 							<AccountHomeCard
-								key={address}
 								address={address}
 								className={clsx(!isAllAccounts && address !== accountId && styles.accountCardOpacity)}
 							/>
