@@ -32,15 +32,7 @@ function mapAndTransformTo<Key extends string, Value>(keys: readonly Key[], cb: 
 	return Object.fromEntries(keys.map(key => [key, cb(key)])) as Record<Key, Value>
 }
 
-const borderProperties = ['border', 'borderLeft', 'borderRight', 'borderTop', 'borderBottom'] as const
-
-const borderStyleProperties = [
-	'borderStyle',
-	'borderTopStyle',
-	'borderBottomStyle',
-	'borderLeftStyle',
-	'borderRightStyle',
-] as const
+const borderStyleProperties = ['borderTopStyle', 'borderBottomStyle', 'borderLeftStyle', 'borderRightStyle'] as const
 
 const borderRadiusProperties = [
 	'borderRadius',
@@ -55,7 +47,7 @@ const decorationStyles = defineProperties({
 		flexShrink: [0, 1],
 		flexGrow: [0, 1],
 		zIndex: [-1, 0, 1, 2],
-		...mapTo(borderStyleProperties, ['solid', 'dashed']),
+		...mapTo(borderStyleProperties, ['none', 'solid', 'dashed', 'dotted', 'double']),
 		...mapTo(borderRadiusProperties, vars.border.radius),
 		borderCollapse: ['collapse'],
 		borderWidth: vars.border.width,
@@ -115,12 +107,10 @@ const spaceProperties = [
 	'top',
 	'right',
 	'bottom',
-	'padding',
 	'paddingTop',
 	'paddingBottom',
 	'paddingLeft',
 	'paddingRight',
-	'margin',
 	'marginTop',
 	'marginBottom',
 	'marginLeft',
@@ -134,6 +124,8 @@ const spaceProperties = [
 ] as const
 
 const sizeProperties = ['width', 'minWidth', 'maxWidth'] as const
+
+const borderProperties = ['borderLeft', 'borderRight', 'borderTop', 'borderBottom'] as const
 
 const layoutStyles = defineProperties({
 	conditions: {
@@ -165,7 +157,6 @@ const layoutStyles = defineProperties({
 		justifyContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-around', 'space-between'],
 		alignItems: ['stretch', 'flex-start', 'center', 'flex-end', 'baseline', 'self-start'],
 		alignContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-between', 'space-around'],
-		placeItems: ['center'],
 		textAlign: ['left', 'center', 'right'],
 		boxSizing: ['border-box'],
 		scrollbarGutter: ['stable'],
@@ -205,7 +196,6 @@ const layoutStyles = defineProperties({
 		gridRow: ['auto', '1 / span 2', '2 / span 3'],
 		gridColumn: ['auto', '1 / span 2', '2 / span 3'],
 		gridArea: ['auto', 'header', 'footer', 'sidebar'],
-		borderStyle: ['none', 'solid', 'dashed', 'dotted', 'double'],
 		fontWeight: ['normal', 'bold', 'bolder', 'lighter', '400', '700'],
 		fontStyle: ['normal', 'italic', 'oblique'],
 		textTransform: ['none', 'uppercase', 'lowercase', 'capitalize'],
@@ -224,26 +214,28 @@ const layoutStyles = defineProperties({
 		...mapTo(borderProperties, [0, 1]),
 	},
 	shorthands: {
-		p: ['padding'],
+		...mapTo(['p', 'padding'], ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight']),
 		pl: ['paddingLeft'],
 		pr: ['paddingRight'],
 		pt: ['paddingTop'],
 		pb: ['paddingBottom'],
 		...mapTo(['px', 'paddingX'], ['paddingLeft', 'paddingRight']),
 		...mapTo(['py', 'paddingY'], ['paddingTop', 'paddingBottom']),
-		m: ['margin'],
+		...mapTo(['m', 'margin'], ['marginTop', 'marginBottom', 'marginRight', 'marginLeft']),
 		ml: ['marginLeft'],
 		mr: ['marginRight'],
 		mt: ['marginTop'],
 		mb: ['marginBottom'],
 		...mapTo(['mx', 'marginX'], ['marginLeft', 'marginRight']),
 		...mapTo(['my', 'marginY'], ['marginTop', 'marginBottom']),
-		inset: ['top', 'bottom', 'left', 'right'],
 		...mapTo(['b', 'border'], ['borderTop', 'borderBottom', 'borderLeft', 'borderRight']),
 		bb: ['borderBottom'],
 		bt: ['borderTop'],
 		bl: ['borderLeft'],
 		br: ['borderRight'],
+		...mapTo(['bx', 'borderX'], ['borderLeft', 'borderRight']),
+		...mapTo(['by', 'borderY'], ['borderTop', 'borderBottom']),
+		inset: ['top', 'bottom', 'left', 'right'],
 		o: ['overflow'],
 		ox: ['overflowX'],
 		oy: ['overflowY'],
