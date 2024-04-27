@@ -32,7 +32,7 @@ export const CardDemo: React.FC<IProps> = props => {
 	const cardColor = CARD_COLORS[colorClassName]
 
 	return (
-		<Box className={clsx(styles.cardWrapperAll)}>
+		<Box className={clsx(styles.cardAllWrapper)}>
 			<Box
 				className={clsx(styles.card)}
 				style={{

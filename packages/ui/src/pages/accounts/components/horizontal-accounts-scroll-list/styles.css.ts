@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const accountsAddAccountButton = style([
 	sprinkles({
@@ -16,17 +17,21 @@ export const accountsAddAccountButton = style([
 export const accountsHorizontalWrapper = style([
 	sprinkles({
 		position: 'relative',
-		overflowX: 'scroll',
+		overflow: 'scroll',
 		marginTop: 'medium',
+		width: 'full',
 	}),
-	{
-		height: '228px',
-		msOverflowStyle: 'none' /* IE and Edge */,
-		scrollbarWidth: 'none' /* Firefox */,
-		'::-webkit-scrollbar': {
-			display: 'none',
+	responsiveStyle({
+		mobile: {
+			minHeight: '228px',
 		},
-	},
+		tablet: {
+			minHeight: '370px',
+		},
+		desktop: {
+			minHeight: '406px',
+		},
+	}),
 ])
 
 export const accountsHorizontalAbsoluteWrapper = style([
@@ -35,6 +40,8 @@ export const accountsHorizontalAbsoluteWrapper = style([
 		position: 'absolute',
 		top: 0,
 		left: 0,
+		height: 'full',
+		width: 'full',
 	}),
 ])
 
@@ -45,10 +52,11 @@ export const accountsHorizontalCardsWrapper = style([
 		paddingBottom: 'xlarge',
 		flexShrink: 0,
 		gap: 'large',
+		height: 'full',
+		width: 'full',
+		flexWrap: 'wrap',
+		flexDirection: 'column',
 	}),
-	{
-		minHeight: '100px',
-	},
 ])
 
 export const accountCardOpacity = style([
@@ -65,4 +73,24 @@ export const accountCardOpacity = style([
 			},
 		},
 	},
+])
+
+export const card = style([
+	sprinkles({
+		flex: '1',
+	}),
+	responsiveStyle({
+		mobile: {
+			width: '100%',
+			height: '100%',
+		},
+		tablet: {
+			width: '50%',
+			height: '50%',
+		},
+		desktop: {
+			width: '33%',
+			height: '50%',
+		},
+	}),
 ])

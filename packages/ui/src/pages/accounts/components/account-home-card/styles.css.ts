@@ -11,7 +11,6 @@ export const accountsHomeHorizontalCard = style([
 		cursor: 'pointer',
 	}),
 	{
-		width: '316px',
 		aspectRatio: '8 / 5',
 	},
 ])

@@ -52,22 +52,13 @@ export const main = style([
 		},
 		height: 'full',
 	}),
-	{
-		msOverflowStyle: 'none' /* IE and Edge */,
-		scrollbarWidth: 'none' /* Firefox */,
-		'::-webkit-scrollbar': {
-			display: 'none',
-		},
-	},
 ])
 
 export const panelLeft = style([
+	sprinkles({
+		overflowY: 'scroll',
+	}),
 	{
-		msOverflowStyle: 'none' /* IE and Edge */,
-		scrollbarWidth: 'none' /* Firefox */,
-		'::-webkit-scrollbar': {
-			display: 'none',
-		},
 		'::before': {
 			borderTopLeftRadius: vars.border.radius.xxlarge,
 			borderTopRightRadius: vars.border.radius.xxlarge,
@@ -83,7 +74,6 @@ export const panelLeft = style([
 	},
 	responsiveStyle({
 		mobile: {
-			overflowY: 'scroll',
 			background: vars.color.backgroundSecondary,
 			position: 'sticky',
 			width: '100%',
@@ -91,7 +81,6 @@ export const panelLeft = style([
 			minHeight: '100vh',
 		},
 		tablet: {
-			overflowY: 'hidden',
 			position: 'relative',
 			top: 'unset',
 			width: '100%',
@@ -112,11 +101,6 @@ export const panelRight = style([
 		overflowY: 'scroll',
 	}),
 	{
-		msOverflowStyle: 'none' /* IE and Edge */,
-		scrollbarWidth: 'none' /* Firefox */,
-		'::-webkit-scrollbar': {
-			display: 'none',
-		},
 		'::before': {
 			borderTopLeftRadius: vars.border.radius.xxlarge,
 			borderTopRightRadius: vars.border.radius.xxlarge,
@@ -135,7 +119,8 @@ export const panelRight = style([
 			position: 'sticky',
 			top: 0,
 			width: '100%',
-			maxHeight: '50vh',
+			maxHeight: 'unset',
+			minHeight: '50vh',
 			maxWidth: 'unset',
 		},
 		tablet: {
@@ -143,6 +128,7 @@ export const panelRight = style([
 			top: 'unset',
 			height: '100vh',
 			maxHeight: 'calc(100vh - 112px)',
+			minHeight: 'unset',
 			maxWidth: '392px',
 			borderRadius: vars.border.radius.xlarge,
 			background: vars.color.backgroundSecondary,

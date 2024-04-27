@@ -5,6 +5,7 @@ import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
+import { ScrollContext } from 'ui/src/components/scroll-area-radix/context'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
@@ -98,6 +99,14 @@ const Layout: React.FC = () => {
 		setIsExpanded(rightRef.current?.offsetTop > 0)
 	}, [rightRef.current])
 
+	const rightScrollCtx = useMemo(
+		() => ({
+			scrollableNode: rightRef.current,
+			isScrolledTop: false,
+		}),
+		[rightRef.current],
+	)
+
 	const handleClick = () => {
 		if (isExpanded) {
 			mainRef.current?.scrollTo({ behavior: 'smooth', top: 0 })
@@ -112,9 +121,11 @@ const Layout: React.FC = () => {
 		<Box className={styles.main} ref={mainRef}>
 			<MobileBackground />
 			<Box className={styles.panelRight} ref={rightRef}>
-				<Suspense key={location.pathname} fallback={<FallbackLoading />}>
-					<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
-				</Suspense>
+				<ScrollContext.Provider value={rightScrollCtx}>
+					<Suspense key={location.pathname} fallback={<FallbackLoading />}>
+						<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
+					</Suspense>
+				</ScrollContext.Provider>
 			</Box>
 			<Box className={styles.panelLeft} ref={leftRef}>
 				<Box className={styles.accountsStickyWrapper}>
@@ -122,11 +133,11 @@ const Layout: React.FC = () => {
 					<AccountTotalValue />
 				</Box>
 				<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
-				<Suspense key={key} fallback={<FallbackLoading />}>
-					<ErrorBoundary fallbackRender={FallbackRenderer}>
-						<Box height="full">{outlet}</Box>
-					</ErrorBoundary>
-				</Suspense>
+				<Box height="full">
+					<Suspense key={key} fallback={<FallbackLoading />}>
+						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+					</Suspense>
+				</Box>
 			</Box>
 		</Box>
 	)

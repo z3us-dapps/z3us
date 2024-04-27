@@ -3,6 +3,8 @@ import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 
 import { vars } from './theme.css'
 
+export const darkMode = 'dark'
+
 export const resetBase = style({
 	margin: 0,
 	padding: 0,
@@ -16,29 +18,73 @@ export const resetBase = style({
 	verticalAlign: 'baseline',
 })
 
-export const darkMode = 'dark'
+/**
+ * Maps several keys to the same value
+ */
+function mapTo<Key extends string, Value>(keys: readonly Key[], value: Value) {
+	return Object.fromEntries(keys.map(key => [key, value])) as Record<Key, Value>
+}
 
-const mode = defineProperties({
+/**
+ * Maps several keys to the same value
+ */
+function mapAndTransformTo<Key extends string, Value>(keys: readonly Key[], cb: (key: Key) => Value) {
+	return Object.fromEntries(keys.map(key => [key, cb(key)])) as Record<Key, Value>
+}
+
+const borderProperties = ['border', 'borderLeft', 'borderRight', 'borderTop', 'borderBottom'] as const
+
+const borderStyleProperties = [
+	'borderStyle',
+	'borderTopStyle',
+	'borderBottomStyle',
+	'borderLeftStyle',
+	'borderRightStyle',
+] as const
+
+const borderRadiusProperties = [
+	'borderRadius',
+	'borderTopLeftRadius',
+	'borderTopRightRadius',
+	'borderBottomLeftRadius',
+	'borderBottomRightRadius',
+] as const
+
+const decorationStyles = defineProperties({
 	properties: {
-		color: vars.color,
-		background: vars.color,
-		backgroundColor: vars.color,
-		borderColor: vars.color,
-		boxShadow: vars.color,
+		flexShrink: [0, 1],
+		flexGrow: [0, 1],
+		zIndex: [-1, 0, 1, 2],
+		...mapTo(borderStyleProperties, ['solid', 'dashed']),
+		...mapTo(borderRadiusProperties, vars.border.radius),
+		borderCollapse: ['collapse'],
+		borderWidth: vars.border.width,
+		cursor: ['auto', 'pointer', 'default', 'none'],
+		textDecoration: ['none', 'underline', 'overline', 'line-through'],
 		opacity: [0, 0.25, 0.5, 0.75, 1],
-		fill: { none: 'none', currentColor: 'currentColor', transparent: 'transparent', ...vars.color }, // SVG fill property
-		stroke: { none: 'none', currentColor: 'currentColor', transparent: 'transparent', ...vars.color }, // SVG stroke property
-		outlineColor: { none: 'none', currentColor: 'currentColor', transparent: 'transparent', ...vars.color },
 		textShadow: ['none', '1px 1px 1px rgba(0,0,0,0.5)', '2px 2px 2px rgba(0,0,0,0.5)'],
 		filter: ['none', 'grayscale(100%)', 'brightness(50%)', 'contrast(200%)', 'blur(5px)'],
 		textFillColor: ['auto', 'currentColor', 'red', 'green', 'blue'],
 		backdropFilter: ['none', 'blur(5px)', 'brightness(50%)', 'contrast(200%)'],
 		placeContent: ['normal', 'start', 'end', 'center', 'space-between', 'space-around'],
-		placeItems: ['normal', 'start', 'end', 'center', 'stretch'],
-		placeSelf: ['auto', 'start', 'end', 'center', 'stretch'],
+		...mapTo(['placeItems', 'placeSelf'], ['auto', 'start', 'end', 'center', 'stretch']),
 		transition: vars.transition,
 		animation: vars.animation,
 	},
+})
+
+const colorProperties = [
+	'color',
+	'borderColor',
+	'backgroundColor',
+	'background',
+	'boxShadow',
+	'fill',
+	'stroke',
+	'outlineColor',
+] as const
+
+const colorStyles = defineProperties({
 	conditions: {
 		lightMode: {},
 		// darkMode: { '@media': '(prefers-color-scheme: dark)' },
@@ -48,33 +94,52 @@ const mode = defineProperties({
 		active: { selector: '&:active:not(:disabled)' },
 		focusNotVisible: { selector: '&:focus:not(:visible)' },
 		focusVisible: { selector: '&:focus-visible' },
+		focusWithin: { selector: '&:focus-within' },
 	},
 	defaultCondition: 'lightMode',
-})
-
-const unresponsive = defineProperties({
 	properties: {
-		flexShrink: [0, 1],
-		flexGrow: [0, 1],
-		zIndex: [-1, 0, 1, 2],
-		borderWidth: vars.border.width,
-		borderRadius: vars.border.radius,
-		borderTopLeftRadius: vars.border.radius,
-		borderTopRightRadius: vars.border.radius,
-		borderBottomLeftRadius: vars.border.radius,
-		borderBottomRightRadius: vars.border.radius,
-		cursor: ['auto', 'pointer', 'default', 'none'],
-		textDecoration: ['none', 'underline', 'overline', 'line-through'],
+		...mapTo(colorProperties, {
+			...vars.color,
+			none: 'none',
+			currentColor: 'currentColor',
+			transparent: 'transparent',
+		}),
 	},
 })
 
-const responsive = defineProperties({
+const spaceProperties = [
+	'left',
+	'top',
+	'right',
+	'bottom',
+	'padding',
+	'paddingTop',
+	'paddingBottom',
+	'paddingLeft',
+	'paddingRight',
+	'margin',
+	'marginTop',
+	'marginBottom',
+	'marginLeft',
+	'marginRight',
+	'gap',
+	'rowGap',
+	'columnGap',
+	'height',
+	'minHeight',
+	'maxHeight',
+] as const
+
+const sizeProperties = ['width', 'minWidth', 'maxWidth'] as const
+
+const layoutStyles = defineProperties({
 	conditions: {
 		mobile: {},
 		tablet: { '@media': 'screen and (min-width: 768px)' },
 		desktop: { '@media': 'screen and (min-width: 1024px)' },
 	},
 	defaultCondition: 'mobile',
+	responsiveArray: ['mobile', 'tablet', 'desktop'],
 	properties: {
 		position: ['static', 'relative', 'absolute', 'fixed', 'sticky'],
 		display: [
@@ -89,55 +154,48 @@ const responsive = defineProperties({
 			'inline-grid',
 			'table-cell',
 		],
+		visibility: ['hidden', 'visible'],
 		flex: ['none', 'auto', '1', 'initial', 'inherit'],
 		flexDirection: ['row', 'row-reverse', 'column', 'column-reverse'],
 		flexWrap: ['nowrap', 'wrap', 'wrap-reverse'],
+		flexFlow: ['row wrap', 'column wrap'],
 		justifyContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-around', 'space-between'],
-		alignItems: ['stretch', 'flex-start', 'flex-end', 'center', 'baseline', 'self-start'],
-		alignContent: ['stretch', 'flex-start', 'flex-end', 'center', 'space-between', 'space-around'],
-		top: vars.spacing,
-		bottom: vars.spacing,
-		left: vars.spacing,
-		right: vars.spacing,
-		gap: vars.spacing,
-		borderTop: [0, 1],
-		borderBottom: [0, 1],
-		borderLeft: [0, 1],
-		borderRight: [0, 1],
-		borderTopStyle: ['solid', 'dashed'],
-		borderBottomStyle: ['solid', 'dashed'],
-		borderLeftStyle: ['solid', 'dashed'],
-		borderRightStyle: ['solid', 'dashed'],
-		padding: vars.spacing,
-		paddingTop: vars.spacing,
-		paddingBottom: vars.spacing,
-		paddingLeft: vars.spacing,
-		paddingRight: vars.spacing,
-		margin: vars.spacing,
-		marginTop: vars.spacing,
-		marginBottom: vars.spacing,
-		marginLeft: vars.spacing,
-		marginRight: vars.spacing,
-		pointerEvents: ['none', 'auto'],
-		overflow: ['visible', 'hidden', 'clip', 'auto', 'scroll'],
-		overflowX: ['visible', 'hidden', 'clip', 'auto', 'scroll'],
-		overflowY: ['visible', 'hidden', 'clip', 'auto', 'scroll'],
+		alignItems: ['stretch', 'flex-start', 'center', 'flex-end', 'baseline', 'self-start'],
+		alignContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-between', 'space-around'],
+		placeItems: ['center'],
 		textAlign: ['left', 'center', 'right'],
-		height: vars.spacing,
-		minHeight: vars.spacing,
-		maxHeight: vars.spacing,
-		width: vars.width,
-		minWidth: vars.width,
-		maxWidth: vars.width,
+		boxSizing: ['border-box'],
+		scrollbarGutter: ['stable'],
+		aspectRatio: ['1'],
+		...mapTo(spaceProperties, vars.spacing),
+		...mapTo(sizeProperties, vars.size),
+		...mapAndTransformTo(['overflow', 'overflowX', 'overflowY'], key => ({
+			auto: 'auto',
+			clip: 'clip',
+			visible: 'visible',
+			hidden: 'hidden',
+			overlay: {
+				[key]: ['auto', 'overlay'], // in Firefox and IE `overlay` will be ignored and `auto` will be applied
+			},
+			scroll: {
+				[key]: 'scroll',
+				msOverflowStyle: 'none' /* IE and Edge */,
+				scrollbarWidth: 'none' /* Firefox */,
+				'::-webkit-scrollbar': {
+					display: 'none',
+				},
+			},
+		})),
+		pointerEvents: ['none', 'auto'],
 		userSelect: ['auto', 'none', 'unset'],
 		fontSize: ['12px', '14px', '16px', '18px', '20px', '22px', '24px'],
 		lineHeight: ['1', '1.25', '1.5', '1.75', '2'],
 		letterSpacing: ['normal', '0.5px', '1px', '1.5px', '2px'],
-		gridTemplateColumns: ['1fr', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(auto-fill, minmax(100px, 1fr))'],
-		gridTemplateRows: ['1fr', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(auto-fill, minmax(100px, 1fr))'],
-		gridColumnGap: ['0', '5px', '10px', '15px'],
-		gridRowGap: ['0', '5px', '10px', '15px'],
-		gridGap: ['0', '5px', '10px', '15px'],
+		...mapTo(
+			['gridTemplateColumns', 'gridTemplateRows'],
+			['1fr', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(auto-fill, minmax(100px, 1fr))'],
+		),
+		...mapTo(['gridColumnGap', 'gridRowGap', 'gridGap'], ['0', '5px', '10px', '15px']),
 		gridAutoColumns: ['auto', 'minmax(100px, 1fr)', 'minmax(200px, 2fr)'],
 		gridAutoRows: ['auto', 'minmax(100px, 1fr)', 'minmax(200px, 2fr)'],
 		gridAutoFlow: ['row', 'column', 'row dense', 'column dense'],
@@ -160,27 +218,35 @@ const responsive = defineProperties({
 			'bottom center',
 			'bottom right',
 		],
+		...mapTo(borderProperties, [0, 1]),
 	},
 	shorthands: {
+		p: ['padding'],
+		pl: ['paddingLeft'],
+		pr: ['paddingRight'],
+		pt: ['paddingTop'],
+		pb: ['paddingBottom'],
+		...mapTo(['px', 'paddingX'], ['paddingLeft', 'paddingRight']),
+		...mapTo(['py', 'paddingY'], ['paddingTop', 'paddingBottom']),
+		m: ['margin'],
+		ml: ['marginLeft'],
+		mr: ['marginRight'],
+		mt: ['marginTop'],
+		mb: ['marginBottom'],
+		...mapTo(['mx', 'marginX'], ['marginLeft', 'marginRight']),
+		...mapTo(['my', 'marginY'], ['marginTop', 'marginBottom']),
 		inset: ['top', 'bottom', 'left', 'right'],
-		border: ['borderTop', 'borderBottom', 'borderLeft', 'borderRight'],
-		borderStyle: ['borderTopStyle', 'borderBottomStyle', 'borderLeftStyle', 'borderRightStyle'],
-		padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
-		p: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
-		paddingX: ['paddingLeft', 'paddingRight'],
-		px: ['paddingLeft', 'paddingRight'],
-		paddingY: ['paddingTop', 'paddingBottom'],
-		py: ['paddingTop', 'paddingBottom'],
-		margin: ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'],
-		m: ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'],
-		marginX: ['marginLeft', 'marginRight'],
-		mx: ['marginLeft', 'marginRight'],
-		marginY: ['marginTop', 'marginBottom'],
-		my: ['marginTop', 'marginBottom'],
+		b: ['border'],
+		bb: ['borderBottom'],
+		bt: ['borderTop'],
+		bl: ['borderLeft'],
+		br: ['borderRight'],
+		o: ['overflow'],
+		ox: ['overflowX'],
+		oy: ['overflowY'],
 	},
-	responsiveArray: ['mobile', 'tablet', 'desktop'],
 })
 
-export const sprinkles = createSprinkles(responsive, unresponsive, mode)
+export const sprinkles = createSprinkles(layoutStyles, decorationStyles, colorStyles)
 
 export type Sprinkles = Parameters<typeof sprinkles>[0]

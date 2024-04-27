@@ -97,7 +97,6 @@ export const headerInnerNavWrapper = style([
 			tablet: 'medium',
 		},
 	}),
-	{},
 ])
 
 export const headerBackButtonWrapper = style([
