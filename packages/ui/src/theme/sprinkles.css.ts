@@ -49,12 +49,10 @@ const spaceProperties = [
 	'rowGap',
 	'columnGap',
 	'height',
-	'minHeight',
-	'maxHeight',
 	'width',
 ] as const
 
-const sizeProperties = ['minWidth', 'maxWidth'] as const
+const sizeProperties = ['minWidth', 'maxWidth', 'minHeight', 'maxHeight'] as const
 
 const borderProperties = ['borderLeft', 'borderRight', 'borderTop', 'borderBottom'] as const
 

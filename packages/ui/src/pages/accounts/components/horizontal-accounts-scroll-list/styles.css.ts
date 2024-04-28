@@ -6,11 +6,11 @@ import { responsiveStyle } from 'ui/src/theme/theme-utils'
 export const accountsAddAccountButton = style([
 	sprinkles({
 		position: 'absolute',
+		zIndex: 2,
 	}),
 	{
 		top: '-124px',
 		right: '18px',
-		zIndex: 2,
 	},
 ])
 
@@ -21,17 +21,7 @@ export const accountsHorizontalWrapper = style([
 		marginTop: 'medium',
 		width: 'full',
 		height: ['full', 'half', 'unset'],
-	}),
-	responsiveStyle({
-		mobile: {
-			minHeight: '228px',
-		},
-		tablet: {
-			minHeight: '370px',
-		},
-		desktop: {
-			minHeight: '406px',
-		},
+		minHeight: ['228px', '370px', '406px'],
 	}),
 ])
 
