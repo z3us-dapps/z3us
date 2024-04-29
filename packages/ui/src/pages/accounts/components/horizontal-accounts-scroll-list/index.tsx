@@ -29,7 +29,7 @@ export const HorizontalAccountsScrollList: React.FC = () => {
 	const widthVariant = useMemo(() => (Object.keys(accounts).length > 2 ? 'column' : 'row'), [accounts.length])
 
 	return (
-		<Box className={styles.accountList} display={isAllAccounts ? 'block' : 'none'} flexDirection={widthVariant}>
+		<Box className={styles.accountList} display={isAllAccounts ? 'flex' : 'none'} flexDirection={widthVariant}>
 			<AddAccountDialog
 				dialogTrigger={
 					<Box className={styles.accountsAddAccountButton}>

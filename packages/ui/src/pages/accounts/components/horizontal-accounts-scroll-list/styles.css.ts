@@ -34,7 +34,6 @@ export const accountCardOpacity = style([
 export const accountList = style([
 	sprinkles({
 		overflowY: 'scroll',
-		display: 'flex',
 		flexWrap: 'wrap',
 		flexShrink: 0,
 		height: 'full',
@@ -43,6 +42,8 @@ export const accountList = style([
 		paddingX: 'xlarge',
 		paddingBottom: 'xlarge',
 		gap: 'medium',
+		alignItems: 'center',
+		justifyContent: 'center',
 	}),
 ])
 
