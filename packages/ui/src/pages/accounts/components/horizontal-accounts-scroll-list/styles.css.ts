@@ -14,42 +14,6 @@ export const accountsAddAccountButton = style([
 	},
 ])
 
-export const accountsHorizontalWrapper = style([
-	sprinkles({
-		position: 'relative',
-		overflow: 'scroll',
-		marginTop: 'medium',
-		width: 'full',
-		height: ['full', 'half', 'unset'],
-		minHeight: ['228px', '370px', '406px'],
-	}),
-])
-
-export const accountsHorizontalAbsoluteWrapper = style([
-	sprinkles({
-		display: 'flex',
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		height: 'full',
-		width: 'full',
-	}),
-])
-
-export const accountsHorizontalCardsWrapper = style([
-	sprinkles({
-		display: 'flex',
-		paddingX: 'xlarge',
-		paddingBottom: 'xlarge',
-		flexShrink: 0,
-		gap: 'large',
-		height: 'full',
-		width: 'full',
-		flexWrap: 'wrap',
-		flexDirection: 'column',
-	}),
-])
-
 export const accountCardOpacity = style([
 	sprinkles({
 		transition: 'slow',
@@ -66,22 +30,35 @@ export const accountCardOpacity = style([
 	},
 ])
 
-export const card = style([
+export const accountList = style([
 	sprinkles({
-		flex: '1',
+		display: 'flex',
+		flexWrap: 'wrap',
+		flexShrink: 0,
+		height: 'full',
+		width: 'full',
+		flexDirection: 'column',
+		marginTop: 'medium',
+		paddingX: 'xlarge',
+		paddingBottom: 'xlarge',
+		gap: 'medium',
 	}),
+])
+
+export const accountCard = style([
+	{
+		flex: '0 0 auto',
+		height: 'full',
+	},
 	responsiveStyle({
 		mobile: {
 			width: '100%',
-			height: '100%',
 		},
 		tablet: {
-			width: '50%',
-			height: '50%',
+			width: '47%',
 		},
 		desktop: {
-			width: '33%',
-			height: '50%',
+			width: '30%',
 		},
 	}),
 ])

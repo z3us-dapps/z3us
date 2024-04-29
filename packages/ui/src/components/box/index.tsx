@@ -4,6 +4,33 @@ import { createElement, forwardRef } from 'react'
 
 import { type Sprinkles, resetBase, sprinkles } from 'ui/src/theme/sprinkles.css'
 
+export interface SprinklesFnBase {
+	(...args: any): string
+	properties: Set<string>
+}
+
+export function extractSprinklesFromProps<Fn extends SprinklesFnBase>(props: any, sprinklesFn: Fn) {
+	let hasSprinkleProps = false
+	const sprinklesProps: Record<string, unknown> = {}
+	const otherProps: Record<string, unknown> = {}
+	const customProps: Record<string, unknown> = {}
+
+	// eslint-disable-next-line no-restricted-syntax
+	for (const key in props) {
+		if (key[0] === '_' && key[1] === '_') {
+			const actualKey = key.substring(2)
+			customProps[actualKey] = props[key]
+		} else if (sprinklesFn.properties.has(key)) {
+			hasSprinkleProps = true
+			sprinklesProps[key] = props[key]
+		} else {
+			otherProps[key] = props[key]
+		}
+	}
+
+	return { hasSprinkleProps, sprinklesProps, otherProps, customProps }
+}
+
 export interface BoxProps
 	extends Omit<
 			AllHTMLAttributes<HTMLElement>,
@@ -14,131 +41,32 @@ export interface BoxProps
 	className?: ClassValue
 }
 
+const defaultElement = 'div'
+
 export const Box = forwardRef(
 	(
-		{
-			component = 'div',
-			className,
-			padding,
-			paddingX,
-			paddingY,
-			paddingTop,
-			paddingBottom,
-			paddingLeft,
-			paddingRight,
-			margin,
-			marginX,
-			marginY,
-			marginTop,
-			marginBottom,
-			marginLeft,
-			marginRight,
-			display,
-			alignItems,
-			justifyContent,
-			flexDirection,
-			background,
-			boxShadow,
-			color,
-			flexWrap,
-			flexGrow,
-			flexShrink,
-			borderRadius,
-			borderBottom,
-			borderTop,
-			borderLeft,
-			borderRight,
-			borderStyle,
-			borderColor,
-			position,
-			gap,
-			top,
-			bottom,
-			left,
-			right,
-			inset,
-			width,
-			height,
-			zIndex,
-			opacity,
-			pointerEvents,
-			cursor,
-			textAlign,
-			maxWidth,
-			minWidth,
-			transition,
-			overflow,
-			type,
-			...restProps
-		}: BoxProps,
+		{ component = defaultElement, className, style, type, ...props }: BoxProps,
 		// TODO: fix type
 		ref: any,
 	) => {
-		const atomClasses = clsx(
-			resetBase,
-			sprinkles({
-				padding,
-				paddingX,
-				paddingY,
-				paddingTop,
-				paddingBottom,
-				paddingLeft,
-				paddingRight,
-				margin,
-				marginX,
-				marginY,
-				marginTop,
-				marginBottom,
-				marginLeft,
-				marginRight,
-				display,
-				alignItems,
-				justifyContent,
-				flexDirection,
-				background,
-				boxShadow,
-				color,
-				flexWrap,
-				flexGrow,
-				flexShrink,
-				borderRadius,
-				borderBottom,
-				borderTop,
-				borderLeft,
-				borderRight,
-				borderStyle,
-				borderColor,
-				position,
-				gap,
-				top,
-				bottom,
-				left,
-				right,
-				inset,
-				width,
-				height,
-				zIndex,
-				opacity,
-				pointerEvents,
-				cursor,
-				textAlign,
-				maxWidth,
-				minWidth,
-				transition,
-				overflow,
-			}),
-			className,
-		)
+		const { sprinklesProps, customProps, otherProps } = extractSprinklesFromProps(props, sprinkles)
+		const atomClasses = clsx(resetBase, sprinkles(sprinklesProps), className)
 
 		if (component === 'button' && !type) {
 			type = 'button'
 		}
 
-		return createElement(component, { className: atomClasses, ref, type, ...restProps })
+		return createElement(component, {
+			ref,
+			type,
+			style: { ...style, ...customProps },
+			...otherProps,
+			className: atomClasses,
+		})
 	},
 )
 
 Box.defaultProps = {
-	component: 'div',
+	component: defaultElement,
 	className: undefined,
 }

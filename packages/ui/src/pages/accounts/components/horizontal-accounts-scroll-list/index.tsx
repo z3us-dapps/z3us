@@ -28,7 +28,7 @@ export const HorizontalAccountsScrollList: React.FC = () => {
 	const accounts = useWalletAccounts()
 
 	return (
-		<Box className={styles.accountsHorizontalWrapper} display={isAllAccounts ? 'block' : 'none'}>
+		<Box className={styles.accountList} display={isAllAccounts ? 'block' : 'none'}>
 			<AddAccountDialog
 				dialogTrigger={
 					<Box className={styles.accountsAddAccountButton}>
@@ -40,18 +40,14 @@ export const HorizontalAccountsScrollList: React.FC = () => {
 					</Box>
 				}
 			/>
-			<Box className={styles.accountsHorizontalAbsoluteWrapper}>
-				<Box className={styles.accountsHorizontalCardsWrapper}>
-					{Object.values(accounts).map(({ address }) => (
-						<Box className={styles.card} key={address}>
-							<AccountHomeCard
-								address={address}
-								className={clsx(!isAllAccounts && address !== accountId && styles.accountCardOpacity)}
-							/>
-						</Box>
-					))}
+			{Object.values(accounts).map(({ address }) => (
+				<Box className={styles.accountCard} key={address}>
+					<AccountHomeCard
+						address={address}
+						className={clsx(!isAllAccounts && address !== accountId && styles.accountCardOpacity)}
+					/>
 				</Box>
-			</Box>
+			))}
 		</Box>
 	)
 }

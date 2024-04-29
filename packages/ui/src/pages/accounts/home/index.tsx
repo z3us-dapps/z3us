@@ -32,7 +32,7 @@ const Home: React.FC = () => {
 
 	return (
 		<Box className={styles.assetsHomeWrapper}>
-			<Box display={['none', 'block']}>
+			<Box className={styles.accountListWrapper}>
 				<HomeScrollShadow />
 				<HorizontalAccountsScrollList />
 			</Box>
