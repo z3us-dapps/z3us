@@ -29,7 +29,6 @@ export const assetsHomeWrapper = style([
 
 export const accountListWrapper = style([
 	sprinkles({
-		overflowY: 'scroll',
 		display: ['none', 'block'],
 	}),
 	responsiveStyle({

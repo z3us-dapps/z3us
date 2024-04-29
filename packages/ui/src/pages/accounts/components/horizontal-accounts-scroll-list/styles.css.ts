@@ -32,6 +32,7 @@ export const accountCardOpacity = style([
 
 export const accountList = style([
 	sprinkles({
+		overflowY: 'scroll',
 		display: 'flex',
 		flexWrap: 'wrap',
 		flexShrink: 0,
