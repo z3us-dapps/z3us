@@ -51,35 +51,6 @@ export const accountCard = style([
 		flex: '0 0 auto',
 		height: 'full',
 	},
-	responsiveStyle({
-		mobile: {
-			width: '100%',
-		},
-		tablet: {
-			width: '47%',
-		},
-		desktop: {
-			width: '30%', // 48
-		},
-	}),
-])
-
-export const lessThanTreeAccountCard = style([
-	{
-		flex: '0 0 auto',
-		height: 'full',
-	},
-	responsiveStyle({
-		mobile: {
-			width: '100%',
-		},
-		tablet: {
-			width: '47%',
-		},
-		desktop: {
-			width: '30%', // 48
-		},
-	}),
 ])
 
 export const accountCardRecipe = recipe({

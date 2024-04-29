@@ -43,13 +43,13 @@ export const HorizontalAccountsScrollList: React.FC = () => {
 			/>
 			{Object.values(accounts).map(({ address }) => (
 				<Box
+					key={address}
 					className={clsx(
 						styles.accountCard,
 						styles.accountCardRecipe({
 							widthVariant,
 						}),
 					)}
-					key={address}
 				>
 					<AccountHomeCard
 						address={address}
