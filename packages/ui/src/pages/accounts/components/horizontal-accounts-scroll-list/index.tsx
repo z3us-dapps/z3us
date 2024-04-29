@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
@@ -26,9 +26,10 @@ export const HorizontalAccountsScrollList: React.FC = () => {
 	const isAllAccounts = accountId === '-'
 
 	const accounts = useWalletAccounts()
+	const widthVariant = useMemo(() => (Object.keys(accounts).length > 2 ? 'column' : 'row'), [accounts.length])
 
 	return (
-		<Box className={styles.accountList} display={isAllAccounts ? 'block' : 'none'}>
+		<Box className={styles.accountList} display={isAllAccounts ? 'block' : 'none'} flexDirection={widthVariant}>
 			<AddAccountDialog
 				dialogTrigger={
 					<Box className={styles.accountsAddAccountButton}>
@@ -41,7 +42,15 @@ export const HorizontalAccountsScrollList: React.FC = () => {
 				}
 			/>
 			{Object.values(accounts).map(({ address }) => (
-				<Box className={styles.accountCard} key={address}>
+				<Box
+					className={clsx(
+						styles.accountCard,
+						styles.accountCardRecipe({
+							widthVariant,
+						}),
+					)}
+					key={address}
+				>
 					<AccountHomeCard
 						address={address}
 						className={clsx(!isAllAccounts && address !== accountId && styles.accountCardOpacity)}
