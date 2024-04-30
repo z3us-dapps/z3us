@@ -111,10 +111,6 @@ const Layout: React.FC = () => {
 		}
 	}, [resourceType, accountId, resource, nft])
 
-	useEffect(() => {
-		setIsExpanded(rightRef.current?.offsetTop > 0)
-	}, [rightRef.current])
-
 	const handleClick = () => {
 		if (isExpanded) {
 			mainRef.current?.scrollTo({ behavior: 'smooth', top: 0 })
@@ -135,7 +131,12 @@ const Layout: React.FC = () => {
 					</Suspense>
 				</ScrollContext.Provider>
 			</Box>
-			<Box className={styles.panelLeft} ref={leftRef}>
+			<Box
+				className={styles.panelLeft}
+				ref={leftRef}
+				borderTopLeftRadius={isExpanded ? undefined : 'xxxlarge'}
+				borderTopRightRadius={isExpanded ? undefined : 'xxxlarge'}
+			>
 				<Box className={styles.accountsStickyWrapper}>
 					<Breadcrumbs />
 					<AccountTotalValue />

@@ -139,14 +139,12 @@ export const tabsWrapperButtonLeft = style([
 	sprinkles({
 		borderTopLeftRadius: 'xxxlarge',
 	}),
-	{},
 ])
 
 export const tabsWrapperButtonRight = style([
 	sprinkles({
 		borderTopRightRadius: 'xxxlarge',
 	}),
-	{},
 ])
 
 export const tabsWrapperButtonActive = style([
