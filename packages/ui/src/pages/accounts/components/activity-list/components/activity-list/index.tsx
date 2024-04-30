@@ -15,17 +15,14 @@ import { PageWrapper } from './page-wrapper'
 import { SkeletonRow } from './skeleton-row'
 import * as styles from './styles.css'
 
-const Footer = () => (
-	<>
-		{Array.from({ length: 6 }, (_, i) => (
-			<Box key={i} paddingX="large">
-				<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
-					<SkeletonRow index={i} />{' '}
-				</Box>
-			</Box>
-		))}
-	</>
-)
+const skeletons = Array.from({ length: 6 }, (_, i) => (
+	<Box key={i} paddingX="large">
+		<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
+			<SkeletonRow index={i} />{' '}
+		</Box>
+	</Box>
+))
+const Footer = () => skeletons
 
 const EmptyFooter = null
 
