@@ -13,6 +13,7 @@ export const tableWrapper = style([
 		display: 'block',
 		position: 'relative',
 		paddingBottom: 'large',
+		zIndex: 2,
 	}),
 	{
 		transition: 'min-height 300ms ease',
@@ -55,7 +56,6 @@ export const tableRootTopStickyPosition = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${tableRootTopStickyPosition} thead`, {
@@ -162,7 +162,9 @@ export const tableRecipe = recipe({
 				sprinkles({
 					borderRadius: 'medium',
 				}),
-				{},
+				{
+					background: vars.color.backgroundSecondary,
+				},
 			],
 			secondary: [
 				sprinkles({
@@ -172,7 +174,9 @@ export const tableRecipe = recipe({
 					borderRightStyle: 'solid',
 					borderColor: 'borderDivider',
 				}),
-				{},
+				{
+					background: vars.color.backgroundPrimary,
+				},
 			],
 		},
 		sizeVariant: {

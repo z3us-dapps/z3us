@@ -43,7 +43,10 @@ export const accountList = style([
 		paddingBottom: 'xlarge',
 		gap: 'medium',
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: {
+			mobile: 'flex-start',
+			tablet: 'center',
+		},
 	}),
 ])
 

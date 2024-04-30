@@ -50,11 +50,11 @@ const Home: React.FC = () => {
 					</>
 				)}
 			</Box>
-			<Box height="full" display={['block', 'none']}>
-				{isActivitiesVisible ? <ActivityList className={styles.activityList} /> : <AssetsList />}
-			</Box>
-			<Box height="full" display={['none', 'block']}>
+			<Box height="full" display={[!isActivitiesVisible ? 'block' : 'none', 'block']}>
 				<AssetsList />
+			</Box>
+			<Box height="full" display={[isActivitiesVisible ? 'block' : 'none', 'none']}>
+				<ActivityList className={styles.activityList} />
 			</Box>
 		</Box>
 	)

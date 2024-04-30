@@ -78,9 +78,9 @@ export const assetTile = style([
 		borderStyle: 'solid',
 		borderRadius: 'large',
 		borderColor: 'borderDivider',
+		width: 'half',
 	}),
 	{
-		width: '50%',
 		flexBasis: '50%',
 	},
 ])

@@ -27,18 +27,9 @@ export const accountHeadShadow = style([
 			transform: 'translateY(-24px)',
 			pointerEvents: 'none',
 			background: 'transparent',
-			opacity: 0,
+			opacity: 1,
 			transition: vars.transition.fast,
 			boxShadow: '0px 10px 11px -7px rgba(0, 0, 0, 0.4)',
-		},
-	},
-])
-
-export const accountHeadShadowScrolled = style([
-	sprinkles({}),
-	{
-		'::after': {
-			opacity: 1,
 		},
 	},
 ])

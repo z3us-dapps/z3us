@@ -14,7 +14,7 @@ import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { usePools } from 'ui/src/hooks/dapp/use-pools'
 import { useValidators } from 'ui/src/hooks/dapp/use-validators'
 import { useXRDCurrentPrice, useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
-import { type Token, useTokens } from 'ui/src/hooks/queries/tokens'
+import { type Token } from 'ui/src/hooks/queries/tokens'
 import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
@@ -24,6 +24,7 @@ import type { Balances } from 'ui/src/types/balances'
 import { formatDate, formatDateTime } from 'ui/src/utils/date'
 
 import { useSelectedAccounts } from '../use-accounts'
+import { useTokens } from './use-tokens'
 
 export const useSelectedAccountsBalances = () => useContext(BalancesContext)!
 
@@ -260,7 +261,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { data: poolsAt } = usePools(accounts, at)
 	const { data: poolsBefore } = usePools(accounts, before)
 	const { data: knownAddresses } = useKnownAddresses()
-	const { data: tokens } = useTokens()
+	const tokens = useTokens()
 
 	const { data: xrdPriceNow } = useXRDCurrentPrice(currency)
 	const { data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
@@ -363,7 +364,7 @@ export const useAccountValues = (at: Date = new Date()) => {
 	const { data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
 	const xrdPrice = formatDate(at) === formatDate(new Date()) ? xrdPriceNow : xrdPriceAt
 
-	const { data: tokens } = useTokens()
+	const tokens = useTokens()
 	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
 	const { data: pools } = usePools(accounts, at)
 	const { data: validators } = useValidators(accounts, at)

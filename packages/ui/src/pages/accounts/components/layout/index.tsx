@@ -64,6 +64,22 @@ const Layout: React.FC = () => {
 	const leftRef = useRef<HTMLElement>()
 	const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
+	const rightScrollCtx = useMemo(
+		() => ({
+			scrollableNode: rightRef.current,
+			isScrolledTop: false,
+		}),
+		[rightRef.current],
+	)
+
+	const leftScrollCtx = useMemo(
+		() => ({
+			scrollableNode: leftRef.current,
+			isScrolledTop: false,
+		}),
+		[leftRef.current],
+	)
+
 	useEffect(() => {
 		const parts = []
 
@@ -99,14 +115,6 @@ const Layout: React.FC = () => {
 		setIsExpanded(rightRef.current?.offsetTop > 0)
 	}, [rightRef.current])
 
-	const rightScrollCtx = useMemo(
-		() => ({
-			scrollableNode: rightRef.current,
-			isScrolledTop: false,
-		}),
-		[rightRef.current],
-	)
-
 	const handleClick = () => {
 		if (isExpanded) {
 			mainRef.current?.scrollTo({ behavior: 'smooth', top: 0 })
@@ -134,9 +142,11 @@ const Layout: React.FC = () => {
 				</Box>
 				<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
 				<Box height="full">
-					<Suspense key={key} fallback={<FallbackLoading />}>
-						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-					</Suspense>
+					<ScrollContext.Provider value={leftScrollCtx}>
+						<Suspense key={key} fallback={<FallbackLoading />}>
+							<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+						</Suspense>
+					</ScrollContext.Provider>
 				</Box>
 			</Box>
 		</Box>

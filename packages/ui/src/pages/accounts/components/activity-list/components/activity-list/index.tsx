@@ -55,6 +55,20 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 			}
 		}, [isTransactionVisible, selected])
 
+		const Footer = useCallback(
+			() =>
+				isFetching
+					? Array.from({ length: 6 }, (_, i) => (
+							<Box key={i} paddingX="large">
+								<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
+									<SkeletonRow index={i} />{' '}
+								</Box>
+							</Box>
+					  ))
+					: null,
+			[isFetching],
+		)
+
 		const renderItem = useCallback((index: number, page: { items: CommittedTransactionInfo[] }) => {
 			const uniqueTransactionIds = new Set()
 
@@ -96,17 +110,9 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 					components={{
 						List: ListContainer,
 						Item: ItemContainer,
+						Footer,
 					}}
 				/>
-
-				{isFetching &&
-					Array.from({ length: 6 }, (_, i) => (
-						<Box key={i} paddingX="large">
-							<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
-								<SkeletonRow index={i} />{' '}
-							</Box>
-						</Box>
-					))}
 			</Box>
 		)
 	},
