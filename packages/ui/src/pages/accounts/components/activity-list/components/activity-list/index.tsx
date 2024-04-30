@@ -1,6 +1,6 @@
 import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
-import React, { forwardRef, useCallback, useEffect, useState } from 'react'
+import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { Virtuoso } from 'react-virtuoso'
 
@@ -14,6 +14,20 @@ import { useIsTransactionVisible } from 'ui/src/pages/accounts/hooks/use-is-tran
 import { PageWrapper } from './page-wrapper'
 import { SkeletonRow } from './skeleton-row'
 import * as styles from './styles.css'
+
+const Footer = () => (
+	<>
+		{Array.from({ length: 6 }, (_, i) => (
+			<Box key={i} paddingX="large">
+				<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
+					<SkeletonRow index={i} />{' '}
+				</Box>
+			</Box>
+		))}
+	</>
+)
+
+const EmptyFooter = null
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
 
@@ -55,21 +69,7 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 			}
 		}, [isTransactionVisible, selected])
 
-		const Footer = useCallback(
-			() =>
-				isFetching ? (
-					Array.from({ length: 6 }, (_, i) => (
-						<Box key={i} paddingX="large">
-							<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
-								<SkeletonRow index={i} />{' '}
-							</Box>
-						</Box>
-					))
-				) : (
-					<></>
-				),
-			[isFetching],
-		)
+		const DynamicFooter = useMemo(() => (isFetching ? Footer : EmptyFooter), [isFetching])
 
 		const renderItem = useCallback((index: number, page: { items: CommittedTransactionInfo[] }) => {
 			const uniqueTransactionIds = new Set()
@@ -112,7 +112,7 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 					components={{
 						List: ListContainer,
 						Item: ItemContainer,
-						Footer,
+						Footer: DynamicFooter,
 					}}
 				/>
 			</Box>
