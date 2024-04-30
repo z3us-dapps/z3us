@@ -57,15 +57,17 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 
 		const Footer = useCallback(
 			() =>
-				isFetching
-					? Array.from({ length: 6 }, (_, i) => (
-							<Box key={i} paddingX="large">
-								<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
-									<SkeletonRow index={i} />{' '}
-								</Box>
+				isFetching ? (
+					Array.from({ length: 6 }, (_, i) => (
+						<Box key={i} paddingX="large">
+							<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
+								<SkeletonRow index={i} />{' '}
 							</Box>
-					  ))
-					: null,
+						</Box>
+					))
+				) : (
+					<></>
+				),
 			[isFetching],
 		)
 
