@@ -111,6 +111,18 @@ const Layout: React.FC = () => {
 		}
 	}, [resourceType, accountId, resource, nft])
 
+	useEffect(() => {
+		const element = mainRef.current
+		if (!element) return () => {}
+		const listener = () => {
+			setIsExpanded(rightRef.current?.clientHeight === rightRef.current?.offsetTop)
+		}
+		element.addEventListener('scroll', listener)
+		return () => {
+			element.removeEventListener('scroll', listener)
+		}
+	}, [leftRef.current, mainRef.current])
+
 	const handleClick = () => {
 		if (isExpanded) {
 			mainRef.current?.scrollTo({ behavior: 'smooth', top: 0 })
