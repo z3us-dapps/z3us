@@ -50,6 +50,9 @@ export const main = style([
 			tablet: 'large',
 			desktop: 'xlarge',
 		},
+		paddingX: {
+			tablet: 'large',
+		},
 		height: 'full',
 	}),
 ])
