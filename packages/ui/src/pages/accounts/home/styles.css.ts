@@ -1,7 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
-import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const activityList = style([
 	sprinkles({
@@ -30,14 +29,6 @@ export const assetsHomeWrapper = style([
 export const accountListWrapper = style([
 	sprinkles({
 		display: ['none', 'block'],
-	}),
-	responsiveStyle({
-		tablet: {
-			minHeight: '326px',
-		},
-		desktop: {
-			minHeight: '365px',
-		},
 	}),
 ])
 

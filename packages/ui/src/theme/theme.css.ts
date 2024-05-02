@@ -116,6 +116,8 @@ export const sharedThemeValues = {
 		xxxlarge: px(2444),
 		xxxxlarge: px(3200),
 		'228px': px(228),
+		'326px': px(326),
+		'365px': px(365),
 		'370px': px(370),
 		'406px': px(406),
 		'392px': px(392),

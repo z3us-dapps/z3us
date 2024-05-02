@@ -32,7 +32,10 @@ const Home: React.FC = () => {
 
 	return (
 		<Box className={styles.assetsHomeWrapper}>
-			<Box className={styles.accountListWrapper}>
+			<Box
+				className={styles.accountListWrapper}
+				minHeight={Object.keys(accounts).length > 0 && isAllAccounts ? ['unset', '326px', '365px'] : 'unset'}
+			>
 				<HomeScrollShadow />
 				<HorizontalAccountsScrollList />
 			</Box>
