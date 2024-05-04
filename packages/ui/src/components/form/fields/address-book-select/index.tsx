@@ -40,11 +40,11 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 	const { data: domainDiscovery } = useDomainDiscovery(strValue)
 
 	const allEntries = useMemo(() => {
-		if (domainResolution) {
+		if (domainResolution?.value) {
 			return [
 				{
-					id: domainResolution,
-					account: getShortAddress(domainResolution, 8),
+					id: domainResolution?.value,
+					account: getShortAddress(domainResolution?.value, 8),
 					alias: strValue,
 				},
 			]
