@@ -30,8 +30,8 @@ export const ScrollArea: React.FC<IProps> = ({
 	onScroll,
 	isSimpleBarDisabled = false,
 	isPointerEventsDisabled = false,
-	isTopShadowVisible = false,
-	isBottomShadowVisible = false,
+	isTopShadowVisible = true,
+	isBottomShadowVisible = true,
 }) => {
 	const sRef: any = useRef()
 	const observer = useRef<ResizeObserver | null>(null)
@@ -133,7 +133,16 @@ export const ScrollArea: React.FC<IProps> = ({
 				isPointerEventsDisabled && styles.scrollAreaWrapperDisablePointerEvents,
 			)}
 		>
-			{children}
+			<SimpleBar
+				ref={sRef}
+				scrollableNodeProps={scrollableNodeProps}
+				style={{
+					height: '100%',
+					position: 'relative',
+				}}
+			>
+				{children}
+			</SimpleBar>
 			<Box
 				className={clsx(
 					styles.scrollAreaTopShadow,
