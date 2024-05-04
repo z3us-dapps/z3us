@@ -13,11 +13,13 @@ interface IProps {
 
 export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 	({ children, className, overrideScrollParent }, ref) => {
+		const isScrolledTop = true
 		const scrollCtx = useMemo(
 			() => ({
 				scrollableNode: overrideScrollParent ?? undefined,
+				isScrolledTop,
 			}),
-			[overrideScrollParent],
+			[overrideScrollParent, isScrolledTop],
 		)
 
 		return (

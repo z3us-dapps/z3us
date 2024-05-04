@@ -10,6 +10,7 @@ export const accountHeadShadow = style([
 		transition: 'fast',
 		pointerEvents: 'none',
 		zIndex: 1,
+		opacity: 1,
 		display: {
 			mobile: 'none',
 			tablet: 'block',
@@ -32,4 +33,10 @@ export const accountHeadShadow = style([
 			boxShadow: '0px 10px 11px -7px rgba(0, 0, 0, 0.4)',
 		},
 	},
+])
+
+export const accountHeadShadowHidden = style([
+	sprinkles({
+		opacity: 0,
+	}),
 ])

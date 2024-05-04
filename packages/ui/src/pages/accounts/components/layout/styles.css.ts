@@ -29,6 +29,15 @@ export const accountsStickyWrapper = style([
 	{},
 ])
 
+export const accountsStickyBoxShadow = style([
+	sprinkles({
+		transition: 'fast',
+	}),
+	{
+		boxShadow: '0px 10px 11px -7px rgba(0, 0, 0, 0.4)',
+	},
+])
+
 export const main = style([
 	sprinkles({
 		position: 'relative',

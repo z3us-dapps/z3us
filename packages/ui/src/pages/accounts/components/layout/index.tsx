@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
+import { useEventListener } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
@@ -63,22 +64,40 @@ const Layout: React.FC = () => {
 	const rightRef = useRef<HTMLElement>()
 	const leftRef = useRef<HTMLElement>()
 	const [isExpanded, setIsExpanded] = useState<boolean>(false)
+	const [isLeftScrolledTop, setIsLeftScrolledTop] = useState<boolean>(true)
+	const [isRightScrolledTop, setIsRightScrolledTop] = useState<boolean>(true)
+
+	const handleLeftScroll = (event: Event) => {
+		const { scrollTop } = event.target as HTMLElement
+
+		setIsLeftScrolledTop(scrollTop === 0)
+	}
+
+	const handleRightScroll = (event: Event) => {
+		const { scrollTop } = event.target as HTMLElement
+
+		setIsRightScrolledTop(scrollTop === 0)
+	}
 
 	const rightScrollCtx = useMemo(
 		() => ({
 			scrollableNode: rightRef.current,
-			isScrolledTop: false,
+			isScrolledTop: isRightScrolledTop,
 		}),
-		[rightRef.current],
+		[rightRef.current, isRightScrolledTop],
 	)
 
 	const leftScrollCtx = useMemo(
 		() => ({
 			scrollableNode: leftRef.current,
-			isScrolledTop: false,
+			isScrolledTop: isLeftScrolledTop,
 		}),
-		[leftRef.current],
+		[leftRef.current, isLeftScrolledTop],
 	)
+
+	useEventListener('scroll', handleLeftScroll, leftRef)
+
+	useEventListener('scroll', handleRightScroll, rightRef)
 
 	useEffect(() => {
 		const parts = []
