@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { defineMessages, useIntl } from 'react-intl'
@@ -170,18 +171,16 @@ const Layout: React.FC = () => {
 				borderTopRightRadius={isExpanded ? undefined : 'xxxlarge'}
 			>
 				<ScrollAreaNative ref={leftRef}>
-					<Box className={styles.accountsStickyWrapper}>
-						<Breadcrumbs />
-						<AccountTotalValue />
-					</Box>
-					<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
-					<Box height="full">
-						<ScrollContext.Provider value={leftScrollCtx}>
-							<Suspense key={key} fallback={<FallbackLoading />}>
-								<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-							</Suspense>
-						</ScrollContext.Provider>
-					</Box>
+					<ScrollContext.Provider value={leftScrollCtx}>
+						<Box className={clsx(styles.accountsStickyWrapper, !isLeftScrolledTop && styles.accountsStickyBoxShadow)}>
+							<Breadcrumbs />
+							<AccountTotalValue />
+						</Box>
+						<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
+						<Suspense key={key} fallback={<FallbackLoading />}>
+							<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+						</Suspense>
+					</ScrollContext.Provider>
 				</ScrollAreaNative>
 			</Box>
 		</Box>
