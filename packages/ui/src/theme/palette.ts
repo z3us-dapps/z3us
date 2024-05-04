@@ -185,6 +185,10 @@ export const lightThemeColors = {
 	inputSecondaryBorderHover: lightTokens.color.border.input_secondary_border_hover.value,
 	inputSecondaryBorderFocus: lightTokens.color.border.input_secondary_border_focus.value,
 	inputSecondaryShadowFocus: lightTokens.color.shadow.input_secondary_focus.value,
+	scrollbar: lightTokens.color.scrollbar.track.value,
+	scrollbarThumb: lightTokens.color.scrollbar.thumb.value,
+	scrollbarThumbHover: lightTokens.color.scrollbar.thumb_hover.value,
+	scrollbarThumbActive: lightTokens.color.scrollbar.thumb_active.value,
 }
 
 /**
@@ -239,4 +243,8 @@ export const darkThemeColors = {
 	inputSecondaryBorderHover: darkTokens.color.border.input_secondary_border_hover.value,
 	inputSecondaryBorderFocus: darkTokens.color.border.input_secondary_border_focus.value,
 	inputSecondaryShadowFocus: darkTokens.color.shadow.input_secondary_focus.value,
+	scrollbar: darkTokens.color.scrollbar.track.value,
+	scrollbarThumb: darkTokens.color.scrollbar.thumb.value,
+	scrollbarThumbHover: darkTokens.color.scrollbar.thumb_hover.value,
+	scrollbarThumbActive: darkTokens.color.scrollbar.thumb_active.value,
 }

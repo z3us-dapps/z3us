@@ -59,7 +59,7 @@ export const main = style([
 
 export const panelLeft = style([
 	sprinkles({
-		overflowY: 'scroll',
+		overflow: 'hidden',
 	}),
 	{
 		'::before': {
@@ -101,7 +101,7 @@ export const panelLeft = style([
 
 export const panelRight = style([
 	sprinkles({
-		overflowY: 'scroll',
+		overflow: 'hidden',
 	}),
 	{
 		'::before': {

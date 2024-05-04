@@ -4,15 +4,10 @@ import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const scrollAreaWrapper = style([
 	sprinkles({
-		position: 'absolute',
-		top: 0,
-		bottom: 0,
-		left: 0,
-		right: 0,
-		overflow: 'hidden',
+		overflowY: 'auto',
 	}),
 	{
-		border: 'none',
+		border: '1px solid red',
 		outline: 'none',
 	},
 ])

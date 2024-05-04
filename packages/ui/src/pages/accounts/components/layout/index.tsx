@@ -5,7 +5,7 @@ import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
-import { ScrollContext } from 'ui/src/components/scroll-area-radix/context'
+import { ScrollAreaNative, ScrollContext } from 'ui/src/components/scroll-area-native'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
@@ -136,31 +136,34 @@ const Layout: React.FC = () => {
 	return (
 		<Box className={styles.main} ref={mainRef}>
 			<MobileBackground />
-			<Box className={styles.panelRight} ref={rightRef}>
-				<ScrollContext.Provider value={rightScrollCtx}>
-					<Suspense key={location.pathname} fallback={<FallbackLoading />}>
-						<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
-					</Suspense>
-				</ScrollContext.Provider>
+			<Box className={styles.panelRight}>
+				<ScrollAreaNative ref={rightRef}>
+					<ScrollContext.Provider value={rightScrollCtx}>
+						<Suspense key={location.pathname} fallback={<FallbackLoading />}>
+							<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
+						</Suspense>
+					</ScrollContext.Provider>
+				</ScrollAreaNative>
 			</Box>
 			<Box
 				className={styles.panelLeft}
-				ref={leftRef}
 				borderTopLeftRadius={isExpanded ? undefined : 'xxxlarge'}
 				borderTopRightRadius={isExpanded ? undefined : 'xxxlarge'}
 			>
-				<Box className={styles.accountsStickyWrapper}>
-					<Breadcrumbs />
-					<AccountTotalValue />
-				</Box>
-				<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
-				<Box height="full">
-					<ScrollContext.Provider value={leftScrollCtx}>
-						<Suspense key={key} fallback={<FallbackLoading />}>
-							<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-						</Suspense>
-					</ScrollContext.Provider>
-				</Box>
+				<ScrollAreaNative ref={leftRef}>
+					<Box className={styles.accountsStickyWrapper}>
+						<Breadcrumbs />
+						<AccountTotalValue />
+					</Box>
+					<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
+					<Box height="full">
+						<ScrollContext.Provider value={leftScrollCtx}>
+							<Suspense key={key} fallback={<FallbackLoading />}>
+								<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+							</Suspense>
+						</ScrollContext.Provider>
+					</Box>
+				</ScrollAreaNative>
 			</Box>
 		</Box>
 	)

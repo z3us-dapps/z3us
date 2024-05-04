@@ -5,7 +5,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
+import { useScroll } from 'ui/src/components/scroll-area-native'
 import { Text } from 'ui/src/components/typography'
 import { useTransactions } from 'ui/src/hooks/dapp/use-transactions'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
@@ -99,7 +99,6 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 						{intl.formatMessage(messages.title)}
 					</Text>
 				</Box>
-
 				<Virtuoso
 					customScrollParent={scrollableNode}
 					totalCount={data?.pages.length}
