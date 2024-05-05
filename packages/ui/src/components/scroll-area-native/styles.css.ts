@@ -26,3 +26,29 @@ globalStyle(`${scrollAreaNativeWrapper}:hover`, {
 globalStyle(`${scrollAreaNativeWrapper}::-webkit-scrollbar-thumb`, {
 	borderRadius: '5px',
 })
+
+export const scrolledButtonWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
+		transition: 'fast',
+		zIndex: 2,
+		bottom: 0,
+		right: 0,
+		marginRight: 'medium',
+		marginBottom: 'medium',
+		opacity: 0,
+		pointerEvents: 'none',
+	}),
+	{},
+])
+
+export const scrolledButtonWrapperVisible = style([
+	sprinkles({
+		pointerEvents: 'auto',
+	}),
+	{ opacity: 0.7 },
+])

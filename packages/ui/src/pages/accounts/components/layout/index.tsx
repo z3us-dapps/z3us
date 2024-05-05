@@ -3,7 +3,6 @@ import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
-import { useEventListener } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
@@ -18,6 +17,7 @@ import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileBackground } from './components/mobile/background'
 import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
 import { AccountTotalValue } from './components/total-value'
+import useAccountsScroll from './hooks/use-accounts-scroll'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -64,41 +64,15 @@ const Layout: React.FC = () => {
 	const mainRef = useRef<HTMLElement>()
 	const rightRef = useRef<HTMLElement>()
 	const leftRef = useRef<HTMLElement>()
+	const {
+		leftScrollCtx,
+		rightScrollCtx,
+		isLeftScrollUpButtonVisible,
+		isRightScrollUpButtonVisible,
+		onLeftScrollUpBtnClick,
+		onRightScrollUpBtnClick,
+	} = useAccountsScroll(leftRef, rightRef, location.pathname)
 	const [isExpanded, setIsExpanded] = useState<boolean>(false)
-	const [isLeftScrolledTop, setIsLeftScrolledTop] = useState<boolean>(true)
-	const [isRightScrolledTop, setIsRightScrolledTop] = useState<boolean>(true)
-
-	const handleLeftScroll = (event: Event) => {
-		const { scrollTop } = event.target as HTMLElement
-
-		setIsLeftScrolledTop(scrollTop === 0)
-	}
-
-	const handleRightScroll = (event: Event) => {
-		const { scrollTop } = event.target as HTMLElement
-
-		setIsRightScrolledTop(scrollTop === 0)
-	}
-
-	const rightScrollCtx = useMemo(
-		() => ({
-			scrollableNode: rightRef.current,
-			isScrolledTop: isRightScrolledTop,
-		}),
-		[rightRef.current, isRightScrolledTop],
-	)
-
-	const leftScrollCtx = useMemo(
-		() => ({
-			scrollableNode: leftRef.current,
-			isScrolledTop: isLeftScrolledTop,
-		}),
-		[leftRef.current, isLeftScrolledTop],
-	)
-
-	useEventListener('scroll', handleLeftScroll, leftRef)
-
-	useEventListener('scroll', handleRightScroll, rightRef)
 
 	useEffect(() => {
 		const parts = []
@@ -131,6 +105,7 @@ const Layout: React.FC = () => {
 		}
 	}, [resourceType, accountId, resource, nft])
 
+	// TODO: will move to hook
 	useEffect(() => {
 		const element = mainRef.current
 		if (!element) return () => {}
@@ -143,6 +118,7 @@ const Layout: React.FC = () => {
 		}
 	}, [leftRef.current, mainRef.current])
 
+	// TODO: will move to hook
 	const handleClick = () => {
 		if (isExpanded) {
 			mainRef.current?.scrollTo({ behavior: 'smooth', top: 0 })
@@ -157,7 +133,12 @@ const Layout: React.FC = () => {
 		<Box className={styles.main} ref={mainRef}>
 			<MobileBackground />
 			<Box className={styles.panelRight}>
-				<ScrollAreaNative ref={rightRef}>
+				<ScrollAreaNative
+					ref={rightRef}
+					showScrollUpButton
+					onUpButtonClicked={onRightScrollUpBtnClick}
+					isScrollUpButtonVisible={isRightScrollUpButtonVisible}
+				>
 					<ScrollContext.Provider value={rightScrollCtx}>
 						<Suspense key={location.pathname} fallback={<FallbackLoading />}>
 							<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
@@ -170,12 +151,17 @@ const Layout: React.FC = () => {
 				borderTopLeftRadius={isExpanded ? undefined : 'xxxlarge'}
 				borderTopRightRadius={isExpanded ? undefined : 'xxxlarge'}
 			>
-				<ScrollAreaNative ref={leftRef}>
+				<ScrollAreaNative
+					ref={leftRef}
+					showScrollUpButton
+					onUpButtonClicked={onLeftScrollUpBtnClick}
+					isScrollUpButtonVisible={isLeftScrollUpButtonVisible}
+				>
 					<ScrollContext.Provider value={leftScrollCtx}>
 						<Box
 							className={clsx(
 								styles.accountsStickyWrapper,
-								!resourceType && !isLeftScrolledTop && styles.accountsStickyBoxShadow,
+								!resourceType && !leftScrollCtx.isScrolledTop && styles.accountsStickyBoxShadow,
 							)}
 						>
 							<Breadcrumbs />
