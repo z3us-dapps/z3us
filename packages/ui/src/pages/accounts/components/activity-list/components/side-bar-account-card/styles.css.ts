@@ -23,7 +23,8 @@ export const mobileCardTransparentWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
-		marginBottom: 'large',
+		marginTop: 'large',
+		marginBottom: 'medium',
 		borderRadius: 'xlarge',
 	}),
 	{

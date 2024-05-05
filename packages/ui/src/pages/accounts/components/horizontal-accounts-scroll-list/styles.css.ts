@@ -1,7 +1,7 @@
-import { style } from '@vanilla-extract/css'
-import { recipe } from '@vanilla-extract/recipes'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const accountsAddAccountButton = style([
@@ -10,8 +10,8 @@ export const accountsAddAccountButton = style([
 		zIndex: 2,
 	}),
 	{
-		top: '-124px',
-		right: '18px',
+		top: '22px',
+		right: '22px',
 	},
 ])
 
@@ -33,55 +33,75 @@ export const accountCardOpacity = style([
 
 export const accountList = style([
 	sprinkles({
-		overflowY: 'scroll',
-		flexWrap: 'wrap',
-		flexShrink: 0,
-		height: 'full',
 		width: 'full',
-		marginTop: 'medium',
+	}),
+	{},
+	// responsiveStyle({
+	// 	mobile: {
+	// 		gridTemplateColumns: '1fr',
+	// 	},
+	// 	tablet: {
+	// 		gridTemplateColumns: '1fr 1fr',
+	// 	},
+	// 	desktop: {
+	// 		gridTemplateColumns: '1fr 1fr 1fr',
+	// 	},
+	// }),
+])
+
+export const accountListGridScrollWrapper = style([
+	sprinkles({
+		width: 'full',
 		paddingX: 'xlarge',
-		paddingBottom: 'xlarge',
-		gap: 'medium',
-		alignItems: 'center',
-		justifyContent: {
-			mobile: 'flex-start',
-			tablet: 'center',
+		paddingBottom: 'small',
+	}),
+	{
+		overflowX: 'auto',
+		height: 'auto',
+	},
+])
+
+export const accountListGridWrapper = style([
+	sprinkles({
+		width: 'full',
+		display: 'grid',
+		gap: {
+			tablet: 'medium',
+			desktop: 'large',
 		},
 	}),
-])
-
-export const accountCard = style([
 	{
-		flex: '0 0 auto',
-		height: 'full',
+		gridTemplateRows: 'repeat(1, 160px)',
+		gridAutoFlow: 'column',
 	},
 ])
 
-export const accountCardRecipe = recipe({
-	variants: {
-		widthVariant: {
-			row: responsiveStyle({
-				mobile: {
-					width: '100%',
-				},
-				tablet: {
-					width: '47%',
-				},
-				desktop: {
-					width: '48%',
-				},
-			}),
-			column: responsiveStyle({
-				mobile: {
-					width: '100%',
-				},
-				tablet: {
-					width: '47%',
-				},
-				desktop: {
-					width: '30%',
-				},
-			}),
-		},
+export const accountListGridTwoRowWrapper = style([
+	sprinkles({}),
+	{
+		gridTemplateRows: 'repeat(2, 160px)',
 	},
+])
+
+export const accountListGridCard = style([
+	sprinkles({
+		display: 'block',
+	}),
+	{
+		width: '274px',
+		height: '160px',
+	},
+])
+
+globalStyle(`${accountListGridCard} > div`, {
+	aspectRatio: 'unset',
+	height: '100%',
 })
+
+// globalStyle(`${accountList}`, {
+// 	'@media': {
+// 		'screen and (max-width: 768px)': {
+// 			border: '1px solid red',
+// 		},
+// 	},
+// })

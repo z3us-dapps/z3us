@@ -104,7 +104,6 @@ export const cellWrapper = style([
 		position: 'relative',
 		zIndex: 1,
 	}),
-	{},
 ])
 
 export const cellContentWrapper = style([
@@ -117,5 +116,4 @@ export const cellContentWrapper = style([
 			mobile: 'small',
 		},
 	}),
-	{},
 ])

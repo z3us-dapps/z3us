@@ -15,7 +15,6 @@ const NftCollections = lazy(() => import('./nft-collections'))
 const NFTs = lazy(() => import('./nfts'))
 const LSUS = lazy(() => import('./lsus'))
 const LPUs = lazy(() => import('./lpus'))
-
 const ActivityList = lazy(() => import('./components/activity-list'))
 const ResourceDetails = lazy(() => import('./components/resource-details'))
 const NftDetails = lazy(() => import('./components/nft-details'))

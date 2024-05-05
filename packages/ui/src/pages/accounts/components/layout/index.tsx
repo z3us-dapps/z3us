@@ -41,11 +41,9 @@ const messages = defineMessages({
 
 const Layout: React.FC = () => {
 	const intl = useIntl()
-
 	const location = useLocation()
 	const outlet = useOutlet()
 	const matches = useMatches()
-
 	const accounts = useWalletAccounts()
 	const resourceType = useResourceType()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()

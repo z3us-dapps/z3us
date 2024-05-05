@@ -94,7 +94,7 @@ export const headerInnerNavWrapper = style([
 		},
 		paddingX: {
 			mobile: 'xxsmall',
-			tablet: 'large',
+			tablet: 'none',
 		},
 	}),
 ])

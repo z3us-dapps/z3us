@@ -41,7 +41,6 @@ export const accountsStickyBoxShadow = style([
 export const main = style([
 	sprinkles({
 		position: 'relative',
-		overflowY: 'scroll',
 		display: {
 			mobile: 'block',
 			tablet: 'flex',
@@ -58,9 +57,6 @@ export const main = style([
 		paddingTop: {
 			tablet: 'large',
 			desktop: 'xlarge',
-		},
-		paddingX: {
-			tablet: 'large',
 		},
 		height: 'full',
 	}),
@@ -141,12 +137,13 @@ export const panelRight = style([
 			height: '100vh',
 			maxHeight: 'calc(100vh - 112px)',
 			minHeight: 'unset',
-			maxWidth: '392px',
+			maxWidth: '320px',
 			borderRadius: vars.border.radius.xlarge,
 			background: vars.color.backgroundSecondary,
 			boxShadow: vars.color.shadowPanel,
 		},
 		desktop: {
+			maxWidth: '392px',
 			maxHeight: 'calc(100vh - 142px)',
 		},
 	}),

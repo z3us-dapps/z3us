@@ -1,11 +1,12 @@
 import clsx from 'clsx'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { AppsIcon } from 'ui/src/components/icons'
+import { ScrollAreaNative } from 'ui/src/components/scroll-area-native'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 
@@ -24,12 +25,11 @@ export const HorizontalAccountsScrollList: React.FC = () => {
 	const intl = useIntl()
 	const { accountId = '-' } = useParams()
 	const isAllAccounts = accountId === '-'
-
 	const accounts = useWalletAccounts()
-	const widthVariant = useMemo(() => (Object.keys(accounts).length > 2 ? 'column' : 'row'), [accounts.length])
+	const accountsLength = Object.keys(accounts).length
 
 	return (
-		<Box className={styles.accountList} display={isAllAccounts ? 'flex' : 'none'} flexDirection={widthVariant}>
+		<Box className={styles.accountList} display={isAllAccounts ? 'flex' : 'none'}>
 			<AddAccountDialog
 				dialogTrigger={
 					<Box className={styles.accountsAddAccountButton}>
@@ -41,22 +41,22 @@ export const HorizontalAccountsScrollList: React.FC = () => {
 					</Box>
 				}
 			/>
-			{Object.values(accounts).map(({ address }) => (
-				<Box
-					key={address}
-					className={clsx(
-						styles.accountCard,
-						styles.accountCardRecipe({
-							widthVariant,
-						}),
-					)}
-				>
-					<AccountHomeCard
-						address={address}
-						className={clsx(!isAllAccounts && address !== accountId && styles.accountCardOpacity)}
-					/>
-				</Box>
-			))}
+			{accountsLength > 0 && (
+				<ScrollAreaNative className={styles.accountListGridScrollWrapper}>
+					<Box
+						className={clsx(styles.accountListGridWrapper, accountsLength > 4 && styles.accountListGridTwoRowWrapper)}
+					>
+						{Object.values(accounts).map(({ address }) => (
+							<Box key={address} className={styles.accountListGridCard}>
+								<AccountHomeCard
+									address={address}
+									className={clsx(!isAllAccounts && address !== accountId && styles.accountCardOpacity)}
+								/>
+							</Box>
+						))}
+					</Box>
+				</ScrollAreaNative>
+			)}
 		</Box>
 	)
 }
