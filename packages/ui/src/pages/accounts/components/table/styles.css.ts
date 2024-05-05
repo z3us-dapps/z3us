@@ -5,10 +5,12 @@ import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const tableWrapper = style([
 	sprinkles({
+		backgroundColor: 'backgroundSecondary',
 		paddingX: {
 			tablet: 'large',
 		},
 	}),
+	{},
 	responsiveStyle({
 		mobile: {
 			height: 'calc(100vh - 56px)',

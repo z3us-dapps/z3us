@@ -13,7 +13,7 @@ import * as styles from './styles.css'
 import { useStakingTable } from './use-staking-table'
 
 const Home: React.FC = () => {
-	const { scrollableNode, isScrolledTop } = useScroll()
+	const { scrollableNode } = useScroll()
 
 	const { items, columns, loading, loadMore, onRowSelected, onEndReached } = useStakingTable()
 
@@ -29,7 +29,6 @@ const Home: React.FC = () => {
 					scrollableNode={scrollableNode ?? undefined}
 					data={items}
 					columns={columns}
-					isScrolledTop={isScrolledTop}
 					loading={loading}
 					loadMore={loadMore}
 					onRowSelected={onRowSelected}

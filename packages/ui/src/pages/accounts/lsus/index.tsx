@@ -5,7 +5,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Input } from 'ui/src/components/input'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
+import { useScroll } from 'ui/src/components/scroll-area-native'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
@@ -129,10 +129,8 @@ const LSUs: React.FC = () => {
 				scrollableNode={scrollableNode ?? undefined}
 				data={liquidityPoolTokensBalances}
 				columns={columns}
-				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
 				selectedRowIds={selectedRowIds}
-				stickyShadowTop
 			/>
 		</Box>
 	)

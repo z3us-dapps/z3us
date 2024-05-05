@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import clsx, { type ClassValue } from 'clsx'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
 
@@ -27,7 +27,6 @@ interface ITableProps {
 	stickyShadowTop?: boolean
 	loadMore?: boolean
 	overscan?: number
-	isScrolledTop?: boolean
 	selectedRowIds?: { [key: number]: boolean }
 	sort?: { id: string; desc: boolean }
 	headerProps?: any
@@ -39,10 +38,14 @@ interface ITableProps {
 const defaultSelectedRowIds = {}
 const emptyFunction = () => {}
 
+interface IInitialStateType {
+	sortBy: { id: string; desc: boolean }[] | { id: string; desc: boolean }
+	selectedRowIds?: { [key: number]: boolean }
+}
+
 export const Table: React.FC<ITableProps> = props => {
 	const {
 		scrollableNode,
-		isScrolledTop,
 		className,
 		sizeVariant = 'medium',
 		styleVariant = 'primary',
@@ -60,12 +63,13 @@ export const Table: React.FC<ITableProps> = props => {
 		onRowSelected = emptyFunction,
 	} = props
 
+	const tableRef = useRef(null)
 	const initialSort = useMemo(() => {
 		if (sort || !columns?.length) return sort
 		return [{ id: columns[0].accessor, desc: true }]
 	}, [sort, columns])
 
-	const [initialState, setInitialState] = useState<any>({
+	const [initialState, setInitialState] = useState<IInitialStateType>({
 		sortBy: initialSort,
 		selectedRowIds,
 	})
@@ -236,13 +240,13 @@ export const Table: React.FC<ITableProps> = props => {
 	)
 
 	return (
-		<Box height="full" className={clsx(styles.tableWrapper, className)}>
+		<Box ref={tableRef} height="full" className={clsx(styles.tableWrapper, className)}>
 			<TableVirtuoso
 				className={clsx(
 					styles.tableRootWrapper,
 					loading && styles.tableLoadingWrapper,
 					stickyShadowTop && styles.tableRootTopStickyPosition,
-					!loading && stickyShadowTop && !isScrolledTop && styles.accountTheadShadow,
+					!loading && stickyShadowTop && styles.accountTheadShadow,
 				)}
 				overscan={{ main: overscan, reverse: overscan }}
 				totalCount={rows.length}

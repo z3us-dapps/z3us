@@ -172,7 +172,12 @@ const Layout: React.FC = () => {
 			>
 				<ScrollAreaNative ref={leftRef}>
 					<ScrollContext.Provider value={leftScrollCtx}>
-						<Box className={clsx(styles.accountsStickyWrapper, !isLeftScrolledTop && styles.accountsStickyBoxShadow)}>
+						<Box
+							className={clsx(
+								styles.accountsStickyWrapper,
+								!resourceType && !isLeftScrolledTop && styles.accountsStickyBoxShadow,
+							)}
+						>
 							<Breadcrumbs />
 							<AccountTotalValue />
 						</Box>

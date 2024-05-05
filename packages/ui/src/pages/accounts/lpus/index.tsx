@@ -4,7 +4,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
+import { useScroll } from 'ui/src/components/scroll-area-native'
 import { TableWithEmptyState } from 'ui/src/components/table'
 import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { PoolLiquidityCell } from 'ui/src/pages/accounts/components/table/pool-liquidity-cell'
@@ -39,7 +39,7 @@ const messages = defineMessages({
 const LPUs: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { scrollableNode, isScrolledTop } = useScroll()
+	const { scrollableNode } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
 
@@ -94,10 +94,8 @@ const LPUs: React.FC = () => {
 				scrollableNode={scrollableNode ?? undefined}
 				data={poolUnitsBalances}
 				columns={columns}
-				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
 				selectedRowIds={selectedRowIds}
-				stickyShadowTop
 			/>
 		</Box>
 	)

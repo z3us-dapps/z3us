@@ -62,6 +62,7 @@ globalStyle(`${tableRootTopStickyPosition} thead`, {
 	display: 'none',
 	'@media': {
 		[`screen and (min-width: ${breakpoints.tablet}px)`]: {
+			top: '-1px !important',
 			display: 'table-header-group',
 		},
 	},

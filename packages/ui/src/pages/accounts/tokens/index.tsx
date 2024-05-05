@@ -92,10 +92,8 @@ const Tokens: React.FC = () => {
 				scrollableNode={scrollableNode ?? undefined}
 				data={tokensBalances}
 				columns={columns}
-				isScrolledTop={false}
 				onRowSelected={handleRowSelected}
 				selectedRowIds={selectedRowIds}
-				stickyShadowTop
 			/>
 		</Box>
 	)

@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 
 import { Box } from '../box'
 import { ScrollContext } from './context'
-import * as styles from './scroll-area.css'
+import * as styles from './styles.css'
 
 interface IProps {
 	children: React.ReactNode | React.ReactNode[]
