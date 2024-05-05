@@ -134,10 +134,8 @@ export const addAccountGridWrapper = style([
 ])
 
 export const addAccountCardWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
 	{
+		position: 'relative',
 		aspectRatio: '8 / 4.5',
 	},
 ])
