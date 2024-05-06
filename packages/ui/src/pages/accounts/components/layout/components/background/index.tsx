@@ -6,13 +6,17 @@ import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
 
 import * as styles from './styles.css'
 
-export const MobileBackground: React.FC = () => {
+interface IProps {
+	view: 'mobile' | 'sidebar'
+}
+export const CardBackground: React.FC<IProps> = ({ view }) => {
 	const { accountId = '-', resourceId } = useParams()
 	const { cardColor } = useAccountCardSettings(accountId)
 
 	return (
 		<Box
 			className={styles.accountsBgCardWrapper}
+			display={view === 'mobile' ? ['block', 'none'] : ['none', 'block']}
 			style={{
 				...(accountId !== '-' && !resourceId
 					? {

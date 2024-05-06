@@ -13,8 +13,8 @@ import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { findFieldValue, findMetadataValue } from 'ui/src/services/metadata'
 
 import { useResourceType } from '../../hooks/use-resource-type'
+import { CardBackground } from './components/background'
 import { Breadcrumbs } from './components/breadcrumbs'
-import { MobileBackground } from './components/mobile/background'
 import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
 import { AccountTotalValue } from './components/total-value'
 import useAccountsScroll from './hooks/use-accounts-scroll'
@@ -131,7 +131,7 @@ const Layout: React.FC = () => {
 
 	return (
 		<Box className={styles.main} ref={mainRef}>
-			<MobileBackground />
+			<CardBackground view="mobile" />
 			<Box className={styles.panelRight}>
 				<ScrollAreaNative
 					ref={rightRef}

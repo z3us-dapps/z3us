@@ -4,6 +4,7 @@ import { Box } from 'ui/src/components/box'
 
 import { HomeScrollShadow } from '../home-scroll-shadow'
 import HorizontalAccountsScrollList from '../horizontal-accounts-scroll-list'
+import { CardBackground } from '../layout/components/background'
 import { AccountButtons } from './components/account-buttons'
 import { ActivityList } from './components/activity-list'
 import { BalancePieChart } from './components/balance-pie-chart'
@@ -12,6 +13,7 @@ import { SideBarTotal } from './components/side-bar-total'
 
 const Sidebar: React.FC = () => (
 	<Box height="full" position="relative" alignItems="center" paddingTop="small" paddingBottom="xsmall">
+		<CardBackground view="sidebar" />
 		<Box display={['none', 'block']}>
 			<BalancePieChart />
 		</Box>

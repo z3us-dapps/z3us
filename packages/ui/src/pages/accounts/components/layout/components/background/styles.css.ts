@@ -10,10 +10,6 @@ export const accountsBgCardWrapper = style([
 		right: 0,
 		background: 'backgroundPrimary',
 		pointerEvents: 'none',
-		display: {
-			mobile: 'block',
-			tablet: 'none',
-		},
 	}),
 	{
 		top: '-58px',
