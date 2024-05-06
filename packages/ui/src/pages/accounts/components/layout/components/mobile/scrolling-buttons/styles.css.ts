@@ -55,7 +55,7 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 	sprinkles({
 		position: 'sticky',
 		width: 'full',
-		zIndex: 1,
+		zIndex: 2,
 		display: {
 			mobile: 'block',
 			tablet: 'none',

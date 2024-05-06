@@ -1,8 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const accountsAddAccountButton = style([
 	sprinkles({
@@ -36,17 +34,6 @@ export const accountList = style([
 		width: 'full',
 	}),
 	{},
-	// responsiveStyle({
-	// 	mobile: {
-	// 		gridTemplateColumns: '1fr',
-	// 	},
-	// 	tablet: {
-	// 		gridTemplateColumns: '1fr 1fr',
-	// 	},
-	// 	desktop: {
-	// 		gridTemplateColumns: '1fr 1fr 1fr',
-	// 	},
-	// }),
 ])
 
 export const accountListGridScrollWrapper = style([
@@ -97,11 +84,3 @@ globalStyle(`${accountListGridCard} > div`, {
 	aspectRatio: 'unset',
 	height: '100%',
 })
-
-// globalStyle(`${accountList}`, {
-// 	'@media': {
-// 		'screen and (max-width: 768px)': {
-// 			border: '1px solid red',
-// 		},
-// 	},
-// })

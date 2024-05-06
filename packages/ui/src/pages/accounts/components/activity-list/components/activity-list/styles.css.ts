@@ -40,6 +40,7 @@ export const activityTitleText = style([
 export const activityItem = style([
 	sprinkles({
 		position: 'relative',
+		background: 'backgroundSecondary',
 		paddingX: {
 			tablet: 'large',
 		},

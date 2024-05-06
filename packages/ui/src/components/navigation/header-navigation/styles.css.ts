@@ -28,6 +28,10 @@ export const navigationInnerWrapper = style([
 		display: 'flex',
 		position: 'relative',
 		alignItems: 'center',
+		paddingX: {
+			mobile: 'small',
+			tablet: 'none',
+		},
 	}),
 	{},
 	responsiveStyle({

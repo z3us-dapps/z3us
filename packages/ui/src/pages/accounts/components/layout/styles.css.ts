@@ -41,6 +41,15 @@ export const accountsStickyBoxShadow = style([
 export const main = style([
 	sprinkles({
 		position: 'relative',
+		height: 'full',
+		width: 'full',
+	}),
+	{},
+])
+
+export const mainMobileScroll = style([
+	sprinkles({
+		height: 'full',
 		display: {
 			mobile: 'block',
 			tablet: 'flex',
@@ -58,14 +67,20 @@ export const main = style([
 			tablet: 'large',
 			desktop: 'xlarge',
 		},
-		height: 'full',
+	}),
+	{},
+	responsiveStyle({
+		mobile: {
+			overflow: 'overlay',
+		},
+		tablet: {
+			overflow: 'unset',
+		},
 	}),
 ])
 
 export const panelLeft = style([
-	sprinkles({
-		overflow: 'hidden',
-	}),
+	sprinkles({}),
 	{
 		'::before': {
 			borderTopLeftRadius: vars.border.radius.xxlarge,
@@ -82,6 +97,7 @@ export const panelLeft = style([
 	},
 	responsiveStyle({
 		mobile: {
+			overflow: 'unset',
 			background: vars.color.backgroundSecondary,
 			position: 'sticky',
 			width: '100%',
@@ -89,6 +105,7 @@ export const panelLeft = style([
 			minHeight: '100vh',
 		},
 		tablet: {
+			overflow: 'hidden',
 			position: 'relative',
 			top: 'unset',
 			width: '100%',
@@ -104,10 +121,23 @@ export const panelLeft = style([
 	}),
 ])
 
-export const panelRight = style([
+export const panelLeftScroll = style([
 	sprinkles({
 		overflow: 'hidden',
 	}),
+	{},
+	responsiveStyle({
+		mobile: {
+			overflow: 'unset',
+		},
+		tablet: {
+			overflow: 'auto',
+		},
+	}),
+])
+
+export const panelRight = style([
+	sprinkles({}),
 	{
 		'::before': {
 			borderTopLeftRadius: vars.border.radius.xxlarge,
@@ -124,14 +154,18 @@ export const panelRight = style([
 	},
 	responsiveStyle({
 		mobile: {
+			overflow: 'unset',
 			position: 'sticky',
 			top: 0,
 			width: '100%',
-			height: 'calc(100vw / 8 * 5 + 60px)',
-			maxHeight: 'calc(100vh - 163px)',
-			maxWidth: 'unset',
+			// position: 'sticky',
+			// top: 0,
+			// height: 'calc(100vw / 8 * 5 + 60px)',
+			// maxHeight: 'calc(100vh - 163px)',
+			// maxWidth: 'unset',
 		},
 		tablet: {
+			overflow: 'hidden',
 			position: 'relative',
 			top: 'unset',
 			height: '100vh',
@@ -145,6 +179,18 @@ export const panelRight = style([
 		desktop: {
 			maxWidth: '392px',
 			maxHeight: 'calc(100vh - 142px)',
+		},
+	}),
+])
+
+export const panelRightScroll = style([
+	{},
+	responsiveStyle({
+		mobile: {
+			overflow: 'unset',
+		},
+		tablet: {
+			overflow: 'auto',
 		},
 	}),
 ])

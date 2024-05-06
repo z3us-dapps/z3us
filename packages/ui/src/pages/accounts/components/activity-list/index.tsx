@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -9,19 +10,20 @@ import { ActivityList } from './components/activity-list'
 import { BalancePieChart } from './components/balance-pie-chart'
 import { SideBarAccountCard } from './components/side-bar-account-card'
 import { SideBarTotal } from './components/side-bar-total'
+import * as styles from './styles.css'
 
 const Sidebar: React.FC = () => (
-	<Box height="full" position="relative" alignItems="center" paddingTop="small" paddingBottom="xsmall">
+	<Box className={styles.sideBarWrapper}>
 		<Box display={['none', 'block']}>
 			<BalancePieChart />
 		</Box>
 		<SideBarTotal />
 		<SideBarAccountCard />
 		<AccountButtons />
-		<Box display={['block', 'none']} height="full">
+		{/* <Box display={['block', 'none']} height="full">
 			<HomeScrollShadow />
 			<HorizontalAccountsScrollList />
-		</Box>
+		</Box> */}
 		<ActivityList />
 	</Box>
 )

@@ -27,6 +27,16 @@ globalStyle(`${scrollAreaNativeWrapper}::-webkit-scrollbar-thumb`, {
 	borderRadius: '5px',
 })
 
+export const scrollAreaNativeHiddenScrollBarsWrapper = style([
+	sprinkles({
+		overflow: 'auto',
+		height: 'full',
+	}),
+	{
+		scrollbarWidth: 'none',
+	},
+])
+
 export const scrolledButtonWrapper = style([
 	sprinkles({
 		position: 'absolute',

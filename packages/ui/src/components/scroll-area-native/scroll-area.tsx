@@ -16,6 +16,7 @@ interface IProps {
 	showScrollUpButton?: boolean
 	isScrollUpButtonVisible?: boolean
 	onUpButtonClicked?: () => void
+	hideScrollBars?: boolean
 }
 
 const messages = defineMessages({
@@ -33,6 +34,7 @@ export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 			overrideScrollParent,
 			showScrollUpButton = false,
 			isScrollUpButtonVisible = false,
+			hideScrollBars = false,
 			onUpButtonClicked,
 		},
 		ref,
@@ -47,9 +49,14 @@ export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 		)
 
 		return (
-			<Box ref={ref} className={clsx(styles.scrollAreaNativeWrapper, className)}>
+			<Box
+				ref={ref}
+				className={clsx(
+					hideScrollBars ? styles.scrollAreaNativeHiddenScrollBarsWrapper : styles.scrollAreaNativeWrapper,
+					className,
+				)}
+			>
 				<ScrollContext.Provider value={scrollCtx}>{children}</ScrollContext.Provider>
-
 				{showScrollUpButton ? (
 					<Box
 						className={clsx(

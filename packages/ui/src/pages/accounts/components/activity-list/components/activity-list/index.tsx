@@ -16,7 +16,7 @@ import { SkeletonRow } from './skeleton-row'
 import * as styles from './styles.css'
 
 const skeletons = Array.from({ length: 6 }, (_, i) => (
-	<Box key={i} paddingX="large">
+	<Box key={i} paddingX="large" background="backgroundSecondary">
 		<Box paddingY="small" borderBottom={1} borderStyle="solid" borderColor="borderDivider">
 			<SkeletonRow index={i} />{' '}
 		</Box>
