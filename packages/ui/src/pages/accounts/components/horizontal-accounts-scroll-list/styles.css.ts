@@ -1,10 +1,12 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const accountsAddAccountButton = style([
 	sprinkles({
 		position: 'absolute',
+		display: ['none', 'block'],
 		zIndex: 2,
 	}),
 	{
@@ -39,8 +41,14 @@ export const accountList = style([
 export const accountListGridScrollWrapper = style([
 	sprinkles({
 		width: 'full',
-		paddingX: 'xlarge',
-		paddingBottom: 'small',
+		paddingX: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
+		paddingBottom: {
+			mobile: 'large',
+			tablet: 'small',
+		},
 	}),
 	{
 		overflowX: 'auto',
@@ -53,31 +61,49 @@ export const accountListGridWrapper = style([
 		width: 'full',
 		display: 'grid',
 		gap: {
-			tablet: 'medium',
+			mobile: 'medium',
+			tablet: 'large',
 			desktop: 'large',
 		},
 	}),
-	{
-		gridTemplateRows: 'repeat(1, 160px)',
-		gridAutoFlow: 'column',
-	},
+	{},
+	responsiveStyle({
+		mobile: {
+			gridTemplateRows: 'repeat(1, 180px)',
+			gridAutoFlow: 'column',
+		},
+		tablet: {
+			gridTemplateRows: 'repeat(1, 160px)',
+			gridAutoFlow: 'column',
+		},
+	}),
 ])
 
 export const accountListGridTwoRowWrapper = style([
 	sprinkles({}),
-	{
-		gridTemplateRows: 'repeat(2, 160px)',
-	},
+	{},
+	responsiveStyle({
+		tablet: {
+			gridTemplateRows: 'repeat(2, 160px)',
+			gridAutoFlow: 'column',
+		},
+	}),
 ])
 
 export const accountListGridCard = style([
 	sprinkles({
 		display: 'block',
 	}),
-	{
-		width: '274px',
-		height: '160px',
-	},
+	responsiveStyle({
+		mobile: {
+			width: '312px',
+			height: '180px',
+		},
+		tablet: {
+			width: '274px',
+			height: '160px',
+		},
+	}),
 ])
 
 globalStyle(`${accountListGridCard} > div`, {
