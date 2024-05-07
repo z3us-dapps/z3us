@@ -131,50 +131,44 @@ const Layout: React.FC = () => {
 		<>
 			<CardBackground view="mobile" />
 			<ScrollAreaNative className={styles.mainMobileScroll} ref={mainRef} hideScrollBars>
-				<Box className={styles.panelRight}>
-					<ScrollAreaNative
-						ref={rightRef}
-						showScrollUpButton
-						onUpButtonClicked={onRightScrollUpBtnClick}
-						isScrollUpButtonVisible={isRightScrollUpButtonVisible}
-						className={styles.panelRightScroll}
-					>
-						<ScrollContext.Provider value={rightScrollCtx}>
-							<Suspense key={location.pathname} fallback={<FallbackLoading />}>
-								<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
-							</Suspense>
-						</ScrollContext.Provider>
-					</ScrollAreaNative>
-				</Box>
-				<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
-				<Box
-					className={styles.panelLeft}
-					borderTopLeftRadius={isExpanded ? undefined : 'xxxlarge'}
-					borderTopRightRadius={isExpanded ? undefined : 'xxxlarge'}
+				<ScrollAreaNative
+					ref={rightRef}
+					showScrollUpButton
+					onUpButtonClicked={onRightScrollUpBtnClick}
+					isScrollUpButtonVisible={isRightScrollUpButtonVisible}
+					className={styles.panelRightScroll}
 				>
-					<ScrollAreaNative
-						ref={leftRef}
-						showScrollUpButton
-						onUpButtonClicked={onLeftScrollUpBtnClick}
-						isScrollUpButtonVisible={isLeftScrollUpButtonVisible}
-						className={styles.panelLeftScroll}
-					>
-						<ScrollContext.Provider value={leftScrollCtx}>
-							<Box
-								className={clsx(
-									styles.accountsStickyWrapper,
-									!resourceType && !leftScrollCtx.isScrolledTop && styles.accountsStickyBoxShadow,
-								)}
-							>
-								<Breadcrumbs />
-								<AccountTotalValue />
-							</Box>
-							<Suspense key={key} fallback={<FallbackLoading />}>
-								<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-							</Suspense>
-						</ScrollContext.Provider>
-					</ScrollAreaNative>
-				</Box>
+					<ScrollContext.Provider value={rightScrollCtx}>
+						<Suspense key={location.pathname} fallback={<FallbackLoading />}>
+							<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
+						</Suspense>
+					</ScrollContext.Provider>
+				</ScrollAreaNative>
+
+				<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
+
+				<ScrollAreaNative
+					ref={leftRef}
+					showScrollUpButton
+					onUpButtonClicked={onLeftScrollUpBtnClick}
+					isScrollUpButtonVisible={isLeftScrollUpButtonVisible}
+					className={styles.panelLeftScroll}
+				>
+					<ScrollContext.Provider value={leftScrollCtx}>
+						<Box
+							className={clsx(
+								styles.accountsStickyWrapper,
+								!resourceType && !leftScrollCtx.isScrolledTop && styles.accountsStickyBoxShadow,
+							)}
+						>
+							<Breadcrumbs />
+							<AccountTotalValue />
+						</Box>
+						<Suspense key={key} fallback={<FallbackLoading />}>
+							<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+						</Suspense>
+					</ScrollContext.Provider>
+				</ScrollAreaNative>
 			</ScrollAreaNative>
 		</>
 	)

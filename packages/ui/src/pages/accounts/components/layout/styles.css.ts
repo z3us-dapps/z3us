@@ -79,7 +79,7 @@ export const mainMobileScroll = style([
 	}),
 ])
 
-export const panelLeft = style([
+export const panelLeftScroll = style([
 	sprinkles({}),
 	{
 		'::before': {
@@ -105,7 +105,7 @@ export const panelLeft = style([
 			minHeight: '100vh',
 		},
 		tablet: {
-			overflow: 'hidden',
+			overflow: 'auto',
 			position: 'relative',
 			top: 'unset',
 			width: '100%',
@@ -121,22 +121,7 @@ export const panelLeft = style([
 	}),
 ])
 
-export const panelLeftScroll = style([
-	sprinkles({
-		overflow: 'hidden',
-	}),
-	{},
-	responsiveStyle({
-		mobile: {
-			overflow: 'unset',
-		},
-		tablet: {
-			overflow: 'auto',
-		},
-	}),
-])
-
-export const panelRight = style([
+export const panelRightScroll = style([
 	sprinkles({}),
 	{
 		'::before': {
@@ -158,14 +143,10 @@ export const panelRight = style([
 			position: 'sticky',
 			top: 0,
 			width: '100%',
-			// position: 'sticky',
-			// top: 0,
-			// height: 'calc(100vw / 8 * 5 + 60px)',
-			// maxHeight: 'calc(100vh - 163px)',
-			// maxWidth: 'unset',
+			height: 'auto',
 		},
 		tablet: {
-			overflow: 'hidden',
+			overflow: 'auto',
 			position: 'relative',
 			top: 'unset',
 			height: '100vh',
@@ -179,18 +160,6 @@ export const panelRight = style([
 		desktop: {
 			maxWidth: '392px',
 			maxHeight: 'calc(100vh - 142px)',
-		},
-	}),
-])
-
-export const panelRightScroll = style([
-	{},
-	responsiveStyle({
-		mobile: {
-			overflow: 'unset',
-		},
-		tablet: {
-			overflow: 'auto',
 		},
 	}),
 ])
