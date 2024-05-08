@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useMemo, useRef } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
@@ -17,6 +17,7 @@ import { CardBackground } from './components/background'
 import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
 import { AccountTotalValue } from './components/total-value'
+import useAccountsExpand from './hooks/use-accounts-expand'
 import useAccountsScroll from './hooks/use-accounts-scroll'
 import * as styles from './styles.css'
 
@@ -70,7 +71,7 @@ const Layout: React.FC = () => {
 		onLeftScrollUpBtnClick,
 		onRightScrollUpBtnClick,
 	} = useAccountsScroll(leftRef, rightRef, mainRef, location.pathname)
-	const [isExpanded, setIsExpanded] = useState<boolean>(false)
+	const { isExpanded, onExpandAccounts } = useAccountsExpand(mainRef)
 
 	useEffect(() => {
 		const parts = []
@@ -103,30 +104,6 @@ const Layout: React.FC = () => {
 		}
 	}, [resourceType, accountId, resource, nft])
 
-	// TODO: will move to hook
-	useEffect(() => {
-		const element = mainRef.current
-		if (!element) return () => {}
-		const listener = () => {
-			setIsExpanded(rightRef.current?.clientHeight === rightRef.current?.offsetTop)
-		}
-		element.addEventListener('scroll', listener)
-		return () => {
-			element.removeEventListener('scroll', listener)
-		}
-	}, [leftRef.current, mainRef.current])
-
-	// TODO: will move to hook
-	const handleClick = () => {
-		if (isExpanded) {
-			mainRef.current?.scrollTo({ behavior: 'smooth', top: 0 })
-			setIsExpanded(false)
-		} else {
-			leftRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-			setIsExpanded(true)
-		}
-	}
-
 	return (
 		<>
 			<CardBackground view="mobile" />
@@ -146,12 +123,8 @@ const Layout: React.FC = () => {
 						</ScrollContext.Provider>
 					</ScrollAreaNative>
 				</Box>
-				<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
-				<Box
-					className={styles.panelLeft}
-					borderTopLeftRadius={isExpanded ? undefined : 'xxxlarge'}
-					borderTopRightRadius={isExpanded ? undefined : 'xxxlarge'}
-				>
+				<MobileScrollingButtons isExpanded={isExpanded} onClick={onExpandAccounts} />
+				<Box className={styles.panelLeft}>
 					<ScrollAreaNative
 						ref={leftRef}
 						showScrollUpButton

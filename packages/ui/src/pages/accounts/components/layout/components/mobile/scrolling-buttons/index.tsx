@@ -86,7 +86,7 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ isExpanded, onClick }
 		<Box
 			className={clsx(
 				styles.accountRoutesScrollingStickyBtnWrapper,
-				!isExpanded && styles.accountRoutesScrollingStickyShadow,
+				isExpanded && styles.accountRoutesScrollingStickyShadow,
 				styles.accountRoutesScrollingStickyBtnCollectionWrapper,
 			)}
 		>
@@ -99,7 +99,7 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ isExpanded, onClick }
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonLeft,
 							!isActivitiesVisible && styles.tabsWrapperButtonActive,
-							!isExpanded && styles.tabsWrapperButtonSticky,
+							isExpanded && styles.tabsWrapperButtonSticky,
 						)}
 					>
 						<Text size="medium" weight="strong" align="center" color={!isActivitiesVisible ? 'strong' : 'neutral'}>
@@ -113,7 +113,7 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ isExpanded, onClick }
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,
 							isActivitiesVisible && styles.tabsWrapperButtonActive,
-							!isExpanded && styles.tabsWrapperButtonSticky,
+							isExpanded && styles.tabsWrapperButtonSticky,
 						)}
 					>
 						<Text size="small" weight="strong" align="center" color={isActivitiesVisible ? 'strong' : 'neutral'}>

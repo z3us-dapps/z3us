@@ -33,7 +33,7 @@ export const navigationInnerWrapper = style([
 	}),
 	responsiveStyle({
 		mobile: {
-			height: '58px',
+			height: '48px',
 		},
 		tablet: {
 			height: '70px',

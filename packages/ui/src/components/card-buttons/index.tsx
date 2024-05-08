@@ -58,7 +58,7 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 					iconOnly
 					rounded
 					styleVariant="inverse"
-					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+					sizeVariant={{ mobile: 'large', tablet: 'large' }}
 					to={`/transfer?${query}`}
 				>
 					<UpRight2Icon />
@@ -68,7 +68,7 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 			{qrValue !== '-' && (
 				<QrPopOver address={qrValue}>
 					<ToolTip message={intl.formatMessage(messages.address)}>
-						<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'medium', tablet: 'large' }}>
+						<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'large', tablet: 'large' }}>
 							<QrCode2Icon />
 						</Button>
 					</ToolTip>
@@ -81,7 +81,7 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 						iconOnly
 						rounded
 						styleVariant="inverse"
-						sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+						sizeVariant={{ mobile: 'large', tablet: 'large' }}
 						to={`${dashboardUrl}/network-staking/${validator}`}
 						target="_blank"
 					>
@@ -96,7 +96,7 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 						iconOnly
 						rounded
 						styleVariant="inverse"
-						sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+						sizeVariant={{ mobile: 'large', tablet: 'large' }}
 						to={infoUrl}
 						target="_blank"
 					>
@@ -111,7 +111,7 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 				}
 				z3usExplorerUrl={`https://z3us.com/#${location.pathname}`}
 				trigger={
-					<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'medium', tablet: 'large' }}>
+					<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'large', tablet: 'large' }}>
 						<ExternalLinkIcon />
 					</Button>
 				}

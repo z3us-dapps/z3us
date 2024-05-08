@@ -2,7 +2,6 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 
-import { HomeScrollShadow } from '../home-scroll-shadow'
 import HorizontalAccountsScrollList from '../horizontal-accounts-scroll-list'
 import { AccountButtons } from './components/account-buttons'
 import { ActivityList } from './components/activity-list'
@@ -18,11 +17,10 @@ const Sidebar: React.FC = () => (
 		</Box>
 		<SideBarTotal />
 		<SideBarAccountCard />
-		<AccountButtons />
 		<Box display={['block', 'none']}>
-			{/* <HomeScrollShadow /> */}
 			<HorizontalAccountsScrollList />
 		</Box>
+		<AccountButtons />
 		<ActivityList />
 	</Box>
 )

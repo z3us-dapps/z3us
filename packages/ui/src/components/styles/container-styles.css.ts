@@ -18,7 +18,7 @@ export const containerWrapper = style([
 	{},
 	responsiveStyle({
 		mobile: {
-			maxHeight: 'calc(100vh - 105px)',
+			maxHeight: 'calc(100vh - 95px)',
 		},
 		tablet: {
 			maxHeight: 'unset',

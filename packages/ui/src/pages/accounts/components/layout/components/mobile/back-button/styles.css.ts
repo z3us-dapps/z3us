@@ -14,7 +14,7 @@ export const accountRoutesWrapper = style([
 
 	responsiveStyle({
 		mobile: {
-			minHeight: 'calc(100vh - 58px - 48px)',
+			minHeight: 'calc(100vh - 48px - 48px)',
 		},
 	}),
 ])

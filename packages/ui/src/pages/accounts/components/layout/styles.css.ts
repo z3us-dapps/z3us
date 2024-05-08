@@ -102,7 +102,7 @@ export const panelLeft = style([
 			position: 'sticky',
 			width: '100%',
 			zIndex: 1,
-			minHeight: '100vh',
+			minHeight: 'calc(100vh - 155px)',
 		},
 		tablet: {
 			overflow: 'hidden',
