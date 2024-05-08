@@ -40,6 +40,18 @@ const messages = defineMessages({
 		id: 'Ya7CkP',
 		defaultMessage: 'Show seed phrase or extended private key',
 	},
+	remove_webatuh_title: {
+		id: 'AQN5EU',
+		defaultMessage: 'Remove WebAuthn',
+	},
+	remove_webatuh_subtitle: {
+		id: '1LVBa5',
+		defaultMessage: `Disable WebAuthn authentication from your wallet`,
+	},
+	remove_webatuh: {
+		id: 'YLr10W',
+		defaultMessage: 'Disable WebAuthn',
+	},
 	remove_title: {
 		id: '2P7Gje',
 		defaultMessage: 'Remove wallet',
@@ -68,9 +80,10 @@ const General: React.FC = () => {
 	const navigate = useNavigate()
 	const { isWallet, removeSecret, confirm } = useZdtState()
 
-	const { keystore, changeKeystoreName } = useSharedStore(state => ({
+	const { keystore, changeKeystoreName, enableWebAuthn } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 		changeKeystoreName: state.changeKeystoreNameAction,
+		enableWebAuthn: state.setKeystoreWebAuthnAction,
 	}))
 
 	useEffect(() => {
@@ -93,6 +106,11 @@ const General: React.FC = () => {
 		})
 		await removeSecret(password)
 		navigate('/')
+	}
+
+	const handleDisableWebAuthn = async () => {
+		if (!keystore?.id) return
+		await enableWebAuthn(keystore.id)
 	}
 
 	return (
@@ -157,6 +175,26 @@ const General: React.FC = () => {
 								</Box>
 							))}
 						</Box>
+					}
+				/>
+			)}
+			{isWallet && keystore?.webAuthn && (
+				<SettingsBlock
+					isBottomBorderVisible={false}
+					leftCol={
+						<>
+							<Text size="large" weight="strong" color="strong">
+								{intl.formatMessage(messages.remove_webatuh_title)}
+							</Text>
+							<Box>
+								<Text size="xsmall">{intl.formatMessage(messages.remove_webatuh_subtitle)}</Text>
+							</Box>
+						</>
+					}
+					rightCol={
+						<Button onClick={handleDisableWebAuthn} styleVariant="destructive" sizeVariant="xlarge" fullWidth>
+							{intl.formatMessage(messages.remove_webatuh)}
+						</Button>
 					}
 				/>
 			)}

@@ -72,11 +72,8 @@ export class Vault {
 		const release = await this.mutex.acquire()
 		try {
 			if (!this.wallet) {
-				throw new Error('Locked')
+				await this.clearState()
 			}
-		} catch (error) {
-			await this.clearState()
-			throw error
 		} finally {
 			release()
 
