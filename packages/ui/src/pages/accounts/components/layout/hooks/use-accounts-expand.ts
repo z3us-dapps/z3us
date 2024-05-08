@@ -6,7 +6,7 @@ interface IAccountsExpandObj {
 	onExpandAccounts: () => void
 }
 
-const MIN_SCROLL_HEIGHT = 375
+const MIN_SCROLL_HEIGHT = 370
 
 const useAccountsExpand = (mainRef: React.RefObject<HTMLElement>): IAccountsExpandObj => {
 	const [isExpanded, setIsExpanded] = useState<boolean>(false)
