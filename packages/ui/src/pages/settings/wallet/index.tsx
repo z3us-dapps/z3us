@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate } from 'react-router-dom'
+import { useMatches, useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -40,18 +40,6 @@ const messages = defineMessages({
 		id: 'Ya7CkP',
 		defaultMessage: 'Show seed phrase or extended private key',
 	},
-	remove_webatuh_title: {
-		id: 'AQN5EU',
-		defaultMessage: 'Remove WebAuthn',
-	},
-	remove_webatuh_subtitle: {
-		id: '1LVBa5',
-		defaultMessage: `Disable WebAuthn authentication from your wallet`,
-	},
-	remove_webatuh: {
-		id: 'YLr10W',
-		defaultMessage: 'Disable WebAuthn',
-	},
 	remove_title: {
 		id: '2P7Gje',
 		defaultMessage: 'Remove wallet',
@@ -80,15 +68,19 @@ const General: React.FC = () => {
 	const navigate = useNavigate()
 	const { isWallet, removeSecret, confirm } = useZdtState()
 
-	const { keystore, changeKeystoreName, enableWebAuthn } = useSharedStore(state => ({
+	const { keystore, changeKeystoreName } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 		changeKeystoreName: state.changeKeystoreNameAction,
-		enableWebAuthn: state.setKeystoreWebAuthnAction,
 	}))
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [inputRef?.current])
+	const matches = useMatches()
+
+	const customSettings = matches
+		.filter(match => Boolean((match.handle as any)?.custom))
+		.map(match => (match.handle as any).custom)
 
 	const handleWalletNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const evt = event.nativeEvent as InputEvent
@@ -106,11 +98,6 @@ const General: React.FC = () => {
 		})
 		await removeSecret(password)
 		navigate('/')
-	}
-
-	const handleDisableWebAuthn = async () => {
-		if (!keystore?.id) return
-		await enableWebAuthn(keystore.id)
 	}
 
 	return (
@@ -178,26 +165,7 @@ const General: React.FC = () => {
 					}
 				/>
 			)}
-			{isWallet && keystore?.webAuthn && (
-				<SettingsBlock
-					isBottomBorderVisible={false}
-					leftCol={
-						<>
-							<Text size="large" weight="strong" color="strong">
-								{intl.formatMessage(messages.remove_webatuh_title)}
-							</Text>
-							<Box>
-								<Text size="xsmall">{intl.formatMessage(messages.remove_webatuh_subtitle)}</Text>
-							</Box>
-						</>
-					}
-					rightCol={
-						<Button onClick={handleDisableWebAuthn} styleVariant="destructive" sizeVariant="xlarge" fullWidth>
-							{intl.formatMessage(messages.remove_webatuh)}
-						</Button>
-					}
-				/>
-			)}
+			{customSettings}
 			{isWallet && (
 				<SettingsBlock
 					isBottomBorderVisible={false}

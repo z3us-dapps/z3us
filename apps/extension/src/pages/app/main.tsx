@@ -30,20 +30,29 @@ import interactionRoute from '@src/pages/interaction/router'
 import keystoreRoute from '@src/pages/keystore/router'
 import '@src/styles/global-style.css'
 
-import RadixSettings from './components/settings'
+import RadixSettings from './components/settings/radix'
+import WebAuthnSettings from './components/settings/webauthn'
 
 const container: HTMLElement | null = document.getElementById('root')
 
 enableMapSet()
 
-let patchedSettingsRoute = settingsRoute
+let patchedSettingsRoute = {
+	...settingsRoute,
+	children: settingsRoute.children.map(child =>
+		child.path === 'wallet'
+			? { ...child, handle: { ...((child as any).handle || {}), custom: <WebAuthnSettings key="webauthn-settings" /> } }
+			: child,
+	),
+}
+
 if (APP_RADIX) {
 	// eslint-disable-next-line no-console
 	import('@src/browser/content-script').catch(console.error)
 
 	patchedSettingsRoute = {
-		...settingsRoute,
-		children: settingsRoute.children.map(child =>
+		...patchedSettingsRoute,
+		children: patchedSettingsRoute.children.map(child =>
 			child.index === true
 				? { ...child, handle: { ...((child as any).handle || {}), custom: <RadixSettings key="radix-settings" /> } }
 				: child,

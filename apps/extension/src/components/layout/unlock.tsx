@@ -1,4 +1,3 @@
-import SelectField from 'packages/ui/src/components/form/fields/select-field'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
@@ -15,11 +14,9 @@ import { Z3usLogoLarge, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
-import { login, register } from '@src/webauthn/credentials'
+import { login } from '@src/webauthn/credentials'
 
 import * as styles from './styles.css'
-
-const isWebAuthAvailable = window.PublicKeyCredential && 'credentials' in navigator
 
 const messages = defineMessages({
 	wallet_label: {
@@ -29,18 +26,6 @@ const messages = defineMessages({
 	password_placeholder: {
 		defaultMessage: 'Password',
 		id: '5sg7KC',
-	},
-	enable_webauthn: {
-		defaultMessage: 'Enable WebAuthn',
-		id: 'GPtDoS',
-	},
-	enable_webauthn_platform: {
-		defaultMessage: 'Platform auth (TouchID, fingerprint or other)',
-		id: 'hDSQVD',
-	},
-	enable_webauthn_cross_platform: {
-		defaultMessage: 'Cross platform auth (YubiKey or other)',
-		id: 'KZxNj6',
 	},
 	unlock_error: {
 		defaultMessage: 'Incorrect password!',
@@ -58,7 +43,6 @@ const messages = defineMessages({
 
 const initialValues = {
 	password: '',
-	authenticator: '',
 }
 
 interface IProps {
@@ -71,20 +55,13 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	const inputRef = useRef(null)
 	const client = useMessageClient()
 
-	const { keystore, keystores, selectKeystore, enableWebAuthn } = useSharedStore(state => ({
+	const { keystore, keystores, selectKeystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 		keystores: state.keystores,
 		selectKeystore: state.selectKeystoreAction,
-		enableWebAuthn: state.setKeystoreWebAuthnAction,
 	}))
 
-	const [canUsePlatformAuth, setCanUsePlatformAuth] = useState<boolean>(false)
 	const [error, setError] = useState<string>('')
-
-	useEffect(() => {
-		if (!isWebAuthAvailable) return
-		PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(setCanUsePlatformAuth)
-	}, [])
 
 	useEffect(() => {
 		inputRef?.current?.focus()
@@ -107,14 +84,6 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 		login(keystore).then(handleUnlock).catch(console.error)
 	}, [keystore?.id])
 
-	const authenticators = useMemo(() => {
-		const options = [{ id: 'cross-platform', title: intl.formatMessage(messages.enable_webauthn_cross_platform) }]
-		if (canUsePlatformAuth) {
-			options.push({ id: 'platform', title: intl.formatMessage(messages.enable_webauthn_platform) })
-		}
-		return options
-	}, [canUsePlatformAuth])
-
 	const selectItems = useMemo(() => {
 		const items = keystores.map(({ id, name }) => ({ id, title: name }))
 		items.push({ id: '', title: intl.formatMessage(messages.wallet_add) })
@@ -131,17 +100,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	}
 
 	const handleSubmit = async (values: typeof initialValues) => {
-		if (values.authenticator) {
-			await register(keystore, values.password, values.authenticator as AuthenticatorAttachment)
-				.then(credentials => {
-					enableWebAuthn(keystore.id, credentials)
-					return { ...keystore, webAuthn: credentials }
-				})
-				.then(login)
-				.then(handleUnlock)
-		} else {
-			await handleUnlock(values.password)
-		}
+		await handleUnlock(values.password)
 	}
 
 	return (
@@ -173,16 +132,6 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 							</Text>
 							<PasswordField ref={inputRef} name="password" sizeVariant="large" styleVariant="secondary" />
 						</Box>
-						{isWebAuthAvailable && !keystore.webAuthn && (
-							<SelectField
-								name="authenticator"
-								placeholder={intl.formatMessage(messages.enable_webauthn)}
-								sizeVariant="large"
-								data={authenticators}
-								fullWidth
-								disabled={!isWebAuthAvailable}
-							/>
-						)}
 						<Box className={styles.unlockValidationWrapper}>
 							<ValidationErrorMessage message={error} />
 						</Box>
