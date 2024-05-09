@@ -11,6 +11,7 @@ import { getSecret, removeSecret, saveSecret, setConnectionPassword } from './st
 
 type WalletData = {
 	timer?: NodeJS.Timeout
+	runtimeId: string
 	keystore: Keystore
 	data: Data
 }
@@ -40,7 +41,7 @@ export class Vault {
 		return this.wallet
 	}
 
-	unlock = async (keystore: Keystore, password: string): Promise<WalletData> => {
+	unlock = async (keystore: Keystore, runtimeId: string, password: string): Promise<WalletData> => {
 		const release = await this.mutex.acquire()
 		try {
 			const secret = await getSecret(keystore.id)
@@ -53,7 +54,7 @@ export class Vault {
 			if (this.wallet?.timer) {
 				clearTimeout(this.wallet.timer)
 			}
-			this.wallet = { keystore, data }
+			this.wallet = { keystore, data, runtimeId }
 			if (walletUnlockTimeoutInMinutes > 0) {
 				this.wallet.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
 			}
@@ -68,7 +69,7 @@ export class Vault {
 		return this.wallet
 	}
 
-	get = async (): Promise<WalletData | null> => {
+	get = async (runtimeId: string): Promise<WalletData | null> => {
 		const release = await this.mutex.acquire()
 		try {
 			if (!this.wallet) {
@@ -77,7 +78,7 @@ export class Vault {
 		} finally {
 			release()
 
-			await this.restartTimer()
+			await this.restartTimer(runtimeId)
 		}
 
 		return this.wallet
@@ -133,25 +134,62 @@ export class Vault {
 	}
 
 	private lockOnTimer = async () => {
-		await sharedStore.persist.rehydrate()
-		const { selectedKeystoreId } = sharedStore.getState()
-
-		const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
-		await noneSharedStore.persist.rehydrate()
-		const { walletUnlockTimeoutInMinutes } = noneSharedStore.getState()
-
-		if (this.wallet?.keystore.id !== selectedKeystoreId) {
-			// eslint-disable-next-line no-console
-			console.error(
-				`Vault.lockOnTimer memory keystore ${this.wallet?.keystore.id} !== selected keystore ${selectedKeystoreId}`,
-			)
-		} else if (walletUnlockTimeoutInMinutes > 0) {
-			const release = await this.mutex.acquire()
-			try {
-				await this.clearState()
-			} finally {
-				release()
+		const release = await this.mutex.acquire()
+		try {
+			if (!this.wallet) {
+				return
 			}
+
+			await sharedStore.persist.rehydrate()
+			const { selectedKeystoreId } = sharedStore.getState()
+
+			const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
+			await noneSharedStore.persist.rehydrate()
+			const { walletUnlockTimeoutInMinutes } = noneSharedStore.getState()
+
+			if (this.wallet?.keystore.id !== selectedKeystoreId) {
+				// eslint-disable-next-line no-console
+				console.error(
+					`Vault.lockOnTimer memory keystore ${this.wallet?.keystore.id} !== selected keystore ${selectedKeystoreId}`,
+				)
+			} else if (walletUnlockTimeoutInMinutes > 0) {
+				await this.clearState()
+			}
+		} finally {
+			release()
+		}
+	}
+
+	private restartTimer = async (currentRuntimeId: string) => {
+		const release = await this.mutex.acquire()
+		try {
+			if (!this.wallet) {
+				return
+			}
+
+			const { runtimeId, timer } = this.wallet
+			await sharedStore.persist.rehydrate()
+			const { selectedKeystoreId } = sharedStore.getState()
+
+			const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
+			await noneSharedStore.persist.rehydrate()
+			const { walletUnlockTimeoutInMinutes } = noneSharedStore.getState()
+
+			if (walletUnlockTimeoutInMinutes === -1 && currentRuntimeId !== runtimeId) {
+				await this.clearState()
+			} else {
+				if (timer) {
+					clearTimeout(timer)
+				}
+				if (walletUnlockTimeoutInMinutes > 0) {
+					this.wallet.timer = setTimeout(this.lockOnTimer, walletUnlockTimeoutInMinutes * 60 * 1000)
+				}
+			}
+		} catch (error) {
+			await this.lock()
+			throw error
+		} finally {
+			release()
 		}
 	}
 
@@ -161,32 +199,6 @@ export class Vault {
 		}
 		this.wallet = null
 		await this.setConnectionPassword()
-	}
-
-	private restartTimer = async () => {
-		if (this.wallet) {
-			await sharedStore.persist.rehydrate()
-			const { selectedKeystoreId } = sharedStore.getState()
-
-			const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
-			await noneSharedStore.persist.rehydrate()
-			const { walletUnlockTimeoutInMinutes } = noneSharedStore.getState()
-
-			const release = await this.mutex.acquire()
-			try {
-				if (this.wallet?.timer) {
-					clearTimeout(this.wallet.timer)
-				}
-				if (walletUnlockTimeoutInMinutes > 0) {
-					this.wallet.timer = setTimeout(this.lockOnTimer, walletUnlockTimeoutInMinutes * 60 * 1000)
-				}
-			} catch (error) {
-				await this.lock()
-				throw error
-			} finally {
-				release()
-			}
-		}
 	}
 
 	private setConnectionPassword = async () => {

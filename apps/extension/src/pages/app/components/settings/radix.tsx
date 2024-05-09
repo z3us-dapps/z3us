@@ -140,7 +140,7 @@ const Settings: React.FC = () => {
 						dropDownWidth={150}
 						onValueChange={handleChangeUnlockTime}
 						data={[
-							{ id: '0.06', title: intl.formatMessage(messages.session_always) },
+							{ id: '-1', title: intl.formatMessage(messages.session_always) },
 							{ id: '0', title: intl.formatMessage(messages.session_never) },
 							{ id: '1', title: intl.formatMessage(messages.session_one_minute) },
 							{ id: '5', title: intl.formatMessage(messages.session_five_minutes) },

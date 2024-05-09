@@ -24,6 +24,7 @@ import { DappStatusProvider } from '@src/context/dapp-status-provider'
 import IntlProvider from '@src/context/intl-provider'
 import { ClientProvider as LedgerClientProvider } from '@src/context/ledger-client-provider'
 import { ClientProvider as MessageClientProvider } from '@src/context/message-client-provider'
+import { Provider as RuntimeIdProvider } from '@src/context/runtime-id-provider'
 import { ThemeProvider } from '@src/context/theme-provider'
 import { ZdtProvider } from '@src/context/zdt-provider'
 import interactionRoute from '@src/pages/interaction/router'
@@ -88,30 +89,32 @@ if (import.meta.hot) {
 
 ReactDOM.createRoot(container).render(
 	<React.StrictMode>
-		<ThemeProvider>
-			<DappStatusProvider>
-				<ReactQueryProvider queryClient={queryClient}>
-					<NoneSharedStoreProvider>
-						<IntlProvider>
-							<ModalsProvider>
-								<MessageClientProvider>
-									<LedgerClientProvider>
-										<RdtProvider>
-											<ZdtProvider>
-												<ImageProvider>
-													<CompareWithDateProvider>
-														<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
-													</CompareWithDateProvider>
-												</ImageProvider>
-											</ZdtProvider>
-										</RdtProvider>
-									</LedgerClientProvider>
-								</MessageClientProvider>
-							</ModalsProvider>
-						</IntlProvider>
-					</NoneSharedStoreProvider>
-				</ReactQueryProvider>
-			</DappStatusProvider>
-		</ThemeProvider>
+		<RuntimeIdProvider>
+			<ThemeProvider>
+				<DappStatusProvider>
+					<ReactQueryProvider queryClient={queryClient}>
+						<NoneSharedStoreProvider>
+							<IntlProvider>
+								<ModalsProvider>
+									<MessageClientProvider>
+										<LedgerClientProvider>
+											<RdtProvider>
+												<ZdtProvider>
+													<ImageProvider>
+														<CompareWithDateProvider>
+															<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+														</CompareWithDateProvider>
+													</ImageProvider>
+												</ZdtProvider>
+											</RdtProvider>
+										</LedgerClientProvider>
+									</MessageClientProvider>
+								</ModalsProvider>
+							</IntlProvider>
+						</NoneSharedStoreProvider>
+					</ReactQueryProvider>
+				</DappStatusProvider>
+			</ThemeProvider>
+		</RuntimeIdProvider>
 	</React.StrictMode>,
 )

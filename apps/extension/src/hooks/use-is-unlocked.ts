@@ -4,7 +4,7 @@ import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from './use-message-client'
 
-const refreshInterval = 3 * 1000 // 3 seconds
+const refreshInterval = 30 * 1000 // 30 seconds
 
 export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; reload: () => void } => {
 	const client = useMessageClient()
