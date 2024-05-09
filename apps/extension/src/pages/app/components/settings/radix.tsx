@@ -12,6 +12,10 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { SettingsBlock } from 'ui/src/pages/settings/components/settings-block'
 
 const messages = defineMessages({
+	session_always: {
+		id: 'kigBhd',
+		defaultMessage: 'Always locked',
+	},
 	session_never: {
 		id: 'G3UF1P',
 		defaultMessage: 'Keep unlocked',
@@ -88,7 +92,7 @@ const Settings: React.FC = () => {
 	}, [])
 
 	const handleChangeUnlockTime = (minute: string) => {
-		setWalletUnlockTimeoutInMinutes(parseInt(minute, 10))
+		setWalletUnlockTimeoutInMinutes(parseFloat(minute))
 	}
 
 	const handleToggleRadixConnector = async () => {
@@ -136,6 +140,7 @@ const Settings: React.FC = () => {
 						dropDownWidth={150}
 						onValueChange={handleChangeUnlockTime}
 						data={[
+							{ id: '0.06', title: intl.formatMessage(messages.session_always) },
 							{ id: '0', title: intl.formatMessage(messages.session_never) },
 							{ id: '1', title: intl.formatMessage(messages.session_one_minute) },
 							{ id: '5', title: intl.formatMessage(messages.session_five_minutes) },
