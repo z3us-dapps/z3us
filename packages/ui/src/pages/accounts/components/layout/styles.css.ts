@@ -71,7 +71,7 @@ export const mainMobileScroll = style([
 	{},
 	responsiveStyle({
 		mobile: {
-			overflow: 'overlay',
+			overflow: 'auto',
 		},
 		tablet: {
 			overflow: 'unset',
@@ -102,7 +102,7 @@ export const panelLeft = style([
 			position: 'sticky',
 			width: '100%',
 			zIndex: 1,
-			minHeight: 'calc(100vh - 155px)',
+			minHeight: 'calc(100vh - 153px)',
 		},
 		tablet: {
 			overflow: 'hidden',
