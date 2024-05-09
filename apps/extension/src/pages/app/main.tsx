@@ -31,6 +31,7 @@ import interactionRoute from '@src/pages/interaction/router'
 import keystoreRoute from '@src/pages/keystore/router'
 import '@src/styles/global-style.css'
 
+import BootstrapBalances from './components/balances'
 import RadixSettings from './components/settings/radix'
 import WebAuthnSettings from './components/settings/webauthn'
 
@@ -100,6 +101,7 @@ ReactDOM.createRoot(container).render(
 										<LedgerClientProvider>
 											<RdtProvider>
 												<ZdtProvider>
+													<BootstrapBalances />
 													<ImageProvider>
 														<CompareWithDateProvider>
 															<RouterProvider router={router} fallbackElement={<FallbackLoading />} />

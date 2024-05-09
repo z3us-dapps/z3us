@@ -81,6 +81,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 
 	useEffect(() => {
 		if (!keystore.webAuthn) return
+		// eslint-disable-next-line no-console
 		login(keystore).then(handleUnlock).catch(console.error)
 	}, [keystore?.id])
 
