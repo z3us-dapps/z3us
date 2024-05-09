@@ -6,15 +6,23 @@ import { vars } from 'ui/src/theme/theme.css'
 
 export const cardButtonsWrapper = style([
 	sprinkles({
+		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
 		width: 'full',
+		paddingTop: {
+			mobile: 'medium',
+			tablet: 'none',
+		},
 		paddingBottom: {
+			mobile: 'large',
 			tablet: 'medium',
 		},
-	}),
-	responsiveStyle({
-		tablet: { borderBottom: '1px solid', borderColor: vars.color.borderDivider },
+		borderBottom: {
+			tablet: '1',
+		},
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
 	}),
 ])
 
@@ -24,13 +32,15 @@ export const cardButtonsWrapperAllAccounts = style([
 			mobile: 'flex',
 			tablet: 'none',
 		},
-		paddingBottom: {
-			mobile: 'large',
-			tablet: 'none',
+	}),
+	responsiveStyle({
+		mobile: {
+			paddingTop: vars.spacing.xsmall,
+			paddingBottom: vars.spacing.large,
 		},
-		paddingTop: {
-			mobile: 'medium',
-			tablet: 'none',
+		tablet: {
+			paddingBottom: 'none',
+			paddingTop: 'none',
 		},
 	}),
 ])
