@@ -47,12 +47,15 @@ const messages = defineMessages({
 const LSUs: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { scrollableNode, isScrolledTop } = useScroll()
+	const { scrollableNode } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
 	const [compareDate, setCompareDate] = useCompareWithDate()
 
-	const { liquidityPoolTokensBalances = [] } = useSelectedAccountsBalances()
+	const {
+		data: { liquidityPoolTokensBalances = [] },
+		isLoading,
+	} = useSelectedAccountsBalances()
 
 	const selectedRowIds = useMemo(() => {
 		const idx = liquidityPoolTokensBalances.findIndex(b => b.address === resourceId)
@@ -131,6 +134,7 @@ const LSUs: React.FC = () => {
 				columns={columns}
 				onRowSelected={handleRowSelected}
 				selectedRowIds={selectedRowIds}
+				loading={isLoading}
 			/>
 		</Box>
 	)

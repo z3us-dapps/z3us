@@ -1,11 +1,9 @@
 import clsx from 'clsx'
-import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
+import React, { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { ScrollAreaNative, ScrollContext } from 'ui/src/components/scroll-area-native'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
@@ -52,9 +50,7 @@ const Layout: React.FC = () => {
 	const sidebars = matches
 		.filter(match => Boolean((match.handle as any)?.sidebar))
 		.map(match => (match.handle as any).sidebar)
-
 	const [sidebar] = sidebars.reverse()
-	const key = useMemo(() => location.pathname.split('/')[2] || '-', [location.pathname])
 
 	const { data: resource } = useEntityDetails(resourceId)
 	const { data: nft } = useNonFungibleData(resourceId, nftId)
@@ -139,11 +135,7 @@ const Layout: React.FC = () => {
 						isScrollUpButtonVisible={isRightScrollUpButtonVisible}
 						className={styles.panelRightScroll}
 					>
-						<ScrollContext.Provider value={rightScrollCtx}>
-							<Suspense key={location.pathname} fallback={<FallbackLoading />}>
-								<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
-							</Suspense>
-						</ScrollContext.Provider>
+						<ScrollContext.Provider value={rightScrollCtx}>{sidebar}</ScrollContext.Provider>
 					</ScrollAreaNative>
 				</Box>
 				<MobileScrollingButtons isExpanded={isExpanded} onClick={handleClick} />
@@ -169,9 +161,7 @@ const Layout: React.FC = () => {
 								<Breadcrumbs />
 								<AccountTotalValue />
 							</Box>
-							<Suspense key={key} fallback={<FallbackLoading />}>
-								<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-							</Suspense>
+							{outlet}
 						</ScrollContext.Provider>
 					</ScrollAreaNative>
 				</Box>

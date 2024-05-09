@@ -15,7 +15,6 @@ import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 import accountsRoute from 'ui/src/pages/accounts/router'
 import noMatchRoute from 'ui/src/pages/no-match/router'
 import settingsRoute from 'ui/src/pages/settings/router'
-import stakingRoute from 'ui/src/pages/staking/router'
 import transferRoute from 'ui/src/pages/transfer/router'
 import queryClient from 'ui/src/services/react-query'
 
@@ -75,7 +74,7 @@ export const router = createHashRouter([
 			},
 			{
 				element: <AppLayout />,
-				children: [accountsRoute, patchedSettingsRoute, stakingRoute, transferRoute],
+				children: [accountsRoute, patchedSettingsRoute, transferRoute],
 			},
 			keystoreRoute,
 			interactionRoute,

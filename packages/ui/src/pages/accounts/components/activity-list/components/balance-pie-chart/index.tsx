@@ -31,11 +31,13 @@ export const BalancePieChart: React.FC = () => {
 	const accounts = useWalletAccounts()
 	const accountValues = useAccountValues()
 	const {
-		balances = [],
-		tokensBalances = [],
-		liquidityPoolTokensBalances = [],
-		poolUnitsBalances = [],
-		nonFungibleBalances = [],
+		data: {
+			balances = [],
+			tokensBalances = [],
+			liquidityPoolTokensBalances = [],
+			poolUnitsBalances = [],
+			nonFungibleBalances = [],
+		},
 	} = useSelectedAccountsBalances()
 
 	const selectedBalances = useMemo(() => {
