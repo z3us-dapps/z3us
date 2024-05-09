@@ -61,6 +61,7 @@ const Layout: React.FC = () => {
 	const { data: nft } = useNonFungibleData(resourceId, nftId)
 
 	const mainRef = useRef<HTMLElement>()
+	const buttonsRef = useRef<HTMLElement>()
 	const rightRef = useRef<HTMLElement>()
 	const leftRef = useRef<HTMLElement>()
 	const {
@@ -71,7 +72,7 @@ const Layout: React.FC = () => {
 		onLeftScrollUpBtnClick,
 		onRightScrollUpBtnClick,
 	} = useAccountsScroll(leftRef, rightRef, mainRef, location.pathname)
-	const { isExpanded, onExpandAccounts } = useAccountsExpand(mainRef)
+	const { isExpanded, onExpandAccounts } = useAccountsExpand(mainRef, buttonsRef, location.pathname)
 
 	useEffect(() => {
 		const parts = []
@@ -123,7 +124,7 @@ const Layout: React.FC = () => {
 						</ScrollContext.Provider>
 					</ScrollAreaNative>
 				</Box>
-				<MobileScrollingButtons isExpanded={isExpanded} onClick={onExpandAccounts} />
+				<MobileScrollingButtons ref={buttonsRef} isExpanded={isExpanded} onClick={onExpandAccounts} />
 				<Box className={styles.panelLeft}>
 					<ScrollAreaNative
 						ref={leftRef}

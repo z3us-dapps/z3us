@@ -75,12 +75,8 @@ export const BalancePieChart: React.FC = () => {
 
 	return (
 		<Box display={isAllAccounts ? 'flex' : 'none'} className={clsx(styles.allChartWrapper)}>
-			<Box className={styles.allChartInnerWrapper}>
-				<Box className={styles.motionWrapper}>
-					<Box className={styles.pieChartWrapper}>
-						<Chart data={isAllAccounts && !resourceType ? accountsData : balancesData} />
-					</Box>
-				</Box>
+			<Box className={styles.pieChartWrapper}>
+				<Chart data={isAllAccounts && !resourceType ? accountsData : balancesData} />
 			</Box>
 		</Box>
 	)

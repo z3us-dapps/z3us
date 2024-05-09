@@ -29,7 +29,7 @@ export const cardButtonsWrapperAllAccounts = style([
 			tablet: 'none',
 		},
 		paddingTop: {
-			mobile: 'xsmall',
+			mobile: 'medium',
 			tablet: 'none',
 		},
 	}),

@@ -7,49 +7,11 @@ import { vars } from 'ui/src/theme/theme.css'
 export const allChartWrapper = style([
 	sprinkles({
 		position: 'relative',
-		paddingTop: {
-			mobile: 'none',
-			tablet: 'small',
-		},
-		paddingX: {
-			mobile: 'none',
-			tablet: 'none',
-		},
-		paddingBottom: {
-			mobile: 'xsmall',
-			tablet: 'none',
-		},
+		paddingTop: 'small',
+		paddingBottom: 'small',
 	}),
 	responsiveStyle({
 		tablet: { borderBottom: '1px solid', borderColor: vars.color.borderDivider },
-	}),
-])
-
-export const allChartInnerWrapper = style([
-	sprinkles({
-		borderRadius: 'small',
-		position: 'relative',
-		width: 'full',
-	}),
-	{},
-	responsiveStyle({
-		tablet: {
-			background: 'unset',
-		},
-	}),
-])
-
-globalStyle(`${allChartInnerWrapper} .recharts-layer.recharts-pie-sector path:focus`, {
-	outline: 'none !important',
-})
-
-globalStyle(`${allChartInnerWrapper} .recharts-layer.recharts-pie-sector path`, {
-	transition: 'all 0.3s ease-out',
-})
-
-export const motionWrapper = style([
-	sprinkles({
-		height: 'full',
 	}),
 ])
 
@@ -81,3 +43,11 @@ export const pieChartWrapper = style([
 		},
 	}),
 ])
+
+globalStyle(`${pieChartWrapper} .recharts-layer.recharts-pie-sector path:focus`, {
+	outline: 'none !important',
+})
+
+globalStyle(`${pieChartWrapper} .recharts-layer.recharts-pie-sector path`, {
+	transition: 'all 0.3s ease-out',
+})

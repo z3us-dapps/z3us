@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react'
-import { useEventListener } from 'usehooks-ts'
+import { useCallback, useEffect, useState } from 'react'
+import { useEventListener, useTimeout } from 'usehooks-ts'
 
 interface IAccountsExpandObj {
 	isExpanded: boolean
@@ -8,8 +8,13 @@ interface IAccountsExpandObj {
 
 const MIN_SCROLL_HEIGHT = 370
 
-const useAccountsExpand = (mainRef: React.RefObject<HTMLElement>): IAccountsExpandObj => {
+const useAccountsExpand = (
+	mainRef: React.RefObject<HTMLElement>,
+	buttonsRef: React.RefObject<HTMLElement>,
+	pathName = '',
+): IAccountsExpandObj => {
 	const [isExpanded, setIsExpanded] = useState<boolean>(false)
+	const [minScrollHeight, setMinScrollHeight] = useState<number>(MIN_SCROLL_HEIGHT)
 
 	const handleClickExpandAccounts = useCallback(() => {
 		const elem = mainRef.current as HTMLElement
@@ -17,9 +22,9 @@ const useAccountsExpand = (mainRef: React.RefObject<HTMLElement>): IAccountsExpa
 		if (isExpanded) {
 			elem?.scrollTo({ behavior: 'smooth', top: 0 })
 		} else {
-			elem?.scrollTo({ behavior: 'smooth', top: MIN_SCROLL_HEIGHT })
+			elem?.scrollTo({ behavior: 'smooth', top: minScrollHeight })
 		}
-	}, [mainRef.current, isExpanded])
+	}, [mainRef.current, isExpanded, minScrollHeight])
 
 	const handleScroll = useCallback(
 		(event: Event) => {
@@ -30,12 +35,35 @@ const useAccountsExpand = (mainRef: React.RefObject<HTMLElement>): IAccountsExpa
 			const { scrollTop } = elem
 			const maxScroll = scrollHeight - clientHeight
 
-			setIsExpanded(scrollTop >= MIN_SCROLL_HEIGHT || scrollTop === maxScroll)
+			setIsExpanded(scrollTop >= minScrollHeight || scrollTop === maxScroll)
 		},
-		[mainRef.current, isExpanded],
+		[mainRef.current, isExpanded, minScrollHeight],
 	)
 
 	useEventListener('scroll', handleScroll, mainRef)
+
+	const getMinScrollHeight = () => {
+		const mainScrollElem = mainRef.current as HTMLElement
+		const buttonElem = buttonsRef.current as HTMLElement
+
+		if (mainScrollElem && buttonElem) {
+			const mainRect = mainScrollElem.getBoundingClientRect()
+			const buttonRect = buttonElem.getBoundingClientRect()
+			const distance = buttonRect.top - mainRect.top
+
+			setMinScrollHeight(distance)
+		}
+	}
+
+	useTimeout(getMinScrollHeight, 1500)
+
+	useEffect(() => {
+		getMinScrollHeight()
+	}, [mainRef.current, buttonsRef.current])
+
+	useEffect(() => {
+		getMinScrollHeight()
+	}, [pathName])
 
 	return {
 		isExpanded,
