@@ -17,3 +17,20 @@ export const cardButtonsWrapper = style([
 		tablet: { borderBottom: '1px solid', borderColor: vars.color.borderDivider },
 	}),
 ])
+
+export const cardButtonsWrapperAllAccounts = style([
+	sprinkles({
+		display: {
+			mobile: 'flex',
+			tablet: 'none',
+		},
+		paddingBottom: {
+			mobile: 'large',
+			tablet: 'none',
+		},
+		paddingTop: {
+			mobile: 'medium',
+			tablet: 'none',
+		},
+	}),
+])

@@ -37,7 +37,7 @@ export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 			hideScrollBars = false,
 			onUpButtonClicked,
 		},
-		ref,
+		ref: React.MutableRefObject<HTMLElement>,
 	) => {
 		const intl = useIntl()
 		const scrollCtx = useMemo(

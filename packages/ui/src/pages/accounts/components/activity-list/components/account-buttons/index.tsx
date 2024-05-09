@@ -11,7 +11,7 @@ export const AccountButtons: React.FC = () => {
 	const isAllAccounts = useIsAllAccounts()
 
 	return (
-		<Box display={isAllAccounts ? 'none' : 'flex'} className={clsx(styles.cardButtonsWrapper)}>
+		<Box className={clsx(styles.cardButtonsWrapper, isAllAccounts && styles.cardButtonsWrapperAllAccounts)}>
 			<CardButtons />
 		</Box>
 	)

@@ -71,66 +71,69 @@ interface IProps {
 	onClick: () => void
 }
 
-export const MobileScrollingButtons: React.FC<IProps> = ({ isExpanded, onClick }) => {
-	const intl = useIntl()
-	const location = useLocation()
-	const [searchParams] = useSearchParams()
-	const isActivitiesVisible = useIsActivitiesVisible()
+export const MobileScrollingButtons = React.forwardRef<HTMLElement, IProps>(
+	({ isExpanded, onClick }, ref: React.MutableRefObject<HTMLElement>) => {
+		const intl = useIntl()
+		const location = useLocation()
+		const [searchParams] = useSearchParams()
+		const isActivitiesVisible = useIsActivitiesVisible() // Assuming this is a custom hook you have
 
-	const queryWithActs = new URLSearchParams(searchParams)
-	queryWithActs.set('acts', `true`)
-	const queryWithoutActs = new URLSearchParams(searchParams)
-	queryWithoutActs.delete('acts')
+		const queryWithActs = new URLSearchParams(searchParams)
+		queryWithActs.set('acts', `true`)
+		const queryWithoutActs = new URLSearchParams(searchParams)
+		queryWithoutActs.delete('acts')
 
-	return (
-		<Box
-			className={clsx(
-				styles.accountRoutesScrollingStickyBtnWrapper,
-				!isExpanded && styles.accountRoutesScrollingStickyShadow,
-				styles.accountRoutesScrollingStickyBtnCollectionWrapper,
-			)}
-		>
-			<Box className={styles.accountRoutesScrollingStickyBtnInner}>
-				<Box className={styles.tabsWrapper}>
-					<Link
-						underline="never"
-						to={`${location.pathname}?${queryWithoutActs}`}
-						className={clsx(
-							styles.tabsWrapperButton,
-							styles.tabsWrapperButtonLeft,
-							!isActivitiesVisible && styles.tabsWrapperButtonActive,
-							!isExpanded && styles.tabsWrapperButtonSticky,
-						)}
-					>
-						<Text size="medium" weight="strong" align="center" color={!isActivitiesVisible ? 'strong' : 'neutral'}>
-							<TabTitle />
-						</Text>
-					</Link>
-					<Link
-						underline="never"
-						to={`${location.pathname}?${queryWithActs}`}
-						className={clsx(
-							styles.tabsWrapperButton,
-							styles.tabsWrapperButtonRight,
-							isActivitiesVisible && styles.tabsWrapperButtonActive,
-							!isExpanded && styles.tabsWrapperButtonSticky,
-						)}
-					>
-						<Text size="small" weight="strong" align="center" color={isActivitiesVisible ? 'strong' : 'neutral'}>
-							{intl.formatMessage(messages.activity)}
-						</Text>
-					</Link>
-					<Button
-						styleVariant="ghost"
-						sizeVariant="small"
-						iconOnly
-						className={clsx(styles.tabsWrapperScrollBtn, !isExpanded && styles.tabsWrapperScrollBtnScrolled)}
-						onClick={onClick}
-					>
-						<ChevronDown3Icon />
-					</Button>
+		return (
+			<Box
+				ref={ref}
+				className={clsx(
+					styles.accountRoutesScrollingStickyBtnWrapper,
+					isExpanded && styles.accountRoutesScrollingStickyShadow,
+					styles.accountRoutesScrollingStickyBtnCollectionWrapper,
+				)}
+			>
+				<Box className={styles.accountRoutesScrollingStickyBtnInner}>
+					<Box className={styles.tabsWrapper}>
+						<Link
+							underline="never"
+							to={`${location.pathname}?${queryWithoutActs}`}
+							className={clsx(
+								styles.tabsWrapperButton,
+								styles.tabsWrapperButtonLeft,
+								!isActivitiesVisible && styles.tabsWrapperButtonActive,
+								isExpanded && styles.tabsWrapperButtonSticky,
+							)}
+						>
+							<Text size="medium" weight="strong" align="center" color={!isActivitiesVisible ? 'strong' : 'neutral'}>
+								<TabTitle />
+							</Text>
+						</Link>
+						<Link
+							underline="never"
+							to={`${location.pathname}?${queryWithActs}`}
+							className={clsx(
+								styles.tabsWrapperButton,
+								styles.tabsWrapperButtonRight,
+								isActivitiesVisible && styles.tabsWrapperButtonActive,
+								isExpanded && styles.tabsWrapperButtonSticky,
+							)}
+						>
+							<Text size="small" weight="strong" align="center" color={isActivitiesVisible ? 'strong' : 'neutral'}>
+								{intl.formatMessage(messages.activity)}
+							</Text>
+						</Link>
+						<Button
+							styleVariant="ghost"
+							sizeVariant="small"
+							iconOnly
+							className={clsx(styles.tabsWrapperScrollBtn, !isExpanded && styles.tabsWrapperScrollBtnScrolled)}
+							onClick={onClick}
+						>
+							<ChevronDown3Icon />
+						</Button>
+					</Box>
 				</Box>
 			</Box>
-		</Box>
-	)
-}
+		)
+	},
+)

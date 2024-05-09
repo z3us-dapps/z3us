@@ -2,6 +2,7 @@ import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const accountsAddAccountButton = style([
 	sprinkles({
@@ -41,12 +42,8 @@ export const accountList = style([
 export const accountListGridScrollWrapper = style([
 	sprinkles({
 		width: 'full',
-		paddingX: {
-			mobile: 'large',
-			tablet: 'xlarge',
-		},
 		paddingBottom: {
-			mobile: 'large',
+			mobile: 'xxsmall',
 			tablet: 'small',
 		},
 	}),
@@ -54,6 +51,18 @@ export const accountListGridScrollWrapper = style([
 		overflowX: 'auto',
 		height: 'auto',
 	},
+	responsiveStyle({
+		mobile: {
+			paddingTop: '23px',
+			paddingLeft: '24px',
+			paddingRight: '24px',
+		},
+		tablet: {
+			paddingTop: '0',
+			paddingLeft: vars.spacing.large,
+			paddingRight: vars.spacing.large,
+		},
+	}),
 ])
 
 export const accountListGridWrapper = style([

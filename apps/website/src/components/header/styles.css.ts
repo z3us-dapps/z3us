@@ -44,7 +44,7 @@ export const headerInnerWrapper = style([
 	}),
 	{},
 	responsiveStyle({
-		mobile: { height: '58px' },
+		mobile: { height: '48px' },
 		tablet: { height: '70px' },
 	}),
 ])
@@ -130,7 +130,7 @@ export const landingPageHeaderInnerWrapper = style([
 	}),
 	{},
 	responsiveStyle({
-		mobile: { height: '58px' },
+		mobile: { height: '48px' },
 		tablet: { height: '72px' },
 	}),
 ])

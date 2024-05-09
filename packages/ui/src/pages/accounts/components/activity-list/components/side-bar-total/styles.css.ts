@@ -15,6 +15,20 @@ export const mobileHomeBalanceWrapper = style([
 	{},
 ])
 
+export const mobileBalanceTotalLabel = style([
+	{
+		fontSize: '16px',
+		lineHeight: '20px',
+	},
+])
+
+export const mobileBalanceRedGreenChange = style([
+	{
+		fontSize: '20px',
+		lineHeight: '24px',
+	},
+])
+
 export const mobileHiddenWrapper = style([
 	responsiveStyle({
 		mobile: { display: 'none' },
@@ -22,7 +36,12 @@ export const mobileHiddenWrapper = style([
 ])
 
 export const totalValueWrapper = style([
-	{
+	sprinkles({
 		cursor: 'pointer',
+	}),
+	{
+		maxWidth: '330px',
+		fontSize: '32px',
+		lineHeight: '38px',
 	},
 ])

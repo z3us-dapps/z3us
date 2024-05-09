@@ -2,9 +2,8 @@ import { style } from '@vanilla-extract/css'
 import { type RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { responsiveStyle } from 'ui/src/theme/theme-utils'
-
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 import { vars } from 'ui/src/theme/theme.css'
 
 export const baseSprinkles = style([
@@ -647,8 +646,8 @@ export const buttonIconRight = recipe({
 			}),
 		},
 		sizeVariant: {
-			xsmall: [{ marginLeft: '4px', marginRight: '-6px' }],
-			small: [{ marginLeft: '4px', marginRight: '-4px' }],
+			xsmall: [{ marginLeft: '0px', marginRight: '-6px' }],
+			small: [{ marginLeft: '0px', marginRight: '-4px' }],
 			medium: [{ marginLeft: '4px', marginRight: '-4px' }],
 			large: [{ marginLeft: '6px', marginRight: '-4px' }],
 			xlarge: [{ marginLeft: '6px', marginRight: '-4px' }],

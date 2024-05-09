@@ -101,8 +101,14 @@ const useAccountsScroll = (
 			}
 		}
 
+		if (isMobile && pathName !== currentPath) {
+			mainRef.current.scrollTo({
+				top: 0,
+			})
+		}
+
 		setCurrentPath(pathName)
-	}, [pathName, rightScrollCtx.scrollableNode])
+	}, [pathName, rightScrollCtx.scrollableNode, isMobile, mainRef.current])
 
 	return {
 		leftScrollCtx,

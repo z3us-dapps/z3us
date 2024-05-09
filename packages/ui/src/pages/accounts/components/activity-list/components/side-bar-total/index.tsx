@@ -32,7 +32,7 @@ export const SideBarTotal: React.FC = () => {
 
 	return (
 		<Box className={clsx(styles.mobileHomeBalanceWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
-			<Text color="strong" size="xlarge">
+			<Text color="strong" size="large" className={styles.mobileBalanceTotalLabel}>
 				{intl.formatMessage(messages.all_assets_total_balance)}
 			</Text>
 			<ToolTip message={format === 'currency' ? value : xrdValue}>
@@ -47,7 +47,13 @@ export const SideBarTotal: React.FC = () => {
 				</Box>
 			</ToolTip>
 			{!isLoading && (
-				<RedGreenText size="small" weight="strong" truncate change={change}>
+				<RedGreenText
+					size="xlarge"
+					weight="regular"
+					truncate
+					change={change}
+					className={styles.mobileBalanceRedGreenChange}
+				>
 					{formattedChange}
 				</RedGreenText>
 			)}
