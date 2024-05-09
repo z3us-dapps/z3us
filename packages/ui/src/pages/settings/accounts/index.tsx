@@ -145,7 +145,9 @@ const Accounts: React.FC = () => {
 	const [selectedAccount, setSelectedAccount] = useState<AddressBookEntry | undefined>()
 
 	const { data } = useEntityDetails(selectedAccount?.address)
-	const { nonFungibleBalances = [] } = useBalances([selectedAccount?.address])
+	const {
+		data: { nonFungibleBalances = [] },
+	} = useBalances([selectedAccount?.address])
 
 	const { setAddressBookEntry } = useNoneSharedStore(state => ({
 		setAddressBookEntry: state.setAddressBookEntryAction,

@@ -4,7 +4,9 @@ import { useBalances } from './use-balances'
 import { useNonFungibleLocation } from './use-entity-nft'
 
 export const useHoldsNft = (account: string, nft_resource: string, nft_id: string): boolean => {
-	const { nonFungibleBalances = [] } = useBalances([account])
+	const {
+		data: { nonFungibleBalances = [] },
+	} = useBalances([account])
 	const { data: location } = useNonFungibleLocation(nft_resource, nft_id)
 
 	return useMemo(() => {

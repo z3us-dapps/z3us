@@ -4,13 +4,16 @@ import React from 'react'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 
+import { FallbackLoading } from '../../components/fallback-renderer'
 import { BalancesContext } from './context'
 
 export const BalancesProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const selectedAccounts = useSelectedAccounts()
-	const balances = useBalances(selectedAccounts)
+	const { data, isLoading } = useBalances(selectedAccounts)
 
-	return <BalancesContext.Provider value={balances}>{children}</BalancesContext.Provider>
+	if (isLoading) return <FallbackLoading />
+
+	return <BalancesContext.Provider value={data}>{children}</BalancesContext.Provider>
 }
 
 export default BalancesProvider

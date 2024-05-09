@@ -108,7 +108,9 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 	const { name: parentName } = useContext(FieldContext)
 	const from = useFieldValue(`${parentName ? `${parentName}.` : ''}${ACCOUNT_KEY}`) || ''
 
-	const { fungibleBalances = [] } = useBalances([from])
+	const {
+		data: { fungibleBalances = [] },
+	} = useBalances([from])
 
 	const resourceAddresses = useMemo(() => fungibleBalances.map(b => b.address), [fungibleBalances])
 

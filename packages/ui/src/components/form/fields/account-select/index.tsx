@@ -21,7 +21,9 @@ interface ISelectItemProps {
 }
 
 const SelectItem: React.FC<ISelectItemProps> = ({ id, title }) => {
-	const { fungibleBalances = [] } = useBalances([id])
+	const {
+		data: { fungibleBalances = [] },
+	} = useBalances([id])
 
 	const { data: knownAddresses } = useKnownAddresses()
 	const balance = fungibleBalances?.find(b => b.address === knownAddresses.resourceAddresses.xrd)?.amount || ''

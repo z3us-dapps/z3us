@@ -94,7 +94,9 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		removeAccount: state.removeAccountAction,
 	}))
 	const { name, skin, cardColor, colorClassName } = useAccountCardSettings(address)
-	const { totalValue = 0 } = useBalances([address])
+	const {
+		data: { totalValue = 0 },
+	} = useBalances([address])
 
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
