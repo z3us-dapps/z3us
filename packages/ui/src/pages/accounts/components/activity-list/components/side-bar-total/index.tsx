@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -21,7 +22,7 @@ export const SideBarTotal: React.FC = () => {
 	const intl = useIntl()
 	const isAllAccounts = useIsAllAccounts()
 
-	const { formattedXrdValue, formattedValue, formattedChange, value, xrdValue, change } = useTotalBalance()
+	const { formattedXrdValue, formattedValue, formattedChange, value, xrdValue, change, isLoading } = useTotalBalance()
 
 	const [format, setFormat] = useState<'currency' | 'xrd'>('currency')
 
@@ -36,20 +37,26 @@ export const SideBarTotal: React.FC = () => {
 			</Text>
 			<ToolTip message={format === 'currency' ? value : xrdValue}>
 				<Box display="flex" alignItems="center" gap="small" onClick={handleToggleValue}>
-					<Text weight="medium" size="xxlarge" color="strong" truncate className={styles.totalValueWrapper}>
-						{format === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
-					</Text>
+					{isLoading ? (
+						<FallbackLoading />
+					) : (
+						<Text weight="medium" size="xxlarge" color="strong" truncate className={styles.totalValueWrapper}>
+							{format === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
+						</Text>
+					)}
 				</Box>
 			</ToolTip>
-			<RedGreenText
-				size="xlarge"
-				weight="regular"
-				truncate
-				change={change}
-				className={styles.mobileBalanceRedGreenChange}
-			>
-				{formattedChange}
-			</RedGreenText>
+			{!isLoading && (
+				<RedGreenText
+					size="xlarge"
+					weight="regular"
+					truncate
+					change={change}
+					className={styles.mobileBalanceRedGreenChange}
+				>
+					{formattedChange}
+				</RedGreenText>
+			)}
 		</Box>
 	)
 }

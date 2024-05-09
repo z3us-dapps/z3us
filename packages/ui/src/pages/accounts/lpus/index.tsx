@@ -43,7 +43,10 @@ const LPUs: React.FC = () => {
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
 
-	const { poolUnitsBalances = [] } = useSelectedAccountsBalances()
+	const {
+		data: { poolUnitsBalances = [] },
+		isLoading,
+	} = useSelectedAccountsBalances()
 
 	const selectedRowIds = useMemo(() => {
 		const idx = poolUnitsBalances.findIndex(b => b.address === resourceId)
@@ -96,6 +99,7 @@ const LPUs: React.FC = () => {
 				columns={columns}
 				onRowSelected={handleRowSelected}
 				selectedRowIds={selectedRowIds}
+				loading={isLoading}
 			/>
 		</Box>
 	)

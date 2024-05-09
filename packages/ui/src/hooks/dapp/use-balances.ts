@@ -252,21 +252,37 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 		currency: state.currency,
 	}))
 
+	const tokens = useTokens()
 	const before = useBeforeDate(at)
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
 
-	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
-	const { data: validatorsAt } = useValidators(accounts, at)
-	const { data: validatorsBefore } = useValidators(accounts, before)
-	const { data: poolsAt } = usePools(accounts, at)
-	const { data: poolsBefore } = usePools(accounts, before)
-	const { data: knownAddresses } = useKnownAddresses()
-	const tokens = useTokens()
+	const { isLoading: isLoadingAccounts, data: accounts } = useEntitiesDetails(
+		accountAddresses,
+		undefined,
+		undefined,
+		at,
+	)
+	const { isLoading: isLoadingValidatorsAt, data: validatorsAt } = useValidators(accounts, at)
+	const { isLoading: isLoadingValidatorsBefore, data: validatorsBefore } = useValidators(accounts, before)
+	const { isLoading: isLoadingPoolsAt, data: poolsAt } = usePools(accounts, at)
+	const { isLoading: isLoadingPoolsBefore, data: poolsBefore } = usePools(accounts, before)
+	const { isLoading: isLoadingKnownAddresses, data: knownAddresses } = useKnownAddresses()
 
-	const { data: xrdPriceNow } = useXRDCurrentPrice(currency)
-	const { data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
-	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
+	const { isLoading: isLoadingXrdPriceNow, data: xrdPriceNow } = useXRDCurrentPrice(currency)
+	const { isLoading: isLoadingXrdPriceAt, data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
+	const { isLoading: isLoadingXrdPriceBefore, data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
+
 	const xrdPrice = formatDate(at) === formatDate(new Date()) ? xrdPriceNow : xrdPriceAt
+	const isLoading =
+		isLoadingAccounts ||
+		isLoadingValidatorsAt ||
+		isLoadingValidatorsBefore ||
+		isLoadingPoolsAt ||
+		isLoadingPoolsBefore ||
+		isLoadingKnownAddresses ||
+		isLoadingXrdPriceNow ||
+		isLoadingXrdPriceAt ||
+		isLoadingXrdPriceBefore
 
 	const queryFn = (): Balances => {
 		const validators = Object.keys(validatorsAt || {}).reduce((map, addr) => {
@@ -346,9 +362,13 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 			tokens,
 		],
 		queryFn,
-		enabled: accountAddresses.length > 0,
+		enabled: !isLoading && accountAddresses.length > 0,
 	})
-	return result.data || emptyState
+	return {
+		...result,
+		data: result.data || emptyState,
+		isLoading: result.isLoading || isLoading,
+	}
 }
 
 export const useAccountValues = (at: Date = new Date()) => {

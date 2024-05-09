@@ -36,7 +36,10 @@ const NftCollections: React.FC = () => {
 	const [searchParams] = useSearchParams()
 	const { scrollableNode } = useScroll()
 
-	const { nftsBalances = [] } = useSelectedAccountsBalances()
+	const {
+		data: { nftsBalances = [] },
+		isLoading,
+	} = useSelectedAccountsBalances()
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.NON_FUNGIBLE] }) => {
 		const { original } = row
@@ -77,6 +80,7 @@ const NftCollections: React.FC = () => {
 				columns={columns}
 				onRowSelected={handleRowSelected}
 				selectedRowIds={selectedRowIds}
+				loading={isLoading}
 			/>
 		</Box>
 	)

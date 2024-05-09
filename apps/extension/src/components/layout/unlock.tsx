@@ -14,6 +14,7 @@ import { Z3usLogoLarge, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
+import { login } from '@src/webauthn/credentials'
 
 import * as styles from './styles.css'
 
@@ -66,6 +67,24 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 		inputRef?.current?.focus()
 	}, [inputRef?.current])
 
+	const handleUnlock = async (password: string) => {
+		try {
+			await client.unlockVault(keystore, password)
+			onUnlock()
+			setError('')
+		} catch (err) {
+			// eslint-disable-next-line no-console
+			console.error(err)
+			setError(intl.formatMessage(messages.unlock_error))
+		}
+	}
+
+	useEffect(() => {
+		if (!keystore.webAuthn) return
+		// eslint-disable-next-line no-console
+		login(keystore).then(handleUnlock).catch(console.error)
+	}, [keystore?.id])
+
 	const selectItems = useMemo(() => {
 		const items = keystores.map(({ id, name }) => ({ id, title: name }))
 		items.push({ id: '', title: intl.formatMessage(messages.wallet_add) })
@@ -82,15 +101,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	}
 
 	const handleSubmit = async (values: typeof initialValues) => {
-		try {
-			await client.unlockVault(keystore, values.password)
-			onUnlock()
-			setError('')
-		} catch (err) {
-			// eslint-disable-next-line no-console
-			console.error(err)
-			setError(intl.formatMessage(messages.unlock_error))
-		}
+		await handleUnlock(values.password)
 	}
 
 	return (

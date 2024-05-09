@@ -17,10 +17,6 @@ const messages = defineMessages({
 		id: 's8BnAC',
 		defaultMessage: 'Swap',
 	},
-	staking: {
-		id: '+14VoL',
-		defaultMessage: 'Staking',
-	},
 	settings: {
 		id: 'D3idYv',
 		defaultMessage: 'Settings',
@@ -55,7 +51,6 @@ export const useMenuItems = () => {
 				end: true,
 				matchActiveFn,
 			},
-			// { text: intl.formatMessage(messages.staking), href: '/staking', icon: <StakingIcon /> },
 			{ text: intl.formatMessage(messages.settings), href: '/settings', icon: <Settings2Icon />, matchActiveFn },
 		],
 		[intl, isSwapMatch],

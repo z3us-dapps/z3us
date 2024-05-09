@@ -41,27 +41,29 @@ async function lockVault(): Promise<void> {
 }
 
 export interface UnlockVaultMessage {
+	runtimeId: string
 	keystore: Keystore
 	password: string
 }
 
 async function unlockVault(message: Message): Promise<void> {
-	const { keystore, password } = message.payload as UnlockVaultMessage
-	await vault.unlock(keystore, password)
+	const { runtimeId, keystore, password } = message.payload as UnlockVaultMessage
+	await vault.unlock(keystore, runtimeId, password)
 }
 
 export interface IsUnlockVaultMessage {
+	runtimeId: string
 	keystore: Keystore
 }
 
 async function isVaultUnlocked(message: Message): Promise<boolean> {
-	const { keystore } = message.payload as UnlockVaultMessage
+	const { runtimeId, keystore } = message.payload as IsUnlockVaultMessage
 
-	const walletData = await vault.get()
+	const walletData = await vault.get(runtimeId)
 	if (!walletData) {
 		try {
 			await vault.checkPassword(keystore, '')
-			return !!(await vault.unlock(keystore, ''))
+			return !!(await vault.unlock(keystore, runtimeId, ''))
 		} catch (error) {
 			return false
 		}
@@ -91,14 +93,15 @@ async function removeFromVault(message: Message): Promise<void> {
 }
 
 export interface GetPublicKeyMessage {
+	runtimeId: string
 	curve: CURVE
 	derivationPath: string
 	combinedKeystoreId: string
 }
 
 async function getPublicKey(message: Message): Promise<PublicKeyJSON | null> {
-	const { curve, derivationPath, combinedKeystoreId } = message.payload as GetPublicKeyMessage
-	const walletData = await vault.get()
+	const { runtimeId, curve, derivationPath, combinedKeystoreId } = message.payload as GetPublicKeyMessage
+	const walletData = await vault.get(runtimeId)
 	if (!walletData) {
 		return null
 	}
@@ -111,6 +114,7 @@ async function getPublicKey(message: Message): Promise<PublicKeyJSON | null> {
 }
 
 export interface SignMessage {
+	runtimeId: string
 	keystore: Keystore
 	password: string
 	toSign: string
@@ -120,8 +124,9 @@ export interface SignMessage {
 }
 
 async function signToSignature(message: Message): Promise<SignatureJSON | null> {
-	const { keystore, curve, derivationPath, password, toSign, combinedKeystoreId } = message.payload as SignMessage
-	const walletData = await vault.get()
+	const { runtimeId, keystore, curve, derivationPath, password, toSign, combinedKeystoreId } =
+		message.payload as SignMessage
+	const walletData = await vault.get(runtimeId)
 	if (!walletData) {
 		return null
 	}
@@ -135,8 +140,9 @@ async function signToSignature(message: Message): Promise<SignatureJSON | null> 
 }
 
 async function signToSignatureWithPublicKey(message: Message): Promise<SignatureWithPublicKeyJSON | null> {
-	const { keystore, curve, derivationPath, password, toSign, combinedKeystoreId } = message.payload as SignMessage
-	const walletData = await vault.get()
+	const { runtimeId, keystore, curve, derivationPath, password, toSign, combinedKeystoreId } =
+		message.payload as SignMessage
+	const walletData = await vault.get(runtimeId)
 	if (!walletData) {
 		return null
 	}
@@ -150,14 +156,15 @@ async function signToSignatureWithPublicKey(message: Message): Promise<Signature
 }
 
 export interface GetSecretMessage {
+	runtimeId: string
 	keystore: Keystore
 	password: string
 	combinedKeystoreId: string
 }
 
 async function getSecret(message: Message): Promise<string> {
-	const { keystore, password, combinedKeystoreId } = message.payload as GetSecretMessage
-	const walletData = await vault.get()
+	const { runtimeId, keystore, password, combinedKeystoreId } = message.payload as GetSecretMessage
+	const walletData = await vault.get(runtimeId)
 	if (!walletData) {
 		return null
 	}
@@ -169,13 +176,14 @@ async function getSecret(message: Message): Promise<string> {
 }
 
 export interface GetDataMessage {
+	runtimeId: string
 	keystore: Keystore
 	password: string
 }
 
 async function getData(message: Message): Promise<Data> {
-	const { keystore, password } = message.payload as GetDataMessage
-	const walletData = await vault.get()
+	const { runtimeId, keystore, password } = message.payload as GetDataMessage
+	const walletData = await vault.get(runtimeId)
 	if (!walletData) {
 		return null
 	}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useNavigate } from 'react-router-dom'
+import { useMatches, useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -76,6 +76,11 @@ const General: React.FC = () => {
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [inputRef?.current])
+	const matches = useMatches()
+
+	const customSettings = matches
+		.filter(match => Boolean((match.handle as any)?.custom))
+		.map(match => (match.handle as any).custom)
 
 	const handleWalletNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const evt = event.nativeEvent as InputEvent
@@ -160,6 +165,7 @@ const General: React.FC = () => {
 					}
 				/>
 			)}
+			{customSettings}
 			{isWallet && (
 				<SettingsBlock
 					isBottomBorderVisible={false}
