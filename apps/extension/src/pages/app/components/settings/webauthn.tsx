@@ -3,6 +3,7 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { Checkbox } from 'ui/src/components/checkbox'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { SettingsBlock } from 'ui/src/pages/settings/components/settings-block'
@@ -30,6 +31,10 @@ const messages = defineMessages({
 		id: 'Rw7iI7',
 		defaultMessage: 'Disable',
 	},
+	webatuh_cross_platform: {
+		id: 'YxKul5',
+		defaultMessage: 'Prefer cross platform WebAuthn (YubiKey)',
+	},
 	password_title: {
 		id: 'GPtDoS',
 		defaultMessage: 'Enable WebAuthn',
@@ -50,6 +55,7 @@ const Settings: React.FC = () => {
 	}))
 
 	const [canUsePlatformAuth, setCanUsePlatformAuth] = useState<boolean>(false)
+	const [crossPlatform, setCrossPlatform] = useState<boolean>(false)
 
 	useEffect(() => {
 		if (!isWebAuthAvailable) return
@@ -63,7 +69,11 @@ const Settings: React.FC = () => {
 				title: intl.formatMessage(messages.password_title),
 				content: intl.formatMessage(messages.password, { label: keystore.name }),
 			})
-			const credentials = await register(keystore, password, canUsePlatformAuth ? 'platform' : 'cross-platform')
+			const credentials = await register(
+				keystore,
+				password,
+				canUsePlatformAuth && !crossPlatform ? 'platform' : 'cross-platform',
+			)
 			enableWebAuthn(keystore.id, credentials)
 			await client.lockVault()
 		} else {
@@ -86,14 +96,22 @@ const Settings: React.FC = () => {
 				</>
 			}
 			rightCol={
-				<Button
-					onClick={handleToggleWebAuthn}
-					styleVariant={keystore?.webAuthn ? 'secondary-error' : 'primary'}
-					sizeVariant="xlarge"
-					fullWidth
-				>
-					{intl.formatMessage(keystore?.webAuthn ? messages.webatuh_disable : messages.webatuh_enable)}
-				</Button>
+				<>
+					{canUsePlatformAuth && (
+						<Box display="flex" alignItems="center" gap="small" paddingTop="xsmall" justifyContent="flex-end">
+							<Text size="xsmall">{intl.formatMessage(messages.webatuh_cross_platform)}</Text>
+							<Checkbox styleVariant="primary" sizeVariant="small" onCheckedChange={setCrossPlatform} />
+						</Box>
+					)}
+					<Button
+						onClick={handleToggleWebAuthn}
+						styleVariant={keystore?.webAuthn ? 'secondary-error' : 'primary'}
+						sizeVariant="xlarge"
+						fullWidth
+					>
+						{intl.formatMessage(keystore?.webAuthn ? messages.webatuh_disable : messages.webatuh_enable)}
+					</Button>
+				</>
 			}
 		/>
 	)
