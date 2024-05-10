@@ -58,7 +58,6 @@ export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 				{isScrollUpButtonVisible ? (
 					<Box
 						className={clsx(
-							'testinghere',
 							styles.scrolledButtonWrapper,
 							isScrollUpButtonVisible && styles.scrolledButtonWrapperVisible,
 						)}
