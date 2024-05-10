@@ -101,6 +101,7 @@ export const headerInnerNavWrapper = style([
 			tablet: 'none',
 		},
 	}),
+	{},
 ])
 
 export const headerBackButtonWrapper = style([

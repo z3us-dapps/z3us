@@ -11,7 +11,6 @@ import * as styles from './styles.css'
 
 const imgStyles: CSSProperties = {
 	objectFit: 'cover',
-	opacity: 0.5,
 	height: 'unset',
 }
 
@@ -24,9 +23,10 @@ export const CardBackground: React.FC<IProps> = ({ view }) => {
 	const { skin, cardColor, colorClassName } = useAccountCardSettings(accountId)
 
 	const display = useMemo(() => (view === 'mobile' ? ['block', 'none'] : ['none', 'block']), [view])
+
 	if (skin)
 		return (
-			<Box display={display}>
+			<Box display={display} className={styles.accountsBgSkinWrapper}>
 				<Image
 					address={accountId}
 					className={clsx(colorClassName, cardColor)}
@@ -48,7 +48,7 @@ export const CardBackground: React.FC<IProps> = ({ view }) => {
 							backgroundSize: '170% auto',
 							backgroundRepeat: 'no-repeat',
 							backgroundImage: `${cardColor}`,
-							opacity: '0.9',
+							opacity: '0.8',
 					  }
 					: {}),
 			}}

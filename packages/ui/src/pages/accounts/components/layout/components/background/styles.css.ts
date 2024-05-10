@@ -1,6 +1,6 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const accountsBgCardWrapper = style([
 	sprinkles({
@@ -15,3 +15,24 @@ export const accountsBgCardWrapper = style([
 		top: '-48px',
 	},
 ])
+
+export const accountsBgSkinWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		right: 0,
+		pointerEvents: 'none',
+	}),
+	{
+		top: '-48px',
+	},
+])
+
+globalStyle(`${accountsBgSkinWrapper} img`, {
+	opacity: '0.8',
+})
+
+globalStyle(`.${darkMode} ${accountsBgSkinWrapper} img`, {
+	opacity: '0.5',
+})
