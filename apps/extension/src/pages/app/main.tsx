@@ -6,12 +6,12 @@ import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom'
 import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
 import AppLayout from 'ui/src/components/layout'
 import { loader } from 'ui/src/components/layout/routes/loader'
-import { CompareWithDateProvider } from 'ui/src/context/compare-with-date-provider'
-import { ImageProvider } from 'ui/src/context/images-provider'
+import { BalancesProvider } from 'ui/src/context/balances/provider'
 import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
+import TokensProvider from 'ui/src/context/tokens/provider'
 import accountsRoute from 'ui/src/pages/accounts/router'
 import noMatchRoute from 'ui/src/pages/no-match/router'
 import settingsRoute from 'ui/src/pages/settings/router'
@@ -30,7 +30,6 @@ import interactionRoute from '@src/pages/interaction/router'
 import keystoreRoute from '@src/pages/keystore/router'
 import '@src/styles/global-style.css'
 
-import BootstrapBalances from './components/balances'
 import RadixSettings from './components/settings/radix'
 import WebAuthnSettings from './components/settings/webauthn'
 
@@ -100,12 +99,11 @@ ReactDOM.createRoot(container).render(
 										<LedgerClientProvider>
 											<RdtProvider>
 												<ZdtProvider>
-													<BootstrapBalances />
-													<ImageProvider>
-														<CompareWithDateProvider>
+													<TokensProvider>
+														<BalancesProvider>
 															<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
-														</CompareWithDateProvider>
-													</ImageProvider>
+														</BalancesProvider>
+													</TokensProvider>
 												</ZdtProvider>
 											</RdtProvider>
 										</LedgerClientProvider>

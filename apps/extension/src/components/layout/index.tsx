@@ -1,3 +1,4 @@
+import { useSelectedAccountsBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { Suspense, useEffect, useMemo, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { defineMessages, useIntl } from 'react-intl'
@@ -43,7 +44,7 @@ const messages = defineMessages({
 	},
 })
 
-const minLoadingTimeMS = 600
+const minLoadingTimeMS = 350
 const radixConnectorExtensionId = 'bfeplaecgkoeckiidkgkmlllfbaeplgm'
 
 const Layout: React.FC = () => {
@@ -56,15 +57,23 @@ const Layout: React.FC = () => {
 		keystoreId: state.selectedKeystoreId,
 	}))
 
-	const [isReady, setReady] = useState<boolean>(false)
+	const [isLoadingDeadlineFinished, setIsLoadingDeadlineFinished] = useState<boolean>(false)
+	const [hideLoadingScreen, setHideLoadingScreen] = useState<boolean>(false)
+	const { isLoading: isLoadingBalances } = useSelectedAccountsBalances()
 	const [hasConnector, setHasConnector] = useState<boolean>(false)
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			setReady(true)
+			setIsLoadingDeadlineFinished(true)
 		}, minLoadingTimeMS)
 		return () => clearTimeout(timer)
 	}, [])
+
+	useEffect(() => {
+		if (!isLoading && !isLoadingBalances && isLoadingDeadlineFinished) {
+			setHideLoadingScreen(true)
+		}
+	}, [isLoading, isLoadingBalances, isLoadingDeadlineFinished])
 
 	useEffect(() => {
 		const rootElement = document.getElementById('root')
@@ -89,7 +98,6 @@ const Layout: React.FC = () => {
 		}
 	}, [keystoreId, isLoading, isUnlocked, location.pathname])
 
-	const showLoadingScreen = useMemo(() => isLoading || !isReady, [isLoading, isReady])
 	const showUnlockScreen = useMemo(
 		() => !location.pathname.startsWith('/keystore/new') && !isUnlocked,
 		[location, isUnlocked],
@@ -101,9 +109,9 @@ const Layout: React.FC = () => {
 
 	return (
 		<>
-			<Loading display={showLoadingScreen ? 'flex' : 'none'} />
-			<Unlock display={!showLoadingScreen && showUnlockScreen ? 'flex' : 'none'} onUnlock={reload} />
-			<Box display={!showLoadingScreen && !showUnlockScreen ? undefined : 'none'}>
+			<Loading display={!hideLoadingScreen ? 'flex' : 'none'} />
+			<Unlock display={hideLoadingScreen && showUnlockScreen ? 'flex' : 'none'} onUnlock={reload} />
+			<Box display={hideLoadingScreen && !showUnlockScreen ? undefined : 'none'}>
 				<DialogAlert
 					open={hasConnector}
 					title={intl.formatMessage(messages.title)}

@@ -230,16 +230,22 @@ const transformNonFungibleResourceItemResponse =
 		return container
 	}
 
+function getBefore(at: Date): Date {
+	const newBefore = new Date(at.getTime())
+	newBefore.setUTCDate(newBefore.getUTCDate() - 1)
+	return newBefore
+}
+
 const useBeforeDate = (at: Date): Date => {
 	const [compareDate] = useCompareWithDate()
-	const [before, setBefore] = useState<Date>(at)
+	const [before, setBefore] = useState<Date>(compareDate || getBefore(at))
 	useEffect(() => {
 		if (compareDate) {
-			setBefore(new Date(compareDate.toUTCString()))
+			setBefore(compareDate)
 		} else {
-			before.setUTCDate(at.getUTCDate() - 1)
-			before.setHours(0, 0, 0, 0)
-			setBefore(before)
+			const newBefore = new Date(at.getTime())
+			newBefore.setUTCDate(newBefore.getUTCDate() - 1)
+			setBefore(newBefore)
 		}
 	}, [formatDateTime(at), formatDateTime(compareDate)])
 
@@ -271,7 +277,6 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 	const { isLoading: isLoadingXrdPriceNow, data: xrdPriceNow } = useXRDCurrentPrice(currency)
 	const { isLoading: isLoadingXrdPriceAt, data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
 	const { isLoading: isLoadingXrdPriceBefore, data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
-
 	const xrdPrice = formatDate(at) === formatDate(new Date()) ? xrdPriceNow : xrdPriceAt
 	const isLoading =
 		isLoadingAccounts ||

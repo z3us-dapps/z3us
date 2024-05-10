@@ -4,6 +4,7 @@ export const limitRetries = failureCount => failureCount < 3
 
 export const doNotRetryRadix4xx = (failureCount, error) => {
 	if ((error as ResponseError)?.errorResponse?.code === 400) return false
+	if ((error as Error)?.message === 'Invalid request: 429 received') return false
 	return true
 }
 
