@@ -104,18 +104,19 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 					</Button>
 				</ToolTip>
 			)}
-
-			<ExplorerMenu
-				radixExplorerUrl={
-					rawNftId ? `${dashboardUrl}/nft/${resourceId}%3A${rawNftId}` : `${dashboardUrl}/resource/${resourceId}`
-				}
-				z3usExplorerUrl={`https://z3us.com/#${location.pathname}`}
-				trigger={
-					<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'large', tablet: 'large' }}>
-						<ExternalLinkIcon />
-					</Button>
-				}
-			/>
+			{resourceId && (
+				<ExplorerMenu
+					radixExplorerUrl={
+						rawNftId ? `${dashboardUrl}/nft/${resourceId}%3A${rawNftId}` : `${dashboardUrl}/resource/${resourceId}`
+					}
+					z3usExplorerUrl={`https://z3us.com/#${location.pathname}`}
+					trigger={
+						<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'large', tablet: 'large' }}>
+							<ExternalLinkIcon />
+						</Button>
+					}
+				/>
+			)}
 		</Box>
 	)
 }
