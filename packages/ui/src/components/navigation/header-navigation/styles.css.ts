@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
@@ -134,3 +134,9 @@ export const tabletHiddenWrapper = style([
 	}),
 	{},
 ])
+
+export const accountSimpleSelect = style([])
+
+globalStyle(`${accountSimpleSelect} > div`, {
+	marginLeft: '0',
+})

@@ -114,6 +114,7 @@ export interface ISelectSimpleProps {
 	rounded?: boolean
 	fullWidth?: boolean
 	disabled?: boolean
+	className?: string
 }
 
 export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
@@ -133,6 +134,7 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 			rounded = false,
 			fullWidth = false,
 			disabled = false,
+			className,
 		},
 		ref,
 	) => {
@@ -165,7 +167,7 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 								rounded={rounded}
 								fullWidth={fullWidth}
 								disabled={disabled}
-								className={clsx(fullWidth && styles.selectFullWidthButton)}
+								className={clsx(fullWidth && styles.selectFullWidthButton, className)}
 							>
 								<span style={{ overflow: 'hidden', width: '100%' }}>
 									<Text truncate size="small" color="strong" capitalizeFirstLetter={capitalizeFirstLetter}>

@@ -210,6 +210,7 @@ const HeaderNavInner = () => {
 									sizeVariant="small"
 									rounded
 									data={accountMenuItems}
+									className={styles.accountSimpleSelect}
 								/>
 								<AddAccountDialog open={isAddAccountModalOpen} onClose={handleCloseAddAccountDialog} />
 							</>
