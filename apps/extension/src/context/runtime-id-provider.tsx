@@ -1,5 +1,6 @@
-import { generateId } from 'packages/ui/src/utils/generate-id'
 import React, { type PropsWithChildren, createContext } from 'react'
+
+import { generateId } from 'ui/src/utils/generate-id'
 
 const runtimeId = generateId()
 
