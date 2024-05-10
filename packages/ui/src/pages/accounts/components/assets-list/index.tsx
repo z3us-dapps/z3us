@@ -1,3 +1,4 @@
+import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { Link, useParams } from 'react-router-dom'
@@ -53,6 +54,7 @@ export const AssetsList: React.FC = () => {
 			poolUnitsValue = 0,
 			poolUnitsChange = 0,
 		},
+		isLoading,
 	} = useSelectedAccountsBalances()
 
 	const rows = {
@@ -84,44 +86,48 @@ export const AssetsList: React.FC = () => {
 
 	return (
 		<Box className={styles.assetsList}>
-			{Object.keys(rows).map(path => (
-				<Link key={path} to={`/accounts/${accountId}/${path}`} className={styles.assetsListLink}>
-					<Box className={styles.assetsListTitleWrapper}>
-						<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
-							{rows[path].title}
-						</Text>
-						{rows[path].balances.length > 0 && (
-							<Text size="small" truncate>
-								({rows[path].balances.length})
+			{Object.keys(rows).map(path =>
+				isLoading ? (
+					<FallbackLoading key={path} />
+				) : (
+					<Link key={path} to={`/accounts/${accountId}/${path}`} className={styles.assetsListLink}>
+						<Box className={styles.assetsListTitleWrapper}>
+							<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
+								{rows[path].title}
 							</Text>
-						)}
-						<Box className={styles.assetsListTitleChevronWrapper}>
-							<ChevronRightIcon />
-						</Box>
-					</Box>
-					<Box className={styles.assetsListBalancesWrapper}>
-						<OverlayAssetIcons resourceType={path.slice(0, -1) as any} balances={rows[path].balances} />
-						<Box className={styles.assetsListBalancesTextWrapper}>
-							{rows[path].value !== 0 && (
-								<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
-									{intl.formatNumber(rows[path].value, { currency, ...CURRENCY_STYLES })}
+							{rows[path].balances.length > 0 && (
+								<Text size="small" truncate>
+									({rows[path].balances.length})
 								</Text>
 							)}
-
-							{rows[path].change !== 0 && (
-								<RedGreenText
-									size="small"
-									change={rows[path].change}
-									truncate
-									className={styles.assetsListBalancesText}
-								>
-									{intl.formatNumber(rows[path].change, PERCENTAGE_STYLES)}
-								</RedGreenText>
-							)}
+							<Box className={styles.assetsListTitleChevronWrapper}>
+								<ChevronRightIcon />
+							</Box>
 						</Box>
-					</Box>
-				</Link>
-			))}
+						<Box className={styles.assetsListBalancesWrapper}>
+							<OverlayAssetIcons resourceType={path.slice(0, -1) as any} balances={rows[path].balances} />
+							<Box className={styles.assetsListBalancesTextWrapper}>
+								{rows[path].value !== 0 && (
+									<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
+										{intl.formatNumber(rows[path].value, { currency, ...CURRENCY_STYLES })}
+									</Text>
+								)}
+
+								{rows[path].change !== 0 && (
+									<RedGreenText
+										size="small"
+										change={rows[path].change}
+										truncate
+										className={styles.assetsListBalancesText}
+									>
+										{intl.formatNumber(rows[path].change, PERCENTAGE_STYLES)}
+									</RedGreenText>
+								)}
+							</Box>
+						</Box>
+					</Link>
+				),
+			)}
 		</Box>
 	)
 }
