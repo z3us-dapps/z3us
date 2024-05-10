@@ -59,11 +59,7 @@ const useAccountsExpand = (
 
 	useEffect(() => {
 		getMinScrollHeight()
-	}, [mainRef.current, buttonsRef.current])
-
-	useEffect(() => {
-		getMinScrollHeight()
-	}, [pathName])
+	}, [mainRef.current, buttonsRef.current, pathName])
 
 	return {
 		isExpanded,
