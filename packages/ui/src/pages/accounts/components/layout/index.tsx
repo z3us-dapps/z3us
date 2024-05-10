@@ -64,6 +64,7 @@ const Layout: React.FC = () => {
 		leftScrollCtx,
 		rightScrollCtx,
 		isLeftScrollUpButtonVisible,
+		isMainScrollUpButtonVisible,
 		isRightScrollUpButtonVisible,
 		onLeftScrollUpBtnClick,
 		onRightScrollUpBtnClick,
@@ -104,11 +105,16 @@ const Layout: React.FC = () => {
 	return (
 		<>
 			<CardBackground view="mobile" />
-			<ScrollAreaNative className={styles.mainMobileScroll} ref={mainRef} hideScrollBars>
+			<ScrollAreaNative
+				className={styles.mainMobileScroll}
+				ref={mainRef}
+				hideScrollBars
+				onUpButtonClicked={onLeftScrollUpBtnClick}
+				isScrollUpButtonVisible={isMainScrollUpButtonVisible}
+			>
 				<Box className={styles.panelRight}>
 					<ScrollAreaNative
 						ref={rightRef}
-						showScrollUpButton
 						onUpButtonClicked={onRightScrollUpBtnClick}
 						isScrollUpButtonVisible={isRightScrollUpButtonVisible}
 						className={styles.panelRightScroll}
@@ -120,7 +126,6 @@ const Layout: React.FC = () => {
 				<Box className={styles.panelLeft}>
 					<ScrollAreaNative
 						ref={leftRef}
-						showScrollUpButton
 						onUpButtonClicked={onLeftScrollUpBtnClick}
 						isScrollUpButtonVisible={isLeftScrollUpButtonVisible}
 						className={styles.panelLeftScroll}

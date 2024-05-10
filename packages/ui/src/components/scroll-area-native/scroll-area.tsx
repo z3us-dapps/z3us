@@ -13,7 +13,6 @@ interface IProps {
 	children: React.ReactNode | React.ReactNode[]
 	className?: string
 	overrideScrollParent?: HTMLElement | null
-	showScrollUpButton?: boolean
 	isScrollUpButtonVisible?: boolean
 	onUpButtonClicked?: () => void
 	hideScrollBars?: boolean
@@ -32,7 +31,6 @@ export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 			children,
 			className,
 			overrideScrollParent,
-			showScrollUpButton = false,
 			isScrollUpButtonVisible = false,
 			hideScrollBars = false,
 			onUpButtonClicked,
@@ -57,9 +55,10 @@ export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 				)}
 			>
 				<ScrollContext.Provider value={scrollCtx}>{children}</ScrollContext.Provider>
-				{showScrollUpButton ? (
+				{isScrollUpButtonVisible ? (
 					<Box
 						className={clsx(
+							'testinghere',
 							styles.scrolledButtonWrapper,
 							isScrollUpButtonVisible && styles.scrolledButtonWrapperVisible,
 						)}

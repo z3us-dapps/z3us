@@ -40,10 +40,7 @@ export const scrollAreaNativeHiddenScrollBarsWrapper = style([
 export const scrolledButtonWrapper = style([
 	sprinkles({
 		position: 'absolute',
-		display: {
-			mobile: 'none',
-			tablet: 'flex',
-		},
+		display: 'block',
 		transition: 'fast',
 		zIndex: 2,
 		bottom: 0,

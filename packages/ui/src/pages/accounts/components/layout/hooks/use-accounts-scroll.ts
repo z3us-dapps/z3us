@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useEventListener } from 'usehooks-ts'
 
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
@@ -13,6 +12,7 @@ interface IAccountsScrollObj {
 	rightScrollCtx: IScrollCtx
 	isLeftScrollUpButtonVisible: boolean
 	isRightScrollUpButtonVisible: boolean
+	isMainScrollUpButtonVisible: boolean
 	onLeftScrollUpBtnClick: () => void
 	onRightScrollUpBtnClick: () => void
 }
@@ -30,6 +30,7 @@ const useAccountsScroll = (
 	const [isRightScrolledTop, setIsRightScrolledTop] = useState<boolean>(true)
 	const [isLeftScrollUpButtonVisible, setIsLeftScrollUpButtonVisible] = useState<boolean>(false)
 	const [isRightScrollUpButtonVisible, setIsRightScrollUpButtonVisible] = useState<boolean>(false)
+	const [isMainScrollUpButtonVisible, setIsMainScrollUpButtonVisible] = useState<boolean>(false)
 	const [currentPath, setCurrentPath] = useState<string>(pathName)
 
 	const rightScrollCtx = useMemo(
@@ -48,16 +49,6 @@ const useAccountsScroll = (
 		[leftRef.current, isLeftScrolledTop, isMobile],
 	)
 
-	const handleLeftScroll = useCallback(
-		(event: Event) => {
-			const { scrollTop } = event.target as HTMLElement
-
-			setIsLeftScrolledTop(scrollTop === 0)
-			setIsLeftScrollUpButtonVisible(scrollTop > SCROLL_TOP_BUTTON_VISIBLE_PX)
-		},
-		[isLeftScrolledTop, isLeftScrollUpButtonVisible],
-	)
-
 	const handleLeftScrollUpButtonClick = useCallback(() => {
 		if (leftScrollCtx.scrollableNode) {
 			leftScrollCtx.scrollableNode.scrollTo({
@@ -74,6 +65,17 @@ const useAccountsScroll = (
 		}
 	}, [rightScrollCtx.scrollableNode])
 
+	const handleLeftScroll = useCallback(
+		(event: Event) => {
+			const { scrollTop } = event.target as HTMLElement
+
+			setIsLeftScrolledTop(scrollTop === 0)
+			setIsLeftScrollUpButtonVisible(!isMobile && scrollTop > SCROLL_TOP_BUTTON_VISIBLE_PX)
+			setIsMainScrollUpButtonVisible(isMobile && scrollTop > SCROLL_TOP_BUTTON_VISIBLE_PX)
+		},
+		[isLeftScrolledTop, isLeftScrollUpButtonVisible, leftScrollCtx.scrollableNode, isMobile],
+	)
+
 	const handleRightScroll = useCallback(
 		(event: Event) => {
 			const { scrollTop } = event.target as HTMLElement
@@ -81,12 +83,26 @@ const useAccountsScroll = (
 			setIsRightScrolledTop(scrollTop === 0)
 			setIsRightScrollUpButtonVisible(scrollTop > SCROLL_TOP_BUTTON_VISIBLE_PX)
 		},
-		[isRightScrolledTop, setIsRightScrollUpButtonVisible],
+		[isRightScrolledTop, setIsRightScrollUpButtonVisible, rightScrollCtx.scrollableNode],
 	)
 
-	useEventListener('scroll', handleLeftScroll, leftRef)
+	useEffect(() => {
+		const scrollElemLeft = leftScrollCtx?.scrollableNode as HTMLElement
+		const scrollElemRight = rightScrollCtx?.scrollableNode as HTMLElement
 
-	useEventListener('scroll', handleRightScroll, rightRef)
+		if (scrollElemLeft && scrollElemRight) {
+			scrollElemLeft.addEventListener('scroll', handleLeftScroll)
+			scrollElemRight.addEventListener('scroll', handleRightScroll)
+		}
+
+		// Cleanup function to remove the event listener
+		return () => {
+			if (scrollElemLeft && scrollElemRight) {
+				scrollElemLeft.removeEventListener('scroll', handleLeftScroll)
+				scrollElemRight.removeEventListener('scroll', handleRightScroll)
+			}
+		}
+	}, [leftScrollCtx.scrollableNode, rightScrollCtx.scrollableNode])
 
 	useEffect(() => {
 		if (pathName !== currentPath) {
@@ -115,6 +131,7 @@ const useAccountsScroll = (
 		rightScrollCtx,
 		isLeftScrollUpButtonVisible,
 		isRightScrollUpButtonVisible,
+		isMainScrollUpButtonVisible,
 		onLeftScrollUpBtnClick: handleLeftScrollUpButtonClick,
 		onRightScrollUpBtnClick: handleRightScrollUpButtonClick,
 	}
