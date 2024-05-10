@@ -1,6 +1,7 @@
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
 import React, { type PropsWithChildren, useCallback, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import browser from 'webextension-polyfill'
 
 import type { State } from 'ui/src/context/zdt'
 import { ZdtContext } from 'ui/src/context/zdt'
@@ -29,6 +30,15 @@ const messages = defineMessages({
 		}`,
 	},
 })
+
+const openSidePanel = async () => {
+	if (chrome?.sidePanel) {
+		const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
+		await (chrome.sidePanel as any).open({ windowId: tab?.windowId })
+	} else {
+		await browser.sidebarAction.open()
+	}
+}
 
 export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const intl = useIntl()
@@ -99,6 +109,7 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				sendTransaction,
 				unlock,
 				lock: client.lockVault,
+				openSidePanel,
 				getSecret,
 				removeSecret,
 				buildNewPersonKeyParts,

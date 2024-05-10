@@ -75,6 +75,10 @@ const messages = defineMessages({
 		id: '4JARpz',
 		defaultMessage: 'Open in browser',
 	},
+	open_in_side_panel: {
+		id: 'pOyrg7',
+		defaultMessage: 'Open in side panel',
+	},
 	theme: {
 		id: 'Pe0ogR',
 		defaultMessage: 'Theme',
@@ -111,7 +115,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 
 		const intl = useIntl()
 		const navigate = useNavigate()
-		const { lock, isWallet } = useZdtState()
+		const { lock, openSidePanel, isWallet } = useZdtState()
 		const dappStatus = useDappStatus()
 		const { resolvedTheme, theme, setTheme } = useTheme()
 		const { keystore, keystores, selectKeystore } = useSharedStore(state => ({
@@ -259,6 +263,17 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 											<Box display="flex" marginLeft="small">
 												<Text size="xsmall" truncate>
 													{intl.formatMessage(messages.open_in_browser)}
+												</Text>
+											</Box>
+										</DropdownMenuItem>
+
+										<DropdownMenuItem onSelect={openSidePanel}>
+											<DropdownMenuLeftSlot>
+												<ShareIcon />
+											</DropdownMenuLeftSlot>
+											<Box display="flex" marginLeft="small">
+												<Text size="xsmall" truncate>
+													{intl.formatMessage(messages.open_in_side_panel)}
 												</Text>
 											</Box>
 										</DropdownMenuItem>

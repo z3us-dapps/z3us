@@ -88,7 +88,7 @@ export const AssetsList: React.FC = () => {
 		<Box className={styles.assetsList}>
 			{Object.keys(rows).map(path =>
 				isLoading ? (
-					<FallbackLoading />
+					<FallbackLoading key={path} />
 				) : (
 					<Link key={path} to={`/accounts/${accountId}/${path}`} className={styles.assetsListLink}>
 						<Box className={styles.assetsListTitleWrapper}>

@@ -79,8 +79,10 @@ const Layout: React.FC = () => {
 		}
 	}, [keystoreId, isLoading, isUnlocked, location.pathname])
 
+	if (isLoading || !keystoreId) return <FallbackLoading />
+
 	if (!location.pathname.startsWith('/keystore/new')) {
-		if (!(isLoading || !keystoreId) && !isUnlocked) return <Unlock onUnlock={reload} />
+		if (!isUnlocked) return <Unlock onUnlock={reload} />
 	}
 
 	const handleConfirm = () => {

@@ -1,5 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
-import type { AllHTMLAttributes, ElementType } from 'react'
+import type { AllHTMLAttributes, ElementType, ForwardedRef } from 'react'
 import { createElement, forwardRef } from 'react'
 
 import { type Sprinkles, resetBase, sprinkles } from 'ui/src/theme/sprinkles.css'
@@ -44,11 +44,7 @@ export interface BoxProps
 const defaultElement = 'div'
 
 export const Box = forwardRef(
-	(
-		{ component = defaultElement, className, style, type, ...props }: BoxProps,
-		// TODO: fix type
-		ref: any,
-	) => {
+	({ component = defaultElement, className, style, type, ...props }: BoxProps, ref: ForwardedRef<any>) => {
 		const { sprinklesProps, customProps, otherProps } = extractSprinklesFromProps(props, sprinkles)
 		const atomClasses = clsx(resetBase, sprinkles(sprinklesProps), className)
 
