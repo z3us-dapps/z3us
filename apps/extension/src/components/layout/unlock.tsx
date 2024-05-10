@@ -1,7 +1,9 @@
+import clsx from 'clsx'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
+import type { BoxProps } from 'ui/src/components/box'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
@@ -49,7 +51,7 @@ interface IProps {
 	onUnlock: () => void
 }
 
-export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
+export const Unlock: React.FC<IProps & BoxProps> = ({ onUnlock, className, ...rest }) => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
@@ -105,7 +107,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	}
 
 	return (
-		<Box className={styles.unlockOuterWrapper}>
+		<Box display="flex" {...rest} className={clsx(className, styles.unlockOuterWrapper)}>
 			<Box className={styles.unlockZ3usLogoWrapper}>
 				<Z3usLogoText />
 			</Box>

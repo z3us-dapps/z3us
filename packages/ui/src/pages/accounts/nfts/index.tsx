@@ -76,7 +76,8 @@ const Table: React.FC<TableProps> = ({ style, ...tableProps }) => (
 )
 
 const TableRow: React.FC<ItemProps<unknown>> = props => <tbody {...props} />
-const TableBody: React.FC<TableBodyProps> = React.forwardRef(({ children }) => children)
+// eslint-disable-next-line react/jsx-no-useless-fragment
+const TableBody: React.FC<TableBodyProps> = React.forwardRef(({ children }) => <>{children}</>)
 
 const tableComponents: TableComponents = {
 	Table,

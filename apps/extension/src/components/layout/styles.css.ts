@@ -1,13 +1,25 @@
-import { style } from '@vanilla-extract/css'
+import { keyframes, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
 import { vars } from 'ui/src/theme/theme.css'
 
+export const fadeIn = keyframes({
+	'0%': { transform: 'rotate(0deg)' },
+	'100%': { transform: 'rotate(360deg)' },
+})
+
+export const loadingWrapper = style([
+	{
+		animationDuration: '10s',
+		animationName: fadeIn,
+		animationIterationCount: 'infinite',
+	},
+])
+
 export const unlockOuterWrapper = style([
 	sprinkles({
 		position: 'relative',
-		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',

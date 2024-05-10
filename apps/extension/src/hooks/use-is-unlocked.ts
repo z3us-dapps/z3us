@@ -32,7 +32,7 @@ export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; relo
 			.then(isVaultUnlocked => setIsUnlocked(isVaultUnlocked))
 			.catch(() => setIsUnlocked(false))
 			.finally(() => setIsLoading(false))
-	}, [selectedKeystore])
+	}, [selectedKeystore?.id])
 
 	useEffect(() => {
 		client
