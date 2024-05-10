@@ -122,7 +122,9 @@ const Layout: React.FC = () => {
 						<ScrollContext.Provider value={rightScrollCtx}>{sidebar}</ScrollContext.Provider>
 					</ScrollAreaNative>
 				</Box>
+
 				<MobileScrollingButtons ref={buttonsRef} isExpanded={isExpanded} onClick={onExpandAccounts} />
+
 				<Box className={styles.panelLeft}>
 					<ScrollAreaNative
 						ref={leftRef}
