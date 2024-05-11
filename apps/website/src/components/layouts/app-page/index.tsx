@@ -4,13 +4,11 @@ import { RouterProvider, createHashRouter } from 'react-router-dom'
 import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
 import AppLayout from 'ui/src/components/layout'
 import { loader } from 'ui/src/components/layout/routes/loader'
-import { BalancesProvider } from 'ui/src/context/balances/provider'
 import { DappStatusContext, defaultState as defaultDappState } from 'ui/src/context/dapp-status'
 import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
-import TokensProvider from 'ui/src/context/tokens/provider'
 import { ZdtContext, defaultState as defaultZdtState } from 'ui/src/context/zdt'
 import accountsRoute from 'ui/src/pages/accounts/router'
 import noMatchRoute from 'ui/src/pages/no-match/router'
@@ -52,11 +50,7 @@ const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
 					<ModalsProvider>
 						<RdtProvider>
 							<ZdtContext.Provider value={defaultZdtState}>
-								<TokensProvider>
-									<BalancesProvider>
-										<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
-									</BalancesProvider>
-								</TokensProvider>
+								<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
 							</ZdtContext.Provider>
 						</RdtProvider>
 					</ModalsProvider>

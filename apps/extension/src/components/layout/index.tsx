@@ -10,6 +10,8 @@ import { DialogAlert } from 'ui/src/components/dialog-alert'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { Toasts } from 'ui/src/components/toasts'
 import { Text } from 'ui/src/components/typography'
+import { BalancesProvider } from 'ui/src/context/balances/provider'
+import TokensProvider from 'ui/src/context/tokens/provider'
 import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useModals } from 'ui/src/hooks/use-modals'
 import { useSharedStore } from 'ui/src/hooks/use-store'
@@ -47,7 +49,7 @@ const messages = defineMessages({
 const minLoadingTimeMS = 350
 const radixConnectorExtensionId = 'bfeplaecgkoeckiidkgkmlllfbaeplgm'
 
-const Layout: React.FC = () => {
+const Content: React.FC = () => {
 	const intl = useIntl()
 	const { modals } = useModals()
 	const location = useLocation()
@@ -146,5 +148,13 @@ const Layout: React.FC = () => {
 		</>
 	)
 }
+
+const Layout: React.FC = () => (
+	<TokensProvider>
+		<BalancesProvider>
+			<Content />
+		</BalancesProvider>
+	</TokensProvider>
+)
 
 export default Layout
