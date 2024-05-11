@@ -5,7 +5,6 @@ import { useOutlet } from 'react-router-dom'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { Toasts } from 'ui/src/components/toasts'
 import { BalancesProvider } from 'ui/src/context/balances/provider'
-import TokensProvider from 'ui/src/context/tokens/provider'
 import { useModals } from 'ui/src/hooks/use-modals'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Keystore } from 'ui/src/store/types'
@@ -41,11 +40,9 @@ const Content: React.FC = () => {
 }
 
 const Layout: React.FC = () => (
-	<TokensProvider>
-		<BalancesProvider>
-			<Content />
-		</BalancesProvider>
-	</TokensProvider>
+	<BalancesProvider>
+		<Content />
+	</BalancesProvider>
 )
 
 export default Layout

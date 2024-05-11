@@ -10,6 +10,7 @@ import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
+import TokensProvider from 'ui/src/context/tokens/provider'
 import accountsRoute from 'ui/src/pages/accounts/router'
 import noMatchRoute from 'ui/src/pages/no-match/router'
 import settingsRoute from 'ui/src/pages/settings/router'
@@ -97,7 +98,9 @@ ReactDOM.createRoot(container).render(
 										<LedgerClientProvider>
 											<RdtProvider>
 												<ZdtProvider>
-													<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+													<TokensProvider>
+														<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+													</TokensProvider>
 												</ZdtProvider>
 											</RdtProvider>
 										</LedgerClientProvider>
