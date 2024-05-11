@@ -59,7 +59,7 @@ export const accountListGridScrollWrapper = style([
 		},
 		tablet: {
 			paddingTop: '0',
-			paddingLeft: vars.spacing.large,
+			paddingLeft: vars.spacing.xlarge,
 			paddingRight: vars.spacing.large,
 		},
 	}),
