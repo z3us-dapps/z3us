@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { useIntl } from 'react-intl'
-import useMeasure from 'react-use-measure'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { Box } from 'ui/src/components/box'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
 import { CURRENCY_STYLES } from 'ui/src/constants/number'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 const COLORS = [
@@ -36,10 +34,7 @@ interface IProps {
 }
 
 export const Chart: React.FC<IProps> = ({ data }) => {
-	const [measureRef, { width: chartWidth }] = useMeasure()
 	const intl = useIntl()
-
-	const isMobile = useIsMobileWidth()
 	const { currency } = useNoneSharedStore(state => ({ currency: state.currency }))
 	const [hoveredCellIndex, setHoveredCellIndex] = useState<number>(-1)
 
@@ -59,7 +54,7 @@ export const Chart: React.FC<IProps> = ({ data }) => {
 	}
 
 	return (
-		<Box width="full" height="full" ref={measureRef}>
+		<Box width="full" height="full">
 			<ResponsiveContainer width="99%">
 				<PieChart>
 					<defs>
@@ -77,8 +72,8 @@ export const Chart: React.FC<IProps> = ({ data }) => {
 						data={data}
 						cx="50%"
 						cy="50%"
-						outerRadius={isMobile ? chartWidth * 0.28 : 100}
-						innerRadius={isMobile ? chartWidth * 0.1 : 30}
+						outerRadius={100}
+						innerRadius={40}
 						isAnimationActive={false}
 					>
 						{data.map(entry => (

@@ -6,6 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { useAccountValues, useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -30,6 +31,8 @@ export const BalancePieChart: React.FC = () => {
 	const isAllAccounts = useIsAllAccounts()
 	const accounts = useWalletAccounts()
 	const accountValues = useAccountValues()
+	const isMobile = useIsMobileWidth()
+
 	const {
 		data: {
 			balances = [],
@@ -74,6 +77,8 @@ export const BalancePieChart: React.FC = () => {
 			})),
 		[selectedBalances],
 	)
+
+	if (isMobile) return null
 
 	return (
 		<Box display={isAllAccounts ? 'flex' : 'none'} className={clsx(styles.allChartWrapper)}>

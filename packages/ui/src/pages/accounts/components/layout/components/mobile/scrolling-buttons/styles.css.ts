@@ -56,10 +56,6 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 		position: 'sticky',
 		width: 'full',
 		zIndex: 2,
-		display: {
-			mobile: 'block',
-			tablet: 'none',
-		},
 	}),
 	{
 		top: '-1px',
@@ -98,7 +94,6 @@ export const tabsWrapperButton = style([
 		display: 'flex',
 		justifyContent: 'center',
 		position: 'relative',
-		transition: 'fastall',
 		background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',

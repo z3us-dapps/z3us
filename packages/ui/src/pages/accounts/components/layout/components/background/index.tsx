@@ -24,7 +24,7 @@ export const CardBackground: React.FC<IProps> = ({ view }) => {
 
 	const display = useMemo(() => (view === 'mobile' ? ['block', 'none'] : ['none', 'block']), [view])
 
-	if (skin)
+	if (!resourceId && skin)
 		return (
 			<Box display={display} className={styles.accountsBgSkinWrapper}>
 				<Image
@@ -40,7 +40,7 @@ export const CardBackground: React.FC<IProps> = ({ view }) => {
 
 	return (
 		<Box
-			className={styles.accountsBgCardWrapper}
+			className={clsx(styles.accountsBgCardWrapper, resourceId && styles.accountsBgCardResourceBgWrapper)}
 			display={display}
 			style={{
 				...(accountId !== '-' && !resourceId

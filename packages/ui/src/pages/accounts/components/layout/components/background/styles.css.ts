@@ -36,3 +36,9 @@ globalStyle(`${accountsBgSkinWrapper} img`, {
 globalStyle(`.${darkMode} ${accountsBgSkinWrapper} img`, {
 	opacity: '0.5',
 })
+
+export const accountsBgCardResourceBgWrapper = style([
+	sprinkles({
+		background: 'backgroundSecondary',
+	}),
+])

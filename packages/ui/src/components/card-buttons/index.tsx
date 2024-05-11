@@ -12,6 +12,7 @@ import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
 import { ExplorerMenu } from 'ui/src/pages/accounts/components/layout/components/explorer-menu'
 
 import { useEntityDetails } from '../../hooks/dapp/use-entity-details'
+import { useAccountIndexes } from '../../hooks/use-account-indexes'
 import { findMetadataValue } from '../../services/metadata'
 import * as styles from './styles.css'
 
@@ -36,6 +37,7 @@ const messages = defineMessages({
 
 export const CardButtons: React.FC<IProps> = ({ className }) => {
 	const location = useLocation()
+	const accountIndexes = useAccountIndexes()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const intl = useIntl()
 	const dashboardUrl = useDashboardUrl()
@@ -44,7 +46,8 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 	const validator = findMetadataValue('validator', data?.metadata?.items)
 	const infoUrl = findMetadataValue('info_url', data?.metadata?.items)
 
-	const qrValue = resourceId || accountId || '-'
+	const resolvedAccountId = (accountId !== '-' ? accountId : Object.keys(accountIndexes)?.[0]) || accountId
+	const qrValue = resourceId || resolvedAccountId
 
 	const query = new URLSearchParams()
 	if (accountId !== '-') query.set('accountId', accountId)
@@ -105,17 +108,31 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 				</ToolTip>
 			)}
 
-			<ExplorerMenu
-				radixExplorerUrl={
-					rawNftId ? `${dashboardUrl}/nft/${resourceId}%3A${rawNftId}` : `${dashboardUrl}/resource/${resourceId}`
-				}
-				z3usExplorerUrl={`https://z3us.com/#${location.pathname}`}
-				trigger={
-					<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'large', tablet: 'large' }}>
-						<ExternalLinkIcon />
-					</Button>
-				}
-			/>
+			{resolvedAccountId !== '-' && !resourceId && (
+				<ExplorerMenu
+					radixExplorerUrl={`${dashboardUrl}/account/${resolvedAccountId}`}
+					z3usExplorerUrl={`https://z3us.com/#/accounts/${resolvedAccountId}`}
+					trigger={
+						<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'large', tablet: 'large' }}>
+							<ExternalLinkIcon />
+						</Button>
+					}
+				/>
+			)}
+
+			{resourceId && (
+				<ExplorerMenu
+					radixExplorerUrl={
+						rawNftId ? `${dashboardUrl}/nft/${resourceId}%3A${rawNftId}` : `${dashboardUrl}/resource/${resourceId}`
+					}
+					z3usExplorerUrl={`https://z3us.com/#${location.pathname}`}
+					trigger={
+						<Button iconOnly rounded styleVariant="inverse" sizeVariant={{ mobile: 'large', tablet: 'large' }}>
+							<ExternalLinkIcon />
+						</Button>
+					}
+				/>
+			)}
 		</Box>
 	)
 }

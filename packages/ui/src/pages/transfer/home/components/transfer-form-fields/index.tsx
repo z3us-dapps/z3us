@@ -237,7 +237,9 @@ export const TransferFormFields: React.FC = () => {
 					<Text color="strong" size="large" weight="strong">
 						{intl.formatMessage(messages.message_title)}
 					</Text>
-					<Text size="xsmall">{intl.formatMessage(messages.message_subtitle)}</Text>
+					<Box maxWidth="xxsmall">
+						<Text size="xsmall">{intl.formatMessage(messages.message_subtitle)}</Text>
+					</Box>
 				</Box>
 				<Box className={styles.transferFormMessageWrapper}>
 					<Box className={styles.transferFormCountWrapper}>

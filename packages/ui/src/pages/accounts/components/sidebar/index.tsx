@@ -12,9 +12,7 @@ import * as styles from './styles.css'
 
 const Sidebar: React.FC = () => (
 	<Box className={styles.sideBarWrapper}>
-		<Box display={['none', 'block']}>
-			<BalancePieChart />
-		</Box>
+		<BalancePieChart />
 		<SideBarTotal />
 		<SideBarAccountCard />
 		<Box display={['block', 'none']}>

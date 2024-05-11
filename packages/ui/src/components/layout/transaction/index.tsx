@@ -281,10 +281,12 @@ export const Transaction = () => {
 				<>
 					<Box display="flex" flexDirection="column" alignItems="center">
 						<Box marginTop="small">
-							<Text size="small">{intl.formatMessage(messages.fee)}</Text>
+							<Text align="center" size="small">
+								{intl.formatMessage(messages.fee)}
+							</Text>
 						</Box>
 						<Box marginTop="xxsmall">
-							<Text size="xxxlarge" color="strong">
+							<Text align="center" size="xxlarge" color="strong">
 								{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, DECIMAL_STYLES)} XRD
 							</Text>
 						</Box>

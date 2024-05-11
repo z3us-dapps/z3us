@@ -3,7 +3,7 @@ import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 
-import { Box } from 'ui/src/components/box'
+import { Box, type BoxProps } from 'ui/src/components/box'
 import { ChevronDown3Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
@@ -66,13 +66,13 @@ const TabTitle: React.FC = () => {
 	}
 }
 
-interface IProps {
+interface IProps extends BoxProps {
 	isExpanded: boolean
 	onClick: () => void
 }
 
 export const MobileScrollingButtons = React.forwardRef<HTMLElement, IProps>(
-	({ isExpanded, onClick }, ref: React.MutableRefObject<HTMLElement>) => {
+	({ isExpanded, onClick, ...rest }, ref: React.MutableRefObject<HTMLElement>) => {
 		const intl = useIntl()
 		const location = useLocation()
 		const [searchParams] = useSearchParams()
@@ -91,6 +91,7 @@ export const MobileScrollingButtons = React.forwardRef<HTMLElement, IProps>(
 					isExpanded && styles.accountRoutesScrollingStickyShadow,
 					styles.accountRoutesScrollingStickyBtnCollectionWrapper,
 				)}
+				{...rest}
 			>
 				<Box className={styles.accountRoutesScrollingStickyBtnInner}>
 					<Box className={styles.tabsWrapper}>

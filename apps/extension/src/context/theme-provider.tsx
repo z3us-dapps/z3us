@@ -1,9 +1,9 @@
 import React, { type PropsWithChildren, useEffect, useMemo, useState } from 'react'
 import browser from 'webextension-polyfill'
 
-import { darkThemeClass, lightThemeClass } from 'ui/src/theme/theme.css'
 import type { State as ThemeState } from 'ui/src/context/theme'
 import { ThemeContext } from 'ui/src/context/theme'
+import { darkThemeClass, lightThemeClass } from 'ui/src/theme/theme.css'
 import { Theme } from 'ui/src/types'
 
 import { getTheme, saveTheme } from '@src/styles/theme'
@@ -84,7 +84,8 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const ctx = useMemo(
 		(): ThemeState => ({
 			theme: theme as Theme,
-			resolvedTheme: autoThemeIsDark ? Theme.DARK : Theme.LIGHT,
+			// eslint-disable-next-line no-nested-ternary
+			resolvedTheme: theme === 'system' ? (autoThemeIsDark ? Theme.DARK : Theme.LIGHT) : theme,
 			setTheme: handleThemeChange,
 		}),
 		[theme, autoThemeIsDark],

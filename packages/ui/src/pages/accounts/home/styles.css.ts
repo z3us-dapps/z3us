@@ -2,20 +2,6 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
-export const activityList = style([
-	sprinkles({
-		height: '100vh',
-		background: 'backgroundSecondary',
-		display: {
-			mobile: 'block',
-			tablet: 'none',
-		},
-	}),
-	{
-		minHeight: '380px',
-	},
-])
-
 export const assetsHomeWrapper = style([
 	sprinkles({
 		display: 'flex',
