@@ -40,7 +40,7 @@ interface TextStyleProps {
 
 export interface TextProps extends TextStyleProps {
 	component?: ElementType
-	children: ReactNode
+	children?: ReactNode
 }
 
 export const textStyles = ({

@@ -52,13 +52,7 @@ export const tableRootWrapper = style([
 	},
 ])
 
-export const tableRootTopStickyPosition = style([
-	sprinkles({
-		position: 'relative',
-	}),
-])
-
-globalStyle(`${tableRootTopStickyPosition} thead`, {
+globalStyle(`${tableRootWrapper} thead`, {
 	display: 'none',
 	'@media': {
 		[`screen and (min-width: ${breakpoints.tablet}px)`]: {
@@ -66,20 +60,6 @@ globalStyle(`${tableRootTopStickyPosition} thead`, {
 			display: 'table-header-group',
 		},
 	},
-})
-
-export const accountTheadShadow = style([
-	sprinkles({
-		position: 'relative',
-	}),
-])
-
-globalStyle(`${accountTheadShadow} thead tr th:first-child::before`, {
-	boxShadow: LIGHT_SHADOW,
-})
-
-globalStyle(`.${darkMode} ${accountTheadShadow} thead tr th:first-child::before`, {
-	boxShadow: DARK_SHADOW,
 })
 
 export const tFootWrapper = style([

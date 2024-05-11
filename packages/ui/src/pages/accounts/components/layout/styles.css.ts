@@ -135,6 +135,17 @@ export const panelLeft = style([
 	}),
 ])
 
+export const panelLeftResourceWrapper = style([
+	responsiveStyle({
+		mobile: {
+			display: 'none',
+		},
+		tablet: {
+			display: 'block',
+		},
+	}),
+])
+
 export const panelLeftScroll = style([
 	sprinkles({
 		overflow: 'hidden',
@@ -172,11 +183,6 @@ export const panelRight = style([
 			position: 'sticky',
 			top: 0,
 			width: '100%',
-			// position: 'sticky',
-			// top: 0,
-			// height: 'calc(100vw / 8 * 5 + 60px)',
-			// maxHeight: 'calc(100vh - 163px)',
-			// maxWidth: 'unset',
 		},
 		tablet: {
 			overflow: 'hidden',
@@ -193,6 +199,17 @@ export const panelRight = style([
 		desktop: {
 			maxWidth: '392px',
 			maxHeight: 'calc(100vh - 142px)',
+		},
+	}),
+])
+
+export const panelRightResourceWrapper = style([
+	sprinkles({}),
+	{},
+	responsiveStyle({
+		mobile: {
+			position: 'relative',
+			background: vars.color.backgroundSecondary,
 		},
 	}),
 ])

@@ -24,7 +24,6 @@ interface ITableProps {
 	sizeVariant?: 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary'
 	loading?: boolean
-	stickyShadowTop?: boolean
 	loadMore?: boolean
 	overscan?: number
 	selectedRowIds?: { [key: number]: boolean }
@@ -54,7 +53,6 @@ export const Table: React.FC<ITableProps> = props => {
 		selectedRowIds = defaultSelectedRowIds,
 		loading = false,
 		loadMore = false,
-		stickyShadowTop = false,
 		overscan = 100,
 		sort,
 		headerProps,
@@ -242,12 +240,7 @@ export const Table: React.FC<ITableProps> = props => {
 	return (
 		<Box ref={tableRef} height="full" className={clsx(styles.tableWrapper, className)}>
 			<TableVirtuoso
-				className={clsx(
-					styles.tableRootWrapper,
-					loading && styles.tableLoadingWrapper,
-					stickyShadowTop && styles.tableRootTopStickyPosition,
-					!loading && stickyShadowTop && styles.accountTheadShadow,
-				)}
+				className={clsx(styles.tableRootWrapper, loading && styles.tableLoadingWrapper)}
 				overscan={{ main: overscan, reverse: overscan }}
 				totalCount={rows.length}
 				customScrollParent={scrollableNode}

@@ -12,11 +12,11 @@ export const cardButtonsWrapper = style([
 		width: 'full',
 		paddingTop: {
 			mobile: 'medium',
-			tablet: 'none',
+			tablet: 'xsmall',
 		},
 		paddingBottom: {
 			mobile: 'large',
-			tablet: 'medium',
+			tablet: 'large',
 		},
 		borderBottom: {
 			tablet: '1',
