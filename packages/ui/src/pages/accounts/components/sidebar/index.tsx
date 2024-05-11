@@ -3,7 +3,7 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 
 import HorizontalAccountsScrollList from '../horizontal-accounts-scroll-list'
-import { CardBackground } from '../layout/components/background'
+// import { CardBackground } from '../layout/components/background'
 import { AccountButtons } from './components/account-buttons'
 import { ActivityList } from './components/activity-list'
 import { BalancePieChart } from './components/balance-pie-chart'
