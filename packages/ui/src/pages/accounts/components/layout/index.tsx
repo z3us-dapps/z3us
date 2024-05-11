@@ -10,7 +10,9 @@ import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { findFieldValue, findMetadataValue } from 'ui/src/services/metadata'
 
+import { useIsActivitiesVisible } from '../../hooks/use-is-activities-visible'
 import { useResourceType } from '../../hooks/use-resource-type'
+import { ActivityList } from '../sidebar/components/activity-list'
 import { CardBackground } from './components/background'
 import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
@@ -45,6 +47,7 @@ const Layout: React.FC = () => {
 	const matches = useMatches()
 	const accounts = useWalletAccounts()
 	const resourceType = useResourceType()
+	const isActivitiesVisible = useIsActivitiesVisible()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
 
@@ -142,7 +145,10 @@ const Layout: React.FC = () => {
 								<Breadcrumbs />
 								<AccountTotalValue />
 							</Box>
-							{outlet}
+							<Box display={[!isActivitiesVisible ? 'block' : 'none', 'block']}>{outlet}</Box>
+							<Box display={[isActivitiesVisible ? 'block' : 'none', 'none']}>
+								<ActivityList className={styles.activityList} />
+							</Box>
 						</ScrollContext.Provider>
 					</ScrollAreaNative>
 				</Box>

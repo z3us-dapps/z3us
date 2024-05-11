@@ -2,7 +2,6 @@ import { FormattedMessage } from 'react-intl'
 
 import { ToolTip } from 'ui/src/components/tool-tip'
 
-import ActivityList from './components/activity-list'
 import Layout from './components/layout'
 import { AccountBreadcrumb } from './components/layout/components/breadcrumbs/account-breadcrumb'
 import { LinkBreadcrumb } from './components/layout/components/breadcrumbs/link-breadcrumb'
@@ -10,6 +9,7 @@ import { NftItemBreadcrumb } from './components/layout/components/breadcrumbs/nf
 import { ResourceBreadcrumb } from './components/layout/components/breadcrumbs/resource-breadcrumb'
 import NftDetails from './components/nft-details'
 import ResourceDetails from './components/resource-details'
+import Sidebar from './components/sidebar'
 import Home from './home'
 import LPUs from './lpus'
 import LSUS from './lsus'
@@ -26,7 +26,7 @@ const route = {
 				<FormattedMessage id="V2XmDf" defaultMessage="All accounts" />
 			</LinkBreadcrumb>
 		),
-		sidebar: <ActivityList />,
+		sidebar: <Sidebar />,
 	},
 	children: [
 		{

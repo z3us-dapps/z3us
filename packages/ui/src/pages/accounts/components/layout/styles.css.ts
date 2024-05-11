@@ -4,6 +4,20 @@ import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
 import { vars } from 'ui/src/theme/theme.css'
 
+export const activityList = style([
+	sprinkles({
+		height: '100vh',
+		background: 'backgroundSecondary',
+		display: {
+			mobile: 'block',
+			tablet: 'none',
+		},
+	}),
+	{
+		minHeight: '380px',
+	},
+])
+
 export const accountsStickyWrapper = style([
 	sprinkles({
 		display: {

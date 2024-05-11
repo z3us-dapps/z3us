@@ -8,10 +8,8 @@ import { Text } from 'ui/src/components/typography'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 
-import { ActivityList } from '../components/activity-list/components/activity-list'
 import { AssetsList } from '../components/assets-list'
 import { HorizontalAccountsScrollList } from '../components/horizontal-accounts-scroll-list'
-import { useIsActivitiesVisible } from '../hooks/use-is-activities-visible'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -26,7 +24,6 @@ const Home: React.FC = () => {
 	const { accountId = '-' } = useParams()
 	const accounts = useWalletAccounts()
 	const isAllAccounts = useIsAllAccounts()
-	const isActivitiesVisible = useIsActivitiesVisible()
 	const accountName = accounts?.[accountId]?.name
 
 	return (
@@ -48,12 +45,7 @@ const Home: React.FC = () => {
 					</>
 				)}
 			</Box>
-			<Box display={[!isActivitiesVisible ? 'block' : 'none', 'block']}>
-				<AssetsList />
-			</Box>
-			<Box display={[isActivitiesVisible ? 'block' : 'none', 'none']}>
-				<ActivityList className={styles.activityList} />
-			</Box>
+			<AssetsList />
 		</Box>
 	)
 }
