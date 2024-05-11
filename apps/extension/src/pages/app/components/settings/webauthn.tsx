@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { Checkbox } from 'ui/src/components/checkbox'
+import { Switch } from 'ui/src/components/switch'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { SettingsBlock } from 'ui/src/pages/settings/components/settings-block'
@@ -97,20 +97,15 @@ const Settings: React.FC = () => {
 			}
 			rightCol={
 				<>
+					<Box display="flex" alignItems="center" gap="medium">
+						<Switch defaultChecked={!!keystore?.webAuthn} onCheckedChange={handleToggleWebAuthn} />
+					</Box>
 					{!keystore?.webAuthn && canUsePlatformAuth && (
-						<Box display="flex" alignItems="center" gap="small" paddingTop="xsmall" justifyContent="flex-end">
-							<Text size="xsmall">{intl.formatMessage(messages.webatuh_cross_platform)}</Text>
+						<Box display="flex" alignItems="center" gap="small" paddingTop="xsmall" justifyContent="flex-start">
 							<Checkbox styleVariant="primary" sizeVariant="small" onCheckedChange={setCrossPlatform} />
+							<Text size="xsmall">{intl.formatMessage(messages.webatuh_cross_platform)}</Text>
 						</Box>
 					)}
-					<Button
-						onClick={handleToggleWebAuthn}
-						styleVariant={keystore?.webAuthn ? 'secondary-error' : 'primary'}
-						sizeVariant="xlarge"
-						fullWidth
-					>
-						{intl.formatMessage(keystore?.webAuthn ? messages.webatuh_disable : messages.webatuh_enable)}
-					</Button>
 				</>
 			}
 		/>
