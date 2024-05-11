@@ -1,8 +1,9 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { fadeIn, fadeOut } from '../dropdown-menu/styles.css'
 import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
 import { vars } from 'ui/src/theme/theme.css'
+
+import { fadeIn, fadeOut } from '../dropdown-menu/styles.css'
 
 const SCROLLBAR_SIZE = '10px'
 

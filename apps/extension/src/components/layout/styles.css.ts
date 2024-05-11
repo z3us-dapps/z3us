@@ -36,7 +36,7 @@ export const loadingBrandWrapper = style([
 	}),
 	{
 		animationDuration: '3000ms',
-		// animationName: fadeInOutAnimation,
+		animationName: fadeInOutAnimation,
 		animationIterationCount: 'infinite',
 	},
 ])
@@ -158,7 +158,9 @@ globalStyle(`${unlockButtonsWrapper} > button:first-child`, {
 })
 
 export const ellipsisTextWrapper = style([
-	sprinkles({}),
+	sprinkles({
+		display: 'none',
+	}),
 	{
 		marginTop: '16px',
 		marginLeft: '-2px',

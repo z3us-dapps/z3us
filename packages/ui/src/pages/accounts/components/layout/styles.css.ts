@@ -70,7 +70,6 @@ export const mainMobileScroll = style([
 		},
 		justifyContent: 'center',
 		flexDirection: {
-			mobile: 'column',
 			tablet: 'row-reverse',
 		},
 		gap: {
