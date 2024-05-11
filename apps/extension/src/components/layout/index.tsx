@@ -110,7 +110,12 @@ const Layout: React.FC = () => {
 	return (
 		<>
 			<Loading display={!hideLoadingScreen ? 'flex' : 'none'} />
-			<Unlock display={hideLoadingScreen && showUnlockScreen ? 'flex' : 'none'} onUnlock={reload} />
+			<Unlock
+				isLoading={isLoading}
+				isUnlocked={isUnlocked}
+				display={hideLoadingScreen && showUnlockScreen ? 'flex' : 'none'}
+				onUnlock={reload}
+			/>
 			<Box display={hideLoadingScreen && !showUnlockScreen ? undefined : 'none'}>
 				<DialogAlert
 					open={hasConnector}

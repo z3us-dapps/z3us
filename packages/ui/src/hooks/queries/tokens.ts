@@ -9,6 +9,7 @@ export type Token = {
 	address: string
 	symbol: string
 	name: string
+	icon_url?: string
 	price: {
 		xrd: {
 			now: number
@@ -33,6 +34,7 @@ function transformAstrolescentToken(token: AstrolescentToken): Token {
 		address: token.address,
 		name: token.name,
 		symbol: token.symbol,
+		icon_url: token.icon_url || token.iconUrl,
 		price: {
 			xrd: {
 				now: token.tokenPriceXRD,
@@ -65,6 +67,7 @@ function transformOciToken(token: OciToken): Token {
 		address: token.address,
 		name: token.name,
 		symbol: token.symbol,
+		icon_url: token.icon_url,
 		price: {
 			xrd: {
 				now: tokenPriceNow,
