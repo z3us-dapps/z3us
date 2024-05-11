@@ -1,4 +1,5 @@
-import React, { Suspense, useEffect, useState } from 'react'
+import { useSelectedAccountsBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import React, { Suspense, useEffect, useMemo, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { defineMessages, useIntl } from 'react-intl'
 import { Outlet, useLocation } from 'react-router-dom'
@@ -18,6 +19,7 @@ import { config } from '@src/config'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import { getTheme } from '@src/styles/theme'
 
+import Loading from './loading'
 import Unlock from './unlock'
 
 const popupUrl = browser.runtime.getURL('')
@@ -42,6 +44,7 @@ const messages = defineMessages({
 	},
 })
 
+const minLoadingTimeMS = 350
 const radixConnectorExtensionId = 'bfeplaecgkoeckiidkgkmlllfbaeplgm'
 
 const Layout: React.FC = () => {
@@ -54,7 +57,23 @@ const Layout: React.FC = () => {
 		keystoreId: state.selectedKeystoreId,
 	}))
 
+	const [isLoadingDeadlineFinished, setIsLoadingDeadlineFinished] = useState<boolean>(false)
+	const [hideLoadingScreen, setHideLoadingScreen] = useState<boolean>(false)
+	const { isLoading: isLoadingBalances } = useSelectedAccountsBalances()
 	const [hasConnector, setHasConnector] = useState<boolean>(false)
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setIsLoadingDeadlineFinished(true)
+		}, minLoadingTimeMS)
+		return () => clearTimeout(timer)
+	}, [])
+
+	useEffect(() => {
+		if (!isLoading && !isLoadingBalances && isLoadingDeadlineFinished) {
+			setHideLoadingScreen(true)
+		}
+	}, [isLoading, isLoadingBalances, isLoadingDeadlineFinished])
 
 	useEffect(() => {
 		const rootElement = document.getElementById('root')
@@ -79,42 +98,51 @@ const Layout: React.FC = () => {
 		}
 	}, [keystoreId, isLoading, isUnlocked, location.pathname])
 
+	const showUnlockScreen = useMemo(
+		() => !location.pathname.startsWith('/keystore/new') && !isUnlocked,
+		[location, isUnlocked],
+	)
+
 	const handleConfirm = () => {
 		setHasConnector(false)
 	}
 
-	if (!location.pathname.startsWith('/keystore/new')) {
-		if (isLoading || !keystoreId) return <FallbackLoading />
-		if (!isUnlocked) return <Unlock onUnlock={reload} />
-	}
-
 	return (
 		<>
-			<DialogAlert
-				open={hasConnector}
-				title={intl.formatMessage(messages.title)}
-				description={
-					<Box component="span">
-						<Text>{intl.formatMessage(messages.description)}</Text>
-					</Box>
-				}
-				confirmButtonText={intl.formatMessage(messages.button_text)}
-				cancelButtonText={intl.formatMessage(messages.cancel_button_text)}
-				onConfirm={handleConfirm}
-				onCancel={handleConfirm}
-				confirmButtonStyleVariant="primary"
+			<Loading display={!hideLoadingScreen ? 'flex' : 'none'} />
+			<Unlock
+				isLoading={isLoading}
+				isUnlocked={isUnlocked}
+				display={hideLoadingScreen && showUnlockScreen ? 'flex' : 'none'}
+				onUnlock={reload}
 			/>
-			<Suspense fallback={<FallbackLoading />}>
-				<ErrorBoundary fallbackRender={FallbackRenderer}>
-					<Outlet />
-				</ErrorBoundary>
-			</Suspense>
-			{Object.keys(modals).map(id => (
-				<Suspense key={id} fallback={<FallbackLoading />}>
-					<ErrorBoundary fallbackRender={FallbackRenderer}>{modals[id]}</ErrorBoundary>
+			<Box display={hideLoadingScreen && !showUnlockScreen ? undefined : 'none'}>
+				<DialogAlert
+					open={hasConnector}
+					title={intl.formatMessage(messages.title)}
+					description={
+						<Box component="span">
+							<Text>{intl.formatMessage(messages.description)}</Text>
+						</Box>
+					}
+					confirmButtonText={intl.formatMessage(messages.button_text)}
+					cancelButtonText={intl.formatMessage(messages.cancel_button_text)}
+					onConfirm={handleConfirm}
+					onCancel={handleConfirm}
+					confirmButtonStyleVariant="primary"
+				/>
+				<Suspense fallback={<FallbackLoading />}>
+					<ErrorBoundary fallbackRender={FallbackRenderer}>
+						<Outlet />
+					</ErrorBoundary>
 				</Suspense>
-			))}
-			<Toasts />
+				{Object.keys(modals).map(id => (
+					<Suspense key={id} fallback={<FallbackLoading />}>
+						<ErrorBoundary fallbackRender={FallbackRenderer}>{modals[id]}</ErrorBoundary>
+					</Suspense>
+				))}
+				<Toasts />
+			</Box>
 		</>
 	)
 }

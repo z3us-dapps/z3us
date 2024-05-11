@@ -48,10 +48,12 @@ const initialValues = {
 }
 
 interface IProps {
+	isUnlocked: boolean
+	isLoading: boolean
 	onUnlock: () => void
 }
 
-export const Unlock: React.FC<IProps & BoxProps> = ({ onUnlock, className, ...rest }) => {
+export const Unlock: React.FC<IProps & BoxProps> = ({ isUnlocked, isLoading, onUnlock, className, ...rest }) => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
@@ -63,6 +65,7 @@ export const Unlock: React.FC<IProps & BoxProps> = ({ onUnlock, className, ...re
 		selectKeystore: state.selectKeystoreAction,
 	}))
 
+	const [previous, setPrevious] = useState<boolean | null>(null)
 	const [error, setError] = useState<string>('')
 
 	useEffect(() => {
@@ -81,11 +84,20 @@ export const Unlock: React.FC<IProps & BoxProps> = ({ onUnlock, className, ...re
 		}
 	}
 
-	useEffect(() => {
-		if (!keystore.webAuthn) return
+	const handleWebAuthN = () => {
+		if (!keystore?.webAuthn) return
+		if (isLoading === true) return
+		if (isUnlocked === true) return
+		if (previous === true) return
+		setPrevious(isUnlocked)
 		// eslint-disable-next-line no-console
 		login(keystore).then(handleUnlock).catch(console.error)
-	}, [keystore?.id])
+	}
+
+	useEffect(() => {
+		handleWebAuthN()
+		setPrevious(isUnlocked)
+	}, [keystore?.id, isLoading, isUnlocked])
 
 	const selectItems = useMemo(() => {
 		const items = keystores.map(({ id, name }) => ({ id, title: name }))
@@ -144,6 +156,11 @@ export const Unlock: React.FC<IProps & BoxProps> = ({ onUnlock, className, ...re
 							</Button>
 						</SubmitButton>
 					</Form>
+					{keystore?.webAuthn && (
+						<Button sizeVariant="xlarge" fullWidth onClick={handleWebAuthN}>
+							TOUCH ID
+						</Button>
+					)}
 				</Box>
 			</Box>
 		</Box>

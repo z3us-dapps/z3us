@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -11,7 +12,7 @@ import { useTotalBalance } from 'ui/src/hooks/dapp/use-total-balance'
 import * as styles from './styles.css'
 
 export const AccountTotalValue: React.FC = () => {
-	const { formattedXrdValue, formattedValue, formattedChange, value, xrdValue, change } = useTotalBalance()
+	const { formattedXrdValue, formattedValue, formattedChange, value, xrdValue, change, isLoading } = useTotalBalance()
 
 	const [format, setFormat] = useState<'currency' | 'xrd'>('currency')
 
@@ -29,15 +30,21 @@ export const AccountTotalValue: React.FC = () => {
 							onClick={handleToggleValue}
 							className={clsx(styles.totalValueWrapper, plainButtonStyles.plainButtonHoverWrapper)}
 						>
-							<Text weight="strong" size="xxxlarge" color="strong" truncate>
-								{format === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
-							</Text>
+							{isLoading ? (
+								<FallbackLoading />
+							) : (
+								<Text weight="strong" size="xxxlarge" color="strong" truncate>
+									{format === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
+								</Text>
+							)}
 						</Box>
 					</ToolTip>
 				</Box>
-				<RedGreenText size="xxsmall" weight="medium" truncate change={change}>
-					{formattedChange}
-				</RedGreenText>
+				{!isLoading && (
+					<RedGreenText size="xxsmall" weight="medium" truncate change={change}>
+						{formattedChange}
+					</RedGreenText>
+				)}
 			</Box>
 		</Box>
 	)

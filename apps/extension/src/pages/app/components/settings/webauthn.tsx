@@ -97,7 +97,7 @@ const Settings: React.FC = () => {
 			}
 			rightCol={
 				<>
-					{canUsePlatformAuth && (
+					{!keystore?.webAuthn && canUsePlatformAuth && (
 						<Box display="flex" alignItems="center" gap="small" paddingTop="xsmall" justifyContent="flex-end">
 							<Text size="xsmall">{intl.formatMessage(messages.webatuh_cross_platform)}</Text>
 							<Checkbox styleVariant="primary" sizeVariant="small" onCheckedChange={setCrossPlatform} />
