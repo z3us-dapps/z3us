@@ -4,7 +4,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { Box } from 'ui/src/components/box'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
-import { CURRENCY_STYLES } from 'ui/src/constants/number'
+import { CURRENCY_STYLES, DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 const COLORS = [
@@ -30,10 +30,11 @@ type Data = {
 }
 
 interface IProps {
+	format: 'currency' | 'decimal'
 	data: Data[]
 }
 
-export const Chart: React.FC<IProps> = ({ data }) => {
+export const Chart: React.FC<IProps> = ({ format, data }) => {
 	const intl = useIntl()
 	const { currency } = useNoneSharedStore(state => ({ currency: state.currency }))
 	const [hoveredCellIndex, setHoveredCellIndex] = useState<number>(-1)
@@ -46,7 +47,7 @@ export const Chart: React.FC<IProps> = ({ data }) => {
 				<ChartToolTip
 					color={COLORS[index % COLORS.length].start}
 					name={name}
-					value={intl.formatNumber(value, { currency, ...CURRENCY_STYLES })}
+					value={intl.formatNumber(value, format === 'currency' ? { currency, ...CURRENCY_STYLES } : DECIMAL_STYLES)}
 				/>
 			)
 		}

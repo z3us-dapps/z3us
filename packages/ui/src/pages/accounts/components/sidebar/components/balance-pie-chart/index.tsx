@@ -83,7 +83,10 @@ export const BalancePieChart: React.FC = () => {
 	return (
 		<Box display={isAllAccounts ? 'flex' : 'none'} className={clsx(styles.allChartWrapper)}>
 			<Box className={styles.pieChartWrapper}>
-				<Chart data={isAllAccounts && !resourceType ? accountsData : balancesData} />
+				<Chart
+					data={isAllAccounts && !resourceType ? accountsData : balancesData}
+					format={resourceType === 'nfts' ? 'decimal' : 'currency'}
+				/>
 			</Box>
 		</Box>
 	)
