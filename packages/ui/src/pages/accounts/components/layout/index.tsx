@@ -47,6 +47,7 @@ const Layout: React.FC = () => {
 	const resourceType = useResourceType()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
+	const isPanelHiddenMobile = (resourceId && resourceType !== 'nfts') || rawNftId
 
 	const sidebars = matches
 		.filter(match => Boolean((match.handle as any)?.sidebar))
@@ -112,7 +113,7 @@ const Layout: React.FC = () => {
 				onUpButtonClicked={onLeftScrollUpBtnClick}
 				isScrollUpButtonVisible={isMainScrollUpButtonVisible}
 			>
-				<Box className={styles.panelRight}>
+				<Box className={clsx(styles.panelRight, resourceId && styles.panelRightResourceWrapper)}>
 					<ScrollAreaNative
 						ref={rightRef}
 						onUpButtonClicked={onRightScrollUpBtnClick}
@@ -122,10 +123,13 @@ const Layout: React.FC = () => {
 						<ScrollContext.Provider value={rightScrollCtx}>{sidebar}</ScrollContext.Provider>
 					</ScrollAreaNative>
 				</Box>
-
-				<MobileScrollingButtons ref={buttonsRef} isExpanded={isExpanded} onClick={onExpandAccounts} />
-
-				<Box className={styles.panelLeft}>
+				<MobileScrollingButtons
+					ref={buttonsRef}
+					isExpanded={isExpanded}
+					onClick={onExpandAccounts}
+					display={[isPanelHiddenMobile ? 'none' : 'block', 'none']}
+				/>
+				<Box className={clsx(styles.panelLeft, isPanelHiddenMobile && styles.panelLeftResourceWrapper)}>
 					<ScrollAreaNative
 						ref={leftRef}
 						onUpButtonClicked={onLeftScrollUpBtnClick}

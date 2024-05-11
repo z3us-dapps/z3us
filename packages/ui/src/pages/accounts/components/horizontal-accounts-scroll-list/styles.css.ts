@@ -43,7 +43,7 @@ export const accountListGridScrollWrapper = style([
 	sprinkles({
 		width: 'full',
 		paddingBottom: {
-			mobile: 'xxsmall',
+			mobile: 'xsmall',
 			tablet: 'small',
 		},
 	}),

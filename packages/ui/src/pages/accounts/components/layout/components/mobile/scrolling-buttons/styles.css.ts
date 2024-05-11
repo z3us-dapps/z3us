@@ -56,10 +56,6 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 		position: 'sticky',
 		width: 'full',
 		zIndex: 2,
-		display: {
-			mobile: 'block',
-			tablet: 'none',
-		},
 	}),
 	{
 		top: '-1px',
