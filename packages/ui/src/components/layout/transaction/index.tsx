@@ -286,7 +286,7 @@ export const Transaction = () => {
 							</Text>
 						</Box>
 						<Box marginTop="xxsmall">
-							<Text align="center" size="xxlarge" color="strong">
+							<Text align="center" color="strong" size="xxxlarge" className={styles.transactionFeePaid}>
 								{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, DECIMAL_STYLES)} XRD
 							</Text>
 						</Box>

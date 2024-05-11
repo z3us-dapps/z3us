@@ -2,6 +2,7 @@ import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const transactionInfoWrapper = style([
 	sprinkles({
@@ -49,6 +50,13 @@ export const transactionExtraRowsWrapper = style([
 	{
 		marginTop: '-8px',
 	},
+])
+
+export const transactionFeePaid = style([
+	responsiveStyle({
+		mobile: { fontSize: '24px', lineHeight: '28px' },
+		tablet: { fontSize: '34px', lineHeight: '40px' },
+	}),
 ])
 
 export const transactionDetailsWrapper = style([
