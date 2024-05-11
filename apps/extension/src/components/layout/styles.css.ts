@@ -4,15 +4,39 @@ import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
 import { vars } from 'ui/src/theme/theme.css'
 
-export const fadeIn = keyframes({
-	'0%': { transform: 'rotate(0deg)' },
-	'100%': { transform: 'rotate(360deg)' },
+export const fadeInOutAnimation = keyframes({
+	'0%': { opacity: '1.0' },
+	'50%': { opacity: '0.7' },
+	'100%': { opacity: '1.0' },
 })
 
-export const loadingWrapper = style([
+export const ellipsisAnimation = keyframes({
+	'0%': { opacity: '0' },
+	'50%': { opacity: '1.0' },
+	'100%': { opacity: '0' },
+})
+
+export const loadingBgWrapper = style([
+	sprinkles({
+		position: 'relative',
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: '100vh',
+		width: 'full',
+	}),
+	{},
+])
+
+export const loadingBrandWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'small',
+	}),
 	{
-		animationDuration: '10s',
-		animationName: fadeIn,
+		animationDuration: '3000ms',
+		// animationName: fadeInOutAnimation,
 		animationIterationCount: 'infinite',
 	},
 ])
@@ -131,4 +155,50 @@ export const unlockButtonsWrapper = style([
 
 globalStyle(`${unlockButtonsWrapper} > button:first-child`, {
 	flexGrow: '1',
+})
+
+export const ellipsisTextWrapper = style([
+	sprinkles({}),
+	{
+		marginTop: '16px',
+		marginLeft: '-2px',
+	},
+])
+
+export const ellipsisWrapper = style([
+	sprinkles({
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	}),
+	{
+		gap: '0.3em',
+	},
+])
+
+export const ellipsisElement = style([
+	sprinkles({
+		borderRadius: 'full',
+		opacity: 0,
+	}),
+	{
+		backgroundColor: 'currentColor',
+		width: '0.2em',
+		height: '0.2em',
+		animationDuration: '1000ms',
+		animationName: ellipsisAnimation,
+		animationIterationCount: 'infinite',
+	},
+])
+
+globalStyle(`${ellipsisWrapper} > ${ellipsisElement}:nth-child(1)`, {
+	animationDelay: '0.0s',
+})
+
+globalStyle(`${ellipsisWrapper} > ${ellipsisElement}:nth-child(2)`, {
+	animationDelay: '0.1s',
+})
+
+globalStyle(`${ellipsisWrapper} > ${ellipsisElement}:nth-child(3)`, {
+	animationDelay: '0.2s',
 })
