@@ -73,9 +73,9 @@ export const BalancePieChart: React.FC = () => {
 					(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol ||
 					resource.name ||
 					intl.formatMessage(messages.unknown),
-				value: resource.value,
+				value: resourceType === 'nfts' ? parseFloat(resource.amount) || 0 : resource.value,
 			})),
-		[selectedBalances],
+		[resourceType, selectedBalances],
 	)
 
 	if (isMobile) return null
