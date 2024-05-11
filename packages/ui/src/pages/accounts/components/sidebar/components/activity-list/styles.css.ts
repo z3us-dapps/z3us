@@ -21,6 +21,11 @@ export const activityWrapper = style([
 			tablet: 'small',
 		},
 	}),
+	responsiveStyle({
+		tablet: {
+			minHeight: '200px',
+		},
+	}),
 ])
 
 export const activityTitleText = style([
