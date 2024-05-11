@@ -1,7 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
-import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const tableWrapper = style([
 	sprinkles({
@@ -10,15 +9,9 @@ export const tableWrapper = style([
 			tablet: 'large',
 		},
 	}),
-	{},
-	responsiveStyle({
-		mobile: {
-			height: 'calc(100vh - 56px)',
-		},
-		tablet: {
-			height: 'calc(100% - 144px)',
-		},
-	}),
+	{
+		height: 'calc(100vh - 56px)',
+	},
 ])
 
 export const tableTokensWrapper = style([sprinkles({}), {}])

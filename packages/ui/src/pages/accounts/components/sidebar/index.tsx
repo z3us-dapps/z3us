@@ -3,6 +3,7 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 
 import HorizontalAccountsScrollList from '../horizontal-accounts-scroll-list'
+import { CardBackground } from '../layout/components/background'
 import { AccountButtons } from './components/account-buttons'
 import { ActivityList } from './components/activity-list'
 import { BalancePieChart } from './components/balance-pie-chart'
@@ -12,6 +13,7 @@ import * as styles from './styles.css'
 
 const Sidebar: React.FC = () => (
 	<Box className={styles.sideBarWrapper}>
+		<CardBackground view="sidebar" />
 		<BalancePieChart />
 		<SideBarTotal />
 		<SideBarAccountCard />
