@@ -9,7 +9,9 @@ import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
 import PasswordField from 'ui/src/components/form/fields/password-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
+import { TouchIcon } from 'ui/src/components/icons'
 import { SelectSimple } from 'ui/src/components/select'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { Z3usLogoLarge, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
@@ -40,6 +42,10 @@ const messages = defineMessages({
 	wallet_add: {
 		defaultMessage: 'Add wallet...',
 		id: 'VLEYHl',
+	},
+	touch_id_button: {
+		defaultMessage: 'Login with touch ID',
+		id: 'oa7soT',
 	},
 })
 
@@ -150,17 +156,21 @@ export const Unlock: React.FC<IProps & BoxProps> = ({ isUnlocked, isLoading, onU
 						<Box className={styles.unlockValidationWrapper}>
 							<ValidationErrorMessage message={error} />
 						</Box>
-						<SubmitButton>
-							<Button sizeVariant="xlarge" fullWidth>
-								{intl.formatMessage(messages.form_button_title)}
-							</Button>
-						</SubmitButton>
+						<Box className={styles.unlockButtonsWrapper}>
+							<SubmitButton>
+								<Button sizeVariant="xlarge">{intl.formatMessage(messages.form_button_title)}</Button>
+							</SubmitButton>
+							{keystore?.webAuthn && (
+								<ToolTip message={intl.formatMessage(messages.touch_id_button)}>
+									<Box component="span">
+										<Button styleVariant="secondary" sizeVariant="xlarge" onClick={handleWebAuthN} iconOnly>
+											<TouchIcon />
+										</Button>
+									</Box>
+								</ToolTip>
+							)}
+						</Box>
 					</Form>
-					{keystore?.webAuthn && (
-						<Button sizeVariant="xlarge" fullWidth onClick={handleWebAuthN}>
-							TOUCH ID
-						</Button>
-					)}
 				</Box>
 			</Box>
 		</Box>

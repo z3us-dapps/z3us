@@ -1,4 +1,4 @@
-import { keyframes, style } from '@vanilla-extract/css'
+import { globalStyle, keyframes, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
@@ -120,3 +120,15 @@ export const unlockValidationWrapper = style([
 	}),
 	{},
 ])
+
+export const unlockButtonsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		gap: 'medium',
+	}),
+	{},
+])
+
+globalStyle(`${unlockButtonsWrapper} > button:first-child`, {
+	flexGrow: '1',
+})
