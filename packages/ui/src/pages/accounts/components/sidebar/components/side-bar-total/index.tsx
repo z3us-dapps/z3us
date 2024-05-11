@@ -1,9 +1,9 @@
 import clsx from 'clsx'
-import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useTotalBalance } from 'ui/src/hooks/dapp/use-total-balance'

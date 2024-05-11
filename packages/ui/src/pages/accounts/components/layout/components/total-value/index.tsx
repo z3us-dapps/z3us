@@ -1,8 +1,8 @@
 import clsx from 'clsx'
-import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText } from 'ui/src/components/typography'

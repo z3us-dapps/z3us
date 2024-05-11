@@ -1,4 +1,3 @@
-import { useSelectedAccountsBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { Suspense, useEffect, useMemo, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { defineMessages, useIntl } from 'react-intl'
@@ -11,6 +10,7 @@ import { DialogAlert } from 'ui/src/components/dialog-alert'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { Toasts } from 'ui/src/components/toasts'
 import { Text } from 'ui/src/components/typography'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useModals } from 'ui/src/hooks/use-modals'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 

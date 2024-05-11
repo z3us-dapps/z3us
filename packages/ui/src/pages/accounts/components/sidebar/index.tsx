@@ -13,7 +13,7 @@ import * as styles from './styles.css'
 
 const Sidebar: React.FC = () => (
 	<Box className={styles.sideBarWrapper}>
-		<CardBackground view="sidebar" />
+		{/* <CardBackground view="sidebar" /> */}
 		<BalancePieChart />
 		<SideBarTotal />
 		<SideBarAccountCard />
