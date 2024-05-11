@@ -103,18 +103,15 @@ const removeLastPartOfURL = (path: string): [boolean, string] => {
 const HeaderNavInner = () => {
 	const intl = useIntl()
 	const accounts = useWalletAccounts()
-	const { accountId, resourceId } = useParams()
+	const { accountId } = useParams()
 	const isAllAccounts = useIsAllAccounts()
-
 	const location = useLocation()
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
-
 	const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false)
 	const [isAddAccountModalOpen, setIsAddAccountModalOpen] = useState<boolean>(false)
 	const isAccountsPath = location?.pathname?.includes('/accounts')
-	const isAccountBgVisible = accountId && accountId !== '-' && !resourceId
-	const buttonVariant = isAccountBgVisible ? 'white-transparent' : 'ghost'
+	const buttonVariant = isAllAccounts ? 'ghost' : 'white-transparent'
 
 	const accountMenuItems = [
 		...[{ id: 'home', title: intl.formatMessage(messages.all) }],
