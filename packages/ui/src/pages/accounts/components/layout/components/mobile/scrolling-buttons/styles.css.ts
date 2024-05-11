@@ -94,7 +94,6 @@ export const tabsWrapperButton = style([
 		display: 'flex',
 		justifyContent: 'center',
 		position: 'relative',
-		transition: 'fastall',
 		background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
