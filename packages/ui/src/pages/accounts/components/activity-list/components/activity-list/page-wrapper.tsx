@@ -129,9 +129,7 @@ export const PageWrapper: React.FC<IPageProps> = ({ transactions, selected, hove
 								<Text weight="stronger" size="small" color="strong" truncate>
 									{getShortAddress(tx.intent_hash)}
 								</Text>
-								<Text size="xsmall" truncate>
-									<TimeFromNow date={tx.confirmed_at} />
-								</Text>
+								<TimeFromNow size="xsmall" truncate date={tx.confirmed_at} />
 							</Box>
 							<BalanceChanges transaction={tx} />
 						</Link>

@@ -139,7 +139,7 @@ export const activityItemInnerBtn = style([
 	responsiveStyle({
 		mobile: {
 			gap: vars.spacing.xsmall,
-			gridTemplateColumns: '24px 1fr 220px ',
+			gridTemplateColumns: '24px 1fr 200px ',
 		},
 		tablet: {
 			gap: vars.spacing.small,
@@ -158,7 +158,6 @@ export const activityItemTextWrapper = style([
 		flexDirection: 'column',
 		flexGrow: 1,
 	}),
-	{},
 ])
 
 export const activityItemStatusWrapper = style([
