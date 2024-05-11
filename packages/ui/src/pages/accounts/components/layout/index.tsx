@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
+import { useLocation, useMatch, useMatches, useOutlet, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ScrollAreaNative, ScrollContext } from 'ui/src/components/scroll-area-native'
@@ -50,7 +50,9 @@ const Layout: React.FC = () => {
 	const isActivitiesVisible = useIsActivitiesVisible()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
-	const isPanelHiddenMobile = (resourceId && resourceType !== 'nfts') || rawNftId
+
+	const isNftCollection = useMatch('/accounts/:accountId/nfts/:resourceId')
+	const isNftCollectionOrList = !resourceId || !!isNftCollection
 
 	const sidebars = matches
 		.filter(match => Boolean((match.handle as any)?.sidebar))
@@ -130,9 +132,9 @@ const Layout: React.FC = () => {
 					ref={buttonsRef}
 					isExpanded={isExpanded}
 					onClick={onExpandAccounts}
-					display={[isPanelHiddenMobile ? 'none' : 'block', 'none']}
+					display={[!isNftCollectionOrList ? 'none' : 'block', 'none']}
 				/>
-				<Box className={clsx(styles.panelLeft, isPanelHiddenMobile && styles.panelLeftResourceWrapper)}>
+				<Box className={clsx(styles.panelLeft, !isNftCollectionOrList && styles.panelLeftResourceWrapper)}>
 					<ScrollAreaNative
 						ref={leftRef}
 						onUpButtonClicked={onLeftScrollUpBtnClick}

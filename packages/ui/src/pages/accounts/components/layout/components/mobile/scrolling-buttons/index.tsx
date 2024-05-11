@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useMatch, useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box, type BoxProps } from 'ui/src/components/box'
 import { ChevronDown3Icon } from 'ui/src/components/icons'
@@ -78,10 +78,6 @@ export const MobileScrollingButtons = React.forwardRef<HTMLElement, IProps>(
 		const [searchParams] = useSearchParams()
 		const isActivitiesVisible = useIsActivitiesVisible() // Assuming this is a custom hook you have
 
-		const { resourceId } = useParams()
-		const isNftCollection = useMatch('/accounts/:accountId/nfts/:resourceId')
-		const isNftCollectionOrList = !resourceId || !!isNftCollection
-
 		const queryWithActs = new URLSearchParams(searchParams)
 		queryWithActs.set('acts', `true`)
 		const queryWithoutActs = new URLSearchParams(searchParams)
@@ -99,43 +95,34 @@ export const MobileScrollingButtons = React.forwardRef<HTMLElement, IProps>(
 			>
 				<Box className={styles.accountRoutesScrollingStickyBtnInner}>
 					<Box className={styles.tabsWrapper}>
-						{isNftCollectionOrList && (
-							<>
-								<Link
-									underline="never"
-									to={`${location.pathname}?${queryWithoutActs}`}
-									className={clsx(
-										styles.tabsWrapperButton,
-										styles.tabsWrapperButtonLeft,
-										!isActivitiesVisible && styles.tabsWrapperButtonActive,
-										isExpanded && styles.tabsWrapperButtonSticky,
-									)}
-								>
-									<Text
-										size="medium"
-										weight="strong"
-										align="center"
-										color={!isActivitiesVisible ? 'strong' : 'neutral'}
-									>
-										<TabTitle />
-									</Text>
-								</Link>
-								<Link
-									underline="never"
-									to={`${location.pathname}?${queryWithActs}`}
-									className={clsx(
-										styles.tabsWrapperButton,
-										styles.tabsWrapperButtonRight,
-										isActivitiesVisible && styles.tabsWrapperButtonActive,
-										isExpanded && styles.tabsWrapperButtonSticky,
-									)}
-								>
-									<Text size="small" weight="strong" align="center" color={isActivitiesVisible ? 'strong' : 'neutral'}>
-										{intl.formatMessage(messages.activity)}
-									</Text>
-								</Link>
-							</>
-						)}
+						<Link
+							underline="never"
+							to={`${location.pathname}?${queryWithoutActs}`}
+							className={clsx(
+								styles.tabsWrapperButton,
+								styles.tabsWrapperButtonLeft,
+								!isActivitiesVisible && styles.tabsWrapperButtonActive,
+								isExpanded && styles.tabsWrapperButtonSticky,
+							)}
+						>
+							<Text size="medium" weight="strong" align="center" color={!isActivitiesVisible ? 'strong' : 'neutral'}>
+								<TabTitle />
+							</Text>
+						</Link>
+						<Link
+							underline="never"
+							to={`${location.pathname}?${queryWithActs}`}
+							className={clsx(
+								styles.tabsWrapperButton,
+								styles.tabsWrapperButtonRight,
+								isActivitiesVisible && styles.tabsWrapperButtonActive,
+								isExpanded && styles.tabsWrapperButtonSticky,
+							)}
+						>
+							<Text size="small" weight="strong" align="center" color={isActivitiesVisible ? 'strong' : 'neutral'}>
+								{intl.formatMessage(messages.activity)}
+							</Text>
+						</Link>
 						<Button
 							styleVariant="ghost"
 							sizeVariant="small"
