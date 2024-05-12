@@ -19,7 +19,6 @@ export const addressTableCellWrapper = style([
 		gap: 'medium',
 		maxWidth: 'full',
 	}),
-	{},
 ])
 
 export const addressTableCellTextWrapper = style([
@@ -40,8 +39,6 @@ export const addressTableCellTextWrapper = style([
 ])
 
 export const addressTableCellAddressWrapper = style([
-	sprinkles({}),
-	{},
 	responsiveStyle({
 		tablet: {
 			width: 'auto',

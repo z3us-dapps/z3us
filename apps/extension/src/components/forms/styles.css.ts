@@ -10,5 +10,4 @@ export const modalContentFormButtonWrapper = style([
 		gap: 'small',
 		paddingTop: 'medium',
 	}),
-	{},
 ])

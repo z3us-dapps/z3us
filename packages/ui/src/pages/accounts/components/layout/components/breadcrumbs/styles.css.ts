@@ -6,7 +6,6 @@ export const accountBreadCrumbContainerWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const accountBreadCrumbWrapper = style([

@@ -7,5 +7,4 @@ export const transferFormWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 ])

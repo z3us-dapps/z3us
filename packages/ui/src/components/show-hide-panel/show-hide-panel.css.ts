@@ -6,5 +6,4 @@ export const showHidePanelWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])

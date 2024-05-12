@@ -8,42 +8,36 @@ export const searchWrapper = style([
 		position: 'relative',
 		display: 'flex',
 	}),
-	{},
 ])
 
 export const inputSearchClearBtn = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const inputSearchButtonWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const inputSearchHidden = style([
 	sprinkles({
 		display: 'none',
 	}),
-	{},
 ])
 
 export const inputSearchVisible = style([
 	sprinkles({
 		display: 'block',
 	}),
-	{},
 ])
 
 export const inputSearchButtonHiddenWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const inputSearchInputWrapper = style([
@@ -52,7 +46,6 @@ export const inputSearchInputWrapper = style([
 		width: 'full',
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${inputSearchInputWrapper} input[type="text"]`, {
@@ -64,7 +57,6 @@ export const inputSearchInputValueWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${inputSearchInputValueWrapper} input[type="text"]`, {
@@ -82,7 +74,6 @@ export const inputSearchAbsoluteCloseWrapper = style([
 		right: 0,
 		marginRight: 'xsmall',
 	}),
-	{},
 ])
 
 export const inputSearchClearWrapper = style([
@@ -93,7 +84,6 @@ export const inputSearchClearWrapper = style([
 		marginRight: 'small',
 		paddingRight: 'xsmall',
 	}),
-	{},
 ])
 
 globalStyle(`${inputSearchClearWrapper} :after`, {

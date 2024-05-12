@@ -42,7 +42,6 @@ export const faqFlexWrapper = style([
 			tablet: 'xxlarge',
 		},
 	}),
-	{},
 ])
 
 export const faqHeaderWrapper = style([
@@ -62,12 +61,6 @@ export const faqPageBodyWrapper = style([
 		flexGrow: 1,
 		color: 'white',
 	}),
-	{},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { paddingTop: '72px' },
-		// desktop: { width: '25%' },
-	}),
 ])
 
 export const landingPageDarkWrapper = style([
@@ -78,11 +71,6 @@ export const landingPageDarkWrapper = style([
 	{
 		background: bgColor,
 	},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { paddingTop: '72px' },
-		// desktop: { width: '25%' },
-	}),
 ])
 
 export const landingPageInvadersWrapper = style([
@@ -91,7 +79,6 @@ export const landingPageInvadersWrapper = style([
 		justifyContent: 'center',
 		overflow: 'hidden',
 	}),
-	{},
 ])
 
 export const landingPageInvadersFlipped = style([
@@ -147,7 +134,6 @@ export const landingPageFooterWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		tablet: { marginTop: '-72px' },
 	}),
@@ -160,7 +146,6 @@ export const faqAccordionHeader = style([
 		width: 'full',
 		color: 'white',
 	}),
-	{},
 ])
 
 export const faqAccordionTrigger = style([
@@ -201,7 +186,6 @@ export const faqAccordionContentWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const faqAccordionContentInnerWrapper = style([
@@ -210,7 +194,6 @@ export const faqAccordionContentInnerWrapper = style([
 		width: 'full',
 		paddingY: 'xlarge',
 	}),
-	{},
 ])
 
 globalStyle(`${faqAccordionContentInnerWrapper} ul`, {

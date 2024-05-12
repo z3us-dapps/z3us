@@ -24,7 +24,6 @@ export const layoutTwoColWrapper = style([
 			desktop: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const layoutTwoColInnerWrapper = style([
@@ -42,7 +41,6 @@ export const layoutTwoColInnerWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const layoutTwoColLeftWrapper = style([
@@ -64,7 +62,6 @@ export const layoutTwoColLeftWrapper = style([
 		alignItems: 'self-start',
 		flexShrink: 0,
 	}),
-	{},
 	responsiveStyle({
 		tablet: { width: '20%' },
 		desktop: { width: '260px' },
@@ -83,7 +80,6 @@ export const layoutTwoColRightWrapper = style([
 		position: 'relative',
 		flexGrow: 1,
 	}),
-	{},
 	responsiveStyle({
 		desktop: { maxWidth: '820px' },
 	}),

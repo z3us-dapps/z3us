@@ -10,7 +10,6 @@ export const addressTableCellWrapper = style([
 		flexShrink: 0,
 		gap: 'medium',
 	}),
-	{},
 ])
 
 export const addressTableCellTextWrapper = style([

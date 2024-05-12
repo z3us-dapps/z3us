@@ -74,8 +74,6 @@ const useAccountsScroll = (
 		(event: Event) => {
 			const { scrollTop = 0, scrollHeight = 0, offsetHeight = 0 } = event.target as HTMLElement
 
-			console.log(1111, 'LOGGIN')
-
 			setShowTopShadow(scrollTop > 0)
 			setShowBottomShadow(scrollTop + offsetHeight < scrollHeight)
 

@@ -122,5 +122,4 @@ export const checkboxIndicator = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{},
 ])

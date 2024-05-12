@@ -24,7 +24,6 @@ export const loadingBgWrapper = style([
 		height: '100vh',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const loadingBrandWrapper = style([
@@ -50,7 +49,6 @@ export const unlockOuterWrapper = style([
 		height: '100vh',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { backgroundColor: vars.color.backgroundSecondary },
 		tablet: { backgroundColor: vars.color.backgroundPrimary },
@@ -68,7 +66,6 @@ export const unlockZ3usLogoWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const unlockInnerWrapper = style([
@@ -76,7 +73,6 @@ export const unlockInnerWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			borderRadius: vars.border.radius.xlarge,
@@ -101,7 +97,6 @@ export const unlockPaddingWrapper = style([
 			mobile: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const unlockFormWrapper = style([
@@ -109,7 +104,6 @@ export const unlockFormWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 	}),
-	{},
 ])
 
 export const unlockFormTextWrapper = style([
@@ -121,7 +115,6 @@ export const unlockFormTextWrapper = style([
 			mobile: 'large',
 		},
 	}),
-	{},
 ])
 
 export const unlockFormWalletWrapper = style([
@@ -133,7 +126,6 @@ export const unlockFormWalletWrapper = style([
 			mobile: 'large',
 		},
 	}),
-	{},
 ])
 
 export const unlockValidationWrapper = style([
@@ -142,7 +134,6 @@ export const unlockValidationWrapper = style([
 			mobile: 'small',
 		},
 	}),
-	{},
 ])
 
 export const unlockButtonsWrapper = style([
@@ -150,7 +141,6 @@ export const unlockButtonsWrapper = style([
 		display: 'flex',
 		gap: 'medium',
 	}),
-	{},
 ])
 
 globalStyle(`${unlockButtonsWrapper} > button:first-child`, {

@@ -32,7 +32,6 @@ export const addAccountDialogHeader = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 ])
 
 export const addAccountDialogTitleWrapper = style([
@@ -72,7 +71,6 @@ export const keySourceWrapper = style([
 		gap: 'small',
 		paddingTop: 'small',
 	}),
-	{},
 ])
 
 export const keySourceSelectWrapper = style([
@@ -82,7 +80,6 @@ export const keySourceSelectWrapper = style([
 		alignItems: 'center',
 		gap: 'small',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			width: 'auto',
@@ -116,7 +113,6 @@ export const addAccountGridWrapper = style([
 		marginTop: 'xlarge',
 		display: 'grid',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			gap: vars.spacing.medium,

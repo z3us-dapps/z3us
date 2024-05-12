@@ -90,7 +90,6 @@ export const z3usLogoLargeWrapper = style([
 		},
 		transition: 'fastall',
 	}),
-	{},
 ])
 
 globalStyle(`${z3usLogoLargeWrapper} svg`, {

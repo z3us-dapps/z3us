@@ -15,7 +15,6 @@ export const mobileCardWrapper = style([
 		flexDirection: 'column',
 		alignItems: 'center',
 	}),
-	{},
 ])
 
 export const mobileCardTransparentWrapper = style([

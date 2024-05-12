@@ -8,5 +8,4 @@ export const cardButtonsWrapper = style([
 		display: 'flex',
 		gap: 'large',
 	}),
-	{},
 ])

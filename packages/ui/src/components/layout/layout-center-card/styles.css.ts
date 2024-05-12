@@ -14,7 +14,6 @@ export const layoutCenterCardWrapper = style([
 		height: '100vh',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { backgroundColor: vars.color.backgroundSecondary },
 		tablet: { backgroundColor: vars.color.backgroundPrimary },
@@ -26,7 +25,6 @@ export const layoutCenterCardInnerWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			borderRadius: vars.border.radius.xlarge,
@@ -46,7 +44,6 @@ export const layoutCenterCardTextWrapper = style([
 		gap: 'medium',
 		padding: 'xlarge',
 	}),
-	{},
 ])
 
 export const layoutCenterCardButtonWrapper = style([
@@ -54,5 +51,4 @@ export const layoutCenterCardButtonWrapper = style([
 		width: 'full',
 		paddingTop: 'xlarge',
 	}),
-	{},
 ])

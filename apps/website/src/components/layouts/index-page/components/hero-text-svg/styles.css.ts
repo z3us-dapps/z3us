@@ -9,5 +9,4 @@ export const heroTextSvgWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])

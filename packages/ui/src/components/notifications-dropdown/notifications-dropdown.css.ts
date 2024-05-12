@@ -52,5 +52,4 @@ export const notificationsDropdownProfileScrollAreaWrapper = style([
 		paddingY: 'small',
 		paddingX: 'small',
 	}),
-	{},
 ])

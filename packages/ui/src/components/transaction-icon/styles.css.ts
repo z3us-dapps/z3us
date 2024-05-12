@@ -37,7 +37,6 @@ export const transactionIconShadowWrapper = style([
 	sprinkles({
 		boxShadow: 'shadowDropdown',
 	}),
-	{},
 ])
 
 export const transactionAvatarRootWrapper = style([
@@ -46,7 +45,6 @@ export const transactionAvatarRootWrapper = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{},
 ])
 
 export const transactionAvatarImageWrapper = style([
@@ -69,7 +67,6 @@ export const transactionAvatarFallbackWrapper = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const transactionTypeWrapper = style([
@@ -97,14 +94,12 @@ export const transactionTypeGreen = style([
 	sprinkles({
 		color: 'green400',
 	}),
-	{},
 ])
 
 export const transactionTypeRed = style([
 	sprinkles({
 		color: 'red400',
 	}),
-	{},
 ])
 
 globalStyle(`${transactionTypeWrapper} svg`, {

@@ -9,7 +9,6 @@ export const scrollOuterWrapper = style([
 		width: 'full',
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { height: '300px' },
 		tablet: { height: '400px' },
@@ -22,7 +21,6 @@ export const scrollAbsoluteWrapper = style([
 		height: 'full',
 		position: 'absolute',
 	}),
-	{},
 ])
 
 export const scrollWrapper = style([
@@ -36,7 +34,6 @@ export const scrollWrapper = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{},
 ])
 
 export const scrollViewPortWrapper = style([

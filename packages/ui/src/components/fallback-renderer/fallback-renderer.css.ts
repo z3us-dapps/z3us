@@ -12,7 +12,6 @@ export const fallbackLoadingWrapper = style([
 		width: 'full',
 		color: 'colorNeutral',
 	}),
-	{},
 ])
 
 export const fallbackLoadingPreWrapper = style([

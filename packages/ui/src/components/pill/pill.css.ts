@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css'
-
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
@@ -10,7 +9,6 @@ export const pillRootWrapper = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const pillRecipe = recipe({
@@ -29,7 +27,6 @@ export const pillRecipe = recipe({
 					background: 'orange600',
 					color: 'colorStrong',
 				}),
-				{},
 			],
 		},
 		sizeVariant: {

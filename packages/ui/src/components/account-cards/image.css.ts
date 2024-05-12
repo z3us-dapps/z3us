@@ -14,7 +14,6 @@ export const wrapper = style([
 		maxWidth: 'full',
 		pointerEvents: 'none',
 	}),
-	{},
 ])
 
 globalStyle(`${wrapper} img`, {

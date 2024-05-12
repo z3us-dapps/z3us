@@ -12,7 +12,6 @@ export const allChartWrapper = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 ])
 
 export const allChartInnerWrapper = style([
@@ -58,7 +57,6 @@ export const pieChartWrapper = style([
 		alignItems: 'center',
 		paddingTop: 'medium',
 	}),
-	{},
 ])
 
 export const accountsListWrapper = style([
@@ -69,7 +67,6 @@ export const accountsListWrapper = style([
 		paddingX: 'large',
 		paddingBottom: 'medium',
 	}),
-	{},
 ])
 
 export const accountDotBg = style([
@@ -96,7 +93,6 @@ export const addressInfoWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const addressInfoWrapperLeft = style([
@@ -130,5 +126,4 @@ export const dottedSpacer = style([
 		marginTop: 'small',
 		marginX: 'small',
 	}),
-	{},
 ])

@@ -9,14 +9,12 @@ export const inputWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const searchableInputSimpleBarWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { maxHeight: '40vh' },
 		tablet: { maxHeight: '40vh' },
@@ -56,7 +54,6 @@ export const searchableInputWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const searchableInputRightIconWrapper = style([

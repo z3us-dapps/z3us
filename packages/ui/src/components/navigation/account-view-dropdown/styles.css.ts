@@ -9,7 +9,6 @@ export const accountViewDropdownWrapper = style([
 		position: 'relative',
 		flexShrink: 0,
 	}),
-	{},
 ])
 
 export const accountViewSimpleBarWrapper = style([
@@ -42,7 +41,6 @@ export const accountViewPaddingWrapper = style([
 		paddingY: 'small',
 		paddingX: 'small',
 	}),
-	{},
 ])
 
 export const accountDappLinkSeparator = style([
@@ -59,7 +57,6 @@ export const accountViewPaddingXWrapper = style([
 		width: 'full',
 		paddingX: 'small',
 	}),
-	{},
 ])
 
 export const accountMenuIconWrapper = style([

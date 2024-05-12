@@ -41,7 +41,6 @@ export const scrollAreaNativeShadowWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const scrollAreaNativeShadowBottomEnabled = style([
@@ -88,7 +87,6 @@ export const scrolledButtonWrapper = style([
 		opacity: 0,
 		pointerEvents: 'none',
 	}),
-	{},
 ])
 
 export const scrolledButtonWrapperVisible = style([

@@ -40,7 +40,6 @@ export const accountsStickyWrapper = style([
 			tablet: 'large',
 		},
 	}),
-	{},
 ])
 
 export const accountsStickyBoxShadow = style([
@@ -58,7 +57,6 @@ export const main = style([
 		height: 'full',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const mainMobileScroll = style([
@@ -81,7 +79,6 @@ export const mainMobileScroll = style([
 			desktop: 'xlarge',
 		},
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			overflow: 'auto',
@@ -149,7 +146,6 @@ export const panelLeftScroll = style([
 	sprinkles({
 		overflow: 'hidden',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			overflow: 'unset',
@@ -204,7 +200,6 @@ export const panelRight = style([
 
 export const panelRightResourceWrapper = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: {
 			position: 'relative',
@@ -214,7 +209,6 @@ export const panelRightResourceWrapper = style([
 ])
 
 export const panelRightScroll = style([
-	{},
 	responsiveStyle({
 		mobile: {
 			overflow: 'unset',

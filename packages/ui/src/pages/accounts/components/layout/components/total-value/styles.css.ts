@@ -17,5 +17,4 @@ export const totalValueWrapper = style([
 		display: 'inline-flex',
 		cursor: 'pointer',
 	}),
-	{},
 ])

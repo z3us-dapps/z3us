@@ -11,7 +11,6 @@ export const accountsCardWrapper = style([
 		width: 'full',
 		gap: 'large',
 	}),
-	{},
 ])
 
 export const accountsAvatarImgWrapper = style([
@@ -28,7 +27,6 @@ export const skinSelectWrapper = style([
 		alignItems: 'center',
 		paddingBottom: 'medium',
 	}),
-	{},
 ])
 
 export const skinClearButtonWrapper = style([
@@ -37,7 +35,6 @@ export const skinClearButtonWrapper = style([
 		flexGrow: 1,
 		justifyContent: 'flex-end',
 	}),
-	{},
 ])
 
 export const cardWrapper = style([

@@ -7,5 +7,4 @@ export const formWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 ])

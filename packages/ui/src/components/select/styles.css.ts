@@ -1,8 +1,9 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { fadeIn, fadeOut, sharedItemStyles, sharedPopoverBgSprinkles } from '../dropdown-menu/styles.css'
 import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
+
+import { fadeIn, fadeOut, sharedItemStyles, sharedPopoverBgSprinkles } from '../dropdown-menu/styles.css'
 
 export const selectTrigger = style([sprinkles({}), {}])
 
@@ -66,7 +67,6 @@ export const selectMenuItemCheckIcon = style([
 		marginTop: 'xsmall',
 		flexShrink: 0,
 	}),
-	{},
 ])
 
 export const selectItemIndicator = style([
@@ -75,7 +75,6 @@ export const selectItemIndicator = style([
 		alignItems: 'center',
 		marginLeft: 'small',
 	}),
-	{},
 ])
 
 export const selectLabelWrapper = style([
@@ -87,7 +86,6 @@ export const selectLabelWrapper = style([
 		paddingX: 'small',
 		borderRadius: 'small',
 	}),
-	{},
 ])
 
 export const selectMenuSeparator = style([
@@ -123,7 +121,6 @@ export const selectIconWrapper = style([
 		margin: 'none',
 		padding: 'none',
 	}),
-	{},
 ])
 
 export const selectFullWidthButton = style([{ justifyContent: 'space-between' }])

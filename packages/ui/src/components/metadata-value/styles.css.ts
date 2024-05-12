@@ -6,5 +6,4 @@ export const metaDataLinkWrapper = style([
 	sprinkles({
 		width: 'full',
 	}),
-	{},
 ])

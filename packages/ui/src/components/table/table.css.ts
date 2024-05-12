@@ -28,7 +28,6 @@ export const tableEmptyStateWrapper = style([
 			tablet: 'xxlarge',
 		},
 	}),
-	{},
 ])
 
 export const tableLoadingWrapper = style([
@@ -36,7 +35,6 @@ export const tableLoadingWrapper = style([
 		position: 'relative',
 		pointerEvents: 'none',
 	}),
-	{},
 ])
 
 export const tableRootWrapper = style([
@@ -65,7 +63,6 @@ export const tFootWrapper = style([
 		pointerEvents: 'none',
 		display: 'none',
 	}),
-	{},
 ])
 
 export const tFootWrapperVisible = style([
@@ -181,7 +178,6 @@ export const tableThRecipe = recipe({
 						hover: 'colorStrong',
 					},
 				}),
-				{},
 			],
 			secondary: [
 				sprinkles({
@@ -190,7 +186,6 @@ export const tableThRecipe = recipe({
 						hover: 'colorStrong',
 					},
 				}),
-				{},
 			],
 		},
 		sizeVariant: {
@@ -259,7 +254,6 @@ export const tableTrRecipe = recipe({
 				sprinkles({
 					transition: 'fastall',
 				}),
-				{},
 			],
 			secondary: [sprinkles({}), {}],
 		},

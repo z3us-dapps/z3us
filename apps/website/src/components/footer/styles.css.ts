@@ -12,7 +12,6 @@ export const footerWrapper = style([
 		width: 'full',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const footerInnerWrapper = style([
@@ -33,7 +32,6 @@ export const footerInnerWrapper = style([
 			tablet: 'row',
 		},
 	}),
-	{},
 ])
 
 export const footerLeftWrapper = style([
@@ -51,7 +49,6 @@ export const footerLeftWrapper = style([
 		gap: 'medium',
 		flexGrow: 1,
 	}),
-	{},
 ])
 
 export const footerRightWrapper = style([
@@ -84,7 +81,6 @@ export const mobileLinks = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 ])
 
 export const tabletLinks = style([
@@ -96,5 +92,4 @@ export const tabletLinks = style([
 			tablet: 'flex',
 		},
 	}),
-	{},
 ])

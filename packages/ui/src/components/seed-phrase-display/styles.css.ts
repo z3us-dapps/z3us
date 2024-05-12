@@ -38,7 +38,6 @@ export const inputLeftIconClass = style([
 	sprinkles({
 		pointerEvents: 'none',
 	}),
-	{},
 ])
 
 export const inputBlurWrapper = style([
@@ -46,7 +45,6 @@ export const inputBlurWrapper = style([
 		position: 'relative',
 		display: 'block',
 	}),
-	{},
 ])
 
 export const inputBlurWordWrapper = style([

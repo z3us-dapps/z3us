@@ -73,5 +73,4 @@ export const navigationMenuLinkMobileCircleSelect = style([
 		color: 'white',
 		background: 'purple400',
 	}),
-	{},
 ])

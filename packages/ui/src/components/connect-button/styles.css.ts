@@ -10,5 +10,4 @@ export const radixConnectButtonWrapper = style([
 		alignItems: 'center',
 		position: 'relative',
 	}),
-	{},
 ])

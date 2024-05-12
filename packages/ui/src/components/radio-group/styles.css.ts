@@ -10,7 +10,6 @@ export const radioGroupWrapper = style([
 		gap: 'small',
 		cursor: 'pointer',
 	}),
-	{},
 ])
 
 export const radioGroupItemWrapper = style([

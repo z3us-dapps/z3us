@@ -12,7 +12,6 @@ export const keystoreNewTextWrapper = style([
 		paddingTop: 'small',
 		paddingBottom: 'large',
 	}),
-	{},
 ])
 
 export const onboardingNavWrapper = style([
@@ -27,7 +26,6 @@ export const onboardingNavWrapper = style([
 			tablet: 'flex',
 		},
 	}),
-	{},
 ])
 
 export const keystoreOuterWrapper = style([
@@ -39,7 +37,6 @@ export const keystoreOuterWrapper = style([
 		height: '100vh',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { backgroundColor: vars.color.backgroundSecondary },
 		tablet: { backgroundColor: vars.color.backgroundPrimary },
@@ -55,7 +52,6 @@ export const keystoreOuterFlexWrapper = style([
 		alignItems: 'center',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const keystoreFlexWrapper = style([
@@ -64,7 +60,6 @@ export const keystoreFlexWrapper = style([
 		display: 'flex',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const keystoreInnerWrapper = style([
@@ -78,7 +73,6 @@ export const keystoreInnerWrapper = style([
 			tablet: 'xxxlarge',
 		},
 	}),
-	{},
 	responsiveStyle({
 		mobile: { maxWidth: '600px', width: '100%' },
 	}),
@@ -86,7 +80,6 @@ export const keystoreInnerWrapper = style([
 
 export const keystoreInnerScrollPanelWrapper = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: { minHeight: '600px' },
 		tablet: { minHeight: 'unset', maxHeight: 'calc(100vh - 246px)' },

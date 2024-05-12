@@ -40,5 +40,4 @@ export const textPageFooterWrapper = style([
 		borderColor: 'lead800',
 		borderStyle: 'solid',
 	}),
-	{},
 ])

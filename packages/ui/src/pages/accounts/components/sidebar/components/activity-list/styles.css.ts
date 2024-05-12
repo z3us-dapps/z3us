@@ -61,7 +61,6 @@ export const activityItemOuter = style([
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
 	}),
-	{},
 ])
 
 globalStyle(`${activityWrapper} > div > div > div > div > ${activityItemOuter}:first-child`, {
@@ -171,7 +170,6 @@ export const activityItemStatusWrapper = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const activityItemTextPriceWrapper = style([
@@ -181,7 +179,6 @@ export const activityItemTextPriceWrapper = style([
 		gap: 'xxsmall',
 		paddingTop: 'xxsmall',
 	}),
-	{},
 ])
 
 export const activityItemTextEventsWrapper = style([
@@ -203,7 +200,6 @@ export const activityItemBalanceChangeWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 	}),
-	{},
 ])
 
 globalStyle(`${activityItemBalanceChangeWrapper} > div:not(:first-child)`, {
@@ -224,7 +220,6 @@ export const activityItemInnerSelectedContent = style([
 	sprinkles({
 		width: 'full',
 	}),
-	{},
 ])
 
 export const indicatorCircle = style([

@@ -13,7 +13,6 @@ export const transactionInfoWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const transactionRowDotted = style([
@@ -26,5 +25,4 @@ export const transactionRowDotted = style([
 		marginBottom: 'xxsmall',
 		marginX: 'medium',
 	}),
-	{},
 ])

@@ -2,7 +2,6 @@ import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
-import { vars } from 'ui/src/theme/theme.css'
 
 export const transactionInfoWrapper = style([
 	sprinkles({
@@ -15,7 +14,6 @@ export const transactionInfoWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const transactionRowDotted = style([
@@ -28,7 +26,6 @@ export const transactionRowDotted = style([
 		marginBottom: 'xsmall',
 		marginX: 'medium',
 	}),
-	{},
 ])
 
 export const transactionInfoCopyBtnWrapper = style([
@@ -80,7 +77,6 @@ export const transactionDetailsWrapper = style([
 			tablet: 'large',
 		},
 	}),
-	{},
 ])
 
 export const transactionErrorMessage = style([
@@ -104,7 +100,6 @@ export const transactionDetailsNoGapWrapper = style([
 			tablet: 'medium',
 		},
 	}),
-	{},
 ])
 export const transactionDetailsGapWrapper = style([
 	sprinkles({
@@ -116,7 +111,6 @@ export const transactionDetailsGapWrapper = style([
 			tablet: 'medium',
 		},
 	}),
-	{},
 ])
 
 export const transactionMessageWrapper = style([
@@ -124,7 +118,6 @@ export const transactionMessageWrapper = style([
 		width: 'full',
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { height: '60px' },
 		tablet: { height: '100px' },
@@ -139,7 +132,6 @@ export const balanceChangeWrapper = style([
 		paddingTop: 'medium',
 		paddingBottom: 'medium',
 	}),
-	{},
 ])
 
 export const balanceChangeLabelWrapper = style([
@@ -148,7 +140,6 @@ export const balanceChangeLabelWrapper = style([
 		flexDirection: 'column',
 		paddingBottom: 'medium',
 	}),
-	{},
 ])
 
 export const balanceChangeItemsFlexWrapper = style([
@@ -158,7 +149,6 @@ export const balanceChangeItemsFlexWrapper = style([
 		width: 'full',
 		gap: 'medium',
 	}),
-	{},
 ])
 
 export const balanceChangeItem = style([
@@ -186,7 +176,6 @@ export const balanceChangeItemHeader = style([
 		paddingY: 'small',
 		gap: 'small',
 	}),
-	{},
 ])
 
 export const balanceChangeItemContent = style([
@@ -195,7 +184,6 @@ export const balanceChangeItemContent = style([
 		flexDirection: 'column',
 		paddingX: 'medium',
 	}),
-	{},
 ])
 
 globalStyle(`${balanceChangeItemContent} > div:first-child`, {
@@ -210,5 +198,4 @@ export const balanceChangeItemContentRow = style([
 		borderColor: 'borderDivider',
 		paddingY: 'medium',
 	}),
-	{},
 ])

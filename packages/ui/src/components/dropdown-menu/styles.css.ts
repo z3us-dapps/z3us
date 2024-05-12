@@ -142,7 +142,6 @@ export const dropdownMenuArrow = style([
 		position: 'relative',
 		fill: 'backgroundSecondary',
 	}),
-	{},
 ])
 
 export const dropdownMenuLabel = style([
@@ -150,14 +149,12 @@ export const dropdownMenuLabel = style([
 		position: 'relative',
 		padding: 'small',
 	}),
-	{},
 ])
 
 export const dropdownMenuRadioGroup = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const dropdownMenuItemIndicator = style([
@@ -178,7 +175,6 @@ export const dropdownMenuItemRightSlot = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const dropdownMenuItemLeftSlot = style([
@@ -189,14 +185,12 @@ export const dropdownMenuItemLeftSlot = style([
 		justifyContent: 'center',
 		flexShrink: 0,
 	}),
-	{},
 ])
 
 export const dropdownMenuVirtuosoWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const dropdownMenuVirtuosoContentWrapper = style([
@@ -215,7 +209,6 @@ export const dropdownMenuVirtuosoSimpleBarWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { maxHeight: '40vh' },
 		tablet: { maxHeight: '40vh' },

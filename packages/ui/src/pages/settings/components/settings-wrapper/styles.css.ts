@@ -16,5 +16,4 @@ export const settingsSectionFlexColumnWrapper = style([
 			desktop: 'xlarge',
 		},
 	}),
-	{},
 ])

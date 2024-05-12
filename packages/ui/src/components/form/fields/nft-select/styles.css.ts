@@ -9,5 +9,4 @@ export const nftSelectWrapper = style([
 		flexDirection: 'column',
 		gap: 'medium',
 	}),
-	{},
 ])

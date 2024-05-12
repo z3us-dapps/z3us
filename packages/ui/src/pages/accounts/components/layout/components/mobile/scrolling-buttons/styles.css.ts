@@ -24,8 +24,6 @@ export const accountRoutesMobileAccountHeader = style([
 		position: 'sticky',
 		top: 0,
 	}),
-	{},
-
 	responsiveStyle({
 		mobile: {
 			height: '300px',
@@ -41,7 +39,6 @@ export const accountRoutesScrollingWrapper = style([
 		position: 'relative',
 		flexGrow: 1,
 	}),
-	{},
 ])
 
 export const accountRoutesScrollingStickyBtnCollectionWrapper = style([
@@ -66,7 +63,6 @@ export const accountRoutesScrollingStickyShadow = style([
 	sprinkles({
 		boxShadow: 'shadowScrollTop',
 	}),
-	{},
 ])
 
 export const accountRoutesScrollingStickyBtnInner = style([
@@ -75,7 +71,6 @@ export const accountRoutesScrollingStickyBtnInner = style([
 		borderTopLeftRadius: 'xxxlarge',
 		borderTopRightRadius: 'xxxlarge',
 	}),
-	{},
 ])
 
 export const tabsWrapper = style([
@@ -84,7 +79,6 @@ export const tabsWrapper = style([
 		position: 'relative',
 		display: 'flex',
 	}),
-	{},
 ])
 
 export const tabsWrapperButton = style([
@@ -186,7 +180,6 @@ export const searchWrapper = style([
 		borderBottomStyle: 'solid',
 		borderColor: 'borderDivider',
 	}),
-	{},
 ])
 
 export const tabsWrapperScrollBtnScrolled = style([
@@ -200,14 +193,12 @@ export const inputSearch = style([
 		width: 'full',
 		padding: 'small',
 	}),
-	{},
 ])
 
 export const inputSearchClearBtn = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${searchWrapper} ${inputSearchClearBtn}`, {

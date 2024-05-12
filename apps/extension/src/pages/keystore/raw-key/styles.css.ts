@@ -9,7 +9,6 @@ export const rawKeyWrapper = style([
 			mobile: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const rawKeyInputWrapper = style([
@@ -21,7 +20,6 @@ export const rawKeyInputWrapper = style([
 			tablet: 'large',
 		},
 	}),
-	{},
 ])
 
 export const rawKeyInput = style([

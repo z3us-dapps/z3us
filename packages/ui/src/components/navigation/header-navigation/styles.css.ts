@@ -15,7 +15,6 @@ export const navigationWrapper = style([
 			darkMode: 'lead500',
 		},
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			borderBottomWidth: '1px',
@@ -33,7 +32,6 @@ export const navigationInnerWrapper = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			height: '48px',
@@ -67,14 +65,12 @@ export const headerDesktopNavWrapper = style([
 			tablet: 'flex',
 		},
 	}),
-	{},
 ])
 
 export const searchWrapper = style([
 	sprinkles({
 		flexGrow: 1,
 	}),
-	{},
 ])
 
 export const searchComponentWrapper = style([
@@ -84,7 +80,6 @@ export const searchComponentWrapper = style([
 		flexGrow: 1,
 		paddingLeft: 'small',
 	}),
-	{},
 ])
 
 export const headerInnerNavWrapper = style([
@@ -101,7 +96,6 @@ export const headerInnerNavWrapper = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 ])
 
 export const headerBackButtonWrapper = style([
@@ -114,7 +108,6 @@ export const headerBackButtonWrapper = style([
 			tablet: 'small',
 		},
 	}),
-	{},
 ])
 
 export const headerMobileHiddenWrapper = style([
@@ -124,7 +117,6 @@ export const headerMobileHiddenWrapper = style([
 			tablet: 'flex',
 		},
 	}),
-	{},
 ])
 
 export const tabletHiddenWrapper = style([
@@ -133,7 +125,6 @@ export const tabletHiddenWrapper = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 ])
 
 export const accountSimpleSelect = style([])

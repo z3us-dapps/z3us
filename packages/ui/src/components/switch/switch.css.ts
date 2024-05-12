@@ -48,7 +48,6 @@ export const switchRecipe = recipe({
 					background: 'orange600',
 					color: 'colorStrong',
 				}),
-				{},
 			],
 		},
 		sizeVariant: {
@@ -88,7 +87,6 @@ export const switchThumbRoot = style([
 		transition: 'fastall',
 		cursor: 'pointer',
 	}),
-	{},
 ])
 
 export const switchThumbRecipe = recipe({
@@ -102,13 +100,11 @@ export const switchThumbRecipe = recipe({
 				sprinkles({
 					background: 'white',
 				}),
-				{},
 			],
 			secondary: [
 				sprinkles({
 					background: 'orange600',
 				}),
-				{},
 			],
 		},
 		sizeVariant: {

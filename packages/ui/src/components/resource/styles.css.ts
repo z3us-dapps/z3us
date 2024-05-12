@@ -9,14 +9,12 @@ export const totalValueWrapper = style([
 		display: 'inline-flex',
 		cursor: 'pointer',
 	}),
-	{},
 ])
 
 export const tokenDetailWrapper = style([
 	sprinkles({
 		flexShrink: 0,
 	}),
-	{},
 	responsiveStyle({
 		mobile: { background: vars.color.backgroundPrimary },
 		tablet: { background: vars.color.backgroundSecondary },
@@ -34,7 +32,6 @@ export const assetInfoWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const chartBgWrapper = style([
@@ -42,7 +39,6 @@ export const chartBgWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { height: '160px' },
 		tablet: { height: '200px' },
@@ -150,12 +146,10 @@ export const tokenSummaryWrapper = style([
 			tablet: 'xxlarge',
 		},
 	}),
-	{},
 ])
 
 export const tokenSummaryRightMaxWidth = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: { maxWidth: '130px' },
 		tablet: { maxWidth: '130px' },

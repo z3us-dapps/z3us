@@ -9,7 +9,6 @@ export const interactionWrapper = style([
 		width: '100vw',
 		background: 'backgroundSecondary',
 	}),
-	{},
 ])
 
 export const interactionInnerWrapper = style([
@@ -35,7 +34,6 @@ export const interactionCancelledWrapper = style([
 		justifyContent: 'space-between',
 		padding: 'large',
 	}),
-	{},
 ])
 
 export const interactionCancelledButtonWrapper = style([
@@ -45,7 +43,6 @@ export const interactionCancelledButtonWrapper = style([
 		borderColor: 'borderDivider',
 		paddingTop: 'large',
 	}),
-	{},
 ])
 
 export const interactionCloseButtonWrapper = style([
@@ -56,5 +53,4 @@ export const interactionCloseButtonWrapper = style([
 		marginTop: 'medium',
 		marginRight: 'medium',
 	}),
-	{},
 ])

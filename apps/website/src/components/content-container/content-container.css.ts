@@ -14,7 +14,6 @@ export const contentContainerWrapper = style([
 			desktop: 'xxlarge',
 		},
 	}),
-	{},
 ])
 
 export const contentContainerInnerWrapper = style([

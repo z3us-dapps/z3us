@@ -13,7 +13,6 @@ export const interactionLoginBodyWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const interactionLoginBodyTextWrapper = style([
@@ -24,7 +23,6 @@ export const interactionLoginBodyTextWrapper = style([
 		gap: 'xsmall',
 		paddingTop: 'medium',
 	}),
-	{},
 ])
 
 export const interactionLoginBodyButtonWrapper = style([
@@ -35,7 +33,6 @@ export const interactionLoginBodyButtonWrapper = style([
 		gap: 'small',
 		paddingTop: 'large',
 	}),
-	{},
 ])
 
 export const interactionLoginFooterWrapper = style([
@@ -50,14 +47,12 @@ export const interactionLoginFooterWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const interactionScrollWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { height: '100vh' },
 	}),

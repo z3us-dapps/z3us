@@ -26,7 +26,6 @@ export const slideOutDialogHeaderWrapper = style([
 		background: 'backgroundSecondary',
 		transition: 'fast',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			height: '48px',
@@ -44,7 +43,6 @@ export const slideOutDialogScrollWrapper = style([
 	sprinkles({
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { height: 'calc(100vh - 96px)' },
 		tablet: { height: 'calc(100vh - 48px)' },

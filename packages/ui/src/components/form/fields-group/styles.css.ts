@@ -11,5 +11,4 @@ export const formFieldGroupWithError = style([
 		padding: 'small',
 		color: 'colorStrong',
 	}),
-	{},
 ])

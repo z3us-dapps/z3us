@@ -18,7 +18,6 @@ export const navigationWrapper = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 ])
 
 export const mobileMenuWrapper = style([
@@ -33,7 +32,6 @@ export const mobileMenuWrapper = style([
 		},
 		width: 'full',
 	}),
-	{},
 ])
 
 export const tabletMenuWrapper = style([
@@ -43,7 +41,6 @@ export const tabletMenuWrapper = style([
 			tablet: 'block',
 		},
 	}),
-	{},
 ])
 
 export const accountViewContentWrapper = style([
@@ -74,12 +71,10 @@ export const accountViewPaddingWrapper = style([
 		paddingY: 'small',
 		paddingX: 'small',
 	}),
-	{},
 ])
 
 export const menuTitleWrapper = style([
 	sprinkles({
 		paddingBottom: 'small',
 	}),
-	{},
 ])

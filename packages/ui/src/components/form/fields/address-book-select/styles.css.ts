@@ -9,7 +9,6 @@ export const knownAddressFlexWrapper = style([
 		width: 'full',
 		justifyContent: 'flex-end',
 	}),
-	{},
 ])
 
 export const knownAddressWrapper = style([

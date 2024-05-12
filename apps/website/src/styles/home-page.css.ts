@@ -6,5 +6,4 @@ export const indexAppWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])

@@ -21,7 +21,6 @@ export const scrollAreaWrapperDisabled = style([
 	sprinkles({
 		pointerEvents: 'none',
 	}),
-	{},
 ])
 
 export const scrollAreaTopShadow = style([

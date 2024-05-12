@@ -24,29 +24,21 @@ export const tokenSelectorHeaderWrapper = style([
 		transition: 'fast',
 		zIndex: 1,
 	}),
-	{},
-	// responsiveStyle({
-	// 	mobile: { height: '48px' },
-	// 	tablet: { height: '64px' },
-	// }),
 ])
 
 export const tokenSelectorHeaderWrapperShadow = style([
 	sprinkles({
 		boxShadow: 'shadowScrollTop',
 	}),
-	{},
 ])
 
 export const searchElement = style([
 	sprinkles({
 		width: 'full',
 	}),
-	{},
 ])
 
 export const tokenSelectorContent = style([
-	{},
 	responsiveStyle({
 		mobile: { maxWidth: '90%', top: '32px', bottom: '32px' },
 		tablet: { maxWidth: '480px', top: '48px', bottom: '48px' },
@@ -106,7 +98,6 @@ export const tokenListItemWrapperInnerButton = style([
 		gap: 'medium',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const tokenListItemTextWrapper = style([
@@ -117,7 +108,6 @@ export const tokenListItemTextWrapper = style([
 		flexGrow: 1,
 		minWidth: 0,
 	}),
-	{},
 ])
 
 export const tokenListTagWrapper = style([
@@ -125,5 +115,4 @@ export const tokenListTagWrapper = style([
 		display: 'flex',
 		flexShrink: 0,
 	}),
-	{},
 ])

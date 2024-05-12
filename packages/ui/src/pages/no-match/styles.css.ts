@@ -10,5 +10,4 @@ export const notFound404ButtonWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])

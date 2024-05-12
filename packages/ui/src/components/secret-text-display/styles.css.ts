@@ -14,7 +14,6 @@ export const inputBlurSingleWrapper = style([
 		padding: 'medium',
 		borderRadius: 'medium',
 	}),
-	{},
 ])
 
 export const inputBlurSingleWordWrapper = style([

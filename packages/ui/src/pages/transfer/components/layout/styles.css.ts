@@ -12,5 +12,4 @@ export const pageWrapper = style([
 			desktop: 'medium',
 		},
 	}),
-	{},
 ])

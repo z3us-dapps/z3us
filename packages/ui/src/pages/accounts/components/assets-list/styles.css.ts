@@ -27,7 +27,6 @@ export const assetsListLi = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const assetsListLink = style([
@@ -101,7 +100,6 @@ export const assetsListTitleWrapper = style([
 		alignItems: 'center',
 		gap: 'xsmall',
 	}),
-	{},
 ])
 
 export const assetsListTitleChevronWrapper = style([
@@ -112,7 +110,6 @@ export const assetsListTitleChevronWrapper = style([
 		justifyContent: 'flex-end',
 		color: 'colorNeutral',
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			display: 'none',
@@ -127,7 +124,6 @@ export const assetsListBalancesWrapper = style([
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	}),
-	{},
 ])
 
 export const assetsListBalancesTextWrapper = style([
@@ -141,7 +137,6 @@ export const assetsListBalancesTextWrapper = style([
 			tablet: 'xsmall',
 		},
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			width: '50%',
@@ -161,7 +156,6 @@ export const assetsListBalancesText = style([
 			tablet: 'left',
 		},
 	}),
-	{},
 ])
 
 globalStyle(

@@ -12,7 +12,6 @@ export const transferFormGridBoxWrapper = style([
 		flexDirection: 'column',
 		gap: 'medium',
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			display: 'grid',
@@ -43,7 +42,6 @@ export const transferFormGridBoxWrapperBorder = style([
 			desktop: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const transferFormGridBoxWrapperLeft = style([
@@ -52,14 +50,12 @@ export const transferFormGridBoxWrapperLeft = style([
 		flexDirection: 'column',
 		gap: 'xxsmall',
 	}),
-	{},
 ])
 
 export const transferFormMessageWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const transferFormCountWrapper = style([
@@ -75,7 +71,6 @@ export const transferFormCountWrapper = style([
 
 export const transferFormMessageTextArea = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: {
 			minHeight: '70px',
@@ -94,14 +89,12 @@ export const transferFormEncryptWrapper = style([
 		paddingTop: 'xsmall',
 		justifyContent: 'flex-end',
 	}),
-	{},
 ])
 
 export const transferActionTrashButtonWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			position: 'absolute',
@@ -120,7 +113,6 @@ export const transferActionTrashButtonWrapper = style([
 
 export const transferActionAddButtonWrapper = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: {
 			marginTop: '8px',
@@ -144,7 +136,6 @@ export const transferActionAddSourceWrapper = style([
 			tablet: 'medium',
 		},
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			marginTop: '6px',
@@ -172,7 +163,6 @@ export const transferActionFieldParentWrapper = style([
 			tablet: 'flex',
 		},
 	}),
-	{},
 ])
 
 globalStyle(`${transferActionFieldParentWrapper} > div:first-child`, {
@@ -184,7 +174,6 @@ export const transferActionFieldWrapper = style([
 		position: 'relative',
 		display: 'flex',
 	}),
-	{},
 ])
 
 globalStyle(`${transferActionFieldWrapper} > div:first-child`, {
@@ -195,7 +184,6 @@ export const transferActionTrashTokensNftsButton = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			marginTop: '24px',
@@ -217,14 +205,12 @@ export const transferActionToAssetWrapper = style([
 		position: 'relative',
 		paddingBottom: 'large',
 	}),
-	{},
 ])
 
 export const transferActionTabsWrapper = style([
 	sprinkles({
 		marginTop: 'large',
 	}),
-	{},
 ])
 
 export const transferActionTabsContentWrapper = style([

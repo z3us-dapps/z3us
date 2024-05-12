@@ -14,8 +14,7 @@ export const sideBarWrapper = style([
 			tablet: 'xsmall',
 		},
 		height: {
-			tablet: 'auto',
+			tablet: 'full',
 		},
 	}),
-	{},
 ])

@@ -29,7 +29,6 @@ export const simpleBarStyledTopShadow = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${simpleBarStyledTopShadow}:after`, {
@@ -54,7 +53,6 @@ export const simpleBarStyledBottomShadow = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${simpleBarStyledBottomShadow}:before`, {

@@ -18,7 +18,6 @@ export const navigationWrapper = style([
 			desktop: 'xxlarge',
 		},
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			borderBottomWidth: '1px',
@@ -107,7 +106,6 @@ export const accountsHomeMobileHeaderShadow = style([
 		background: 'backgroundPrimary',
 		boxShadow: 'shadowScrollTop',
 	}),
-	{},
 ])
 
 export const accountsHomeMobileHeaderWalletWrapper = style([
@@ -194,7 +192,6 @@ export const navigationMenuLinkMobileCircleSelect = style([
 		color: 'white',
 		background: 'purple400',
 	}),
-	{},
 ])
 
 export const fadeIn = keyframes({

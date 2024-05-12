@@ -31,7 +31,6 @@ export const homeAssetsTitleWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const assetTileWrapper = style([

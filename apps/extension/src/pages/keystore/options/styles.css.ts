@@ -9,12 +9,10 @@ export const keystoreOptionsWrapper = style([
 			mobile: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const keystoreOptionsButtonsWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])

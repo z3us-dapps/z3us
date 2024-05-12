@@ -53,7 +53,6 @@ export const cardAllWrapper = style([
 			darkMode: 'backgroundPrimary',
 		},
 	}),
-	{},
 ])
 
 export const cardAccountShine = style([
@@ -134,7 +133,6 @@ export const accountDropdownWrapper = style([
 		marginTop: 'medium',
 		marginRight: 'medium',
 	}),
-	{},
 ])
 
 export const accountCardZ3USlogoWrapper = style([
@@ -160,5 +158,4 @@ export const cardAccountMenuLeftSlotWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])

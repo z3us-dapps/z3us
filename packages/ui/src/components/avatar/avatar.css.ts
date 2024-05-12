@@ -28,7 +28,6 @@ export const avatarRootRecipe = recipe({
 					},
 					borderRadius: 'full',
 				}),
-				{},
 			],
 			rounded: [sprinkles({}), {}],
 			square: [
@@ -59,7 +58,6 @@ export const avatarRootRecipe = recipe({
 					height: 'full',
 					width: 'full',
 				}),
-				{},
 			],
 		},
 	},

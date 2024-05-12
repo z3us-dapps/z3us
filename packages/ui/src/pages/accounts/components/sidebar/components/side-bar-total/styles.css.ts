@@ -12,7 +12,6 @@ export const mobileHomeBalanceWrapper = style([
 		flexDirection: 'column',
 		alignItems: 'center',
 	}),
-	{},
 ])
 
 export const mobileBalanceTotalLabel = style([

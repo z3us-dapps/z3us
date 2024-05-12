@@ -11,7 +11,6 @@ export const transactionManifestWrapper = style([
 		paddingTop: 'medium',
 		flexGrow: 1,
 	}),
-	{},
 
 	responsiveStyle({
 		mobile: {
@@ -31,7 +30,6 @@ export const transactionManifestTabsWrapper = style([
 		flexGrow: 1,
 		paddingBottom: 'medium',
 	}),
-	{},
 ])
 
 export const transactionManifestTabsContentWrapper = style([
@@ -56,7 +54,6 @@ export const transactionManifestValidationWrapper = style([
 	sprinkles({
 		paddingTop: 'xsmall',
 	}),
-	{},
 ])
 
 export const transactionManifestTextArea = style([
@@ -72,7 +69,6 @@ export const transactionPreviewWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const transactionPreviewBlockWrapper = style([
@@ -82,7 +78,6 @@ export const transactionPreviewBlockWrapper = style([
 		gap: 'small',
 		paddingTop: 'medium',
 	}),
-	{},
 ])
 
 export const transactionPreviewFeeLinks = style([
@@ -93,7 +88,6 @@ export const transactionPreviewFeeLinks = style([
 		flexGrow: 1,
 		gap: 'small',
 	}),
-	{},
 ])
 
 export const transactionPreviewLinSeparator = style([
@@ -121,7 +115,6 @@ export const transactionPreviewBlock = style([
 			darkMode: 'wax700',
 		},
 	}),
-	{},
 ])
 
 export const transactionPreviewBlockError = style([

@@ -20,7 +20,6 @@ export const loaderWrapper = style([
 		width: 'full',
 		background: 'transparent',
 	}),
-	{},
 ])
 
 export const loaderText = style([
@@ -30,7 +29,6 @@ export const loaderText = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const logoWrapperShineAnimation = style([
@@ -86,7 +84,6 @@ export const logoWrapper = style([
 			darkMode: 'wax500',
 		},
 	}),
-	{},
 ])
 
 export const logoWrapperInner = style([

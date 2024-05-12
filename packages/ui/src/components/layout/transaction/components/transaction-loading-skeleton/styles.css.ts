@@ -8,7 +8,6 @@ export const transactionSkeletonWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 	}),
-	{},
 ])
 
 export const transactionSkeletonHeaderWrapper = style([
@@ -19,7 +18,6 @@ export const transactionSkeletonHeaderWrapper = style([
 		justifyContent: 'center',
 		alignItems: 'center',
 	}),
-	{},
 ])
 
 export const transactionSkeletonAvatar = style([
@@ -81,7 +79,6 @@ export const transactionSkeletonBodyWrapper = style([
 		borderColor: 'borderDivider',
 		borderStyle: 'solid',
 	}),
-	{},
 ])
 
 export const transactionSkeletonBodyDetail = style([
@@ -103,7 +100,6 @@ export const transactionSkeletonBodyItem = style([
 		justifyContent: 'space-between',
 		marginBottom: 'large',
 	}),
-	{},
 ])
 
 export const transactionSkeletonBodyItemLeft = style([

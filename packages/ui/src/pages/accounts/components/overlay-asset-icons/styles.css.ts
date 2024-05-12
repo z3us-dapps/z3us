@@ -30,7 +30,6 @@ export const overlayAssetIconsWrapper = style([
 		pointerEvents: 'none',
 		color: 'colorNeutral',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { marginTop: '0px' },
 		tablet: { marginTop: '-10px' },
@@ -87,5 +86,4 @@ export const overlayAssetChevronWrapper = style([
 			tablet: 'block',
 		},
 	}),
-	{},
 ])

@@ -46,7 +46,6 @@ export const scrollAreaEnabledStyles = style([
 	sprinkles({
 		overflow: 'hidden',
 	}),
-	{},
 ])
 
 export const scrollAreaViewportWrapper = style([
@@ -144,7 +143,6 @@ export const scrollAreaCornerWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const scrollAreaRootDisabledWrapper = style([sprinkles({}), {}])
@@ -202,7 +200,6 @@ export const scrolledButtonWrapper = style([
 		opacity: 0,
 		pointerEvents: 'none',
 	}),
-	{},
 ])
 
 export const scrolledButtonWrapperVisible = style([

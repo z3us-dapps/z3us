@@ -12,7 +12,6 @@ export const modalContentWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const modalContentTitleTextWrapper = style([
@@ -26,7 +25,6 @@ export const modalContentTitleTextWrapper = style([
 			tablet: 'large',
 		},
 	}),
-	{},
 ])
 
 export const modalContentFormButtonWrapper = style([
@@ -37,7 +35,6 @@ export const modalContentFormButtonWrapper = style([
 		gap: 'medium',
 		paddingTop: 'large',
 	}),
-	{},
 ])
 
 export const modalContentFormBorderWrapper = style([
@@ -48,7 +45,6 @@ export const modalContentFormBorderWrapper = style([
 		marginTop: 'large',
 		paddingTop: 'large',
 	}),
-	{},
 ])
 
 export const modalPersonaFormWrapper = style([
@@ -58,7 +54,6 @@ export const modalPersonaFormWrapper = style([
 			mobile: 'medium',
 		},
 	}),
-	{},
 ])
 
 export const modalFormAddFieldWrapper = style([
@@ -69,7 +64,6 @@ export const modalFormAddFieldWrapper = style([
 		paddingTop: 'large',
 		marginTop: 'small',
 	}),
-	{},
 ])
 
 export const modalFormFieldWrapper = style([
@@ -77,7 +71,6 @@ export const modalFormFieldWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 	}),
-	{},
 ])
 
 export const headerWrapper = style([
@@ -93,7 +86,6 @@ export const headerWrapper = style([
 		borderTopRightRadius: 'large',
 		transition: 'fast',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { height: '48px' },
 		tablet: { height: '64px' },
@@ -104,7 +96,6 @@ export const headerWrapperShadow = style([
 	sprinkles({
 		boxShadow: 'shadowScrollTop',
 	}),
-	{},
 ])
 
 export const scrollWrapper = style([
@@ -123,7 +114,6 @@ export const scrollWrapper = style([
 
 export const content = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: { maxWidth: '90%', top: '48px', bottom: '48px' },
 		tablet: { maxWidth: '480px', top: '48px', bottom: '48px' },
@@ -142,7 +132,6 @@ export const signAlertDialogContentWrapper = style([
 			tablet: 'medium',
 		},
 	}),
-	{},
 ])
 
 export const signAlertDialogFormWrapper = style([
@@ -152,7 +141,6 @@ export const signAlertDialogFormWrapper = style([
 		flexDirection: 'column',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const signAlertDialogFormFooterWrapper = style([
@@ -170,7 +158,6 @@ export const signAlertDialogFormFooterWrapper = style([
 			tablet: 'large',
 		},
 	}),
-	{},
 ])
 
 export const formFieldModalGroupWrapper = style([
@@ -183,7 +170,6 @@ export const formFieldModalGroupWrapper = style([
 			mobile: 'medium',
 		},
 	}),
-	{},
 ])
 
 globalStyle(`${formFieldModalGroupWrapper} > div`, {

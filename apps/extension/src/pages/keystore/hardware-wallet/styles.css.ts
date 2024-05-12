@@ -9,5 +9,4 @@ export const hardwareWalletWrapper = style([
 			mobile: 'xlarge',
 		},
 	}),
-	{},
 ])

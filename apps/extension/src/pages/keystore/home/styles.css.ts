@@ -13,7 +13,6 @@ export const keystoreHomeStyleWrapper = style([
 			mobile: 'xlarge',
 		},
 	}),
-	{},
 	responsiveStyle({
 		mobile: { minHeight: '600px' },
 		tablet: { minHeight: 'unset' },
@@ -27,5 +26,4 @@ export const keystoreHomeButtonWrapper = style([
 		flexDirection: 'column',
 		gap: 'medium',
 	}),
-	{},
 ])

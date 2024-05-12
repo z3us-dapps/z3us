@@ -36,7 +36,6 @@ export const accountList = style([
 	sprinkles({
 		width: 'full',
 	}),
-	{},
 ])
 
 export const accountListGridScrollWrapper = style([
@@ -75,7 +74,6 @@ export const accountListGridWrapper = style([
 			desktop: 'large',
 		},
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			gridTemplateRows: 'repeat(1, 180px)',
@@ -90,7 +88,6 @@ export const accountListGridWrapper = style([
 
 export const accountListGridTwoRowWrapper = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		tablet: {
 			gridTemplateRows: 'repeat(2, 160px)',

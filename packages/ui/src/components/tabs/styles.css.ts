@@ -11,7 +11,6 @@ export const tabsListRootWrapper = style([
 		zIndex: 1,
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const tabsListRecipe = recipe({
@@ -98,7 +97,6 @@ export const tabsTriggerRecipe = recipe({
 				sprinkles({
 					background: 'orange600',
 				}),
-				{},
 			],
 		},
 		sizeVariant: {

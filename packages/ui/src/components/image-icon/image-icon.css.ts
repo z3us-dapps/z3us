@@ -62,7 +62,6 @@ export const imageAvatarRootWrapper = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{},
 ])
 
 export const imageAvatarImageWrapper = recipe({

@@ -12,7 +12,6 @@ import { vars } from 'ui/src/theme/theme.css'
 // 			tablet: 'block',
 // 		},
 // 	}),
-// 	{},
 // ])
 
 export const transferRouteWrapper = style([
@@ -24,7 +23,6 @@ export const transferRouteWrapper = style([
 			desktop: 'xxlarge',
 		},
 	}),
-	{},
 ])
 
 export const transferUiTextSeparator = style([
@@ -42,7 +40,6 @@ export const transferAccordionChevron = style([
 		position: 'relative',
 		transition: 'fast',
 	}),
-	{},
 ])
 
 export const transferAccordionItemWrapper = style([
@@ -74,7 +71,6 @@ export const transferAccordionTriggerWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const transferAccordionDeleteBtn = style([
@@ -94,7 +90,6 @@ export const transferAccordionContentWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const panelWrapper = style([
@@ -107,7 +102,6 @@ export const panelWrapper = style([
 			desktop: 'xxlarge',
 		},
 	}),
-	{},
 ])
 
 // TODO: refactor
@@ -116,7 +110,6 @@ export const settingsMobileWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const transferDesktopWrapper = style([
@@ -137,7 +130,6 @@ export const transferDesktopWrapper = style([
 		},
 		height: 'full',
 	}),
-	{},
 ])
 
 export const transferDesktopTitleWrapper = style([
@@ -147,7 +139,6 @@ export const transferDesktopTitleWrapper = style([
 			tablet: 'block',
 		},
 	}),
-	{},
 ])
 
 export const transferDesktopContainerWrapper = style([
@@ -158,7 +149,6 @@ export const transferDesktopContainerWrapper = style([
 		display: 'flex',
 		gap: 'xlarge',
 	}),
-	{},
 ])
 
 export const transferDesktopLeftMenu = style([
@@ -180,7 +170,6 @@ export const transferDesktopRightWrapper = style([
 		position: 'relative',
 		flexGrow: 1,
 	}),
-	{},
 ])
 
 export const settingsSectionFlexColumnWrapper = style([
@@ -252,7 +241,6 @@ export const settingsMobileIndexLinkWrapper = style([
 			hover: 'backgroundPrimary',
 		},
 	}),
-	{},
 ])
 
 export const settingsMobileIndexLinkTextWrapper = style([
@@ -261,7 +249,6 @@ export const settingsMobileIndexLinkTextWrapper = style([
 		flexDirection: 'column',
 		gap: 'xxsmall',
 	}),
-	{},
 ])
 
 export const settingsMobileIndexLinkIconWrapper = style([
@@ -293,5 +280,4 @@ export const transferSendingDialogCloseBtn = style([
 		marginTop: 'medium',
 		marginRight: 'medium',
 	}),
-	{},
 ])
