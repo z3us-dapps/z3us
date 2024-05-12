@@ -1,6 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const accountsBgCardWrapper = style([
 	sprinkles({
@@ -14,6 +15,9 @@ export const accountsBgCardWrapper = style([
 	{
 		top: '-48px',
 	},
+	responsiveStyle({
+		tablet: { display: 'none' },
+	}),
 ])
 
 export const accountsBgSkinWrapper = style([
