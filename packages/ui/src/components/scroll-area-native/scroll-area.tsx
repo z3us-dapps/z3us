@@ -14,8 +14,10 @@ interface IProps {
 	className?: string
 	overrideScrollParent?: HTMLElement | null
 	isScrollUpButtonVisible?: boolean
-	onUpButtonClicked?: () => void
 	hideScrollBars?: boolean
+	showTopShadow?: boolean
+	showBottomShadow?: boolean
+	onUpButtonClicked?: () => void
 }
 
 const messages = defineMessages({
@@ -33,6 +35,8 @@ export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 			overrideScrollParent,
 			isScrollUpButtonVisible = false,
 			hideScrollBars = false,
+			showTopShadow = false,
+			showBottomShadow = false,
 			onUpButtonClicked,
 		},
 		ref: React.MutableRefObject<HTMLElement>,
@@ -51,6 +55,9 @@ export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 				ref={ref}
 				className={clsx(
 					hideScrollBars ? styles.scrollAreaNativeHiddenScrollBarsWrapper : styles.scrollAreaNativeWrapper,
+					// styles.scrollAreaNativeShadowWrapper,
+					// showTopShadow && styles.scrollAreaNativeShadowTopEnabled,
+					// showBottomShadow && styles.scrollAreaNativeShadowTopEnabled,
 					className,
 				)}
 			>
@@ -69,6 +76,8 @@ export const ScrollAreaNative = React.forwardRef<HTMLElement, IProps>(
 						</ToolTip>
 					</Box>
 				) : null}
+				<Box className={styles.scrollAreaNativeShadowTopEnabled} opacity={showTopShadow ? 1 : 0} />
+				<Box className={styles.scrollAreaNativeShadowBottomEnabled} opacity={showBottomShadow ? 1 : 0} />
 			</Box>
 		)
 	},

@@ -13,6 +13,8 @@ interface IAccountsScrollObj {
 	isLeftScrollUpButtonVisible: boolean
 	isRightScrollUpButtonVisible: boolean
 	isMainScrollUpButtonVisible: boolean
+	showTopShadow: boolean
+	showBottomShadow: boolean
 	onLeftScrollUpBtnClick: () => void
 	onRightScrollUpBtnClick: () => void
 }
@@ -31,6 +33,9 @@ const useAccountsScroll = (
 	const [isLeftScrollUpButtonVisible, setIsLeftScrollUpButtonVisible] = useState<boolean>(false)
 	const [isRightScrollUpButtonVisible, setIsRightScrollUpButtonVisible] = useState<boolean>(false)
 	const [isMainScrollUpButtonVisible, setIsMainScrollUpButtonVisible] = useState<boolean>(false)
+	const [showTopShadow, setShowTopShadow] = useState<boolean>(false)
+	const [showBottomShadow, setShowBottomShadow] = useState<boolean>(false)
+
 	const [currentPath, setCurrentPath] = useState<string>(pathName)
 
 	const rightScrollCtx = useMemo(
@@ -67,13 +72,25 @@ const useAccountsScroll = (
 
 	const handleLeftScroll = useCallback(
 		(event: Event) => {
-			const { scrollTop } = event.target as HTMLElement
+			const { scrollTop = 0, scrollHeight = 0, offsetHeight = 0 } = event.target as HTMLElement
+
+			console.log(1111, 'LOGGIN')
+
+			setShowTopShadow(scrollTop > 0)
+			setShowBottomShadow(scrollTop + offsetHeight < scrollHeight)
 
 			setIsLeftScrolledTop(scrollTop === 0)
 			setIsLeftScrollUpButtonVisible(!isMobile && scrollTop > SCROLL_TOP_BUTTON_VISIBLE_PX)
 			setIsMainScrollUpButtonVisible(isMobile && scrollTop > SCROLL_TOP_BUTTON_VISIBLE_PX)
 		},
-		[isLeftScrolledTop, isLeftScrollUpButtonVisible, leftScrollCtx.scrollableNode, isMobile],
+		[
+			isLeftScrolledTop,
+			isLeftScrollUpButtonVisible,
+			leftScrollCtx.scrollableNode,
+			isMobile,
+			showBottomShadow,
+			showTopShadow,
+		],
 	)
 
 	const handleRightScroll = useCallback(
@@ -117,10 +134,12 @@ const useAccountsScroll = (
 			}
 		}
 
-		if (isMobile && pathName !== currentPath) {
-			mainRef.current.scrollTo({
-				top: 0,
-			})
+		if (isMobile) {
+			if (pathName !== currentPath) {
+				mainRef.current.scrollTo({
+					top: 0,
+				})
+			}
 		}
 
 		setCurrentPath(pathName)
@@ -132,6 +151,8 @@ const useAccountsScroll = (
 		isLeftScrollUpButtonVisible,
 		isRightScrollUpButtonVisible,
 		isMainScrollUpButtonVisible,
+		showTopShadow,
+		showBottomShadow,
 		onLeftScrollUpBtnClick: handleLeftScrollUpButtonClick,
 		onRightScrollUpBtnClick: handleRightScrollUpButtonClick,
 	}

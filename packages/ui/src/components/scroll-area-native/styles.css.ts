@@ -37,6 +37,44 @@ export const scrollAreaNativeHiddenScrollBarsWrapper = style([
 	},
 ])
 
+export const scrollAreaNativeShadowWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+export const scrollAreaNativeShadowBottomEnabled = style([
+	sprinkles({
+		width: 'full',
+		zIndex: 1,
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		pointerEvents: 'none',
+	}),
+	{
+		background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
+		height: '15px',
+		transition: vars.transition.fastall,
+	},
+])
+
+export const scrollAreaNativeShadowTopEnabled = style([
+	sprinkles({
+		width: 'full',
+		zIndex: 1,
+		position: 'absolute',
+		top: 0,
+		left: 0,
+	}),
+	{
+		height: '15px',
+		background: 'linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
+		transition: vars.transition.fastall,
+	},
+])
+
 export const scrolledButtonWrapper = style([
 	sprinkles({
 		position: 'absolute',

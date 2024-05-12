@@ -72,6 +72,8 @@ const Layout: React.FC = () => {
 		isLeftScrollUpButtonVisible,
 		isMainScrollUpButtonVisible,
 		isRightScrollUpButtonVisible,
+		showTopShadow,
+		showBottomShadow,
 		onLeftScrollUpBtnClick,
 		onRightScrollUpBtnClick,
 	} = useAccountsScroll(leftRef, rightRef, mainRef, location.pathname)
