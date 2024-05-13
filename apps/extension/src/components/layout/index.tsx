@@ -66,6 +66,13 @@ const Content: React.FC = () => {
 	const [hasConnector, setHasConnector] = useState<boolean>(false)
 
 	useEffect(() => {
+		const rootElement = document.getElementById('root')
+		if (rootElement) {
+			rootElement.classList.add('z3-extension-mounted')
+		}
+	}, [])
+
+	useEffect(() => {
 		const timer1 = setTimeout(() => setIsMinLoadingTime(true), minLoadingTimeMS)
 		const timer2 = setTimeout(() => setIsMaxLoadingTime(true), maxLoadingTimeMS)
 		return () => {
@@ -79,13 +86,6 @@ const Content: React.FC = () => {
 			setHideLoadingScreen(true)
 		}
 	}, [isLoading, isLoadingBalances, isMinLoadingTime, isMaxLoadingTime])
-
-	useEffect(() => {
-		const rootElement = document.getElementById('root')
-		if (rootElement) {
-			rootElement.classList.add('z3-extension-mounted')
-		}
-	}, [])
 
 	useEffect(() => {
 		browser.management.get(radixConnectorExtensionId).then((result: Management.ExtensionInfo) => {
