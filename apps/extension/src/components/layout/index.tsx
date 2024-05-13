@@ -46,7 +46,7 @@ const messages = defineMessages({
 })
 
 const minLoadingTimeMS = 350
-const maxLoadingTimeMS = 3000
+const maxLoadingTimeMS = 2500
 const radixConnectorExtensionId = 'bfeplaecgkoeckiidkgkmlllfbaeplgm'
 
 const Content: React.FC = () => {
