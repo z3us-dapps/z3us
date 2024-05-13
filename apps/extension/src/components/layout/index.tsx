@@ -46,6 +46,7 @@ const messages = defineMessages({
 })
 
 const minLoadingTimeMS = 350
+const maxLoadingTimeMS = 1500
 const radixConnectorExtensionId = 'bfeplaecgkoeckiidkgkmlllfbaeplgm'
 
 const Content: React.FC = () => {
@@ -58,23 +59,27 @@ const Content: React.FC = () => {
 		keystoreId: state.selectedKeystoreId,
 	}))
 
-	const [isLoadingDeadlineFinished, setIsLoadingDeadlineFinished] = useState<boolean>(false)
+	const [isMaxLoadingTime, setIsMaxLoadingTime] = useState<boolean>(false)
+	const [isMinLoadingTime, setIsMinLoadingTime] = useState<boolean>(false)
 	const [hideLoadingScreen, setHideLoadingScreen] = useState<boolean>(false)
 	const { isLoading: isLoadingBalances } = useSelectedAccountsBalances()
 	const [hasConnector, setHasConnector] = useState<boolean>(false)
 
 	useEffect(() => {
-		const timer = setTimeout(() => {
-			setIsLoadingDeadlineFinished(true)
-		}, minLoadingTimeMS)
+		const timer = setTimeout(() => setIsMinLoadingTime(true), minLoadingTimeMS)
 		return () => clearTimeout(timer)
 	}, [])
 
 	useEffect(() => {
-		if (!isLoading && !isLoadingBalances && isLoadingDeadlineFinished) {
+		const timer = setTimeout(() => setIsMaxLoadingTime(true), maxLoadingTimeMS)
+		return () => clearTimeout(timer)
+	}, [])
+
+	useEffect(() => {
+		if (isMaxLoadingTime || (!isLoading && !isLoadingBalances && isMinLoadingTime)) {
 			setHideLoadingScreen(true)
 		}
-	}, [isLoading, isLoadingBalances, isLoadingDeadlineFinished])
+	}, [isLoading, isLoadingBalances, isMinLoadingTime, isMaxLoadingTime])
 
 	useEffect(() => {
 		const rootElement = document.getElementById('root')
