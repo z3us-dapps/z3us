@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react'
 import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Image } from 'ui/src/components/account-cards/image'
+import { AccountCardImage } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
 import { useAccountCardSettings } from 'ui/src/hooks/use-account-card-settings'
 
@@ -27,7 +27,7 @@ export const CardBackground: React.FC<IProps> = ({ view }) => {
 	if (!resourceId && skin)
 		return (
 			<Box display={display} className={styles.accountsBgSkinWrapper}>
-				<Image
+				<AccountCardImage
 					address={accountId}
 					className={clsx(colorClassName, cardColor)}
 					skin={{
