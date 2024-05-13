@@ -46,7 +46,7 @@ const messages = defineMessages({
 })
 
 const minLoadingTimeMS = 350
-const maxLoadingTimeMS = 1500
+const maxLoadingTimeMS = 3000
 const radixConnectorExtensionId = 'bfeplaecgkoeckiidkgkmlllfbaeplgm'
 
 const Content: React.FC = () => {
@@ -66,13 +66,12 @@ const Content: React.FC = () => {
 	const [hasConnector, setHasConnector] = useState<boolean>(false)
 
 	useEffect(() => {
-		const timer = setTimeout(() => setIsMinLoadingTime(true), minLoadingTimeMS)
-		return () => clearTimeout(timer)
-	}, [])
-
-	useEffect(() => {
-		const timer = setTimeout(() => setIsMaxLoadingTime(true), maxLoadingTimeMS)
-		return () => clearTimeout(timer)
+		const timer1 = setTimeout(() => setIsMinLoadingTime(true), minLoadingTimeMS)
+		const timer2 = setTimeout(() => setIsMaxLoadingTime(true), maxLoadingTimeMS)
+		return () => {
+			clearTimeout(timer1)
+			clearTimeout(timer2)
+		}
 	}, [])
 
 	useEffect(() => {
