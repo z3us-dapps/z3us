@@ -75,7 +75,7 @@ const Content: React.FC = () => {
 	}, [])
 
 	useEffect(() => {
-		if (isMaxLoadingTime || (!isLoading && !isLoadingBalances && isMinLoadingTime)) {
+		if (isMinLoadingTime && (isMaxLoadingTime || (!isLoading && !isLoadingBalances))) {
 			setHideLoadingScreen(true)
 		}
 	}, [isLoading, isLoadingBalances, isMinLoadingTime, isMaxLoadingTime])
