@@ -11,13 +11,6 @@ export const Loading: React.FC<BoxProps> = props => (
 		<Box className={styles.loadingBrandWrapper}>
 			<Z3usLogo isHoverMaskEnabled={false} />
 			<Z3usLogoText />
-			{/* <Text component="span" size="xsmall" weight="stronger" className={styles.ellipsisTextWrapper}>
-				<Box component="span" className={styles.ellipsisWrapper}>
-					<Box component="span" className={styles.ellipsisElement} />
-					<Box component="span" className={styles.ellipsisElement} />
-					<Box component="span" className={styles.ellipsisElement} />
-				</Box>
-			</Text> */}
 		</Box>
 	</Box>
 )
