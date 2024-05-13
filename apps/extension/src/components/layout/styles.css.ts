@@ -10,12 +10,6 @@ export const fadeInOutAnimation = keyframes({
 	'100%': { opacity: '1.0' },
 })
 
-export const ellipsisAnimation = keyframes({
-	'0%': { opacity: '0' },
-	'50%': { opacity: '1.0' },
-	'100%': { opacity: '0' },
-})
-
 export const loadingBgWrapper = style([
 	sprinkles({
 		position: 'relative',
