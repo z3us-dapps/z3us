@@ -72,8 +72,6 @@ const Layout: React.FC = () => {
 		isLeftScrollUpButtonVisible,
 		isMainScrollUpButtonVisible,
 		isRightScrollUpButtonVisible,
-		showTopShadow,
-		showBottomShadow,
 		onLeftScrollUpBtnClick,
 		onRightScrollUpBtnClick,
 	} = useAccountsScroll(leftRef, rightRef, mainRef, location.pathname)
@@ -126,6 +124,7 @@ const Layout: React.FC = () => {
 						onUpButtonClicked={onRightScrollUpBtnClick}
 						isScrollUpButtonVisible={isRightScrollUpButtonVisible}
 						className={styles.panelRightScroll}
+						hideScrollBars
 					>
 						<ScrollContext.Provider value={rightScrollCtx}>{sidebar}</ScrollContext.Provider>
 					</ScrollAreaNative>
