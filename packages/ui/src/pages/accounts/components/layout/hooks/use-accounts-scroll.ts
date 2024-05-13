@@ -125,7 +125,8 @@ const useAccountsScroll = (
 				top: 0,
 			})
 
-			if (pathName === '/accounts') {
+			// TODO: need a better way to handle scroll to top
+			if (!currentPath.includes('/accounts/-/tokens') || pathName === '/accounts') {
 				leftScrollCtx.scrollableNode.scrollTo({
 					top: 0,
 				})
