@@ -208,7 +208,7 @@ export const Table: React.FC<ITableProps> = props => {
 					))}
 				</tr>
 			)),
-		[headerGroups, headerProps],
+		[loading, headerGroups, headerProps],
 	)
 
 	const renderFooter = useCallback(

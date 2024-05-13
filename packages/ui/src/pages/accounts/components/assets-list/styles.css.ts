@@ -136,11 +136,12 @@ export const assetsListBalancesTextWrapper = style([
 		gap: {
 			tablet: 'xsmall',
 		},
+		flexShrink: 0,
 	}),
 	responsiveStyle({
 		mobile: {
-			width: '50%',
-			maxWidth: '50%',
+			width: '45%',
+			maxWidth: '45%',
 		},
 		tablet: {
 			width: '60%',
