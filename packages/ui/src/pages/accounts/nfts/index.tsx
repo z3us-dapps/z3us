@@ -6,7 +6,7 @@ import type { ItemProps, TableBodyProps, TableComponents, TableProps } from 'rea
 import { TableVirtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
+import { useScroll } from 'ui/src/components/scroll-area-native'
 import * as tableStyles from 'ui/src/components/table/table.css'
 import { useNonFungibleIds, useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
