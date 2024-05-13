@@ -24,6 +24,8 @@ export const activityWrapper = style([
 	responsiveStyle({
 		tablet: {
 			minHeight: '200px',
+			borderTop: '1px solid',
+			borderColor: vars.color.borderDivider,
 		},
 	}),
 ])
