@@ -159,7 +159,7 @@ export const AccountFormFieldsGroup = forwardRef<HTMLInputElement>((_, ref: Reac
 						</Text>
 						<Text size="xsmall">{intl.formatMessage(messages.to_subtitle)}</Text>
 					</Box>
-					<Box display="flex" flexDirection="column" gap="small">
+					<Box className={styles.addressBookSelectWrapper}>
 						<AddressBookSelect
 							placeholder={intl.formatMessage(messages.to_placeholder)}
 							name="to"
