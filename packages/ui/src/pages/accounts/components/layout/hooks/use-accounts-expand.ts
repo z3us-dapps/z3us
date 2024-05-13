@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useEventListener, useTimeout } from 'usehooks-ts'
+import { useDebounceCallback, useEventListener, useResizeObserver } from 'usehooks-ts'
 
 interface IAccountsExpandObj {
 	isExpanded: boolean
@@ -55,7 +55,12 @@ const useAccountsExpand = (
 		}
 	}
 
-	useTimeout(getMinScrollHeight, 1500)
+	const onResize = useDebounceCallback(getMinScrollHeight, 200)
+
+	useResizeObserver({
+		ref: mainRef,
+		onResize,
+	})
 
 	useEffect(() => {
 		getMinScrollHeight()
