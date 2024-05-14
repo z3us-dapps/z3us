@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useDebounceCallback, useEventListener, useResizeObserver } from 'usehooks-ts'
 
 interface IAccountsExpandObj {
@@ -11,8 +12,8 @@ const MIN_SCROLL_HEIGHT = 370
 const useAccountsExpand = (
 	mainRef: React.RefObject<HTMLElement>,
 	buttonsRef: React.RefObject<HTMLElement>,
-	pathName = '',
 ): IAccountsExpandObj => {
+	const location = useLocation()
 	const [isExpanded, setIsExpanded] = useState<boolean>(false)
 	const [minScrollHeight, setMinScrollHeight] = useState<number>(MIN_SCROLL_HEIGHT)
 
@@ -64,7 +65,7 @@ const useAccountsExpand = (
 
 	useEffect(() => {
 		getMinScrollHeight()
-	}, [mainRef.current, buttonsRef.current, pathName])
+	}, [mainRef.current, buttonsRef.current, location.pathname])
 
 	return {
 		isExpanded,

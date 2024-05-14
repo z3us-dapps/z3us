@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
+
+import { useResourceType } from '../../../hooks/use-resource-type'
 
 interface IScrollCtx {
 	scrollableNode: HTMLElement | undefined
@@ -25,9 +28,12 @@ const useAccountsScroll = (
 	leftRef: React.RefObject<HTMLElement>,
 	rightRef: React.RefObject<HTMLElement>,
 	mainRef: React.RefObject<HTMLElement>,
-	pathName = '',
 ): IAccountsScrollObj => {
 	const isMobile = useIsMobileWidth()
+	const location = useLocation()
+	const resourceType = useResourceType()
+	const { resourceId = '', nftId = '' } = useParams()
+	const [currentPath, setCurrentPath] = useState<string>(location.pathname)
 	const [isLeftScrolledTop, setIsLeftScrolledTop] = useState<boolean>(true)
 	const [isRightScrolledTop, setIsRightScrolledTop] = useState<boolean>(true)
 	const [isLeftScrollUpButtonVisible, setIsLeftScrollUpButtonVisible] = useState<boolean>(false)
@@ -35,8 +41,6 @@ const useAccountsScroll = (
 	const [isMainScrollUpButtonVisible, setIsMainScrollUpButtonVisible] = useState<boolean>(false)
 	const [showTopShadow, setShowTopShadow] = useState<boolean>(false)
 	const [showBottomShadow, setShowBottomShadow] = useState<boolean>(false)
-
-	const [currentPath, setCurrentPath] = useState<string>(pathName)
 
 	const rightScrollCtx = useMemo(
 		() => ({
@@ -120,29 +124,27 @@ const useAccountsScroll = (
 	}, [leftScrollCtx.scrollableNode, rightScrollCtx.scrollableNode])
 
 	useEffect(() => {
-		if (pathName !== currentPath) {
-			rightScrollCtx.scrollableNode.scrollTo({
-				top: 0,
-			})
+		if (location.pathname === currentPath) return
 
-			// TODO: need a better way to handle scroll to top
-			if (!currentPath.includes('/accounts/-/tokens') || pathName === '/accounts') {
-				leftScrollCtx.scrollableNode.scrollTo({
-					top: 0,
-				})
-			}
-		}
+		rightScrollCtx.scrollableNode?.scrollTo({
+			top: 0,
+		})
 
 		if (isMobile) {
-			if (pathName !== currentPath) {
-				mainRef.current.scrollTo({
-					top: 0,
-				})
-			}
+			mainRef.current?.scrollTo({
+				top: 0,
+			})
 		}
 
-		setCurrentPath(pathName)
-	}, [pathName, rightScrollCtx.scrollableNode, isMobile, mainRef.current])
+		setCurrentPath(location.pathname)
+	}, [location.pathname, isMobile, rightScrollCtx.scrollableNode, mainRef.current])
+
+	useEffect(() => {
+		if ((resourceType !== 'nfts' && resourceId) || (resourceType === 'nfts' && nftId)) return
+		leftScrollCtx.scrollableNode?.scrollTo({
+			top: 0,
+		})
+	}, [resourceType, resourceId, nftId, leftScrollCtx.scrollableNode])
 
 	return {
 		leftScrollCtx,

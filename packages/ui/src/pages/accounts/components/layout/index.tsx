@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useMatch, useMatches, useOutlet, useParams } from 'react-router-dom'
+import { useMatch, useMatches, useOutlet, useParams } from 'react-router-dom'
 
 import { ActivityList } from 'ui/src/components/activity-list'
 import { Box } from 'ui/src/components/box'
@@ -42,7 +42,6 @@ const messages = defineMessages({
 
 const Layout: React.FC = () => {
 	const intl = useIntl()
-	const location = useLocation()
 	const outlet = useOutlet()
 	const matches = useMatches()
 	const accounts = useWalletAccounts()
@@ -74,8 +73,8 @@ const Layout: React.FC = () => {
 		isRightScrollUpButtonVisible,
 		onLeftScrollUpBtnClick,
 		onRightScrollUpBtnClick,
-	} = useAccountsScroll(leftRef, rightRef, mainRef, location.pathname)
-	const { isExpanded, onExpandAccounts } = useAccountsExpand(mainRef, buttonsRef, location.pathname)
+	} = useAccountsScroll(leftRef, rightRef, mainRef)
+	const { isExpanded, onExpandAccounts } = useAccountsExpand(mainRef, buttonsRef)
 
 	useEffect(() => {
 		const parts = []
