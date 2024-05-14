@@ -32,8 +32,8 @@ const messages = defineMessages({
 		defaultMessage: 'Disable',
 	},
 	webatuh_cross_platform: {
-		id: 'R8ajfQ',
-		defaultMessage: 'Prefer cross platform authentication (YubiKey)',
+		id: 'nxazlA',
+		defaultMessage: 'Prefer cross-platform authentication (YubiKey)',
 	},
 	password_title: {
 		id: 'WgM07q',

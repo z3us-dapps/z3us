@@ -43,9 +43,9 @@ const messages = defineMessages({
 		defaultMessage: 'Add wallet...',
 		id: 'VLEYHl',
 	},
-	touch_id_button: {
-		defaultMessage: 'Login with touch ID',
-		id: 'oa7soT',
+	webauth_button: {
+		defaultMessage: 'Login using passwordless authentication',
+		id: 'tLyIg5',
 	},
 })
 
@@ -161,7 +161,7 @@ export const Unlock: React.FC<IProps & BoxProps> = ({ isUnlocked, isLoading, onU
 								<Button sizeVariant="xlarge">{intl.formatMessage(messages.form_button_title)}</Button>
 							</SubmitButton>
 							{keystore?.webAuthn && (
-								<ToolTip message={intl.formatMessage(messages.touch_id_button)}>
+								<ToolTip message={intl.formatMessage(messages.webauth_button)}>
 									<Box component="span">
 										<Button styleVariant="secondary" sizeVariant="xlarge" onClick={handleWebAuthN} iconOnly>
 											<TouchIcon />
