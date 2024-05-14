@@ -52,6 +52,18 @@ export const transferFormGridBoxWrapperLeft = style([
 	}),
 ])
 
+export const addressBookSelectWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'small',
+		marginTop: {
+			mobile: 'small',
+			tablet: 'none',
+		},
+	}),
+])
+
 export const transferFormMessageWrapper = style([
 	sprinkles({
 		position: 'relative',

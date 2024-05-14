@@ -24,7 +24,8 @@ export const Image: React.FC<PropsWithChildren<IProps>> = ({ address, skin, clas
 	const name = findFieldValue('name', dataJson?.fields)
 	const imageSrc = findFieldValue('key_image_url', dataJson?.fields)
 
-	if (!skin || holdsNFT === false) return children
+	// eslint-disable-next-line react/jsx-no-useless-fragment
+	if (!skin || holdsNFT === false) return <>{children}</>
 
 	return (
 		<Box className={clsx(styles.wrapper, className)}>
