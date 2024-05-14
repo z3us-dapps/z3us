@@ -16,12 +16,12 @@ const isWebAuthAvailable = window.PublicKeyCredential && 'credentials' in naviga
 
 const messages = defineMessages({
 	webatuh_title: {
-		id: 'P+S8lh',
-		defaultMessage: 'WebAuthn',
+		id: '3CuiqZ',
+		defaultMessage: 'Login and authorisation',
 	},
 	webatuh_subtitle: {
-		id: 'wN8IlW',
-		defaultMessage: `Toggle WebAuthn authentication (TouchID, YubiKey) for your wallet`,
+		id: 'Mxd9Sc',
+		defaultMessage: `Log in to the app and authorise operations with passwordless authentication (TouchID, YubiKey or other)`,
 	},
 	webatuh_enable: {
 		id: 'TqSTI0',
@@ -32,16 +32,20 @@ const messages = defineMessages({
 		defaultMessage: 'Disable',
 	},
 	webatuh_cross_platform: {
-		id: 'YxKul5',
-		defaultMessage: 'Prefer cross platform WebAuthn (YubiKey)',
+		id: 'R8ajfQ',
+		defaultMessage: 'Prefer cross platform authentication (YubiKey)',
 	},
 	password_title: {
-		id: 'GPtDoS',
-		defaultMessage: 'Enable WebAuthn',
+		id: 'WgM07q',
+		defaultMessage: 'Enable passwordless authentication',
 	},
 	password: {
-		id: 'Tspj7Y',
-		defaultMessage: 'To enable WebAuthn for {label} wallet, type in your password',
+		id: 'Ym76K/',
+		defaultMessage: 'Activating these methods means that you accept all the risks connected with them.',
+	},
+	password_button: {
+		id: 'N2IrpM',
+		defaultMessage: 'Confirm',
 	},
 })
 
@@ -65,17 +69,23 @@ const Settings: React.FC = () => {
 	const handleToggleWebAuthn = async () => {
 		if (!keystore?.id) return
 		if (!keystore.webAuthn) {
-			const password = await confirm({
-				title: intl.formatMessage(messages.password_title),
-				content: intl.formatMessage(messages.password, { label: keystore.name }),
-			})
-			const credentials = await register(
-				keystore,
-				password,
-				canUsePlatformAuth && !crossPlatform ? 'platform' : 'cross-platform',
-			)
-			enableWebAuthn(keystore.id, credentials)
-			await client.lockVault()
+			try {
+				const password = await confirm({
+					title: intl.formatMessage(messages.password_title),
+					content: intl.formatMessage(messages.password, { label: keystore.name }),
+					buttonTitle: intl.formatMessage(messages.password_button),
+				})
+				const credentials = await register(
+					keystore,
+					password,
+					canUsePlatformAuth && !crossPlatform ? 'platform' : 'cross-platform',
+				)
+				enableWebAuthn(keystore.id, credentials)
+				await client.lockVault()
+			} catch (error) {
+				console.warn(error)
+				setCrossPlatform(false)
+			}
 		} else {
 			await enableWebAuthn(keystore.id)
 		}
@@ -98,7 +108,7 @@ const Settings: React.FC = () => {
 			rightCol={
 				<>
 					<Box display="flex" alignItems="center" gap="medium">
-						<Switch defaultChecked={!!keystore?.webAuthn} onCheckedChange={handleToggleWebAuthn} />
+						<Switch checked={!!keystore?.webAuthn} onCheckedChange={handleToggleWebAuthn} />
 					</Box>
 					{!keystore?.webAuthn && canUsePlatformAuth && (
 						<Box display="flex" alignItems="center" gap="small" paddingTop="xsmall" justifyContent="flex-start">
