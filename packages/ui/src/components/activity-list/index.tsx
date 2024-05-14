@@ -38,11 +38,12 @@ const messages = defineMessages({
 })
 
 interface IProps {
+	resourceId?: string
 	className?: string
 }
 
 export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
-	({ className }, ref: React.Ref<HTMLElement | null>) => {
+	({ className, resourceId }, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollableNode } = useScroll()
 		const intl = useIntl()
 
@@ -51,7 +52,7 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 		const [hovered, setHovered] = useState<string | null>(null)
 
 		const addresses = useSelectedAccounts()
-		const { isFetching, data, fetchNextPage, hasNextPage } = useTransactions(addresses)
+		const { isFetching, data, fetchNextPage, hasNextPage } = useTransactions(addresses, resourceId)
 
 		const loadMore = useCallback(() => {
 			if (isFetching) return
