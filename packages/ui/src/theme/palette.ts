@@ -140,7 +140,7 @@ export const lightThemeColors = {
 	colorNeutral: lightTokens.color.font.neutral.value,
 	colorStrong: lightTokens.color.font.strong.value,
 	colorInverse: lightTokens.color.font.inverse.value,
-	backgroundWallet: 'linear-gradient(180deg, #ded2ff 13.83%, #fbfaff 100%)',
+	backgroundWallet: 'linear-gradient(180deg, #F7F7F7 0%, #8457FF 100%)',
 	backgroundPrimary: lightTokens.color.background.primary.value,
 	backgroundSecondary: lightTokens.color.background.secondary.value,
 	backgroundOverlayPrimary: lightTokens.color.background.overlay_primary.value,
