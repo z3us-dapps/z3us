@@ -74,6 +74,9 @@ export const accountListGridWrapper = style([
 			desktop: 'large',
 		},
 	}),
+	{
+		width: 'max-content',
+	},
 	responsiveStyle({
 		mobile: {
 			gridTemplateRows: 'repeat(1, 180px)',
