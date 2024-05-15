@@ -135,9 +135,9 @@ export const tokenSummaryWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
+		width: 'full',
 		paddingX: {
 			mobile: 'large',
-			tablet: 'large',
 		},
 		paddingTop: {
 			mobile: 'large',
