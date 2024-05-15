@@ -53,18 +53,13 @@ export const nftIconWrapper = style([
 		justifyContent: 'center',
 		paddingBottom: 'large',
 	}),
-	{
-		minHeight: '150px',
-	},
 ])
 
 export const nftIcon = style([
 	sprinkles({
 		width: 'full',
-		height: 'full',
 	}),
 	{
-		aspectRatio: '1/1',
 		height: 'auto',
 		width: '100%',
 		boxShadow: 'none',
