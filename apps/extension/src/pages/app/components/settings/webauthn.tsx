@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { toast } from 'sonner'
 
 import { Box } from 'ui/src/components/box'
 import { Checkbox } from 'ui/src/components/checkbox'
 import { Switch } from 'ui/src/components/switch'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
+import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { SettingsBlock } from 'ui/src/pages/settings/components/settings-block'
 
 import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
@@ -47,12 +49,17 @@ const messages = defineMessages({
 		id: 'N2IrpM',
 		defaultMessage: 'Confirm',
 	},
+	error_toast: {
+		id: 'Ft5lhW',
+		defaultMessage: 'Failed to enable passwordless authentication',
+	},
 })
 
 const Settings: React.FC = () => {
 	const intl = useIntl()
 	const confirm = usePasswordModal()
 	const client = useMessageClient()
+	const { getSecret } = useZdtState()
 	const { keystore, enableWebAuthn } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 		enableWebAuthn: state.setKeystoreWebAuthnAction,
@@ -75,6 +82,7 @@ const Settings: React.FC = () => {
 					content: intl.formatMessage(messages.password, { label: keystore.name }),
 					buttonTitle: intl.formatMessage(messages.password_button),
 				})
+				await getSecret(keystore.id, password)
 				const credentials = await register(
 					keystore,
 					password,
@@ -84,7 +92,7 @@ const Settings: React.FC = () => {
 				await client.lockVault()
 			} catch (error) {
 				console.warn(error)
-				setCrossPlatform(false)
+				toast.error(intl.formatMessage(messages.error_toast), { description: error.message })
 			}
 		} else {
 			await enableWebAuthn(keystore.id)
