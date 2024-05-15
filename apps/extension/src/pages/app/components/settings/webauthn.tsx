@@ -91,6 +91,7 @@ const Settings: React.FC = () => {
 				enableWebAuthn(keystore.id, credentials)
 				await client.lockVault()
 			} catch (error) {
+				// eslint-disable-next-line no-console
 				console.warn(error)
 				toast.error(intl.formatMessage(messages.error_toast), { description: error.message })
 			}

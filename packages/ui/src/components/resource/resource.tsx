@@ -513,7 +513,11 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 						</Box>
 					</TabsContent>
 					<TabsContent value={ACTIVITIES}>
-						<ActivityList resourceId={resourceId} />
+						<ActivityList
+							resourceId={resourceId}
+							className={styles.activityListResourceWrapper}
+							isTitleVisible={false}
+						/>
 					</TabsContent>
 				</Tabs>
 			</Box>

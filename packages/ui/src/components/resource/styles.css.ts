@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
@@ -126,20 +126,21 @@ export const tabsWrapper = style([
 	}),
 ])
 
+globalStyle(`${tabsWrapper} > div:first-child`, {
+	marginLeft: vars.spacing.large,
+	maxWidth: `calc(100% - 40px)`,
+})
+
 export const tokenSummaryWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
-		borderTop: 1,
-		borderTopStyle: 'solid',
-		borderColor: 'borderDivider',
 		paddingX: {
 			mobile: 'large',
 			tablet: 'large',
 		},
 		paddingTop: {
 			mobile: 'large',
-			tablet: 'xlarge',
 		},
 		paddingBottom: {
 			mobile: 'xlarge',
@@ -160,5 +161,23 @@ export const tokenMetaDataIconWrapper = style([
 	{
 		marginLeft: '-4px',
 		transform: 'translateY(5px)',
+	},
+])
+
+export const activityListResourceWrapper = style([
+	sprinkles({
+		width: 'full',
+		paddingTop: {
+			mobile: 'small',
+		},
+	}),
+	responsiveStyle({
+		tablet: {
+			borderTop: 'none',
+		},
+	}),
+	{
+		border: '0px solid red',
+		minHeight: '200px',
 	},
 ])

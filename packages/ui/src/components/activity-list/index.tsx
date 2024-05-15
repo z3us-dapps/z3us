@@ -41,10 +41,11 @@ const messages = defineMessages({
 interface IProps extends BoxProps {
 	resourceId?: string
 	className?: string
+	isTitleVisible?: boolean
 }
 
 export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
-	({ className, resourceId, ...rest }, ref: React.Ref<HTMLElement | null>) => {
+	({ className, resourceId, isTitleVisible = true, ...rest }, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollableNode } = useScroll()
 		const intl = useIntl()
 
@@ -96,11 +97,13 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 
 		return (
 			<Box ref={ref} height="full" display="flex" className={clsx(styles.activityWrapper, className)} {...rest}>
-				<Box className={styles.activityTitleText}>
-					<Text color="strong" size="xlarge" weight="strong">
-						{intl.formatMessage(messages.title)}
-					</Text>
-				</Box>
+				{isTitleVisible && (
+					<Box className={styles.activityTitleText}>
+						<Text color="strong" size="xlarge" weight="strong">
+							{intl.formatMessage(messages.title)}
+						</Text>
+					</Box>
+				)}
 				<Virtuoso
 					customScrollParent={scrollableNode}
 					totalCount={data?.pages.length}
