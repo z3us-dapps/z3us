@@ -92,6 +92,7 @@ export const useTransactions = (addresses: string[], resourceId: string = '') =>
 				? lastPage.pageParams
 				: undefined,
 		enabled: !!stream,
+		staleTime: 30 * 1000,
 	})
 
 	return data

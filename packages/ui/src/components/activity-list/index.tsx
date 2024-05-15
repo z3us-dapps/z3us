@@ -4,7 +4,8 @@ import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 're
 import { defineMessages, useIntl } from 'react-intl'
 import { Virtuoso } from 'react-virtuoso'
 
-import { Box, BoxProps } from 'ui/src/components/box'
+import type { BoxProps } from 'ui/src/components/box'
+import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 import { useScroll } from 'ui/src/context/scroll'
 import { useTransactions } from 'ui/src/hooks/dapp/use-transactions'
