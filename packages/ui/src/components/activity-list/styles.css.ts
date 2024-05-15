@@ -9,10 +9,6 @@ export const activityWrapper = style([
 		width: 'full',
 		position: 'relative',
 		background: 'backgroundSecondary',
-		display: {
-			mobile: 'none',
-			tablet: 'flex',
-		},
 		flexDirection: 'column',
 		paddingTop: {
 			tablet: 'small',

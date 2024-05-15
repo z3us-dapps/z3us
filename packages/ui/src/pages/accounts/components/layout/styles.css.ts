@@ -8,10 +8,6 @@ export const activityList = style([
 	sprinkles({
 		height: '100vh',
 		background: 'backgroundSecondary',
-		display: {
-			mobile: 'block',
-			tablet: 'none',
-		},
 	}),
 	{
 		minHeight: '380px',

@@ -21,7 +21,7 @@ const Sidebar: React.FC = () => (
 			<HorizontalAccountsScrollList />
 		</Box>
 		<AccountButtons />
-		<ActivityList />
+		<ActivityList display={['none', 'flex']} />
 	</Box>
 )
 

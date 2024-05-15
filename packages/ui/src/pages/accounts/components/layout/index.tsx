@@ -154,7 +154,7 @@ const Layout: React.FC = () => {
 							</Box>
 							<Box display={[!isActivitiesVisible ? 'block' : 'none', 'block']}>{outlet}</Box>
 							<Box display={[isActivitiesVisible ? 'block' : 'none', 'none']}>
-								<ActivityList className={styles.activityList} />
+								<ActivityList className={styles.activityList} display={['flex', 'none']} />
 							</Box>
 						</ScrollContext.Provider>
 					</ScrollAreaNative>

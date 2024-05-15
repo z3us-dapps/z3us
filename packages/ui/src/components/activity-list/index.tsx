@@ -4,7 +4,7 @@ import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 're
 import { defineMessages, useIntl } from 'react-intl'
 import { Virtuoso } from 'react-virtuoso'
 
-import { Box } from 'ui/src/components/box'
+import { Box, BoxProps } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 import { useScroll } from 'ui/src/context/scroll'
 import { useTransactions } from 'ui/src/hooks/dapp/use-transactions'
@@ -37,13 +37,13 @@ const messages = defineMessages({
 	},
 })
 
-interface IProps {
+interface IProps extends BoxProps {
 	resourceId?: string
 	className?: string
 }
 
 export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
-	({ className, resourceId }, ref: React.Ref<HTMLElement | null>) => {
+	({ className, resourceId, ...rest }, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollableNode } = useScroll()
 		const intl = useIntl()
 
@@ -94,7 +94,7 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 		}, [])
 
 		return (
-			<Box ref={ref} height="full" className={clsx(styles.activityWrapper, className)}>
+			<Box ref={ref} height="full" display="flex" className={clsx(styles.activityWrapper, className)} {...rest}>
 				<Box className={styles.activityTitleText}>
 					<Text color="strong" size="xlarge" weight="strong">
 						{intl.formatMessage(messages.title)}

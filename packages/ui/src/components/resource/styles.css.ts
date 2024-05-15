@@ -116,21 +116,26 @@ export const tagsWrapper = style([
 	},
 ])
 
+export const tabsWrapper = style([
+	sprinkles({
+		width: 'full',
+		marginTop: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
+	}),
+])
+
 export const tokenSummaryWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
-		width: 'full',
 		borderTop: 1,
 		borderTopStyle: 'solid',
 		borderColor: 'borderDivider',
 		paddingX: {
 			mobile: 'large',
 			tablet: 'large',
-		},
-		marginTop: {
-			mobile: 'large',
-			tablet: 'xlarge',
 		},
 		paddingTop: {
 			mobile: 'large',
@@ -144,7 +149,6 @@ export const tokenSummaryWrapper = style([
 ])
 
 export const tokenSummaryRightMaxWidth = style([
-	sprinkles({}),
 	responsiveStyle({
 		mobile: { maxWidth: '130px' },
 		tablet: { maxWidth: '130px' },

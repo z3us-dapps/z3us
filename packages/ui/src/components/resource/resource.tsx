@@ -309,6 +309,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 						{ label: intl.formatMessage(messages.tab_activities), value: ACTIVITIES },
 					]}
 					defaultValue={DETAILS}
+					className={styles.tabsWrapper}
 				>
 					<TabsContent value={DETAILS}>
 						<Box className={styles.tokenSummaryWrapper}>
