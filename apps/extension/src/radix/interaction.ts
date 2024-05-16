@@ -2,6 +2,13 @@ import browser from 'webextension-polyfill'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 
+export const sendInteractionMessage = (interaction: WalletInteractionWithTabId, message: any) => {
+	if (interaction.fromTabId) {
+		return browser.tabs.sendMessage(interaction.fromTabId, message)
+	}
+	return browser.runtime.sendMessage(message)
+}
+
 export const storageKey = 'z3us-interactions'
 
 export const saveInteractions = async (interaction: WalletInteractionWithTabId) => {

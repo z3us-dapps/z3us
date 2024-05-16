@@ -4,7 +4,6 @@ import { createMessage as createRadixMessage } from '@radixdlt/connector-extensi
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
-import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -14,7 +13,7 @@ import { Text } from 'ui/src/components/typography'
 
 import { MessageAction, type WalletInteractionWithTabId } from '@src/browser/app/types'
 import type { Z3USEvent } from '@src/browser/messages/types'
-import { getInteraction, removeInteraction } from '@src/radix/interaction'
+import { getInteraction, removeInteraction, sendInteractionMessage } from '@src/radix/interaction'
 
 import { DappDetails } from './components/dapp-details'
 import { Interaction } from './components/interaction'
@@ -48,19 +47,17 @@ export const Home: React.FC = () => {
 	}
 
 	const handleCancelAndClose = () => {
-		browser.tabs
-			.sendMessage(
-				interaction?.fromTabId,
-				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
-					walletResponse: {
-						discriminator: 'failure',
-						error: 'Canceled',
-						interactionId,
-					},
-					metadata: interaction?.metadata,
-				}),
-			)
-			.finally(() => window.close())
+		sendInteractionMessage(
+			interaction,
+			createRadixMessage.walletResponse(radixMessageSource.offScreen, {
+				walletResponse: {
+					discriminator: 'failure',
+					error: 'Canceled',
+					interactionId,
+				},
+				metadata: interaction?.metadata,
+			}),
+		).finally(() => window.close())
 	}
 
 	useEffect(() => {
@@ -72,8 +69,8 @@ export const Home: React.FC = () => {
 
 			if (interaction && message?.interactionId === interaction.interactionId) {
 				setIsCanceled(true)
-				browser.tabs.sendMessage(
-					interaction.fromTabId,
+				sendInteractionMessage(
+					interaction,
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.requestCancelSuccess,
@@ -81,8 +78,8 @@ export const Home: React.FC = () => {
 					),
 				)
 			} else {
-				browser.tabs.sendMessage(
-					interaction?.fromTabId,
+				sendInteractionMessage(
+					interaction,
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.requestCancelFail,
@@ -105,8 +102,8 @@ export const Home: React.FC = () => {
 		getInteraction(interactionId)
 			.then(i => {
 				setInteraction(i)
-				return browser.tabs.sendMessage(
-					i?.fromTabId,
+				return sendInteractionMessage(
+					i,
 					createRadixMessage.sendMessageEventToDapp(
 						radixMessageSource.offScreen,
 						messageLifeCycleEvent.receivedByWallet,

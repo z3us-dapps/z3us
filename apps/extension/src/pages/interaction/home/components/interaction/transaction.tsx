@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 import { useImmer } from 'use-immer'
-import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -20,6 +19,7 @@ import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useIntent } from '@src/hooks/transaction/use-intent'
 import { useSign } from '@src/hooks/transaction/use-sign'
+import { sendInteractionMessage } from '@src/radix/interaction'
 import type { TransactionMeta, TransactionSettings } from '@src/types/transaction'
 
 import { DappDetails } from '../dapp-details'
@@ -143,8 +143,8 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 				transactionSubmitRequest: { notarized_transaction_hex: notarizedTransaction.toHex() },
 			})
 
-			await browser.tabs.sendMessage(
-				interaction.fromTabId,
+			await sendInteractionMessage(
+				interaction,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					walletResponse: {
 						discriminator: 'success',
@@ -162,8 +162,8 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
-			browser.tabs.sendMessage(
-				interaction.fromTabId,
+			sendInteractionMessage(
+				interaction,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					walletResponse: {
 						discriminator: 'failure',
