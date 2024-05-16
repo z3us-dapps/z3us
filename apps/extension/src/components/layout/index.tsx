@@ -82,6 +82,10 @@ const Content: React.FC = () => {
 	}, [])
 
 	useEffect(() => {
+		setHideLoadingScreen(false)
+	}, [keystoreId])
+
+	useEffect(() => {
 		if (isMinLoadingTime && (isMaxLoadingTime || (!isLoading && !isLoadingBalances))) {
 			setHideLoadingScreen(true)
 		}
