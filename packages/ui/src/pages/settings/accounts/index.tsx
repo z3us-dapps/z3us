@@ -18,7 +18,6 @@ import { Radio, RadioGroup } from 'ui/src/components/radio-group'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { CARD_COLORS } from 'ui/src/constants/account'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
@@ -145,9 +144,6 @@ const Accounts: React.FC = () => {
 	const [selectedAccount, setSelectedAccount] = useState<AddressBookEntry | undefined>()
 
 	const { data } = useEntityDetails(selectedAccount?.address)
-	const {
-		data: { nonFungibleBalances = [] },
-	} = useBalances([selectedAccount?.address])
 
 	const { setAddressBookEntry } = useNoneSharedStore(state => ({
 		setAddressBookEntry: state.setAddressBookEntryAction,
@@ -333,54 +329,55 @@ const Accounts: React.FC = () => {
 								<Text size="small" weight="medium" color="strong">
 									{intl.formatMessage(messages.account_skin)}
 								</Text>
-								<Box className={styles.skinClearButtonWrapper}>
-									<Button
-										sizeVariant="small"
-										styleVariant="secondary"
-										onClick={handleClearSkin}
-										leftIcon={<Close2Icon />}
-									>
-										{intl.formatMessage(messages.clear_skin)}
-									</Button>
-								</Box>
+								{selectedAccount?.skin?.collection ||
+									(selectedAccount?.skin?.non_fungible_id && (
+										<Box className={styles.skinClearButtonWrapper}>
+											<Button
+												sizeVariant="small"
+												styleVariant="secondary"
+												onClick={handleClearSkin}
+												leftIcon={<Close2Icon />}
+											>
+												{intl.formatMessage(messages.clear_skin)}
+											</Button>
+										</Box>
+									))}
 							</Box>
-							{nonFungibleBalances.length > 0 && (
-								<Form initialValues={skinInitialValues}>
-									<NftSelect fromAccount={selectedAccount?.address} onSelect={handleSkinSelect} />
-									{selectedAccount?.skin?.collection && selectedAccount?.skin?.non_fungible_id && (
-										<>
-											<Box display="flex" flexDirection="column" gap="small" marginTop="small">
-												<Text size="small" weight="medium" color="strong">
-													{intl.formatMessage(messages.account_skin_object_fit)}
-												</Text>
-												<SelectSimple
-													value={selectedAccount?.skin?.styles?.objectFit}
-													dropDownWidth={150}
-													onValueChange={handleChangeSkinFit}
-													data={[
-														{ id: 'cover', title: intl.formatMessage(messages.object_fit_cover) },
-														{ id: 'contain', title: intl.formatMessage(messages.object_fit_contain) },
-														{ id: 'fill', title: intl.formatMessage(messages.object_fit_fill) },
-													]}
-												/>
-											</Box>
-											<Box display="flex" flexDirection="column" gap="small" marginTop="small">
-												<Text size="small" weight="medium" color="strong">
-													{intl.formatMessage(messages.account_skin_opacity)}
-												</Text>
-												<Input
-													value={selectedAccount?.skin?.styles?.opacity}
-													type="range"
-													min="0"
-													max="1"
-													step="0.1"
-													onChange={handleChangeSkinOpacity}
-												/>
-											</Box>
-										</>
-									)}
-								</Form>
-							)}
+							<Form initialValues={skinInitialValues}>
+								<NftSelect fromAccount={selectedAccount?.address} onSelect={handleSkinSelect} />
+								{selectedAccount?.skin?.collection && selectedAccount?.skin?.non_fungible_id && (
+									<>
+										<Box display="flex" flexDirection="column" gap="small" marginTop="small">
+											<Text size="small" weight="medium" color="strong">
+												{intl.formatMessage(messages.account_skin_object_fit)}
+											</Text>
+											<SelectSimple
+												value={selectedAccount?.skin?.styles?.objectFit}
+												dropDownWidth={150}
+												onValueChange={handleChangeSkinFit}
+												data={[
+													{ id: 'cover', title: intl.formatMessage(messages.object_fit_cover) },
+													{ id: 'contain', title: intl.formatMessage(messages.object_fit_contain) },
+													{ id: 'fill', title: intl.formatMessage(messages.object_fit_fill) },
+												]}
+											/>
+										</Box>
+										<Box display="flex" flexDirection="column" gap="small" marginTop="small">
+											<Text size="small" weight="medium" color="strong">
+												{intl.formatMessage(messages.account_skin_opacity)}
+											</Text>
+											<Input
+												value={selectedAccount?.skin?.styles?.opacity}
+												type="range"
+												min="0"
+												max="1"
+												step="0.1"
+												onChange={handleChangeSkinOpacity}
+											/>
+										</Box>
+									</>
+								)}
+							</Form>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Text size="small" weight="medium" color="strong">
