@@ -58,7 +58,9 @@ const TabTitle: React.FC = () => {
 
 	switch (resourceType) {
 		case 'tokens':
-			return <>{intl.formatMessage(messages.tokens, { symbol: symbol ? ` (${symbol.toUpperCase()})` : '' })}</>
+			return (
+				<>{intl.formatMessage(messages.tokens, { symbol: resourceId && symbol ? ` (${symbol.toUpperCase()})` : '' })}</>
+			)
 		case 'nfts':
 			return <>{intl.formatMessage(messages.nfts)}</>
 		default:
