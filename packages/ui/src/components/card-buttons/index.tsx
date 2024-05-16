@@ -8,12 +8,14 @@ import { ExternalLinkIcon, InformationIcon, QrCode2Icon, StakingIcon, UpRight2Ic
 import { QrPopOver } from 'ui/src/components/qr-popover'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
+import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { ExplorerMenu } from 'ui/src/pages/accounts/components/layout/components/explorer-menu'
+import { findMetadataValue } from 'ui/src/services/metadata'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
-import { useEntityDetails } from '../../hooks/dapp/use-entity-details'
-import { useAccountIndexes } from '../../hooks/use-account-indexes'
-import { findMetadataValue } from '../../services/metadata'
 import * as styles from './styles.css'
 
 interface IProps {
@@ -42,17 +44,24 @@ export const CardButtons: React.FC<IProps> = ({ className }) => {
 	const intl = useIntl()
 	const dashboardUrl = useDashboardUrl()
 
+	const {
+		data: { balances = [] },
+	} = useSelectedAccountsBalances()
+	const resourceBalance = balances.find(balance => balance.address === resourceId)
+	const [defaultNftId] = (resourceBalance as ResourceBalance[ResourceBalanceType.NON_FUNGIBLE])?.ids || []
+
 	const { data } = useEntityDetails(resourceId)
 	const validator = findMetadataValue('validator', data?.metadata?.items)
 	const infoUrl = findMetadataValue('info_url', data?.metadata?.items)
 
+	const resolvedRawNft = rawNftId || (defaultNftId ? encodeURIComponent(defaultNftId) : '')
 	const resolvedAccountId = (accountId !== '-' ? accountId : Object.keys(accountIndexes)?.[0]) || accountId
 	const qrValue = resourceId || resolvedAccountId
 
 	const query = new URLSearchParams()
 	if (accountId !== '-') query.set('accountId', accountId)
 	if (resourceId) query.set('resourceId', resourceId)
-	if (rawNftId) query.set('nftId', rawNftId)
+	if (resolvedRawNft) query.set('nftId', resolvedRawNft)
 
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
