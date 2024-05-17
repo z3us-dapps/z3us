@@ -1,12 +1,12 @@
 import { globalStyle, keyframes, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
 import { responsiveStyle } from 'ui/src/theme/theme-utils'
 import { vars } from 'ui/src/theme/theme.css'
 
 export const fadeInOutAnimation = keyframes({
 	'0%': { opacity: '1.0' },
-	'50%': { opacity: '0.7' },
+	'50%': { opacity: '0.8' },
 	'100%': { opacity: '1.0' },
 })
 
@@ -25,14 +25,22 @@ export const loadingBrandWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		alignItems: 'center',
-		gap: 'small',
+		justifyContent: 'center',
+		borderRadius: 'full',
 	}),
 	{
+		width: '236px',
+		height: '236px',
+		boxShadow: '0px 0px 64px 10px #D6C7FF',
 		animationDuration: '3000ms',
 		animationName: fadeInOutAnimation,
 		animationIterationCount: 'infinite',
 	},
 ])
+
+globalStyle(`.${darkMode} ${loadingBrandWrapper}`, {
+	boxShadow: '0px 0px 64px 10px rgba(124, 77, 255, 0.6)',
+})
 
 export const unlockOuterWrapper = style([
 	sprinkles({

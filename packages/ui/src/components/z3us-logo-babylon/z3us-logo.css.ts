@@ -113,7 +113,16 @@ export const z3usLogoLargeMediumWrapper = style([
 	},
 ])
 
-globalStyle(`.${darkMode} ${z3usLogoLargeMediumWrapper}`, {
+export const z3usLogoLargeShadowWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		boxShadow: '0px 5px 29px 0px rgba(0,0,0, 0.2)',
+	},
+])
+
+globalStyle(`.${darkMode} ${z3usLogoLargeShadowWrapper}`, {
 	boxShadow: '0px 10px 44px 0px #00000059',
 })
 
