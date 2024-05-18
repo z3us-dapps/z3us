@@ -26,6 +26,22 @@ export const skinSelectWrapper = style([
 		gap: 'small',
 		alignItems: 'center',
 		paddingBottom: 'medium',
+		justifyContent: 'space-between',
+	}),
+])
+
+export const skinSelectWrapperText = style([
+	sprinkles({
+		display: 'flex',
+	}),
+
+	responsiveStyle({
+		mobile: {
+			maxWidth: '190px',
+		},
+		tablet: {
+			maxWidth: '290px',
+		},
 	}),
 ])
 

@@ -329,19 +329,23 @@ const Accounts: React.FC = () => {
 								<Text size="small" weight="medium" color="strong">
 									{intl.formatMessage(messages.account_skin)}
 								</Text>
-								{selectedAccount?.skin?.collection ||
-									(selectedAccount?.skin?.non_fungible_id && (
-										<Box className={styles.skinClearButtonWrapper}>
-											<Button
-												sizeVariant="small"
-												styleVariant="secondary"
-												onClick={handleClearSkin}
-												leftIcon={<Close2Icon />}
-											>
-												{intl.formatMessage(messages.clear_skin)}
-											</Button>
-										</Box>
-									))}
+								<Box className={styles.skinSelectWrapperText}>
+									<Text truncate size="small">
+										{selectedAccount?.skin?.collection ||
+											(selectedAccount?.skin?.non_fungible_id && (
+												<Box className={styles.skinClearButtonWrapper}>
+													<Button
+														sizeVariant="small"
+														styleVariant="secondary"
+														onClick={handleClearSkin}
+														leftIcon={<Close2Icon />}
+													>
+														{intl.formatMessage(messages.clear_skin)}
+													</Button>
+												</Box>
+											))}
+									</Text>
+								</Box>
 							</Box>
 							<Form initialValues={skinInitialValues}>
 								<NftSelect fromAccount={selectedAccount?.address} onSelect={handleSkinSelect} />
