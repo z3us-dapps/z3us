@@ -9,7 +9,7 @@ import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import { Chart } from './components/chart'
 import * as styles from './styles.css'

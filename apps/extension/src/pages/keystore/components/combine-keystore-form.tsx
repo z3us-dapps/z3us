@@ -13,7 +13,7 @@ import TextField from 'ui/src/components/form/fields/text-field'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
+import { generateId } from 'ui/src/utils/rand'
 
 import { combineData, getSecret } from '@src/crypto/secret'
 import { useMessageClient } from '@src/hooks/use-message-client'

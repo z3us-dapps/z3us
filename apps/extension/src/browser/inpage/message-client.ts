@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { generateId } from 'ui/src/utils/generate-id'
+import { generateId } from 'ui/src/utils/rand'
 
 import { eventFromMessage } from '@src/browser/messages/message'
 import timeout, { reason } from '@src/browser/messages/timeout'

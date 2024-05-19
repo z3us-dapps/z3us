@@ -18,7 +18,7 @@ import { Radio, RadioGroup } from 'ui/src/components/radio-group'
 import { SelectSimple } from 'ui/src/components/select'
 import { Text } from 'ui/src/components/typography'
 import { CARD_COLORS } from 'ui/src/constants/account'
-import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
+import { defaultAggregation, defaultOptIns, useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
@@ -253,7 +253,9 @@ const Accounts: React.FC = () => {
 		`,
 		})
 			.then(value => {
-				queryClient.invalidateQueries({ queryKey: ['useEntitiesDetails', networkId, [data.address]] })
+				queryClient.invalidateQueries({
+					queryKey: ['useEntitiesDetails', networkId, defaultAggregation, defaultOptIns, [data.address]],
+				})
 				toast.success(intl.formatMessage(messages.success_toast), {
 					description: value.status,
 					action: {

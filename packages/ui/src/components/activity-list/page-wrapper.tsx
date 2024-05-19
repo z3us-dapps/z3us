@@ -13,7 +13,7 @@ import { TransactionStatusIcon } from 'ui/src/components/transaction-status-icon
 import { Text } from 'ui/src/components/typography'
 import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import * as styles from './styles.css'
 

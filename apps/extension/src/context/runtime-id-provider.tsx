@@ -1,6 +1,6 @@
 import React, { type PropsWithChildren, createContext } from 'react'
 
-import { generateId } from 'ui/src/utils/generate-id'
+import { generateId } from 'ui/src/utils/rand'
 
 const runtimeId = generateId()
 

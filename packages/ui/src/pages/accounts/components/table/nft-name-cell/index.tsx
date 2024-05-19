@@ -7,7 +7,7 @@ import { NftImageIcon } from 'ui/src/components/nft-image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { findFieldValue } from 'ui/src/services/metadata'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import * as styles from '../styles.css'
 

@@ -37,7 +37,7 @@ import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { ExplorerMenu } from 'ui/src/pages/accounts/components/layout/components/explorer-menu'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
 import * as styles from './styles.css'

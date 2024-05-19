@@ -4,7 +4,7 @@ import { Hydrate } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import React, { type PropsWithChildren } from 'react'
 
-import { domExists } from 'ui/src/utils/dom-exists'
+import { domExists } from 'ui/src/utils/dom'
 
 const cacheKey = 'z3us:cache'
 const persister = createSyncStoragePersister({

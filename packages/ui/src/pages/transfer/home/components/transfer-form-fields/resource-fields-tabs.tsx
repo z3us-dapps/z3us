@@ -8,7 +8,7 @@ import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-fi
 import { useFieldValue } from 'ui/src/components/form/use-field-value'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
+import { capitalizeFirstLetter } from 'ui/src/utils/string'
 
 import * as styles from './styles.css'
 

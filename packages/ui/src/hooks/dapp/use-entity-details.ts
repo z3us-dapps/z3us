@@ -2,11 +2,13 @@ import type { StateEntityDetailsOptIns, StateEntityDetailsResponseItem } from '@
 import { ResourceAggregationLevel } from '@radixdlt/babylon-gateway-api-sdk'
 import { useQueries } from '@tanstack/react-query'
 
-import { splitArrayIntoChunks } from 'ui/src/utils/array-chunk'
+import { splitArrayIntoChunks } from 'ui/src/utils/array'
 import { formatDateTime } from 'ui/src/utils/date'
 
 import { useGatewayClient } from './use-gateway-client'
 import { useNetworkId } from './use-network'
+
+export const defaultAggregation = ResourceAggregationLevel.Vault
 
 export const defaultFungiblesOptIns: StateEntityDetailsOptIns = {
 	ancestor_identities: false,
@@ -24,7 +26,7 @@ export const defaultNonFungiblesOptIns: StateEntityDetailsOptIns = {
 	explicit_metadata: ['name', 'description', 'key_image_url'],
 }
 
-const defaultOptIns: StateEntityDetailsOptIns = {
+export const defaultOptIns: StateEntityDetailsOptIns = {
 	ancestor_identities: true,
 	component_royalty_vault_balance: true,
 	package_royalty_vault_balance: true,
@@ -37,7 +39,7 @@ const defaultOptIns: StateEntityDetailsOptIns = {
 
 export const useEntitiesDetails = (
 	addresses: string[],
-	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
+	aggregation: ResourceAggregationLevel = defaultAggregation,
 	optIns: StateEntityDetailsOptIns = defaultOptIns,
 	at?: Date,
 ) => {

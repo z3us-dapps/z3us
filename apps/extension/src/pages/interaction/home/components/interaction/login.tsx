@@ -22,7 +22,7 @@ import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
 import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ApprovedDapps, Personas } from 'ui/src/store/types'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useAccountsData } from '@src/hooks/interaction/use-accounts-data'

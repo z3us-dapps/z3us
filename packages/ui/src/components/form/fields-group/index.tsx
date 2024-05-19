@@ -6,7 +6,7 @@ import { useImmer } from 'use-immer'
 import { Box } from 'ui/src/components/box'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { generateId } from 'ui/src/utils/generate-id'
+import { generateId } from 'ui/src/utils/rand'
 
 import { FormContext } from '../context'
 import { FieldContext } from '../field-wrapper/context'

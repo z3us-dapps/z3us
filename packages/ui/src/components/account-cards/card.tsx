@@ -25,7 +25,7 @@ import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { KeystoreType, SCHEME } from 'ui/src/store/types'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import { CopyAddressButton } from '../copy-address-button'
 import { Image } from './image'

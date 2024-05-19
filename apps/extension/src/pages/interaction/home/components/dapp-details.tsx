@@ -11,7 +11,7 @@ import { ValidationErrorMessage } from 'ui/src/components/validation-error-messa
 import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import matches from '@src/browser/manifest/content_matches.json'
 

@@ -6,11 +6,11 @@ import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
+import { DECIMAL_STYLES } from 'ui/src/constants/number'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { findMetadataValue } from 'ui/src/services/metadata'
+import { getShortAddress } from 'ui/src/utils/string'
 
-import { DECIMAL_STYLES } from '../../constants/number'
-import { getShortAddress } from '../../utils/string-utils'
 import type { TImageSizes } from '../image-icon'
 
 const LSU = 'LSU'

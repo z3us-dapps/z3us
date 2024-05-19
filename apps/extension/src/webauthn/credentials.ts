@@ -1,6 +1,6 @@
 import { DAPP_NAME } from 'ui/src/constants/dapp'
 import type { Keystore } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
+import { generateId } from 'ui/src/utils/rand'
 
 function parseSignature(signature) {
 	const usignature = new Uint8Array(signature)

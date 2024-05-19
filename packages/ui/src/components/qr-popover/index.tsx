@@ -5,7 +5,7 @@ import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'ui/src/components/popover'
 import { QrStyled } from 'ui/src/components/qr-styled'
 import { Text } from 'ui/src/components/typography'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import * as styles from './styles.css'
 
