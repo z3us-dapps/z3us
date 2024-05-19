@@ -12,7 +12,6 @@ const openSidePanel = async ({ menuItemId }, tab) => {
 }
 
 export const addSidePanel = () => {
-	if (!chrome?.sidePanel) return
 	browser.contextMenus.create({
 		id: menuId,
 		title: 'Open in Side Panel',
