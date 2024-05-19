@@ -331,19 +331,18 @@ const Accounts: React.FC = () => {
 								</Text>
 								<Box className={styles.skinSelectWrapperText}>
 									<Text truncate size="small">
-										{selectedAccount?.skin?.collection ||
-											(selectedAccount?.skin?.non_fungible_id && (
-												<Box className={styles.skinClearButtonWrapper}>
-													<Button
-														sizeVariant="small"
-														styleVariant="secondary"
-														onClick={handleClearSkin}
-														leftIcon={<Close2Icon />}
-													>
-														{intl.formatMessage(messages.clear_skin)}
-													</Button>
-												</Box>
-											))}
+										{(selectedAccount?.skin?.collection || selectedAccount?.skin?.non_fungible_id) && (
+											<Box className={styles.skinClearButtonWrapper}>
+												<Button
+													sizeVariant="small"
+													styleVariant="secondary"
+													onClick={handleClearSkin}
+													leftIcon={<Close2Icon />}
+												>
+													{intl.formatMessage(messages.clear_skin)}
+												</Button>
+											</Box>
+										)}
 									</Text>
 								</Box>
 							</Box>
