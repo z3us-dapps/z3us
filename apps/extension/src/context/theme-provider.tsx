@@ -74,16 +74,19 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	const handleThemeChange = async (t: Theme) => {
 		const path = `src/pages/app/${t}.html`
+
 		if (browser.browserAction) {
 			await browser.browserAction.setPopup({ popup: path })
 		} else if (browser.action) {
 			await browser.action.setPopup({ popup: path })
 		}
+
 		if (chrome?.sidePanel) {
 			await chrome.sidePanel.setOptions({ path })
 		} else {
 			await browser.sidebarAction.setPanel({ panel: path })
 		}
+
 		setTheme(t)
 	}
 
