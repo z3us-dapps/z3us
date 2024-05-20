@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const navigationWrapper = style([
 	sprinkles({
@@ -18,7 +18,6 @@ export const navigationWrapper = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 ])
 
 export const mobileMenuWrapper = style([
@@ -33,7 +32,6 @@ export const mobileMenuWrapper = style([
 		},
 		width: 'full',
 	}),
-	{},
 ])
 
 export const tabletMenuWrapper = style([
@@ -43,7 +41,6 @@ export const tabletMenuWrapper = style([
 			tablet: 'block',
 		},
 	}),
-	{},
 ])
 
 export const accountViewContentWrapper = style([
@@ -74,12 +71,10 @@ export const accountViewPaddingWrapper = style([
 		paddingY: 'small',
 		paddingX: 'small',
 	}),
-	{},
 ])
 
 export const menuTitleWrapper = style([
 	sprinkles({
 		paddingBottom: 'small',
 	}),
-	{},
 ])

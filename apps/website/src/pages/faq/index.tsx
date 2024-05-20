@@ -2,7 +2,7 @@ import { FaqPage } from '@/components/layouts/faq-page'
 import { Meta } from '@/components/meta'
 import React, { useEffect } from 'react'
 
-import { darkThemeClass } from 'ui/src/components/system/theme.css'
+import { darkThemeClass } from 'ui/src/theme/theme.css'
 
 // eslint-disable-next-line react/function-component-definition
 export default function Faq() {

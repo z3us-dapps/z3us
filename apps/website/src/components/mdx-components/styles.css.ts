@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const marginWrapper = style([
 	sprinkles({
@@ -10,7 +10,6 @@ export const marginWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const olUlWrapper = style([
@@ -20,12 +19,10 @@ export const olUlWrapper = style([
 			tablet: 'large',
 		},
 	}),
-	{},
 ])
 
 export const headingWrapper = style([
 	sprinkles({
 		color: 'colorStrong',
 	}),
-	{},
 ])

@@ -16,6 +16,7 @@ const permissions = [
 	'scripting',
 	'contextMenus',
 	'idle',
+	'sidePanel',
 ]
 
 const manifest: ManifestV3Export = {
@@ -27,6 +28,9 @@ const manifest: ManifestV3Export = {
 	short_name: 'Z3US',
 	description: 'An open source community centered browser wallet for the Radix DLT network.',
 	omnibox: { keyword: 'z3us' },
+	side_panel: {
+		default_path: 'src/pages/app/system.html',
+	},
 	action: {
 		default_popup: 'src/pages/app/system.html',
 		default_title: 'Z3US',

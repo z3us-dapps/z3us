@@ -1,8 +1,8 @@
 import { globalKeyframes, globalStyle, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const panelViewOuterWrapper = style([
 	sprinkles({
@@ -19,7 +19,6 @@ export const panelViewOuterWrapper = style([
 		},
 		height: 'full',
 	}),
-	{},
 ])
 
 export const panelViewWrapper = style([
@@ -44,7 +43,6 @@ export const panelViewWrapper = style([
 
 export const panelViewLeftWrapper = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: {
 			background: vars.color.backgroundSecondary,
@@ -67,7 +65,6 @@ export const panelViewLeftWrapper = style([
 
 export const panelViewResourceWrapper = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: {
 			display: 'none',
@@ -79,7 +76,6 @@ export const panelViewRightWrapper = style([
 	sprinkles({
 		position: 'sticky',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			top: '0',
@@ -102,7 +98,6 @@ export const panelViewRightWrapper = style([
 
 export const panelViewRightRelativeWrapper = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: {
 			position: 'relative',
@@ -115,7 +110,6 @@ export const panelViewRightRelativeWrapper = style([
 
 export const panelViewRightScrollWrapper = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: {
 			aspectRatio: '8 / 5.3',
@@ -130,7 +124,6 @@ export const panelViewMobileScrollWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			width: '100%',
@@ -147,7 +140,6 @@ export const panelViewMobileScrollOnboardingWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			width: '100%',

@@ -5081,20 +5081,10 @@
     tslog "^4.8.2"
     zod "^3.21.4"
 
-"@radixnameservice/rns-sdk@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@radixnameservice/rns-sdk/-/rns-sdk-1.0.3.tgz#c658939aaead2ad98e7ee4b9728bf10d233724c3"
-  integrity sha512-irTTSngJe+ZT8q43x5fy0/DrNiKJJGJ3owNHusk2EgENWf4fgIBzSm/nZcEREeORU62U2NoENgLz2gaYSybGgw==
-  dependencies:
-    "@radixdlt/babylon-gateway-api-sdk" "^1.4.0"
-    "@radixdlt/radix-engine-toolkit" "^1.0.3"
-    buffer "^6.0.3"
-    crypto-js "^4.2.0"
-
-"@radixnameservice/rns-sdk@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@radixnameservice/rns-sdk/-/rns-sdk-1.0.4.tgz#b68890694a26dec307db67b165dd27d650c99d6d"
-  integrity sha512-lMb1xa5h9PG2vCHj9C+Ds1gw8dqdZPNXuDNm/0pf3cuTXC6JRtey7/hkqNBUlx4NFU/cwXnqTLkNqgrc/SRX8g==
+"@radixnameservice/rns-sdk@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@radixnameservice/rns-sdk/-/rns-sdk-2.0.0.tgz#f61ba0a9c26bea552c85436b0003f44b743b46ac"
+  integrity sha512-lzycV1oUUubdvmr7Y078eorJjKyI2H39j/S22x4vBFTkRFsxAbl27K4S3U/C4lU4WTAiOHI+QUVAy50kcSMUdg==
   dependencies:
     "@radixdlt/babylon-gateway-api-sdk" "^1.4.0"
     "@radixdlt/radix-engine-toolkit" "^1.0.3"
@@ -18813,14 +18803,6 @@ use-debounce@^9.0.4:
   resolved "https://registry.npmjs.org/use-debounce/-/use-debounce-9.0.4.tgz"
   integrity sha512-6X8H/mikbrt0XE8e+JXRtZ8yYVvKkdYRfmIhWZYsP8rcNs9hk3APV8Ua2mFkKRLcJKVdnX2/Vwrmg2GWKUQEaQ==
 
-use-deep-compare-effect@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.npmjs.org/use-deep-compare-effect/-/use-deep-compare-effect-1.8.1.tgz"
-  integrity sha512-kbeNVZ9Zkc0RFGpfMN3MNfaKNvcLNyxOAAd9O4CBZ+kCBXXscn9s/4I+8ytUER4RDpEYs5+O6Rs4PqiZ+rHr5Q==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    dequal "^2.0.2"
-
 use-immer@^0.9.0:
   version "0.9.0"
   resolved "https://registry.npmjs.org/use-immer/-/use-immer-0.9.0.tgz"
@@ -18851,10 +18833,12 @@ use@^3.1.0:
   resolved "https://registry.npmjs.org/use/-/use-3.1.1.tgz"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
 
-usehooks-ts@^2.9.1:
-  version "2.9.1"
-  resolved "https://registry.npmjs.org/usehooks-ts/-/usehooks-ts-2.9.1.tgz"
-  integrity sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA==
+usehooks-ts@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/usehooks-ts/-/usehooks-ts-3.1.0.tgz#156119f36efc85f1b1952616c02580f140950eca"
+  integrity sha512-bBIa7yUyPhE1BCc0GmR96VU/15l/9gP1Ch5mYdLcFBaFGQsdmXkvjV0TtOqW1yUd6VjIwDunm+flSciCQXujiw==
+  dependencies:
+    lodash.debounce "^4.0.8"
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"

@@ -2,7 +2,7 @@ import { lazy } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { useModals } from 'ui/src/hooks/use-modals'
-import { generateId } from 'ui/src/utils/generate-id'
+import { generateId } from 'ui/src/utils/rand'
 
 import type { Values } from '@src/components/forms/customize-fee-form'
 import type { TransactionSettings } from '@src/types/transaction'

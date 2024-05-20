@@ -9,7 +9,6 @@ import type {
 import { useEffect, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
-import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -23,7 +22,7 @@ import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
 import { usePersonaIndexes } from 'ui/src/hooks/use-persona-indexes'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ApprovedDapps, Personas } from 'ui/src/store/types'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useAccountsData } from '@src/hooks/interaction/use-accounts-data'
@@ -31,6 +30,7 @@ import { useLogin } from '@src/hooks/interaction/use-login'
 import { usePersonaDataModal } from '@src/hooks/modal/use-persona-data-modal'
 import { useSelectAccountsModal } from '@src/hooks/modal/use-select-accounts-modal'
 import { useSelectPersonaModal } from '@src/hooks/modal/use-select-persona-modal'
+import { sendInteractionMessage } from '@src/radix/interaction'
 
 import { DappDetails } from '../dapp-details'
 import { NetworkAlert } from '../network-alert'
@@ -158,8 +158,8 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 				oneTimeAccounts: await buildAccounts(selectedAccounts, request.oneTimeAccounts, interaction.metadata),
 				ongoingAccounts: await buildAccounts(selectedAccounts, request.ongoingAccounts, interaction.metadata),
 			}
-			await browser.tabs.sendMessage(
-				interaction.fromTabId,
+			await sendInteractionMessage(
+				interaction,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					walletResponse: {
 						discriminator: 'success',
@@ -181,8 +181,8 @@ export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
-			browser.tabs.sendMessage(
-				interaction.fromTabId,
+			sendInteractionMessage(
+				interaction,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					walletResponse: {
 						discriminator: 'failure',

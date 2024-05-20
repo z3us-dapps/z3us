@@ -1,4 +1,4 @@
-import { generateId } from 'ui/src/utils/generate-id'
+import { generateId } from 'ui/src/utils/rand'
 
 import type { Message, MessageAction, MessageSource, ResponseMessage, ResponseMessageData, Z3USEvent } from './types'
 

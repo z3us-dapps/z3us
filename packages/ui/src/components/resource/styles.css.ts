@@ -1,22 +1,20 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const totalValueWrapper = style([
 	sprinkles({
 		display: 'inline-flex',
 		cursor: 'pointer',
 	}),
-	{},
 ])
 
 export const tokenDetailWrapper = style([
 	sprinkles({
 		flexShrink: 0,
 	}),
-	{},
 	responsiveStyle({
 		mobile: { background: vars.color.backgroundPrimary },
 		tablet: { background: vars.color.backgroundSecondary },
@@ -34,7 +32,6 @@ export const assetInfoWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const chartBgWrapper = style([
@@ -42,7 +39,6 @@ export const chartBgWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { height: '160px' },
 		tablet: { height: '200px' },
@@ -57,18 +53,13 @@ export const nftIconWrapper = style([
 		justifyContent: 'center',
 		paddingBottom: 'large',
 	}),
-	{
-		minHeight: '150px',
-	},
 ])
 
 export const nftIcon = style([
 	sprinkles({
 		width: 'full',
-		height: 'full',
 	}),
 	{
-		aspectRatio: '1/1',
 		height: 'auto',
 		width: '100%',
 		boxShadow: 'none',
@@ -125,37 +116,40 @@ export const tagsWrapper = style([
 	},
 ])
 
+export const tabsWrapper = style([
+	sprinkles({
+		width: 'full',
+		marginTop: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
+	}),
+])
+
+globalStyle(`${tabsWrapper} > div:first-child`, {
+	marginLeft: vars.spacing.large,
+	maxWidth: `calc(100% - 40px)`,
+})
+
 export const tokenSummaryWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
 		width: 'full',
-		borderTop: 1,
-		borderTopStyle: 'solid',
-		borderColor: 'borderDivider',
 		paddingX: {
 			mobile: 'large',
-			tablet: 'large',
-		},
-		marginTop: {
-			mobile: 'large',
-			tablet: 'xlarge',
 		},
 		paddingTop: {
 			mobile: 'large',
-			tablet: 'xlarge',
 		},
 		paddingBottom: {
 			mobile: 'xlarge',
 			tablet: 'xxlarge',
 		},
 	}),
-	{},
 ])
 
 export const tokenSummaryRightMaxWidth = style([
-	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: { maxWidth: '130px' },
 		tablet: { maxWidth: '130px' },
@@ -167,5 +161,23 @@ export const tokenMetaDataIconWrapper = style([
 	{
 		marginLeft: '-4px',
 		transform: 'translateY(5px)',
+	},
+])
+
+export const activityListResourceWrapper = style([
+	sprinkles({
+		width: 'full',
+		paddingTop: {
+			mobile: 'small',
+		},
+	}),
+	responsiveStyle({
+		tablet: {
+			borderTop: 'none',
+		},
+	}),
+	{
+		border: '0px solid red',
+		minHeight: '200px',
 	},
 ])

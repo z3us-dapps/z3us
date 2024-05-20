@@ -2,10 +2,9 @@ import { style } from '@vanilla-extract/css'
 import { type RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-
-import { sprinkles } from '../system/sprinkles.css'
-import { vars } from '../system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const baseSprinkles = style([
 	sprinkles({

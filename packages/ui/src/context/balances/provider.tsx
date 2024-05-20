@@ -8,9 +8,9 @@ import { BalancesContext } from './context'
 
 export const BalancesProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const selectedAccounts = useSelectedAccounts()
-	const balances = useBalances(selectedAccounts)
+	const data = useBalances(selectedAccounts)
 
-	return <BalancesContext.Provider value={balances}>{children}</BalancesContext.Provider>
+	return <BalancesContext.Provider value={data}>{children}</BalancesContext.Provider>
 }
 
 export default BalancesProvider

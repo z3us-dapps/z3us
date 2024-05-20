@@ -1,15 +1,14 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const transferFormWrapper = style([
 	sprinkles({
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const transferFormGridBoxWrapper = style([
@@ -20,7 +19,6 @@ export const transferFormGridBoxWrapper = style([
 		flexDirection: 'column',
 		gap: 'medium',
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			display: 'grid',
@@ -51,7 +49,6 @@ export const transferFormGridBoxWrapperBorder = style([
 			desktop: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const transferFormGridBoxWrapperLeft = style([
@@ -60,7 +57,6 @@ export const transferFormGridBoxWrapperLeft = style([
 		flexDirection: 'column',
 		gap: 'xxsmall',
 	}),
-	{},
 ])
 
 export const transferFormMessageWrapper = style([
@@ -70,7 +66,6 @@ export const transferFormMessageWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const transferFormMessageTextArea = style([

@@ -6,13 +6,12 @@ import type { ItemProps, TableBodyProps, TableComponents, TableProps } from 'rea
 import { TableVirtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import * as tableStyles from 'ui/src/components/table/table.css'
+import { useScroll } from 'ui/src/context/scroll'
 import { useNonFungibleIds, useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { NftNameCell } from 'ui/src/pages/accounts/components/table/nft-name-cell'
-
-import * as styles from './styles.css'
+import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 
 const TABLE_SIZE_VARIANT = 'large'
 const TABLE_STYLE_VARIANT = 'primary'
@@ -77,7 +76,7 @@ const Table: React.FC<TableProps> = ({ style, ...tableProps }) => (
 )
 
 const TableRow: React.FC<ItemProps<unknown>> = props => <tbody {...props} />
-// eslint-disable-next-line react/jsx-no-useless-fragment, react/jsx-fragments
+// eslint-disable-next-line react/jsx-no-useless-fragment
 const TableBody: React.FC<TableBodyProps> = React.forwardRef(({ children }) => <>{children}</>)
 
 const tableComponents: TableComponents = {
@@ -102,7 +101,7 @@ const NFTs: React.FC = () => {
 
 	const renderItem = useCallback(
 		(index: number, page) => <Page key={index} accountId={accountId} collection={resourceId} ids={page?.items || []} />,
-		[resourceId],
+		[accountId, resourceId],
 	)
 
 	return (

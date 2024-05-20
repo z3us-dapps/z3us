@@ -1,7 +1,9 @@
+import clsx from 'clsx'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useRouteError } from 'react-router-dom'
 
+import type { BoxProps } from 'ui/src/components/box'
 import { Box } from 'ui/src/components/box'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 import { LayoutCenterCard } from 'ui/src/components/layout/layout-center-card'
@@ -52,8 +54,8 @@ export const FallbackRenderer: React.FC<IProps> = ({ error }) => {
 	)
 }
 
-export const FallbackLoading: React.FC = () => (
-	<Box className={styles.fallbackLoadingWrapper}>
+export const FallbackLoading: React.FC<BoxProps> = ({ className, ...rest }) => (
+	<Box display="flex" {...rest} className={clsx(className, styles.fallbackLoadingWrapper)}>
 		<LoadingBarsIcon />
 	</Box>
 )

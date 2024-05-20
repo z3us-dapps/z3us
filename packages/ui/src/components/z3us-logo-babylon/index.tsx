@@ -38,10 +38,11 @@ interface IZ3usLogoLargeProps {
 	className?: string
 	size?: 'small' | 'medium' | 'large'
 	fillPurple?: boolean
+	showShadow?: boolean
 }
 
 export const Z3usLogoLarge: React.FC<IZ3usLogoLargeProps> = props => {
-	const { className, size = 'medium', fillPurple = false } = props
+	const { className, size = 'medium', fillPurple = false, showShadow = true } = props
 
 	return (
 		<Box
@@ -49,6 +50,7 @@ export const Z3usLogoLarge: React.FC<IZ3usLogoLargeProps> = props => {
 				styles.z3usLogoLargeWrapper,
 				size === 'medium' && styles.z3usLogoLargeMediumWrapper,
 				fillPurple && styles.z3usLogoFillPurpleWrapper,
+				showShadow && styles.z3usLogoLargeShadowWrapper,
 				className,
 			)}
 		>

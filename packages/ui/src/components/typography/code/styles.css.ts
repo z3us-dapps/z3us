@@ -1,15 +1,14 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const scrollOuterWrapper = style([
 	sprinkles({
 		width: 'full',
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { height: '300px' },
 		tablet: { height: '400px' },
@@ -22,7 +21,6 @@ export const scrollAbsoluteWrapper = style([
 		height: 'full',
 		position: 'absolute',
 	}),
-	{},
 ])
 
 export const scrollWrapper = style([
@@ -36,7 +34,6 @@ export const scrollWrapper = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{},
 ])
 
 export const scrollViewPortWrapper = style([

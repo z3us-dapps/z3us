@@ -1,7 +1,7 @@
 import { useIntl } from 'react-intl'
 
-import { Box } from 'ui/src/components/box'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import Text, { type TextProps } from 'ui/src/components/typography/text'
 
 const WEEK_IN_MILLIS = 6.048e8
 const DAY_IN_MILLIS = 8.64e7
@@ -31,18 +31,19 @@ const timeFromNow = (date, intl, options = defaultFormatOptions) => {
 	return intl.formatRelativeTime(Math.trunc((diff % MIN_IN_MILLIS) / SEC_IN_MILLIS), 'second', options)
 }
 
-interface IProps {
+interface IProps extends TextProps {
 	date: Date
+	children?: any
 }
 
-export const TimeFromNow: React.FC<IProps> = ({ date }) => {
+export const TimeFromNow: React.FC<IProps> = ({ date, ...rest }) => {
 	const intl = useIntl()
 
 	if (!date) return null
 
 	return (
 		<ToolTip message={date.toLocaleString()}>
-			<Box>{timeFromNow(date, intl)}</Box>
+			<Text {...rest}>{timeFromNow(date, intl)}</Text>
 		</ToolTip>
 	)
 }

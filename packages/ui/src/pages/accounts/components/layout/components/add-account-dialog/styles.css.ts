@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const addAccountDialog = style([
 	sprinkles({}),
@@ -32,7 +32,6 @@ export const addAccountDialogHeader = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 ])
 
 export const addAccountDialogTitleWrapper = style([
@@ -72,7 +71,6 @@ export const keySourceWrapper = style([
 		gap: 'small',
 		paddingTop: 'small',
 	}),
-	{},
 ])
 
 export const keySourceSelectWrapper = style([
@@ -82,7 +80,6 @@ export const keySourceSelectWrapper = style([
 		alignItems: 'center',
 		gap: 'small',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			width: 'auto',
@@ -116,7 +113,6 @@ export const addAccountGridWrapper = style([
 		marginTop: 'xlarge',
 		display: 'grid',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			gap: vars.spacing.medium,
@@ -134,10 +130,8 @@ export const addAccountGridWrapper = style([
 ])
 
 export const addAccountCardWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
 	{
+		position: 'relative',
 		aspectRatio: '8 / 4.5',
 	},
 ])

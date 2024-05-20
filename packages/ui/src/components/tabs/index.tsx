@@ -10,6 +10,7 @@ export const TabTrigger = TabsPrimitive.TabsTrigger
 export const TabsContent = TabsPrimitive.Content
 
 interface ITabsProps extends TabsPrimitive.TabsProps {
+	className?: string
 	list: {
 		value: string
 		label: string
@@ -19,10 +20,10 @@ interface ITabsProps extends TabsPrimitive.TabsProps {
 }
 
 export const Tabs = (props: ITabsProps) => {
-	const { children, list, sizeVariant = 'medium', styleVariant = 'primary', ...rest } = props
+	const { className, children, list, sizeVariant = 'medium', styleVariant = 'primary', ...rest } = props
 
 	return (
-		<TabsRoot {...rest}>
+		<TabsRoot {...rest} className={className}>
 			<TabsList
 				className={clsx(
 					styles.tabsListRootWrapper,

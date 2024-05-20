@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const addressTableCellWrapper = style([
 	sprinkles({
@@ -10,7 +10,6 @@ export const addressTableCellWrapper = style([
 		flexShrink: 0,
 		gap: 'medium',
 	}),
-	{},
 ])
 
 export const addressTableCellTextWrapper = style([

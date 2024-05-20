@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { sprinkles } from '../system/sprinkles.css'
-import { vars } from '../system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const tabsListRootWrapper = style([
 	sprinkles({
@@ -11,7 +11,6 @@ export const tabsListRootWrapper = style([
 		zIndex: 1,
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const tabsListRecipe = recipe({
@@ -98,7 +97,6 @@ export const tabsTriggerRecipe = recipe({
 				sprinkles({
 					background: 'orange600',
 				}),
-				{},
 			],
 		},
 		sizeVariant: {

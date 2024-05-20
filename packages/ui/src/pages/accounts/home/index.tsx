@@ -1,7 +1,6 @@
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
-import useMeasure from 'react-use-measure'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -10,7 +9,6 @@ import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 
 import { AssetsList } from '../components/assets-list'
-import { HomeScrollShadow } from '../components/home-scroll-shadow'
 import { HorizontalAccountsScrollList } from '../components/horizontal-accounts-scroll-list'
 import * as styles from './styles.css'
 
@@ -26,13 +24,13 @@ const Home: React.FC = () => {
 	const { accountId = '-' } = useParams()
 	const accounts = useWalletAccounts()
 	const isAllAccounts = useIsAllAccounts()
-	const [wrapperRef, { width: horizontalScrollWidth }] = useMeasure()
 	const accountName = accounts?.[accountId]?.name
 
 	return (
-		<Box ref={wrapperRef} className={styles.assetsHomeWrapper}>
-			<HomeScrollShadow />
-			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
+		<Box className={styles.assetsHomeWrapper}>
+			<Box className={styles.accountListWrapper}>
+				<HorizontalAccountsScrollList />
+			</Box>
 			<Box className={styles.homeAssetsTitleWrapper}>
 				{isAllAccounts ? (
 					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium" truncate>

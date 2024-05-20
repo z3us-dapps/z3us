@@ -4,6 +4,7 @@ export type Token = {
 	address: string
 	symbol: string
 	slug: string
+	icon_url: string
 	price: {
 		usd: {
 			'1h': string

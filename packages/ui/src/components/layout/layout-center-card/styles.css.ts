@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const layoutCenterCardWrapper = style([
 	sprinkles({
@@ -11,10 +11,9 @@ export const layoutCenterCardWrapper = style([
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: 'vh100',
+		height: '100vh',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { backgroundColor: vars.color.backgroundSecondary },
 		tablet: { backgroundColor: vars.color.backgroundPrimary },
@@ -26,7 +25,6 @@ export const layoutCenterCardInnerWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			borderRadius: vars.border.radius.xlarge,
@@ -46,7 +44,6 @@ export const layoutCenterCardTextWrapper = style([
 		gap: 'medium',
 		padding: 'xlarge',
 	}),
-	{},
 ])
 
 export const layoutCenterCardButtonWrapper = style([
@@ -54,5 +51,4 @@ export const layoutCenterCardButtonWrapper = style([
 		width: 'full',
 		paddingTop: 'xlarge',
 	}),
-	{},
 ])

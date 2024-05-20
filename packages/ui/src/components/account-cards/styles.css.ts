@@ -1,7 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const card = style([
 	sprinkles({
@@ -53,7 +53,6 @@ export const cardAllWrapper = style([
 			darkMode: 'backgroundPrimary',
 		},
 	}),
-	{},
 ])
 
 export const cardAccountShine = style([
@@ -134,7 +133,6 @@ export const accountDropdownWrapper = style([
 		marginTop: 'medium',
 		marginRight: 'medium',
 	}),
-	{},
 ])
 
 export const accountCardZ3USlogoWrapper = style([
@@ -160,5 +158,4 @@ export const cardAccountMenuLeftSlotWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])

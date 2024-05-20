@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { type TZodValidationGeneric, getZodError } from 'ui/src/utils/get-zod-error'
+import { type TZodValidationGeneric, getZodError } from 'ui/src/utils/error'
 
 export type TAddressBookSchema = z.infer<typeof addressBookSchema>
 

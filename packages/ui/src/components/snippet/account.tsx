@@ -9,7 +9,7 @@ import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 interface IProps {
 	address: string

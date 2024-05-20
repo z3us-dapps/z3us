@@ -24,6 +24,7 @@ export type State = {
 	sendTransaction: SendTransaction
 	buildNewPersonKeyParts: (combinedKeystoreId: string) => Promise<Partial<Persona>>
 	buildNewAccountKeyParts: (combinedKeystoreId: string, legacy: boolean) => Promise<Partial<Account>>
+	openSidePanel: () => Promise<void>
 }
 
 export const defaultState: State = {
@@ -50,6 +51,9 @@ export const defaultState: State = {
 	},
 	buildNewAccountKeyParts: async () => {
 		throw Error('Can not derive account keys without wallet!')
+	},
+	openSidePanel: async () => {
+		throw Error('Can not open side panel!')
 	},
 }
 

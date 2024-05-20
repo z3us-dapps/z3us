@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css'
 import type { RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { sprinkles } from '../system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const checkboxWrapper = recipe({
 	base: {
@@ -122,5 +122,4 @@ export const checkboxIndicator = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{},
 ])

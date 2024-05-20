@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
-import { getRandomNumberInRange } from 'ui/src/utils/get-random-number-in-ranger'
+import { getRandomNumberInRange } from 'ui/src/utils/number'
 
 import * as styles from './styles.css'
 

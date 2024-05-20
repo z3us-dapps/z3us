@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const accountsCardWrapper = style([
 	sprinkles({
@@ -11,7 +11,6 @@ export const accountsCardWrapper = style([
 		width: 'full',
 		gap: 'large',
 	}),
-	{},
 ])
 
 export const accountsAvatarImgWrapper = style([
@@ -27,8 +26,23 @@ export const skinSelectWrapper = style([
 		gap: 'small',
 		alignItems: 'center',
 		paddingBottom: 'medium',
+		justifyContent: 'space-between',
 	}),
-	{},
+])
+
+export const skinSelectWrapperText = style([
+	sprinkles({
+		display: 'flex',
+	}),
+
+	responsiveStyle({
+		mobile: {
+			maxWidth: '190px',
+		},
+		tablet: {
+			maxWidth: '290px',
+		},
+	}),
 ])
 
 export const skinClearButtonWrapper = style([
@@ -37,7 +51,6 @@ export const skinClearButtonWrapper = style([
 		flexGrow: 1,
 		justifyContent: 'flex-end',
 	}),
-	{},
 ])
 
 export const cardWrapper = style([

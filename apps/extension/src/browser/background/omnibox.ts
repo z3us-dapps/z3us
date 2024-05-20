@@ -15,10 +15,10 @@ export const handleChange = (text: string, suggest: (suggestResults: Omnibox.Sug
 				directive: 'website:redirect',
 			})
 			.then(redirectVal => {
-				if (redirectVal) {
+				if (redirectVal?.value) {
 					suggest([
 						{
-							content: `@redirect:${redirectVal}`,
+							content: `@redirect:${redirectVal?.value}`,
 							description: `Go to <match>${text}</match>'s website`,
 							deletable: false,
 						},

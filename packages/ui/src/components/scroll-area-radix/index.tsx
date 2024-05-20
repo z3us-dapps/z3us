@@ -6,11 +6,12 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useDebouncedCallback, useThrottledCallback } from 'use-debounce'
 import { useEventListener, useTimeout } from 'usehooks-ts'
 
+import { ScrollContext } from 'ui/src/context/scroll'
+
 import { Box } from '../box'
 import { Button } from '../button'
 import { ArrowUpIcon } from '../icons'
 import { ToolTip } from '../tool-tip'
-import { ScrollContext } from './context'
 import * as styles from './styles.css'
 
 const messages = defineMessages({

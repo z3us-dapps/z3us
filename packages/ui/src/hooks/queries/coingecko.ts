@@ -45,13 +45,13 @@ export const useSupportedCurrencies = () =>
 	useQuery(getSupportedCurrenciesQueryKey(), async (): Promise<string[]> => service.getSupportedCurrencies())
 
 export const coinPriceOnDayQuery = (currency: string, date: Date) => ({
-	queryKey: ['useXRDPriceOnDay', currency, formatDate(date)],
+	queryKey: ['useXRDPriceOnDay', currency.toLowerCase(), formatDate(date)],
 	queryFn: () => service.getCoinPriceOnDay(date, currency),
 	staleTime: Infinity,
 })
 
 export const currentCoinPriceQuery = (currency: string) => ({
-	queryKey: ['useXRDCurrentPrice', currency],
+	queryKey: ['useXRDCurrentPrice', currency.toLowerCase()],
 	queryFn: () => service.getCoinData(currency),
 	staleTime: 1000 * 60 * 5, // 5 minutes
 })

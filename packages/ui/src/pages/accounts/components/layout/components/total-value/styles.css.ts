@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const assetsHeaderWrapper = style([
 	sprinkles({
@@ -17,5 +17,4 @@ export const totalValueWrapper = style([
 		display: 'inline-flex',
 		cursor: 'pointer',
 	}),
-	{},
 ])

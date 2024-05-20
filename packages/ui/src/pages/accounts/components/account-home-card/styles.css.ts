@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const accountsHomeHorizontalCard = style([
 	sprinkles({
@@ -11,7 +11,6 @@ export const accountsHomeHorizontalCard = style([
 		cursor: 'pointer',
 	}),
 	{
-		width: '316px',
 		aspectRatio: '8 / 5',
 	},
 ])

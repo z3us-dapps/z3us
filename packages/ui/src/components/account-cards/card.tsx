@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -25,7 +25,7 @@ import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { KeystoreType, SCHEME } from 'ui/src/store/types'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import { CopyAddressButton } from '../copy-address-button'
 import { Image } from './image'
@@ -80,6 +80,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const intl = useIntl()
 	const location = useLocation()
 	const navigate = useNavigate()
+	const { accountId = '-' } = useParams()
 	const [searchParams] = useSearchParams()
 	const networkId = useNetworkId()
 	const dashboardUrl = useDashboardUrl()
@@ -93,7 +94,9 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		removeAccount: state.removeAccountAction,
 	}))
 	const { name, skin, cardColor, colorClassName } = useAccountCardSettings(address)
-	const { totalValue = 0 } = useBalances([address])
+	const {
+		data: { totalValue = 0 },
+	} = useBalances([address])
 
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
@@ -128,7 +131,12 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 
 	const handleClick = () => {
 		if (!enableClick) return
-		navigate(`/accounts/${address}?${searchParams}`)
+		const newPath = location.pathname.replace(`/${accountId}`, `/${address}`)
+		if (newPath.includes(address)) {
+			navigate(`${newPath}?${searchParams}`)
+		} else {
+			navigate(`/accounts/${address}?${searchParams}`)
+		}
 	}
 
 	return (

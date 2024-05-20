@@ -79,9 +79,7 @@ export const ValidatorNameCell: React.FC<IProps> = props => {
 					{claimAt !== undefined && (
 						<ToolTip side="top" message={intl.formatMessage(messages.claim_in)}>
 							<Box>
-								<Text capitalizeFirstLetter size="xsmall" truncate>
-									<TimeFromNow date={claimAt} />
-								</Text>
+								<TimeFromNow size="xsmall" date={claimAt} />
 							</Box>
 						</ToolTip>
 					)}

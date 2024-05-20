@@ -1,6 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const swapDropdownContentWrapper = style([
 	{
@@ -13,7 +13,6 @@ export const swapFromButtonWrapper = style([
 		position: 'relative',
 		paddingTop: 'medium',
 	}),
-	{},
 ])
 
 export const swapExchangeButtonWrapper = style([
@@ -23,7 +22,6 @@ export const swapExchangeButtonWrapper = style([
 		alignItems: 'center',
 		paddingBottom: 'medium',
 	}),
-	{},
 ])
 
 export const swapValidationWrapper = style([
@@ -32,7 +30,6 @@ export const swapValidationWrapper = style([
 		display: 'flex',
 		paddingBottom: 'medium',
 	}),
-	{},
 ])
 
 export const swapFormFieldWrapper = style([
@@ -46,14 +43,12 @@ export const swapFormFieldWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const swapFormWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const swapFieldGroupWrapper = style([
@@ -66,14 +61,12 @@ export const swapFieldGroupWrapper = style([
 		marginTop: 'xlarge',
 		paddingTop: 'xlarge',
 	}),
-	{},
 ])
 
 export const swapAddFieldButtonWrapper = style([
 	sprinkles({
 		paddingTop: 'xlarge',
 	}),
-	{},
 ])
 
 export const swapFormFeeWrapper = style([
@@ -88,7 +81,6 @@ export const swapFormFeeWrapper = style([
 		borderRadius: 'large',
 		background: 'backgroundPrimary',
 	}),
-	{},
 ])
 
 globalStyle(`${swapFormWrapper}  ${swapFieldGroupWrapper}:first-child`, {

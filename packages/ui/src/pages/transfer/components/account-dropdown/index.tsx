@@ -12,7 +12,7 @@ import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import type { AddressBookEntry } from 'ui/src/store/types'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 interface IAccountDropdownProps {
 	account: string

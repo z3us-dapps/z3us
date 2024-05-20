@@ -5,8 +5,8 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Input } from 'ui/src/components/input'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
+import { useScroll } from 'ui/src/context/scroll'
 import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
 import type { ResourceBalanceKind } from 'ui/src/types'
@@ -47,12 +47,15 @@ const messages = defineMessages({
 const LSUs: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { scrollableNode, isScrolledTop } = useScroll()
+	const { scrollableNode } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
 	const [compareDate, setCompareDate] = useCompareWithDate()
 
-	const { liquidityPoolTokensBalances = [] } = useSelectedAccountsBalances()
+	const {
+		data: { liquidityPoolTokensBalances = [] },
+		isLoading,
+	} = useSelectedAccountsBalances()
 
 	const selectedRowIds = useMemo(() => {
 		const idx = liquidityPoolTokensBalances.findIndex(b => b.address === resourceId)
@@ -129,10 +132,9 @@ const LSUs: React.FC = () => {
 				scrollableNode={scrollableNode ?? undefined}
 				data={liquidityPoolTokensBalances}
 				columns={columns}
-				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
 				selectedRowIds={selectedRowIds}
-				stickyShadowTop
+				loading={isLoading}
 			/>
 		</Box>
 	)

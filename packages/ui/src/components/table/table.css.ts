@@ -1,21 +1,16 @@
-import { createVar, globalStyle, style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-
-import { breakpoints, recipeResponsiveGlobalStyle, responsiveStyle } from '../system/theme-utils'
-import { vars } from '../system/theme.css'
-
-const LIGHT_SHADOW = '0px 13px 13px -14px rgba(0, 0, 0, 0.4)'
-const DARK_SHADOW = '0px 13px 13px -14px rgba(0, 0, 0, 0.4)'
-
-export const stickyTop = createVar()
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { breakpoints, recipeResponsiveGlobalStyle, responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const tableWrapper = style([
 	sprinkles({
 		display: 'block',
 		position: 'relative',
 		paddingBottom: 'large',
+		zIndex: 2,
 	}),
 	{
 		transition: 'min-height 300ms ease',
@@ -33,7 +28,6 @@ export const tableEmptyStateWrapper = style([
 			tablet: 'xxlarge',
 		},
 	}),
-	{},
 ])
 
 export const tableLoadingWrapper = style([
@@ -41,7 +35,6 @@ export const tableLoadingWrapper = style([
 		position: 'relative',
 		pointerEvents: 'none',
 	}),
-	{},
 ])
 
 export const tableRootWrapper = style([
@@ -54,35 +47,14 @@ export const tableRootWrapper = style([
 	},
 ])
 
-export const tableRootTopStickyPosition = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	{},
-])
-
-globalStyle(`${tableRootTopStickyPosition} thead`, {
-	top: `${stickyTop} !important`,
+globalStyle(`${tableRootWrapper} thead`, {
 	display: 'none',
 	'@media': {
 		[`screen and (min-width: ${breakpoints.tablet}px)`]: {
+			top: '-1px !important',
 			display: 'table-header-group',
 		},
 	},
-})
-
-export const accountTheadShadow = style([
-	sprinkles({
-		position: 'relative',
-	}),
-])
-
-globalStyle(`${accountTheadShadow} thead tr th:first-child::before`, {
-	boxShadow: LIGHT_SHADOW,
-})
-
-globalStyle(`.${darkMode} ${accountTheadShadow} thead tr th:first-child::before`, {
-	boxShadow: DARK_SHADOW,
 })
 
 export const tFootWrapper = style([
@@ -91,7 +63,6 @@ export const tFootWrapper = style([
 		pointerEvents: 'none',
 		display: 'none',
 	}),
-	{},
 ])
 
 export const tFootWrapperVisible = style([
@@ -166,7 +137,9 @@ export const tableRecipe = recipe({
 				sprinkles({
 					borderRadius: 'medium',
 				}),
-				{},
+				{
+					background: vars.color.backgroundSecondary,
+				},
 			],
 			secondary: [
 				sprinkles({
@@ -176,7 +149,9 @@ export const tableRecipe = recipe({
 					borderRightStyle: 'solid',
 					borderColor: 'borderDivider',
 				}),
-				{},
+				{
+					background: vars.color.backgroundPrimary,
+				},
 			],
 		},
 		sizeVariant: {
@@ -203,7 +178,6 @@ export const tableThRecipe = recipe({
 						hover: 'colorStrong',
 					},
 				}),
-				{},
 			],
 			secondary: [
 				sprinkles({
@@ -212,7 +186,6 @@ export const tableThRecipe = recipe({
 						hover: 'colorStrong',
 					},
 				}),
-				{},
 			],
 		},
 		sizeVariant: {
@@ -281,7 +254,6 @@ export const tableTrRecipe = recipe({
 				sprinkles({
 					transition: 'fastall',
 				}),
-				{},
 			],
 			secondary: [sprinkles({}), {}],
 		},

@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const assetsHomeWrapper = style([
 	sprinkles({
@@ -8,7 +8,12 @@ export const assetsHomeWrapper = style([
 		flexDirection: 'column',
 		background: 'backgroundSecondary',
 	}),
-	{},
+])
+
+export const accountListWrapper = style([
+	sprinkles({
+		display: ['none', 'block'],
+	}),
 ])
 
 export const homeAssetsTitleWrapper = style([
@@ -26,7 +31,6 @@ export const homeAssetsTitleWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const assetTileWrapper = style([
@@ -48,9 +52,9 @@ export const assetTile = style([
 		borderStyle: 'solid',
 		borderRadius: 'large',
 		borderColor: 'borderDivider',
+		width: 'half',
 	}),
 	{
-		width: '50%',
 		flexBasis: '50%',
 	},
 ])

@@ -10,7 +10,7 @@ import { useDomainDiscovery } from 'ui/src/hooks/rns/use-domain-discovery'
 import { useDomainResolution } from 'ui/src/hooks/rns/use-domain-resolution'
 import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
 import { isValidAddress } from 'ui/src/utils/radix'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 import * as styles from './styles.css'
@@ -40,11 +40,11 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>((props,
 	const { data: domainDiscovery } = useDomainDiscovery(strValue)
 
 	const allEntries = useMemo(() => {
-		if (domainResolution) {
+		if (domainResolution?.value) {
 			return [
 				{
-					id: domainResolution,
-					account: getShortAddress(domainResolution, 8),
+					id: domainResolution?.value,
+					account: getShortAddress(domainResolution?.value, 8),
 					alias: strValue,
 				},
 			]

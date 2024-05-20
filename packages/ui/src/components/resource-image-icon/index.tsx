@@ -5,8 +5,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useImages } from 'ui/src/hooks/use-images'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import { getStrPrefix } from 'ui/src/utils/get-str-prefix'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress, getStrPrefix } from 'ui/src/utils/string'
 
 const TOKEN_PLACEHOLDER_IMAGE: string = '/images/token-images/token-placeholder.png'
 

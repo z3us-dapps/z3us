@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { sprinkles } from '../system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 import * as styles from './link.css'
 import type { TextProps } from './text'
 import { textStyles } from './text'

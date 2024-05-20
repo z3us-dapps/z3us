@@ -21,6 +21,9 @@ import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { useSharedStore } from 'ui/src/hooks/use-store'
+
+import { login } from '@src/webauthn/credentials'
 
 import * as styles from './styles.css'
 
@@ -72,13 +75,17 @@ const SignModal: React.FC<IProps> = ({
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 	const [error, setError] = useState<string>('')
 
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
+
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [inputRef?.current])
 
-	const handleSubmit = async (values: typeof initialValues) => {
+	const handleConfirm = async (password: string) => {
 		try {
-			onConfirm(values.password)
+			onConfirm(password)
 			setError('')
 			setIsOpen(false)
 		} catch (err) {
@@ -86,6 +93,16 @@ const SignModal: React.FC<IProps> = ({
 			console.error(err)
 			setError(intl.formatMessage(messages.unlock_error))
 		}
+	}
+
+	useEffect(() => {
+		if (!keystore?.webAuthn) return
+		// eslint-disable-next-line no-console
+		login(keystore).then(handleConfirm).catch(console.error)
+	}, [keystore?.id])
+
+	const handleSubmit = async (values: typeof initialValues) => {
+		handleConfirm(values.password)
 	}
 
 	const handleCancel = () => {

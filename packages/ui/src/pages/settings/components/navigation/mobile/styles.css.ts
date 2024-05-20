@@ -1,7 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const mobileStackedNavVisibleWrapper = style([
 	sprinkles({
@@ -10,7 +10,6 @@ export const mobileStackedNavVisibleWrapper = style([
 			tablet: 'none',
 		},
 	}),
-	{},
 ])
 
 export const mobileStackedNavHiddenWrapper = style([
@@ -19,7 +18,6 @@ export const mobileStackedNavHiddenWrapper = style([
 			mobile: 'none',
 		},
 	}),
-	{},
 ])
 
 export const mobileStackedNavLinksWrapper = style([
@@ -28,7 +26,6 @@ export const mobileStackedNavLinksWrapper = style([
 		flexDirection: 'column',
 		paddingBottom: 'xlarge',
 	}),
-	{},
 ])
 
 export const mobileStackedNavLinkWrapper = style([
@@ -73,7 +70,6 @@ export const mobileStackedNavLinkTextWrapper = style([
 		gap: 'xsmall',
 		flexGrow: 1,
 	}),
-	{},
 ])
 
 export const mobileStackedNavLinkIconWrapper = style([

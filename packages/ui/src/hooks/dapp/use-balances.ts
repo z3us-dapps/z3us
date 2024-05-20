@@ -14,7 +14,7 @@ import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { usePools } from 'ui/src/hooks/dapp/use-pools'
 import { useValidators } from 'ui/src/hooks/dapp/use-validators'
 import { useXRDCurrentPrice, useXRDPriceOnDay } from 'ui/src/hooks/queries/coingecko'
-import { type Token, useTokens } from 'ui/src/hooks/queries/tokens'
+import { type Token } from 'ui/src/hooks/queries/tokens'
 import { useCompareWithDate } from 'ui/src/hooks/use-compare-with-date'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { findMetadataValue } from 'ui/src/services/metadata'
@@ -24,6 +24,7 @@ import type { Balances } from 'ui/src/types/balances'
 import { formatDate, formatDateTime } from 'ui/src/utils/date'
 
 import { useSelectedAccounts } from '../use-accounts'
+import { useTokens } from './use-tokens'
 
 export const useSelectedAccountsBalances = () => useContext(BalancesContext)!
 
@@ -229,16 +230,22 @@ const transformNonFungibleResourceItemResponse =
 		return container
 	}
 
+function getBefore(at: Date): Date {
+	const newBefore = new Date(at.getTime())
+	newBefore.setUTCDate(newBefore.getUTCDate() - 1)
+	return newBefore
+}
+
 const useBeforeDate = (at: Date): Date => {
 	const [compareDate] = useCompareWithDate()
-	const [before, setBefore] = useState<Date>(at)
+	const [before, setBefore] = useState<Date>(compareDate || getBefore(at))
 	useEffect(() => {
 		if (compareDate) {
-			setBefore(new Date(compareDate.toUTCString()))
+			setBefore(compareDate)
 		} else {
-			before.setUTCDate(at.getUTCDate() - 1)
-			before.setHours(0, 0, 0, 0)
-			setBefore(before)
+			const newBefore = new Date(at.getTime())
+			newBefore.setUTCDate(newBefore.getUTCDate() - 1)
+			setBefore(newBefore)
 		}
 	}, [formatDateTime(at), formatDateTime(compareDate)])
 
@@ -251,21 +258,36 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 		currency: state.currency,
 	}))
 
+	const tokens = useTokens()
 	const before = useBeforeDate(at)
 	const accountAddresses = useMemo(() => addresses.filter(address => !!address), [addresses])
 
-	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
-	const { data: validatorsAt } = useValidators(accounts, at)
-	const { data: validatorsBefore } = useValidators(accounts, before)
-	const { data: poolsAt } = usePools(accounts, at)
-	const { data: poolsBefore } = usePools(accounts, before)
-	const { data: knownAddresses } = useKnownAddresses()
-	const { data: tokens } = useTokens()
+	const { isLoading: isLoadingAccounts, data: accounts } = useEntitiesDetails(
+		accountAddresses,
+		undefined,
+		undefined,
+		at,
+	)
+	const { isLoading: isLoadingValidatorsAt, data: validatorsAt } = useValidators(accounts, at)
+	const { isLoading: isLoadingValidatorsBefore, data: validatorsBefore } = useValidators(accounts, before)
+	const { isLoading: isLoadingPoolsAt, data: poolsAt } = usePools(accounts, at)
+	const { isLoading: isLoadingPoolsBefore, data: poolsBefore } = usePools(accounts, before)
+	const { isLoading: isLoadingKnownAddresses, data: knownAddresses } = useKnownAddresses()
 
-	const { data: xrdPriceNow } = useXRDCurrentPrice(currency)
-	const { data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
-	const { data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
+	const { isLoading: isLoadingXrdPriceNow, data: xrdPriceNow } = useXRDCurrentPrice(currency)
+	const { isLoading: isLoadingXrdPriceAt, data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
+	const { isLoading: isLoadingXrdPriceBefore, data: xrdPriceBefore } = useXRDPriceOnDay(currency, before)
 	const xrdPrice = formatDate(at) === formatDate(new Date()) ? xrdPriceNow : xrdPriceAt
+	const isLoading =
+		isLoadingAccounts ||
+		isLoadingValidatorsAt ||
+		isLoadingValidatorsBefore ||
+		isLoadingPoolsAt ||
+		isLoadingPoolsBefore ||
+		isLoadingKnownAddresses ||
+		isLoadingXrdPriceNow ||
+		isLoadingXrdPriceAt ||
+		isLoadingXrdPriceBefore
 
 	const queryFn = (): Balances => {
 		const validators = Object.keys(validatorsAt || {}).reduce((map, addr) => {
@@ -345,9 +367,13 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 			tokens,
 		],
 		queryFn,
-		enabled: accountAddresses.length > 0,
+		enabled: !isLoading && accountAddresses.length > 0,
 	})
-	return result.data || emptyState
+	return {
+		...result,
+		data: result.data || emptyState,
+		isLoading: result.isLoading || isLoading,
+	}
 }
 
 export const useAccountValues = (at: Date = new Date()) => {
@@ -363,7 +389,7 @@ export const useAccountValues = (at: Date = new Date()) => {
 	const { data: xrdPriceAt } = useXRDPriceOnDay(currency, at)
 	const xrdPrice = formatDate(at) === formatDate(new Date()) ? xrdPriceNow : xrdPriceAt
 
-	const { data: tokens } = useTokens()
+	const tokens = useTokens()
 	const { data: accounts } = useEntitiesDetails(accountAddresses, undefined, undefined, at)
 	const { data: pools } = usePools(accounts, at)
 	const { data: validators } = useValidators(accounts, at)

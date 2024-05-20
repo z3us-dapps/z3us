@@ -22,7 +22,7 @@ import { DEX_ASTROLECENT, DEX_OCI, FEE_RATIO } from 'ui/src/constants/swap'
 import { brandImages } from 'ui/src/context/images-provider'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
-import { useTokens } from 'ui/src/hooks/queries/astrolescent'
+import { useTokens } from 'ui/src/hooks/dapp/use-tokens'
 import { findMetadataValue } from 'ui/src/services/metadata'
 
 import { useAstrolecent } from '../hooks/use-astrolecent'
@@ -85,9 +85,11 @@ export const FormFields: React.FC = () => {
 	const from = useFieldValue(`${parentName}${parentName ? '.' : ''}from[0]`)
 	const to = useFieldValue(`${parentName}${parentName ? '.' : ''}to[0]`)
 
-	const { data: tokens } = useTokens()
+	const tokens = useTokens()
 	const { data: feeResource } = useEntityDetails(to?.address)
-	const { fungibleBalances = [] } = useBalances([account])
+	const {
+		data: { fungibleBalances = [] },
+	} = useBalances([account])
 	const symbol = findMetadataValue('symbol', feeResource?.metadata?.items)
 
 	const source = useMemo(

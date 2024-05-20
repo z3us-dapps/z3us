@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import type { PropsWithChildren } from 'react'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -15,7 +16,7 @@ interface IProps {
 	className?: string
 }
 
-export const Image: React.FC<IProps> = ({ address, skin, className }) => {
+export const Image: React.FC<PropsWithChildren<IProps>> = ({ address, skin, className, children }) => {
 	const { data } = useNonFungibleData(skin?.collection, skin?.non_fungible_id)
 	const holdsNFT = useHoldsNft(address, skin?.collection, skin?.non_fungible_id)
 
@@ -23,7 +24,8 @@ export const Image: React.FC<IProps> = ({ address, skin, className }) => {
 	const name = findFieldValue('name', dataJson?.fields)
 	const imageSrc = findFieldValue('key_image_url', dataJson?.fields)
 
-	if (!skin || holdsNFT === false) return null
+	// eslint-disable-next-line react/jsx-no-useless-fragment
+	if (!skin || holdsNFT === false) return <>{children}</>
 
 	return (
 		<Box className={clsx(styles.wrapper, className)}>

@@ -37,7 +37,7 @@ import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { ExplorerMenu } from 'ui/src/pages/accounts/components/layout/components/explorer-menu'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
 import * as styles from './styles.css'
@@ -281,10 +281,12 @@ export const Transaction = () => {
 				<>
 					<Box display="flex" flexDirection="column" alignItems="center">
 						<Box marginTop="small">
-							<Text size="small">{intl.formatMessage(messages.fee)}</Text>
+							<Text align="center" size="small">
+								{intl.formatMessage(messages.fee)}
+							</Text>
 						</Box>
 						<Box marginTop="xxsmall">
-							<Text size="xxxlarge" color="strong">
+							<Text align="center" color="strong" size="xxxlarge" className={styles.transactionFeePaid}>
 								{intl.formatNumber(parseFloat(data?.transaction.fee_paid) || 0, DECIMAL_STYLES)} XRD
 							</Text>
 						</Box>
