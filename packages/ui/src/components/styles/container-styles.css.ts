@@ -1,6 +1,7 @@
-import { globalKeyframes, globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const containerWrapper = style([
 	sprinkles({
@@ -9,19 +10,25 @@ export const containerWrapper = style([
 		width: 'full',
 		justifyContent: 'center',
 		paddingX: {
-			mobile: 'medium',
+			mobile: 'none',
 			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 	}),
-	{},
+	responsiveStyle({
+		mobile: {
+			maxHeight: 'calc(100vh - 95px)',
+		},
+		tablet: {
+			maxHeight: 'unset',
+		},
+	}),
 ])
 
 export const containerInnerWrapper = style([
 	sprinkles({
 		position: 'relative',
-		maxWidth: 'xxlarge',
 		width: 'full',
+		maxWidth: '1344px',
 	}),
-	{},
 ])

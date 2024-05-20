@@ -1,6 +1,6 @@
 import { globalKeyframes, globalStyle, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const tokenListGridCircle = style([
 	sprinkles({
@@ -31,7 +31,6 @@ export const tokenListGridCircleSmallWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${tokenListGridCircleSmallWrapper} > ${tokenListGridCircleSmall}:first-child`, {

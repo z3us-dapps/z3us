@@ -1,9 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { assignInlineVars } from '@vanilla-extract/dynamic'
 import clsx, { type ClassValue } from 'clsx'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
-import useMeasure from 'react-use-measure'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
 
 import { EmptyState } from 'ui/src/components/empty-state'
@@ -26,10 +24,8 @@ interface ITableProps {
 	sizeVariant?: 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary'
 	loading?: boolean
-	stickyShadowTop?: boolean
 	loadMore?: boolean
 	overscan?: number
-	isScrolledTop?: boolean
 	selectedRowIds?: { [key: number]: boolean }
 	sort?: { id: string; desc: boolean }
 	headerProps?: any
@@ -41,10 +37,14 @@ interface ITableProps {
 const defaultSelectedRowIds = {}
 const emptyFunction = () => {}
 
+interface IInitialStateType {
+	sortBy: { id: string; desc: boolean }[] | { id: string; desc: boolean }
+	selectedRowIds?: { [key: number]: boolean }
+}
+
 export const Table: React.FC<ITableProps> = props => {
 	const {
 		scrollableNode,
-		isScrolledTop,
 		className,
 		sizeVariant = 'medium',
 		styleVariant = 'primary',
@@ -53,7 +53,6 @@ export const Table: React.FC<ITableProps> = props => {
 		selectedRowIds = defaultSelectedRowIds,
 		loading = false,
 		loadMore = false,
-		stickyShadowTop = false,
 		overscan = 100,
 		sort,
 		headerProps,
@@ -62,15 +61,13 @@ export const Table: React.FC<ITableProps> = props => {
 		onRowSelected = emptyFunction,
 	} = props
 
-	const [measureRef, { top: tableTop }] = useMeasure()
-	const [stickyTop, setStickyTop] = useState<number>(0)
-
+	const tableRef = useRef(null)
 	const initialSort = useMemo(() => {
 		if (sort || !columns?.length) return sort
 		return [{ id: columns[0].accessor, desc: true }]
 	}, [sort, columns])
 
-	const [initialState, setInitialState] = useState<any>({
+	const [initialState, setInitialState] = useState<IInitialStateType>({
 		sortBy: initialSort,
 		selectedRowIds,
 	})
@@ -157,18 +154,6 @@ export const Table: React.FC<ITableProps> = props => {
 		[loading, loadMore, sizeVariant, styleVariant, onRowSelected, getTableProps, getTableBodyProps, rows],
 	)
 
-	const scrollableNodeBounding = useMemo(
-		() => (scrollableNode?.getBoundingClientRect() || {}) as DOMRect,
-		[scrollableNode],
-	)
-
-	useEffect(() => {
-		const updateStickyTop = tableTop - (scrollableNodeBounding?.top ?? 0)
-		if (tableTop && tableTop > 0 && stickyTop === 0) {
-			setStickyTop(updateStickyTop)
-		}
-	}, [scrollableNodeBounding?.top, tableTop, stickyTop])
-
 	const renderItem = useCallback(
 		(index: number) => {
 			const row = rows[index]
@@ -223,7 +208,7 @@ export const Table: React.FC<ITableProps> = props => {
 					))}
 				</tr>
 			)),
-		[headerGroups, headerProps],
+		[loading, headerGroups, headerProps],
 	)
 
 	const renderFooter = useCallback(
@@ -253,18 +238,9 @@ export const Table: React.FC<ITableProps> = props => {
 	)
 
 	return (
-		<Box
-			ref={measureRef}
-			className={clsx(styles.tableWrapper, className)}
-			style={assignInlineVars({ [styles.stickyTop]: `${stickyTop}px` })}
-		>
+		<Box ref={tableRef} height="full" className={clsx(styles.tableWrapper, className)}>
 			<TableVirtuoso
-				className={clsx(
-					styles.tableRootWrapper,
-					loading && styles.tableLoadingWrapper,
-					stickyShadowTop && styles.tableRootTopStickyPosition,
-					!loading && stickyShadowTop && !isScrolledTop && styles.accountTheadShadow,
-				)}
+				className={clsx(styles.tableRootWrapper, loading && styles.tableLoadingWrapper)}
 				overscan={{ main: overscan, reverse: overscan }}
 				totalCount={rows.length}
 				customScrollParent={scrollableNode}

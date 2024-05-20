@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const radixConnectButtonWrapper = style([
 	sprinkles({
@@ -10,5 +10,4 @@ export const radixConnectButtonWrapper = style([
 		alignItems: 'center',
 		position: 'relative',
 	}),
-	{},
 ])

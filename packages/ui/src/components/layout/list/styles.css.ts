@@ -1,8 +1,8 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const listWrapper = style([
 	sprinkles({
@@ -10,7 +10,6 @@ export const listWrapper = style([
 		flexDirection: 'column',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const listItemWrapper = style([
@@ -67,7 +66,6 @@ export const listItemInnerWrapper = style([
 			mobile: 'medium',
 		},
 	}),
-	{},
 ])
 
 export const listItemLink = style([
@@ -75,7 +73,6 @@ export const listItemLink = style([
 		cursor: 'pointer',
 		transition: 'fast',
 	}),
-	{},
 ])
 
 globalStyle(
@@ -95,7 +92,6 @@ export const listIconWrapper = style([
 		justifyContent: 'center',
 		alignItems: 'center',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { minWidth: '32px', minHeight: '32px' },
 	}),
@@ -107,7 +103,6 @@ export const listTextWrapper = style([
 		flexDirection: 'column',
 		flexGrow: 1,
 	}),
-	{},
 ])
 
 // OLD
@@ -126,7 +121,6 @@ export const layoutTwoColInnerWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const layoutTwoColLeftWrapper = style([
@@ -148,7 +142,6 @@ export const layoutTwoColLeftWrapper = style([
 		alignItems: 'self-start',
 		flexShrink: 0,
 	}),
-	{},
 	responsiveStyle({
 		tablet: { width: '20%' },
 		desktop: { width: '260px' },
@@ -167,7 +160,6 @@ export const layoutTwoColRightWrapper = style([
 		position: 'relative',
 		flexGrow: 1,
 	}),
-	{},
 	responsiveStyle({
 		desktop: { maxWidth: '820px' },
 	}),

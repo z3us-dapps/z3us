@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table } from 'ui/src/components/table'
+import { useScroll } from 'ui/src/context/scroll'
 import type { AddressBookEntry } from 'ui/src/store/types'
 
 import { AddressTableCell } from '../address-table-cell'

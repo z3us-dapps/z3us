@@ -2,9 +2,10 @@ import clsx from 'clsx'
 import type { ElementType, ForwardedRef, ReactNode } from 'react'
 import React, { forwardRef } from 'react'
 
+import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+
 import { Box } from '../box'
-import type { Sprinkles } from '../system/sprinkles.css'
-import { sprinkles } from '../system/sprinkles.css'
 import * as styles from './typography.css'
 
 const colorMap = {
@@ -39,7 +40,7 @@ interface TextStyleProps {
 
 export interface TextProps extends TextStyleProps {
 	component?: ElementType
-	children: ReactNode
+	children?: ReactNode
 }
 
 export const textStyles = ({

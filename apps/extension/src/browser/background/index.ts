@@ -15,6 +15,7 @@ import { addInjectContentScript } from '@src/browser/content-script/context-menu
 import { addDevTools } from '@src/browser/dev-tools/context-menu'
 import { addLedger } from '@src/browser/ledger/context-menu'
 import { createOffscreen } from '@src/browser/offscreen/offscreen'
+import { addSidePanel } from '@src/browser/side-panel/context-menu'
 
 const logger = utilsLogger.getSubLogger({ name: 'background' })
 
@@ -50,6 +51,7 @@ browser.idle.onStateChanged.addListener(state => {
 browser.contextMenus.removeAll().then(() => {
 	addInjectContentScript()
 	addDashboard()
+	addSidePanel()
 	addLogs()
 	addLedger()
 	addDevTools()

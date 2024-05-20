@@ -1,9 +1,9 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
 import { fadeIn, fadeOut } from 'ui/src/components/dropdown-menu/styles.css'
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { breakpoints, responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { breakpoints, responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const transactionSlideIn = keyframes({
 	'0%': { transform: 'translateX(100%)' },
@@ -26,7 +26,6 @@ export const slideOutDialogHeaderWrapper = style([
 		background: 'backgroundSecondary',
 		transition: 'fast',
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
 			height: '48px',
@@ -44,7 +43,6 @@ export const slideOutDialogScrollWrapper = style([
 	sprinkles({
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { height: 'calc(100vh - 96px)' },
 		tablet: { height: 'calc(100vh - 48px)' },
@@ -136,7 +134,7 @@ export const slideOutDialogContent = style([
 		},
 		tablet: {
 			maxWidth: '380px',
-			height: 'vh100',
+			height: '100vh',
 			borderRadius: 0,
 			top: 0,
 			bottom: 0,

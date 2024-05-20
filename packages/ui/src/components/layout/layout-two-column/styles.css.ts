@@ -1,7 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const layoutTwoColWrapper = style([
 	sprinkles({
@@ -24,7 +24,6 @@ export const layoutTwoColWrapper = style([
 			desktop: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const layoutTwoColInnerWrapper = style([
@@ -42,7 +41,6 @@ export const layoutTwoColInnerWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const layoutTwoColLeftWrapper = style([
@@ -64,7 +62,6 @@ export const layoutTwoColLeftWrapper = style([
 		alignItems: 'self-start',
 		flexShrink: 0,
 	}),
-	{},
 	responsiveStyle({
 		tablet: { width: '20%' },
 		desktop: { width: '260px' },
@@ -83,7 +80,6 @@ export const layoutTwoColRightWrapper = style([
 		position: 'relative',
 		flexGrow: 1,
 	}),
-	{},
 	responsiveStyle({
 		desktop: { maxWidth: '820px' },
 	}),

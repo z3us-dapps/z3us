@@ -1,7 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const inputBlurSingleWrapper = style([
 	sprinkles({
@@ -14,7 +14,6 @@ export const inputBlurSingleWrapper = style([
 		padding: 'medium',
 		borderRadius: 'medium',
 	}),
-	{},
 ])
 
 export const inputBlurSingleWordWrapper = style([

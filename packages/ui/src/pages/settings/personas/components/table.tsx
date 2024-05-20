@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table as BaseTable } from 'ui/src/components/table'
+import { useScroll } from 'ui/src/context/scroll'
 import type { Persona } from 'ui/src/store/types'
 
 import { PersonaCell } from './persona-cell'

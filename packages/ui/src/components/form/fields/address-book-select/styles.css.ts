@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const knownAddressFlexWrapper = style([
 	sprinkles({
@@ -9,7 +9,6 @@ export const knownAddressFlexWrapper = style([
 		width: 'full',
 		justifyContent: 'flex-end',
 	}),
-	{},
 ])
 
 export const knownAddressWrapper = style([

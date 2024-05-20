@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const pairingWrapper = style([
 	sprinkles({
@@ -9,7 +9,6 @@ export const pairingWrapper = style([
 			mobile: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const pairingQrWrapper = style([
@@ -19,7 +18,6 @@ export const pairingQrWrapper = style([
 		paddingTop: 'small',
 		paddingBottom: 'large',
 	}),
-	{},
 ])
 
 export const pairingLinkWrapper = style([
@@ -28,5 +26,4 @@ export const pairingLinkWrapper = style([
 		justifyContent: 'center',
 		width: 'full',
 	}),
-	{},
 ])

@@ -5,7 +5,7 @@ import { DAPP_ADDRESS } from 'ui/src/constants/dapp'
 import { DEX_ASTROLECENT, FEE_RATIO } from 'ui/src/constants/swap'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useSwapPreview } from 'ui/src/hooks/queries/astrolescent'
-import { generateId } from 'ui/src/utils/generate-id'
+import { generateId } from 'ui/src/utils/rand'
 
 export const useAstrolecent = (account: string, from: string, to: string, side: 'send' | 'receive', amount: number) => {
 	const { data: feeResource } = useEntityDetails(to)

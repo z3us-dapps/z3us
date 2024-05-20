@@ -3,6 +3,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { CURRENCY_STYLES, PERCENTAGE_STYLES } from 'ui/src/constants/number'
@@ -39,18 +40,21 @@ export const AssetsList: React.FC = () => {
 	}))
 
 	const {
-		nftsBalances = [],
-		nftsChange = 0,
-		nftsValue = 0,
-		tokensBalances = [],
-		tokensValue = 0,
-		tokensChange = 0,
-		liquidityPoolTokensBalances = [],
-		liquidityPoolTokensValue = 0,
-		liquidityPoolTokensChange = 0,
-		poolUnitsBalances = [],
-		poolUnitsValue = 0,
-		poolUnitsChange = 0,
+		data: {
+			nftsBalances = [],
+			nftsChange = 0,
+			nftsValue = 0,
+			tokensBalances = [],
+			tokensValue = 0,
+			tokensChange = 0,
+			liquidityPoolTokensBalances = [],
+			liquidityPoolTokensValue = 0,
+			liquidityPoolTokensChange = 0,
+			poolUnitsBalances = [],
+			poolUnitsValue = 0,
+			poolUnitsChange = 0,
+		},
+		isLoading,
 	} = useSelectedAccountsBalances()
 
 	const rows = {
@@ -82,44 +86,48 @@ export const AssetsList: React.FC = () => {
 
 	return (
 		<Box className={styles.assetsList}>
-			{Object.keys(rows).map(path => (
-				<Link key={path} to={`/accounts/${accountId}/${path}`} className={styles.assetsListLink}>
-					<Box className={styles.assetsListTitleWrapper}>
-						<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
-							{rows[path].title}
-						</Text>
-						{rows[path].balances.length > 0 && (
-							<Text size="small" truncate>
-								({rows[path].balances.length})
+			{Object.keys(rows).map(path =>
+				isLoading ? (
+					<FallbackLoading key={path} />
+				) : (
+					<Link key={path} to={`/accounts/${accountId}/${path}`} className={styles.assetsListLink}>
+						<Box className={styles.assetsListTitleWrapper}>
+							<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
+								{rows[path].title}
 							</Text>
-						)}
-						<Box className={styles.assetsListTitleChevronWrapper}>
-							<ChevronRightIcon />
-						</Box>
-					</Box>
-					<Box className={styles.assetsListBalancesWrapper}>
-						<OverlayAssetIcons resourceType={path.slice(0, -1) as any} balances={rows[path].balances} />
-						<Box className={styles.assetsListBalancesTextWrapper}>
-							{rows[path].value !== 0 && (
-								<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
-									{intl.formatNumber(rows[path].value, { currency, ...CURRENCY_STYLES })}
+							{rows[path].balances.length > 0 && (
+								<Text size="small" truncate>
+									({rows[path].balances.length})
 								</Text>
 							)}
-
-							{rows[path].change !== 0 && (
-								<RedGreenText
-									size="small"
-									change={rows[path].change}
-									truncate
-									className={styles.assetsListBalancesText}
-								>
-									{intl.formatNumber(rows[path].change, PERCENTAGE_STYLES)}
-								</RedGreenText>
-							)}
+							<Box className={styles.assetsListTitleChevronWrapper}>
+								<ChevronRightIcon />
+							</Box>
 						</Box>
-					</Box>
-				</Link>
-			))}
+						<Box className={styles.assetsListBalancesWrapper}>
+							<OverlayAssetIcons resourceType={path.slice(0, -1) as any} balances={rows[path].balances} />
+							<Box className={styles.assetsListBalancesTextWrapper}>
+								{rows[path].value !== 0 && (
+									<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
+										{intl.formatNumber(rows[path].value, { currency, ...CURRENCY_STYLES })}
+									</Text>
+								)}
+
+								{rows[path].change !== 0 && (
+									<RedGreenText
+										size="small"
+										change={rows[path].change}
+										truncate
+										className={styles.assetsListBalancesText}
+									>
+										{intl.formatNumber(rows[path].change, PERCENTAGE_STYLES)}
+									</RedGreenText>
+								)}
+							</Box>
+						</Box>
+					</Link>
+				),
+			)}
 		</Box>
 	)
 }

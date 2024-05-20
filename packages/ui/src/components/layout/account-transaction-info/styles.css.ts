@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const transactionInfoWrapper = style([
 	sprinkles({
@@ -13,7 +13,6 @@ export const transactionInfoWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const transactionRowDotted = style([
@@ -26,5 +25,4 @@ export const transactionRowDotted = style([
 		marginBottom: 'xxsmall',
 		marginX: 'medium',
 	}),
-	{},
 ])

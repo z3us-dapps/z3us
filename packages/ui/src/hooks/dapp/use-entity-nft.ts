@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query'
 
-import { splitArrayIntoChunks } from 'ui/src/utils/array-chunk'
+import { splitArrayIntoChunks } from 'ui/src/utils/array'
 import { formatDateTime } from 'ui/src/utils/date'
 
 import { useAccountNftVaults } from './use-balances'

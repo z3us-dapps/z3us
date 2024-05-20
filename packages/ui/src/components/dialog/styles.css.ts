@@ -1,5 +1,9 @@
 import { style } from '@vanilla-extract/css'
 
+import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+
 import {
 	fadeIn,
 	fadeOut,
@@ -7,9 +11,6 @@ import {
 	sharedPopoverBgSprinkles,
 	sharedPopoverBgStyles,
 } from '../dropdown-menu/styles.css'
-import type { Sprinkles } from '../system/sprinkles.css'
-import { sprinkles } from '../system/sprinkles.css'
-import { responsiveStyle } from '../system/theme-utils'
 
 export const dialogOverlay = style([
 	sprinkles({
@@ -53,10 +54,10 @@ export const dialogContent = style([
 export const dialogContentExpanded = style([
 	sprinkles({
 		...(sharedPopoverBgSprinkles as Sprinkles),
+		zIndex: 2,
 	}),
 	{
 		...sharedPopoverBgStyles,
-		zIndex: 2,
 		position: 'absolute',
 		top: '50%',
 		transform: 'translate(-50%, -50%)',
@@ -67,8 +68,6 @@ export const dialogContentExpanded = style([
 ])
 
 export const dialogContentWidthMedium = style([
-	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: { width: '90%' },
 		tablet: { width: '560px' },
@@ -76,8 +75,6 @@ export const dialogContentWidthMedium = style([
 ])
 
 export const dialogContentWidthLarge = style([
-	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: { width: '90%', maxWidth: '780px' },
 		tablet: { width: '90%', maxWidth: '780px' },
@@ -93,14 +90,12 @@ export const dialogContentCloseWrapper = style([
 		marginTop: 'medium',
 		marginRight: 'medium',
 	}),
-	{},
 ])
 
 export const dialogContentWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const dialogContentScrollAreaWrapper = style([
@@ -109,12 +104,9 @@ export const dialogContentScrollAreaWrapper = style([
 		borderRadius: 'medium',
 		overflow: 'clip',
 	}),
-	{},
 ])
 
 export const dialogContentScrollAreaViewportWrapper = style([
-	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: { maxHeight: '90vh' },
 		tablet: { maxHeight: '90vh' },

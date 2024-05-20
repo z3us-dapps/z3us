@@ -29,6 +29,7 @@ export enum KeystoreType {
 export type HardwareKeySource = {
 	id: string
 	name: string
+	webAuthn?: WebAuthnCredentials
 	type: KeystoreType.HARDWARE
 	ledgerDevice: object
 }
@@ -39,15 +40,22 @@ export type KeySource =
 			id: string
 			name: string
 			type: Exclude<KeystoreType, KeystoreType.COMBINED | KeystoreType.HARDWARE>
+			webAuthn?: WebAuthnCredentials
 	  }
 
 export type KeySources = { [key: string]: KeySource }
+
+export type WebAuthnCredentials = {
+	credentialId: string
+	publicKey: string
+}
 
 export type CombinedKeySource = {
 	id: string
 	name: string
 	type: KeystoreType.COMBINED
 	keySources: KeySources
+	webAuthn?: WebAuthnCredentials
 }
 
 export type Keystore = KeySource | CombinedKeySource
@@ -60,6 +68,7 @@ export type KeystoresState = {
 	addKeystoreAction: (keystore: Keystore) => void
 	removeKeystoreAction: (id: string) => void
 	changeKeystoreNameAction: (id: string, name: string) => void
+	setKeystoreWebAuthnAction: (id: string, credentials?: WebAuthnCredentials) => void
 }
 
 export interface IKeystoresStateSetter {

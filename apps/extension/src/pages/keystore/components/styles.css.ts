@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const keystoreNewTextWrapper = style([
 	sprinkles({
@@ -12,7 +12,6 @@ export const keystoreNewTextWrapper = style([
 		paddingTop: 'small',
 		paddingBottom: 'large',
 	}),
-	{},
 ])
 
 export const onboardingNavWrapper = style([
@@ -27,7 +26,6 @@ export const onboardingNavWrapper = style([
 			tablet: 'flex',
 		},
 	}),
-	{},
 ])
 
 export const keystoreOuterWrapper = style([
@@ -36,10 +34,9 @@ export const keystoreOuterWrapper = style([
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: 'vh100',
+		height: '100vh',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { backgroundColor: vars.color.backgroundSecondary },
 		tablet: { backgroundColor: vars.color.backgroundPrimary },
@@ -55,7 +52,6 @@ export const keystoreOuterFlexWrapper = style([
 		alignItems: 'center',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const keystoreFlexWrapper = style([
@@ -64,7 +60,6 @@ export const keystoreFlexWrapper = style([
 		display: 'flex',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const keystoreInnerWrapper = style([
@@ -78,7 +73,6 @@ export const keystoreInnerWrapper = style([
 			tablet: 'xxxlarge',
 		},
 	}),
-	{},
 	responsiveStyle({
 		mobile: { maxWidth: '600px', width: '100%' },
 	}),
@@ -86,7 +80,6 @@ export const keystoreInnerWrapper = style([
 
 export const keystoreInnerScrollPanelWrapper = style([
 	sprinkles({}),
-	{},
 	responsiveStyle({
 		mobile: { minHeight: '600px' },
 		tablet: { minHeight: 'unset', maxHeight: 'calc(100vh - 246px)' },

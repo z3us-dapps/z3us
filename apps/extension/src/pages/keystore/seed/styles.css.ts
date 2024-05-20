@@ -1,8 +1,8 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const keystoreNewWrapper = style([
 	sprinkles({
@@ -11,7 +11,6 @@ export const keystoreNewWrapper = style([
 			mobile: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 globalStyle(`${keystoreNewWrapper} *`, {
@@ -25,7 +24,6 @@ export const keystoreSelectWrapper = style([
 		alignItems: 'center',
 		paddingBottom: 'medium',
 	}),
-	{},
 ])
 
 export const keystoreClearButtonWrapper = style([
@@ -34,7 +32,6 @@ export const keystoreClearButtonWrapper = style([
 		flexGrow: 1,
 		justifyContent: 'flex-end',
 	}),
-	{},
 ])
 
 export const keystorePossibleWordWrapper = style([
@@ -83,7 +80,6 @@ export const keystoreRestoreErrorWrapper = style([
 		position: 'relative',
 		paddingBottom: 'large',
 	}),
-	{},
 ])
 
 export const keystoreRestoreInputWordOverlay = style([
@@ -111,14 +107,12 @@ export const keystoreRestoreInputWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const keystoreRestoreInputClassWrapper = style([
 	sprinkles({
 		pointerEvents: 'none',
 	}),
-	{},
 ])
 
 export const keystoreNewPhraseGridButtonWrapper = style([
@@ -141,7 +135,6 @@ export const keystoreNewPhraseGridWrapper = style([
 		marginBottom: 'large',
 		userSelect: 'none',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { gridTemplateColumns: '1fr 1fr' },
 		tablet: { gridTemplateColumns: '1fr 1fr 1fr' },
@@ -156,7 +149,6 @@ export const keystoreRestoreContinueBtnWrapper = style([
 			tablet: 'medium',
 		},
 	}),
-	{},
 ])
 
 export const keystoreContinueBtnWrapper = style([
@@ -165,5 +157,4 @@ export const keystoreContinueBtnWrapper = style([
 		flexDirection: 'column',
 		gap: 'medium',
 	}),
-	{},
 ])

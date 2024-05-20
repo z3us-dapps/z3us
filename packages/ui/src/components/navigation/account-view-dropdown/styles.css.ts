@@ -1,15 +1,14 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const accountViewDropdownWrapper = style([
 	sprinkles({
 		position: 'relative',
 		flexShrink: 0,
 	}),
-	{},
 ])
 
 export const accountViewSimpleBarWrapper = style([
@@ -42,7 +41,6 @@ export const accountViewPaddingWrapper = style([
 		paddingY: 'small',
 		paddingX: 'small',
 	}),
-	{},
 ])
 
 export const accountDappLinkSeparator = style([
@@ -59,7 +57,6 @@ export const accountViewPaddingXWrapper = style([
 		width: 'full',
 		paddingX: 'small',
 	}),
-	{},
 ])
 
 export const accountMenuIconWrapper = style([

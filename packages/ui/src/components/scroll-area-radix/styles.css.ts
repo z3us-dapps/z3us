@@ -1,8 +1,9 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
+
 import { fadeIn, fadeOut } from '../dropdown-menu/styles.css'
-import { darkMode, sprinkles } from '../system/sprinkles.css'
-import { vars } from '../system/theme.css'
 
 const SCROLLBAR_SIZE = '10px'
 
@@ -45,7 +46,6 @@ export const scrollAreaEnabledStyles = style([
 	sprinkles({
 		overflow: 'hidden',
 	}),
-	{},
 ])
 
 export const scrollAreaViewportWrapper = style([
@@ -143,7 +143,6 @@ export const scrollAreaCornerWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const scrollAreaRootDisabledWrapper = style([sprinkles({}), {}])
@@ -201,7 +200,6 @@ export const scrolledButtonWrapper = style([
 		opacity: 0,
 		pointerEvents: 'none',
 	}),
-	{},
 ])
 
 export const scrolledButtonWrapperVisible = style([

@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { sprinkles } from '../system/sprinkles.css'
-import { vars } from '../system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const switchRootWrapper = style([
 	sprinkles({
@@ -48,7 +48,6 @@ export const switchRecipe = recipe({
 					background: 'orange600',
 					color: 'colorStrong',
 				}),
-				{},
 			],
 		},
 		sizeVariant: {
@@ -88,7 +87,6 @@ export const switchThumbRoot = style([
 		transition: 'fastall',
 		cursor: 'pointer',
 	}),
-	{},
 ])
 
 export const switchThumbRecipe = recipe({
@@ -102,13 +100,11 @@ export const switchThumbRecipe = recipe({
 				sprinkles({
 					background: 'white',
 				}),
-				{},
 			],
 			secondary: [
 				sprinkles({
 					background: 'orange600',
 				}),
-				{},
 			],
 		},
 		sizeVariant: {

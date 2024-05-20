@@ -1,17 +1,12 @@
 import clsx from 'clsx'
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { AppsIcon } from 'ui/src/components/icons'
-import {
-	ScrollAreaRoot,
-	ScrollAreaScrollbar,
-	ScrollAreaThumb,
-	ScrollAreaViewport,
-} from 'ui/src/components/scroll-area-radix'
+import { ScrollAreaNative } from 'ui/src/components/scroll-area-native'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 
@@ -26,32 +21,15 @@ const messages = defineMessages({
 	},
 })
 
-interface IProps {
-	horizontalScrollWidth: number
-}
-
-export const HorizontalAccountsScrollList: React.FC<IProps> = props => {
-	const { horizontalScrollWidth } = props
-	const scrollRef = useRef(null)
-
+export const HorizontalAccountsScrollList: React.FC = () => {
 	const intl = useIntl()
-	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const { accountId = '-' } = useParams()
 	const isAllAccounts = accountId === '-'
-
 	const accounts = useWalletAccounts()
-	const activeAccountIndex = Object.values(accounts).findIndex(({ address }) => address === accountId)
-
-	useEffect(() => {
-		const scrollElem = scrollRef.current
-		if (scrollElem && activeAccountIndex > 0 && !isMounted) {
-			scrollElem.scrollTo({ left: 336 * activeAccountIndex })
-			setIsMounted(true)
-		}
-	}, [scrollRef.current, activeAccountIndex, isMounted])
+	const accountsLength = Object.keys(accounts).length
 
 	return (
-		<Box className={styles.accountsHorizontalWrapper}>
+		<Box className={styles.accountList} display={isAllAccounts ? 'flex' : 'none'}>
 			<AddAccountDialog
 				dialogTrigger={
 					<Box className={styles.accountsAddAccountButton}>
@@ -63,24 +41,22 @@ export const HorizontalAccountsScrollList: React.FC<IProps> = props => {
 					</Box>
 				}
 			/>
-			<Box className={styles.accountsHorizontalAbsoluteWrapper}>
-				<ScrollAreaRoot style={{ maxWidth: `${horizontalScrollWidth}px`, width: '100%' }}>
-					<ScrollAreaViewport ref={scrollRef}>
-						<Box className={styles.accountsHorizontalCardsWrapper}>
-							{Object.values(accounts).map(({ address }) => (
+			{accountsLength > 0 && (
+				<ScrollAreaNative className={styles.accountListGridScrollWrapper}>
+					<Box
+						className={clsx(styles.accountListGridWrapper, accountsLength > 4 && styles.accountListGridTwoRowWrapper)}
+					>
+						{Object.values(accounts).map(({ address }) => (
+							<Box key={address} className={styles.accountListGridCard}>
 								<AccountHomeCard
-									key={address}
 									address={address}
 									className={clsx(!isAllAccounts && address !== accountId && styles.accountCardOpacity)}
 								/>
-							))}
-						</Box>
-					</ScrollAreaViewport>
-					<ScrollAreaScrollbar orientation="horizontal">
-						<ScrollAreaThumb />
-					</ScrollAreaScrollbar>
-				</ScrollAreaRoot>
-			</Box>
+							</Box>
+						))}
+					</Box>
+				</ScrollAreaNative>
+			)}
 		</Box>
 	)
 }

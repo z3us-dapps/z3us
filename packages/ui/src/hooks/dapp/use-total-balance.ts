@@ -15,21 +15,24 @@ export const useTotalBalance = () => {
 	}))
 
 	const {
-		totalXrdValue = 0,
-		totalValue = 0,
-		totalChange = 0,
-		fungibleXrdValue = 0,
-		fungibleValue = 0,
-		fungibleChange = 0,
-		nonFungibleXrdValue = 0,
-		nonFungibleValue = 0,
-		nonFungibleChange = 0,
-		liquidityPoolTokensXrdValue = 0,
-		liquidityPoolTokensValue = 0,
-		liquidityPoolTokensChange = 0,
-		poolUnitsXrdValue = 0,
-		poolUnitsValue = 0,
-		poolUnitsChange = 0,
+		data: {
+			totalXrdValue = 0,
+			totalValue = 0,
+			totalChange = 0,
+			fungibleXrdValue = 0,
+			fungibleValue = 0,
+			fungibleChange = 0,
+			nonFungibleXrdValue = 0,
+			nonFungibleValue = 0,
+			nonFungibleChange = 0,
+			liquidityPoolTokensXrdValue = 0,
+			liquidityPoolTokensValue = 0,
+			liquidityPoolTokensChange = 0,
+			poolUnitsXrdValue = 0,
+			poolUnitsValue = 0,
+			poolUnitsChange = 0,
+		},
+		isLoading,
 	} = useSelectedAccountsBalances()
 
 	const value = useMemo(() => {
@@ -64,6 +67,7 @@ export const useTotalBalance = () => {
 	])
 
 	return {
+		isLoading,
 		xrdValue,
 		value,
 		change,

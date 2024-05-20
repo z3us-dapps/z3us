@@ -1,8 +1,8 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const headerWrapper = style([
 	sprinkles({
@@ -10,7 +10,6 @@ export const headerWrapper = style([
 		borderBottomStyle: 'solid',
 		borderColor: 'lead800',
 	}),
-	{},
 ])
 
 export const headerTextLinks = style([
@@ -23,7 +22,6 @@ export const headerTextLinks = style([
 		gap: 'large',
 		paddingRight: 'large',
 	}),
-	{},
 ])
 
 export const headerSocialLinks = style([
@@ -42,9 +40,8 @@ export const headerInnerWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 	}),
-	{},
 	responsiveStyle({
-		mobile: { height: '58px' },
+		mobile: { height: '48px' },
 		tablet: { height: '70px' },
 	}),
 ])
@@ -67,7 +64,6 @@ export const landingHeaderBrandWrapper = style([
 		},
 		alignItems: 'center',
 	}),
-	{},
 ])
 
 export const headerMobileMenuWrapper = style([
@@ -78,7 +74,6 @@ export const headerMobileMenuWrapper = style([
 		},
 		alignItems: 'center',
 	}),
-	{},
 ])
 
 export const connectButtonWrapper = style([
@@ -109,7 +104,6 @@ export const connectedMenuVisibleWrapper = style([
 		alignItems: 'center',
 		width: 'full',
 	}),
-	{},
 ])
 
 export const navigationCopyAddressWrapper = style([
@@ -119,7 +113,6 @@ export const navigationCopyAddressWrapper = style([
 			tablet: 'flex',
 		},
 	}),
-	{},
 ])
 
 export const landingPageHeaderInnerWrapper = style([
@@ -128,9 +121,8 @@ export const landingPageHeaderInnerWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 	}),
-	{},
 	responsiveStyle({
-		mobile: { height: '58px' },
+		mobile: { height: '48px' },
 		tablet: { height: '72px' },
 	}),
 ])
@@ -142,7 +134,6 @@ export const landingHeaderZ3usLink = style([
 		alignItems: 'center',
 		gap: 'small',
 	}),
-	{},
 ])
 
 export const landingPageHeaderMenuWrapper = style([
@@ -152,7 +143,6 @@ export const landingPageHeaderMenuWrapper = style([
 		justifyContent: 'flex-end',
 		flexGrow: 1,
 	}),
-	{},
 ])
 
 export const headerConnectRadixWrapper = style([
@@ -163,7 +153,6 @@ export const headerConnectRadixWrapper = style([
 			tablet: 'flex',
 		},
 	}),
-	{},
 ])
 
 globalStyle(`${headerConnectRadixWrapper} svg`, {

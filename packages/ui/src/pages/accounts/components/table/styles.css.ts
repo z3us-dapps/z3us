@@ -1,14 +1,17 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const tableWrapper = style([
 	sprinkles({
+		backgroundColor: 'backgroundSecondary',
 		paddingX: {
 			tablet: 'large',
 		},
 	}),
-	{},
+	{
+		height: 'calc(100vh - 56px)',
+	},
 ])
 
 export const tableTokensWrapper = style([sprinkles({}), {}])
@@ -94,7 +97,6 @@ export const cellWrapper = style([
 		position: 'relative',
 		zIndex: 1,
 	}),
-	{},
 ])
 
 export const cellContentWrapper = style([
@@ -107,5 +109,4 @@ export const cellContentWrapper = style([
 			mobile: 'small',
 		},
 	}),
-	{},
 ])

@@ -4,7 +4,7 @@ import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from './use-message-client'
 
-const refreshInterval = 15 * 1000 // 15 seconds
+const refreshInterval = 30 * 1000 // 30 seconds
 
 export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; reload: () => void } => {
 	const client = useMessageClient()
@@ -32,7 +32,7 @@ export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; relo
 			.then(isVaultUnlocked => setIsUnlocked(isVaultUnlocked))
 			.catch(() => setIsUnlocked(false))
 			.finally(() => setIsLoading(false))
-	}, [selectedKeystore])
+	}, [selectedKeystore?.id])
 
 	useEffect(() => {
 		client

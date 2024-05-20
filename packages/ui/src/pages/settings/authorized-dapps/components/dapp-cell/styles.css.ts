@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const addressTableCellWrapper = style([
 	sprinkles({
@@ -19,7 +19,6 @@ export const addressTableCellWrapper = style([
 		gap: 'medium',
 		maxWidth: 'full',
 	}),
-	{},
 ])
 
 export const addressTableCellTextWrapper = style([
@@ -40,8 +39,6 @@ export const addressTableCellTextWrapper = style([
 ])
 
 export const addressTableCellAddressWrapper = style([
-	sprinkles({}),
-	{},
 	responsiveStyle({
 		tablet: {
 			width: 'auto',

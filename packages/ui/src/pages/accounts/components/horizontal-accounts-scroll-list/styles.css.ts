@@ -1,54 +1,18 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const accountsAddAccountButton = style([
 	sprinkles({
 		position: 'absolute',
-	}),
-	{
-		top: '-124px',
-		right: '18px',
+		display: ['none', 'block'],
 		zIndex: 2,
-	},
-])
-
-export const accountsHorizontalWrapper = style([
-	sprinkles({
-		position: 'relative',
-		display: {
-			mobile: 'none',
-			tablet: 'block',
-		},
-		borderBottom: 1,
-		borderBottomStyle: 'solid',
-		borderColor: 'borderDivider',
 	}),
 	{
-		height: '228px',
-	},
-])
-
-export const accountsHorizontalAbsoluteWrapper = style([
-	sprinkles({
-		display: 'flex',
-		position: 'absolute',
-		top: 0,
-		left: 0,
-	}),
-	{},
-])
-
-export const accountsHorizontalCardsWrapper = style([
-	sprinkles({
-		display: 'flex',
-		paddingX: 'xlarge',
-		paddingBottom: 'xlarge',
-		flexShrink: 0,
-		gap: 'large',
-	}),
-	{
-		minHeight: '100px',
+		top: '22px',
+		right: '22px',
 	},
 ])
 
@@ -67,3 +31,91 @@ export const accountCardOpacity = style([
 		},
 	},
 ])
+
+export const accountList = style([
+	sprinkles({
+		width: 'full',
+	}),
+])
+
+export const accountListGridScrollWrapper = style([
+	sprinkles({
+		width: 'full',
+		paddingBottom: {
+			mobile: 'xsmall',
+			tablet: 'small',
+		},
+	}),
+	{
+		overflowX: 'auto',
+		height: 'auto',
+	},
+	responsiveStyle({
+		mobile: {
+			paddingTop: '23px',
+			paddingLeft: '24px',
+			paddingRight: '24px',
+		},
+		tablet: {
+			paddingTop: '0',
+			paddingLeft: vars.spacing.xlarge,
+			paddingRight: vars.spacing.large,
+		},
+	}),
+])
+
+export const accountListGridWrapper = style([
+	sprinkles({
+		width: 'full',
+		display: 'grid',
+		gap: {
+			mobile: 'medium',
+			tablet: 'large',
+			desktop: 'large',
+		},
+	}),
+	{
+		width: 'max-content',
+	},
+	responsiveStyle({
+		mobile: {
+			gridTemplateRows: 'repeat(1, 180px)',
+			gridAutoFlow: 'column',
+		},
+		tablet: {
+			gridTemplateRows: 'repeat(1, 160px)',
+			gridAutoFlow: 'column',
+		},
+	}),
+])
+
+export const accountListGridTwoRowWrapper = style([
+	sprinkles({}),
+	responsiveStyle({
+		tablet: {
+			gridTemplateRows: 'repeat(2, 160px)',
+			gridAutoFlow: 'column',
+		},
+	}),
+])
+
+export const accountListGridCard = style([
+	sprinkles({
+		display: 'block',
+	}),
+	responsiveStyle({
+		mobile: {
+			width: '312px',
+			height: '180px',
+		},
+		tablet: {
+			width: '274px',
+			height: '160px',
+		},
+	}),
+])
+
+globalStyle(`${accountListGridCard} > div`, {
+	aspectRatio: 'unset',
+	height: '100%',
+})

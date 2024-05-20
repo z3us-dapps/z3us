@@ -27,5 +27,5 @@ export const useTokens = () => useQuery(tokensQuery)
 export const useToken = (address: string) => {
 	const { data, isLoading } = useTokens()
 
-	return useMemo(() => ({ data: data?.[address] || null, isLoading }), [data, isLoading])
+	return useMemo(() => ({ data: data?.[address] || null, isLoading }), [data, isLoading, address])
 }

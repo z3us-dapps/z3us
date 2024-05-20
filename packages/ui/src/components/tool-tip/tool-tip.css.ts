@@ -1,8 +1,8 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { darkMode, sprinkles } from '../system/sprinkles.css'
-import { responsiveStyle } from '../system/theme-utils'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 const TRANSLATE_PX = '4px'
 const INITIAL_SCALE = '0.90'

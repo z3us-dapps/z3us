@@ -7,7 +7,7 @@ import { DialogAlert } from 'ui/src/components/dialog-alert'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 interface IProps {
 	identityAddress: string

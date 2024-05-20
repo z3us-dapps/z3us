@@ -39,4 +39,7 @@ export const emptyState: Balances = {
 	poolUnitsXrdValue: 0,
 }
 
-export const BalancesContext = createContext<Balances>(emptyState)
+export const BalancesContext = createContext<{ data: Balances; isLoading: boolean }>({
+	data: emptyState,
+	isLoading: true,
+})

@@ -3,8 +3,8 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
+import { useScroll } from 'ui/src/context/scroll'
 import { useSelectedAccountsBalances } from 'ui/src/hooks/dapp/use-balances'
 import { ResourceNameCell } from 'ui/src/pages/accounts/components/table/resource-name-cell'
 import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
@@ -34,9 +34,12 @@ const NftCollections: React.FC = () => {
 	const navigate = useNavigate()
 	const { accountId, resourceId } = useParams()
 	const [searchParams] = useSearchParams()
-	const { scrollableNode, isScrolledTop } = useScroll()
+	const { scrollableNode } = useScroll()
 
-	const { nftsBalances = [] } = useSelectedAccountsBalances()
+	const {
+		data: { nftsBalances = [] },
+		isLoading,
+	} = useSelectedAccountsBalances()
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.NON_FUNGIBLE] }) => {
 		const { original } = row
@@ -75,10 +78,9 @@ const NftCollections: React.FC = () => {
 				scrollableNode={scrollableNode ?? undefined}
 				data={nftsBalances}
 				columns={columns}
-				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
 				selectedRowIds={selectedRowIds}
-				stickyShadowTop
+				loading={isLoading}
 			/>
 		</Box>
 	)

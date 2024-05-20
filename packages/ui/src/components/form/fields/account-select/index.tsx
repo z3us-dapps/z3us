@@ -11,7 +11,7 @@ import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useAddressBookWithAccounts } from 'ui/src/hooks/use-address-book'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 
@@ -21,7 +21,9 @@ interface ISelectItemProps {
 }
 
 const SelectItem: React.FC<ISelectItemProps> = ({ id, title }) => {
-	const { fungibleBalances = [] } = useBalances([id])
+	const {
+		data: { fungibleBalances = [] },
+	} = useBalances([id])
 
 	const { data: knownAddresses } = useKnownAddresses()
 	const balance = fungibleBalances?.find(b => b.address === knownAddresses.resourceAddresses.xrd)?.amount || ''

@@ -1,7 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from '../system/sprinkles.css'
-import { vars } from '../system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const scrollAreaStyledWrapper = style([
 	sprinkles({
@@ -29,7 +29,6 @@ export const simpleBarStyledTopShadow = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${simpleBarStyledTopShadow}:after`, {
@@ -54,7 +53,6 @@ export const simpleBarStyledBottomShadow = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${simpleBarStyledBottomShadow}:before`, {

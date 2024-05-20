@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import type { IButtonProps } from 'ui/src/components/button'
 import { Button as ButtonComponent } from 'ui/src/components/button'
-import { isExternalHref } from 'ui/src/utils/is-external-href'
+import { isExternalHref } from 'ui/src/utils/url'
 
 interface IProps extends IButtonProps {
 	to?: string

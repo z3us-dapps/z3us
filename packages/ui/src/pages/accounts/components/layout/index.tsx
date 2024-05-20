@@ -1,105 +1,26 @@
 import clsx from 'clsx'
-import React, { Suspense, useEffect, useMemo } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
+import React, { useEffect, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation, useMatch, useMatches, useOutlet, useParams } from 'react-router-dom'
-import useMeasure from 'react-use-measure'
-import { useWindowSize } from 'usehooks-ts'
+import { useMatch, useMatches, useOutlet, useParams } from 'react-router-dom'
 
+import { ActivityList } from 'ui/src/components/activity-list'
 import { Box } from 'ui/src/components/box'
-import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
-import MobileScrollArea from 'ui/src/components/scroll-area-radix/mobile'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
-import { ScrollPanel } from 'ui/src/components/scroll-panel'
-import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
+import { ScrollAreaNative } from 'ui/src/components/scroll-area-native'
+import { ScrollContext } from 'ui/src/context/scroll'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
-import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import { findFieldValue, findMetadataValue } from 'ui/src/services/metadata'
 
+import { useIsActivitiesVisible } from '../../hooks/use-is-activities-visible'
 import { useResourceType } from '../../hooks/use-resource-type'
-import { ActivityList } from '../activity-list/components/activity-list'
+import { CardBackground } from './components/background'
 import { Breadcrumbs } from './components/breadcrumbs'
-import { MobileBackground } from './components/mobile/background'
 import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
 import { AccountTotalValue } from './components/total-value'
+import useAccountsExpand from './hooks/use-accounts-expand'
+import useAccountsScroll from './hooks/use-accounts-scroll'
 import * as styles from './styles.css'
-
-interface IProps {
-	isMobile: boolean
-	isNftCollectionOrList: boolean
-	isNftCollection: boolean
-}
-
-const ScrollContent: React.FC<IProps> = ({ isMobile, isNftCollectionOrList, isNftCollection }) => {
-	const location = useLocation()
-	const outlet = useOutlet()
-	const matches = useMatches()
-	const isActivitiesVisible = useIsActivitiesVisible()
-	const { scrollableNode } = useScroll()
-
-	const sidebars = matches
-		.filter(match => Boolean((match.handle as any)?.sidebar))
-		.map(match => (match.handle as any).sidebar)
-
-	const [sidebar] = sidebars.reverse()
-	const key = useMemo(() => location.pathname.split('/')[2] || '-', [location.pathname])
-
-	const [wrapperRef, { top }] = useMeasure()
-	const { height } = useWindowSize()
-	const mobileMinHeight = Math.max(height - top - 48, 435)
-
-	useEffect(() => {
-		if (isMobile && scrollableNode) {
-			scrollableNode.scrollTo({ top: 0 })
-		}
-	}, [location?.pathname, isMobile])
-
-	return (
-		<Box className={panelViewStyles.panelViewWrapper}>
-			<Box
-				ref={wrapperRef}
-				className={clsx(
-					panelViewStyles.panelViewLeftWrapper,
-					!isNftCollectionOrList && panelViewStyles.panelViewResourceWrapper,
-				)}
-				style={{ minHeight: `${mobileMinHeight}px` }}
-			>
-				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-					<Box className={styles.accountsStickyWrapper}>
-						<Breadcrumbs />
-						<AccountTotalValue />
-					</Box>
-					<Suspense key={key} fallback={<FallbackLoading />}>
-						<ErrorBoundary fallbackRender={FallbackRenderer}>
-							<Box className={styles.outletTabletWrapper}>{outlet}</Box>
-							<Box className={styles.outletMobileWrapper}>
-								{isActivitiesVisible ? <ActivityList className={styles.outletMobileWrapper} /> : outlet}
-							</Box>
-						</ErrorBoundary>
-					</Suspense>
-				</ScrollPanel>
-			</Box>
-			{isNftCollectionOrList && <MobileScrollingButtons />}
-			<Box
-				className={clsx(
-					panelViewStyles.panelViewRightWrapper,
-					isNftCollection && panelViewStyles.panelViewRightRelativeWrapper,
-				)}
-			>
-				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-					<Box className={panelViewStyles.panelViewRightScrollWrapper}>
-						<Suspense key={location.pathname} fallback={<FallbackLoading />}>
-							<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
-						</Suspense>
-					</Box>
-				</ScrollPanel>
-			</Box>
-		</Box>
-	)
-}
 
 const messages = defineMessages({
 	tokens: {
@@ -122,18 +43,39 @@ const messages = defineMessages({
 
 const Layout: React.FC = () => {
 	const intl = useIntl()
-	const isMobile = useIsMobileWidth()
-
+	const outlet = useOutlet()
+	const matches = useMatches()
 	const accounts = useWalletAccounts()
 	const resourceType = useResourceType()
+	const isActivitiesVisible = useIsActivitiesVisible()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const nftId = rawNftId ? decodeURIComponent(rawNftId) : undefined
 
 	const isNftCollection = useMatch('/accounts/:accountId/nfts/:resourceId')
 	const isNftCollectionOrList = !resourceId || !!isNftCollection
 
+	const sidebars = matches
+		.filter(match => Boolean((match.handle as any)?.sidebar))
+		.map(match => (match.handle as any).sidebar)
+	const [sidebar] = sidebars.reverse()
+
 	const { data: resource } = useEntityDetails(resourceId)
 	const { data: nft } = useNonFungibleData(resourceId, nftId)
+
+	const mainRef = useRef<HTMLElement>()
+	const buttonsRef = useRef<HTMLElement>()
+	const rightRef = useRef<HTMLElement>()
+	const leftRef = useRef<HTMLElement>()
+	const {
+		leftScrollCtx,
+		rightScrollCtx,
+		isLeftScrollUpButtonVisible,
+		isMainScrollUpButtonVisible,
+		isRightScrollUpButtonVisible,
+		onLeftScrollUpBtnClick,
+		onRightScrollUpBtnClick,
+	} = useAccountsScroll(leftRef, rightRef, mainRef)
+	const { isExpanded, onExpandAccounts } = useAccountsExpand(mainRef, buttonsRef)
 
 	useEffect(() => {
 		const parts = []
@@ -167,20 +109,58 @@ const Layout: React.FC = () => {
 	}, [resourceType, accountId, resource, nft])
 
 	return (
-		<Box className={panelViewStyles.panelViewOuterWrapper}>
-			<MobileBackground />
-			<MobileScrollArea
-				className={panelViewStyles.panelViewMobileScrollWrapper}
-				showTopScrollShadow={isMobile}
-				disabled={!isMobile}
+		<>
+			<CardBackground view="mobile" />
+			<ScrollAreaNative
+				className={styles.mainMobileScroll}
+				ref={mainRef}
+				hideScrollBars
+				onUpButtonClicked={onLeftScrollUpBtnClick}
+				isScrollUpButtonVisible={isMainScrollUpButtonVisible}
 			>
-				<ScrollContent
-					isMobile={isMobile}
-					isNftCollectionOrList={isNftCollectionOrList}
-					isNftCollection={!!isNftCollection}
+				<Box className={clsx(styles.panelRight, resourceId && styles.panelRightResourceWrapper)}>
+					<ScrollAreaNative
+						ref={rightRef}
+						onUpButtonClicked={onRightScrollUpBtnClick}
+						isScrollUpButtonVisible={isRightScrollUpButtonVisible}
+						className={styles.panelRightScroll}
+						hideScrollBars
+					>
+						<ScrollContext.Provider value={rightScrollCtx}>{sidebar}</ScrollContext.Provider>
+					</ScrollAreaNative>
+				</Box>
+				<MobileScrollingButtons
+					ref={buttonsRef}
+					isExpanded={isExpanded}
+					onClick={onExpandAccounts}
+					display={[!isNftCollectionOrList ? 'none' : 'block', 'none']}
 				/>
-			</MobileScrollArea>
-		</Box>
+				<Box className={clsx(styles.panelLeft, !isNftCollectionOrList && styles.panelLeftResourceWrapper)}>
+					<ScrollAreaNative
+						ref={leftRef}
+						onUpButtonClicked={onLeftScrollUpBtnClick}
+						isScrollUpButtonVisible={isLeftScrollUpButtonVisible}
+						className={styles.panelLeftScroll}
+					>
+						<ScrollContext.Provider value={leftScrollCtx}>
+							<Box
+								className={clsx(
+									styles.accountsStickyWrapper,
+									!resourceType && !leftScrollCtx.isScrolledTop && styles.accountsStickyBoxShadow,
+								)}
+							>
+								<Breadcrumbs />
+								<AccountTotalValue />
+							</Box>
+							<Box display={[!isActivitiesVisible ? 'block' : 'none', 'block']}>{outlet}</Box>
+							<Box display={[isActivitiesVisible ? 'block' : 'none', 'none']}>
+								<ActivityList className={styles.activityList} display={['flex', 'none']} />
+							</Box>
+						</ScrollContext.Provider>
+					</ScrollAreaNative>
+				</Box>
+			</ScrollAreaNative>
+		</>
 	)
 }
 

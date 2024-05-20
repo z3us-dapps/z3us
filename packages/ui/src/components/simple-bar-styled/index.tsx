@@ -2,7 +2,7 @@ import clsx, { type ClassValue } from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 
 import SimpleBar from '../simple-bar'
-import { type themeShape } from '../system/theme.css'
+import { type themeShape } from 'ui/src/theme/theme.css'
 import * as styles from './simple-bar-styled.css'
 
 export type TThemeBorderRadius = (typeof themeShape)['border']['radius']

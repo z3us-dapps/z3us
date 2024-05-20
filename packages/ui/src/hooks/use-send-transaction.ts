@@ -29,6 +29,7 @@ export const useSendTransaction: () => SendTransaction = () => {
 						reject(res.error)
 					} else {
 						resolve(res.value)
+						queryClient.invalidateQueries(['useEntitiesDetails', networkId])
 						queryClient.invalidateQueries(['useBalances', networkId])
 						queryClient.invalidateQueries(['useAccountValues', networkId])
 						queryClient.invalidateQueries(['useAccountNftVaults', networkId])

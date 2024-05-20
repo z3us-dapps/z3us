@@ -6,7 +6,7 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import { Text } from 'ui/src/components/typography'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 const messages = defineMessages({
 	account: {

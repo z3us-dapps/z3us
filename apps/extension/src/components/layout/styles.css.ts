@@ -1,20 +1,56 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, keyframes, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
+
+export const fadeInOutAnimation = keyframes({
+	'0%': { opacity: '1.0' },
+	'50%': { opacity: '0.8' },
+	'100%': { opacity: '1.0' },
+})
+
+export const loadingBgWrapper = style([
+	sprinkles({
+		position: 'relative',
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: '100vh',
+		width: 'full',
+	}),
+])
+
+export const loadingBrandWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 'full',
+	}),
+	{
+		width: '236px',
+		height: '236px',
+		boxShadow: '0px 0px 64px 10px #D6C7FF',
+		animationDuration: '3000ms',
+		animationName: fadeInOutAnimation,
+		animationIterationCount: 'infinite',
+	},
+])
+
+globalStyle(`.${darkMode} ${loadingBrandWrapper}`, {
+	boxShadow: '0px 0px 64px 10px rgba(124, 77, 255, 0.6)',
+})
 
 export const unlockOuterWrapper = style([
 	sprinkles({
 		position: 'relative',
-		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: 'vh100',
+		height: '100vh',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { backgroundColor: vars.color.backgroundSecondary },
 		tablet: { backgroundColor: vars.color.backgroundPrimary },
@@ -32,7 +68,6 @@ export const unlockZ3usLogoWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const unlockInnerWrapper = style([
@@ -40,7 +75,6 @@ export const unlockInnerWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			borderRadius: vars.border.radius.xlarge,
@@ -65,7 +99,6 @@ export const unlockPaddingWrapper = style([
 			mobile: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const unlockFormWrapper = style([
@@ -73,7 +106,6 @@ export const unlockFormWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 	}),
-	{},
 ])
 
 export const unlockFormTextWrapper = style([
@@ -85,7 +117,6 @@ export const unlockFormTextWrapper = style([
 			mobile: 'large',
 		},
 	}),
-	{},
 ])
 
 export const unlockFormWalletWrapper = style([
@@ -97,7 +128,6 @@ export const unlockFormWalletWrapper = style([
 			mobile: 'large',
 		},
 	}),
-	{},
 ])
 
 export const unlockValidationWrapper = style([
@@ -106,5 +136,15 @@ export const unlockValidationWrapper = style([
 			mobile: 'small',
 		},
 	}),
-	{},
 ])
+
+export const unlockButtonsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		gap: 'medium',
+	}),
+])
+
+globalStyle(`${unlockButtonsWrapper} > button:first-child`, {
+	flexGrow: '1',
+})

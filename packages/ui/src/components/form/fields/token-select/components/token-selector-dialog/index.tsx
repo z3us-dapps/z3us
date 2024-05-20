@@ -26,7 +26,7 @@ import { Text } from 'ui/src/components/typography'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useDashboardUrl } from 'ui/src/hooks/dapp/use-network'
 import { findMetadataValue } from 'ui/src/services/metadata'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import * as styles from './styles.css'
 

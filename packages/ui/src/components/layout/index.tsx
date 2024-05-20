@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React, { Suspense, useEffect, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useOutlet } from 'react-router-dom'
@@ -5,7 +6,9 @@ import { useLocation, useOutlet } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { HeaderNav, MobileFooterNavigation } from 'ui/src/components/navigation'
-import { BalancesProvider } from 'ui/src/context/balances/provider'
+import * as containerStyles from 'ui/src/components/styles/container-styles.css'
+import { CompareWithDateProvider } from 'ui/src/context/compare-with-date-provider'
+import { ImageProvider } from 'ui/src/context/images-provider'
 import { RnsProvider } from 'ui/src/context/rns-provider'
 import { useTextDirection } from 'ui/src/hooks/use-text-direction'
 
@@ -25,21 +28,25 @@ const Layout: React.FC = () => {
 	}, [dir])
 
 	return (
-		<RnsProvider>
-			<BalancesProvider>
-				<Box className={styles.layoutWrapper}>
-					<HeaderNav />
-					<Box className={styles.layoutRouteWrapper}>
-						<Suspense key={key} fallback={<FallbackLoading />}>
-							<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-						</Suspense>
+		<ImageProvider>
+			<CompareWithDateProvider>
+				<RnsProvider>
+					<Box className={styles.layoutWrapper}>
+						<HeaderNav />
+						<Box height="full" className={clsx(containerStyles.containerWrapper)}>
+							<Box height="full" className={clsx(containerStyles.containerInnerWrapper)}>
+								<Suspense key={key} fallback={<FallbackLoading />}>
+									<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+								</Suspense>
+							</Box>
+						</Box>
+						<MobileFooterNavigation />
+						<Transaction />
+						<QueryResult />
 					</Box>
-					<MobileFooterNavigation />
-					<Transaction />
-					<QueryResult />
-				</Box>
-			</BalancesProvider>
-		</RnsProvider>
+				</RnsProvider>
+			</CompareWithDateProvider>
+		</ImageProvider>
 	)
 }
 

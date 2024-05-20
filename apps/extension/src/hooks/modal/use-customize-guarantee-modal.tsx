@@ -2,7 +2,7 @@ import { lazy } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { useModals } from 'ui/src/hooks/use-modals'
-import { generateId } from 'ui/src/utils/generate-id'
+import { generateId } from 'ui/src/utils/rand'
 
 import type { Change, Guarantee, Summary } from '@src/types/transaction'
 

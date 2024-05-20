@@ -63,20 +63,18 @@
 		/>
 		<style>
 			.z3-extension-dimension {
-				width: 420px;
+				width: 360px;
 				height: 600px;
 				overflow: hidden;
 			}
-			@media (min-width: 421px) {
+			@media (min-width: 361px) {
 				.z3-extension-mounted {
-					min-width: 420px;
-					min-height: 600px;
-					height: 100vh;
+					min-width: 360px;
 					width: 100vw;
 					overflow: unset;
 				}
 			}
-			@media (max-width: 419px) {
+			@media (max-width: 359px) {
 				.z3-extension-mounted {
 					width: 100vw;
 					min-width: 100%;
@@ -86,6 +84,12 @@
 				.z3-extension-mounted {
 					height: 100vh;
 					min-height: 100%;
+				}
+			}
+			@media (min-height: 601px) {
+				.z3-extension-mounted {
+					min-height: 600px;
+					height: 100vh;
 				}
 			}
 		</style>

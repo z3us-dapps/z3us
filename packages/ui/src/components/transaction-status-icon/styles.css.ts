@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const transactionStatusIconWrapper = style([
 	sprinkles({
@@ -15,7 +15,6 @@ export const transactionStatusIconWrapper = style([
 		background: 'backgroundPrimary',
 		flexShrink: 0,
 	}),
-	{},
 ])
 
 export const transactionStatusIconSmallWrapper = style([
@@ -36,12 +35,10 @@ export const transactionStatusSuccess = style([
 	sprinkles({
 		color: 'green500',
 	}),
-	{},
 ])
 
 export const transactionStatusFailure = style([
 	sprinkles({
 		color: 'red500',
 	}),
-	{},
 ])

@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { sprinkles } from '../system/sprinkles.css'
-import { vars } from '../system/theme.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const avatarRootWrapper = style([
 	sprinkles({
@@ -28,7 +28,6 @@ export const avatarRootRecipe = recipe({
 					},
 					borderRadius: 'full',
 				}),
-				{},
 			],
 			rounded: [sprinkles({}), {}],
 			square: [
@@ -59,7 +58,6 @@ export const avatarRootRecipe = recipe({
 					height: 'full',
 					width: 'full',
 				}),
-				{},
 			],
 		},
 	},

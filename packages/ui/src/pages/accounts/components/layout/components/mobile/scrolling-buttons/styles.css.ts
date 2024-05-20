@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const accountRoutesWrapper = style([
 	sprinkles({
@@ -14,7 +14,7 @@ export const accountRoutesWrapper = style([
 
 	responsiveStyle({
 		mobile: {
-			minHeight: 'calc(100vh - 58px - 48px)',
+			minHeight: 'calc(100vh - 48px - 48px)',
 		},
 	}),
 ])
@@ -24,8 +24,6 @@ export const accountRoutesMobileAccountHeader = style([
 		position: 'sticky',
 		top: 0,
 	}),
-	{},
-
 	responsiveStyle({
 		mobile: {
 			height: '300px',
@@ -41,7 +39,6 @@ export const accountRoutesScrollingWrapper = style([
 		position: 'relative',
 		flexGrow: 1,
 	}),
-	{},
 ])
 
 export const accountRoutesScrollingStickyBtnCollectionWrapper = style([
@@ -55,28 +52,10 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 	sprinkles({
 		position: 'sticky',
 		width: 'full',
-		zIndex: 1,
-		display: {
-			mobile: 'block',
-			tablet: 'none',
-		},
+		zIndex: 2,
 	}),
 	{
 		top: '-1px',
-	},
-])
-
-export const accountRoutesScrollingStickyElem = style([
-	sprinkles({
-		position: 'absolute',
-		pointerEvents: 'none',
-		top: 0,
-		left: 0,
-		right: 0,
-	}),
-	{
-		height: '1px',
-		marginTop: '-1px',
 	},
 ])
 
@@ -84,7 +63,6 @@ export const accountRoutesScrollingStickyShadow = style([
 	sprinkles({
 		boxShadow: 'shadowScrollTop',
 	}),
-	{},
 ])
 
 export const accountRoutesScrollingStickyBtnInner = style([
@@ -93,7 +71,6 @@ export const accountRoutesScrollingStickyBtnInner = style([
 		borderTopLeftRadius: 'xxxlarge',
 		borderTopRightRadius: 'xxxlarge',
 	}),
-	{},
 ])
 
 export const tabsWrapper = style([
@@ -102,7 +79,6 @@ export const tabsWrapper = style([
 		position: 'relative',
 		display: 'flex',
 	}),
-	{},
 ])
 
 export const tabsWrapperButton = style([
@@ -112,7 +88,6 @@ export const tabsWrapperButton = style([
 		display: 'flex',
 		justifyContent: 'center',
 		position: 'relative',
-		transition: 'fastall',
 		background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
@@ -153,14 +128,12 @@ export const tabsWrapperButtonLeft = style([
 	sprinkles({
 		borderTopLeftRadius: 'xxxlarge',
 	}),
-	{},
 ])
 
 export const tabsWrapperButtonRight = style([
 	sprinkles({
 		borderTopRightRadius: 'xxxlarge',
 	}),
-	{},
 ])
 
 export const tabsWrapperButtonActive = style([
@@ -207,7 +180,6 @@ export const searchWrapper = style([
 		borderBottomStyle: 'solid',
 		borderColor: 'borderDivider',
 	}),
-	{},
 ])
 
 export const tabsWrapperScrollBtnScrolled = style([
@@ -221,14 +193,12 @@ export const inputSearch = style([
 		width: 'full',
 		padding: 'small',
 	}),
-	{},
 ])
 
 export const inputSearchClearBtn = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 globalStyle(`${searchWrapper} ${inputSearchClearBtn}`, {
@@ -237,9 +207,11 @@ globalStyle(`${searchWrapper} ${inputSearchClearBtn}`, {
 
 globalStyle(`${tabsWrapperScrollBtn} > svg`, {
 	transition: vars.transition.fastall,
-	transform: 'rotateX(0deg) scale3d(1,1,1)',
+	transform: 'rotateX(0deg) translateZ(0)',
+	zoom: 1.005,
+	willChange: 'transform',
 })
 
 globalStyle(`${tabsWrapperScrollBtnScrolled} > svg`, {
-	transform: 'rotateX(180deg) scale3d(1,1,1)',
+	transform: 'rotateX(180deg) translateZ(0)',
 })

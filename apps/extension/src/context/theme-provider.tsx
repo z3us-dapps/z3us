@@ -1,9 +1,9 @@
 import React, { type PropsWithChildren, useEffect, useMemo, useState } from 'react'
 import browser from 'webextension-polyfill'
 
-import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
 import type { State as ThemeState } from 'ui/src/context/theme'
 import { ThemeContext } from 'ui/src/context/theme'
+import { darkThemeClass, lightThemeClass } from 'ui/src/theme/theme.css'
 import { Theme } from 'ui/src/types'
 
 import { getTheme, saveTheme } from '@src/styles/theme'
@@ -72,19 +72,22 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		}
 	}, [theme, autoThemeIsDark])
 
-	const handleThemeChange = (t: Theme) => {
-		if (browser.browserAction) {
-			browser.browserAction.setPopup({ popup: `src/pages/app/${t}.html` })
-		} else if (browser.action) {
-			browser.action.setPopup({ popup: `src/pages/app/${t}.html` })
-		}
+	const handleThemeChange = async (t: Theme) => {
+		const path = `src/pages/app/${t}.html`
+
+		await browser.action?.setPopup({ popup: path })
+		await browser.browserAction?.setPopup({ popup: path })
+		await chrome.sidePanel?.setOptions({ path })
+		await browser.sidebarAction?.setPanel({ panel: path })
+
 		setTheme(t)
 	}
 
 	const ctx = useMemo(
 		(): ThemeState => ({
 			theme: theme as Theme,
-			resolvedTheme: autoThemeIsDark ? Theme.DARK : Theme.LIGHT,
+			// eslint-disable-next-line no-nested-ternary
+			resolvedTheme: theme === 'system' ? (autoThemeIsDark ? Theme.DARK : Theme.LIGHT) : theme,
 			setTheme: handleThemeChange,
 		}),
 		[theme, autoThemeIsDark],

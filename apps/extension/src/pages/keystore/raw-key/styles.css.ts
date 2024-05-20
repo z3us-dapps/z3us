@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const rawKeyWrapper = style([
 	sprinkles({
@@ -9,7 +9,6 @@ export const rawKeyWrapper = style([
 			mobile: 'xlarge',
 		},
 	}),
-	{},
 ])
 
 export const rawKeyInputWrapper = style([
@@ -21,7 +20,6 @@ export const rawKeyInputWrapper = style([
 			tablet: 'large',
 		},
 	}),
-	{},
 ])
 
 export const rawKeyInput = style([

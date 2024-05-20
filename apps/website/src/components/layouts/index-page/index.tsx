@@ -2,7 +2,7 @@ import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
 import React, { useContext, useEffect, useState } from 'react'
 
-import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
+import { darkThemeClass, lightThemeClass } from 'ui/src/theme/theme.css'
 
 import { LandingPage } from './components/landing-page'
 import { WebsiteDappContext, WebsiteDappContextProvider } from './website-dapp-context'

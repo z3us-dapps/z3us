@@ -1,19 +1,24 @@
+import clsx from 'clsx'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
+import type { BoxProps } from 'ui/src/components/box'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Form } from 'ui/src/components/form'
 import PasswordField from 'ui/src/components/form/fields/password-field'
 import { SubmitButton } from 'ui/src/components/form/fields/submit-button'
+import { TouchIcon } from 'ui/src/components/icons'
 import { SelectSimple } from 'ui/src/components/select'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { Z3usLogoLarge, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
+import { login } from '@src/webauthn/credentials'
 
 import * as styles from './styles.css'
 
@@ -38,6 +43,10 @@ const messages = defineMessages({
 		defaultMessage: 'Add wallet...',
 		id: 'VLEYHl',
 	},
+	webauth_button: {
+		defaultMessage: 'Login using passwordless authentication',
+		id: 'tLyIg5',
+	},
 })
 
 const initialValues = {
@@ -45,10 +54,12 @@ const initialValues = {
 }
 
 interface IProps {
+	isUnlocked: boolean
+	isLoading: boolean
 	onUnlock: () => void
 }
 
-export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
+export const Unlock: React.FC<IProps & BoxProps> = ({ isUnlocked, isLoading, onUnlock, className, ...rest }) => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
@@ -60,11 +71,39 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 		selectKeystore: state.selectKeystoreAction,
 	}))
 
+	const [previous, setPrevious] = useState<boolean | null>(null)
 	const [error, setError] = useState<string>('')
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [inputRef?.current])
+
+	const handleUnlock = async (password: string) => {
+		try {
+			await client.unlockVault(keystore, password)
+			onUnlock()
+			setError('')
+		} catch (err) {
+			// eslint-disable-next-line no-console
+			console.error(err)
+			setError(intl.formatMessage(messages.unlock_error))
+		}
+	}
+
+	const handleWebAuthN = () => {
+		if (!keystore?.webAuthn) return
+		if (isLoading === true) return
+		if (isUnlocked === true) return
+		if (previous === true) return
+		setPrevious(isUnlocked)
+		// eslint-disable-next-line no-console
+		login(keystore).then(handleUnlock).catch(console.error)
+	}
+
+	useEffect(() => {
+		handleWebAuthN()
+		setPrevious(isUnlocked)
+	}, [keystore?.id, isLoading, isUnlocked])
 
 	const selectItems = useMemo(() => {
 		const items = keystores.map(({ id, name }) => ({ id, title: name }))
@@ -82,19 +121,11 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	}
 
 	const handleSubmit = async (values: typeof initialValues) => {
-		try {
-			await client.unlockVault(keystore, values.password)
-			onUnlock()
-			setError('')
-		} catch (err) {
-			// eslint-disable-next-line no-console
-			console.error(err)
-			setError(intl.formatMessage(messages.unlock_error))
-		}
+		await handleUnlock(values.password)
 	}
 
 	return (
-		<Box className={styles.unlockOuterWrapper}>
+		<Box display="flex" {...rest} className={clsx(className, styles.unlockOuterWrapper)}>
 			<Box className={styles.unlockZ3usLogoWrapper}>
 				<Z3usLogoText />
 			</Box>
@@ -125,11 +156,20 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 						<Box className={styles.unlockValidationWrapper}>
 							<ValidationErrorMessage message={error} />
 						</Box>
-						<SubmitButton>
-							<Button sizeVariant="xlarge" fullWidth>
-								{intl.formatMessage(messages.form_button_title)}
-							</Button>
-						</SubmitButton>
+						<Box className={styles.unlockButtonsWrapper}>
+							<SubmitButton>
+								<Button sizeVariant="xlarge">{intl.formatMessage(messages.form_button_title)}</Button>
+							</SubmitButton>
+							{keystore?.webAuthn && (
+								<ToolTip message={intl.formatMessage(messages.webauth_button)}>
+									<Box component="span">
+										<Button styleVariant="secondary" sizeVariant="xlarge" onClick={handleWebAuthN} iconOnly>
+											<TouchIcon />
+										</Button>
+									</Box>
+								</ToolTip>
+							)}
+						</Box>
 					</Form>
 				</Box>
 			</Box>

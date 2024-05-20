@@ -1,6 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const formInputWrapper = style([
 	sprinkles({
@@ -10,7 +10,6 @@ export const formInputWrapper = style([
 			mobile: 'medium',
 		},
 	}),
-	{},
 ])
 
 export const formInputLineSeparator = style([
@@ -39,7 +38,6 @@ export const formInputSubmitButtonWrapper = style([
 		borderColor: 'borderDivider',
 		paddingTop: 'medium',
 	}),
-	{},
 ])
 
 export const formFieldGroupWrapper = style([
@@ -52,7 +50,6 @@ export const formFieldGroupWrapper = style([
 			mobile: 'medium',
 		},
 	}),
-	{},
 ])
 
 globalStyle(`${formFieldGroupWrapper} > div`, {

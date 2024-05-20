@@ -5,7 +5,7 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import { CARD_COLORS } from '../../constants/account'
 import * as imageStyles from './image.css'
@@ -32,7 +32,7 @@ export const CardDemo: React.FC<IProps> = props => {
 	const cardColor = CARD_COLORS[colorClassName]
 
 	return (
-		<Box className={clsx(styles.cardWrapperAll)}>
+		<Box className={clsx(styles.cardAllWrapper)}>
 			<Box
 				className={clsx(styles.card)}
 				style={{

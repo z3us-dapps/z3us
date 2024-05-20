@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const assetsList = style([
 	sprinkles({
@@ -27,7 +27,6 @@ export const assetsListLi = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const assetsListLink = style([
@@ -101,7 +100,6 @@ export const assetsListTitleWrapper = style([
 		alignItems: 'center',
 		gap: 'xsmall',
 	}),
-	{},
 ])
 
 export const assetsListTitleChevronWrapper = style([
@@ -112,7 +110,6 @@ export const assetsListTitleChevronWrapper = style([
 		justifyContent: 'flex-end',
 		color: 'colorNeutral',
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			display: 'none',
@@ -127,7 +124,6 @@ export const assetsListBalancesWrapper = style([
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	}),
-	{},
 ])
 
 export const assetsListBalancesTextWrapper = style([
@@ -140,12 +136,12 @@ export const assetsListBalancesTextWrapper = style([
 		gap: {
 			tablet: 'xsmall',
 		},
+		flexShrink: 0,
 	}),
-	{},
 	responsiveStyle({
 		mobile: {
-			width: '50%',
-			maxWidth: '50%',
+			width: '45%',
+			maxWidth: '45%',
 		},
 		tablet: {
 			width: '60%',
@@ -161,7 +157,6 @@ export const assetsListBalancesText = style([
 			tablet: 'left',
 		},
 	}),
-	{},
 ])
 
 globalStyle(

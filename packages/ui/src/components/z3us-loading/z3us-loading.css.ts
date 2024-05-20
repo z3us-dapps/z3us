@@ -1,7 +1,7 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
+import { vars } from 'ui/src/theme/theme.css'
 
 export const fadeIn = keyframes({
 	'0%': { transform: 'rotate(0deg)' },
@@ -20,7 +20,6 @@ export const loaderWrapper = style([
 		width: 'full',
 		background: 'transparent',
 	}),
-	{},
 ])
 
 export const loaderText = style([
@@ -30,7 +29,6 @@ export const loaderText = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 	}),
-	{},
 ])
 
 export const logoWrapperShineAnimation = style([
@@ -86,7 +84,6 @@ export const logoWrapper = style([
 			darkMode: 'wax500',
 		},
 	}),
-	{},
 ])
 
 export const logoWrapperInner = style([

@@ -1,7 +1,7 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const navigationWrapper = style([
 	sprinkles({
@@ -18,7 +18,6 @@ export const navigationWrapper = style([
 			desktop: 'xxlarge',
 		},
 	}),
-	{},
 	responsiveStyle({
 		tablet: {
 			borderBottomWidth: '1px',
@@ -33,7 +32,7 @@ export const navigationInnerWrapper = style([
 	}),
 	responsiveStyle({
 		mobile: {
-			height: '58px',
+			height: '48px',
 		},
 		tablet: {
 			height: '70px',
@@ -107,7 +106,6 @@ export const accountsHomeMobileHeaderShadow = style([
 		background: 'backgroundPrimary',
 		boxShadow: 'shadowScrollTop',
 	}),
-	{},
 ])
 
 export const accountsHomeMobileHeaderWalletWrapper = style([
@@ -194,7 +192,6 @@ export const navigationMenuLinkMobileCircleSelect = style([
 		color: 'white',
 		background: 'purple400',
 	}),
-	{},
 ])
 
 export const fadeIn = keyframes({
@@ -215,7 +212,7 @@ export const mobileSlideOutDialogContent = style([
 		boxShadow: 'shadowPanel',
 		overflow: 'hidden',
 		color: 'colorNeutral',
-		height: 'vh100',
+		height: '100vh',
 		left: 0,
 		top: 0,
 	}),

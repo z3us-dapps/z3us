@@ -1,0 +1,13 @@
+{
+	"color": {
+		"scrollbar": {
+			"track": { "value": "{color.core.white}", "darkValue": "{color.core.lead.500.value}" },
+			"thumb": {
+				"value": "{color.core.bleached_silk.500.value}",
+				"darkValue": "{color.core.wax.1000.value}"
+			},
+			"thumb_hover": { "value": "{color.core.bleached_silk.0.value}", "darkValue": "{color.core.lead.100.value}" },
+			"thumb_active": { "value": "{color.core.bleached_silk.0.value}", "darkValue": "{color.core.lead.300.value}" }
+		}
+	}
+}

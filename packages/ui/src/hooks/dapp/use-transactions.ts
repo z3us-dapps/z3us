@@ -43,12 +43,12 @@ export const useTransaction = (intent_hash: string) => {
 	})
 }
 
-export const useTransactions = (addresses: string[]) => {
+export const useTransactions = (addresses: string[], resourceId: string = '') => {
 	const networkId = useNetworkId()
 	const { stream } = useGatewayClient()!
 
 	const data = useInfiniteQuery({
-		queryKey: ['useTransactions', networkId, addresses],
+		queryKey: ['useTransactions', networkId, addresses, resourceId],
 		queryFn: async ({ pageParam }) => {
 			const responses = await Promise.all(
 				addresses.map((address, idx) =>
@@ -60,6 +60,7 @@ export const useTransactions = (addresses: string[]) => {
 										balance_changes: true,
 									},
 									affected_global_entities_filter: [address],
+									manifest_resources_filter: resourceId ? [resourceId] : undefined,
 									limit_per_page: 5,
 									cursor: pageParam?.[idx].next_cursor || null,
 									at_ledger_state: pageParam?.[idx].next_cursor
@@ -91,6 +92,7 @@ export const useTransactions = (addresses: string[]) => {
 				? lastPage.pageParams
 				: undefined,
 		enabled: !!stream,
+		staleTime: 30 * 1000,
 	})
 
 	return data

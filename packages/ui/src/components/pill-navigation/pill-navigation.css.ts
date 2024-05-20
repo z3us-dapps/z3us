@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
-import { vars } from 'ui/src/components/system/theme.css'
+import { vars } from 'ui/src/theme/theme.css'
 
-import { darkMode, sprinkles } from '../system/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/theme/sprinkles.css'
 
 export const pillNavigationLink = style([
 	sprinkles({

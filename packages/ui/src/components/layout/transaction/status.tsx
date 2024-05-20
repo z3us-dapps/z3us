@@ -8,7 +8,7 @@ import { SlideOutDialog } from 'ui/src/components/layout/slide-out-dialog'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useTransactionStatus } from 'ui/src/hooks/dapp/use-transactions'
-import { getShortAddress } from 'ui/src/utils/string-utils'
+import { getShortAddress } from 'ui/src/utils/string'
 
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
 import * as styles from './styles.css'

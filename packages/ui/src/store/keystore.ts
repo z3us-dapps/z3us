@@ -1,4 +1,4 @@
-import type { IKeystoresStateSetter, Keystore, KeystoresState } from './types'
+import type { IKeystoresStateSetter, Keystore, KeystoresState, WebAuthnCredentials } from './types'
 
 export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	keystores: [],
@@ -35,6 +35,13 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 		set(draft => {
 			const keystores = draft.keystores || []
 			draft.keystores = keystores.map(keystore => (keystore.id === id ? { ...keystore, name } : keystore))
+		})
+	},
+
+	setKeystoreWebAuthnAction: (id: string, webAuthn?: WebAuthnCredentials) => {
+		set(draft => {
+			const keystores = draft.keystores || []
+			draft.keystores = keystores.map(keystore => (keystore.id === id ? { ...keystore, webAuthn } : keystore))
 		})
 	},
 })

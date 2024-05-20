@@ -1,22 +1,20 @@
 import { style } from '@vanilla-extract/css'
 
 import { sharedItemStyles } from 'ui/src/components/dropdown-menu/styles.css'
-import type { Sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const inputWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const searchableInputSimpleBarWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 	responsiveStyle({
 		mobile: { maxHeight: '40vh' },
 		tablet: { maxHeight: '40vh' },
@@ -56,7 +54,6 @@ export const searchableInputWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
 ])
 
 export const searchableInputRightIconWrapper = style([

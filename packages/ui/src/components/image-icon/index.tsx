@@ -2,7 +2,7 @@ import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
-import { type TThemeColorKey } from 'ui/src/components/system/theme.css'
+import { type TThemeColorKey } from 'ui/src/theme/theme.css'
 
 import * as styles from './image-icon.css'
 

@@ -8,6 +8,7 @@ import type { CURVE, Keystore } from 'ui/src/store/types'
 import type { MessageTypes as BackgroundMessageTypes } from '@src/browser/background/message-handlers'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { ClientContext } from '@src/context/message-client-provider'
+import { Context as RuntimeIdContext } from '@src/context/runtime-id-provider'
 import { publicKeyFromJSON } from '@src/crypto/key_pair'
 import type { SignatureWithPublicKeyJSON } from '@src/crypto/signature'
 import { signatureFromJSON } from '@src/crypto/signature'
@@ -15,6 +16,7 @@ import type { Data } from '@src/types/vault'
 
 export const useMessageClient = () => {
 	const client = useContext(ClientContext)
+	const runtimeId = useContext(RuntimeIdContext)
 
 	const { reloadTrigger } = useSharedStore(state => ({
 		reloadTrigger: state.reloadSharedStoreAction,
@@ -22,17 +24,20 @@ export const useMessageClient = () => {
 
 	const sendMessageToBackground = useCallback(
 		(action: BackgroundMessageAction, payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] = {}) =>
-			client.sendMessage(action, payload as BackgroundMessageTypes[typeof action]),
-		[client],
+			client.sendMessage(action, { runtimeId, ...payload } as BackgroundMessageTypes[typeof action]),
+		[runtimeId, client],
 	)
 
 	const sendMessageToBackgroundAndUpdateTrigger = useCallback(
 		async (action: BackgroundMessageAction, payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] = {}) => {
-			const response = await client.sendMessage(action, payload as BackgroundMessageTypes[typeof action])
+			const response = await client.sendMessage(action, {
+				runtimeId,
+				...payload,
+			} as BackgroundMessageTypes[typeof action])
 			reloadTrigger()
 			return response
 		},
-		[client, reloadTrigger],
+		[runtimeId, client, reloadTrigger],
 	)
 
 	return useMemo(

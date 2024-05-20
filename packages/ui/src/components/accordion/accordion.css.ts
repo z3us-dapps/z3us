@@ -1,6 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
-import { sprinkles } from '../system/sprinkles.css'
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
 const slideDown = keyframes({
 	from: { height: 0 },
