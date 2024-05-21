@@ -1,4 +1,4 @@
-import { globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
@@ -16,8 +16,10 @@ export const wrapper = style([
 	}),
 ])
 
-globalStyle(`${wrapper} img`, {
-	position: 'absolute',
-	width: '100%',
-	height: '100%',
-})
+export const wrapperImg = style([
+	sprinkles({
+		position: 'absolute',
+		width: 'full',
+		height: 'full',
+	}),
+])

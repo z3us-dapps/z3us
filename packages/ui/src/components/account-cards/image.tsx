@@ -30,7 +30,7 @@ export const Image: React.FC<PropsWithChildren<IProps>> = ({ address, skin, clas
 	return (
 		<Box className={clsx(styles.wrapper, className)}>
 			{/* eslint-disable-next-line @next/next/no-img-element */}
-			<img src={imageSrc} alt={name} style={skin.styles} />
+			<Box component="img" src={imageSrc} alt={name} style={skin.styles} className={styles.wrapperImg} />
 		</Box>
 	)
 }
