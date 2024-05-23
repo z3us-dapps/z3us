@@ -47,6 +47,18 @@ const messages = defineMessages({
 	},
 })
 
+function getRandomIndexes(arr: any[]): number[] {
+	const indexes: Set<number> = new Set()
+	const maxIndexes = Math.min(3, arr.length)
+
+	while (indexes.size < maxIndexes) {
+		const randomIndex = Math.floor(Math.random() * arr.length)
+		indexes.add(randomIndex)
+	}
+
+	return Array.from(indexes).sort((a, b) => a - b)
+}
+
 interface IProps {
 	words: string[]
 	onBack: () => void
@@ -56,6 +68,7 @@ interface IProps {
 export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 	const intl = useIntl()
 
+	const [indexes] = useState<number[]>(getRandomIndexes(words))
 	const [shuffled, setShuffled] = useState<string[]>([])
 	const [verification, setVerification] = useState<string[]>([])
 
@@ -100,8 +113,8 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 				})}
 			</Box>
 			<Box className={styles.keystoreNewPhraseGridWrapper}>
-				{words.map((word, i) => (
-					<SeedPhraseDisplayInput key={word} word={verification[i] || ''} index={i} />
+				{indexes.map((key, i) => (
+					<SeedPhraseDisplayInput key={key} word={verification[i] || ''} index={key} />
 				))}
 			</Box>
 			<Box className={styles.keystoreContinueBtnWrapper}>
@@ -119,7 +132,7 @@ export const NewPhraseEnter: React.FC<IProps> = ({ words, onBack, onNext }) => {
 					sizeVariant="xlarge"
 					styleVariant="primary"
 					fullWidth
-					disabled={words.join('') !== verification.join('')}
+					disabled={!indexes.every((key, i) => words[key] === verification[i])}
 				>
 					{intl.formatMessage(messages.phrase_display_continue)}
 				</Button>

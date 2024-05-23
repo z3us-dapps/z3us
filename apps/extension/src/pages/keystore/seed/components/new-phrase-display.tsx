@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
@@ -23,6 +23,10 @@ const messages = defineMessages({
 		defaultMessage: 'Continue',
 		id: 'acrOoz',
 	},
+	download: {
+		defaultMessage: 'Download',
+		id: '5q3qC0',
+	},
 })
 
 interface IProps {
@@ -33,6 +37,22 @@ interface IProps {
 
 export const NewPhraseDisplay: React.FC<IProps> = ({ words, onBack, onNext }) => {
 	const intl = useIntl()
+	const [canContinue, setCanContinue] = useState<boolean>(false)
+
+	const handleDownload = () => {
+		const element = document.createElement('a')
+		element.setAttribute(
+			'href',
+			`data:text/plain;charset=utf-8,${encodeURIComponent(words.map((w, i) => `${i + 1}. ${w}`).join('\n'))}`,
+		)
+		element.setAttribute('download', `seed-${Date.now()}.txt`)
+		document.body.appendChild(element)
+
+		element.click()
+
+		document.body.removeChild(element)
+		setCanContinue(true)
+	}
 
 	return (
 		<Box className={styles.keystoreNewWrapper}>
@@ -44,9 +64,20 @@ export const NewPhraseDisplay: React.FC<IProps> = ({ words, onBack, onNext }) =>
 				subTitle={intl.formatMessage(messages.phrase_display_sub_title)}
 			/>
 			<SeedPhraseDisplay words={words} />
-			<Button onClick={onNext} sizeVariant="xlarge" styleVariant="primary" fullWidth>
-				{intl.formatMessage(messages.phrase_display_continue)}
-			</Button>
+
+			<Box className={styles.keystoreContinueBtnWrapper}>
+				<Button
+					onClick={handleDownload}
+					sizeVariant="xlarge"
+					styleVariant={!canContinue ? 'primary' : 'secondary'}
+					fullWidth
+				>
+					{intl.formatMessage(messages.download)}
+				</Button>
+				<Button onClick={onNext} sizeVariant="xlarge" styleVariant="primary" fullWidth disabled={!canContinue}>
+					{intl.formatMessage(messages.phrase_display_continue)}
+				</Button>
+			</Box>
 		</Box>
 	)
 }
