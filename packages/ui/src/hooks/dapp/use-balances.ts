@@ -66,6 +66,12 @@ const transformFungibleResourceItemResponse =
 		poolsMap: { [key: string]: { at: PoolDetails; before?: PoolDetails } } = {},
 	) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
+		xrdPrice = xrdPrice ?? 0
+		xrdPriceBefore = xrdPriceBefore ?? 0
+		tokens = tokens || {}
+		validatorsMap = validatorsMap || {}
+		poolsMap = poolsMap || {}
+
 		const metadata = item.explicit_metadata?.items
 		const name = findMetadataValue('name', metadata)
 		const symbol = findMetadataValue('symbol', metadata)
@@ -173,6 +179,9 @@ const transformNonFungibleResourceItemResponse =
 		poolsMap: { [key: string]: { at: PoolDetails; before?: PoolDetails } } = {},
 	) =>
 	(container: ResourceBalances, item: NonFungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
+		validatorsMap = validatorsMap || {}
+		poolsMap = poolsMap || {}
+
 		const metadata = item.explicit_metadata?.items
 		const name = findMetadataValue('name', metadata)
 		const description = findMetadataValue('description', metadata)

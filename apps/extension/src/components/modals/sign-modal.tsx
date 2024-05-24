@@ -97,8 +97,10 @@ const SignModal: React.FC<IProps> = ({
 
 	useEffect(() => {
 		if (!keystore?.webAuthn) return
-		// eslint-disable-next-line no-console
-		login(keystore).then(handleConfirm).catch(console.error)
+		login(keystore)
+			.then(handleConfirm)
+			// eslint-disable-next-line no-console
+			.catch(console.error)
 	}, [keystore?.id])
 
 	const handleSubmit = async (values: typeof initialValues) => {
@@ -106,17 +108,10 @@ const SignModal: React.FC<IProps> = ({
 	}
 
 	const handleCancel = () => {
+		if (keystore?.webAuthn) return
 		onCancel()
 		setError('')
 		setIsOpen(false)
-	}
-
-	const handleEscapeKeyDown = () => {
-		handleCancel()
-	}
-
-	const handleOnInteractOutside = () => {
-		handleCancel()
 	}
 
 	return (
@@ -125,8 +120,8 @@ const SignModal: React.FC<IProps> = ({
 				<DialogOverlay className={dialogStyles.dialogOverlay} />
 				<DialogContent
 					className={alertStyles.alertDialogContent}
-					onEscapeKeyDown={handleEscapeKeyDown}
-					onInteractOutside={handleOnInteractOutside}
+					onEscapeKeyDown={handleCancel}
+					onInteractOutside={handleCancel}
 				>
 					<Box className={styles.signAlertDialogContentWrapper}>
 						{title && (

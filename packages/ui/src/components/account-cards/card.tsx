@@ -101,15 +101,16 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const isLegacy = accountIndexes[address]?.scheme === SCHEME.BIP440OLYMPIA
 	const canRemoveAccount = isWallet && keystore?.type !== KeystoreType.RADIX_WALLET
 
-	const handleRemoveAccount = event => {
+	const handleRemoveAccount = async event => {
 		event.stopPropagation()
-		confirm({
+		await confirm({
 			title: intl.formatMessage(messages.delete_account),
 			content: intl.formatMessage(messages.confirm, { address: getShortAddress(address) }),
 			buttonTitle: intl.formatMessage(messages.delete_account),
 			buttonStyleVariant: 'destructive',
 			ignorePassword: true,
-		}).then(() => removeAccount(networkId, address))
+		})
+		removeAccount(networkId, address)
 	}
 
 	const handleShowDetails = event => {
