@@ -108,10 +108,14 @@ const SignModal: React.FC<IProps> = ({
 	}
 
 	const handleCancel = () => {
-		if (keystore?.webAuthn) return
 		onCancel()
 		setError('')
 		setIsOpen(false)
+	}
+
+	const handleInteraction = () => {
+		if (keystore?.webAuthn) return
+		handleCancel()
 	}
 
 	return (
@@ -120,8 +124,8 @@ const SignModal: React.FC<IProps> = ({
 				<DialogOverlay className={dialogStyles.dialogOverlay} />
 				<DialogContent
 					className={alertStyles.alertDialogContent}
-					onEscapeKeyDown={handleCancel}
-					onInteractOutside={handleCancel}
+					onEscapeKeyDown={handleInteraction}
+					onInteractOutside={handleInteraction}
 				>
 					<Box className={styles.signAlertDialogContentWrapper}>
 						{title && (
