@@ -92,9 +92,11 @@ const Content: React.FC = () => {
 	}, [isLoading, isLoadingBalances, isMinLoadingTime, isMaxLoadingTime])
 
 	useEffect(() => {
-		browser.management.get(radixConnectorExtensionId).then((result: Management.ExtensionInfo) => {
-			setHasConnector(result.enabled)
-		})
+		browser.management
+			.get(radixConnectorExtensionId)
+			.then((result: Management.ExtensionInfo) => setHasConnector(result.enabled))
+			// eslint-disable-next-line no-console
+			.catch(console.warn)
 	}, [])
 
 	useEffect(() => {
