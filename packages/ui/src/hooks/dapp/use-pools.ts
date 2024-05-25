@@ -74,6 +74,6 @@ export const usePools = (accounts: StateEntityDetailsResponseItem[], at: Date) =
 	return useQuery({
 		queryKey: ['usePools', pools, units],
 		queryFn,
-		enabled: addresses?.length > 0,
+		enabled: accounts?.length > 0,
 	})
 }
