@@ -41,10 +41,10 @@ const collectStakeResourceAddresses = (validators: StateEntityDetailsResponseIte
 
 export const useValidators = (accounts: StateEntityDetailsResponseItem[], at: Date) => {
 	const addresses = useMemo(collectAccountValidatorAddresses(accounts), [accounts])
-	const { data: validators } = useEntitiesDetails(addresses, undefined, undefined, at)
+	const { data: validators = [] } = useEntitiesDetails(addresses, undefined, undefined, at)
 
 	const stakeResourceAddresses = useMemo(collectStakeResourceAddresses(validators), [validators])
-	const { data: units } = useEntitiesDetails(stakeResourceAddresses, undefined, undefined, at)
+	const { data: units = [] } = useEntitiesDetails(stakeResourceAddresses, undefined, undefined, at)
 
 	const queryFn = () => {
 		const unitsSupply = units.reduce((m, unit) => {
