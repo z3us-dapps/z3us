@@ -41,10 +41,10 @@ const collectUnitResourceAddresses = (pools: StateEntityDetailsResponseItem[]) =
 
 export const usePools = (accounts: StateEntityDetailsResponseItem[], at: Date) => {
 	const addresses = useMemo(collectAccountPoolAddresses(accounts), [accounts])
-	const { data: pools } = useEntitiesDetails(addresses, undefined, undefined, at)
+	const { data: pools = [] } = useEntitiesDetails(addresses, undefined, undefined, at)
 
 	const resourceAddresses = useMemo(collectUnitResourceAddresses(pools), [pools])
-	const { data: units } = useEntitiesDetails(resourceAddresses, undefined, undefined, at)
+	const { data: units = [] } = useEntitiesDetails(resourceAddresses, undefined, undefined, at)
 
 	const queryFn = () => {
 		const unitsSupply = units.reduce((m, unit) => {
