@@ -376,7 +376,7 @@ export const useBalances = (addresses: string[], at: Date = new Date()) => {
 			tokens,
 		],
 		queryFn,
-		enabled: !isLoading && accountAddresses.length > 0,
+		enabled: !isLoading,
 	})
 	return {
 		...result,
