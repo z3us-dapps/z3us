@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Copy Files
         uses: actions/checkout@v4
+      - name: Enable Corepack
+        run: corepack enable
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
