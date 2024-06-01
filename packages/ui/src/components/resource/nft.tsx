@@ -7,7 +7,6 @@ import { CardButtons } from 'ui/src/components/card-buttons'
 import FieldValue from 'ui/src/components/field-value'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { NftImageIcon } from 'ui/src/components/nft-image-icon'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { findFieldValue } from 'ui/src/services/metadata'
 
@@ -40,7 +39,7 @@ const Nft: React.FC<IProps> = ({ nft, withCardButtons }) => {
 
 	const dataJson = nft.data.programmatic_json as any
 	const name = findFieldValue('name', dataJson?.fields)
-	const description = findFieldValue('description', dataJson?.fields)
+	const description = findFieldValue('description', dataJson?.fields) || ''
 
 	const fields = useMemo(
 		() => (nft?.data.programmatic_json as any)?.fields?.filter(field => !IGNORE_DATA.includes(field.field_name)) || [],
@@ -60,14 +59,17 @@ const Nft: React.FC<IProps> = ({ nft, withCardButtons }) => {
 					/>
 				</Box>
 				<Box display="flex" flexDirection="column" gap="small">
-					<ToolTip message={nft.non_fungible_id}>
-						<Box>
-							<Text size="xlarge" weight="strong" color="strong" align="center">
-								{`${name} ${nft.is_burned === true ? intl.formatMessage(messages.burned) : ''}`}
-							</Text>
-						</Box>
-					</ToolTip>
-					{description && <Text size="small">{description}</Text>}
+					<Text size="xlarge" weight="strong" color="strong" align="center">
+						{`${name} ${nft.is_burned === true ? intl.formatMessage(messages.burned) : ''}`}
+					</Text>
+					<Text size="small" align="center">
+						{nft.non_fungible_id}
+					</Text>
+					{description && (
+						<Text size="small" mx="medium" textAlign="justify">
+							{description}
+						</Text>
+					)}
 				</Box>
 
 				{withCardButtons && (

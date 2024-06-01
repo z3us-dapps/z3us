@@ -5,6 +5,7 @@ import React, { forwardRef } from 'react'
 import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
 
+import type { BoxProps } from '../box'
 import { Box } from '../box'
 import * as styles from './typography.css'
 
@@ -38,7 +39,7 @@ interface TextStyleProps {
 	htmlFor?: string
 }
 
-export interface TextProps extends TextStyleProps {
+export interface TextProps extends Omit<BoxProps, 'color'>, TextStyleProps {
 	component?: ElementType
 	children?: ReactNode
 }
@@ -102,6 +103,7 @@ const Text = forwardRef<HTMLElement, TextProps>((props, ref: ForwardedRef<any>) 
 		inheritColor,
 		lineClamp,
 		htmlFor,
+		...rest
 	} = props
 
 	return (
@@ -127,6 +129,7 @@ const Text = forwardRef<HTMLElement, TextProps>((props, ref: ForwardedRef<any>) 
 			style={{ ...(lineClamp ? { WebkitLineClamp: lineClamp } : {}) }}
 			htmlFor={htmlFor}
 			ref={ref}
+			{...rest}
 		>
 			{children}
 		</Box>

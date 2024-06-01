@@ -99,7 +99,7 @@ const properties = {
 	justifyContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-around', 'space-between'],
 	alignItems: ['stretch', 'flex-start', 'center', 'flex-end', 'baseline', 'self-start'],
 	alignContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-between', 'space-around'],
-	textAlign: ['left', 'center', 'right'],
+	textAlign: ['left', 'center', 'right', 'justify'],
 	boxSizing: ['border-box'],
 	scrollbarGutter: ['stable'],
 	aspectRatio: ['1'],
