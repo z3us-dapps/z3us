@@ -66,7 +66,13 @@ export const useIntent = () => {
 		]
 			.filter((value, index, array) => array.indexOf(value) === index) // unique
 			.filter(value => !!accountIndexes[value])
-		if (walletAddresses.length === 0) {
+
+		const feePayer =
+			settings.feePayer ||
+			walletAddresses.sort((x, y) => input.transactionManifest.indexOf(x) - input.transactionManifest.indexOf(y))[0] ||
+			Object.keys(accountIndexes)[0]
+
+		if (!feePayer) {
 			throw new Error(intl.formatMessage(messages.empty_signatures_error))
 		}
 
@@ -83,10 +89,6 @@ export const useIntent = () => {
 			notaryIsSignatory: false,
 			tipPercentage: settings.tipPercentage || 0,
 		}
-
-		const feePayer =
-			settings.feePayer ||
-			walletAddresses.sort((x, y) => input.transactionManifest.indexOf(x) - input.transactionManifest.indexOf(y))[0]
 
 		let offset = 0
 		Object.values(settings.guarantees).forEach(guarantee => {
