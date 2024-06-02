@@ -43,7 +43,7 @@
 		"@types/react-dom": "18.2.6",
 		"concurrently": "^8.2.0",
 		"eslint": "^8.43.0",
-		"typescript": "5.0.4",
-		"serve": "^14.2.1"
+		"serve": "^14.2.1",
+		"typescript": "5.0.4"
 	}
 }
