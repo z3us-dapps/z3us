@@ -109,7 +109,7 @@ const NFTs: React.FC = () => {
 	return (
 		<Box className={styles.tableWrapper}>
 			<TableVirtuoso
-				customScrollParent={scrollableNode}
+				customScrollParent={scrollableNode ?? undefined}
 				totalCount={totalCount}
 				data={data?.pages}
 				endReached={loadMore}
