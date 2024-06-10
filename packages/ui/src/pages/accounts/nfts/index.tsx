@@ -1,6 +1,6 @@
 import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import type { ItemProps, TableBodyProps, TableComponents, TableProps } from 'react-virtuoso'
 import { TableVirtuoso } from 'react-virtuoso'
@@ -104,11 +104,13 @@ const NFTs: React.FC = () => {
 		[accountId, resourceId],
 	)
 
+	const totalCount = useMemo(() => data?.pages?.reduce((total, { items }) => total + items.length, 0), [data])
+
 	return (
 		<Box className={styles.tableWrapper}>
 			<TableVirtuoso
 				customScrollParent={scrollableNode}
-				totalCount={data?.pages.length}
+				totalCount={totalCount}
 				data={data?.pages}
 				endReached={loadMore}
 				itemContent={renderItem}

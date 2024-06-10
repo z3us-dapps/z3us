@@ -69,6 +69,8 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 			}
 		}, [isTransactionVisible, selected])
 
+		const totalCount = useMemo(() => data?.pages?.reduce((total, { items }) => total + items.length, 0), [data])
+
 		const DynamicFooter = useMemo(() => (isFetching ? Footer : EmptyFooter), [isFetching])
 
 		const renderItem = useCallback((index: number, page: { items: CommittedTransactionInfo[] }) => {
@@ -106,7 +108,7 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>(
 				)}
 				<Virtuoso
 					customScrollParent={scrollableNode}
-					totalCount={data?.pages.length}
+					totalCount={totalCount}
 					data={data?.pages}
 					endReached={loadMore}
 					itemContent={renderItem}
