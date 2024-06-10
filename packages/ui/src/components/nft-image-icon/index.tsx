@@ -25,7 +25,7 @@ export const NftImageIcon = forwardRef<HTMLElement, IProps>(
 				<span>
 					<ImageIcon
 						{...props}
-						imgSrc={imageSrc ? `https://ociswap.com/cdn-cgi/image/width=${width},format=auto/${imageSrc}` : ''}
+						imgSrc={imageSrc ? `https://ociswap.com/cdn-cgi/image/width=${width},format=auto/${encodeURIComponent(imageSrc)}` : ''}
 						imgAlt={name}
 						rounded={false}
 						ref={ref}

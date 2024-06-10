@@ -30,7 +30,10 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIconProps
 			const isNFT = data?.details?.type === 'NonFungibleResource'
 
 			let imgSrc = images.get(address)
-			imgSrc = !imgSrc && imageUrl ? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${imageUrl}` : imgSrc
+			imgSrc =
+				!imgSrc && imageUrl
+					? `https://ociswap.com/cdn-cgi/image/width=auto,format=auto/${encodeURIComponent(imageUrl)}`
+					: imgSrc
 			imgSrc = !imgSrc && isNFT ? defaultNftImage : imgSrc
 
 			return {
