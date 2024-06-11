@@ -2,7 +2,7 @@ import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gate
 import clsx from 'clsx'
 import React, { useCallback, useMemo } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import type { ItemProps, TableBodyProps, TableComponents, TableProps } from 'react-virtuoso'
+import type { ItemProps, TableComponents, TableProps } from 'react-virtuoso'
 import { TableVirtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
@@ -16,13 +16,13 @@ import * as styles from 'ui/src/pages/accounts/components/table/styles.css'
 const TABLE_SIZE_VARIANT = 'large'
 const TABLE_STYLE_VARIANT = 'primary'
 
-interface IPageProps {
+interface IPageProps extends Partial<ItemProps<unknown>> {
 	accountId: string
 	collection: string
 	ids: string[]
 }
 
-const Page: React.FC<IPageProps> = ({ accountId, collection, ids }) => {
+const Page: React.FC<IPageProps> = ({ accountId, collection, ids, style, ...props }) => {
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
 	const { nftId: rawNftId } = useParams()
@@ -30,7 +30,7 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids }) => {
 
 	const { data = [] } = useNonFungiblesData(collection, ids)
 
-	const handleSelect = (nft: StateNonFungibleDetailsResponseItem) => {
+	const handleSelect = (nft: StateNonFungibleDetailsResponseItem) => () => {
 		navigate(`/accounts/${accountId}/nfts/${collection}/${encodeURIComponent(nft.non_fungible_id)}?${searchParams}`)
 	}
 
@@ -38,6 +38,7 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids }) => {
 		<>
 			{data.map(nft => (
 				<tr
+					onClick={handleSelect(nft)}
 					key={nft.non_fungible_id}
 					className={clsx(
 						tableStyles.tableTrRecipe({
@@ -47,6 +48,8 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids }) => {
 						}),
 						nft.non_fungible_id === nftId ? 'tr-selected' : '',
 					)}
+					style={{ ...style }}
+					{...props}
 				>
 					<td
 						className={tableStyles.tableTdRecipe({
@@ -54,7 +57,7 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids }) => {
 							styleVariant: TABLE_STYLE_VARIANT,
 						})}
 					>
-						<Box onClick={() => handleSelect(nft)} overflow="clip">
+						<Box overflow="clip">
 							<NftNameCell value={nft.data} row={{ original: nft }} />
 						</Box>
 					</td>
@@ -64,25 +67,28 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, ids }) => {
 	)
 }
 
-const Table: React.FC<TableProps> = ({ style, ...tableProps }) => (
+const Table: React.FC<TableProps> = ({ style, ...props }) => (
 	<table
-		{...tableProps}
 		className={tableStyles.tableRecipe({
 			sizeVariant: TABLE_SIZE_VARIANT,
 			styleVariant: TABLE_STYLE_VARIANT,
 		})}
 		style={{ ...style }}
+		{...props}
 	/>
 )
 
-const TableRow: React.FC<ItemProps<unknown>> = props => <tbody {...props} />
-// eslint-disable-next-line react/jsx-no-useless-fragment
-const TableBody: React.FC<TableBodyProps> = React.forwardRef(({ children }) => <>{children}</>)
+const TableRow: React.FC<ItemProps<unknown>> = ({ children, ...props }) =>
+	React.Children.map(children, child => {
+		if (React.isValidElement(child)) {
+			return React.cloneElement(child, props)
+		}
+		return child
+	})
 
 const tableComponents: TableComponents = {
 	Table,
 	TableRow,
-	TableBody,
 }
 
 const NFTs: React.FC = () => {
@@ -104,7 +110,7 @@ const NFTs: React.FC = () => {
 		[accountId, resourceId],
 	)
 
-	const totalCount = useMemo(() => data?.pages?.reduce((total, { items }) => total + items.length, 0), [data])
+	const totalCount = useMemo(() => data?.pages?.reduce((total, { items }) => total + items.length, 0), [data?.pages])
 
 	return (
 		<Box className={styles.tableWrapper}>
