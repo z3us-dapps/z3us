@@ -106,7 +106,9 @@ const NFTs: React.FC = () => {
 	}, [isFetching, fetchNextPage, hasNextPage])
 
 	const renderItem = useCallback(
-		(index: number, page) => <Page key={index} accountId={accountId} collection={resourceId} ids={page?.items || []} />,
+		(index: number, page: { items: any[] }) => (
+			<Page key={index} accountId={accountId} collection={resourceId} ids={page?.items || []} />
+		),
 		[accountId, resourceId],
 	)
 
