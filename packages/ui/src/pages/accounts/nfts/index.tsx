@@ -78,13 +78,16 @@ const Table: React.FC<TableProps> = ({ style, ...props }) => (
 	/>
 )
 
-const TableRow: React.FC<ItemProps<unknown>> = ({ children, ...props }) =>
-	React.Children.map(children, child => {
-		if (React.isValidElement(child)) {
-			return React.cloneElement(child, props)
-		}
-		return child
-	})
+const TableRow: React.FC<ItemProps<unknown>> = ({ children, ...props }) => (
+	<>
+		{React.Children.map(children, child => {
+			if (React.isValidElement(child)) {
+				return React.cloneElement(child, props as React.Attributes)
+			}
+			return child
+		})}
+	</>
+)
 
 const tableComponents: TableComponents = {
 	Table,
