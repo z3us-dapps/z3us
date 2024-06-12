@@ -119,13 +119,28 @@ const NFTs: React.FC = () => {
 
 	return (
 		<Box className={styles.tableWrapper}>
-			<TableVirtuoso
+			{/* <TableVirtuoso
 				customScrollParent={scrollableNode ?? undefined}
 				totalCount={totalCount}
 				data={data?.pages}
 				endReached={loadMore}
 				itemContent={renderItem}
 				components={tableComponents}
+			/> */}
+			<TableVirtuoso
+				customScrollParent={scrollableNode ?? undefined}
+				// style={{ height: 400 }}
+				data={Array.from({ length: 500 }, (_, index) => ({
+					name: `User ${index}`,
+					description: `${index} description`,
+				}))}
+				// eslint-disable-next-line react/no-unstable-nested-components
+				itemContent={(index, user) => (
+					<>
+						<td style={{ width: 150, height: 30 }}>{user.name}</td>
+						<td>{user.description}</td>
+					</>
+				)}
 			/>
 		</Box>
 	)

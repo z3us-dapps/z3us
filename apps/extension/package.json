@@ -48,7 +48,7 @@
 		"react-intl": "^6.4.7",
 		"react-router-dom": "^6.14.2",
 		"react-test-renderer": "^18.2.0",
-		"react-virtuoso": "^4.3.11",
+		"react-virtuoso": "^4.7.11",
 		"readable-stream": "^4.3.0",
 		"recharts": "^2.8.0",
 		"simple-zustand-devtools": "^1.1.0",
