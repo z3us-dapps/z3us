@@ -38,14 +38,14 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, id, style, ...props
 	return (
 		<tr
 			onClick={handleSelect(data)}
-			key={data.non_fungible_id}
+			key={data?.non_fungible_id}
 			className={clsx(
 				tableStyles.tableTrRecipe({
 					sizeVariant: TABLE_SIZE_VARIANT,
 					styleVariant: TABLE_STYLE_VARIANT,
 					isRowSelectable: true,
 				}),
-				data.non_fungible_id === nftId ? 'tr-selected' : '',
+				data?.non_fungible_id === nftId ? 'tr-selected' : '',
 			)}
 			style={{ ...style }}
 			{...props}
