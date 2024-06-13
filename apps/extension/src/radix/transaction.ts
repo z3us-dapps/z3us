@@ -1,11 +1,7 @@
 import type { Instruction, Instructions } from '@radixdlt/radix-engine-toolkit'
 import { ValueKind, decimal } from '@radixdlt/radix-engine-toolkit'
 
-export const appendLockFeeInstruction = (
-	instructions: Instructions,
-	feePayer: string,
-	padding: number,
-): Instructions => {
+export const appendLockFeeInstruction = (instructions: Instructions, feePayer: string, value: number): Instructions => {
 	instructions.value = [
 		{
 			kind: 'CallMethod',
@@ -16,7 +12,7 @@ export const appendLockFeeInstruction = (
 			methodName: 'lock_fee',
 			args: {
 				kind: ValueKind.Tuple,
-				fields: [decimal(padding)],
+				fields: [decimal(value)],
 			},
 		},
 		...(instructions.value as Instruction[]).filter(

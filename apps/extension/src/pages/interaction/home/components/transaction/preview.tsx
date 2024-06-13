@@ -16,6 +16,7 @@ import { ResourceSnippet } from 'ui/src/components/snippet/resource'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { RedGreenText, Text } from 'ui/src/components/typography'
+import type { TextProps } from 'ui/src/components/typography/text'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { DAPP_ADDRESS } from 'ui/src/constants/dapp'
 import { CURRENCY_STYLES, DECIMAL_STYLES } from 'ui/src/constants/number'
@@ -114,6 +115,10 @@ const messages = defineMessages({
 		id: 'T7Ry38',
 		defaultMessage: 'Message',
 	},
+	fee_reserve_error: {
+		id: 'Gzq2CU',
+		defaultMessage: 'Try to {button} fees by increasing padding value',
+	},
 })
 
 function getType(account: string, amount: number): string {
@@ -165,15 +170,43 @@ function aggregateChanges(resourceChanges: TransactionPreviewResponse['resource_
 	}, [])
 }
 
+function isInsufficientBalanceFeeReserveError(error_message?: string): boolean {
+	// SystemModuleError(CostingError(FeeReserveError(InsufficientBalance { required: 0.0050005, remaining: 0.0033562161779997 })))
+	return ['FeeReserveError', 'InsufficientBalance'].every(substring => error_message.includes(substring))
+}
+
+function isFeeReserveError(error_message?: string): boolean {
+	return error_message.includes('FeeReserveError')
+}
+
+function extractFeeReserveInsufficientBalanceValues(message: string): { required: number; remaining: number } | null {
+	const regex = /required:\s*([\d.]+),\s*remaining:\s*([\d.]+)/
+	const match = message.match(regex)
+
+	if (match) {
+		return {
+			required: parseFloat(match[1]),
+			remaining: parseFloat(match[2]),
+		}
+	}
+	return null
+}
+
 function getFeePaddingAmount(paddingCalculation: number, receipt: TransactionReceipt, walletCost: number): number {
-	return (
+	const padding =
 		FEE_PADDING_MARGIN *
 		(1 + paddingCalculation * FEE_PADDING_MARGIN_INCREMENT) *
 		(Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) +
 			Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) +
 			Number.parseFloat(receipt.fee_summary.xrd_total_storage_cost) +
 			walletCost)
-	)
+	return 0.01
+	if (isInsufficientBalanceFeeReserveError(receipt.error_message)) {
+		const insufficientBalance = extractFeeReserveInsufficientBalanceValues(receipt.error_message)
+		if (insufficientBalance.required > padding) return insufficientBalance.required
+		return padding + (insufficientBalance.required - insufficientBalance.remaining)
+	}
+	return padding
 }
 
 function walletExecutionCost(meta: TransactionMeta): number {
@@ -187,7 +220,7 @@ function walletExecutionCost(meta: TransactionMeta): number {
 }
 
 function getFeeToLockAmount(receipt: TransactionReceipt, padding: number, walletCost: number): number {
-	return (
+	const lock =
 		Number.parseFloat(receipt.fee_summary.xrd_total_execution_cost) +
 		Number.parseFloat(receipt.fee_summary.xrd_total_finalization_cost) +
 		Number.parseFloat(receipt.fee_summary.xrd_total_royalty_cost) +
@@ -195,7 +228,7 @@ function getFeeToLockAmount(receipt: TransactionReceipt, padding: number, wallet
 		Number.parseFloat(receipt.fee_summary.xrd_total_tipping_cost) +
 		walletCost +
 		padding
-	)
+	return lock
 }
 
 interface ICostProps {
@@ -224,6 +257,28 @@ export const Cost: React.FC<ICostProps> = ({ value, xrdPrice, format, currency }
 				</Text>
 			</Box>
 		</ToolTip>
+	)
+}
+
+interface ICustomizeFeeButtonProps extends TextProps {
+	onClick: () => void
+}
+
+const CustomizeFeeButton: React.FC<ICustomizeFeeButtonProps> = ({ onClick, ...props }) => {
+	const intl = useIntl()
+
+	return (
+		<Box
+			component="button"
+			display="inline-flex"
+			alignItems="center"
+			onClick={onClick}
+			className={clsx(plainButtonStyles.plainButtonHoverWrapper, plainButtonStyles.plainButtonHoverUnderlineWrapper)}
+		>
+			<Text color="inherit" size="xsmall" {...props}>
+				{intl.formatMessage(messages.customize_fee_button_title)}
+			</Text>
+		</Box>
 	)
 }
 
@@ -278,9 +333,8 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 				if (
 					newReceipt?.error_message &&
 					state.paddingCalculationRetry < MAX_PADDING_CALCULATION_RETRY &&
-					['FeeReserveError', 'InsufficientBalance'].every(substring => newReceipt?.error_message.includes(substring))
+					isInsufficientBalanceFeeReserveError(newReceipt?.error_message)
 				) {
-					// SystemModuleError(CostingError(FeeReserveError(InsufficientBalance { required: 0.0050005, remaining: 0.0033562161779997 })))
 					draft.paddingCalculationRetry += 1
 					draft.isLoading = true
 				} else {
@@ -349,6 +403,13 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 						<Box className={clsx(styles.transactionPreviewBlock, styles.transactionPreviewBlockError)}>
 							<ValidationErrorMessage align="center" message={receipt?.error_message} />
 						</Box>
+					)}
+					{isFeeReserveError(receipt.error_message) && (
+						<Text align="center" color="strong">
+							{intl.formatMessage(messages.fee_reserve_error, {
+								button: <CustomizeFeeButton color="strong" onClick={handleClickCustomize} />,
+							})}
+						</Text>
 					)}
 				</Box>
 			)}
@@ -432,20 +493,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 						{intl.formatMessage(messages.fee_summary)}
 					</Text>
 					<Box className={styles.transactionPreviewFeeLinks}>
-						<Box
-							component="button"
-							display="inline-flex"
-							alignItems="center"
-							onClick={handleClickCustomize}
-							className={clsx(
-								plainButtonStyles.plainButtonHoverWrapper,
-								plainButtonStyles.plainButtonHoverUnderlineWrapper,
-							)}
-						>
-							<Text color="inherit" size="xsmall">
-								{intl.formatMessage(messages.customize_fee_button_title)}
-							</Text>
-						</Box>
+						<CustomizeFeeButton onClick={handleClickCustomize} />
 						<Box className={styles.transactionPreviewLinSeparator} />
 						<Box
 							component="button"
