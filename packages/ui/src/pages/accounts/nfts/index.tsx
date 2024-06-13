@@ -35,8 +35,6 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, id, style, ...props
 		navigate(`/accounts/${accountId}/nfts/${collection}/${encodeURIComponent(nft.non_fungible_id)}?${searchParams}`)
 	}
 
-	if (!data) return <FallbackLoading />
-
 	return (
 		<tr
 			onClick={handleSelect(data)}
@@ -59,7 +57,7 @@ const Page: React.FC<IPageProps> = ({ accountId, collection, id, style, ...props
 				})}
 			>
 				<Box overflow="clip">
-					<NftNameCell value={data.data} row={{ original: data }} />
+					{data ? <NftNameCell value={data.data} row={{ original: data }} /> : <FallbackLoading />}
 				</Box>
 			</td>
 		</tr>
