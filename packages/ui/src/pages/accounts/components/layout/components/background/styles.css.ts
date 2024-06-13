@@ -38,7 +38,7 @@ globalStyle(`${accountsBgSkinWrapper} img`, {
 })
 
 globalStyle(`.${darkMode} ${accountsBgSkinWrapper} img`, {
-	opacity: '0.5',
+	opacity: '0.3',
 })
 
 export const accountsBgCardResourceBgWrapper = style([

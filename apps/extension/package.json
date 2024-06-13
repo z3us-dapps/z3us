@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "2.0.43",
+	"version": "2.0.44",
 	"type": "module",
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
@@ -48,7 +48,7 @@
 		"react-intl": "^6.4.7",
 		"react-router-dom": "^6.14.2",
 		"react-test-renderer": "^18.2.0",
-		"react-virtuoso": "^4.3.11",
+		"react-virtuoso": "^4.7.11",
 		"readable-stream": "^4.3.0",
 		"recharts": "^2.8.0",
 		"simple-zustand-devtools": "^1.1.0",

@@ -12,10 +12,11 @@
  * // Output: 'rdx1...5678'
  *
  */
-export const getShortAddress = (account = '', shortLength = 4) => {
-	if (account === '') return ''
-	if (typeof account !== 'string') return ''
-	return `${account?.substring(0, shortLength)}...${account?.slice(-shortLength)}`
+export const getShortAddress = (value = '', shortLength = 4) => {
+	if (value === '') return ''
+	if (typeof value !== 'string') return ''
+	if (value.length <= 4) return value
+	return `${value?.substring(0, shortLength)}...${value?.slice(-shortLength)}`
 }
 
 /**

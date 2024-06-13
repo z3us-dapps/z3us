@@ -199,7 +199,7 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 	const { data: marketData } = useMarketChart(currency, symbol, timeFrame)
 
 	const chartData = useMemo(() => {
-		if (resourceId === knownAddresses.resourceAddresses.xrd) {
+		if (resourceId === knownAddresses?.resourceAddresses.xrd) {
 			if (!marketData) return []
 			return marketData.map(_value => ({
 				name: intl.formatDate(_value[0]),

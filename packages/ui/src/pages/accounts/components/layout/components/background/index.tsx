@@ -11,7 +11,6 @@ import * as styles from './styles.css'
 
 const imgStyles: CSSProperties = {
 	objectFit: 'cover',
-	height: 'unset',
 }
 
 interface IProps {
