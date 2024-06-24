@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const wrapper = style([
 	sprinkles({
@@ -13,6 +14,10 @@ export const wrapper = style([
 		height: 'full',
 		maxWidth: 'full',
 		pointerEvents: 'none',
+	}),
+	responsiveStyle({
+		mobile: { maxHeight: '376px' },
+		tablet: { maxHeight: 'unset' },
 	}),
 ])
 
