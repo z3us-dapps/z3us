@@ -15,7 +15,7 @@ export const cardButtonsWrapper = style([
 			tablet: 'xsmall',
 		},
 		paddingBottom: {
-			mobile: 'large',
+			mobile: 'xlarge',
 			tablet: 'large',
 		},
 		borderBottom: {

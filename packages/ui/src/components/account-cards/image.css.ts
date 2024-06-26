@@ -14,6 +14,9 @@ export const wrapper = style([
 		maxWidth: 'full',
 		pointerEvents: 'none',
 	}),
+	{
+		maxHeight: '376px',
+	},
 ])
 
 export const wrapperImg = style([
