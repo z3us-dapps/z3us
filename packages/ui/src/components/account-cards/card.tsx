@@ -64,6 +64,7 @@ interface IAccountCardProps {
 	showCopyAddressButton?: boolean
 	showAccountOptions?: boolean
 	enableClick?: boolean
+	isTransparent?: boolean
 	className?: string
 }
 
@@ -74,6 +75,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		showCopyAddressButton = true,
 		showAccountOptions = true,
 		enableClick = false,
+		isTransparent = false,
 		className,
 	} = props
 
@@ -144,11 +146,11 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		<Box
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
-				backgroundImage: `${cardColor}`,
+				...(isTransparent ? { backgroundColor: `rgba(255,255,255, 0.2)` } : { backgroundImage: `${cardColor}` }),
 			}}
 		>
 			<Box className={clsx(styles.cardAccountWrapper)} onClick={handleClick}>
-				<Image address={address} className={clsx(colorClassName, cardColor)} skin={skin} />
+				{!isTransparent && <Image address={address} className={clsx(colorClassName, cardColor)} skin={skin} />}
 				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small" position="relative">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>

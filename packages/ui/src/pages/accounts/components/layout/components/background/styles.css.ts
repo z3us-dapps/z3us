@@ -34,11 +34,11 @@ export const accountsBgSkinWrapper = style([
 ])
 
 globalStyle(`${accountsBgSkinWrapper} img`, {
-	opacity: '0.8',
+	opacity: '0.9',
 })
 
 globalStyle(`.${darkMode} ${accountsBgSkinWrapper} img`, {
-	opacity: '0.3',
+	opacity: '0.9',
 })
 
 export const accountsBgCardResourceBgWrapper = style([
