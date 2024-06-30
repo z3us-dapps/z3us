@@ -43,7 +43,7 @@ export const MessageClient = () => {
 
 	const sendMessage = async (
 		action: BackgroundMessageAction,
-		payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] = {},
+		payload: BackgroundMessageTypes[keyof BackgroundMessageTypes],
 	) => {
 		const msg = newMessage(action, MessageSource.POPUP, MessageSource.BACKGROUND, payload)
 		const promise = new Promise<ResponseMessage>(resolve => {

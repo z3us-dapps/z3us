@@ -2,7 +2,7 @@ import type {
 	FungibleResourcesCollectionItemVaultAggregated,
 	NonFungibleResourcesCollectionItemVaultAggregated,
 	StateEntityDetailsResponseItem,
-} from '@radixdlt/radix-dapp-toolkit'
+} from '@radixdlt/babylon-gateway-api-sdk'
 import { type KnownAddresses, decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 import { useContext, useEffect, useMemo, useState } from 'react'

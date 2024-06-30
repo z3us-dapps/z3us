@@ -21,6 +21,7 @@ const config = {
 		alias: {
 			stream: 'vite-compatible-readable-stream',
 			config: resolve(__dirname, 'src/config'),
+			version: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/version'),
 			'message-router': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/message-router'),
 			chrome: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/chrome'),
 			components: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/components'),
@@ -31,6 +32,7 @@ const config = {
 			'crypto/sealbox': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/crypto/sealbox'),
 			'crypto/secp256k1': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/crypto/secp256k1'),
 			'crypto/secure-random': resolve(__dirname,'../../node_modules/@radixdlt/connector-extension/src/crypto/secure-random'),
+			'crypto/get-linking-message': resolve(__dirname,'../../node_modules/@radixdlt/connector-extension/src/crypto/get-linking-message'),
 			'io-types': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/io-types'),
 			ledger: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/ledger'),
 			pairing: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/pairing'),

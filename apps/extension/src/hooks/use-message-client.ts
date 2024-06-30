@@ -23,13 +23,16 @@ export const useMessageClient = () => {
 	}))
 
 	const sendMessageToBackground = useCallback(
-		(action: BackgroundMessageAction, payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] = {}) =>
+		(action: BackgroundMessageAction, payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] | {} = {}) =>
 			client.sendMessage(action, { runtimeId, ...payload } as BackgroundMessageTypes[typeof action]),
 		[runtimeId, client],
 	)
 
 	const sendMessageToBackgroundAndUpdateTrigger = useCallback(
-		async (action: BackgroundMessageAction, payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] = {}) => {
+		async (
+			action: BackgroundMessageAction,
+			payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] | {} = {},
+		) => {
 			const response = await client.sendMessage(action, {
 				runtimeId,
 				...payload,

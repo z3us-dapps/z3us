@@ -6,8 +6,8 @@ import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
 const popupURL = new URL(browser.runtime.getURL(''))
 
 export const addOriginToMetadata = (message: RadixMessage): RadixMessage => {
-	const data = message.data || {}
-	const metadata = data.metadata || {}
+	const { data = {} } = message as any
+	const { metadata = {} } = data as any
 	return {
 		...message,
 		data: {

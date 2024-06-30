@@ -11,7 +11,7 @@ export const MessageClient = () => {
 
 	const sendMessage = async (message: RadixMessage) => {
 		const promise = new Promise<RadixMessage>(resolve => {
-			responseHandlers[message.interactionId] = resolve
+			responseHandlers[message.messageId] = resolve
 		})
 
 		await browser.runtime.sendMessage(message)
@@ -23,12 +23,12 @@ export const MessageClient = () => {
 	const onMessage = (message: RadixMessage): void => {
 		if (message?.discriminator === 'ledgerResponse') {
 			try {
-				const handler = responseHandlers[message.interactionId]
+				const handler = responseHandlers[message.messageId]
 				if (handler) {
 					handler(message)
 				}
 			} finally {
-				delete responseHandlers[message.interactionId]
+				delete responseHandlers[message.messageId]
 			}
 		}
 	}
