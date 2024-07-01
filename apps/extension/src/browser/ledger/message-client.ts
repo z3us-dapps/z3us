@@ -1,4 +1,7 @@
-import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import type {
+	Message as RadixMessage,
+	Messages as RadixMessages,
+} from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import browser from 'webextension-polyfill'
 
@@ -9,9 +12,9 @@ export const MessageClient = () => {
 		[key: string]: any
 	} = {}
 
-	const sendMessage = async (message: RadixMessage) => {
+	const sendMessage = async (message: RadixMessages['walletToLedger']) => {
 		const promise = new Promise<RadixMessage>(resolve => {
-			responseHandlers[message.messageId] = resolve
+			responseHandlers[message.data.interactionId] = resolve
 		})
 
 		await browser.runtime.sendMessage(message)
@@ -23,12 +26,12 @@ export const MessageClient = () => {
 	const onMessage = (message: RadixMessage): void => {
 		if (message?.discriminator === 'ledgerResponse') {
 			try {
-				const handler = responseHandlers[message.messageId]
+				const handler = responseHandlers[message.data.interactionId]
 				if (handler) {
 					handler(message)
 				}
 			} finally {
-				delete responseHandlers[message.messageId]
+				delete responseHandlers[message.data.interactionId]
 			}
 		}
 	}
