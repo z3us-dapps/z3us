@@ -20,6 +20,7 @@ import { MessageAction as AppMessageAction } from '@src/browser/app/types'
 import { newMessage } from '@src/browser/messages/message'
 import { type Message, type MessageHandlers, MessageSource } from '@src/browser/messages/types'
 import { Vault } from '@src/browser/vault/vault'
+import { config } from '@src/config'
 import type { PublicKeyJSON } from '@src/crypto/key_pair'
 import { getPrivateKey, publicKeyToJSON } from '@src/crypto/key_pair'
 import { getSecret as cryptoGetSecret, getCombineData } from '@src/crypto/secret'
@@ -28,6 +29,7 @@ import { signatureToJSON, signatureWithPublicKeyToJSON } from '@src/crypto/signa
 import { saveInteractions } from '@src/radix/interaction'
 import { type Data } from '@src/types/vault'
 
+import { getExtensionTabsByUrl } from '../tabs'
 import { MessageAction } from './types'
 
 const vault = new Vault(globalThis.crypto)
@@ -210,6 +212,15 @@ async function handleRadixMessage(message: Message) {
 				radixMsg.messageEvent,
 				radixMsg.data,
 			)
+		case messageDiscriminator.focusLedgerTab: {
+			const [page] = await getExtensionTabsByUrl(config.popup.pages.ledger)
+			if (page?.id) {
+				return browser.tabs.update(page.id, { active: true })
+			}
+			return createRadixMessage.confirmationError(radixMessageSource.background, radixMsg.messageId, {
+				reason: 'failedToFocusLedgerTab',
+			})
+		}
 		case messageDiscriminator.walletResponse:
 			return radixMsg.data
 		case messageDiscriminator.dAppRequest: {
