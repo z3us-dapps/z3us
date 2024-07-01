@@ -1,8 +1,7 @@
-// import { Paring } from '@radixdlt/connector-extension/src/pairing/pairing'
-import React, { useEffect, useState } from 'react'
+// import { Pairing } from '@radixdlt/connector-extension/src/pairing/pairing'
+import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
-import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { KeystoreType } from 'ui/src/store/types'
@@ -13,7 +12,7 @@ import { DataType } from '@src/types/vault'
 import Done from '../components/done'
 import KeystoreForm from '../components/keystore-form'
 import { Title } from '../components/title'
-import { PASSWORD_STORAGE_KEY, Pairing, PairingState } from './components/pairing'
+import { Pairing } from './components/pairing'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -31,24 +30,20 @@ export const Radix: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
 
-	const [pairingState, setPairingState] = useState<PairingState>(PairingState.LOADING)
-	const [connectionPassword, setConnectionPassword] = useState<string>('')
+	const [publicKey, setPublicKey] = useState<string>()
 	const [step, setStep] = useState<number>(0)
-
-	useEffect(() => {
-		browser.storage.local.remove(PASSWORD_STORAGE_KEY)
-	}, [])
-
-	useEffect(() => {
-		if (step === 0 && pairingState === PairingState.PAIRED) setStep(1)
-	}, [pairingState])
 
 	const handleSubmit = (): Data => ({
 		type: DataType.STRING,
-		secret: connectionPassword,
+		secret: publicKey,
 	})
 
 	const handleDone = () => navigate('/')
+
+	const handlePair = (pk: string) => {
+		setPublicKey(pk)
+		setStep(1)
+	}
 
 	switch (step) {
 		case 2:
@@ -65,14 +60,7 @@ export const Radix: React.FC = () => {
 				</Box>
 			)
 		default:
-			return (
-				<Pairing
-					pairingState={pairingState}
-					connectionPassword={connectionPassword}
-					onPairingStateChange={setPairingState}
-					onConnectionPasswordChange={setConnectionPassword}
-				/>
-			)
+			return <Pairing onPair={handlePair} />
 	}
 }
 

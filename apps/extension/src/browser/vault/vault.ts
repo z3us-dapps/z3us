@@ -2,12 +2,12 @@ import { Mutex } from 'async-mutex'
 
 import { getNoneSharedStore } from 'ui/src/services/state'
 import { sharedStore } from 'ui/src/store'
-import { type Keystore, KeystoreType } from 'ui/src/store/types'
+import { type Keystore } from 'ui/src/store/types'
 
 import { CryptoService } from '@src/crypto/crypto'
 import type { Data } from '@src/types/vault'
 
-import { getSecret, removeSecret, saveSecret, setConnectionPassword } from './storage'
+import { getSecret, removeSecret, saveSecret } from './storage'
 
 type WalletData = {
 	timer?: NodeJS.Timeout
@@ -58,7 +58,6 @@ export class Vault {
 			if (walletUnlockTimeoutInMinutes > 0) {
 				this.wallet.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
 			}
-			await this.setConnectionPassword()
 		} catch (error) {
 			await this.clearState()
 			throw error
@@ -97,7 +96,6 @@ export class Vault {
 			if (this.wallet?.keystore.id === keystore.id) {
 				this.wallet.keystore = keystore
 				this.wallet.data = data
-				await this.setConnectionPassword()
 			}
 		} catch (error) {
 			await this.clearState()
@@ -198,27 +196,5 @@ export class Vault {
 			clearTimeout(this.wallet.timer)
 		}
 		this.wallet = null
-		await this.setConnectionPassword()
-	}
-
-	private setConnectionPassword = async () => {
-		switch (this.wallet?.keystore.type) {
-			case KeystoreType.RADIX_WALLET:
-				await setConnectionPassword(this.wallet.data?.secret || '')
-				break
-			case KeystoreType.LOCAL:
-				await setConnectionPassword('')
-				break
-			case KeystoreType.HARDWARE:
-				await setConnectionPassword('')
-				break
-			case KeystoreType.COMBINED:
-				await setConnectionPassword('')
-				break
-			default:
-				break
-			// we do not reset password on lock here to let connect button send events to radix mobile
-			// await setConnectionPassword('')
-		}
 	}
 }

@@ -45,30 +45,3 @@ export const removeSecret = async (keystoreId: string) => {
 		throw new Error(lastError.message)
 	}
 }
-
-export const setConnectionPassword = async (connectionPassword: string) => {
-	if (connectionPassword) {
-		await browser.storage.local.set({ connectionPassword })
-		const { lastError } = browser.runtime
-		if (lastError) {
-			throw new Error(lastError.message)
-		}
-	} else {
-		await browser.storage.local.remove('connectionPassword')
-		const { lastError } = browser.runtime
-		if (lastError) {
-			throw new Error(lastError.message)
-		}
-	}
-}
-
-export const getConnectionPassword = async (): Promise<string> => {
-	const data = await browser.storage.local.get('connectionPassword')
-	const { lastError } = browser.runtime
-	if (lastError) {
-		throw new Error(lastError.message)
-	}
-	return data?.connectionPassword || ''
-}
-
-export const hasConnectionPassword = async (): Promise<boolean> => (await getConnectionPassword()) !== ''

@@ -2,7 +2,7 @@ import type {
 	FungibleResourcesCollectionItemVaultAggregated,
 	StateEntityDetailsResponseItem,
 	StateEntityDetailsResponseItemDetails,
-} from '@radixdlt/radix-dapp-toolkit'
+} from '@radixdlt/babylon-gateway-api-sdk'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'

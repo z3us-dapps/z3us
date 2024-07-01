@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 
 /* eslint-disable react/no-array-index-key */
-import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
+import type { TransactionPreviewResponse } from '@radixdlt/babylon-gateway-api-sdk'
 import { type Intent } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
 import React, { useEffect, useMemo } from 'react'

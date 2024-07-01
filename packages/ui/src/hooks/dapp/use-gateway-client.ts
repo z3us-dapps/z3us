@@ -1,4 +1,4 @@
-import { GatewayApiClient } from '@radixdlt/radix-dapp-toolkit'
+import { GatewayApiClient } from '@radixdlt/babylon-gateway-api-sdk'
 import { useEffect, useState } from 'react'
 
 import { DAPP_ADDRESS, DAPP_NAME, DAPP_VERSION } from 'ui/src/constants/dapp'
