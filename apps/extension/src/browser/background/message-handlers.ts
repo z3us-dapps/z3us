@@ -258,6 +258,61 @@ async function handleRadixMessage(message: Message) {
 				})
 			}
 		}
+		case messageDiscriminator.walletInteraction: {
+			try {
+				const { interactionId, metadata } = radixMsg.interaction.interaction
+				saveInteractions({
+					...radixMsg.interaction.interaction,
+					fromTabId: message.fromTabId,
+					senderURl: message.senderUrl,
+				} as WalletInteractionWithTabId)
+					.then(() => openAppPopup(`#/interaction/${interactionId}`))
+					// eslint-disable-next-line no-console
+					.catch(console.error)
+
+				return createRadixMessage.sendMessageEventToDapp(
+					radixMessageSource.contentScript,
+					messageLifeCycleEvent.receivedByExtension,
+					{ interactionId, metadata },
+				)
+			} catch (error) {
+				// eslint-disable-next-line no-console
+				console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
+				return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
+					reason: 'failedToDetectWalletLink',
+					jsError: error,
+				})
+			}
+		}
+		case messageDiscriminator.cancelWalletInteraction: {
+			try {
+				const { interactionId, metadata } = radixMsg.interaction
+				browser.runtime
+					.sendMessage(
+						newMessage(
+							AppMessageAction.APP_INTERACTION_CANCEL,
+							MessageSource.BACKGROUND,
+							MessageSource.POPUP,
+							radixMsg.interaction,
+						),
+					)
+					// eslint-disable-next-line no-console
+					.catch(console.error)
+
+				return createRadixMessage.sendMessageEventToDapp(
+					radixMessageSource.contentScript,
+					messageLifeCycleEvent.receivedByExtension,
+					{ interactionId, metadata },
+				)
+			} catch (error) {
+				// eslint-disable-next-line no-console
+				console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
+				return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
+					reason: 'failedToDetectWalletLink',
+					jsError: error,
+				})
+			}
+		}
 		default:
 			// eslint-disable-next-line no-console
 			console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, message)
