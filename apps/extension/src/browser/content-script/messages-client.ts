@@ -3,8 +3,7 @@
 /* eslint-disable no-console */
 import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import type { WalletInteractionWithOrigin } from '@radixdlt/radix-connect-schemas'
-import type { ExtensionInteraction } from '@radixdlt/radix-dapp-toolkit'
+import type { ExtensionInteraction, WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
 import browser from 'webextension-polyfill'
 
 import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
@@ -137,7 +136,7 @@ export const MessageClient = () => {
 		}
 	}
 
-	const handleWalletInteraction = async (walletInteraction: WalletInteractionWithOrigin) => {
+	const handleWalletInteraction = async (walletInteraction: WalletInteraction) => {
 		const radixMsg = createRadixMessage.dAppRequest('contentScript', walletInteraction)
 		const enabled = await isHandledByRadix()
 		if (enabled) {

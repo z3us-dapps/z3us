@@ -25,7 +25,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-		"@radixdlt/radix-dapp-toolkit": "2.0.0-v2.14",
+		"@radixdlt/radix-dapp-toolkit": "2.0.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
