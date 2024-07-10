@@ -43,6 +43,7 @@ const config = {
 			'chrome/helpers/chrome-storage-sync': resolve(__dirname, 'src/radix/storage-sync'),
 			'chrome/helpers/chrome-local-store': resolve(__dirname, 'src/radix/storage-local'),
 			'chrome/background/create-gateway-module': resolve(__dirname, 'src/radix/create-gateway-module'),
+			'./create-gateway-module': resolve(__dirname, 'src/radix/create-gateway-module'),
 		},
 	},
 	define: {
