@@ -16,6 +16,7 @@ export const addOriginToWalletInteraction = (
 	metadata: {
 		...(message.metadata || {}),
 		origin: window.location.origin === popupURL.origin ? DAPP_ORIGIN : window.location.origin,
+		original_origin: window.location.origin,
 	} as any,
 })
 
@@ -26,5 +27,6 @@ export const addOriginToCancelInteraction = (
 	metadata: {
 		...(interaction.metadata || {}),
 		origin: window.location.origin === popupURL.origin ? DAPP_ORIGIN : window.location.origin,
+		original_origin: window.location.origin,
 	} as any,
 })

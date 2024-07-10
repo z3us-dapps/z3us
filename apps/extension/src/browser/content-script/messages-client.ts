@@ -1,7 +1,10 @@
 /* eslint-disable no-case-declarations */
 
 /* eslint-disable no-console */
-import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import {
+	type Message as RadixMessage,
+	messageSource as radixMessageSource,
+} from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import type { ExtensionInteraction, WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
 import browser from 'webextension-polyfill'
@@ -15,7 +18,6 @@ import { newMessage } from '@src/browser/messages/message'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
 import { addOriginToCancelInteraction, addOriginToWalletInteraction } from '@src/radix/add-origin-to-wallet-interaction'
-import { addOriginToMetadata } from '@src/radix/metadata'
 
 import timeout, { reason } from '../messages/timeout'
 import { chromeDAppClient, logger, radixMessageHandler, sendRadixMessage } from './radix'
@@ -137,10 +139,10 @@ export const MessageClient = () => {
 	}
 
 	const handleWalletInteraction = async (walletInteraction: WalletInteraction) => {
-		const radixMsg = createRadixMessage.dAppRequest('contentScript', walletInteraction)
+		const radixMsg = createRadixMessage.dAppRequest(radixMessageSource.contentScript, walletInteraction)
 		const enabled = await isHandledByRadix()
 		if (enabled) {
-			return browser.runtime.sendMessage(addOriginToMetadata(radixMsg))
+			return browser.runtime.sendMessage(radixMsg)
 		}
 		return sendMessage(radixMsg)
 	}
@@ -148,9 +150,6 @@ export const MessageClient = () => {
 	const handleExtensionInteraction = async (extensionInteraction: ExtensionInteraction) => {
 		switch (extensionInteraction.discriminator) {
 			case 'openPopup':
-				if (await isHandledByRadix()) {
-					return browser.runtime.sendMessage(createRadixMessage.openParingPopup())
-				}
 				return openAppPopup('#/keystore/new')
 			case 'extensionStatus':
 				return checkConnectButtonStatus()
