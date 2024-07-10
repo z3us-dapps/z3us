@@ -1,3 +1,5 @@
+import { GatewayApiClient } from '@radixdlt/babylon-gateway-api-sdk'
+import type { GatewayApiClientConfig } from '@radixdlt/radix-dapp-toolkit'
 import { useEffect, useState } from 'react'
 
 import { findMetadataValue } from 'ui/src/services/metadata'
@@ -10,12 +12,12 @@ const Demo = () => {
 	const handleClink = () => {
 		if (!window.rdt) {
 			// eslint-disable-next-line no-alert
-			alert('FUCK YOU BLOODY! - THE BASTARD BITCH')
+			alert('nor rdt')
 		} else {
 			const walletData = window.rdt?.walletApi.getWalletData()
-			if (walletData.accounts.length === 0) {
+			if (!walletData || walletData.accounts.length === 0) {
 				// eslint-disable-next-line no-alert
-				alert('FUCK YOU BLOODY! - THE BASTARD BITCH')
+				alert('accounts empty')
 			} else {
 				window.rdt.walletApi.sendTransaction({
 					transactionManifest: `
@@ -52,7 +54,8 @@ const Demo = () => {
 	}
 
 	useEffect(() => {
-		window.rdt?.gatewayApi.state
+		const gateway = GatewayApiClient.initialize(window.rdt?.gatewayApi.clientConfig as GatewayApiClientConfig)
+		gateway.state
 			.getEntityMetadata('resource_rdx1nfyg2f68jw7hfdlg5hzvd8ylsa7e0kjl68t5t62v3ttamtejc9wlxa')
 			.then(({ items }) => {
 				setName(findMetadataValue('name', items))

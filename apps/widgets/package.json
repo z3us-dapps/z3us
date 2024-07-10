@@ -25,6 +25,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@radixdlt/babylon-gateway-api-sdk": "^1.2.7",
 		"@radixdlt/radix-dapp-toolkit": "2.0.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
