@@ -105,6 +105,8 @@ export const Pairing: React.FC<IProps> = ({ onPair }) => {
 						connectorClient.disconnect()
 
 						onPair(interaction.publicKey, isKnownConnection)
+
+						return isKnownConnection
 					})
 				}),
 		)

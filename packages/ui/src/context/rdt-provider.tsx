@@ -1,5 +1,5 @@
 import type { RadixDappToolkitOptions } from '@radixdlt/radix-dapp-toolkit'
-import { DataRequestBuilder, LocalStorageModule, RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
+import { DataRequestBuilder, RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
 import { Buffer } from 'buffer'
 import React, { type PropsWithChildren, useEffect, useState } from 'react'
 
@@ -29,9 +29,10 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	useEffect(() => {
 		if (!configuration?.network_id) return () => {}
 
-		const storageModule = LocalStorageModule(
-			`z3us:rdt:${selectedKeystoreId || 'default'}:${configuration?.network_id}` as any,
-		)
+		// For some reason doing this breaks connect button state
+		// const storageModule = LocalStorageModule(
+		// 	`z3us:rdt:${selectedKeystoreId || 'default'}:${configuration?.network_id}` as any,
+		// )
 
 		const options: RadixDappToolkitOptions = {
 			networkId: configuration.network_id,
@@ -40,7 +41,7 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			dAppDefinitionAddress: DAPP_ADDRESS,
 			// logger: console as any,
 			useCache: false,
-			providers: { storageModule },
+			// providers: { storageModule },
 		}
 
 		const rdt = RadixDappToolkit(options)
