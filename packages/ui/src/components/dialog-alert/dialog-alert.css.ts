@@ -1,5 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
+import { sprinkles } from 'ui/src/theme/sprinkles.css'
+import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
+import { responsiveStyle } from 'ui/src/theme/theme-utils'
 import {
 	fadeIn,
 	fadeOut,
@@ -7,9 +10,6 @@ import {
 	sharedPopoverBgSprinkles,
 	sharedPopoverBgStyles,
 } from '../dropdown-menu/styles.css'
-import { sprinkles } from 'ui/src/theme/sprinkles.css'
-import type { Sprinkles } from 'ui/src/theme/sprinkles.css'
-import { responsiveStyle } from 'ui/src/theme/theme-utils'
 
 export const alertDialogOverlay = style([
 	sprinkles({

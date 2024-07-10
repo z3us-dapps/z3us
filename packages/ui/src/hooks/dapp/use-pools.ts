@@ -1,8 +1,8 @@
-import type { StateEntityDetailsResponseItemDetails } from '@radixdlt/babylon-gateway-api-sdk'
 import type {
 	FungibleResourcesCollectionItemVaultAggregated,
 	StateEntityDetailsResponseItem,
-} from '@radixdlt/radix-dapp-toolkit'
+	StateEntityDetailsResponseItemDetails,
+} from '@radixdlt/babylon-gateway-api-sdk'
 import { decimal } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'

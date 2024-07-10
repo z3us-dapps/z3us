@@ -60,5 +60,15 @@ In case user changes selected wallet you might want to reset connect button stat
 ```typescript
 const rdt = RadixDappToolkit(options)
 
-window.z3us.onWalletChange(() => { rdt.disconnect() })
+window.z3us.onWalletChange(() => {
+	rdt.disconnect()
+})
+```
+
+Reload page on z3us wallet change to update Radix Connector underlying state
+
+```typescript
+z3us.onWalletChange(() => {
+	window.location.reload()
+})
 ```

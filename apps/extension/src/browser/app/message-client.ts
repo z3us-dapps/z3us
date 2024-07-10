@@ -32,7 +32,7 @@ export const MessageClient = () => {
 
 	const onPortDisconnect = () => {
 		// eslint-disable-next-line no-console
-		if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
+		if (port.error) console.error(`[APP]: Disconnected due to an error: ${port.error.message}`)
 		port = browser.runtime.connect({ name: PORT_NAME })
 		port.onDisconnect.addListener(onPortDisconnect)
 		port.onMessage.addListener(onPortMessage)
@@ -43,7 +43,7 @@ export const MessageClient = () => {
 
 	const sendMessage = async (
 		action: BackgroundMessageAction,
-		payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] = {},
+		payload: BackgroundMessageTypes[keyof BackgroundMessageTypes],
 	) => {
 		const msg = newMessage(action, MessageSource.POPUP, MessageSource.BACKGROUND, payload)
 		const promise = new Promise<ResponseMessage>(resolve => {
