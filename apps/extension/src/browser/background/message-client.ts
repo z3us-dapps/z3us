@@ -3,6 +3,7 @@ import { BackgroundMessageHandler } from '@radixdlt/connector-extension/src/chro
 import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
 import type { AppLogger } from '@radixdlt/connector-extension/src/utils/logger'
+import 'neverthrow'
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
