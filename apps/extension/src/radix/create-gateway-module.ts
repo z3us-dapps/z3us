@@ -1,5 +1,4 @@
 import { RadixNetworkConfigById } from '@radixdlt/babylon-gateway-api-sdk'
-import '@radixdlt/connector-extension/node_modules/@radixdlt/radix-dapp-toolkit/node_modules/neverthrow'
 import { GatewayModule } from '@radixdlt/radix-dapp-toolkit'
 
 import { DAPP_ADDRESS, DAPP_NAME } from 'ui/src/constants/dapp'
