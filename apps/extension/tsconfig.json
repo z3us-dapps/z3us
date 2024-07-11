@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"paths": {
 			"@src/*": ["./apps/extension/src/*"],
-			"neverthrow": ["node_modules/neverthrow/"],
+			"@radixdlt/connector-extension/node_modules/@radixdlt/radix-dapp-toolkit/node_modules/neverthrow": ["node_modules/neverthrow/"],
 		},
 		"tsBuildInfoFile": ".build-cache/tsconfig.tsbuildinfo"
 	},
