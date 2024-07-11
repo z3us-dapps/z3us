@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import '@radixdlt/connector-extension/node_modules/@radixdlt/radix-dapp-toolkit/node_modules/neverthrow'
 import { BackgroundMessageHandler } from '@radixdlt/connector-extension/src/chrome/background/message-handler'
 import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
