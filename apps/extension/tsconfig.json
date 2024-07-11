@@ -2,7 +2,8 @@
 	"extends": "tsconfig/nextjs.json",
 	"compilerOptions": {
 		"paths": {
-			"@src/*": ["./apps/extension/src/*"]
+			"@src/*": ["./apps/extension/src/*"],
+			"neverthrow": ["node_modules/neverthrow/"],
 		},
 		"tsBuildInfoFile": ".build-cache/tsconfig.tsbuildinfo"
 	},
