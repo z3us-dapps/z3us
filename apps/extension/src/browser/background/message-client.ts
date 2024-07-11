@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-// import { BackgroundMessageHandler } from '@radixdlt/connector-extension/src/chrome/background/message-handler'
-// keep in sync with above file (its copy paste to fix types issue)
 import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
 import type { AppLogger } from '@radixdlt/connector-extension/src/utils/logger'
@@ -12,6 +10,8 @@ import { PORT_NAME } from '@src/browser/messages/constants'
 import { newReply } from '@src/browser/messages/message'
 import type { Message } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
+// import { BackgroundMessageHandler } from '@radixdlt/connector-extension/src/chrome/background/message-handler'
+// keep in sync with above file (its copy paste to fix types issue)
 import { BackgroundMessageHandler } from '@src/radix/background-message-handler'
 
 import messageHandlers from './message-handlers'
