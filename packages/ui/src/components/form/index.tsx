@@ -1,7 +1,7 @@
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import type { FormEvent, PropsWithChildren } from 'react'
-import React, { useEffect, useMemo } from 'react'
+import React, { forwardRef, useEffect, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
@@ -44,80 +44,78 @@ const rootFieldCtx = {
 
 const emptyErrors = {}
 
-export const Form: React.FC<PropsWithChildren<Props>> = ({
-	children,
-	initialValues,
-	errors = emptyErrors,
-	onSubmit,
-	onChange,
-	...rest
-}) => {
-	const intl = useIntl()
-	const [state, setState] = useImmer<State<Props['initialValues']>>({
-		error: '',
-		isLoading: false,
-		values: initialValues,
-	})
-
-	useEffect(() => {
-		setState(draft => {
-			draft.values = initialValues
-		})
-	}, [initialValues])
-
-	useEffect(() => {
-		if (onChange) onChange(state.values)
-	}, [state.values])
-
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		setState(draft => {
-			draft.isLoading = true
+export const Form = forwardRef<HTMLFormElement, PropsWithChildren<Props>>(
+	({ children, initialValues, errors = emptyErrors, onSubmit, onChange, ...rest }, ref) => {
+		const intl = useIntl()
+		const [state, setState] = useImmer<State<Props['initialValues']>>({
+			error: '',
+			isLoading: false,
+			values: initialValues,
 		})
 
-		if (onSubmit)
-			onSubmit(state.values)
-				.catch(error => {
-					// eslint-disable-next-line no-console
-					console.error(error)
-					setState(draft => {
-						draft.error = intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message })
+		useEffect(() => {
+			setState(draft => {
+				draft.values = initialValues
+			})
+		}, [initialValues])
+
+		useEffect(() => {
+			if (onChange) onChange(state.values)
+		}, [state.values])
+
+		const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+			e.preventDefault()
+			setState(draft => {
+				draft.isLoading = true
+			})
+
+			if (onSubmit)
+				onSubmit(state.values)
+					.catch(error => {
+						// eslint-disable-next-line no-console
+						console.error(error)
+						setState(draft => {
+							draft.error = intl.formatMessage(messages.error, {
+								hasMessage: !!error?.message,
+								message: error?.message,
+							})
+						})
 					})
-				})
-				.finally(() => {
-					setState(draft => {
-						draft.isLoading = false
+					.finally(() => {
+						setState(draft => {
+							draft.isLoading = false
+						})
 					})
-				})
-	}
+		}
 
-	const handleFieldChange = (name: string, value?: any) => {
-		setState(draft => {
-			const { values } = draft
-			if (value === null) {
-				unset(values, name)
-				draft.values = values
-			} else {
-				draft.values = set({ ...values }, name, value)
-			}
-		})
-	}
+		const handleFieldChange = (name: string, value?: any) => {
+			setState(draft => {
+				const { values } = draft
+				if (value === null) {
+					unset(values, name)
+					draft.values = values
+				} else {
+					draft.values = set({ ...values }, name, value)
+				}
+			})
+		}
 
-	const formCtx = useMemo(
-		() => ({
-			...state,
-			errors,
-			onFieldChange: handleFieldChange,
-		}),
-		[state.isLoading, state.values, errors],
-	)
+		const formCtx = useMemo(
+			() => ({
+				...state,
+				errors,
+				onFieldChange: handleFieldChange,
+			}),
+			[state.isLoading, state.values, errors],
+		)
 
-	return (
-		<Box {...rest} component="form" onSubmit={handleSubmit}>
-			<ValidationErrorMessage message={state.error} />
-			<FormContext.Provider value={formCtx}>
-				<FieldContext.Provider value={rootFieldCtx}>{children}</FieldContext.Provider>
-			</FormContext.Provider>
-		</Box>
-	)
-}
+		return (
+			<Box {...rest} component="form" onSubmit={handleSubmit} ref={ref}>
+				<ValidationErrorMessage message={state.error} />
+				<FormContext.Provider value={formCtx}>
+					<FieldContext.Provider value={rootFieldCtx}>{children}</FieldContext.Provider>
+				</FormContext.Provider>
+			</Box>
+		)
+	},
+)
