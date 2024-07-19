@@ -4,7 +4,8 @@
 		"paths": {
 			"@src/*": ["./apps/extension/src/*"],
 		},
-		"tsBuildInfoFile": ".build-cache/tsconfig.tsbuildinfo"
+		"tsBuildInfoFile": ".build-cache/tsconfig.tsbuildinfo",
+		"preserveSymlinks": true
 	},
 	"include": ["src/**/*.json", "src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "tests/**/*.ts"],
 	"references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.radix.json" }]
