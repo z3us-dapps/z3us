@@ -15,7 +15,6 @@
     "isolatedModules": false,
     "noEmit": false,
     "jsx": "react-jsx",
-		"preserveSymlinks": true,
 
     "rootDir":"../../node_modules/@radixdlt/connector-extension",
     "baseUrl": "../../node_modules/@radixdlt/connector-extension/src",
