@@ -5047,25 +5047,6 @@
     tslog "4.8.0"
     zod "^3.22.4"
 
-"@radixdlt/radix-dapp-toolkit@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-2.0.0.tgz#f8aba1365cccb42e41e313b27e221e1a58e14b60"
-  integrity sha512-b1MyxYh1oW4W2JBTnIhVFJjoMY3dHI+H5wULcq99McsH3VS/R6FhubTEh5uIeMcbIOPABMVO6kM6YI6/AQRbuA==
-  dependencies:
-    "@noble/curves" "^1.4.0"
-    base64url "^3.0.1"
-    blakejs "^1.2.1"
-    bowser "^2.11.0"
-    buffer "^6.0.3"
-    immer "^10.0.4"
-    lit "^3.1.2"
-    lit-html "^3.1.2"
-    neverthrow "^6.1.0"
-    rxjs "^7.8.1"
-    tslog ">=4.8.0"
-    uuid "^10.0.0"
-    valibot "0.30.0"
-
 "@radixdlt/radix-dapp-toolkit@2.0.0-v2.14":
   version "2.0.0-v2.14"
   resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-2.0.0-v2.14.tgz#709327908ffe37e3848582bbdab736f8dade1e7a"
@@ -5081,6 +5062,25 @@
     rxjs "^7.8.1"
     tslog "^4.8.2"
     valibot "^0.30.0"
+
+"@radixdlt/radix-dapp-toolkit@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-2.0.2.tgz#e4bfeed4ee27ead96f264c0e85522b0ff573916e"
+  integrity sha512-+clBqlN7mxt19F3Oc5ZGiRH3RabR/mYFjs+LKgekqaBtOOYlSkBDKGA03CMvKdI1ce5vY7k0xjyiSubK9SRH5A==
+  dependencies:
+    "@noble/curves" "^1.4.0"
+    base64url "^3.0.1"
+    blakejs "^1.2.1"
+    bowser "^2.11.0"
+    buffer "^6.0.3"
+    immer "^10.0.4"
+    lit "^3.1.2"
+    lit-html "^3.1.2"
+    neverthrow "^6.1.0"
+    rxjs "^7.8.1"
+    tslog ">=4.8.0"
+    uuid "^10.0.0"
+    valibot "0.30.0"
 
 "@radixdlt/radix-engine-toolkit@^1.0.4":
   version "1.0.4"

@@ -49,7 +49,7 @@
 		"@radix-ui/react-toggle": "^1.0.2",
 		"@radix-ui/react-tooltip": "^1.0.6",
 		"@radixdlt/babylon-gateway-api-sdk": "^1.6.1",
-		"@radixdlt/radix-dapp-toolkit": "2.0.0",
+		"@radixdlt/radix-dapp-toolkit": "2.0.2",
 		"@radixdlt/radix-engine-toolkit": "^1.0.4",
 		"@radixnameservice/rns-sdk": "^2.0.2",
 		"@tanstack/query-sync-storage-persister": "^4.29.17",
