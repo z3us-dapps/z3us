@@ -59,7 +59,7 @@ if (APP_RADIX) {
 	}
 }
 
-export const router = createHashRouter([
+export const router: ReturnType<typeof createHashRouter> = createHashRouter([
 	{
 		path: '/',
 		element: <ExtensionLayout />,
