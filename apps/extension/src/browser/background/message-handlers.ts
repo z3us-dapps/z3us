@@ -5,7 +5,7 @@ import {
 	messageSource as radixMessageSource,
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import type { WalletInteractionWithOrigin } from '@radixdlt/radix-connect-schemas'
+import type { WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
 import type { PrivateKey } from '@radixdlt/radix-engine-toolkit'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
 import browser from 'webextension-polyfill'
@@ -20,6 +20,7 @@ import { MessageAction as AppMessageAction } from '@src/browser/app/types'
 import { newMessage } from '@src/browser/messages/message'
 import { type Message, type MessageHandlers, MessageSource } from '@src/browser/messages/types'
 import { Vault } from '@src/browser/vault/vault'
+import { config } from '@src/config'
 import type { PublicKeyJSON } from '@src/crypto/key_pair'
 import { getPrivateKey, publicKeyToJSON } from '@src/crypto/key_pair'
 import { getSecret as cryptoGetSecret, getCombineData } from '@src/crypto/secret'
@@ -28,6 +29,7 @@ import { signatureToJSON, signatureWithPublicKeyToJSON } from '@src/crypto/signa
 import { saveInteractions } from '@src/radix/interaction'
 import { type Data } from '@src/types/vault'
 
+import { getExtensionTabsByUrl } from '../tabs'
 import { MessageAction } from './types'
 
 const vault = new Vault(globalThis.crypto)
@@ -210,11 +212,20 @@ async function handleRadixMessage(message: Message) {
 				radixMsg.messageEvent,
 				radixMsg.data,
 			)
+		case messageDiscriminator.focusLedgerTab: {
+			const [page] = await getExtensionTabsByUrl(config.popup.pages.ledger)
+			if (page?.id) {
+				return browser.tabs.update(page.id, { active: true })
+			}
+			return createRadixMessage.confirmationError(radixMessageSource.background, radixMsg.messageId, {
+				reason: 'failedToFocusLedgerTab',
+			})
+		}
 		case messageDiscriminator.walletResponse:
 			return radixMsg.data
 		case messageDiscriminator.dAppRequest: {
 			try {
-				const walletInteraction: WalletInteractionWithOrigin = radixMsg.data
+				const walletInteraction: WalletInteraction = radixMsg.data
 				const { interactionId, metadata, items } = walletInteraction
 				if (items) {
 					switch (items.discriminator) {
@@ -243,6 +254,61 @@ async function handleRadixMessage(message: Message) {
 							break
 					}
 				}
+
+				return createRadixMessage.sendMessageEventToDapp(
+					radixMessageSource.contentScript,
+					messageLifeCycleEvent.receivedByExtension,
+					{ interactionId, metadata },
+				)
+			} catch (error) {
+				// eslint-disable-next-line no-console
+				console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
+				return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
+					reason: 'failedToDetectWalletLink',
+					jsError: error,
+				})
+			}
+		}
+		case messageDiscriminator.walletInteraction: {
+			try {
+				const { interactionId, metadata } = radixMsg.interaction.interaction
+				saveInteractions({
+					...radixMsg.interaction.interaction,
+					fromTabId: message.fromTabId,
+					senderURl: message.senderUrl,
+				} as WalletInteractionWithTabId)
+					.then(() => openAppPopup(`#/interaction/${interactionId}`))
+					// eslint-disable-next-line no-console
+					.catch(console.error)
+
+				return createRadixMessage.sendMessageEventToDapp(
+					radixMessageSource.contentScript,
+					messageLifeCycleEvent.receivedByExtension,
+					{ interactionId, metadata },
+				)
+			} catch (error) {
+				// eslint-disable-next-line no-console
+				console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
+				return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
+					reason: 'failedToDetectWalletLink',
+					jsError: error,
+				})
+			}
+		}
+		case messageDiscriminator.cancelWalletInteraction: {
+			try {
+				const { interactionId, metadata } = radixMsg.interaction
+				browser.runtime
+					.sendMessage(
+						newMessage(
+							AppMessageAction.APP_INTERACTION_CANCEL,
+							MessageSource.BACKGROUND,
+							MessageSource.POPUP,
+							radixMsg.interaction,
+						),
+					)
+					// eslint-disable-next-line no-console
+					.catch(console.error)
 
 				return createRadixMessage.sendMessageEventToDapp(
 					radixMessageSource.contentScript,

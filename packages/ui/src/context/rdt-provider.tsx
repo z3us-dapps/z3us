@@ -6,7 +6,6 @@ import React, { type PropsWithChildren, useEffect, useState } from 'react'
 import { DAPP_ADDRESS, DAPP_NAME, DAPP_VERSION } from 'ui/src/constants/dapp'
 import { useNetworkConfiguration } from 'ui/src/hooks/dapp/use-network'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
-import { getLocalStorageClient } from 'ui/src/services/rdt/local-storage-client'
 
 import { RdtContext } from './rdt'
 
@@ -30,7 +29,10 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	useEffect(() => {
 		if (!configuration?.network_id) return () => {}
 
-		const storageClient = getLocalStorageClient(selectedKeystoreId || 'default')
+		// For some reason doing this breaks connect button state
+		// const storageModule = LocalStorageModule(
+		// 	`z3us:rdt:${selectedKeystoreId || 'default'}:${configuration?.network_id}` as any,
+		// )
 
 		const options: RadixDappToolkitOptions = {
 			networkId: configuration.network_id,
@@ -39,7 +41,7 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			dAppDefinitionAddress: DAPP_ADDRESS,
 			// logger: console as any,
 			useCache: false,
-			providers: { storageClient },
+			// providers: { storageModule },
 		}
 
 		const rdt = RadixDappToolkit(options)

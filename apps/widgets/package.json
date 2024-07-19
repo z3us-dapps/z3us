@@ -25,7 +25,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-		"@radixdlt/radix-dapp-toolkit": "^1.4.3",
+    "@radixdlt/babylon-gateway-api-sdk": "^1.2.7",
+		"@radixdlt/radix-dapp-toolkit": "2.0.2",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

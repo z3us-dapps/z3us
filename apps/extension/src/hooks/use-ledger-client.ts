@@ -34,7 +34,7 @@ function processLedgerResponse(message: RadixMessage) {
 		if (!message?.data) {
 			throw Error(`Invalid ledger response: ${JSON.stringify(message)}`)
 		}
-		const { success, error } = message.data
+		const { success, error } = message.data as any
 		if (error) {
 			// see for error code details
 			// https://github.com/radixdlt/babylon-ledger-app/blob/main/src/app_error.rs#L11
@@ -60,7 +60,7 @@ export const useLedgerClient = () => {
 		(request: LedgerRequest) =>
 			showModalAndWait(() =>
 				client
-					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, request))
+					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, request, keystore.id))
 					.then(processLedgerResponse),
 			),
 		[client, showModalAndWait],

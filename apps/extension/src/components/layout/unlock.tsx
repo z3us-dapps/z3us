@@ -62,7 +62,7 @@ interface IProps {
 export const Unlock: React.FC<IProps & BoxProps> = ({ isUnlocked, isLoading, onUnlock, className, ...rest }) => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const inputRef = useRef(null)
+	const inputRef = useRef<HTMLInputElement>()
 	const client = useMessageClient()
 
 	const { keystore, keystores, selectKeystore } = useSharedStore(state => ({
@@ -71,7 +71,6 @@ export const Unlock: React.FC<IProps & BoxProps> = ({ isUnlocked, isLoading, onU
 		selectKeystore: state.selectKeystoreAction,
 	}))
 
-	const [previous, setPrevious] = useState<boolean | null>(null)
 	const [error, setError] = useState<string>('')
 
 	useEffect(() => {
@@ -87,6 +86,13 @@ export const Unlock: React.FC<IProps & BoxProps> = ({ isUnlocked, isLoading, onU
 			// eslint-disable-next-line no-console
 			console.error(err)
 			setError(intl.formatMessage(messages.unlock_error))
+		} finally {
+			if (inputRef?.current) {
+				const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set
+				nativeInputValueSetter.call(inputRef.current, '')
+				const event = new Event('input', { bubbles: true })
+				inputRef.current.dispatchEvent(event)
+			}
 		}
 	}
 
@@ -94,15 +100,12 @@ export const Unlock: React.FC<IProps & BoxProps> = ({ isUnlocked, isLoading, onU
 		if (!keystore?.webAuthn) return
 		if (isLoading === true) return
 		if (isUnlocked === true) return
-		if (previous === true) return
-		setPrevious(isUnlocked)
 		// eslint-disable-next-line no-console
 		login(keystore).then(handleUnlock).catch(console.error)
 	}
 
 	useEffect(() => {
 		handleWebAuthN()
-		setPrevious(isUnlocked)
 	}, [keystore?.id, isLoading, isUnlocked])
 
 	const selectItems = useMemo(() => {

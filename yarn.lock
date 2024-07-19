@@ -3766,17 +3766,17 @@
   resolved "https://registry.npmjs.org/@ledgerhq/logs/-/logs-6.10.1.tgz"
   integrity sha512-z+ILK8Q3y+nfUl43ctCPuR4Y2bIxk/ooCQFwZxhtci1EhAtMDzMAx2W25qx8G1PPL9UUOdnUax19+F0OjXoj4w==
 
-"@lit-labs/ssr-dom-shim@^1.0.0", "@lit-labs/ssr-dom-shim@^1.1.0":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@lit-labs/ssr-dom-shim/-/ssr-dom-shim-1.1.1.tgz"
-  integrity sha512-kXOeFbfCm4fFf2A3WwVEeQj55tMZa8c8/f9AKHMobQMkzNUfUj+antR3fRPaZJawsa1aZiP/Da3ndpZrwEe4rQ==
+"@lit-labs/ssr-dom-shim@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@lit-labs/ssr-dom-shim/-/ssr-dom-shim-1.2.0.tgz#353ce4a76c83fadec272ea5674ede767650762fd"
+  integrity sha512-yWJKmpGE6lUURKAaIltoPIE/wrbY3TEkqQt+X0m+7fQNnAv0keydnYvbiJFP1PnMhizmIWRWOG5KLhYyc/xl+g==
 
-"@lit/reactive-element@^1.3.0", "@lit/reactive-element@^1.6.0":
-  version "1.6.1"
-  resolved "https://registry.npmjs.org/@lit/reactive-element/-/reactive-element-1.6.1.tgz"
-  integrity sha512-va15kYZr7KZNNPZdxONGQzpUr+4sxVu7V/VG7a8mRfPPXUyhEYj5RzXCQmGrlP3tAh0L3HHm5AjBMFYRqlM9SA==
+"@lit/reactive-element@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@lit/reactive-element/-/reactive-element-2.0.4.tgz#8f2ed950a848016383894a26180ff06c56ae001b"
+  integrity sha512-GFn91inaUa2oHLak8awSIigYz0cU0Payr1rcFsrkf5OJ5eSPxElyZfKh0f2p9FsTiZWXQdWGJeXZICEfXXYSXQ==
   dependencies:
-    "@lit-labs/ssr-dom-shim" "^1.0.0"
+    "@lit-labs/ssr-dom-shim" "^1.2.0"
 
 "@mdx-js/esbuild@^2.0.0":
   version "2.3.0"
@@ -4041,6 +4041,13 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.4.7.tgz#5137780f58d7f0230adc293a0429821bfa7d8c21"
   integrity sha512-sW9Yt36Db1nXJL+mTr2Wo0y+VkPWeYhygvcHj1FF0srVtV+VoDjxleKtny21QHaG05zdeZnw2fCtf2+dEqgwqA==
 
+"@noble/curves@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.4.0.tgz#f05771ef64da724997f69ee1261b2417a49522d6"
+  integrity sha512-p+4cb332SFCrReJkCYe8Xzm0OWi4Jji5jVdIZRL/PmacmDkFNw6MrrV+gGpiPxLHbV+zKFRywUWbaseT+tZRXg==
+  dependencies:
+    "@noble/hashes" "1.4.0"
+
 "@noble/curves@~1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.2.0.tgz#92d7e12e4e49b23105a2555c6984d41733d65c35"
@@ -4062,6 +4069,11 @@
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.2.tgz#6f26dbc8fbc7205873ce3cee2f690eba0d421b39"
   integrity sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==
+
+"@noble/hashes@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.4.0.tgz#45814aa329f30e4fe0ba49426f49dfccdd066426"
+  integrity sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==
 
 "@noble/hashes@^1.2.0":
   version "1.3.1"
@@ -4966,29 +4978,28 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
-"@radixdlt/babylon-gateway-api-sdk@^1.2.7", "@radixdlt/babylon-gateway-api-sdk@^1.4.0":
+"@radixdlt/babylon-gateway-api-sdk@^1.2.7":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.4.0.tgz#678f3373fd85fcf4dc6f569aa429c70cda4d5819"
   integrity sha512-G+ZxiN/bqIwoPFjBAKsh7EKTZy0ZhGJVdbKobg26Sfen84GuvPK95ROYlhZCvnfC9mNgdFQIJVNkpwmNMoAbJg==
 
-"@radixdlt/connect-button@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-1.0.3.tgz#02fafdb77c9e662fc88be27ec05da32d0da2d6e5"
-  integrity sha512-cQbl7wtxpc1yshgdpN3p4937iJ8SFkKp6vbktNeqjzO6IML8G6QwkeaU5gPTx58EvVh7ePnqFhfuYOlpZTlAtg==
-  dependencies:
-    lit "^2.7.5"
+"@radixdlt/babylon-gateway-api-sdk@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.6.1.tgz#478138270e1eb4afe8cb8115dd977bf29d06b30b"
+  integrity sha512-623u74RjPLoBwBTH6nB5GZJj3CX2pTpFZA4J+BlhjdvU8OTssClvxxjvi26HzL+sT6d5rIkk0UVEOZmN+9EP3A==
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.3.6":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.4.1":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#d96dba77f8e302d7a0234d1d464e5cac6978cd1a"
+  resolved "https://github.com/radixdlt/connector-extension#c1830563a8b72a437db869d945d65fd1d0116c5b"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
     "@ledgerhq/hw-transport-webhid" "^6.27.19"
     "@mui/material" "^5.14.0"
+    "@noble/curves" "^1.4.0"
     "@radixdlt/babylon-gateway-api-sdk" "^1.2.7"
-    "@radixdlt/radix-connect-schemas" "^1.2.0"
     "@radixdlt/radix-connect-webrtc" "^1.2.1"
+    "@radixdlt/radix-dapp-toolkit" "2.0.0-v2.14"
     "@stitches/react" "^1.2.8"
     "@types/blake2b" "^2.1.0"
     bech32 "^2.0.0"
@@ -5004,23 +5015,17 @@
     react "^18.2.0"
     react-dom "^18.2.0"
     react-qr-code "^2.0.8"
+    react-router-dom "^6.21.0"
     react-use "^17.4.0"
     rxjs "^7.8.1"
     tslog "4.8.0"
+    valibot "^0.30.0"
     zod "^3.19.1"
 
 "@radixdlt/radix-connect-schemas@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@radixdlt/radix-connect-schemas/-/radix-connect-schemas-0.1.0.tgz#ab5b0055888db6f47567e99008fc8e51d8e0030d"
   integrity sha512-5JHC6DgOnQ9Nv+vRFJ+a3x7GBMs13i+mbpKoIamS4wyxvsoSP676O0iAiky8ClrUkLEXEsQIyOSuYZiZ38z5lg==
-  dependencies:
-    neverthrow "^6.0.0"
-    zod "^3.22.2"
-
-"@radixdlt/radix-connect-schemas@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-connect-schemas/-/radix-connect-schemas-1.2.0.tgz#04c5c2d29c42a72302d9d1cacac5d10a62761ca1"
-  integrity sha512-1hyRO+d2Gd9s7ED9bE4KXPyiaYuApK2ab1jLptFlG+y9SKaNDPOxcmgQI7NaUIZvyPfutILjWLxJ+hJzzuWzqA==
   dependencies:
     neverthrow "^6.0.0"
     zod "^3.22.2"
@@ -5042,24 +5047,45 @@
     tslog "4.8.0"
     zod "^3.22.4"
 
-"@radixdlt/radix-dapp-toolkit@^1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-1.4.3.tgz#2a35f8b90ddf9a270b9b68f1c41ff71e4e634772"
-  integrity sha512-nzR9giFGlQ6paNDuUpCXYkUq5UyI39sS7NknTrX9QYU9suoXHsvUhAkXJ6yq6AEUMOLQC2xwYhmRbG1R/MCKBg==
+"@radixdlt/radix-dapp-toolkit@2.0.0-v2.14":
+  version "2.0.0-v2.14"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-2.0.0-v2.14.tgz#709327908ffe37e3848582bbdab736f8dade1e7a"
+  integrity sha512-TmVvglgiTkJyKrLg8qtVss3bd1DWvZnErrQhuOYMIgU0I2JoSVOePSKzIhIhjMMNDQsw/fIVoJ1A9SDJyma4aw==
   dependencies:
-    "@radixdlt/babylon-gateway-api-sdk" "^1.2.7"
-    "@radixdlt/connect-button" "^1.0.3"
-    "@radixdlt/wallet-sdk" "1.0.1"
-    immer "^10.0.2"
-    lodash.isequal "^4.5.0"
-    neverthrow "^6.0.0"
+    "@noble/curves" "^1.4.0"
+    bowser "^2.11.0"
+    buffer "^6.0.3"
+    immer "^10.0.4"
+    lit "^3.1.2"
+    lit-html "^3.1.2"
+    neverthrow "^6.1.0"
     rxjs "^7.8.1"
-    zod "^3.21.4"
+    tslog "^4.8.2"
+    valibot "^0.30.0"
 
-"@radixdlt/radix-engine-toolkit@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-1.0.3.tgz#3326d5a944f2a7a1b83425cf3cdf9fe9e1254324"
-  integrity sha512-xf99WV2ULdq7FMCDuaeKvtYW1J71uZvAtMeC9yE12nfufijIjVbO07fx3r5RQRIu9c50kcAOcSJ7XD+prNlpuw==
+"@radixdlt/radix-dapp-toolkit@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-2.0.2.tgz#e4bfeed4ee27ead96f264c0e85522b0ff573916e"
+  integrity sha512-+clBqlN7mxt19F3Oc5ZGiRH3RabR/mYFjs+LKgekqaBtOOYlSkBDKGA03CMvKdI1ce5vY7k0xjyiSubK9SRH5A==
+  dependencies:
+    "@noble/curves" "^1.4.0"
+    base64url "^3.0.1"
+    blakejs "^1.2.1"
+    bowser "^2.11.0"
+    buffer "^6.0.3"
+    immer "^10.0.4"
+    lit "^3.1.2"
+    lit-html "^3.1.2"
+    neverthrow "^6.1.0"
+    rxjs "^7.8.1"
+    tslog ">=4.8.0"
+    uuid "^10.0.0"
+    valibot "0.30.0"
+
+"@radixdlt/radix-engine-toolkit@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-1.0.4.tgz#90db0a7fec891f1d32088cebf646c0ef7304636e"
+  integrity sha512-wPVHs2chuFRrHnGLi+DbeQpgQMiLgEy45eeC67XxzqkA2Se8YrkLsPswSZEGdOeYNoVEBBmpUN59VVDgUEgQzQ==
   dependencies:
     "@noble/ed25519" "2.0.0"
     "@noble/hashes" "1.3.0"
@@ -5071,25 +5097,20 @@
     reflect-metadata "0.1.13"
     secp256k1 "5.0.0"
 
-"@radixdlt/wallet-sdk@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@radixdlt/wallet-sdk/-/wallet-sdk-1.0.1.tgz#f3640d3c018545e3ce8f469daca5fd0f015fee8d"
-  integrity sha512-g6TY1kUihJrECKBKs+dbTFrfzUU3bj1H2ySeaiHRNs/40eRH2Vw6heyb8DRHSkfhTzhPxXBzQxQdk908RgktUA==
+"@radixnameservice/rns-sdk@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@radixnameservice/rns-sdk/-/rns-sdk-2.0.2.tgz#f21d111a0b86075a7195835e86080a7453807241"
+  integrity sha512-e8NQ7IogD2s6VZ2IHQyjX0ITN8/KwctjgFgVmPhgmyIk81eFpZaRbvXQL3S+E9ivyNQkXSMkvXszRraPOdcWzQ==
   dependencies:
-    neverthrow "^6.0.0"
-    rxjs "^7.8.1"
-    tslog "^4.8.2"
-    zod "^3.21.4"
-
-"@radixnameservice/rns-sdk@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@radixnameservice/rns-sdk/-/rns-sdk-2.0.0.tgz#f61ba0a9c26bea552c85436b0003f44b743b46ac"
-  integrity sha512-lzycV1oUUubdvmr7Y078eorJjKyI2H39j/S22x4vBFTkRFsxAbl27K4S3U/C4lU4WTAiOHI+QUVAy50kcSMUdg==
-  dependencies:
-    "@radixdlt/babylon-gateway-api-sdk" "^1.4.0"
-    "@radixdlt/radix-engine-toolkit" "^1.0.3"
+    "@radixdlt/babylon-gateway-api-sdk" "^1.6.1"
+    "@radixdlt/radix-engine-toolkit" "^1.0.4"
     buffer "^6.0.3"
     crypto-js "^4.2.0"
+
+"@remix-run/router@1.17.0":
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.17.0.tgz#fbb0add487478ef42247d5942e7a5d8a2e20095f"
+  integrity sha512-2D6XaHEVvkCn682XBnipbJjgZUU7xjLtA4dGJRBVUKpEaDYOZMENZoZjAOSb7qirxt5RupjzZxz4fK2FO+EFPw==
 
 "@remix-run/router@1.7.2":
   version "1.7.2"
@@ -8173,6 +8194,11 @@ base64-js@*, base64-js@^1.3.0, base64-js@^1.3.1:
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
+base64url@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/base64url/-/base64url-3.0.1.tgz#6399d572e2bc3f90a9a8b22d5dbb0a32d33f788d"
+  integrity sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==
+
 base@^0.11.1:
   version "0.11.2"
   resolved "https://registry.npmjs.org/base/-/base-0.11.2.tgz"
@@ -8302,6 +8328,11 @@ boolbase@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
+
+bowser@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.11.0.tgz#5ca3c35757a7aa5771500c70a73a9f91ef420a8f"
+  integrity sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==
 
 boxen@7.0.0:
   version "7.0.0"
@@ -12299,6 +12330,11 @@ immer@^10.0.2:
   resolved "https://registry.npmjs.org/immer/-/immer-10.0.2.tgz"
   integrity sha512-Rx3CqeqQ19sxUtYV9CU911Vhy8/721wRFnJv3REVGWUmoAcIwzifTsdmJte/MV+0/XpM35LZdQMBGkRIoLPwQA==
 
+immer@^10.0.4:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-10.1.1.tgz#206f344ea372d8ea176891545ee53ccc062db7bc"
+  integrity sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==
+
 import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.3.0"
   resolved "https://registry.npmjs.org/import-fresh/-/import-fresh-3.3.0.tgz"
@@ -13820,37 +13856,30 @@ listr2@^5.0.7:
     through "^2.3.8"
     wrap-ansi "^7.0.0"
 
-lit-element@^3.3.0:
-  version "3.3.2"
-  resolved "https://registry.npmjs.org/lit-element/-/lit-element-3.3.2.tgz"
-  integrity sha512-xXAeVWKGr4/njq0rGC9dethMnYCq5hpKYrgQZYTzawt9YQhMiXfD+T1RgrdY3NamOxwq2aXlb0vOI6e29CKgVQ==
+lit-element@^4.0.4:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-4.0.6.tgz#b9f5b5d68f30636be1314ec76c9a73a6405f04dc"
+  integrity sha512-U4sdJ3CSQip7sLGZ/uJskO5hGiqtlpxndsLr6mt3IQIjheg93UKYeGQjWMRql1s/cXNOaRrCzC2FQwjIwSUqkg==
   dependencies:
-    "@lit-labs/ssr-dom-shim" "^1.1.0"
-    "@lit/reactive-element" "^1.3.0"
-    lit-html "^2.7.0"
+    "@lit-labs/ssr-dom-shim" "^1.2.0"
+    "@lit/reactive-element" "^2.0.4"
+    lit-html "^3.1.2"
 
-lit-html@^2.7.0:
-  version "2.7.4"
-  resolved "https://registry.npmjs.org/lit-html/-/lit-html-2.7.4.tgz"
-  integrity sha512-/Jw+FBpeEN+z8X6PJva5n7+0MzCVAH2yypN99qHYYkq8bI+j7I39GH+68Z/MZD6rGKDK9RpzBw7CocfmHfq6+g==
+lit-html@^3.1.2:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-3.1.4.tgz#30ad4f11467a61e2f08856de170e343184e9034e"
+  integrity sha512-yKKO2uVv7zYFHlWMfZmqc+4hkmSbFp8jgjdZY9vvR9jr4J8fH6FUMXhr+ljfELgmjpvlF7Z1SJ5n5/Jeqtc9YA==
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit-html@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-2.8.0.tgz#96456a4bb4ee717b9a7d2f94562a16509d39bffa"
-  integrity sha512-o9t+MQM3P4y7M7yNzqAyjp7z+mQGa4NS4CxiyLqFPyFWyc4O+nodLrkrxSaCTrla6M5YOLaT3RpbbqjszB5g3Q==
+lit@^3.1.2:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-3.1.4.tgz#03a72e9f0b1f5da317bf49b1ab579a7132e73d7a"
+  integrity sha512-q6qKnKXHy2g1kjBaNfcoLlgbI3+aSOZ9Q4tiGa9bGYXq5RBXxkVTqTIVmP2VWMp29L4GyvCFm8ZQ2o56eUAMyA==
   dependencies:
-    "@types/trusted-types" "^2.0.2"
-
-lit@^2.7.5:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.8.0.tgz#4d838ae03059bf9cafa06e5c61d8acc0081e974e"
-  integrity sha512-4Sc3OFX9QHOJaHbmTMk28SYgVxLN3ePDjg7hofEft2zWlehFL3LiAuapWc4U/kYwMYJSh2hTCPZ6/LIC7ii0MA==
-  dependencies:
-    "@lit/reactive-element" "^1.6.0"
-    lit-element "^3.3.0"
-    lit-html "^2.8.0"
+    "@lit/reactive-element" "^2.0.4"
+    lit-element "^4.0.4"
+    lit-html "^3.1.2"
 
 load-tsconfig@^0.2.3:
   version "0.2.5"
@@ -15016,6 +15045,11 @@ neverthrow@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmjs.org/neverthrow/-/neverthrow-6.0.0.tgz"
   integrity sha512-kPZKRs4VkdloCGQXPoP84q4sT/1Z+lYM61AXyV8wWa2hnuo5KpPBF2S3crSFnMrOgUISmEBP8Vo/ngGZX60NhA==
+
+neverthrow@^6.1.0:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/neverthrow/-/neverthrow-6.2.2.tgz#1d905abe20ef8882e4b195c7851787aa4553cf0e"
+  integrity sha512-POR1FACqdK9jH0S2kRPzaZEvzT11wsOxLW520PQV/+vKi9dQe+hXq19EiOvYx7lSRaF5VB9lYGsPInynrnN05w==
 
 next-contentlayer@^0.3.3:
   version "0.3.3"
@@ -16310,12 +16344,27 @@ react-router-dom@^6.14.2:
     "@remix-run/router" "1.7.2"
     react-router "6.14.2"
 
+react-router-dom@^6.21.0:
+  version "6.24.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.24.0.tgz#ec49dc38c49bb9bd25b310a8ae849268d3085e1d"
+  integrity sha512-960sKuau6/yEwS8e+NVEidYQb1hNjAYM327gjEyXlc6r3Skf2vtwuJ2l7lssdegD2YjoKG5l8MsVyeTDlVeY8g==
+  dependencies:
+    "@remix-run/router" "1.17.0"
+    react-router "6.24.0"
+
 react-router@6.14.2:
   version "6.14.2"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.14.2.tgz#1f60994d8c369de7b8ba7a78d8f7ec23df76b300"
   integrity sha512-09Zss2dE2z+T1D03IheqAFtK4UzQyX8nFPWx6jkwdYzGLXd5ie06A6ezS2fO6zJfEb/SpG6UocN2O1hfD+2urQ==
   dependencies:
     "@remix-run/router" "1.7.2"
+
+react-router@6.24.0:
+  version "6.24.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.24.0.tgz#aa46648f26b6525e07f908ad3e1ad2e68d131155"
+  integrity sha512-sQrgJ5bXk7vbcC4BxQxeNa5UmboFm35we1AFK0VvQaz9g0LzxEIuLOhHIoZ8rnu9BO21ishGeL9no1WB76W/eg==
+  dependencies:
+    "@remix-run/router" "1.17.0"
 
 react-shallow-renderer@^16.15.0:
   version "16.15.0"
@@ -18306,6 +18355,11 @@ tslog@4.8.0:
   resolved "https://registry.yarnpkg.com/tslog/-/tslog-4.8.0.tgz#5eedb5fd8e18ed329f8f233bfd0717768981d188"
   integrity sha512-VueySGqCWpDK23DK/9Gbw/Eq11I4PHhiBZQaphpzTBUCKp/FIIX+/ec8fPz3q1ZhSfv31FhQU8wH3huHTDQ4fw==
 
+tslog@>=4.8.0:
+  version "4.9.3"
+  resolved "https://registry.yarnpkg.com/tslog/-/tslog-4.9.3.tgz#d4167d5f51748bdeab593945bc2d8f9827ea0dba"
+  integrity sha512-oDWuGVONxhVEBtschLf2cs/Jy8i7h1T+CpdkTNWQgdAF7DhRo2G8vMCgILKe7ojdEkLhICWgI1LYSSKaJsRgcw==
+
 tslog@^4.8.2:
   version "4.8.2"
   resolved "https://registry.npmjs.org/tslog/-/tslog-4.8.2.tgz"
@@ -18861,6 +18915,11 @@ utils-merge@1.0.1:
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
 
+uuid@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-10.0.0.tgz#5a95aa454e6e002725c79055fd42aaba30ca6294"
+  integrity sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==
+
 uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
@@ -18903,6 +18962,11 @@ v8-to-istanbul@^9.0.1:
     "@jridgewell/trace-mapping" "^0.3.12"
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^1.6.0"
+
+valibot@0.30.0, valibot@^0.30.0:
+  version "0.30.0"
+  resolved "https://registry.yarnpkg.com/valibot/-/valibot-0.30.0.tgz#6b90386a04d2c281cdc5dc6ad33bd3d2d7ea13b5"
+  integrity sha512-5POBdbSkM+3nvJ6ZlyQHsggisfRtyT4tVTo1EIIShs6qCdXJnyWU5TJ68vr8iTg5zpOLjXLRiBqNx+9zwZz/rA==
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"

@@ -3,8 +3,8 @@ import clsx, { type ClassValue } from 'clsx'
 import type { ForwardedRef } from 'react'
 import React, { forwardRef, useState } from 'react'
 
-import { Box } from '../box'
 import { type TThemeColorKey } from 'ui/src/theme/theme.css'
+import { Box } from '../box'
 import * as styles from './styles.css'
 
 export type TSizeVariant = 'small' | 'medium'

@@ -20,7 +20,7 @@ import queryClient from 'ui/src/services/react-query'
 import WebsiteLayout from './components/layout'
 import IntlProvider from './intl-provider'
 
-export const router = createHashRouter([
+export const router: ReturnType<typeof createHashRouter> = createHashRouter([
 	{
 		path: '/',
 		element: <WebsiteLayout />,

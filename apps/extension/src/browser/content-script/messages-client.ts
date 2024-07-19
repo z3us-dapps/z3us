@@ -1,7 +1,12 @@
+/* eslint-disable no-case-declarations */
+
 /* eslint-disable no-console */
-import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import {
+	type Message as RadixMessage,
+	messageSource as radixMessageSource,
+} from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import type { ExtensionInteraction, WalletInteractionWithOrigin } from '@radixdlt/radix-connect-schemas'
+import type { ExtensionInteraction, WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
 import browser from 'webextension-polyfill'
 
 import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
@@ -12,7 +17,7 @@ import { PORT_NAME } from '@src/browser/messages/constants'
 import { newMessage } from '@src/browser/messages/message'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
-import { addOriginToMetadata } from '@src/radix/metadata'
+import { addOriginToCancelInteraction, addOriginToWalletInteraction } from '@src/radix/add-origin-to-wallet-interaction'
 
 import timeout, { reason } from '../messages/timeout'
 import { chromeDAppClient, logger, radixMessageHandler, sendRadixMessage } from './radix'
@@ -59,7 +64,7 @@ export const MessageClient = () => {
 	}
 
 	const onPortDisconnect = () => {
-		if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
+		if (port.error) console.error(`[CONTENT]: Disconnected due to an error: ${port.error.message}`)
 		port = browser.runtime.connect({ name: PORT_NAME })
 		port.onDisconnect.addListener(onPortDisconnect)
 		port.onMessage.addListener(onPortMessage)
@@ -133,28 +138,38 @@ export const MessageClient = () => {
 		}
 	}
 
-	const handleWalletInteraction = async (walletInteraction: WalletInteractionWithOrigin) => {
-		const radixMsg = createRadixMessage.dAppRequest('contentScript', walletInteraction)
+	const handleWalletInteraction = async (walletInteraction: WalletInteraction) => {
+		const radixMsg = createRadixMessage.dAppRequest(radixMessageSource.contentScript, walletInteraction)
 		const enabled = await isHandledByRadix()
 		if (enabled) {
-			await browser.runtime.sendMessage(addOriginToMetadata(radixMsg))
-		} else {
-			await sendMessage(radixMsg)
+			return browser.runtime.sendMessage(radixMsg)
 		}
+		return sendMessage(radixMsg)
 	}
 
 	const handleExtensionInteraction = async (extensionInteraction: ExtensionInteraction) => {
 		switch (extensionInteraction.discriminator) {
 			case 'openPopup':
-				if (await isHandledByRadix()) {
-					await browser.runtime.sendMessage(createRadixMessage.openParingPopup())
-				} else {
-					await openAppPopup('#/keystore/new')
-				}
-				break
+				return openAppPopup('#/keystore/new')
 			case 'extensionStatus':
-				await checkConnectButtonStatus()
-				break
+				return checkConnectButtonStatus()
+			case 'cancelWalletInteraction':
+				const cancelWalletInteractionMsg = createRadixMessage.cancelWalletInteraction(
+					addOriginToCancelInteraction(extensionInteraction),
+				)
+				if (await isHandledByRadix()) {
+					return browser.runtime.sendMessage(cancelWalletInteractionMsg)
+				}
+				return sendMessage(cancelWalletInteractionMsg)
+			case 'walletInteraction':
+				const walletInteractionMsg = createRadixMessage.walletInteraction({
+					...extensionInteraction,
+					interaction: addOriginToWalletInteraction(extensionInteraction.interaction),
+				})
+				if (await isHandledByRadix()) {
+					return browser.runtime.sendMessage(walletInteractionMsg)
+				}
+				return sendMessage(walletInteractionMsg)
 			default:
 				logger.error({
 					reason: 'InvalidExtensionRequest',
@@ -162,6 +177,7 @@ export const MessageClient = () => {
 				})
 				break
 		}
+		return undefined
 	}
 
 	chromeDAppClient.messageListener(handleWalletInteraction, handleExtensionInteraction)
