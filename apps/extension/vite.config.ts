@@ -19,6 +19,7 @@ const config = {
 	},
 	resolve: {
 		alias: {
+			stream: 'vite-compatible-readable-stream',
 			config: resolve(__dirname, 'src/config'),
 			version: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/version'),
 			options: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/options'),
@@ -27,8 +28,6 @@ const config = {
 			// have to replace each crypto/[path] otherwise it will error out due to default crypto import
 			'crypto/blake2b': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/crypto/blake2b'),
 			'crypto/curve25519': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/crypto/curve25519'),
-			'crypto/encryption': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/crypto/encryption'),
-			'crypto/sealbox': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/crypto/sealbox'),
 			'crypto/secp256k1': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/crypto/secp256k1'),
 			'crypto/secure-random': resolve(__dirname,'../../node_modules/@radixdlt/connector-extension/src/crypto/secure-random'),
 			'crypto/get-linking-message': resolve(__dirname,'../../node_modules/@radixdlt/connector-extension/src/crypto/get-linking-message'),
