@@ -12,8 +12,8 @@ import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useSendTransaction } from '@src/hooks/transaction/use-send'
-import { useBuildNewAccountKeyParts } from '@src/hooks/use-add-account'
-import { useBuildNewPersonKeyParts } from '@src/hooks/use-add-persona'
+import { useBuildNewAccountKeyParts } from '@src/networks/radix/hooks/use-add-account'
+import { useBuildNewPersonKeyParts } from '@src/networks/radix/hooks/use-add-persona'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import { useMessageClient } from '@src/hooks/use-message-client'
 

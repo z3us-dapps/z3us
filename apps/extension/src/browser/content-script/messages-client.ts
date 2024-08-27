@@ -17,7 +17,7 @@ import { PORT_NAME } from '@src/browser/messages/constants'
 import { newMessage } from '@src/browser/messages/message'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
-import { addOriginToCancelInteraction, addOriginToWalletInteraction } from '@src/radix/add-origin-to-wallet-interaction'
+import { addOriginToCancelInteraction, addOriginToWalletInteraction } from '@src/networks/radix/add-origin-to-wallet-interaction'
 
 import timeout, { reason } from '../messages/timeout'
 import { chromeDAppClient, logger, radixMessageHandler, sendRadixMessage } from './radix'

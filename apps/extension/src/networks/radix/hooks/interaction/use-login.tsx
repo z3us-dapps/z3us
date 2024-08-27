@@ -16,10 +16,9 @@ import type { Keystore, Persona } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { getDAppDataToSign, proofCurve } from '@src/crypto/signature'
-
-import { usePasswordModal } from '../modal/use-password-modal'
-import { useLedgerClient } from '../use-ledger-client'
-import { useMessageClient } from '../use-message-client'
+import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
+import { useLedgerClient } from '@src/hooks/use-ledger-client'
+import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
 	persona_challenge_title: {

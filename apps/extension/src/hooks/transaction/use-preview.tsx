@@ -3,12 +3,14 @@ import { RadixEngineToolkit, generateRandomNonce } from '@radixdlt/radix-engine-
 import { useCallback } from 'react'
 
 import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { gatewayPublicKeyFromPersonaOrAccount } from '@src/crypto/key_pair'
 import type { TransactionSettings } from '@src/types/transaction'
 
 export const usePreview = () => {
+	const networkId = useNetworkId()
 	const { status, transaction } = useGatewayClient()
 
 	const { allAccountIndexes } = useNoneSharedStore(state => ({
@@ -54,5 +56,5 @@ export const usePreview = () => {
 		})
 	}
 
-	return useCallback(buildPreview, [allAccountIndexes, status, transaction])
+	return useCallback(buildPreview, [networkId, allAccountIndexes, status, transaction])
 }

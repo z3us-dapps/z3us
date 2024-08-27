@@ -11,9 +11,8 @@ import { KeystoreType } from 'ui/src/store/types'
 
 import { getDAppDataToSign, proofCurve } from '@src/crypto/signature'
 import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
+import { useLedgerClient } from '@src/hooks/use-ledger-client'
 import { useMessageClient } from '@src/hooks/use-message-client'
-
-import { useLedgerClient } from '../use-ledger-client'
 
 const messages = defineMessages({
 	account_challenge: {
