@@ -13,7 +13,7 @@ import { Text } from 'ui/src/components/typography'
 
 import { MessageAction, type WalletInteractionWithTabId } from '@src/browser/app/types'
 import type { Z3USEvent } from '@src/browser/messages/types'
-import { getInteraction, removeInteraction, sendInteractionMessage } from '@src/radix/interaction'
+import { getInteraction, removeInteraction, sendInteractionMessage } from '@src/networks/radix/interaction'
 
 import { DappDetails } from './components/dapp-details'
 import { Interaction } from './components/interaction'

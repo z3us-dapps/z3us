@@ -8,26 +8,26 @@ import { useNoneSharedStore } from '../use-store'
 import { useGatewayClient } from './use-gateway-client'
 
 export const useNetworkConfiguration = () => {
-	const { status } = useGatewayClient()!
+	const { status } = useGatewayClient()
 	const { gatewayBaseUrl } = useNoneSharedStore(state => ({
 		gatewayBaseUrl: state.gatewayBaseUrl,
 	}))
 
 	return useQuery({
-		queryKey: ['useNetworkConfiguration', gatewayBaseUrl],
+		queryKey: ['useNetworkConfiguration', gatewayBaseUrl, (status?.innerClient as any).configuration.basePath],
 		queryFn: () => status.getNetworkConfiguration(),
 		enabled: !!status,
 	})
 }
 
 export const useCurrentStatus = () => {
-	const { status } = useGatewayClient()!
+	const { status } = useGatewayClient()
 	const { gatewayBaseUrl } = useNoneSharedStore(state => ({
 		gatewayBaseUrl: state.gatewayBaseUrl,
 	}))
 
 	return useQuery({
-		queryKey: ['useCurrent', gatewayBaseUrl],
+		queryKey: ['useCurrent', gatewayBaseUrl, (status?.innerClient as any).configuration.basePath],
 		queryFn: () => status.getCurrent(),
 		enabled: !!status,
 		refetchInterval: 30 * 1000,
@@ -40,7 +40,7 @@ export const useNetworkId = () => {
 
 	useEffect(() => {
 		if (data?.network_id) setState(data?.network_id)
-	}, [data])
+	}, [data?.network_id])
 
 	return state
 }
@@ -51,7 +51,7 @@ export const useDashboardUrl = () => {
 
 	useEffect(() => {
 		if (data?.network_id) setState(RadixNetworkConfigById[data.network_id].dashboardUrl)
-	}, [data])
+	}, [data?.network_id])
 
 	return state
 }
@@ -62,7 +62,7 @@ export const useGatewayUrl = () => {
 
 	useEffect(() => {
 		if (data?.network_id) setState(RadixNetworkConfigById[data.network_id].gatewayUrl)
-	}, [data])
+	}, [data?.network_id])
 
 	return state
 }

@@ -50,5 +50,6 @@
 		"xxxlarge",
 		"xxxxlarge",
 		"zustand"
-	]
+	],
+	"workbench.sideBar.location": "right"
 }

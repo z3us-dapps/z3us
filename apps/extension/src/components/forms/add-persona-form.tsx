@@ -13,7 +13,7 @@ import { SelectSimple } from 'ui/src/components/select'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
-import { useAddPersona } from '@src/hooks/use-add-persona'
+import { useAddPersona } from '@src/networks/radix/hooks/use-add-persona'
 
 import * as styles from './styles.css'
 

@@ -17,7 +17,7 @@ import { QrStyled } from 'ui/src/components/qr-styled'
 import { Link } from 'ui/src/components/typography'
 
 import { config, radixConnectConfig } from '@src/config'
-import { chromeLocalStore } from '@src/radix/storage-local'
+import { chromeLocalStore } from '@src/networks/radix/storage-local'
 
 import { Title } from '../../components/title'
 import * as styles from '../styles.css'

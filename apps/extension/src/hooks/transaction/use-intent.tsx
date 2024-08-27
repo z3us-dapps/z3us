@@ -17,8 +17,8 @@ import { useAccountIndexes } from 'ui/src/hooks/use-account-indexes'
 import { buildAccountDerivationPath } from '@src/crypto/derivation_path'
 import { deriveEd25519, ed25519FromSeed } from '@src/crypto/key_pair'
 import { createMnemonic } from '@src/crypto/secret'
-import { summaryFromInstructions } from '@src/radix/manifest'
-import { appendAssertWorktopContainsFungibles, appendLockFeeInstruction } from '@src/radix/transaction'
+import { summaryFromInstructions } from '@src/networks/radix/manifest'
+import { appendAssertWorktopContainsFungibles, appendLockFeeInstruction } from '@src/networks/radix/transaction'
 import type { TransactionMeta, TransactionSettings } from '@src/types/transaction'
 
 const messages = defineMessages({

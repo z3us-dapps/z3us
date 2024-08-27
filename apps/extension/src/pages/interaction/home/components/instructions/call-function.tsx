@@ -4,7 +4,7 @@ import { Box } from 'ui/src/components/box'
 import FieldValue from 'ui/src/components/field-value'
 import { AccountSnippet } from 'ui/src/components/snippet/account'
 
-import { resolveManifestAddress } from '@src/radix/manifest'
+import { resolveManifestAddress } from '@src/networks/radix/manifest'
 
 interface IProps {
 	instruction: Extract<ManifestInstruction, { kind: 'CallFunction' }>

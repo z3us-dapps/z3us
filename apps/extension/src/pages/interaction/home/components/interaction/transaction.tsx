@@ -19,7 +19,7 @@ import { useApprovedDapps } from 'ui/src/hooks/use-approved-dapps'
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useIntent } from '@src/hooks/transaction/use-intent'
 import { useSign } from '@src/hooks/transaction/use-sign'
-import { sendInteractionMessage } from '@src/radix/interaction'
+import { sendInteractionMessage } from '@src/networks/radix/interaction'
 import type { TransactionMeta, TransactionSettings } from '@src/types/transaction'
 
 import { DappDetails } from '../dapp-details'
@@ -192,9 +192,9 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 		})
 	}
 
-	const handlePreviewStatusChange = (status: string) => {
+	const handlePreviewStatusChange = (s: string) => {
 		setState(draft => {
-			draft.previewStatus = status
+			draft.previewStatus = s
 		})
 	}
 
