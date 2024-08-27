@@ -125,7 +125,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 					draft.error = err.message
 				})
 			})
-	}, [state.trigger])
+	}, [buildIntent, state.trigger])
 
 	useEffect(() => {
 		if (!state.settings.feePayer && state.meta.needSignaturesFrom.length > 0) {

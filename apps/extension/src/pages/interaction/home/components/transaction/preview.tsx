@@ -345,7 +345,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings, meta, onSettingsCh
 			})
 			onStatusChange(newReceipt.status)
 		})
-	}, [intent])
+	}, [buildPreview, intent])
 
 	useEffect(() => {
 		if (!state.isLoading) return
