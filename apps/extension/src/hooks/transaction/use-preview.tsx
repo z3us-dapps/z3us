@@ -1,5 +1,5 @@
 import type { Intent } from '@radixdlt/radix-engine-toolkit'
-import { RadixEngineToolkit, generateRandomNonce } from '@radixdlt/radix-engine-toolkit'
+import { Convert, RadixEngineToolkit, generateRandomNonce } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
 
 import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
@@ -39,9 +39,12 @@ export const usePreview = () => {
 			'String',
 		)
 
+		const blobs = intent.manifest.blobs?.map(blob => Convert.Uint8Array.toHexString(blob)) || []
+
 		return transaction.innerClient.transactionPreview({
 			transactionPreviewRequest: {
 				manifest: manifest.value as string,
+				blobs_hex: blobs,
 				start_epoch_inclusive: validFromEpoch,
 				end_epoch_exclusive: validFromEpoch + 10,
 				nonce: generateRandomNonce(),
