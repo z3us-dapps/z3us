@@ -29,7 +29,11 @@ export const getSecret = async (keystoreId: string): Promise<string | null> => {
 		throw new Error(lastError.message)
 	}
 
-	return data[itemKey] || null
+	if (!data[itemKey]) {
+		return null
+	}
+
+	return data[itemKey] as string
 }
 
 export const removeSecret = async (keystoreId: string) => {

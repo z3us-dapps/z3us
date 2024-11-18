@@ -5,6 +5,7 @@ import {
 	ChromeDAppClient,
 	type ChromeDAppClient as ChromeDAppClientType,
 } from '@radixdlt/connector-extension/src/chrome/dapp/dapp-client'
+import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
 import type { SendMessage } from '@radixdlt/connector-extension/src/chrome/messages/send-message'
 import { logger as utilsLogger } from '@radixdlt/connector-extension/src/utils/logger'
@@ -40,7 +41,7 @@ export const sendRadixMessageEventToDapp: ContentScriptMessageHandlerOptions['se
 	return result.isErr() ? errAsync({ reason: 'unableToSendMessageEventToDapp' }) : okAsync(undefined)
 }
 
-export const sendRadixMessage: SendMessage = (message, tabId) => {
+export const sendRadixMessage = (message: RadixMessage, tabId?: number) => {
 	const canSendMessageToTab = message.source === 'background' && tabId
 
 	if (canSendMessageToTab) {
@@ -71,5 +72,5 @@ export const radixMessageHandler = RadixMessageClient(
 		logger,
 	}),
 	'contentScript',
-	{ logger, sendMessage: sendRadixMessage },
+	{ logger, sendMessage: sendRadixMessage as SendMessage },
 )

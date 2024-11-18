@@ -16,7 +16,7 @@
 		"intl:compile": "formatjs compile-folder --ast src/components/layouts/app-page/locales src/components/layouts/app-page/locales/compiled"
 	},
 	"dependencies": {
-		"@radixdlt/radix-dapp-toolkit": "2.0.2",
+		"@radixdlt/radix-dapp-toolkit": "2.1.1",
 		"@vanilla-extract/css": "^1.11.1",
 		"@vanilla-extract/next-plugin": "^2.1.3",
 		"clsx": "^1.2.1",

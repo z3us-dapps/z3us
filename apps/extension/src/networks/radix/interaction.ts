@@ -38,7 +38,11 @@ export const getInteraction = async (interactionId: string): Promise<WalletInter
 		throw new Error(lastError.message)
 	}
 
-	return data[itemKey] || null
+	if (!data[itemKey]) {
+		return null
+	}
+
+	return data[itemKey] as WalletInteractionWithTabId
 }
 
 export const removeInteraction = async (interactionId: string) => {
