@@ -61,7 +61,7 @@ async function importKeystore(keystore: Keystore) {
 		const oldNoneSharedStore = await browser.storage.local.get(`z3us-store-${keystore.id}`)
 		if (!oldNoneSharedStore[`z3us-store-${keystore.id}`]) return null
 
-		const oldNoneSharedState = JSON.parse(oldNoneSharedStore[`z3us-store-${keystore.id}`] || {}).state
+		const oldNoneSharedState = JSON.parse((oldNoneSharedStore[`z3us-store-${keystore.id}`] as string) || '{}').state
 		if (!oldNoneSharedState) return null
 
 		const olympiaAddresses: { [key: number]: { address: string; name?: string } } =
@@ -92,7 +92,7 @@ const migrateOlympiaAddresses = async () => {
 	const oldSharedStore = await browser.storage.local.get(['z3us-store-shared'])
 	if (!oldSharedStore['z3us-store-shared']) return
 
-	const oldSharedState = JSON.parse(oldSharedStore['z3us-store-shared']).state
+	const oldSharedState = JSON.parse(oldSharedStore['z3us-store-shared'] as string).state
 	if (!oldSharedState) return
 
 	const promises = oldSharedState.keystores.map(importKeystore)

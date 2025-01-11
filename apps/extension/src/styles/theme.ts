@@ -9,5 +9,5 @@ export const saveTheme = (theme: Theme) => browser.storage.local.set({ [STORAGE_
 export const getTheme = (): Promise<Theme> =>
 	browser.storage.local.get(STORAGE_KEY).then(values => {
 		const defaultThemeValue = values[STORAGE_KEY]
-		return (defaultThemeValue ? JSON.parse(defaultThemeValue) : Theme.SYSTEM) as Theme
+		return (defaultThemeValue ? JSON.parse(defaultThemeValue as string) : Theme.SYSTEM) as Theme
 	})

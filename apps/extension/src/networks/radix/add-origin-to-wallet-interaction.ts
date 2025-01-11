@@ -1,7 +1,4 @@
-import type {
-	CancelWalletInteractionExtensionInteractionOptionalOrigin,
-	WalletInteractionWithOptionalOrigin,
-} from '@radixdlt/connector-extension/src/chrome/dapp/schemas'
+import type { CancelWalletInteractionExtensionInteractionOptionalOrigin } from '@radixdlt/connector-extension/src/chrome/dapp/schemas'
 import type { CancelWalletInteractionExtensionInteraction, WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
 import browser from 'webextension-polyfill'
 
@@ -9,9 +6,7 @@ import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
-export const addOriginToWalletInteraction = (
-	message: WalletInteractionWithOptionalOrigin | WalletInteraction,
-): WalletInteraction => ({
+export const addOriginToWalletInteraction = (message: WalletInteraction): WalletInteraction => ({
 	...message,
 	metadata: {
 		...(message.metadata || {}),

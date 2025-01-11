@@ -9,7 +9,7 @@ import { MessageClient } from '@src/browser/background/message-client'
 import '@src/browser/background/notifications'
 import '@src/browser/background/omnibox'
 import { handleStorageChange } from '@src/browser/background/storage'
-import { getTabRemovedHandler, getTabUpdatedHandler } from '@src/browser/background/tabs'
+import { handleTabRemoved, handleTabUpdated } from '@src/browser/background/tabs'
 import watch from '@src/browser/background/watcher'
 import { addInjectContentScript } from '@src/browser/content-script/context-menu'
 import { addDevTools } from '@src/browser/dev-tools/context-menu'
@@ -20,9 +20,6 @@ import { addSidePanel } from '@src/browser/side-panel/context-menu'
 const logger = utilsLogger.getSubLogger({ name: 'background' })
 
 const messageHandler = MessageClient(logger)
-
-const handleTabRemoved = getTabRemovedHandler(messageHandler)
-const handleTabUpdated = getTabUpdatedHandler(messageHandler)
 
 globalThis.onerror = err => {
 	// eslint-disable-next-line no-console

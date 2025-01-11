@@ -93,7 +93,7 @@ export const MessageClient = (logger: AppLogger) => {
 		if (APP_RADIX) radixMessageHandler.onMessage(message, tabId)
 	}
 
-	const onMessage = (message: any, sender: Runtime.MessageSender) => {
+	const onMessage = (message: unknown, sender: Runtime.MessageSender) => {
 		const { target } = (message || {}) as Message
 		switch (target) {
 			case MessageSource.INPAGE:
@@ -102,9 +102,10 @@ export const MessageClient = (logger: AppLogger) => {
 			case MessageSource.BACKGROUND:
 				break
 			default:
-				onRadixMessage(message, sender.tab?.id)
+				onRadixMessage(message as RadixMessage, sender.tab?.id)
 				break
 		}
+		return undefined
 	}
 
 	return { onPort, onMessage, onRadixMessage }

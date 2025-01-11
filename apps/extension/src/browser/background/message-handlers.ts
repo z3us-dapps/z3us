@@ -5,7 +5,6 @@ import {
 	messageSource as radixMessageSource,
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import type { WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
 import type { PrivateKey } from '@radixdlt/radix-engine-toolkit'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
 import browser from 'webextension-polyfill'
@@ -225,8 +224,7 @@ async function handleRadixMessage(message: Message) {
 			return radixMsg.data
 		case messageDiscriminator.dAppRequest: {
 			try {
-				const walletInteraction: WalletInteraction = radixMsg.data
-				const { interactionId, metadata, items } = walletInteraction
+				const { interactionId, metadata, items } = radixMsg.data
 				if (items) {
 					switch (items.discriminator) {
 						case 'cancelRequest':
@@ -244,7 +242,7 @@ async function handleRadixMessage(message: Message) {
 							break
 						default:
 							saveInteractions({
-								...walletInteraction,
+								...radixMsg.data,
 								fromTabId: message.fromTabId,
 								senderURl: message.senderUrl,
 							} as WalletInteractionWithTabId)

@@ -48,7 +48,7 @@ export const MessageClient = () => {
 		return promise
 	}
 
-	const onMessage = (message: RadixMessage): void => {
+	const onMessage = (message: RadixMessage): undefined => {
 		if (message?.discriminator === 'ledgerResponse') {
 			try {
 				const handler = responseHandlers[message.data.interactionId]
@@ -59,6 +59,7 @@ export const MessageClient = () => {
 				delete responseHandlers[message.data.interactionId]
 			}
 		}
+		return undefined
 	}
 
 	return {
