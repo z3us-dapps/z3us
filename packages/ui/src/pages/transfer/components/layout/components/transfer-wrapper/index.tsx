@@ -1,4 +1,4 @@
-import type { WalletRequestSdk } from '@radixdlt/radix-dapp-toolkit'
+import type { WalletRequestModule } from '@radixdlt/radix-dapp-toolkit'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 
@@ -8,7 +8,7 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
 
-export type TransactionDetails = Parameters<WalletRequestSdk['sendTransaction']>[0]
+export type TransactionDetails = Parameters<WalletRequestModule['sendTransaction']>[0]
 
 export type TransactionDetailsGetter = () => TransactionDetails | null
 

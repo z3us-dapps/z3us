@@ -468,7 +468,11 @@ const ResourceDetails: React.FC<IProps> = ({ resourceId, hideButtons }) => {
 											}
 											rightData={
 												<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-													{(item.assignment.explicit_rule as any)?.type === 'DenyAll' ? <Close2Icon /> : <Check2Icon />}
+													{(item.assignment as any)?.explicit_rule?.type === 'DenyAll' ? (
+														<Close2Icon />
+													) : (
+														<Check2Icon />
+													)}
 												</Box>
 											}
 										/>

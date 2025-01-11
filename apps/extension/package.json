@@ -25,10 +25,10 @@
 	"dependencies": {
 		"@noble/curves": "^1.4.0",
 		"@radix-ui/react-avatar": "^1.0.2",
-		"@radixdlt/babylon-gateway-api-sdk": "^1.7.3",
-		"@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#v1.5.1",
+		"@radixdlt/babylon-gateway-api-sdk": "^1.9.2",
+		"@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#v1.6.0",
 		"@radixdlt/radix-connect-webrtc": "^1.2.2",
-		"@radixdlt/radix-dapp-toolkit": "2.1.1",
+		"@radixdlt/radix-dapp-toolkit": "2.2.0",
 		"@radixdlt/radix-engine-toolkit": "^1.0.5",
 		"@radixnameservice/rns-sdk": "^2.0.2",
 		"@scure/bip32": "^1.3.2",
@@ -122,6 +122,12 @@
 		"vite-compatible-readable-stream": "^3.6.1",
 		"vite-plugin-fonts": "^0.7.0",
 		"vite-tsconfig-paths": "^4.2.0",
-		"zod": "^3.21.4"
+		"zod": "^3.21.4",
+		"@vitest/coverage-v8": "^2.1.5",
+		"@vitest/ui": "^2.1.5",
+		"vitest": "^2.1.5",
+		"vitest-chrome": "^0.1.0",
+		"vitest-mock-extended": "^2.0.2",
+		"vitest-sonar-reporter": "^2.0.0"
 	}
 }
